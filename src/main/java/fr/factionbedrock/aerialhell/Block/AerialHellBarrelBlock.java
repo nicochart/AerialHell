@@ -1,21 +1,20 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.BlockEntity.AerialHellBarrelBlockEntity;
-
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BarrelBlock;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.mob.PiglinBrain;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.stat.Stats;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BarrelBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class AerialHellBarrelBlock extends BarrelBlock
 {
@@ -24,39 +23,39 @@ public class AerialHellBarrelBlock extends BarrelBlock
 	Because in BarrelBlockEntity, the barrel can close only if the barrel blockstate isIn(Blocks.BARREL).
 	*/
 	
-	public AerialHellBarrelBlock(AbstractBlock.Settings settings)
+	public AerialHellBarrelBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);
 	}
 
 	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
 		return new AerialHellBarrelBlockEntity(pos, state);
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit)
+	public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit)
 	{
-		if (world.isClient())
+		if (world.isClientSide())
 		{
-			return ActionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 		else
 		{
 			BlockEntity blockEntity = world.getBlockEntity(pos);
 			if (blockEntity instanceof AerialHellBarrelBlockEntity barrelBlockEntity)
 			{
-				player.openHandledScreen(barrelBlockEntity);
-				player.incrementStat(Stats.OPEN_BARREL);
-				if (world instanceof ServerWorld serverWorld) {PiglinBrain.onGuardedBlockInteracted(serverWorld, player, true);}
+				player.openMenu(barrelBlockEntity);
+				player.awardStat(Stats.OPEN_BARREL);
+				if (world instanceof ServerLevel serverWorld) {PiglinAi.angerNearbyPiglins(serverWorld, player, true);}
 			}
 
-			return ActionResult.CONSUME;
+			return InteractionResult.CONSUME;
 		}
 	}
 
-	@Override public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
+	@Override public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand)
 	{
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof AerialHellBarrelBlockEntity barrelBlockEntity)
@@ -65,7 +64,7 @@ public class AerialHellBarrelBlock extends BarrelBlock
 		}
 	}
 
-	@Override public BlockRenderType getRenderType(BlockState state) {return BlockRenderType.MODEL;}
+	@Override public RenderShape getRenderShape(BlockState state) {return RenderShape.MODEL;}
 
 	/*@Override TODO where is set the custom name ?
 	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer,	ItemStack stack)

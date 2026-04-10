@@ -8,23 +8,28 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.AzuriteShurikenEn
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implements MisleadableEntity, GoalConditionEntity.PhaseAwareGoalConditionEntity
 {
     private static final int OTHER = 0, MELEE_ATTACK_GOAL = 1, SHURIKEN_ATTACK_GOAL = 2;
-    public GhostSlimeNinjaPirateEntity(EntityType<? extends GhostSlimeNinjaPirateEntity> type, World world) {super(type, world);}
+    public GhostSlimeNinjaPirateEntity(EntityType<? extends GhostSlimeNinjaPirateEntity> type, Level world) {super(type, world);}
 
     /* ------- MisleadableEntity : Interface method implementation ------- */
     @Override public boolean isMisleadedBy(LivingEntity livingEntity)
@@ -34,9 +39,9 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implemen
     /* ------------------------------------------------------------------- */
 
     /* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
-    @Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
+    @Override public boolean hurtServer(ServerLevel serverWorld, DamageSource source, float amount)
     {
-        return this.misleadableDamage(serverWorld, source, amount, super::damage);
+        return this.misleadableDamage(serverWorld, source, amount, super::hurtServer);
     }
     /* ------------------------------------------------------------------------------------------ */
 
@@ -45,7 +50,7 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implemen
     /* -------------------------------------------------------------------------------------- */
 
     /* ------- GoalSimpleConditionEntity : Interface method implementation ------- */
-    @Override public PathAwareEntity getSelf() {return this;}
+    @Override public PathfinderMob getSelf() {return this;}
 
     @Override public boolean canUseGoalsAdditionalCondition(int goalIndex)
     {
@@ -59,21 +64,21 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implemen
 
     @Override protected void registerBaseGoals()
     {
-        this.targetSelector.add(1, new RevengeGoal(this));
-        this.goalSelector.add(3, new GhostPirateWaterAvoidingRandomStrollGoal(this, 0.6D));
-        this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(4, new LookAroundGoal(this));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.goalSelector.addGoal(3, new GhostPirateWaterAvoidingRandomStrollGoal(this, 0.6D));
+        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
     }
 
     @Override protected void registerSpecificGoals()
     {
-        this.goalSelector.add(2, new ConditionalGoal(this, MELEE_ATTACK_GOAL, new MeleeAttackGoal(this, 1.25D, false)));
-        this.goalSelector.add(4, new ConditionalGoal(this, OTHER, new LookAtEntityGoal(this, PlayerEntity.class, 16.0F)));
-        this.goalSelector.add(1, new ConditionalGoal(this, SHURIKEN_ATTACK_GOAL, new GhostShurikenAttackGoal(this)));
-        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true, (potentialTarget, serverWorld) -> !this.isMisleadedBy(potentialTarget)));
+        this.goalSelector.addGoal(2, new ConditionalGoal(this, MELEE_ATTACK_GOAL, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.addGoal(4, new ConditionalGoal(this, OTHER, new LookAtPlayerGoal(this, Player.class, 16.0F)));
+        this.goalSelector.addGoal(1, new ConditionalGoal(this, SHURIKEN_ATTACK_GOAL, new GhostShurikenAttackGoal(this)));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, (potentialTarget, serverWorld) -> !this.isMisleadedBy(potentialTarget)));
     }
 
-    @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, Random rand) {return new ItemStack(AerialHellItems.AZURITE_SHURIKEN);}
+    @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand) {return new ItemStack(AerialHellItems.AZURITE_SHURIKEN);}
 
     @Override public EntityType<? extends AbstractSlimePirateEntity> getDieOffspringType() {return AerialHellEntities.GHOST_SLIME_PIRATE;}
 
@@ -85,10 +90,10 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implemen
 
         @Override public GhostSlimeNinjaPirateEntity getParentEntity() {return (GhostSlimeNinjaPirateEntity) super.getParentEntity();}
 
-        @Override public ProjectileEntity createProjectile(World world, LivingEntity shooter, double accX, double accY, double accZ)
+        @Override public Projectile createProjectile(Level world, LivingEntity shooter, double accX, double accY, double accZ)
         {
-            Random rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
-            return new AzuriteShurikenEntity(world, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f, AerialHellItems.AZURITE_SHURIKEN.getDefaultStack());
+            RandomSource rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
+            return new AzuriteShurikenEntity(world, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f, AerialHellItems.AZURITE_SHURIKEN.getDefaultInstance());
         }
     }
 }

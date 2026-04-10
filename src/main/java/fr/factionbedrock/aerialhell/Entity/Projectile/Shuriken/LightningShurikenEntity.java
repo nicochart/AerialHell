@@ -3,36 +3,40 @@ package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.entity.*;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 
 public class LightningShurikenEntity extends AbstractShurikenEntity
 {
-	public LightningShurikenEntity(EntityType<? extends LightningShurikenEntity> entityTypeIn, World world)
+	public LightningShurikenEntity(EntityType<? extends LightningShurikenEntity> entityTypeIn, Level world)
 	{
 		super(entityTypeIn, world);
 	}
 
-	public LightningShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
+	public LightningShurikenEntity(Level world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
 	{
 		super(AerialHellEntities.LIGHTNING_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy, itemStack);
 	}
 
-	public LightningShurikenEntity(double x, double y, double z, World world, ItemStack itemStack)
+	public LightningShurikenEntity(double x, double y, double z, Level world, ItemStack itemStack)
 	{
 		super(AerialHellEntities.LIGHTNING_SHURIKEN, x, y, z, world, itemStack);
 	}
 
-	public LightningShurikenEntity(LivingEntity shooter, World world, ItemStack itemStack)
+	public LightningShurikenEntity(LivingEntity shooter, Level world, ItemStack itemStack)
 	{
 		super(AerialHellEntities.LIGHTNING_SHURIKEN, shooter, world, itemStack);
 	}
 
-	public LightningShurikenEntity(World world)
+	public LightningShurikenEntity(Level world)
 	{
 		super(AerialHellEntities.LIGHTNING_SHURIKEN, world);
 	}
@@ -45,17 +49,17 @@ public class LightningShurikenEntity extends AbstractShurikenEntity
 	@Override protected float getKnifeDamage() {return 2.0F;}
 	@Override protected void applyEntityImpactEffet(Entity entity) {}
 	
-	@Override protected void onCollision(HitResult result)
+	@Override protected void onHit(HitResult result)
 	{
-		if (this.getEntityWorld().isClient()) {return;}
+		if (this.level().isClientSide()) {return;}
 		
-		if (result.getType() != HitResult.Type.MISS && this.getEntityWorld() instanceof ServerWorld)
+		if (result.getType() != HitResult.Type.MISS && this.level() instanceof ServerLevel)
 		{
-			LightningEntity lightningBolt = EntityType.LIGHTNING_BOLT.create(this.getEntityWorld(), SpawnReason.TRIGGERED);
-			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
-			this.getEntityWorld().spawnEntity(lightningBolt);
+			LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level(), EntitySpawnReason.TRIGGERED);
+			lightningBolt.setPosRaw(this.getX(), this.getY(), this.getZ());
+			this.level().addFreshEntity(lightningBolt);
 		}
-		super.onCollision(result);
+		super.onHit(result);
 	}
 
 	@Override protected Item getDefaultItem() {return AerialHellItems.LIGHTNING_SHURIKEN;}

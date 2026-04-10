@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Item.Material;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.ToolMaterial;
 
 public class ToolMaterials
 {

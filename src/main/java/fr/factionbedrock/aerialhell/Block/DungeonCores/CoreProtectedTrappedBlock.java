@@ -1,24 +1,23 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import java.util.Random;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 import static fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties.CORE_PROTECTED;
 
@@ -26,30 +25,30 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 {
 	private static final Random rand = new Random();
 	
-	public CoreProtectedTrappedBlock(AbstractBlock.Settings settings)
+	public CoreProtectedTrappedBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);
-		this.setDefaultState(this.getDefaultState().with(CORE_PROTECTED, false));
+		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
 
-	@Override public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity)
+	@Override public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity)
 	{
-		if (entity instanceof PlayerEntity)
+		if (entity instanceof Player)
 		{
 			boolean protect = this.isProtected(world.getBlockState(pos));
-			world.setBlockState(pos, this.getUntrappedBlock(this).getDefaultState().with(CORE_PROTECTED, protect));
-			if (!world.isClient())
+			world.setBlockAndUpdate(pos, this.getUntrappedBlock(this).defaultBlockState().setValue(CORE_PROTECTED, protect));
+			if (!world.isClientSide())
 			{
 				EntityType<?> entityType = getEntity(this);
-				Entity creature = entityType.create(world, SpawnReason.MOB_SUMMONED);
-				creature.updatePositionAndAngles(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, (rand.nextFloat() - 0.5F) * 180.0F, 0.0F);
+				Entity creature = entityType.create(world, EntitySpawnReason.MOB_SUMMONED);
+				creature.absSnapTo(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, (rand.nextFloat() - 0.5F) * 180.0F, 0.0F);
 				if (this == AerialHellBlocks.TRAPPED_MUD_BRICKS || this == AerialHellBlocks.TRAPPED_LIGHT_MUD_BRICKS && entity instanceof MudSoldierEntity)
 				{
-					((MudSoldierEntity) creature).equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+					((MudSoldierEntity) creature).setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
 				}
-				world.spawnEntity(creature);
+				world.addFreshEntity(creature);
 			}
-			world.playSound(null, pos, AerialHellSoundEvents.TRAPPED_BLOCK_STEP, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+			world.playSound(null, pos, AerialHellSoundEvents.TRAPPED_BLOCK_STEP, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
 		}
 	}
 	

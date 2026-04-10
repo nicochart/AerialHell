@@ -8,32 +8,32 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.RubyShurikenEntit
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity implements GoalConditionEntity.PhaseAwareGoalConditionEntity
 {
     private int nextFurryShurikenNumber;
     private static final int MELEE_ATTACK_GOAL = 0, SHURIKEN_ATTACK_GOAL = 1;
-    public SlimeNinjaPirateEntity(EntityType<? extends SlimeNinjaPirateEntity> type, World world) {super(type, world);}
+    public SlimeNinjaPirateEntity(EntityType<? extends SlimeNinjaPirateEntity> type, Level world) {super(type, world);}
 
     public int getNextFurryShurikenNumber() {return nextFurryShurikenNumber;}
-    public void resetNextFurryShurikenNumber() {this.nextFurryShurikenNumber = this.random.nextBetweenExclusive(3,5);}
+    public void resetNextFurryShurikenNumber() {this.nextFurryShurikenNumber = this.random.nextInt(3,5);}
 
     /* ------- GoalSimpleConditionEntity : Interface method implementation ------- */
-    @Override public PathAwareEntity getSelf() {return this;}
+    @Override public PathfinderMob getSelf() {return this;}
 
     @Override public boolean canUseGoalsAdditionalCondition(int goalIndex)
     {
@@ -46,19 +46,19 @@ public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity implements
 
     @Override protected void registerSpecificGoals()
     {
-        this.goalSelector.add(1, new ConditionalGoal(this, SHURIKEN_ATTACK_GOAL, new ShurikenAttackGoal(this)));
-        this.goalSelector.add(2, new ConditionalGoal(this, MELEE_ATTACK_GOAL, new MeleeAttackGoal(this, 1.25D, false)));
-        this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 16.0F));
-        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+        this.goalSelector.addGoal(1, new ConditionalGoal(this, SHURIKEN_ATTACK_GOAL, new ShurikenAttackGoal(this)));
+        this.goalSelector.addGoal(2, new ConditionalGoal(this, MELEE_ATTACK_GOAL, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 16.0F));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
-    @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, Random rand) {return new ItemStack(AerialHellItems.RUBY_SHURIKEN);}
+    @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand) {return new ItemStack(AerialHellItems.RUBY_SHURIKEN);}
 
     @Override public EntityType<? extends AbstractSlimePirateEntity> getDieOffspringType() {return AerialHellEntities.SLIME_PIRATE;}
 
     @Override public EntityType<? extends AbstractSlimePirateEntity> getType() {return AerialHellEntities.SLIME_NINJA_PIRATE;}
 
-    public static DefaultAttributeContainer.Builder registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
         return AbstractHumanoidMonster.registerAttributes(18.0D, 4.0D, 0.25D, 35.0D);
     }
@@ -69,10 +69,10 @@ public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity implements
 
         @Override public SlimeNinjaPirateEntity getParentEntity() {return (SlimeNinjaPirateEntity) super.getParentEntity();}
 
-        @Override public ProjectileEntity createProjectile(World world, LivingEntity shooter, double accX, double accY, double accZ)
+        @Override public Projectile createProjectile(Level world, LivingEntity shooter, double accX, double accY, double accZ)
         {
-            Random rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
-            return new RubyShurikenEntity(world, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f, AerialHellItems.RUBY_SHURIKEN.getDefaultStack());
+            RandomSource rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
+            return new RubyShurikenEntity(world, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f, AerialHellItems.RUBY_SHURIKEN.getDefaultInstance());
         }
 
         @Override protected void resetTask() {super.resetTask(); this.getParentEntity().resetNextFurryShurikenNumber();}

@@ -1,28 +1,27 @@
 package fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory;
 
-import net.minecraft.client.gui.screen.ingame.AbstractFurnaceScreen;
-import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
-import net.minecraft.client.recipebook.RecipeBookType;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.AbstractFurnaceScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.book.RecipeBookCategories;
-import net.minecraft.util.Identifier;
-
 import java.util.List;
+import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.gui.screens.recipebook.SearchRecipeBookCategory;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractFurnaceMenu;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeBookCategories;
 
-public class FurnaceLikeScreen<T extends AbstractFurnaceScreenHandler> extends AbstractFurnaceScreen<T>
+public class FurnaceLikeScreen<T extends AbstractFurnaceMenu> extends AbstractFurnaceScreen<T>
 {
-    private static final Text FILTER_NAME = Text.translatable("gui.recipebook.toggleRecipes.smeltable");
-    private static final List<RecipeBookWidget.Tab> TABS = List.of(
-            new RecipeBookWidget.Tab(RecipeBookType.FURNACE),
-            new RecipeBookWidget.Tab(Items.PORKCHOP, RecipeBookCategories.FURNACE_FOOD),
-            new RecipeBookWidget.Tab(Items.STONE, RecipeBookCategories.FURNACE_BLOCKS),
-            new RecipeBookWidget.Tab(Items.LAVA_BUCKET, Items.EMERALD, RecipeBookCategories.FURNACE_MISC)
+    private static final Component FILTER_NAME = Component.translatable("gui.recipebook.toggleRecipes.smeltable");
+    private static final List<RecipeBookComponent.TabInfo> TABS = List.of(
+            new RecipeBookComponent.TabInfo(SearchRecipeBookCategory.FURNACE),
+            new RecipeBookComponent.TabInfo(Items.PORKCHOP, RecipeBookCategories.FURNACE_FOOD),
+            new RecipeBookComponent.TabInfo(Items.STONE, RecipeBookCategories.FURNACE_BLOCKS),
+            new RecipeBookComponent.TabInfo(Items.LAVA_BUCKET, Items.EMERALD, RecipeBookCategories.FURNACE_MISC)
     );
 
-    public FurnaceLikeScreen(T container, PlayerInventory inventory, Text name, Identifier texture, Identifier litProgressSprite, Identifier burnProgressSprite)
+    public FurnaceLikeScreen(T container, Inventory inventory, Component name, Identifier texture, Identifier litProgressSprite, Identifier burnProgressSprite)
     {
         super(container, inventory, name, FILTER_NAME, texture, litProgressSprite, burnProgressSprite, TABS);
     }

@@ -1,49 +1,50 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+
 /*Copy of net.minecraft.client.renderer.entity.PhantomRenderer*/
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Passive.FatPhantomEntity;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.PhantomEntityModel;
-import net.minecraft.client.render.entity.state.PhantomEntityRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.monster.phantom.PhantomModel;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.state.PhantomRenderState;
+import net.minecraft.resources.Identifier;
 
-public class FatPhantomRender extends MobEntityRenderer<FatPhantomEntity, PhantomEntityRenderState, PhantomEntityModel>
+public class FatPhantomRender extends MobRenderer<FatPhantomEntity, PhantomRenderState, PhantomModel>
 {
 	private static String name = "fat_phantom";
-	private static final Identifier FAT_PHANTOM_TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
+	private static final Identifier FAT_PHANTOM_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
-	public FatPhantomRender(EntityRendererFactory.Context context)
+	public FatPhantomRender(EntityRendererProvider.Context context)
 	{
-		super(context, new PhantomEntityModel(context.getPart(EntityModelLayers.PHANTOM)), 1.1F);
+		super(context, new PhantomModel(context.bakeLayer(ModelLayers.PHANTOM)), 1.1F);
     }
 
-    @Override public PhantomEntityRenderState createRenderState() {return new PhantomEntityRenderState();}
+    @Override public PhantomRenderState createRenderState() {return new PhantomRenderState();}
 
-    @Override public void updateRenderState(FatPhantomEntity entity, PhantomEntityRenderState renderState, float partialTick)
+    @Override public void extractRenderState(FatPhantomEntity entity, PhantomRenderState renderState, float partialTick)
     {
-        super.updateRenderState(entity, renderState, partialTick);
-        renderState.wingFlapProgress = (float)entity.getWingFlapTickOffset() + renderState.age;
+        super.extractRenderState(entity, renderState, partialTick);
+        renderState.flapTime = (float)entity.getUniqueFlapTickOffset() + renderState.ageInTicks;
         renderState.size = entity.getPhantomSize();
     }
 
-    @Override protected void scale(PhantomEntityRenderState renderState, MatrixStack posestack)
+    @Override protected void scale(PhantomRenderState renderState, PoseStack posestack)
     {
         float f = 1.0F + 0.15F * (float) renderState.size;
         posestack.scale(f, f, f);
         posestack.translate(0.0D, 1.3125D, 0.1875D);
     }
 
-    @Override protected void setupTransforms(PhantomEntityRenderState phantomEntityRenderState, MatrixStack matrixStack, float f, float g)
+    @Override protected void setupRotations(PhantomRenderState phantomEntityRenderState, PoseStack matrixStack, float f, float g)
     {
-        super.setupTransforms(phantomEntityRenderState, matrixStack, f, g);
-        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(phantomEntityRenderState.pitch));
+        super.setupRotations(phantomEntityRenderState, matrixStack, f, g);
+        matrixStack.mulPose(Axis.XP.rotationDegrees(phantomEntityRenderState.xRot));
     }
 
-    @Override public Identifier getTexture(PhantomEntityRenderState renderState) {return FAT_PHANTOM_TEXTURE;}
+    @Override public Identifier getTextureLocation(PhantomRenderState renderState) {return FAT_PHANTOM_TEXTURE;}
 }

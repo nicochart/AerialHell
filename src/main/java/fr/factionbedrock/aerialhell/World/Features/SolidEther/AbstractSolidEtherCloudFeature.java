@@ -4,37 +4,37 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.DungeonSensitiveFeatureCheck;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.util.FeatureContext;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public abstract class AbstractSolidEtherCloudFeature extends Feature<DefaultFeatureConfig> implements DungeonSensitiveFeatureCheck
+public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
-    public BlockPos getRandomHeighGenerationPos(int x, int minY, int maxY, int z, Random rand) {return new BlockPos(x, minY + rand.nextInt(maxY- minY), z);}
+    public BlockPos getRandomHeighGenerationPos(int x, int minY, int maxY, int z, RandomSource rand) {return new BlockPos(x, minY + rand.nextInt(maxY- minY), z);}
 	protected abstract int getBasicMinSize(); protected abstract int getBasicMaxSize();
 	protected abstract int getSmallMinSize(); protected abstract int getSmallMaxSize();
 	protected abstract Block getEtherBlock();
-	protected BlockState getEtherBlockState() {return this.getEtherBlock().getDefaultState();}
+	protected BlockState getEtherBlockState() {return this.getEtherBlock().defaultBlockState();}
 
-	public int chooseRandomSize(int minSize, int maxSize, Random rand)
+	public int chooseRandomSize(int minSize, int maxSize, RandomSource rand)
 	{
 		return minSize + (int)(rand.nextDouble() * ((minSize - maxSize) + 1));
 	}
 	
-    public AbstractSolidEtherCloudFeature(Codec<DefaultFeatureConfig> codec)
+    public AbstractSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec)
     {
         super(codec);
     }
     
-    protected void generateFourLayersFirstEllipsis(FeatureContext<DefaultFeatureConfig> context, int sizeX, int sizeZ, BlockPos pos)
+    protected void generateFourLayersFirstEllipsis(FeaturePlaceContext<NoneFeatureConfiguration> context, int sizeX, int sizeZ, BlockPos pos)
     {
-        StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom();
+        WorldGenLevel reader = context.level(); RandomSource rand = context.random();
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {
             for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
@@ -46,19 +46,19 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<DefaultFeat
                 	// ~y=0
                 	Block previousBlock = reader.getBlockState(newPos).getBlock();
                 	if (previousBlock == Blocks.AIR)
-                		reader.setBlockState(newPos, this.getEtherBlockState(), 0);
+                		reader.setBlock(newPos, this.getEtherBlockState(), 0);
                 	// ~y=+1
-                	Block previousTop1Block = reader.getBlockState(newPos.up()).getBlock();
+                	Block previousTop1Block = reader.getBlockState(newPos.above()).getBlock();
                 	if (previousTop1Block == Blocks.AIR)
-                		reader.setBlockState(newPos.up(), this.getEtherBlockState(), 0);
+                		reader.setBlock(newPos.above(), this.getEtherBlockState(), 0);
                 	// ~y=+2
-                	Block previousTop2Block = reader.getBlockState(newPos.up().up()).getBlock();
+                	Block previousTop2Block = reader.getBlockState(newPos.above().above()).getBlock();
                 	if (previousTop2Block == Blocks.AIR)
-                		reader.setBlockState(newPos.up().up(), this.getEtherBlockState(), 0);
+                		reader.setBlock(newPos.above().above(), this.getEtherBlockState(), 0);
                 	// ~y=-1
-                	Block previousBottomBlock = reader.getBlockState(newPos.down()).getBlock();
+                	Block previousBottomBlock = reader.getBlockState(newPos.below()).getBlock();
                 	if (previousBottomBlock == Blocks.AIR)
-                		reader.setBlockState(newPos.down(), this.getEtherBlockState(), 0);
+                		reader.setBlock(newPos.below(), this.getEtherBlockState(), 0);
                 }
                 else
                 {
@@ -70,34 +70,34 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<DefaultFeat
                 		generateSecondEllipsis(context, newSizeX, newSizeZ, newPos);
                 	}
                 	// ~y=+1
-                	if (reader.getBlockState(newPos.up()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.8)
+                	if (reader.getBlockState(newPos.above()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.8)
                 	{
                     	int newSizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
                         int newSizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
-                		generateSecondEllipsis(context, newSizeX, newSizeZ, newPos.up());
+                		generateSecondEllipsis(context, newSizeX, newSizeZ, newPos.above());
                 	}
                 	// ~y=+2
-                	if (reader.getBlockState(newPos.up().up()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.8)
+                	if (reader.getBlockState(newPos.above().above()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.8)
                 	{
                     	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
                         int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                		generateLastEllipsis(context, newSizeX, newSizeZ, newPos.up().up());
+                		generateLastEllipsis(context, newSizeX, newSizeZ, newPos.above().above());
                 	}
                 	// ~y=-1
-                	if (reader.getBlockState(newPos.down()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.8)
+                	if (reader.getBlockState(newPos.below()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.8)
                 	{
                     	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
                         int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                		generateLastEllipsis(context, newSizeX, newSizeZ, newPos.down());
+                		generateLastEllipsis(context, newSizeX, newSizeZ, newPos.below());
                 	}
                 }
             }
         }
     }
     
-    protected void generateFirstEllipsis(FeatureContext<DefaultFeatureConfig> context, int sizeX, int sizeZ, BlockPos pos)
+    protected void generateFirstEllipsis(FeaturePlaceContext<NoneFeatureConfiguration> context, int sizeX, int sizeZ, BlockPos pos)
     {
-        StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom();
+        WorldGenLevel reader = context.level(); RandomSource rand = context.random();
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {
             for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
@@ -109,7 +109,7 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<DefaultFeat
                 	// ~y=0
                 	Block previousBlock = reader.getBlockState(newPos).getBlock();
                 	if (previousBlock == Blocks.AIR)
-                		reader.setBlockState(newPos, this.getEtherBlockState(), 0);
+                		reader.setBlock(newPos, this.getEtherBlockState(), 0);
                 }
                 else
                 {
@@ -133,38 +133,38 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<DefaultFeat
                 if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+rand.nextInt(5))
                 {
                 	// ~y=+1
-                	Block previousTop1Block = reader.getBlockState(newPos.up()).getBlock();
+                	Block previousTop1Block = reader.getBlockState(newPos.above()).getBlock();
                 	if (previousTop1Block == Blocks.AIR)
-                		reader.setBlockState(newPos.up(), this.getEtherBlockState(), 0);
+                		reader.setBlock(newPos.above(), this.getEtherBlockState(), 0);
                 	// ~y=-1
-                	Block previousBottomBlock = reader.getBlockState(newPos.down()).getBlock();
+                	Block previousBottomBlock = reader.getBlockState(newPos.below()).getBlock();
                 	if (previousBottomBlock == Blocks.AIR)
-                		reader.setBlockState(newPos.down(), this.getEtherBlockState(), 0);
+                		reader.setBlock(newPos.below(), this.getEtherBlockState(), 0);
                 }
             	else
             	{
                 	// ~y=+1
-                	if (reader.getBlockState(newPos.up()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.95)
+                	if (reader.getBlockState(newPos.above()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.95)
                 	{
                 		int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
                         int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                        generateLastEllipsis(context, newSizeX, newSizeZ, newPos.up());
+                        generateLastEllipsis(context, newSizeX, newSizeZ, newPos.above());
                 	}
                 	// ~y=-1
-                	if (reader.getBlockState(newPos.down()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.95)
+                	if (reader.getBlockState(newPos.below()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.95)
                 	{
                     	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
                         int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                		generateLastEllipsis(context, newSizeX,newSizeZ, newPos.down());
+                		generateLastEllipsis(context, newSizeX,newSizeZ, newPos.below());
                 	}
                 }
             }
         }
     }
     
-    protected void generateSecondEllipsis(FeatureContext<DefaultFeatureConfig> context, int sizeX, int sizeZ, BlockPos pos)
+    protected void generateSecondEllipsis(FeaturePlaceContext<NoneFeatureConfiguration> context, int sizeX, int sizeZ, BlockPos pos)
     {
-        StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom();
+        WorldGenLevel reader = context.level(); RandomSource rand = context.random();
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {
             for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
@@ -175,7 +175,7 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<DefaultFeat
                 {
                 	Block previousBlock = reader.getBlockState(newPos).getBlock();
                 	if (previousBlock == Blocks.AIR)
-                		reader.setBlockState(newPos, this.getEtherBlockState(), 0);
+                		reader.setBlock(newPos, this.getEtherBlockState(), 0);
                 }
                 else
                 {
@@ -190,9 +190,9 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<DefaultFeat
         }
     }
     
-    protected void generateThirdEllipsis(FeatureContext<DefaultFeatureConfig> context, int sizeX, int sizeZ, BlockPos pos)
+    protected void generateThirdEllipsis(FeaturePlaceContext<NoneFeatureConfiguration> context, int sizeX, int sizeZ, BlockPos pos)
     {
-        StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom();
+        WorldGenLevel reader = context.level(); RandomSource rand = context.random();
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {
             for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
@@ -203,7 +203,7 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<DefaultFeat
                 {
                 	Block previousBlock = reader.getBlockState(newPos).getBlock();
                 	if (previousBlock == Blocks.AIR)
-                		reader.setBlockState(newPos, this.getEtherBlockState(), 0);
+                		reader.setBlock(newPos, this.getEtherBlockState(), 0);
                 }
                 else
                 {
@@ -218,9 +218,9 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<DefaultFeat
         }
     }
     
-    protected void generateLastEllipsis(FeatureContext<DefaultFeatureConfig> context, int sizeX, int sizeZ, BlockPos pos)
+    protected void generateLastEllipsis(FeaturePlaceContext<NoneFeatureConfiguration> context, int sizeX, int sizeZ, BlockPos pos)
     {
-        StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom();
+        WorldGenLevel reader = context.level(); RandomSource rand = context.random();
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {
             for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
@@ -232,7 +232,7 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<DefaultFeat
                 	Block previousBlock = reader.getBlockState(newPos).getBlock();
                 	if (previousBlock == Blocks.AIR && FeatureHelper.isBlockPosInFeatureRegion(context, newPos))
                     {
-                        reader.setBlockState(newPos, this.getEtherBlockState(), 0);
+                        reader.setBlock(newPos, this.getEtherBlockState(), 0);
                     }
                 }
             }

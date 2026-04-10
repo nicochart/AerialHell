@@ -2,38 +2,38 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 public class CrystalCaterpillarEntity extends AbstractCaterpillarEntity
 {
-	public CrystalCaterpillarEntity(EntityType<? extends AbstractCaterpillarEntity> type, World world)
+	public CrystalCaterpillarEntity(EntityType<? extends AbstractCaterpillarEntity> type, Level world)
     {
         super(type, world);
     }
 	
-	public CrystalCaterpillarEntity(World world)
+	public CrystalCaterpillarEntity(Level world)
     {
         this(AerialHellEntities.CRYSTAL_CATERPILLAR, world);
     }
 	
 	@Override
-	protected void initGoals()
+	protected void registerGoals()
 	{
-	      super.initGoals();
-	      this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+	      super.registerGoals();
+	      this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
 	}
 	
-	public static DefaultAttributeContainer.Builder registerAttributes()
+	public static AttributeSupplier.Builder registerAttributes()
     {
-        return createHostileAttributes()
-                .add(EntityAttributes.MAX_HEALTH, 16.0D)
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.23D)
-                .add(EntityAttributes.FOLLOW_RANGE, 12.0D)
-        		.add(EntityAttributes.ATTACK_DAMAGE, 2.0D);
+        return createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 16.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.23D)
+                .add(Attributes.FOLLOW_RANGE, 12.0D)
+        		.add(Attributes.ATTACK_DAMAGE, 2.0D);
     }
 }

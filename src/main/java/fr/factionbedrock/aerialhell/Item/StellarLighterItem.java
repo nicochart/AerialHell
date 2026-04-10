@@ -1,33 +1,33 @@
 package fr.factionbedrock.aerialhell.Item;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.UseOnContext;
 
 public class StellarLighterItem extends WithInformationItem
 {
-	public StellarLighterItem(Settings settings) {super(settings);}
+	public StellarLighterItem(Properties settings) {super(settings);}
 
-    @Override public ActionResult useOnBlock(ItemUsageContext context)
+    @Override public InteractionResult useOn(UseOnContext context)
     {
-        PlayerEntity player = context.getPlayer();
+        Player player = context.getPlayer();
         if(player != null)
         {
-            for(Direction direction : Direction.Type.VERTICAL)
+            for(Direction direction : Direction.Plane.VERTICAL)
             {
-                BlockPos framePos = context.getBlockPos().offset(direction);
-                if((AerialHellBlocks.AERIAL_HELL_PORTAL).trySpawnPortal(context.getWorld(), framePos))
+                BlockPos framePos = context.getClickedPos().relative(direction);
+                if((AerialHellBlocks.AERIAL_HELL_PORTAL).trySpawnPortal(context.getLevel(), framePos))
                 {
-                    context.getPlayer().getItemCooldownManager().set(context.getStack(), 50);
-                    context.getStack().damage(1, player, context.getHand());
-                    return ActionResult.CONSUME;
+                    context.getPlayer().getCooldowns().addCooldown(context.getItemInHand(), 50);
+                    context.getItemInHand().hurtAndBreak(1, player, context.getHand());
+                    return InteractionResult.CONSUME;
                 }
-                else {return ActionResult.FAIL;}
+                else {return InteractionResult.FAIL;}
             }
         }
-        return ActionResult.FAIL;
+        return InteractionResult.FAIL;
     }
 }

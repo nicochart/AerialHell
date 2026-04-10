@@ -1,36 +1,35 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.Layers;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.CortinariusCowShroomModel;
-import net.minecraft.client.render.RenderLayers;
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
-import net.minecraft.client.render.entity.LivingEntityRenderer;
-import net.minecraft.client.render.entity.feature.FeatureRenderer;
-import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.client.render.entity.model.CowEntityModel;
-import net.minecraft.client.render.entity.state.LivingEntityRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
-
 import java.awt.*;
+import net.minecraft.client.model.animal.cow.CowModel;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
 
-public class CortinariusCowShroomLayer<S extends LivingEntityRenderState, M extends CowEntityModel> extends FeatureRenderer<S, M>
+public class CortinariusCowShroomLayer<S extends LivingEntityRenderState, M extends CowModel> extends RenderLayer<S, M>
 {
    private final CortinariusCowShroomModel<S> cortinariusCowShroomModel;
-   private static final Identifier CORTINARIUS_COW_SHROOM_LAYER = Identifier.of(AerialHell.MODID, "textures/entity/cortinarius_cow/cortinarius_cow_shroom.png");
+   private static final Identifier CORTINARIUS_COW_SHROOM_LAYER = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/cortinarius_cow/cortinarius_cow_shroom.png");
 
-   public CortinariusCowShroomLayer(FeatureRendererContext<S,M> layerParent, CortinariusCowShroomModel<S> shroomModel)
+   public CortinariusCowShroomLayer(RenderLayerParent<S,M> layerParent, CortinariusCowShroomModel<S> shroomModel)
    {
       super(layerParent);
       this.cortinariusCowShroomModel = shroomModel;
    }
 
-   @Override public void render(MatrixStack matrices, OrderedRenderCommandQueue queue, int light, S renderState, float limbAngle, float limbDistance)
+   @Override public void submit(PoseStack matrices, SubmitNodeCollector queue, int light, S renderState, float limbAngle, float limbDistance)
    {
-      if (!renderState.invisible)
+      if (!renderState.isInvisible)
       {
-         this.cortinariusCowShroomModel.setAngles(renderState);
-         queue.submitModel(this.cortinariusCowShroomModel, renderState, matrices, RenderLayers.entityCutout(CORTINARIUS_COW_SHROOM_LAYER), light, LivingEntityRenderer.getOverlay(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
+         this.cortinariusCowShroomModel.setupAnim(renderState);
+         queue.submitModel(this.cortinariusCowShroomModel, renderState, matrices, RenderTypes.entityCutout(CORTINARIUS_COW_SHROOM_LAYER), light, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
       }
    }
 }

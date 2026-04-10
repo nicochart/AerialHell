@@ -1,32 +1,32 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Mud;
 
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.particle.ParticleTypes;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
 
 public interface MudSpectralEntity
 {
-    static DefaultAttributeContainer.Builder createSpectralAttributes(double maxHealth, double armor, double attackDamage, double movementSpeed, double followRange)
+    static AttributeSupplier.Builder createSpectralAttributes(double maxHealth, double armor, double attackDamage, double movementSpeed, double followRange)
     {
-        return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.MAX_HEALTH, maxHealth)
-                .add(EntityAttributes.ARMOR, armor)
-                .add(EntityAttributes.ATTACK_DAMAGE, attackDamage)
-                .add(EntityAttributes.MOVEMENT_SPEED, movementSpeed)
-                .add(EntityAttributes.FOLLOW_RANGE, followRange);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, maxHealth)
+                .add(Attributes.ARMOR, armor)
+                .add(Attributes.ATTACK_DAMAGE, attackDamage)
+                .add(Attributes.MOVEMENT_SPEED, movementSpeed)
+                .add(Attributes.FOLLOW_RANGE, followRange);
     }
 
-    default void spectralEntityTick(MobEntity mob)
+    default void spectralEntityTick(Mob mob)
     {
-        if (mob.age > getMaxTicksExisting() - 2) {mob.getEntityWorld().sendEntityStatus(mob, (byte)5);}
-        if (mob.age > getMaxTicksExisting()) {mob.discard();}
+        if (mob.tickCount > getMaxTicksExisting() - 2) {mob.level().broadcastEntityEvent(mob, (byte)5);}
+        if (mob.tickCount > getMaxTicksExisting()) {mob.discard();}
     }
 
-    default void popDisappearingParticles(MobEntity mob, int count)
+    default void popDisappearingParticles(Mob mob, int count)
     {
-        for (int i=0; i<count; i++) {mob.getEntityWorld().addParticleClient(ParticleTypes.LARGE_SMOKE, mob.getX() + mob.getRandom().nextFloat() - 0.5, mob.getY() + 2 * mob.getRandom().nextFloat(), mob.getZ() + mob.getRandom().nextFloat(), 0.5 * (mob.getRandom().nextFloat()) - 0.5, 0.3D, 0.5 * (mob.getRandom().nextFloat() - 0.5));}
+        for (int i=0; i<count; i++) {mob.level().addParticle(ParticleTypes.LARGE_SMOKE, mob.getX() + mob.getRandom().nextFloat() - 0.5, mob.getY() + 2 * mob.getRandom().nextFloat(), mob.getZ() + mob.getRandom().nextFloat(), 0.5 * (mob.getRandom().nextFloat()) - 0.5, 0.3D, 0.5 * (mob.getRandom().nextFloat() - 0.5));}
     }
 
     int getMaxTicksExisting();

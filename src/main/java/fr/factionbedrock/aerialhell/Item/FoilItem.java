@@ -1,12 +1,12 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class FoilItem extends Item
 {
-    public FoilItem(Item.Settings settings) {super(settings);}
+    public FoilItem(Item.Properties settings) {super(settings);}
     
     @Override
-    public boolean hasGlint(ItemStack stack) {return true;}
+    public boolean isFoil(ItemStack stack) {return true;}
 }

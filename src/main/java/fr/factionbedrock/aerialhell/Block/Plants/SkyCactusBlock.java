@@ -2,45 +2,45 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CactusBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCollisionHandler;
-import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.CactusBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 public class SkyCactusBlock extends CactusBlock
 {
-	public SkyCactusBlock(AbstractBlock.Settings settings)
+	public SkyCactusBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);
 	}
 	
 	/*Edited isValidPosition to make the cactus can grow on slippery_sand and on itself*/
 	@Override
-	public boolean canPlaceAt(BlockState state, WorldView level, BlockPos pos)
+	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
 	{
-		for(Direction direction : Direction.Type.HORIZONTAL)
+		for(Direction direction : Direction.Plane.HORIZONTAL)
 	    {
-			BlockState blockstate = level.getBlockState(pos.offset(direction));
-	        if (blockstate.isSolid() || level.getFluidState(pos.offset(direction)).isIn(FluidTags.LAVA)) {return false;}
+			BlockState blockstate = level.getBlockState(pos.relative(direction));
+	        if (blockstate.isSolid() || level.getFluidState(pos.relative(direction)).is(FluidTags.LAVA)) {return false;}
 	    }
-	    BlockState bottom_blockstate = level.getBlockState(pos.down());
+	    BlockState bottom_blockstate = level.getBlockState(pos.below());
 	    return (bottom_blockstate.getBlock().equals(AerialHellBlocks.SKY_CACTUS) || bottom_blockstate.getBlock().equals(AerialHellBlocks.VIBRANT_SKY_CACTUS) || bottom_blockstate.getBlock().equals(AerialHellBlocks.SLIPPERY_SAND));
 	}
 	
 	/*Edited onEntityCollision to deal more damage and to make the player jump*/
 	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean intersects)
+	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier handler, boolean intersects)
 	{
 		if (EntityHelper.isImmuneToSkyCactusCollision(entity)) {return;}
-		Vec3d motion = entity.getVelocity();
-		entity.serverDamage(world.getDamageSources().cactus(), 2.0F);
-		entity.setVelocity(motion.x, 1.0, motion.z);
+		Vec3 motion = entity.getDeltaMovement();
+		entity.hurt(world.damageSources().cactus(), 2.0F);
+		entity.setDeltaMovement(motion.x, 1.0, motion.z);
 	}
 }

@@ -1,75 +1,75 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.ShurikenRenderState;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
-import net.minecraft.client.item.ItemModelManager;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
-import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.state.CameraRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemDisplayContext;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemDisplayContext;
 
 //see net.minecraft.client.render.entity.FlyingItemEntityRenderer
 public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRenderer<T, ShurikenRenderState>
 {
-	private final ItemModelManager itemModelResolver;
+	private final ItemModelResolver itemModelResolver;
 
-	private static final Identifier IRON_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/iron_shuriken.png");
-	private static final Identifier GOLD_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/gold_shuriken.png");
-	private static final Identifier DIAMOND_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/diamond_shuriken.png");
-	private static final Identifier NETHERITE_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/netherite_shuriken.png");
-	private static final Identifier RUBY_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/ruby_shuriken.png");
-	private static final Identifier AZURITE_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/azurite_shuriken.png");
-	private static final Identifier MAGMATIC_GEL_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/magmatic_gel_shuriken.png");
-	private static final Identifier VOLUCITE_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/volucite_shuriken.png");
-	private static final Identifier OBSIDIAN_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/obsidian_shuriken.png");
-	private static final Identifier LUNATIC_CRYSTAL_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/lunatic_crystal_shuriken.png");
-	private static final Identifier ARSONIST_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/arsonist_shuriken.png");
-	private static final Identifier LIGHTNING_SHURIKEN_TEXTURE = Identifier.of(AerialHell.MODID, "textures/item/lightning_shuriken.png");
+	private static final Identifier IRON_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/iron_shuriken.png");
+	private static final Identifier GOLD_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/gold_shuriken.png");
+	private static final Identifier DIAMOND_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/diamond_shuriken.png");
+	private static final Identifier NETHERITE_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/netherite_shuriken.png");
+	private static final Identifier RUBY_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/ruby_shuriken.png");
+	private static final Identifier AZURITE_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/azurite_shuriken.png");
+	private static final Identifier MAGMATIC_GEL_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/magmatic_gel_shuriken.png");
+	private static final Identifier VOLUCITE_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/volucite_shuriken.png");
+	private static final Identifier OBSIDIAN_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/obsidian_shuriken.png");
+	private static final Identifier LUNATIC_CRYSTAL_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/lunatic_crystal_shuriken.png");
+	private static final Identifier ARSONIST_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/arsonist_shuriken.png");
+	private static final Identifier LIGHTNING_SHURIKEN_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/lightning_shuriken.png");
 	
-	public ShurikenRender(EntityRendererFactory.Context context)
+	public ShurikenRender(EntityRendererProvider.Context context)
 	{
 		super(context);
-		this.itemModelResolver = context.getItemModelManager();
+		this.itemModelResolver = context.getItemModelResolver();
 	}
 
 	@Override public ShurikenRenderState createRenderState() {return new ShurikenRenderState();}
 
-	@Override public void updateRenderState(T entity, ShurikenRenderState renderState, float partialTick)
+	@Override public void extractRenderState(T entity, ShurikenRenderState renderState, float partialTick)
 	{
-		super.updateRenderState(entity, renderState, partialTick);
-		renderState.texture = getTexture(entity);
-		renderState.YRot = entity.getYaw();
-		renderState.pitchO = entity.lastPitch;
+		super.extractRenderState(entity, renderState, partialTick);
+		renderState.texture = getTextureLocation(entity);
+		renderState.YRot = entity.getYRot();
+		renderState.pitchO = entity.xRotO;
 		renderState.shurikenZRot = entity.shurikenZRot;
-		this.itemModelResolver.updateForNonLivingEntity(renderState.item, entity.getStack(), ItemDisplayContext.GROUND, entity);
+		this.itemModelResolver.updateForNonLiving(renderState.item, entity.getItem(), ItemDisplayContext.GROUND, entity);
 	}
 
-	@Override public void render(ShurikenRenderState renderState, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState)
+	@Override public void submit(ShurikenRenderState renderState, PoseStack matrices, SubmitNodeCollector queue, CameraRenderState cameraState)
 	{
-		matrices.push();
+		matrices.pushPose();
 
 		renderState.shurikenZRot -= 4;
 		if (renderState.shurikenZRot <= -360)
 		{
 			renderState.shurikenZRot = 360;
 		}
-		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(renderState.YRot)); /*Vertical plane rotation*/
-		matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(- 90.0f - renderState.pitchO)); /*Pointing to forward*/
-		matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(renderState.shurikenZRot)); /*Horizontal plane rotation*/
+		matrices.mulPose(Axis.YP.rotationDegrees(renderState.YRot)); /*Vertical plane rotation*/
+		matrices.mulPose(Axis.XP.rotationDegrees(- 90.0f - renderState.pitchO)); /*Pointing to forward*/
+		matrices.mulPose(Axis.ZP.rotationDegrees(renderState.shurikenZRot)); /*Horizontal plane rotation*/
 
-		renderState.item.render(matrices, queue, renderState.light, OverlayTexture.DEFAULT_UV, renderState.outlineColor);
-		matrices.pop();
-		super.render(renderState, matrices, queue, cameraState);
+		renderState.item.submit(matrices, queue, renderState.lightCoords, OverlayTexture.NO_OVERLAY, renderState.outlineColor);
+		matrices.popPose();
+		super.submit(renderState, matrices, queue, cameraState);
 	}
 
-	public Identifier getTexture(T entity)
+	public Identifier getTextureLocation(T entity)
 	{
 		if (entity instanceof IronShurikenEntity) {return IRON_SHURIKEN_TEXTURE;}
 		else if (entity instanceof GoldShurikenEntity) {return GOLD_SHURIKEN_TEXTURE;}

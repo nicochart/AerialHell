@@ -9,28 +9,32 @@ import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -39,22 +43,22 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
 {
     /* -- MasterPartEntity fields -- */
     public final Map<String, PartInfo> PARTS_MAP = Maps.newHashMap();
-    private static final TrackedData<Integer> HEAD_ID = DataTracker.registerData(VoluciteGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private final PartInfo HEAD = new PartInfo(AerialHellEntities.VOLUCITE_GOLEM_HEAD, "head", HEAD_ID, new Vec3d(0.0F, 2.15F, 0.0F), true, PARTS_MAP);
+    private static final EntityDataAccessor<Integer> HEAD_ID = SynchedEntityData.defineId(VoluciteGolemEntity.class, EntityDataSerializers.INT);
+    private final PartInfo HEAD = new PartInfo(AerialHellEntities.VOLUCITE_GOLEM_HEAD, "head", HEAD_ID, new Vec3(0.0F, 2.15F, 0.0F), true, PARTS_MAP);
     /* ----------------------------- */
 
-    public VoluciteGolemEntity(EntityType<? extends HostileEntity> type, World world)
+    public VoluciteGolemEntity(EntityType<? extends Monster> type, Level world)
     {
         super(type, world);
-        this.experiencePoints = 16;
+        this.xpReward = 16;
     }
 
-    @Override protected void initDataTracker(DataTracker.Builder builder)
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.initDataTracker(builder);
+        super.defineSynchedData(builder);
 
         /* -- MasterPartEntity synched data -- */
-        builder.add(HEAD_ID, 0);
+        builder.define(HEAD_ID, 0);
         /* ----------------------------------- */
     }
 
@@ -78,12 +82,12 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
             float pitch = 0.0F;
             if (headPart.getBeamTargetPos() != null)
             {
-                pitch = this.calculatePitchFromOriginToTarget(this.getEyePos(), headPart.getBeamTargetPos());
+                pitch = this.calculatePitchFromOriginToTarget(this.getEyePosition(), headPart.getBeamTargetPos());
             }
 
-            headPart.bodyYaw  = headPart.headYaw;
-            headPart.setPitch(pitch);
-            headPart.setYaw(headPart.headYaw);
+            headPart.yBodyRot  = headPart.yHeadRot;
+            headPart.setXRot(pitch);
+            headPart.setYRot(headPart.yHeadRot);
         }
         else {MasterPartEntity.super.tickHeadPartRotation(partInfo);}
     }
@@ -95,14 +99,14 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     /* ---------- MasterPartEntity : Superclass methods Overridden to delegate to interface ---------- */
     /* ----------------------------------------------------------------------------------------------- */
 
-    @Override @Nullable public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData)
+    @Override @Nullable public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData entityData)
     {
         return this.initializePart(world, difficulty, spawnReason, entityData);
     }
 
-    @Override public final boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
+    @Override public final boolean hurtServer(ServerLevel serverWorld, DamageSource source, float amount)
     {
-        boolean superDamaged = super.damage(serverWorld, source, amount);
+        boolean superDamaged = super.hurtServer(serverWorld, source, amount);
         this.partDamage(superDamaged, serverWorld, source, amount);
         return superDamaged;
     }
@@ -113,31 +117,31 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
         this.partEntityTick();
     }
 
-    @Override public void tickMovement()
+    @Override public void aiStep()
     {
-        super.tickMovement();
+        super.aiStep();
         this.partEntityTickMovement();
     }
 
-    @Override protected void writeCustomData(WriteView view)
+    @Override protected void addAdditionalSaveData(ValueOutput view)
     {
-        super.writeCustomData(view);
+        super.addAdditionalSaveData(view);
         this.partWriteCustomData(view);
     }
 
-    @Override protected void readCustomData(ReadView view)
+    @Override protected void readAdditionalSaveData(ValueInput view)
     {
-        super.readCustomData(view);
+        super.readAdditionalSaveData(view);
         this.partReadCustomData(view);
     }
 
-    @Override public void pushAwayFrom(Entity other)
+    @Override public void push(Entity other)
     {
         if (!this.partCanBePushedAwayBy(other)) {return;}
-        super.pushAwayFrom(other);
+        super.push(other);
     }
 
-    @Override public boolean isPartOf(Entity other) {return super.isPartOf(other) || this.recognizesChildPart(other);}
+    @Override public boolean is(Entity other) {return super.is(other) || this.recognizesChildPart(other);}
     /* ----------------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------------- */
@@ -146,9 +150,9 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     /* --------------------------------------------------------------------------------------------------- */
     /* ----------- MasterPartEntity : Superclass methods Overridden for part-specific behavior ----------- */
     /* --------------------------------------------------------------------------------------------------- */
-    @Override public double getEyeY() {return this.getEntityPos().y + 2.40F;}
+    @Override public double getEyeY() {return this.position().y + 2.40F;}
 
-    @Override public boolean canImmediatelyDespawn(double distanceToClosestPlayer) {return false;}
+    @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
     /* --------------------------------------------------------------------------------------------------- */
     /* --------------------------------------------------------------------------------------------------- */
     /* --------------------------------------------------------------------------------------------------- */
@@ -157,27 +161,27 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_HURT;}
     @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_WARDEN_VOLUCITE_GOLEM_DEATH;}
 
-    public static DefaultAttributeContainer.Builder registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
-        return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.MAX_HEALTH, 100.0D)
-                .add(EntityAttributes.ARMOR, 3.0D)
-                .add(EntityAttributes.ATTACK_DAMAGE, 17.0D)
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.23D)
-                .add(EntityAttributes.FOLLOW_RANGE, 48.0D);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 100.0D)
+                .add(Attributes.ARMOR, 3.0D)
+                .add(Attributes.ATTACK_DAMAGE, 17.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.23D)
+                .add(Attributes.FOLLOW_RANGE, 48.0D);
     }
 
-    @Override protected void initGoals()
+    @Override protected void registerGoals()
     {
-        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
 
         //super.initGoals(); removed super initGoals because need to remove MeleeAttackGoal to make it work (atm)
-        this.goalSelector.add(5, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
-        this.goalSelector.add(6, new ConditionalGoal(this, new WanderAroundFarGoal(this, 0.6D)));
-        this.goalSelector.add(7, new ConditionalGoal(this, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F)));
-        this.goalSelector.add(8, new ConditionalGoal(this, new LookAroundGoal(this)));
-        this.targetSelector.add(0, new RevengeGoal(this));
-        this.targetSelector.add(1, new ActiveTargetGoal<>(this, MudSoldierEntity.class, true));
+        this.goalSelector.addGoal(5, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.addGoal(6, new ConditionalGoal(this, new WaterAvoidingRandomStrollGoal(this, 0.6D)));
+        this.goalSelector.addGoal(7, new ConditionalGoal(this, new LookAtPlayerGoal(this, Player.class, 8.0F)));
+        this.goalSelector.addGoal(8, new ConditionalGoal(this, new RandomLookAroundGoal(this)));
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, MudSoldierEntity.class, true));
     }
 
     @Override public float getYMotionOnAttack() {return 0.4F;}

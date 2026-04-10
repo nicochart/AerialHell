@@ -1,47 +1,47 @@
 package fr.factionbedrock.aerialhell.Block.Furnaces;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.AbstractFurnaceBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AbstractFurnaceBlock;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Vector3d;
 
 public abstract class AbstractAerialHellFurnaceBlock extends AbstractFurnaceBlock
 {
-    protected AbstractAerialHellFurnaceBlock(AbstractBlock.Settings settings) {super(settings);}
+    protected AbstractAerialHellFurnaceBlock(BlockBehaviour.Properties settings) {super(settings);}
 
-    @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type)
+    @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type)
     {
-        return validateTicker(world, type, this.getTickerBlockEntity());
+        return createFurnaceTicker(world, type, this.getTickerBlockEntity());
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random rand)
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rand)
     {
-        if (state.get(LIT))
+        if (state.getValue(LIT))
         {
-            Vector3d pPos = getParticlePos(pos, state.get(FACING));
+            Vector3d pPos = getParticlePos(pos, state.getValue(FACING));
             Vector3d pPosOffset = getParticleRandomOffset(rand);
             Vector3d pVelocity = getParticleRandomVelocity(rand);
 
             for (int i = 0; i < this.getParticleCount(); i++)
             {
-                world.addParticleClient(this.getParticleType(), pPos.x + pPosOffset.x, pPos.y + pPosOffset.y, pPos.z + pPosOffset.z, pVelocity.x, pVelocity.y, pVelocity.z);
+                world.addParticle(this.getParticleType(), pPos.x + pPosOffset.x, pPos.y + pPosOffset.y, pPos.z + pPosOffset.z, pVelocity.x, pVelocity.y, pVelocity.z);
             }
 
             if (rand.nextDouble() < 0.1)
             {
-                world.playSoundClient(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, this.getLitSound(), SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+                world.playLocalSound(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, this.getLitSound(), SoundSource.BLOCKS, 1.0F, 1.0F, false);
             }
         }
     }
@@ -49,8 +49,8 @@ public abstract class AbstractAerialHellFurnaceBlock extends AbstractFurnaceBloc
     public abstract BlockEntityType<? extends AbstractFurnaceBlockEntity> getTickerBlockEntity();
     public abstract SoundEvent getLitSound();
     public abstract Vector3d getParticlePos(BlockPos pos, Direction direction);
-    public abstract Vector3d getParticleRandomOffset(Random rand);
-    public abstract Vector3d getParticleRandomVelocity(Random rand);
-    public abstract ParticleEffect getParticleType();
+    public abstract Vector3d getParticleRandomOffset(RandomSource rand);
+    public abstract Vector3d getParticleRandomVelocity(RandomSource rand);
+    public abstract ParticleOptions getParticleType();
     public abstract int getParticleCount();
 }

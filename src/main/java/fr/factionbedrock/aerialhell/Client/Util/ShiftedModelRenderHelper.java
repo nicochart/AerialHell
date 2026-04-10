@@ -4,9 +4,8 @@ import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
 import fr.factionbedrock.aerialhell.Client.BlockBakedModels.LazyShiftingBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
-import net.minecraft.block.*;
-import net.minecraft.client.render.model.BlockStateModel;
-
+import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.world.level.block.state.BlockState;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -20,14 +19,14 @@ public class ShiftedModelRenderHelper
     //else, returns original model
     public static BlockStateModel createAndRegisterDefaultShiftedRender(BlockStateModel originalModel, BlockState originalState)
     {
-        boolean isShiftedRenderState = originalState.get(AerialHellBooleanProperties.SHIFTED_RENDER);
+        boolean isShiftedRenderState = originalState.getValue(AerialHellBooleanProperties.SHIFTED_RENDER);
         if (isShiftedRenderState) //will need the original (* shifted *) model in the map for the shifting model lazy access. then return original
         {
             ShiftedModelRenderHelper.ORIGINAL_MODEL_MAP.put(originalState, originalModel); return originalModel;
         }
         else //create and return shifting model with lazy access to shifted model
         {
-            return ShiftedModelRenderHelper.createShiftingModel(originalModel, originalState.with(AerialHellBooleanProperties.SHIFTED_RENDER, true));
+            return ShiftedModelRenderHelper.createShiftingModel(originalModel, originalState.setValue(AerialHellBooleanProperties.SHIFTED_RENDER, true));
         }
     }
 

@@ -2,23 +2,23 @@ package fr.factionbedrock.aerialhell.Item;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class SkySoupItem extends Item //copy of net.minecraft.item.SoupItem but with sky bowl
 {
-	public SkySoupItem(Item.Settings settings) {super(settings);}
+	public SkySoupItem(Item.Properties settings) {super(settings);}
 	
-	@Override public ItemStack finishUsing(ItemStack stack, World world, LivingEntity entityLiving)
+	@Override public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity entityLiving)
 	{
-		if (stack.isOf(AerialHellItems.SHADOW_FRUIT_STEW) && !world.isClient())
+		if (stack.is(AerialHellItems.SHADOW_FRUIT_STEW) && !world.isClientSide())
 		{
 			ItemHelper.removeEffectCuredBy(entityLiving, stack);
 		}
-		ItemStack itemstack = super.finishUsing(stack, world, entityLiving);
-		return entityLiving instanceof PlayerEntity player && (player.getAbilities().creativeMode) ? itemstack : new ItemStack(AerialHellItems.SKY_BOWL);
+		ItemStack itemstack = super.finishUsingItem(stack, world, entityLiving);
+		return entityLiving instanceof Player player && (player.getAbilities().instabuild) ? itemstack : new ItemStack(AerialHellItems.SKY_BOWL);
 	}
 }

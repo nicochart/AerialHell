@@ -6,77 +6,77 @@ import fr.factionbedrock.aerialhell.BlockEntity.ReactorBlockEntity;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 import org.joml.Vector3d;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class ReactorBlock extends BiomeShifterBlock
 {
-    public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
-    public static final MapCodec<ReactorBlock> CODEC = createCodec(ReactorBlock::new);
+    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+    public static final MapCodec<ReactorBlock> CODEC = simpleCodec(ReactorBlock::new);
 
-    private ReactorBlock(AbstractBlock.Settings settings) {this(settings, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null);}
-    public ReactorBlock(AbstractBlock.Settings settings, int fieldSize, BiomeShifter.ShiftType shiftType, @Nullable Supplier<Block> shiftedOrBrokenVariant)
+    private ReactorBlock(BlockBehaviour.Properties settings) {this(settings, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null);}
+    public ReactorBlock(BlockBehaviour.Properties settings, int fieldSize, BiomeShifter.ShiftType shiftType, @Nullable Supplier<Block> shiftedOrBrokenVariant)
     {
         super(settings, fieldSize, shiftType, shiftedOrBrokenVariant);
-        this.setDefaultState(this.stateManager.getDefaultState().with(ACTIVE, Boolean.FALSE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, Boolean.FALSE));
     }
 
-    @Override protected MapCodec<? extends ReactorBlock> getCodec() {return CODEC;}
-    @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(ACTIVE);}
+    @Override protected MapCodec<? extends ReactorBlock> codec() {return CODEC;}
+    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(ACTIVE);}
 
-    @Nullable @Override public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {return new ReactorBlockEntity(pos, state, this.fieldSize, this.shiftType, this.getShiftedOrBrokenVariant());}
+    @Nullable @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new ReactorBlockEntity(pos, state, this.fieldSize, this.shiftType, this.getShiftedOrBrokenVariant());}
 
-    @Override public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hitResult)
+    @Override public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult)
     {
-        if (world.isClient()) {return ActionResult.SUCCESS;}
+        if (world.isClientSide()) {return InteractionResult.SUCCESS;}
         else
         {
             this.openScreen(world, pos, player);
-            return ActionResult.CONSUME;
+            return InteractionResult.CONSUME;
         }
     }
 
-    protected void openScreen(World world, BlockPos pos, PlayerEntity player)
+    protected void openScreen(Level world, BlockPos pos, Player player)
     {
         BlockEntity blockentity = world.getBlockEntity(pos);
         if (blockentity instanceof ReactorBlockEntity reactorBlockEntity)
         {
-            player.openHandledScreen(reactorBlockEntity);
+            player.openMenu(reactorBlockEntity);
         }
     }
 
-    @Override protected void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved)
+    @Override protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel world, BlockPos pos, boolean moved)
     {
-        ItemScatterer.onStateReplaced(state, world, pos);
-        super.onStateReplaced(state, world, pos, moved);
+        Containers.updateNeighboursAfterDestroy(state, world, pos);
+        super.affectNeighborsAfterRemoval(state, world, pos, moved);
     }
 
     //sent from server because client side do not have access to activeTimer update (always 0)
-    public static void tickParticleAndSoundAnimation(ServerWorld world, BlockState state, BlockPos pos, Random rand, BiomeShifter.ShiftType shiftType)
+    public static void tickParticleAndSoundAnimation(ServerLevel world, BlockState state, BlockPos pos, RandomSource rand, BiomeShifter.ShiftType shiftType)
     {
-        if (state.get(ACTIVE) && world.getBlockEntity(pos) instanceof ReactorBlockEntity reactorBlockEntity)
+        if (state.getValue(ACTIVE) && world.getBlockEntity(pos) instanceof ReactorBlockEntity reactorBlockEntity)
         {
             float percentage = ((float) reactorBlockEntity.getActiveTimer()) / ReactorBlockEntity.MAX_ACTIVE_TIMER;
             int particleNumber = (int) (percentage * 4);
@@ -101,22 +101,22 @@ public class ReactorBlock extends BiomeShifterBlock
         }
     }
 
-    @Override public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random)
+    @Override public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random)
     {
         float randFloat = random.nextFloat();
-        if (!state.get(ACTIVE) || randFloat > 0.9F) {return;}
+        if (!state.getValue(ACTIVE) || randFloat > 0.9F) {return;}
         SoundEvent ambientSound = randFloat < 0.1F ? AerialHellSoundEvents.REACTOR_AMBIENT : AerialHellSoundEvents.REACTOR_AMBIENT_SHORT;
-        world.playSoundClient(pos.getX() + 0.5F, pos.getY(), pos.getZ() + 0.5F, ambientSound, SoundCategory.BLOCKS, 0.7F, 0.8F + random.nextFloat() * 0.6F, false);
+        world.playLocalSound(pos.getX() + 0.5F, pos.getY(), pos.getZ() + 0.5F, ambientSound, SoundSource.BLOCKS, 0.7F, 0.8F + random.nextFloat() * 0.6F, false);
     }
 
-    public static void sendReactorParticles(ServerWorld world, Vector3d pos, int number, double xOffset, double yOffset, double zOffset, double speed, BiomeShifter.ShiftType type)
+    public static void sendReactorParticles(ServerLevel world, Vector3d pos, int number, double xOffset, double yOffset, double zOffset, double speed, BiomeShifter.ShiftType type)
     {
-        ParticleEffect particle = type == BiomeShifter.ShiftType.CORRUPT ? AerialHellParticleTypes.SHADOW_LIGHT : AerialHellParticleTypes.OSCILLATOR;
-        world.spawnParticles(particle, pos.x, pos.y, pos.z, number, xOffset, yOffset, zOffset, speed);
+        ParticleOptions particle = type == BiomeShifter.ShiftType.CORRUPT ? AerialHellParticleTypes.SHADOW_LIGHT : AerialHellParticleTypes.OSCILLATOR;
+        world.sendParticles(particle, pos.x, pos.y, pos.z, number, xOffset, yOffset, zOffset, speed);
     }
 
-    @Nullable @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type)
+    @Nullable @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type)
     {
-        return world.isClient() ? null : validateTicker(type, AerialHellBlockEntities.REACTOR, ReactorBlockEntity::tick);
+        return world.isClientSide() ? null : createTickerHelper(type, AerialHellBlockEntities.REACTOR, ReactorBlockEntity::tick);
     }
 }

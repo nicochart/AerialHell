@@ -2,20 +2,19 @@ package fr.factionbedrock.aerialhell.Item;
 
 import java.util.List;
 import java.util.function.Consumer;
-
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
-import net.minecraft.component.type.TooltipDisplayComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.text.Text;
 
 public class WithInformationItem extends Item
 {
-	public WithInformationItem(Item.Settings settings) {super(settings);}
+	public WithInformationItem(Item.Properties settings) {super(settings);}
 
-	@Override public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type)
+	@Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type)
 	{
-		ItemHelper.appendItemTooltip(this.getTranslationKey(), textConsumer);
+		ItemHelper.appendItemTooltip(this.getDescriptionId(), textConsumer);
 	}
 }

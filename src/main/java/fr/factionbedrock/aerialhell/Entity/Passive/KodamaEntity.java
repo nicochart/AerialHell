@@ -6,98 +6,98 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class KodamaEntity extends AerialHellAnimalEntity
 {
-    private static final TrackedData<Integer> FACE_ID = DataTracker.registerData(KodamaEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final TrackedData<Integer> SIZE_ID = DataTracker.registerData(KodamaEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final TrackedData<Boolean> IS_RATTLING = DataTracker.registerData(KodamaEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    private static final TrackedData<Integer> RATTLING_TILT_ANGLE = DataTracker.registerData(KodamaEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final EntityDataAccessor<Integer> FACE_ID = SynchedEntityData.defineId(KodamaEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> SIZE_ID = SynchedEntityData.defineId(KodamaEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> IS_RATTLING = SynchedEntityData.defineId(KodamaEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> RATTLING_TILT_ANGLE = SynchedEntityData.defineId(KodamaEntity.class, EntityDataSerializers.INT);
     public int timeForceInvisible;
     public int rattleTimerMalus;
     public float rattleHeadRotZAmplitude;
 
-    public KodamaEntity(EntityType<? extends KodamaEntity> type, World world) {super(type, world); this.setRandomRattleTimerMalusAndHeadRotAmplitude();}
+    public KodamaEntity(EntityType<? extends KodamaEntity> type, Level world) {super(type, world); this.setRandomRattleTimerMalusAndHeadRotAmplitude();}
 
-    public static boolean canSpawn(EntityType<? extends AerialHellAnimalEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random randomIn)
+    public static boolean canSpawn(EntityType<? extends AerialHellAnimalEntity> type, ServerLevelAccessor world, EntitySpawnReason reason, BlockPos pos, RandomSource randomIn)
     {
-        return world.getBlockState(pos.down()).isIn(AerialHellTags.Blocks.STELLAR_DIRT);
+        return world.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT);
     }
 
-    @Override public EntityData initialize(ServerWorldAccess serverWorldAccess, LocalDifficulty difficulty, SpawnReason reason, @Nullable EntityData spawnGroupData)
+    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorldAccess, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData spawnGroupData)
     {
         this.setRandomFaceAndSize();
         this.setRattling(false);
-        return super.initialize(serverWorldAccess, difficulty, reason, spawnGroupData);
+        return super.finalizeSpawn(serverWorldAccess, difficulty, reason, spawnGroupData);
     }
 
-    @Override protected void initGoals()
+    @Override protected void registerGoals()
     {
-        this.goalSelector.add(0, new KodamaRattleGoal(this));
-        super.initGoals();
+        this.goalSelector.addGoal(0, new KodamaRattleGoal(this));
+        super.registerGoals();
     }
 
-    @Override protected void initDataTracker(DataTracker.Builder builder)
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.initDataTracker(builder);
-        builder.add(FACE_ID, 1);
-        builder.add(SIZE_ID, 1);
-        builder.add(IS_RATTLING, false);
-        builder.add(RATTLING_TILT_ANGLE, 0);
+        super.defineSynchedData(builder);
+        builder.define(FACE_ID, 1);
+        builder.define(SIZE_ID, 1);
+        builder.define(IS_RATTLING, false);
+        builder.define(RATTLING_TILT_ANGLE, 0);
     }
 
-    public static DefaultAttributeContainer.Builder registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
         return AerialHellAnimalEntity.createLivingAttributes()
-                .add(EntityAttributes.MAX_HEALTH, 30.0D)
-                .add(EntityAttributes.FOLLOW_RANGE, 16.0D)
-                .add(EntityAttributes.TEMPT_RANGE, 10.0D)
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.26);
+                .add(Attributes.MAX_HEALTH, 30.0D)
+                .add(Attributes.FOLLOW_RANGE, 16.0D)
+                .add(Attributes.TEMPT_RANGE, 10.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.26);
     }
 
-    @Override public boolean damage(ServerWorld serverWorld, DamageSource damageSource, float amount)
+    @Override public boolean hurtServer(ServerLevel serverWorld, DamageSource damageSource, float amount)
     {
         this.timeForceInvisible = getMaxTimeForceInvisible();
-        return super.damage(serverWorld, damageSource, amount);
+        return super.hurtServer(serverWorld, damageSource, amount);
     }
 
-    @Nullable @Override public PassiveEntity createChild(ServerWorld serverWorld, PassiveEntity mob)
+    @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob mob)
     {
-        return AerialHellEntities.KODAMA.create(this.getEntityWorld(), SpawnReason.BREEDING);
+        return AerialHellEntities.KODAMA.create(this.level(), EntitySpawnReason.BREEDING);
     }
 
-    public int getFaceId() {return this.getDataTracker().get(FACE_ID);}
-    public void setFaceId(int id) {this.getDataTracker().set(FACE_ID, id);}
-    public int getSizeId() {return this.getDataTracker().get(SIZE_ID);}
-    public void setSizeId(int id) {this.getDataTracker().set(SIZE_ID, id);}
-    public boolean isRattling() {return this.getDataTracker().get(IS_RATTLING);}
-    public void setRattling(boolean b) {this.getDataTracker().set(IS_RATTLING, b);}
-    public int getRattlingTiltAngle() {return this.getDataTracker().get(RATTLING_TILT_ANGLE);}
-    public void setRattlingTiltAngle(int value) {this.getDataTracker().set(RATTLING_TILT_ANGLE, value);}
+    public int getFaceId() {return this.getEntityData().get(FACE_ID);}
+    public void setFaceId(int id) {this.getEntityData().set(FACE_ID, id);}
+    public int getSizeId() {return this.getEntityData().get(SIZE_ID);}
+    public void setSizeId(int id) {this.getEntityData().set(SIZE_ID, id);}
+    public boolean isRattling() {return this.getEntityData().get(IS_RATTLING);}
+    public void setRattling(boolean b) {this.getEntityData().set(IS_RATTLING, b);}
+    public int getRattlingTiltAngle() {return this.getEntityData().get(RATTLING_TILT_ANGLE);}
+    public void setRattlingTiltAngle(int value) {this.getEntityData().set(RATTLING_TILT_ANGLE, value);}
 
     public int getMaxRattlingTiltAngle() {return 20;}
     public int getMaxTimeForceInvisible() {return 200;}
@@ -110,14 +110,14 @@ public class KodamaEntity extends AerialHellAnimalEntity
 
     private void setRandomRattleTimerMalusAndHeadRotAmplitude()
     {
-        this.rattleTimerMalus = random.nextBetweenExclusive(300, 600);
+        this.rattleTimerMalus = random.nextInt(300, 600);
         int negative_or_positive = this.random.nextInt(2) == 0 ? -1 : 1;
         this.rattleHeadRotZAmplitude = negative_or_positive * (5 + this.random.nextInt(5)) / 10.0F;
     }
 
     @Override public void tick()
     {
-        if (this.age % 6000 == 0 && !this.isRattling()) {this.setRandomRattleTimerMalusAndHeadRotAmplitude();}
+        if (this.tickCount % 6000 == 0 && !this.isRattling()) {this.setRandomRattleTimerMalusAndHeadRotAmplitude();}
         if (this.timeForceInvisible > 0) {this.timeForceInvisible--;}
         else if (detectNearbyDanger()) {this.timeForceInvisible = getMaxTimeForceInvisible();}
         super.tick();
@@ -125,10 +125,10 @@ public class KodamaEntity extends AerialHellAnimalEntity
 
     protected boolean detectNearbyDanger() //return true if there is any nearby danger
     {
-        List<Entity> nearbyEntities = this.getEntityWorld().getOtherEntities(this, this.getBoundingBox().expand(10), EntityPredicates.maxDistance(this.getX(), this.getY(), this.getZ(), 5));
+        List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(10), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 5));
         for (Entity entity : nearbyEntities)
         {
-            if (entity instanceof PlayerEntity player && !EntityHelper.isCreaOrSpecPlayer(player)) {return true;}
+            if (entity instanceof Player player && !EntityHelper.isCreaOrSpecPlayer(player)) {return true;}
         }
         return false;
     }
@@ -138,29 +138,29 @@ public class KodamaEntity extends AerialHellAnimalEntity
     @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_KODAMA_DEATH;}
     protected SoundEvent getRattleSound() {return AerialHellSoundEvents.ENTITY_KODAMA_RATTLE;}
 
-    @Override public int getMinAmbientSoundDelay() {return 420;}
+    @Override public int getAmbientSoundInterval() {return 420;}
 
     public void playRattleSound()
     {
         SoundEvent soundevent = this.getRattleSound();
-        if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getSoundPitch());}
+        if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getVoicePitch());}
     }
 
-    @Override protected void writeCustomData(WriteView view)
+    @Override protected void addAdditionalSaveData(ValueOutput view)
     {
-        super.writeCustomData(view);
+        super.addAdditionalSaveData(view);
         view.putInt("FaceId", this.getFaceId());
         view.putInt("SizeId", this.getSizeId());
         view.putBoolean("IsRattling", this.isRattling());
         view.putInt("TiltAngle", this.getRattlingTiltAngle());
     }
 
-    @Override protected void readCustomData(ReadView view)
+    @Override protected void readAdditionalSaveData(ValueInput view)
     {
-        super.readCustomData(view);
-        if (view.getOptionalInt("FaceId").isPresent()) {this.setFaceId(view.getOptionalInt("FaceId").get());}
-        if (view.getOptionalInt("SizeId").isPresent()) {this.setSizeId(view.getOptionalInt("SizeId").get());}
-        this.setRattling(view.getBoolean("IsRattling", false));
-        if (view.getOptionalInt("TiltAngle").isPresent()) {this.setRattlingTiltAngle(view.getOptionalInt("TiltAngle").get());}
+        super.readAdditionalSaveData(view);
+        if (view.getInt("FaceId").isPresent()) {this.setFaceId(view.getInt("FaceId").get());}
+        if (view.getInt("SizeId").isPresent()) {this.setSizeId(view.getInt("SizeId").get());}
+        this.setRattling(view.getBooleanOr("IsRattling", false));
+        if (view.getInt("TiltAngle").isPresent()) {this.setRattlingTiltAngle(view.getInt("TiltAngle").get());}
     }
 }

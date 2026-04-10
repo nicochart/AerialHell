@@ -4,33 +4,33 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.MudSoldierRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
-import net.minecraft.client.render.entity.AbstractSkeletonEntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.entity.AbstractSkeletonRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.Identifier;
 
-public class MudSoldierRender<E extends MudSoldierEntity> extends AbstractSkeletonEntityRenderer<E, MudSoldierRenderState>
+public class MudSoldierRender<E extends MudSoldierEntity> extends AbstractSkeletonRenderer<E, MudSoldierRenderState>
 {
 	private static String name = "mud_soldier";
-	private static final Identifier NORMAL = Identifier.of(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
-	private static final Identifier SPECTRAL = Identifier.of(AerialHell.MODID, "textures/entity/" + name + "/mud_spectral_soldier.png");
+	private static final Identifier NORMAL = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+	private static final Identifier SPECTRAL = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/mud_spectral_soldier.png");
 	
-    public MudSoldierRender(EntityRendererFactory.Context context)
+    public MudSoldierRender(EntityRendererProvider.Context context)
 	{
-		super(context, EntityModelLayers.SKELETON, EntityModelLayers.SKELETON_EQUIPMENT);
+		super(context, ModelLayers.SKELETON, ModelLayers.SKELETON_ARMOR);
 	}
 
 	@Override public MudSoldierRenderState createRenderState() {return new MudSoldierRenderState();}
 
-	@Override public void updateRenderState(E entity, MudSoldierRenderState renderState, float partialTick)
+	@Override public void extractRenderState(E entity, MudSoldierRenderState renderState, float partialTick)
 	{
-		super.updateRenderState(entity, renderState, partialTick);
-		renderState.texture = getTexture(entity);
+		super.extractRenderState(entity, renderState, partialTick);
+		renderState.texture = getTextureLocation(entity);
 	}
 
-	@Override public Identifier getTexture(MudSoldierRenderState renderState) {return renderState.texture;}
+	@Override public Identifier getTextureLocation(MudSoldierRenderState renderState) {return renderState.texture;}
 
-	public Identifier getTexture(E entity)
+	public Identifier getTextureLocation(E entity)
     {
 		if (entity instanceof MudSpectralSoldierEntity) {return SPECTRAL;}
 		else {return NORMAL;}

@@ -3,17 +3,16 @@ package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
-import net.minecraft.block.Block;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
-import net.minecraft.world.gen.feature.util.FeatureContext;
-
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 public class PurpleSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 {
@@ -22,14 +21,14 @@ public class PurpleSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 	protected int getSmallMinSize() {return 2;} protected int getSmallMaxSize() {return 3;}
 	protected Block getEtherBlock() {return AerialHellBlocks.PURPLE_SOLID_ETHER;}
 
-	public PurpleSolidEtherCloudFeature(Codec<DefaultFeatureConfig> codec) {super(codec);}
+	public PurpleSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
-	@Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.PURPLE_SOLID_ETHER_LIST;}
+	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.PURPLE_SOLID_ETHER_LIST;}
 
-	@Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
+	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
 		if (!this.isDungeonSensitiveValid(context)) {return false;}
-		BlockPos pos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom(); ChunkGenerator generator = context.getGenerator();
+		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
     	
 		BlockPos generatePos = pos;
 		if (pos.getY() < getMinGenHeigh() || pos.getY() >  getMaxGenHeigh()) {generatePos = getRandomHeighGenerationPos(pos.getX(), getMinGenHeigh(), getMaxGenHeigh(), pos.getZ(), rand);}

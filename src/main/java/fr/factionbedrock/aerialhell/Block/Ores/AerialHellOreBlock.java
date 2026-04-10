@@ -1,13 +1,13 @@
 package fr.factionbedrock.aerialhell.Block.Ores;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.ExperienceDroppingBlock;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.level.block.DropExperienceBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
-public class AerialHellOreBlock extends ExperienceDroppingBlock
+public class AerialHellOreBlock extends DropExperienceBlock
 {
-	public AerialHellOreBlock(int minExpDropped, int maxExpDropped, AbstractBlock.Settings settings)
+	public AerialHellOreBlock(int minExpDropped, int maxExpDropped, BlockBehaviour.Properties settings)
 	{
-		super(UniformIntProvider.create(minExpDropped, maxExpDropped), settings);
+		super(UniformInt.of(minExpDropped, maxExpDropped), settings);
 	}
 }

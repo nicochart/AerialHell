@@ -1,25 +1,25 @@
 package fr.factionbedrock.aerialhell.Item.Material;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import net.minecraft.item.equipment.EquipmentAsset;
-import net.minecraft.item.equipment.EquipmentAssetKeys;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.equipment.EquipmentAsset;
+import net.minecraft.world.item.equipment.EquipmentAssets;
 
 public class AerialHellEquipmentAssets
 {
-    public static RegistryKey<EquipmentAsset> RUBY = createId("ruby");
-    public static RegistryKey<EquipmentAsset> AZURITE = createId("azurite");
-    public static RegistryKey<EquipmentAsset> MAGMATIC_GEL = createId("magmatic_gel");
-    public static RegistryKey<EquipmentAsset> OBSIDIAN = createId("obsidian");
-    public static RegistryKey<EquipmentAsset> VOLUCITE = createId("volucite");
-    public static RegistryKey<EquipmentAsset> LUNATIC = createId("lunatic");
-    public static RegistryKey<EquipmentAsset> SHADOW = createId("shadow");
-    public static RegistryKey<EquipmentAsset> ARSONIST = createId("arsonist");
+    public static ResourceKey<EquipmentAsset> RUBY = createId("ruby");
+    public static ResourceKey<EquipmentAsset> AZURITE = createId("azurite");
+    public static ResourceKey<EquipmentAsset> MAGMATIC_GEL = createId("magmatic_gel");
+    public static ResourceKey<EquipmentAsset> OBSIDIAN = createId("obsidian");
+    public static ResourceKey<EquipmentAsset> VOLUCITE = createId("volucite");
+    public static ResourceKey<EquipmentAsset> LUNATIC = createId("lunatic");
+    public static ResourceKey<EquipmentAsset> SHADOW = createId("shadow");
+    public static ResourceKey<EquipmentAsset> ARSONIST = createId("arsonist");
 
     //copy of net.minecraft.world.item.equipment.EquipmentAssets createId method
-    static RegistryKey<EquipmentAsset> createId(String name)
+    static ResourceKey<EquipmentAsset> createId(String name)
     {
-        return RegistryKey.of(EquipmentAssetKeys.REGISTRY_KEY, Identifier.of(AerialHell.MODID, name));
+        return ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));
     }
 }

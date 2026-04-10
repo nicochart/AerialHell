@@ -2,26 +2,25 @@ package fr.factionbedrock.aerialhell.World.Features;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.FeatureConfig;
-import net.minecraft.world.gen.feature.util.FeatureContext;
-
 import java.util.List;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 
 public interface DungeonSensitiveFeatureCheck
 {
-    default boolean isDungeonSensitiveValid(FeatureContext<? extends FeatureConfig> context)
+    default boolean isDungeonSensitiveValid(FeaturePlaceContext<? extends FeatureConfiguration> context)
     {
-        Registry<ConfiguredFeature<?, ?>> registry = context.getWorld().getRegistryManager().getOrThrow(RegistryKeys.CONFIGURED_FEATURE);
+        Registry<ConfiguredFeature<?, ?>> registry = context.level().registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE);
 
-        for (RegistryKey<ConfiguredFeature<?, ?>> key : this.getAssociatedConfiguredFeatures())
+        for (ResourceKey<ConfiguredFeature<?, ?>> key : this.getAssociatedConfiguredFeatures())
         {
-            RegistryEntry.Reference<ConfiguredFeature<?, ?>> holder = registry.getOrThrow(key);
-            if (holder.isIn(AerialHellTags.ConfiguredFeatures.CANT_PLACE_IN_DUNGEONS))
+            Holder.Reference<ConfiguredFeature<?, ?>> holder = registry.getOrThrow(key);
+            if (holder.is(AerialHellTags.ConfiguredFeatures.CANT_PLACE_IN_DUNGEONS))
             {
                 if (FeatureHelper.isFeatureGeneratingNextToDungeon(context)) {return false;}
                 else {return true;} //if the feature is not generating next to a dungeon, it can generate, whatever is the configured feature
@@ -30,5 +29,5 @@ public interface DungeonSensitiveFeatureCheck
         return true;
     }
 
-    List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures();
+    List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures();
 }

@@ -6,33 +6,32 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.World.Features.Config.CrystalBlobConfig;
-import net.minecraft.block.BlockState;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.minecraft.world.gen.stateprovider.BlockStateProvider;
-
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 public class LittleCrystalBlobInDarKAreasFeature extends Feature<CrystalBlobConfig> implements DungeonSensitiveFeatureCheck
 {
 	public LittleCrystalBlobInDarKAreasFeature(Codec<CrystalBlobConfig> codec) {super(codec);}
 
-	@Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LITTLE_CRYSTAL_BLOB_IN_DARK_AREAS_LIST;}
+	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LITTLE_CRYSTAL_BLOB_IN_DARK_AREAS_LIST;}
 
-	@Override public boolean generate(FeatureContext<CrystalBlobConfig> context)
+	@Override public boolean place(FeaturePlaceContext<CrystalBlobConfig> context)
 	{
-		BlockStateProvider blockProvider = context.getConfig().crystalStateProvider();
-		BlockPos pos = context.getOrigin(); StructureWorldAccess world = context.getWorld(); Random rand = context.getRandom();
+		BlockStateProvider blockProvider = context.config().crystalStateProvider();
+		BlockPos pos = context.origin(); WorldGenLevel world = context.level(); RandomSource rand = context.random();
 		int x = pos.getX(), y=10, z=pos.getZ();
 		int ymax = 160;
 		BlockPos blockpos;
-		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
+		BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 		mutablePos.set(new BlockPos(x, y, z));
 		boolean hasSupport = false;
 		while (!hasSupport && y < ymax)
@@ -47,41 +46,41 @@ public class LittleCrystalBlobInDarKAreasFeature extends Feature<CrystalBlobConf
 		if (rand.nextInt(160) < y) {return false;}
 		if (!this.isDungeonSensitiveValid(context)) {return false;}
 
-		world.setBlockState(pos, blockProvider.get(rand, pos), 2);
+		world.setBlock(pos, blockProvider.getState(rand, pos), 2);
         for(int i = 0; i < 300; ++i)
         {
-        	blockpos = pos.add(rand.nextInt(2) - rand.nextInt(2), rand.nextInt(5), rand.nextInt(2) - rand.nextInt(2)); //55855
+        	blockpos = pos.offset(rand.nextInt(2) - rand.nextInt(2), rand.nextInt(5), rand.nextInt(2) - rand.nextInt(2)); //55855
 
-            if (world.isAir(blockpos))
+            if (world.isEmptyBlock(blockpos))
             {
             	int j = 0;
 
 	            for(Direction direction : Direction.values())
 	            {
-		            if (world.getBlockState(blockpos.offset(direction)).isIn(AerialHellTags.Blocks.NATURAL_CRYSTAL_BLOCK)) {++j;}
+		            if (world.getBlockState(blockpos.relative(direction)).is(AerialHellTags.Blocks.NATURAL_CRYSTAL_BLOCK)) {++j;}
 
 		            if (j > 1) {break;}
 	            }
 
-	            if (j == 1) {world.setBlockState(blockpos, blockProvider.get(rand, blockpos), 2);}
+	            if (j == 1) {world.setBlock(blockpos, blockProvider.getState(rand, blockpos), 2);}
             }
         }
 	    return true;
 	}
 	
-	private boolean hasSupportToGenerate(BlockPos pos, StructureWorldAccess reader)
+	private boolean hasSupportToGenerate(BlockPos pos, WorldGenLevel reader)
 	{
-		BlockState blockstateDown = reader.getBlockState(pos.down());
+		BlockState blockstateDown = reader.getBlockState(pos.below());
 		if (isValidFloorState(blockstateDown) && hasAirColumnAbove(pos, reader, 4)) {return true;}
 		else {return false;}
 	}
 		
 	private boolean isValidFloorState(BlockState state)
 	{
-		return state.isIn(AerialHellTags.Blocks.STELLAR_DIRT) || state.isOf(AerialHellBlocks.SLIPPERY_SAND);
+		return state.is(AerialHellTags.Blocks.STELLAR_DIRT) || state.is(AerialHellBlocks.SLIPPERY_SAND);
 	}
 	
-	private boolean squareHasRoof(BlockPos pos, StructureWorldAccess reader)
+	private boolean squareHasRoof(BlockPos pos, WorldGenLevel reader)
 	{
 		int x,z;
 		BlockPos blockpos;
@@ -89,27 +88,27 @@ public class LittleCrystalBlobInDarKAreasFeature extends Feature<CrystalBlobConf
 		{
 			for (z=-4;z<5;z++)
 			{
-				blockpos = pos.add(x, 0, z);
+				blockpos = pos.offset(x, 0, z);
 				if (!hasAnyBlockAbove(blockpos, reader)) {return false;}
 			}
 		}
 		return true;
 	}
 	
-	private boolean hasAnyBlockAbove(BlockPos pos, StructureWorldAccess reader)
+	private boolean hasAnyBlockAbove(BlockPos pos, WorldGenLevel reader)
 	{
-		for (BlockPos blockpos = pos.up(); blockpos.getY() < 250; blockpos = blockpos.up())
+		for (BlockPos blockpos = pos.above(); blockpos.getY() < 250; blockpos = blockpos.above())
 		{
-			if (!reader.isAir(blockpos)) {return true;}
+			if (!reader.isEmptyBlock(blockpos)) {return true;}
 		}
 		return false;
 	}
 	
-	private boolean hasAirColumnAbove(BlockPos pos, StructureWorldAccess reader, int dy)
+	private boolean hasAirColumnAbove(BlockPos pos, WorldGenLevel reader, int dy)
 	{
-		for (BlockPos blockpos = pos.up(); blockpos.getY() < pos.getY()+dy; blockpos = blockpos.up())
+		for (BlockPos blockpos = pos.above(); blockpos.getY() < pos.getY()+dy; blockpos = blockpos.above())
 		{
-			if (!reader.isAir(blockpos)) {return false;}
+			if (!reader.isEmptyBlock(blockpos)) {return false;}
 		}
 		return true;
 	}

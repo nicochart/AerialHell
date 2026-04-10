@@ -5,27 +5,26 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.World.Features.Config.FloorTransformationConfig;
-import net.minecraft.block.BlockState;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.util.FeatureContext;
-
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 public class FloorTransformationFeature extends Feature<FloorTransformationConfig> implements DungeonSensitiveFeatureCheck
 {
 	public FloorTransformationFeature(Codec<FloorTransformationConfig> codec) {super(codec);}
 
-	@Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FLOOR_TRANSFORMATION_LIST;}
+	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FLOOR_TRANSFORMATION_LIST;}
 
-	@Override public boolean generate(FeatureContext<FloorTransformationConfig> context)
+	@Override public boolean place(FeaturePlaceContext<FloorTransformationConfig> context)
 	{
-		FloorTransformationConfig config = context.getConfig(); StructureWorldAccess level = context.getWorld(); Random rand = context.getRandom();
-		BlockPos placementPos, origin = context.getOrigin();
+		FloorTransformationConfig config = context.config(); WorldGenLevel level = context.level(); RandomSource rand = context.random();
+		BlockPos placementPos, origin = context.origin();
 		BlockState placementState;
 
 		int sizeX = getRandomEllipsisSize(context), sizeZ = getRandomEllipsisSize(context);
@@ -47,7 +46,7 @@ public class FloorTransformationFeature extends Feature<FloorTransformationConfi
 							if (type != PlacementType.NONE)
 							{
 								placementState = getPlacementState(context, placementPos, type);
-								level.setBlockState(placementPos, placementState, 2);
+								level.setBlock(placementPos, placementState, 2);
 							}
 	            			y += 7; //if we found stellar grass block <=> we found surface, skip other y values
 	            		}
@@ -59,19 +58,19 @@ public class FloorTransformationFeature extends Feature<FloorTransformationConfi
 		else {return false;}
 	}
 
-	private int getRandomEllipsisSize(FeatureContext<FloorTransformationConfig> context)
+	private int getRandomEllipsisSize(FeaturePlaceContext<FloorTransformationConfig> context)
 	{
-		FloorTransformationConfig config = context.getConfig();
+		FloorTransformationConfig config = context.config();
 		int baseSize = config.ellipsisBaseSize(), randomSpread = config.ellipsisRandomSpreading();
-		return randomSpread > 0 ? baseSize + context.getRandom().nextBetweenExclusive(-randomSpread, randomSpread) : baseSize;
+		return randomSpread > 0 ? baseSize + context.random().nextInt(-randomSpread, randomSpread) : baseSize;
 	}
 
 	protected enum PlacementType {NONE, INNER, OUTER}
 
-	protected PlacementType shouldPlace(FeatureContext<FloorTransformationConfig> context, BlockPos centerPos, int sizeX, int sizeZ, BlockPos placementPos)
+	protected PlacementType shouldPlace(FeaturePlaceContext<FloorTransformationConfig> context, BlockPos centerPos, int sizeX, int sizeZ, BlockPos placementPos)
 	{
-		float innerChance = context.getConfig().innerChance(), outerChance = context.getConfig().outerChance();
-		float random = context.getRandom().nextFloat();
+		float innerChance = context.config().innerChance(), outerChance = context.config().outerChance();
+		float random = context.random().nextFloat();
 		if (isInsideEllipsis(centerPos, (int) (sizeX * 3.0/4.0), (int) (sizeZ * 3.0/4.0), placementPos))
 		{
 			if (random <= innerChance) {return PlacementType.INNER;}
@@ -90,34 +89,34 @@ public class FloorTransformationFeature extends Feature<FloorTransformationConfi
 		return (x - xc) * (x - xc) + (z - zc) * (z - zc) < sizeX * sizeZ;
 	}
 
-	protected BlockState getPlacementState(FeatureContext<FloorTransformationConfig> context, BlockPos pos, PlacementType type)
+	protected BlockState getPlacementState(FeaturePlaceContext<FloorTransformationConfig> context, BlockPos pos, PlacementType type)
 	{
-		FloorTransformationConfig config = context.getConfig(); Random rand = context.getRandom();
-		return type == PlacementType.INNER ? config.innerStateProvider().get(rand, pos) : config.outerStateProvider().get(rand, pos);
+		FloorTransformationConfig config = context.config(); RandomSource rand = context.random();
+		return type == PlacementType.INNER ? config.innerStateProvider().getState(rand, pos) : config.outerStateProvider().getState(rand, pos);
 	}
 
-	protected boolean canGenerate(FeatureContext<FloorTransformationConfig> context, BlockPos pos)
+	protected boolean canGenerate(FeaturePlaceContext<FloorTransformationConfig> context, BlockPos pos)
 	{
-		return (isValidSupport(pos, context.getWorld()) || isValidSupport(pos.down(), context.getWorld())) && hasRoofIfNeeded(context, pos);
+		return (isValidSupport(pos, context.level()) || isValidSupport(pos.below(), context.level())) && hasRoofIfNeeded(context, pos);
 	}
 
-	protected boolean isValidSupport(BlockPos pos, StructureWorldAccess level)
+	protected boolean isValidSupport(BlockPos pos, WorldGenLevel level)
 	{
-		return level.isAir(pos.up()) && isReplaceable(level.getBlockState(pos));
+		return level.isEmptyBlock(pos.above()) && isReplaceable(level.getBlockState(pos));
 	}
 
-	protected boolean hasRoofIfNeeded(FeatureContext<FloorTransformationConfig> context, BlockPos pos)
+	protected boolean hasRoofIfNeeded(FeaturePlaceContext<FloorTransformationConfig> context, BlockPos pos)
 	{
-		return !context.getConfig().needsRoof().equals("true") || hasAnyBlockAbove(pos, context.getWorld());
+		return !context.config().needsRoof().equals("true") || hasAnyBlockAbove(pos, context.level());
 	}
 
-	protected boolean isReplaceable(BlockState state) {return state.isIn(AerialHellTags.Blocks.STELLAR_DIRT);}
+	protected boolean isReplaceable(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_DIRT);}
 
-	protected boolean hasAnyBlockAbove(BlockPos pos, StructureWorldAccess level)
+	protected boolean hasAnyBlockAbove(BlockPos pos, WorldGenLevel level)
 	{
-		for (BlockPos blockpos1 = pos.up(); blockpos1.getY() < 250; blockpos1 = blockpos1.up())
+		for (BlockPos blockpos1 = pos.above(); blockpos1.getY() < 250; blockpos1 = blockpos1.above())
 		{
-			if (!level.isAir(blockpos1)) {return true;}
+			if (!level.isEmptyBlock(blockpos1)) {return true;}
 		}
 		return false;
 	}

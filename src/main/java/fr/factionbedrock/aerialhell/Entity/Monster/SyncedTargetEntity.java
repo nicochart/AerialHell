@@ -1,9 +1,9 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.BaseMobEntityInterface;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.TrackedData;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import org.jspecify.annotations.Nullable;
 
 public interface SyncedTargetEntity extends BaseMobEntityInterface
@@ -41,9 +41,9 @@ public interface SyncedTargetEntity extends BaseMobEntityInterface
     //always returning false basically returns back for vanilla. Client target will be null.
     default boolean attackTargetNeedsSync()
     {
-        if (!this.getLevel().isClient() && this.getSelf().getTarget() != this.getCachedAttackTarget()) {return true;} //server side : if real target is != from cached target
+        if (!this.getLevel().isClientSide() && this.getSelf().getTarget() != this.getCachedAttackTarget()) {return true;} //server side : if real target is != from cached target
 
-        LivingEntity target = this.getLevel().isClient() ? this.getCachedAttackTarget() : this.getSelf().getTarget();
+        LivingEntity target = this.getLevel().isClientSide() ? this.getCachedAttackTarget() : this.getSelf().getTarget();
         if (target == null) {return this.hasAttackTargetEntityId();} //if target is null but synced id exists
         else {return target.getId() != this.getAttackTargetEntityId();} //if target exists & synced id is not corresponding
     }
@@ -55,12 +55,12 @@ public interface SyncedTargetEntity extends BaseMobEntityInterface
     //client will update its cached attack target (with the new id) on the next call.
     default void syncAttackTarget()
     {
-        if (this.getLevel().isClient()) //Client side
+        if (this.getLevel().isClientSide()) //Client side
         {
             if (!this.hasAttackTargetEntityId()) {this.setCachedAttackTarget(null);}
             else
             {
-                Entity entity = this.getLevel().getEntityById(this.getAttackTargetEntityId());
+                Entity entity = this.getLevel().getEntity(this.getAttackTargetEntityId());
                 if (entity instanceof LivingEntity livingEntity) {this.setCachedAttackTarget(livingEntity);}
             }
         }
@@ -79,7 +79,7 @@ public interface SyncedTargetEntity extends BaseMobEntityInterface
         }
     }
 
-    default TrackedData<Integer> getAttackTargetEntityIdData() {return this.getSyncedTargetEntityInfo().attackTargetIdDataAccessor;};
+    default EntityDataAccessor<Integer> getAttackTargetEntityIdData() {return this.getSyncedTargetEntityInfo().attackTargetIdDataAccessor;};
     default @Nullable LivingEntity getCachedAttackTarget() {return this.getSyncedTargetEntityInfo().cachedAttackTarget;}
     default void setCachedAttackTarget(@Nullable LivingEntity entity) {this.getSyncedTargetEntityInfo().cachedAttackTarget = entity;}
 
@@ -90,10 +90,10 @@ public interface SyncedTargetEntity extends BaseMobEntityInterface
 
     class SyncedTargetEntityInfo
     {
-        private final TrackedData<Integer> attackTargetIdDataAccessor;
+        private final EntityDataAccessor<Integer> attackTargetIdDataAccessor;
         private @Nullable LivingEntity cachedAttackTarget;
 
-        public SyncedTargetEntityInfo(TrackedData<Integer> attackTargetIdDataAccessor)
+        public SyncedTargetEntityInfo(EntityDataAccessor<Integer> attackTargetIdDataAccessor)
         {
             this.attackTargetIdDataAccessor = attackTargetIdDataAccessor;
         }

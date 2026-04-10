@@ -5,14 +5,14 @@ import fr.factionbedrock.aerialhell.Item.StructureVoidPlacerItem;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellComponents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.network.ServerPlayerInteractionManager;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerPlayerGameMode;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,23 +20,23 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ServerPlayerInteractionManager.class)
+@Mixin(ServerPlayerGameMode.class)
 public class ServerPlayerInteractionManagerMixin
 {
-    @Shadow @Final private ServerPlayerEntity player;
-    @Shadow @Final private ServerWorld world;
+    @Shadow @Final private ServerPlayer player;
+    @Shadow @Final private ServerLevel level;
 
-    @Inject(method = "tryBreakBlock", at = @At(value = "HEAD"))
+    @Inject(method = "destroyBlock", at = @At(value = "HEAD"))
     private void afterBlockBreak(BlockPos pos, CallbackInfoReturnable<Boolean> cir)
     {
-        if (!world.isClient())
+        if (!level.isClientSide())
         {
-            BlockState state = world.getBlockState(pos);
-            ItemStack stack = player.getMainHandStack();
+            BlockState state = level.getBlockState(pos);
+            ItemStack stack = player.getMainHandItem();
             if (stack.getItem() instanceof StructureVoidPlacerItem && EntityHelper.isCreativePlayer(player))
             {
                 stack.set(AerialHellComponents.PLACER_RADIUS_COMPONENT, 0);
-                BlockPos.Mutable mutablePos = new BlockPos.Mutable();
+                BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
                 int dx,dy,dz,radius=5;
                 for (dx = -radius; dx <= radius; dx++)
                 {
@@ -48,12 +48,12 @@ public class ServerPlayerInteractionManagerMixin
 
                             mutablePos.set(pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz);
 
-                            if (!world.getBlockState(mutablePos).isOf(AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK)) continue;
-                            if (!(world.getBlockEntity(mutablePos) instanceof IntangibleTemporaryBlockEntity intangibleTemporaryBlockEntity)) continue;
-                            if (intangibleTemporaryBlockEntity.getBeforeState() == null || !intangibleTemporaryBlockEntity.getBeforeState().isOf(StructureVoidPlacerItem.PLACED_BLOCKSTATE.getBlock())) continue;
+                            if (!level.getBlockState(mutablePos).is(AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK)) continue;
+                            if (!(level.getBlockEntity(mutablePos) instanceof IntangibleTemporaryBlockEntity intangibleTemporaryBlockEntity)) continue;
+                            if (intangibleTemporaryBlockEntity.getBeforeState() == null || !intangibleTemporaryBlockEntity.getBeforeState().is(StructureVoidPlacerItem.PLACED_BLOCKSTATE.getBlock())) continue;
 
-                            world.removeBlockEntity(mutablePos);
-                            world.setBlockState(mutablePos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
+                            level.removeBlockEntity(mutablePos);
+                            level.setBlock(mutablePos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
                         }
                     }
                 }

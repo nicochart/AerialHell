@@ -7,26 +7,34 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.FleeSunGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RestrictSunGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 
 public class MudCycleMageEntity extends AbstractBossEntity
 {
@@ -34,52 +42,52 @@ public class MudCycleMageEntity extends AbstractBossEntity
 	public static int timeToDie = 60;
 	private boolean forceSummoningClonesOnce = false;
 	private float damageAmountSinceLastSummon;
-	public MudCycleMageEntity(EntityType<? extends MudCycleMageEntity> type, World world)
+	public MudCycleMageEntity(EntityType<? extends MudCycleMageEntity> type, Level world)
 	{
 		super(type, world);
 		this.damageAmountSinceLastSummon = 0;
 		this.timeDying = 0;
 	}
 	
-	@Override protected void initGoals()
+	@Override protected void registerGoals()
     {
-		this.goalSelector.add(2, new AvoidSunlightGoal(this));
-		this.goalSelector.add(3, new EscapeSunlightGoal(this, 1.0D));
-		this.goalSelector.add(3, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
-		this.goalSelector.add(3, new SummonSpectralEntitiesGoal(this));
-		this.goalSelector.add(5, new ConditionalGoal(this, new WanderAroundFarGoal(this, 1.0D)));
-		this.goalSelector.add(6, new ConditionalGoal(this, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F)));
-		this.goalSelector.add(6, new ConditionalGoal(this, new LookAroundGoal(this)));
-		this.targetSelector.add(1, new RevengeGoal(this));
-		this.targetSelector.add(2, new ConditionalGoal(this, new ActiveTargetGoal<>(this, PlayerEntity.class, true)));
-		this.targetSelector.add(3, new ActiveTargetGoal<>(this, TornSpiritEntity.class, true));
-		this.goalSelector.add(4, new FleeEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
+		this.goalSelector.addGoal(2, new RestrictSunGoal(this));
+		this.goalSelector.addGoal(3, new FleeSunGoal(this, 1.0D));
+		this.goalSelector.addGoal(3, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+		this.goalSelector.addGoal(3, new SummonSpectralEntitiesGoal(this));
+		this.goalSelector.addGoal(5, new ConditionalGoal(this, new WaterAvoidingRandomStrollGoal(this, 1.0D)));
+		this.goalSelector.addGoal(6, new ConditionalGoal(this, new LookAtPlayerGoal(this, Player.class, 8.0F)));
+		this.goalSelector.addGoal(6, new ConditionalGoal(this, new RandomLookAroundGoal(this)));
+		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
+		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, TornSpiritEntity.class, true));
+		this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }
 	
-	public static DefaultAttributeContainer.Builder registerAttributes()
+	public static AttributeSupplier.Builder registerAttributes()
     {
-		return HostileEntity.createHostileAttributes()
-				.add(EntityAttributes.MAX_HEALTH, 200.0D)
-				.add(EntityAttributes.FOLLOW_RANGE, 32.0D)
-				.add(EntityAttributes.MOVEMENT_SPEED, 0.25D)
-				.add(EntityAttributes.ATTACK_DAMAGE, 3.0D);
+		return Monster.createMonsterAttributes()
+				.add(Attributes.MAX_HEALTH, 200.0D)
+				.add(Attributes.FOLLOW_RANGE, 32.0D)
+				.add(Attributes.MOVEMENT_SPEED, 0.25D)
+				.add(Attributes.ATTACK_DAMAGE, 3.0D);
     }
 	
-	@Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
+	@Override public boolean hurtServer(ServerLevel serverWorld, DamageSource source, float amount)
 	{
-		boolean flag = super.damage(serverWorld, source, amount);
+		boolean flag = super.hurtServer(serverWorld, source, amount);
 		if (flag) {this.damageAmountSinceLastSummon += amount;}
 		return flag;
 	}
 
-	@Override public boolean tryActuallyHurt(ServerWorld serverWorld, DamageSource damageSource, float amount)
+	@Override public boolean tryActuallyHurt(ServerLevel serverWorld, DamageSource damageSource, float amount)
 	{
 		return this.getPhase() != BossPhase.DYING && super.tryActuallyHurt(serverWorld, damageSource, amount);
 	}
 
-	@Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
+	@Override public boolean doHurtTarget(ServerLevel serverWorld, Entity attackedEntity)
 	{
-		return !this.isInDeadOrDyingPhase() && super.tryAttack(serverWorld, attackedEntity);
+		return !this.isInDeadOrDyingPhase() && super.doHurtTarget(serverWorld, attackedEntity);
 	}
 
 	public boolean isHealthMatchForSecondPhase() {return this.getHealth() * 2 < this.getMaxHealth();}
@@ -102,8 +110,8 @@ public class MudCycleMageEntity extends AbstractBossEntity
 	@Override public void tickDyingPhase()
 	{
 		this.timeDying++;
-		if (this.timeDying > timeToDie) {this.tryDying(this.lastDamageSource == null ? this.getDamageSources().generic() : this.lastDamageSource);}
-		if (this.age % 2 == 0) {this.makeRandomRoofBlockFall(2, 8, 2, 13);}
+		if (this.timeDying > timeToDie) {this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);}
+		if (this.tickCount % 2 == 0) {this.makeRandomRoofBlockFall(2, 8, 2, 13);}
 		this.playSummonParticles(2);
 	}
 
@@ -112,8 +120,8 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		if (nextPhase == BossPhase.SECOND_PHASE) {this.forceSummoningClonesOnce = true;}
 		if (nextPhase == BossPhase.DYING)
 		{
-			this.playSound(SoundEvents.ENTITY_WITHER_DEATH, 1.0F, 1.9F);
-			this.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, timeToDie, 10, true, false));
+			this.playSound(SoundEvents.WITHER_DEATH, 1.0F, 1.9F);
+			this.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, timeToDie, 10, true, false));
 		}
 	}
 
@@ -126,20 +134,20 @@ public class MudCycleMageEntity extends AbstractBossEntity
 	}
 
 	@Override
-	public void handleStatus(byte id)
+	public void handleEntityEvent(byte id)
 	{
 		if (id == 5) {playSummonParticles(30);}
-		else {super.handleStatus(id);}
+		else {super.handleEntityEvent(id);}
 	}
 
 	private void playSummonParticles(int number)
 	{
-		if (this.getEntityWorld().isClient())
+		if (this.level().isClientSide())
 		{
 			for(int i = 0; i < number; ++i)
 			{
 				double d0 = random.nextGaussian() * 0.02D; double d1 = random.nextGaussian() * 0.02D; double d2 = random.nextGaussian() * 0.02D;
-				this.getEntityWorld().addParticleClient(ParticleTypes.LARGE_SMOKE, this.getParticleX(1.0D) - d0 * 10.0D, this.getRandomBodyY() - d1 * 10.0D, this.getParticleZ(1.0D) - d2 * 10.0D, 0.25 * (random.nextFloat() - 0.5), 0.2D, 0.25 * (random.nextFloat() - 0.5));
+				this.level().addParticle(ParticleTypes.LARGE_SMOKE, this.getRandomX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, 0.25 * (random.nextFloat() - 0.5), 0.2D, 0.25 * (random.nextFloat() - 0.5));
 			}
 		}
 	}
@@ -152,7 +160,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 
 		public MudCycleMageEntity getMageGoalOwner() {return (MudCycleMageEntity) this.getGoalOwner();}
 
-		@Override public boolean canStart() {return super.canStart() && this.getMageGoalOwner().isActive();}
+		@Override public boolean canUse() {return super.canUse() && this.getMageGoalOwner().isActive();}
 
 		@Override public Entity createEntity()
 		{
@@ -173,27 +181,27 @@ public class MudCycleMageEntity extends AbstractBossEntity
 
 		protected MudSpectralSoldierEntity createMudSpectralSoldier()
 		{
-			MudSpectralSoldierEntity entity = AerialHellEntities.MUD_SPECTRAL_SOLDIER.create(this.getGoalOwner().getEntityWorld(), SpawnReason.MOB_SUMMONED);
-			entity.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
-			entity.updateAttackType();
+			MudSpectralSoldierEntity entity = AerialHellEntities.MUD_SPECTRAL_SOLDIER.create(this.getGoalOwner().level(), EntitySpawnReason.MOB_SUMMONED);
+			entity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+			entity.reassessWeaponGoal();
 			return entity;
 		}
 
 		protected MudSpectralGolemEntity createMudSpectralGolem()
 		{
-			return AerialHellEntities.MUD_SPECTRAL_GOLEM.create(this.getGoalOwner().getEntityWorld(), SpawnReason.MOB_SUMMONED);
+			return AerialHellEntities.MUD_SPECTRAL_GOLEM.create(this.getGoalOwner().level(), EntitySpawnReason.MOB_SUMMONED);
 		}
 
 		protected MudSpectralCycleMageEntity createClone()
 		{
-			MudSpectralCycleMageEntity entity = AerialHellEntities.MUD_SPECTRAL_CYCLE_MAGE.create(this.getGoalOwner().getEntityWorld(), SpawnReason.MOB_SUMMONED);
+			MudSpectralCycleMageEntity entity = AerialHellEntities.MUD_SPECTRAL_CYCLE_MAGE.create(this.getGoalOwner().level(), EntitySpawnReason.MOB_SUMMONED);
 			entity.setMaster(this.getMageGoalOwner());
 			return entity;
 		}
 
 		@Override protected void playEffect()
 		{
-			this.getGoalOwner().getEntityWorld().sendEntityStatus(this.getGoalOwner(), (byte)5);
+			this.getGoalOwner().level().broadcastEntityEvent(this.getGoalOwner(), (byte)5);
 			super.playEffect();
 		}
 
@@ -204,7 +212,7 @@ public class MudCycleMageEntity extends AbstractBossEntity
 		private void resetCloningStatus() {this.shouldFinishSummoningClones = false; this.isNotSummoningClones = false;}
 	}
 	
-	@Override protected SoundEvent getAmbientSound() {return SoundEvents.ENTITY_WITHER_SKELETON_AMBIENT;}
-	@Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return SoundEvents.ENTITY_WITHER_SKELETON_HURT;}
-	@Override protected SoundEvent getDeathSound() {return SoundEvents.ENTITY_WITHER_SKELETON_DEATH;}
+	@Override protected SoundEvent getAmbientSound() {return SoundEvents.WITHER_SKELETON_AMBIENT;}
+	@Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return SoundEvents.WITHER_SKELETON_HURT;}
+	@Override protected SoundEvent getDeathSound() {return SoundEvents.WITHER_SKELETON_DEATH;}
 }

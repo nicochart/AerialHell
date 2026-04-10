@@ -1,45 +1,45 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.KodamaModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.KodamaSkinLayer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.KodamaRenderState;
 import fr.factionbedrock.aerialhell.Entity.Passive.KodamaEntity;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.Identifier;
 
-public class KodamaRender<T extends KodamaEntity> extends MobEntityRenderer<T, KodamaRenderState, KodamaModel<KodamaRenderState>>
+public class KodamaRender<T extends KodamaEntity> extends MobRenderer<T, KodamaRenderState, KodamaModel<KodamaRenderState>>
 {
-	private static final Identifier TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/kodama/kodama.png");
+	private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/kodama/kodama.png");
 	private static boolean CREATURE_RENDER = false, EMPTY_RENDER = true;
 
-	public KodamaRender(EntityRendererFactory.Context context)
+	public KodamaRender(EntityRendererProvider.Context context)
 	{
-		super(context, new KodamaModel(context.getPart(AerialHellModelLayers.KODAMA), EMPTY_RENDER), 0.0F);
-		this.addFeature(new KodamaSkinLayer<>(this, new KodamaModel<KodamaRenderState>(context.getPart(AerialHellModelLayers.KODAMA), CREATURE_RENDER)));
+		super(context, new KodamaModel(context.bakeLayer(AerialHellModelLayers.KODAMA), EMPTY_RENDER), 0.0F);
+		this.addLayer(new KodamaSkinLayer<>(this, new KodamaModel<KodamaRenderState>(context.bakeLayer(AerialHellModelLayers.KODAMA), CREATURE_RENDER)));
 	}
 
 	@Override public KodamaRenderState createRenderState() {return new KodamaRenderState();}
 
-	@Override public void updateRenderState(T entity, KodamaRenderState renderState, float partialTick)
+	@Override public void extractRenderState(T entity, KodamaRenderState renderState, float partialTick)
 	{
-		super.updateRenderState(entity, renderState, partialTick);
+		super.extractRenderState(entity, renderState, partialTick);
 		renderState.texture = TEXTURE;
 		renderState.scale = calculateScale(entity);
 		renderState.faceId = entity.getFaceId();
-		renderState.dayTime = entity.getEntityWorld().getTimeOfDay() % 24000;
+		renderState.dayTime = entity.level().getDayTime() % 24000;
 		renderState.rattleHeadRotZAmplitude = entity.rattleHeadRotZAmplitude;
 		renderState.rattlingTiltAngle = entity.getRattlingTiltAngle();
 		renderState.maxRattlingTiltAngle = entity.getMaxRattlingTiltAngle();
 		renderState.forcedAlphaBonus = this.calculateForcedAlphaBonus(entity);
 	}
 
-	@Override public Identifier getTexture(KodamaRenderState renderState) {return renderState.texture;}
+	@Override public Identifier getTextureLocation(KodamaRenderState renderState) {return renderState.texture;}
 
-	@Override protected void scale(KodamaRenderState renderState, MatrixStack matrixStack)
+	@Override protected void scale(KodamaRenderState renderState, PoseStack matrixStack)
 	{
 		matrixStack.scale(renderState.scale, renderState.scale, renderState.scale);
 	}

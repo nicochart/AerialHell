@@ -1,37 +1,40 @@
 package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
-import net.minecraft.block.*;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.PlacedFeature;
-import net.minecraft.world.gen.feature.RandomPatchFeatureConfig;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.GrassBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AerialHellGrassBlock extends GrassBlock implements Fertilizable
+public abstract class AerialHellGrassBlock extends GrassBlock implements BonemealableBlock
 {
-	public AerialHellGrassBlock(AbstractBlock.Settings settings)
+	public AerialHellGrassBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);
-		this.setDefaultState(this.getDefaultState().with(SNOWY, false).with(AerialHellBooleanProperties.SHIFTED_RENDER, false));
+		this.registerDefaultState(this.defaultBlockState().setValue(SNOWY, false).setValue(AerialHellBooleanProperties.SHIFTED_RENDER, false));
 	}
 
-	@Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
+	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
-		super.appendProperties(builder);
+		super.createBlockStateDefinition(builder);
 		builder.add(AerialHellBooleanProperties.SHIFTED_RENDER);
 	}
 
-	@Override public void grow(ServerWorld world, Random rand, BlockPos pos, BlockState state)
+	@Override public void performBonemeal(ServerLevel world, RandomSource rand, BlockPos pos, BlockState state)
 	{
-		BlockPos blockpos = pos.up();
-		Optional<RegistryEntry.Reference<PlacedFeature>> optional = this.getBonemealFeature(world);
+		BlockPos blockpos = pos.above();
+		Optional<Holder.Reference<PlacedFeature>> optional = this.getBonemealFeature(world);
 
 
 		label46:
@@ -41,34 +44,34 @@ public abstract class AerialHellGrassBlock extends GrassBlock implements Fertili
 
 			for(int j = 0; j < i / 16; ++j)
 			{
-				blockpos1 = blockpos1.add(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1);
-				if (!world.getBlockState(blockpos1.down()).isOf(this) || world.getBlockState(blockpos1).isFullCube(world, blockpos1)) {continue label46;}
+				blockpos1 = blockpos1.offset(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1);
+				if (!world.getBlockState(blockpos1.below()).is(this) || world.getBlockState(blockpos1).isCollisionShapeFullBlock(world, blockpos1)) {continue label46;}
 			}
 
 			BlockState blockstate2 = world.getBlockState(blockpos1);
-			if (blockstate2.isOf(this) && rand.nextInt(10) == 0)
+			if (blockstate2.is(this) && rand.nextInt(10) == 0)
 			{
-				((Fertilizable)this.getDefaultState().getBlock()).grow(world, rand, blockpos1, blockstate2);
+				((BonemealableBlock)this.defaultBlockState().getBlock()).performBonemeal(world, rand, blockpos1, blockstate2);
 			}
 
 			if (blockstate2.isAir())
 			{
-				RegistryEntry registryEntry;
+				Holder registryEntry;
 				if (rand.nextInt(8) == 0)
 				{
 					List<ConfiguredFeature<?, ?>> list = world.getBiome(blockpos1).value().getGenerationSettings().getFlowerFeatures();
 					if (list.isEmpty()) {continue;}
-					registryEntry = ((RandomPatchFeatureConfig)(list.get(0)).config()).feature();
+					registryEntry = ((RandomPatchConfiguration)(list.get(0)).config()).feature();
 				}
 				else
 				{
 					if (!optional.isPresent()) {continue;}
 					registryEntry = optional.get();
 				}
-				((PlacedFeature)registryEntry.value()).generateUnregistered(world, world.getChunkManager().getChunkGenerator(), rand, blockpos1);
+				((PlacedFeature)registryEntry.value()).place(world, world.getChunkSource().getGenerator(), rand, blockpos1);
 			}
 		}
 	}
 
-	protected abstract Optional<RegistryEntry.Reference<PlacedFeature>> getBonemealFeature(ServerWorld world);
+	protected abstract Optional<Holder.Reference<PlacedFeature>> getBonemealFeature(ServerLevel world);
 }

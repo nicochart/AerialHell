@@ -1,12 +1,17 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.KodamaRenderState;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
-
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.util.Mth;
 import java.awt.*;
 
 // Made with Blockbench 4.8.3
@@ -53,71 +58,71 @@ public class KodamaModel<S extends KodamaRenderState> extends EntityModel<S>
 		this.forcedAlphaBonus = 0;
 	}
 
-	public static TexturedModelData createBodyLayer()
+	public static LayerDefinition createBodyLayer()
 	{
-		ModelData meshdefinition = new ModelData();
-		ModelPartData partdefinition = meshdefinition.getRoot();
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(9, 18).mirrored().cuboid(-3.5F, 15.0F, -1.0F, 7.0F, 9.0F, 2.0F, new Dilation(0.5F)).mirrored(false), ModelTransform.origin(0.0F, -7.0F, 0.0F));
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(9, 18).mirror().addBox(-3.5F, 15.0F, -1.0F, 7.0F, 9.0F, 2.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(0.0F, -7.0F, 0.0F));
 
-		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-4.9444F, -9.5F, -3.6111F, 10.0F, 10.0F, 8.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
+		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-4.9444F, -9.5F, -3.6111F, 10.0F, 10.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-0.0556F, 7.5F, -0.3889F));
 
-		ModelPartData face_1 = partdefinition.addChild("face_1", ModelPartBuilder.create().uv(50, 27).mirrored().cuboid(1.0556F, -6.0F, -4.6111F, 2.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(50, 27).mirrored().cuboid(-3.9444F, -7.5F, -4.6111F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(49, 25).mirrored().cuboid(-1.9444F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
+		PartDefinition face_1 = partdefinition.addOrReplaceChild("face_1", CubeListBuilder.create().texOffs(50, 27).mirror().addBox(1.0556F, -6.0F, -4.6111F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(50, 27).mirror().addBox(-3.9444F, -7.5F, -4.6111F, 2.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(49, 25).mirror().addBox(-1.9444F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-0.0556F, 7.5F, -0.3889F));
 
-		ModelPartData face_2 = partdefinition.addChild("face_2", ModelPartBuilder.create().uv(49, 26).mirrored().cuboid(1.5556F, -8.0F, -4.6111F, 2.5F, 2.5F, 2.5F, new Dilation(0.0F)).mirrored(false)
-				.uv(50, 27).mirrored().cuboid(-2.9444F, -5.5F, -4.6111F, 2.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(49, 25).mirrored().cuboid(3.0556F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
+		PartDefinition face_2 = partdefinition.addOrReplaceChild("face_2", CubeListBuilder.create().texOffs(49, 26).mirror().addBox(1.5556F, -8.0F, -4.6111F, 2.5F, 2.5F, 2.5F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(50, 27).mirror().addBox(-2.9444F, -5.5F, -4.6111F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(49, 25).mirror().addBox(3.0556F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-0.0556F, 7.5F, -0.3889F));
 
-		ModelPartData face_3 = partdefinition.addChild("face_3", ModelPartBuilder.create().uv(49, 26).mirrored().cuboid(1.5556F, -8.0F, -5.1111F, 2.5F, 2.5F, 2.5F, new Dilation(0.0F)).mirrored(false)
-				.uv(52, 22).mirrored().cuboid(-4.4444F, -8.0F, -4.6111F, 2.5F, 2.5F, 2.5F, new Dilation(0.0F)).mirrored(false)
-				.uv(52, 25).mirrored().cuboid(-1.9444F, -4.5F, -4.6111F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
+		PartDefinition face_3 = partdefinition.addOrReplaceChild("face_3", CubeListBuilder.create().texOffs(49, 26).mirror().addBox(1.5556F, -8.0F, -5.1111F, 2.5F, 2.5F, 2.5F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(52, 22).mirror().addBox(-4.4444F, -8.0F, -4.6111F, 2.5F, 2.5F, 2.5F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(52, 25).mirror().addBox(-1.9444F, -4.5F, -4.6111F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-0.0556F, 7.5F, -0.3889F));
 
-		ModelPartData face_4 = partdefinition.addChild("face_4", ModelPartBuilder.create().uv(50, 27).mirrored().cuboid(1.0556F, -7.5F, -4.6111F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(52, 22).mirrored().cuboid(-4.4444F, -8.0F, -5.1111F, 2.5F, 2.5F, 2.5F, new Dilation(0.0F)).mirrored(false)
-				.uv(49, 25).mirrored().cuboid(-3.9444F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
+		PartDefinition face_4 = partdefinition.addOrReplaceChild("face_4", CubeListBuilder.create().texOffs(50, 27).mirror().addBox(1.0556F, -7.5F, -4.6111F, 2.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(52, 22).mirror().addBox(-4.4444F, -8.0F, -5.1111F, 2.5F, 2.5F, 2.5F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(49, 25).mirror().addBox(-3.9444F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-0.0556F, 7.5F, -0.3889F));
 
-		ModelPartData face_5 = partdefinition.addChild("face_5", ModelPartBuilder.create().uv(50, 27).mirrored().cuboid(1.0556F, -5.5F, -4.6111F, 2.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(52, 22).mirrored().cuboid(-4.4444F, -8.0F, -5.1111F, 2.5F, 2.5F, 2.5F, new Dilation(0.0F)).mirrored(false)
-				.uv(49, 25).mirrored().cuboid(0.0556F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
+		PartDefinition face_5 = partdefinition.addOrReplaceChild("face_5", CubeListBuilder.create().texOffs(50, 27).mirror().addBox(1.0556F, -5.5F, -4.6111F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(52, 22).mirror().addBox(-4.4444F, -8.0F, -5.1111F, 2.5F, 2.5F, 2.5F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(49, 25).mirror().addBox(0.0556F, -2.5F, -4.6111F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-0.0556F, 7.5F, -0.3889F));
 
-		ModelPartData face_6 = partdefinition.addChild("face_6", ModelPartBuilder.create().uv(50, 27).mirrored().cuboid(2.0556F, -7.5F, -4.6111F, 2.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(52, 22).mirrored().cuboid(-3.4444F, -8.5F, -4.6111F, 2.5F, 2.5F, 2.5F, new Dilation(0.0F)).mirrored(false)
-				.uv(49, 25).mirrored().cuboid(-1.4444F, -3.5F, -4.6111F, 1.5F, 2.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
+		PartDefinition face_6 = partdefinition.addOrReplaceChild("face_6", CubeListBuilder.create().texOffs(50, 27).mirror().addBox(2.0556F, -7.5F, -4.6111F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(52, 22).mirror().addBox(-3.4444F, -8.5F, -4.6111F, 2.5F, 2.5F, 2.5F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(49, 25).mirror().addBox(-1.4444F, -3.5F, -4.6111F, 1.5F, 2.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-0.0556F, 7.5F, -0.3889F));
 
-		ModelPartData face_7 = partdefinition.addChild("face_7", ModelPartBuilder.create().uv(52, 22).mirrored().cuboid(1.5556F, -7.0F, -4.6111F, 2.5F, 2.5F, 2.5F, new Dilation(0.0F)).mirrored(false)
-				.uv(52, 22).mirrored().cuboid(-3.9444F, -8.0F, -4.6111F, 2.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(47, 23).mirrored().cuboid(0.5556F, -2.5F, -4.6111F, 2.0F, 2.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-0.0556F, 7.5F, -0.3889F));
+		PartDefinition face_7 = partdefinition.addOrReplaceChild("face_7", CubeListBuilder.create().texOffs(52, 22).mirror().addBox(1.5556F, -7.0F, -4.6111F, 2.5F, 2.5F, 2.5F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(52, 22).mirror().addBox(-3.9444F, -8.0F, -4.6111F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(47, 23).mirror().addBox(0.5556F, -2.5F, -4.6111F, 2.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-0.0556F, 7.5F, -0.3889F));
 
-		ModelPartData arm0 = partdefinition.addChild("arm0", ModelPartBuilder.create().uv(48, 0).mirrored().cuboid(0.0F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 8.5F, 0.0F));
+		PartDefinition arm0 = partdefinition.addOrReplaceChild("arm0", CubeListBuilder.create().texOffs(48, 0).mirror().addBox(0.0F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 8.5F, 0.0F));
 
-		ModelPartData arm1 = partdefinition.addChild("arm1", ModelPartBuilder.create().uv(56, 0).mirrored().cuboid(-2.0F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-4.0F, 8.5F, 0.0F));
+		PartDefinition arm1 = partdefinition.addOrReplaceChild("arm1", CubeListBuilder.create().texOffs(56, 0).mirror().addBox(-2.0F, 0.0F, -1.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-4.0F, 8.5F, 0.0F));
 
-		ModelPartData leg0 = partdefinition.addChild("leg0", ModelPartBuilder.create().uv(29, 19).mirrored().cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 8.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(2.0F, 17.0F, 0.0F));
+		PartDefinition leg0 = partdefinition.addOrReplaceChild("leg0", CubeListBuilder.create().texOffs(29, 19).mirror().addBox(-1.0F, -1.0F, -1.0F, 2.0F, 8.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, 17.0F, 0.0F));
 
-		ModelPartData leg1 = partdefinition.addChild("leg1", ModelPartBuilder.create().uv(37, 19).cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 8.0F, 2.0F, new Dilation(0.0F)), ModelTransform.origin(-2.0F, 17.0F, 0.0F));
+		PartDefinition leg1 = partdefinition.addOrReplaceChild("leg1", CubeListBuilder.create().texOffs(37, 19).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 8.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 17.0F, 0.0F));
 
-		return TexturedModelData.of(meshdefinition, 64, 32);
+		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
 
-	@Override public void setAngles(S renderState)
+	@Override public void setupAnim(S renderState)
 	{
-		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.relativeHeadYaw;
-		float limbSwing = renderState.limbSwingAnimationProgress;
-		float limbSwingAmount = renderState.limbSwingAmplitude;
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
 		this.faceId = renderState.faceId;
 		this.dayTime = renderState.dayTime;
 		this.forcedAlphaBonus = renderState.forcedAlphaBonus;
 		this.setHeadRot(netHeadYaw, headPitch, this.getZRotAngleFromEntityTiltAngle(renderState));
 
-		this.arm0.roll = -0.1F;
-		this.arm1.roll = 0.1F;
-		this.arm0.pitch = (-0.2F + 1.5F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
-		this.arm1.pitch = (-0.2F - 1.5F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
-		this.leg0.pitch = -1.0F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;
-		this.leg1.pitch = 1.0F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;
+		this.arm0.zRot = -0.1F;
+		this.arm1.zRot = 0.1F;
+		this.arm0.xRot = (-0.2F + 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+		this.arm1.xRot = (-0.2F - 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 0.6F;
+		this.leg0.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.leg1.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
 	}
 
 	private void setHeadRot(float netHeadYaw, float headPitch, float roll)
@@ -125,9 +130,9 @@ public class KodamaModel<S extends KodamaRenderState> extends EntityModel<S>
 		this.setHeadXRot(headPitch / 57.3F); this.setHeadYRot(netHeadYaw / 57.3F); this.setHeadZRot(roll);
 	}
 
-	private void setHeadXRot(float xrot) {this.head.pitch = xrot; this.face_1.pitch = xrot; this.face_2.pitch = xrot; this.face_3.pitch = xrot; this.face_4.pitch = xrot; this.face_5.pitch = xrot; this.face_6.pitch = xrot; this.face_7.pitch = xrot;}
-	private void setHeadYRot(float yrot) {this.head.yaw = yrot; this.face_1.yaw = yrot; this.face_2.yaw = yrot; this.face_3.yaw = yrot; this.face_4.yaw = yrot; this.face_5.yaw = yrot; this.face_6.yaw = yrot; this.face_7.yaw = yrot;}
-	private void setHeadZRot(float zrot) {this.head.roll = zrot; this.face_1.roll = zrot; this.face_2.roll = zrot; this.face_3.roll = zrot; this.face_4.roll = zrot; this.face_5.roll = zrot; this.face_6.roll = zrot; this.face_7.roll = zrot;}
+	private void setHeadXRot(float xrot) {this.head.xRot = xrot; this.face_1.xRot = xrot; this.face_2.xRot = xrot; this.face_3.xRot = xrot; this.face_4.xRot = xrot; this.face_5.xRot = xrot; this.face_6.xRot = xrot; this.face_7.xRot = xrot;}
+	private void setHeadYRot(float yrot) {this.head.yRot = yrot; this.face_1.yRot = yrot; this.face_2.yRot = yrot; this.face_3.yRot = yrot; this.face_4.yRot = yrot; this.face_5.yRot = yrot; this.face_6.yRot = yrot; this.face_7.yRot = yrot;}
+	private void setHeadZRot(float zrot) {this.head.zRot = zrot; this.face_1.zRot = zrot; this.face_2.zRot = zrot; this.face_3.zRot = zrot; this.face_4.zRot = zrot; this.face_5.zRot = zrot; this.face_6.zRot = zrot; this.face_7.zRot = zrot;}
 
 	private float getMaxHeadZRot(S renderState) {return renderState.rattleHeadRotZAmplitude;} //0.6F is cool
 	private float getZRotAngleFromEntityTiltAngle(S renderState)
@@ -135,7 +140,7 @@ public class KodamaModel<S extends KodamaRenderState> extends EntityModel<S>
 		return this.getMaxHeadZRot(renderState) * renderState.rattlingTiltAngle / renderState.maxRattlingTiltAngle;
 	}
 
-	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		if (this.isEmpty) {}
 		else
@@ -164,7 +169,7 @@ public class KodamaModel<S extends KodamaRenderState> extends EntityModel<S>
 		}
 	}
 
-	private static void render(ModelPart modelPart, MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int r, int g, int b, int alpha)
+	private static void render(ModelPart modelPart, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int r, int g, int b, int alpha)
 	{
 		modelPart.render(poseStack, vertexConsumer, packedLight, packedOverlay, new Color(r, g, b, alpha).getRGB());
 	}

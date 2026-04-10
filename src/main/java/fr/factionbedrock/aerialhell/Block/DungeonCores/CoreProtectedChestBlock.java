@@ -1,39 +1,39 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import fr.factionbedrock.aerialhell.Block.AerialHellChestBlock;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.state.StateManager;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.BlockHitResult;
 
 import static fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties.CORE_PROTECTED;
 
 public class CoreProtectedChestBlock extends AerialHellChestBlock implements CoreProtectedPropertyUseableBlock
 {
-	public CoreProtectedChestBlock(AbstractBlock.Settings settings)
+	public CoreProtectedChestBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);
-		this.setDefaultState(this.getDefaultState().with(CORE_PROTECTED, false));
+		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
 
-	@Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
+	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
-		super.appendProperties(builder);
+		super.createBlockStateDefinition(builder);
 		builder.add(CORE_PROTECTED);
 	}
 
-	@Override public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit)
+	@Override public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit)
 	{
-		return this.canUse(state, player) ? super.onUse(state, world, pos, player, hit) : ActionResult.SUCCESS;
+		return this.canUse(state, player) ? super.useWithoutItem(state, world, pos, player, hit) : InteractionResult.SUCCESS;
 	}
 
-	@Override public float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView world, BlockPos pos)
+	@Override public float getDestroyProgress(BlockState state, Player player, BlockGetter world, BlockPos pos)
 	{
 		return this.getModifiedDestroyProgress(state, player, world, pos);
 	}

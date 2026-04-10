@@ -7,40 +7,40 @@ import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHa
 import fr.factionbedrock.aerialhell.Client.Util.ColorHandlerHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.particle.ParticleUtil;
-import net.minecraft.particle.TintedParticleEffect;
-import net.minecraft.state.StateManager;
-import net.minecraft.util.dynamic.Codecs;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ColorParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 
 public class ShiftableLeavesBlock extends LeavesBlock
 {
-    public static final MapCodec<ShiftableLeavesBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(Codecs.rangedInclusiveFloat(0.0F, 1.0F).fieldOf("leaf_particle_chance").forGetter(tintedParticleLeavesBlock -> tintedParticleLeavesBlock.leafParticleChance), createSettingsCodec()).apply(instance, (chance, settings) -> new ShiftableLeavesBlock(chance, settings, () -> AerialHellBlocks.SHADOW_AERIAL_TREE_LEAVES, BiomeShifter.ShiftType.CORRUPT)));
+    public static final MapCodec<ShiftableLeavesBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(ExtraCodecs.floatRange(0.0F, 1.0F).fieldOf("leaf_particle_chance").forGetter(tintedParticleLeavesBlock -> tintedParticleLeavesBlock.leafParticleChance), propertiesCodec()).apply(instance, (chance, settings) -> new ShiftableLeavesBlock(chance, settings, () -> AerialHellBlocks.SHADOW_AERIAL_TREE_LEAVES, BiomeShifter.ShiftType.CORRUPT)));
 
     private final Supplier<ShiftableLeavesBlock> shiftedVariant;
     private final BiomeShifter.ShiftType shiftType;
 
-    public ShiftableLeavesBlock(Settings settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType) {this(0.01F, settings, shiftedVariant, shiftType);}
+    public ShiftableLeavesBlock(Properties settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType) {this(0.01F, settings, shiftedVariant, shiftType);}
 
-    public ShiftableLeavesBlock(float leavesParticleChance, Settings settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
+    public ShiftableLeavesBlock(float leavesParticleChance, Properties settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
     {
         super(leavesParticleChance, settings);
         this.shiftedVariant = shiftedVariant;
         this.shiftType = shiftType;
-        this.setDefaultState(this.getDefaultState().with(AerialHellBooleanProperties.SHIFTED_RENDER, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(AerialHellBooleanProperties.SHIFTED_RENDER, false));
     }
 
-    @Override protected void spawnLeafParticle(World world, BlockPos pos, Random random)
+    @Override protected void spawnFallingLeavesParticle(Level world, BlockPos pos, RandomSource random)
     {
         Block block = BlocksAndItemsColorHandler.isShadowBindEnabled() ? this.getShiftedVariant().get() : this;
         int color;
@@ -49,7 +49,7 @@ public class ShiftableLeavesBlock extends LeavesBlock
         else if (block == AerialHellBlocks.COPPER_PINE_LEAVES) {color = ColorHandlerHelper.COPPER_PINE_LEAVES_COLOR;}
         else if (block == AerialHellBlocks.GOLDEN_BEECH_LEAVES) {color = ColorHandlerHelper.GOLDEN_BEECH_LEAVES_COLOR;}
         else if (block == AerialHellBlocks.LAPIS_ROBINIA_LEAVES) {color = ColorHandlerHelper.LAPIS_ROBINIA_LEAVES_COLOR;}
-        else if (block == AerialHellBlocks.STELLAR_JUNGLE_TREE_LEAVES) {color = world.getBlockColor(pos);}
+        else if (block == AerialHellBlocks.STELLAR_JUNGLE_TREE_LEAVES) {color = world.getClientLeafTintColor(pos);}
         else if (block == AerialHellBlocks.SHADOW_PINE_LEAVES) {color = ColorHandlerHelper.SHADOW_PINE_LEAVES_COLOR;}
         else if (block == AerialHellBlocks.PURPLE_SHADOW_PINE_LEAVES) {color = ColorHandlerHelper.PURPLE_SHADOW_PINE_LEAVES_COLOR;}
         else if (block == AerialHellBlocks.SHADOW_AERIAL_TREE_LEAVES) {color = ColorHandlerHelper.SHADOW_AERIAL_TREE_LEAVES_COLOR;}
@@ -61,15 +61,15 @@ public class ShiftableLeavesBlock extends LeavesBlock
         else if (block == AerialHellBlocks.HOLLOW_PURPLE_SHADOW_PINE_LEAVES) {color = ColorHandlerHelper.HOLLOW_PURPLE_SHADOW_PINE_LEAVES_COLOR;}
         else {color = ColorHandlerHelper.WHITE;}
 
-        ParticleEffect particle = TintedParticleEffect.create(ParticleTypes.TINTED_LEAVES, color);
-        ParticleUtil.spawnParticle(world, pos, random, particle);
+        ParticleOptions particle = ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color);
+        ParticleUtils.spawnParticleBelow(world, pos, random, particle);
     }
 
-    @Override public MapCodec<? extends ShiftableLeavesBlock> getCodec() {return CODEC;}
+    @Override public MapCodec<? extends ShiftableLeavesBlock> codec() {return CODEC;}
 
-    @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
+    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
-        super.appendProperties(builder);
+        super.createBlockStateDefinition(builder);
         builder.add(AerialHellBooleanProperties.SHIFTED_RENDER);
     }
 
@@ -82,9 +82,9 @@ public class ShiftableLeavesBlock extends LeavesBlock
         {
             if (beforeLeavesBlock.getShiftedVariant().get() instanceof ShiftableLeavesBlock nextLeavesBlock)
             {
-                return nextLeavesBlock.getDefaultState().with(DISTANCE, beforeState.get(DISTANCE)).with(PERSISTENT, beforeState.get(PERSISTENT)).with(WATERLOGGED, beforeState.get(WATERLOGGED));
+                return nextLeavesBlock.defaultBlockState().setValue(DISTANCE, beforeState.getValue(DISTANCE)).setValue(PERSISTENT, beforeState.getValue(PERSISTENT)).setValue(WATERLOGGED, beforeState.getValue(WATERLOGGED));
             }
-            return beforeLeavesBlock.getShiftedVariant().get().getDefaultState();
+            return beforeLeavesBlock.getShiftedVariant().get().defaultBlockState();
         }
         return null;
     }

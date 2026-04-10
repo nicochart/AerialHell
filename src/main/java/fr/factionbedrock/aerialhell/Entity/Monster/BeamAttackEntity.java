@@ -3,18 +3,18 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
 import fr.factionbedrock.aerialhell.Entity.BaseMobEntityInterface;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
 public interface BeamAttackEntity extends SyncedTargetEntity
@@ -44,7 +44,7 @@ public interface BeamAttackEntity extends SyncedTargetEntity
             this.setPrevBeamTargetPos(null);
             this.setBeamEndPos(null);
             this.setPrevBeamEndPos(null);
-            if (!this.getLevel().isClient() && this.getTarget() != null)
+            if (!this.getLevel().isClientSide() && this.getTarget() != null)
             {
                 this.setBeamTargetEntityId(this.getTarget().getId());
             }
@@ -55,7 +55,7 @@ public interface BeamAttackEntity extends SyncedTargetEntity
             boolean needsInitialization = this.getBeamTargetPos() == null;
             if (needsInitialization && this.getBeamAttackTarget() != null && this.hasBeamTargetEntityId())
             {
-                Vec3d targetInitialPos = this.getBeamAttackTarget().getEntityPos().add(getBeamTargetPosOffset(this.getBeamAttackTarget()));
+                Vec3 targetInitialPos = this.getBeamAttackTarget().position().add(getBeamTargetPosOffset(this.getBeamAttackTarget()));
                 this.setBeamTargetPos(targetInitialPos);
                 this.setPrevBeamTargetPos(targetInitialPos);
             }
@@ -78,12 +78,12 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     default boolean canBeamHitEntity(LivingEntity entity) {return true;}
     default Entity getImmediateBeamSource() {return this.getSelf();}
     default Entity getTrueBeamSource() {return this.getSelf();}
-    default void onStartBeaming(int beamingDuration) {this.getSelf().addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, beamingDuration, 2, false, false));}
-    default void onStopBeaming() {this.getSelf().removeStatusEffect(StatusEffects.SLOWNESS);}
+    default void onStartBeaming(int beamingDuration) {this.getSelf().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, beamingDuration, 2, false, false));}
+    default void onStopBeaming() {this.getSelf().removeEffect(MobEffects.SLOWNESS);}
 
     default float getMaxBeamLength() {return 30.0F;}
-    default Vec3d getBeamStartPos() {return this.getSelf().getEyePos();}
-    default Vec3d getBeamTargetPosOffset(Entity target) {return new Vec3d(0, target.getBoundingBox().getLengthY() * 0.75F, 0);}
+    default Vec3 getBeamStartPos() {return this.getSelf().getEyePosition();}
+    default Vec3 getBeamTargetPosOffset(Entity target) {return new Vec3(0, target.getBoundingBox().getYsize() * 0.75F, 0);}
 
     @Nullable default SimpleParticleType getBeamParticles()
     {
@@ -98,24 +98,24 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     default void makeBeamStartSound(int currentBeamingTime) {this.makeBeamSound(true, currentBeamingTime);}
     default void makeBeamSound(int currentBeamingTime) {this.makeBeamSound(false, currentBeamingTime);}
     default void makeBeamSound(boolean beamStart, int currentBeamingTime) {if (this.shouldPlayBeamSound(currentBeamingTime)) {this.playBeamSound(beamStart);}}
-    default void playBeamSound(boolean start) {this.getLevel().playSound(null, this.getX(), this.getY(), this.getZ(), this.getBeamSound(start), this.getSelf().getSoundCategory(), 0.5F, 1.0F);}
+    default void playBeamSound(boolean start) {this.getLevel().playSound(null, this.getX(), this.getY(), this.getZ(), this.getBeamSound(start), this.getSelf().getSoundSource(), 0.5F, 1.0F);}
     default boolean shouldPlayBeamSound(int currentBeamingTime) {return !this.isBeamSilent() && currentBeamingTime % this.getBeamSoundLength() == 0;}
 
     default SyncedTargetEntity.SyncedTargetEntityInfo getSyncedTargetEntityInfo() {return this.getBeamAttackEntityInfo();}
 
-    default @Nullable Vec3d getBeamTargetPos() {return this.getBeamAttackEntityInfo().beamTargetPos;}
-    default @Nullable Vec3d getPrevBeamTargetPos() {return this.getBeamAttackEntityInfo().prevBeamTargetPos;}
-    default @Nullable Vec3d getBeamEndPos() {return this.getBeamAttackEntityInfo().beamEndPos;}
-    default @Nullable Vec3d getPrevBeamEndPos() {return this.getBeamAttackEntityInfo().prevBeamEndPos;}
+    default @Nullable Vec3 getBeamTargetPos() {return this.getBeamAttackEntityInfo().beamTargetPos;}
+    default @Nullable Vec3 getPrevBeamTargetPos() {return this.getBeamAttackEntityInfo().prevBeamTargetPos;}
+    default @Nullable Vec3 getBeamEndPos() {return this.getBeamAttackEntityInfo().beamEndPos;}
+    default @Nullable Vec3 getPrevBeamEndPos() {return this.getBeamAttackEntityInfo().prevBeamEndPos;}
 
-    default void setBeamTargetPos(Vec3d pos) {this.getBeamAttackEntityInfo().beamTargetPos = pos;}
-    default void setPrevBeamTargetPos(Vec3d pos) {this.getBeamAttackEntityInfo().prevBeamTargetPos = pos;}
-    default void setBeamEndPos(Vec3d pos) {this.getBeamAttackEntityInfo().beamEndPos = pos;}
-    default void setPrevBeamEndPos(Vec3d pos) {this.getBeamAttackEntityInfo().prevBeamEndPos = pos;}
+    default void setBeamTargetPos(Vec3 pos) {this.getBeamAttackEntityInfo().beamTargetPos = pos;}
+    default void setPrevBeamTargetPos(Vec3 pos) {this.getBeamAttackEntityInfo().prevBeamTargetPos = pos;}
+    default void setBeamEndPos(Vec3 pos) {this.getBeamAttackEntityInfo().beamEndPos = pos;}
+    default void setPrevBeamEndPos(Vec3 pos) {this.getBeamAttackEntityInfo().prevBeamEndPos = pos;}
 
-    default TrackedData<Integer> getBeamTargetEntityIdData() {return this.getBeamAttackEntityInfo().beamTargetEntityIdData;}
-    default TrackedData<Integer> getBeamingPhaseData() {return this.getBeamAttackEntityInfo().beamingPhaseData;}
-    default TrackedData<Boolean> getBeamTargetPosNeedsSyncData() {return this.getBeamAttackEntityInfo().beamTargetPosNeedsSyncData;}
+    default EntityDataAccessor<Integer> getBeamTargetEntityIdData() {return this.getBeamAttackEntityInfo().beamTargetEntityIdData;}
+    default EntityDataAccessor<Integer> getBeamingPhaseData() {return this.getBeamAttackEntityInfo().beamingPhaseData;}
+    default EntityDataAccessor<Boolean> getBeamTargetPosNeedsSyncData() {return this.getBeamAttackEntityInfo().beamTargetPosNeedsSyncData;}
     
     default int getBeamTargetEntityId() {return this.getEntityData().get(this.getBeamTargetEntityIdData());}
     default boolean hasBeamTargetEntityId() {return this.getEntityData().get(this.getBeamTargetEntityIdData()) != 0;}
@@ -134,21 +134,21 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     default void updateBeamPositions() //must be deterministic to be calculated the same way on both client and server sides
     {
         LivingEntity beamTarget = this.getBeamAttackTarget(); //the active target is the only synchronized thing
-        Vec3d beamTargetPos = this.getBeamTargetPos(); //beamTargetPos is not the real target pos. It is a fictitious "target" following real target.
-        Vec3d prevBeamTargetPos = this.getPrevBeamTargetPos();
-        Vec3d beamEndPos = this.getBeamEndPos();
-        Vec3d prevBeamEndPos = this.getPrevBeamEndPos();
+        Vec3 beamTargetPos = this.getBeamTargetPos(); //beamTargetPos is not the real target pos. It is a fictitious "target" following real target.
+        Vec3 prevBeamTargetPos = this.getPrevBeamTargetPos();
+        Vec3 beamEndPos = this.getBeamEndPos();
+        Vec3 prevBeamEndPos = this.getPrevBeamEndPos();
 
         if (beamTarget == null || beamTargetPos == null) {return;}
 
-        Vec3d previousStep = beamTargetPos.subtract(prevBeamTargetPos);
+        Vec3 previousStep = beamTargetPos.subtract(prevBeamTargetPos);
         this.setPrevBeamTargetPos(beamTargetPos);
         this.setPrevBeamEndPos(beamEndPos);
         prevBeamTargetPos = beamTargetPos;
         prevBeamEndPos = beamEndPos;
 
         //beamTarget update - fictitious "target" following real target
-        Vec3d targetEntityPos = beamTarget.getEntityPos().add(getBeamTargetPosOffset(beamTarget));
+        Vec3 targetEntityPos = beamTarget.position().add(getBeamTargetPosOffset(beamTarget));
         if (this.getBeamingPhase() == BeamingPhases.BEAMING_LOAD)
         {
             this.updateBeamTargetPosLinearWithMaxDistance(targetEntityPos, prevBeamTargetPos, 0.30F);
@@ -166,29 +166,29 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         this.updateBeamEndPos(this.getBeamTargetPos(), this.getMaxBeamLength());
     }
 
-    private void updateBeamTargetPosLinearWithMaxDistance(Vec3d targetEntityPos, Vec3d prevBeamTargetPos, float maxVelocity)
+    private void updateBeamTargetPosLinearWithMaxDistance(Vec3 targetEntityPos, Vec3 prevBeamTargetPos, float maxVelocity)
     {
-        Vec3d velocity = targetEntityPos.subtract(prevBeamTargetPos);
-        this.setBeamTargetPos(velocity.length() <= maxVelocity ? targetEntityPos : prevBeamTargetPos.add(velocity.normalize().multiply(maxVelocity)));
+        Vec3 velocity = targetEntityPos.subtract(prevBeamTargetPos);
+        this.setBeamTargetPos(velocity.length() <= maxVelocity ? targetEntityPos : prevBeamTargetPos.add(velocity.normalize().scale(maxVelocity)));
     }
 
-    private void updateBeamTargetPosRealisticWithInertia(Vec3d previousVelocity, Vec3d targetEntityPos, Vec3d prevBeamTargetPos, float inertiaFactor, float attractionFactor, float maxVelocity)
+    private void updateBeamTargetPosRealisticWithInertia(Vec3 previousVelocity, Vec3 targetEntityPos, Vec3 prevBeamTargetPos, float inertiaFactor, float attractionFactor, float maxVelocity)
     {
-        Vec3d linearVelocity = targetEntityPos.subtract(prevBeamTargetPos);
-        Vec3d acceleration = linearVelocity.multiply(attractionFactor);
+        Vec3 linearVelocity = targetEntityPos.subtract(prevBeamTargetPos);
+        Vec3 acceleration = linearVelocity.scale(attractionFactor);
 
-        Vec3d velocity = previousVelocity.multiply(inertiaFactor).add(acceleration);
-        this.setBeamTargetPos(prevBeamTargetPos.add(velocity.length() < maxVelocity ? velocity : velocity.normalize().multiply(maxVelocity)));
+        Vec3 velocity = previousVelocity.scale(inertiaFactor).add(acceleration);
+        this.setBeamTargetPos(prevBeamTargetPos.add(velocity.length() < maxVelocity ? velocity : velocity.normalize().scale(maxVelocity)));
     }
 
-    private void updateBeamEndPos(Vec3d beamTargetPos, float maxDistance)
+    private void updateBeamEndPos(Vec3 beamTargetPos, float maxDistance)
     {
-        Vec3d beamStart = this.getBeamStartPos();
-        Vec3d direction = beamTargetPos.subtract(beamStart).normalize();
-        Vec3d furthestBeamEnd = beamStart.add(direction.multiply(maxDistance));
+        Vec3 beamStart = this.getBeamStartPos();
+        Vec3 direction = beamTargetPos.subtract(beamStart).normalize();
+        Vec3 furthestBeamEnd = beamStart.add(direction.scale(maxDistance));
 
-        BlockHitResult beamHit = this.getLevel().raycast(new RaycastContext(this.getBeamStartPos(), furthestBeamEnd, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this.getSelf()));
-        this.setBeamEndPos(beamHit.getType() == HitResult.Type.BLOCK ? beamHit.getPos() : furthestBeamEnd);
+        BlockHitResult beamHit = this.getLevel().clip(new ClipContext(this.getBeamStartPos(), furthestBeamEnd, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this.getSelf()));
+        this.setBeamEndPos(beamHit.getType() == HitResult.Type.BLOCK ? beamHit.getLocation() : furthestBeamEnd);
     }
 
     default boolean isBeamingLoadingPhase() {return this.getBeamingPhase() == BeamingPhases.BEAMING_LOAD;}
@@ -206,14 +206,14 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         if (type != null && this.getBeamEndPos() != null)
         {
 
-            Vec3d beamStart = this.getBeamStartPos();
-            Vec3d beamEnd = this.getBeamEndPos();
-            Vec3d delta = beamEnd.subtract(beamStart);
+            Vec3 beamStart = this.getBeamStartPos();
+            Vec3 beamEnd = this.getBeamEndPos();
+            Vec3 delta = beamEnd.subtract(beamStart);
             double distance = delta.length();
 
             if (distance < 0.001D) return;
 
-            Vec3d direction = delta.normalize();
+            Vec3 direction = delta.normalize();
 
             double particleStep = 0.2D;
             float chance = this.getParticleChance();
@@ -222,8 +222,8 @@ public interface BeamAttackEntity extends SyncedTargetEntity
             {
                 if (this.getSelf().getRandom().nextFloat() < chance)
                 {
-                    Vec3d pos = beamStart.add(direction.multiply(traveled));
-                    this.getLevel().addParticleClient(type, pos.x, pos.y, pos.z, 0.0D, 0.0D, 0.0D);
+                    Vec3 pos = beamStart.add(direction.scale(traveled));
+                    this.getLevel().addParticle(type, pos.x, pos.y, pos.z, 0.0D, 0.0D, 0.0D);
                 }
             }
         }
@@ -231,15 +231,15 @@ public interface BeamAttackEntity extends SyncedTargetEntity
 
     class BeamAttackEntityInfo extends SyncedTargetEntityInfo
     {
-        private final TrackedData<Integer> beamTargetEntityIdData;
-        private final TrackedData<Integer> beamingPhaseData;
-        private final TrackedData<Boolean> beamTargetPosNeedsSyncData;
-        @Nullable private Vec3d beamTargetPos;
-        @Nullable private Vec3d prevBeamTargetPos;
-        @Nullable private Vec3d beamEndPos;
-        @Nullable private Vec3d prevBeamEndPos;
+        private final EntityDataAccessor<Integer> beamTargetEntityIdData;
+        private final EntityDataAccessor<Integer> beamingPhaseData;
+        private final EntityDataAccessor<Boolean> beamTargetPosNeedsSyncData;
+        @Nullable private Vec3 beamTargetPos;
+        @Nullable private Vec3 prevBeamTargetPos;
+        @Nullable private Vec3 beamEndPos;
+        @Nullable private Vec3 prevBeamEndPos;
 
-        public BeamAttackEntityInfo(TrackedData<Integer> beamTargetEntityIdData, TrackedData<Integer> beamingPhaseData, TrackedData<Boolean> beamTargetPosNeedsSyncData)
+        public BeamAttackEntityInfo(EntityDataAccessor<Integer> beamTargetEntityIdData, EntityDataAccessor<Integer> beamingPhaseData, EntityDataAccessor<Boolean> beamTargetPosNeedsSyncData)
         {
             super(beamTargetEntityIdData);
             this.beamTargetEntityIdData = beamTargetEntityIdData;

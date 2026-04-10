@@ -1,48 +1,51 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.LightProjectileRenderState;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractLightProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
-import net.minecraft.client.render.*;
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
-import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.state.CameraRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.Identifier;
 
 //see net.minecraft.client.renderer.entity.DragonFireballRenderer
 public class LightProjectileRender<T extends AbstractLightProjectileEntity> extends EntityRenderer<T, LightProjectileRenderState>
 {
-    public static final Identifier LUNATIC_PROJECTILE = Identifier.of(AerialHell.MODID, "textures/entity/projectile/lunatic_projectile.png");
-    public static final Identifier SHADOW_PROJECTILE = Identifier.of(AerialHell.MODID, "textures/entity/projectile/shadow_projectile.png");
+    public static final Identifier LUNATIC_PROJECTILE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/lunatic_projectile.png");
+    public static final Identifier SHADOW_PROJECTILE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/shadow_projectile.png");
 
-    public LightProjectileRender(EntityRendererFactory.Context context)
+    public LightProjectileRender(EntityRendererProvider.Context context)
     {
         super(context);
         this.shadowRadius = 0.0F;
     }
 
-    @Override public void render(LightProjectileRenderState renderState, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState)
+    @Override public void submit(LightProjectileRenderState renderState, PoseStack matrices, SubmitNodeCollector queue, CameraRenderState cameraState)
     {
-        matrices.push();
+        matrices.pushPose();
         matrices.scale(2.0F, 2.0F, 2.0F);
-        matrices.multiply(cameraState.orientation);
-        RenderLayer layer = getRenderLayer(renderState.texture);
-        queue.submitCustom(matrices, layer, (matricesEntry, vertexConsumer) ->
+        matrices.mulPose(cameraState.orientation);
+        RenderType layer = getRenderLayer(renderState.texture);
+        queue.submitCustomGeometry(matrices, layer, (matricesEntry, vertexConsumer) ->
         {
-            vertex(vertexConsumer, matricesEntry, renderState.light, 0.0F, 0, 0, 1);
-            vertex(vertexConsumer, matricesEntry, renderState.light, 1.0F, 0, 1, 1);
-            vertex(vertexConsumer, matricesEntry, renderState.light, 1.0F, 1, 1, 0);
-            vertex(vertexConsumer, matricesEntry, renderState.light, 0.0F, 1, 0, 0);
+            vertex(vertexConsumer, matricesEntry, renderState.lightCoords, 0.0F, 0, 0, 1);
+            vertex(vertexConsumer, matricesEntry, renderState.lightCoords, 1.0F, 0, 1, 1);
+            vertex(vertexConsumer, matricesEntry, renderState.lightCoords, 1.0F, 1, 1, 0);
+            vertex(vertexConsumer, matricesEntry, renderState.lightCoords, 0.0F, 1, 0, 0);
         });
-        matrices.pop();
-        super.render(renderState, matrices, queue, cameraState);
+        matrices.popPose();
+        super.submit(renderState, matrices, queue, cameraState);
     }
 
-    @Override protected int getBlockLight(T entity, BlockPos partialTicks)
+    @Override protected int getBlockLightLevel(T entity, BlockPos partialTicks)
     {
         if (entity instanceof LunaticProjectileEntity) {return 15;}
         else {return 13;}
@@ -50,22 +53,22 @@ public class LightProjectileRender<T extends AbstractLightProjectileEntity> exte
 
     @Override public LightProjectileRenderState createRenderState() {return new LightProjectileRenderState();}
 
-    @Override public void updateRenderState(T entity, LightProjectileRenderState renderState, float partialTick)
+    @Override public void extractRenderState(T entity, LightProjectileRenderState renderState, float partialTick)
     {
-        super.updateRenderState(entity, renderState, partialTick);
-        renderState.texture = getTexture(entity);
+        super.extractRenderState(entity, renderState, partialTick);
+        renderState.texture = getTextureLocation(entity);
     }
 
-    public static RenderLayer getRenderLayer(Identifier texture) {return RenderLayers.entityCutoutNoCull(texture);}
+    public static RenderType getRenderLayer(Identifier texture) {return RenderTypes.entityCutoutNoCull(texture);}
 
-    public Identifier getTexture(T entity)
+    public Identifier getTextureLocation(T entity)
     {
         if (entity instanceof LunaticProjectileEntity) {return LUNATIC_PROJECTILE;}
         else {return SHADOW_PROJECTILE;}
     }
 
-    private static void vertex(VertexConsumer vertexConsumer, MatrixStack.Entry matrix, int packedLight, float x, int y, int u, int v)
+    private static void vertex(VertexConsumer vertexConsumer, PoseStack.Pose matrix, int packedLight, float x, int y, int u, int v)
     {
-        vertexConsumer.vertex(matrix, x - 0.5F, (float)y - 0.25F, 0.0F).color(-1).texture((float)u, (float)v).overlay(OverlayTexture.DEFAULT_UV).light(packedLight).normal(matrix, 0.0F, 1.0F, 0.0F);
+        vertexConsumer.addVertex(matrix, x - 0.5F, (float)y - 0.25F, 0.0F).setColor(-1).setUv((float)u, (float)v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(matrix, 0.0F, 1.0F, 0.0F);
     }
 }

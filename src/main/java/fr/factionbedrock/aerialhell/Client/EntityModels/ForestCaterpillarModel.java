@@ -1,12 +1,17 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.CaterpillarRenderState;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
-
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.util.Mth;
 import java.awt.*;
 
 // Made with Blockbench 4.7.0
@@ -39,57 +44,57 @@ public class ForestCaterpillarModel<S extends CaterpillarRenderState> extends En
 		this.sapling_colored = root.getChild("sapling_colored");
 	}
 
-	public static TexturedModelData createBodyLayer()
+	public static LayerDefinition createBodyLayer()
 	{
-		ModelData meshdefinition = new ModelData();
-		ModelPartData partdefinition = meshdefinition.getRoot();
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(5, 58).mirrored().cuboid(-2.0F, -3.0F, -3.0F, 4.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(8, 55).mirrored().cuboid(-1.0F, -4.0F, -2.0F, 2.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, -3.5F));
+		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(5, 58).mirror().addBox(-2.0F, -3.0F, -3.0F, 4.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(8, 55).mirror().addBox(-1.0F, -4.0F, -2.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 24.0F, -3.5F));
 
-		ModelPartData head_colored = partdefinition.addChild("head_colored", ModelPartBuilder.create().uv(5, 26).mirrored().cuboid(-2.0F, -3.0F, -3.0F, 4.0F, 3.0F, 3.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(8, 23).mirrored().cuboid(-1.0F, -4.0F, -2.0F, 2.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, -3.5F));
+		PartDefinition head_colored = partdefinition.addOrReplaceChild("head_colored", CubeListBuilder.create().texOffs(5, 26).mirror().addBox(-2.0F, -3.0F, -3.0F, 4.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(8, 23).mirror().addBox(-1.0F, -4.0F, -2.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 24.0F, -3.5F));
 
-		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(17, 46).mirrored().cuboid(-3.0F, -4.0F, -3.5F, 6.0F, 4.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(11, 56).mirrored().cuboid(-5.0F, 0.0F, -4.5F, 10.0F, 0.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(21, 39).mirrored().cuboid(-1.0F, -5.0F, -3.5F, 2.0F, 1.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(25, 36).mirrored().cuboid(-1.0F, -6.0F, -1.5F, 2.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 0.0F));
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(17, 46).mirror().addBox(-3.0F, -4.0F, -3.5F, 6.0F, 4.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(11, 56).mirror().addBox(-5.0F, 0.0F, -4.5F, 10.0F, 0.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(21, 39).mirror().addBox(-1.0F, -5.0F, -3.5F, 2.0F, 1.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(25, 36).mirror().addBox(-1.0F, -6.0F, -1.5F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		ModelPartData body_colored = partdefinition.addChild("body_colored", ModelPartBuilder.create().uv(17, 14).mirrored().cuboid(-3.0F, -4.0F, -3.5F, 6.0F, 4.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(11, 24).mirrored().cuboid(-5.0F, 0.0F, -4.5F, 10.0F, 0.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(21, 7).mirrored().cuboid(-1.0F, -5.0F, -3.5F, 2.0F, 1.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(25, 4).mirrored().cuboid(-1.0F, -6.0F, -1.5F, 2.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 0.0F));
+		PartDefinition body_colored = partdefinition.addOrReplaceChild("body_colored", CubeListBuilder.create().texOffs(17, 14).mirror().addBox(-3.0F, -4.0F, -3.5F, 6.0F, 4.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(11, 24).mirror().addBox(-5.0F, 0.0F, -4.5F, 10.0F, 0.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(21, 7).mirror().addBox(-1.0F, -5.0F, -3.5F, 2.0F, 1.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(25, 4).mirror().addBox(-1.0F, -6.0F, -1.5F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		ModelPartData tail = partdefinition.addChild("tail", ModelPartBuilder.create().uv(39, 27).mirrored().cuboid(-1.5F, -3.0F, -0.5F, 3.0F, 3.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 3.0F));
+		PartDefinition tail = partdefinition.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(39, 27).mirror().addBox(-1.5F, -3.0F, -0.5F, 3.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 24.0F, 3.0F));
 
-		ModelPartData tail_end = partdefinition.addChild("tail_end", ModelPartBuilder.create().uv(41, 23).mirrored().cuboid(-0.5F, -2.0F, 0.5F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 4.0F));
+		PartDefinition tail_end = partdefinition.addOrReplaceChild("tail_end", CubeListBuilder.create().texOffs(41, 23).mirror().addBox(-0.5F, -2.0F, 0.5F, 1.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 24.0F, 4.0F));
 
-		ModelPartData sapling = partdefinition.addChild("sapling", ModelPartBuilder.create().uv(45, 39).mirrored().cuboid(0.0F, -11.0F, -3.5F, 0.0F, 5.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(47, 40).mirrored().cuboid(-2.0F, -11.0F, -0.5F, 4.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 0.0F));
+		PartDefinition sapling = partdefinition.addOrReplaceChild("sapling", CubeListBuilder.create().texOffs(45, 39).mirror().addBox(0.0F, -11.0F, -3.5F, 0.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(47, 40).mirror().addBox(-2.0F, -11.0F, -0.5F, 4.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		ModelPartData sapling_colored = partdefinition.addChild("sapling_colored", ModelPartBuilder.create().uv(45, 7).mirrored().cuboid(0.0F, -11.0F, -3.5F, 0.0F, 5.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(47, 8).mirrored().cuboid(-2.0F, -11.0F, -0.5F, 4.0F, 5.0F, 0.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 0.0F));
+		PartDefinition sapling_colored = partdefinition.addOrReplaceChild("sapling_colored", CubeListBuilder.create().texOffs(45, 7).mirror().addBox(0.0F, -11.0F, -3.5F, 0.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(47, 8).mirror().addBox(-2.0F, -11.0F, -0.5F, 4.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		return TexturedModelData.of(meshdefinition, 64, 64);
+		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override public void setAngles(S renderState)
+	@Override public void setupAnim(S renderState)
 	{
 		grassARGB = renderState.grassARGB;
 		foliageARGB = renderState.foliageARGB;
-		float ageInTicks = renderState.age;
+		float ageInTicks = renderState.ageInTicks;
 
-		this.body.yaw = MathHelper.cos(ageInTicks/2 * 0.9F + (float)1 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(1 - 2));
-		this.body_colored.yaw = MathHelper.cos(ageInTicks/2 * 0.9F + (float)1 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(1 - 2));
-		this.sapling.yaw = MathHelper.cos(ageInTicks/2 * 0.9F + (float)1 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(1 - 2));
-		this.sapling_colored.yaw = MathHelper.cos(ageInTicks/2 * 0.9F + (float)1 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(1 - 2));
-		this.tail.yaw = MathHelper.cos(ageInTicks/2 * 0.9F + (float)2 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(2 - 2));
-		this.tail_end.yaw = MathHelper.cos(ageInTicks/2 * 0.9F + (float)3 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(3 - 2));
-		this.head.yaw = MathHelper.cos(ageInTicks/2 * 0.9F + (float)3 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(0 - 2));
-		this.head_colored.yaw = MathHelper.cos(ageInTicks/2 * 0.9F + (float)3 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(0 - 2));
+		this.body.yRot = Mth.cos(ageInTicks/2 * 0.9F + (float)1 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(1 - 2));
+		this.body_colored.yRot = Mth.cos(ageInTicks/2 * 0.9F + (float)1 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(1 - 2));
+		this.sapling.yRot = Mth.cos(ageInTicks/2 * 0.9F + (float)1 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(1 - 2));
+		this.sapling_colored.yRot = Mth.cos(ageInTicks/2 * 0.9F + (float)1 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(1 - 2));
+		this.tail.yRot = Mth.cos(ageInTicks/2 * 0.9F + (float)2 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(2 - 2));
+		this.tail_end.yRot = Mth.cos(ageInTicks/2 * 0.9F + (float)3 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(3 - 2));
+		this.head.yRot = Mth.cos(ageInTicks/2 * 0.9F + (float)3 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(0 - 2));
+		this.head_colored.yRot = Mth.cos(ageInTicks/2 * 0.9F + (float)3 * 0.15F * (float)Math.PI) * (float)Math.PI * 0.05F * (float)(1 + Math.abs(0 - 2));
 	}
 
-	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tintIn)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tintIn)
 	{
 		int tint = isColored ? grassARGB : tintIn;
 

@@ -1,52 +1,51 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.RedstoneTorchBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCollisionHandler;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
-
 import java.util.function.ToIntFunction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RedstoneTorchBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class GlowingStellarTallGrass extends AerialHellTallGrassBlock
 {
 	public static final BooleanProperty LIT = RedstoneTorchBlock.LIT;
-	public GlowingStellarTallGrass(AbstractBlock.Settings settings) {super(settings); this.setDefaultState(this.getDefaultState().with(LIT, false));}
+	public GlowingStellarTallGrass(BlockBehaviour.Properties settings) {super(settings); this.registerDefaultState(this.defaultBlockState().setValue(LIT, false));}
 
-	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean intersects)
+	@Override public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier handler, boolean intersects)
 	{
-		if (!world.isClient()) {interact(state, world, pos);}
+		if (!world.isClientSide()) {interact(state, world, pos);}
 	}
 
-	@Override public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hitResult)
+	@Override public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult)
 	{
-		if (!world.isClient()) {interact(state, world, pos);}
-		return ActionResult.PASS;
+		if (!world.isClientSide()) {interact(state, world, pos);}
+		return InteractionResult.PASS;
 	}
 
-	private static void interact(BlockState state, World world, BlockPos pos)
+	private static void interact(BlockState state, Level world, BlockPos pos)
 	{
-		if (!state.get(LIT)) {world.setBlockState(pos, state.with(LIT, true), 3);}
+		if (!state.getValue(LIT)) {world.setBlock(pos, state.setValue(LIT, true), 3);}
 	}
 
-	@Override public boolean hasRandomTicks(BlockState state) {return state.get(LIT);}
+	@Override public boolean isRandomlyTicking(BlockState state) {return state.getValue(LIT);}
 
-	@Override public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
+	@Override public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand)
 	{
-		if (state.get(LIT)) {world.setBlockState(pos, state.with(LIT, Boolean.valueOf(false)), 3);}
+		if (state.getValue(LIT)) {world.setBlock(pos, state.setValue(LIT, Boolean.valueOf(false)), 3);}
 	}
 
-	@Override protected void appendProperties(StateManager.Builder<Block, BlockState> state) {state.add(LIT);}
+	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> state) {state.add(LIT);}
 
-	private static ToIntFunction<BlockState> litBlockEmission(int p_50760_) {return (state) -> {return state.get(RedstoneTorchBlock.LIT) ? p_50760_ : 0;};}
+	private static ToIntFunction<BlockState> litBlockEmission(int p_50760_) {return (state) -> {return state.getValue(RedstoneTorchBlock.LIT) ? p_50760_ : 0;};}
 }

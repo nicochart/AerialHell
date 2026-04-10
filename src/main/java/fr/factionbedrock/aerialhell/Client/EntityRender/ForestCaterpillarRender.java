@@ -5,32 +5,31 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.ForestCaterpillarModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.CaterpillarRenderState;
 import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
-import net.minecraft.client.color.world.BiomeColors;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.util.Identifier;
-
 import java.awt.*;
+import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.Identifier;
 
-public class ForestCaterpillarRender<T extends AbstractCaterpillarEntity> extends MobEntityRenderer<T, CaterpillarRenderState, ForestCaterpillarModel<CaterpillarRenderState>>
+public class ForestCaterpillarRender<T extends AbstractCaterpillarEntity> extends MobRenderer<T, CaterpillarRenderState, ForestCaterpillarModel<CaterpillarRenderState>>
 {
 	private static String name_forest = "forest_caterpillar";
-	private static final Identifier FOREST = Identifier.of(AerialHell.MODID, "textures/entity/caterpillar/" + name_forest + ".png");
+	private static final Identifier FOREST = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/caterpillar/" + name_forest + ".png");
 
-    public ForestCaterpillarRender(EntityRendererFactory.Context context)
+    public ForestCaterpillarRender(EntityRendererProvider.Context context)
 	{
-		super(context, new ForestCaterpillarModel<>(context.getPart(AerialHellModelLayers.CATERPILLAR), true), 0.2f);
+		super(context, new ForestCaterpillarModel<>(context.bakeLayer(AerialHellModelLayers.CATERPILLAR), true), 0.2f);
 	}
 
 	@Override
 	public CaterpillarRenderState createRenderState() {return new CaterpillarRenderState();}
 
-	@Override public Identifier getTexture(CaterpillarRenderState renderState) {return FOREST;}
+	@Override public Identifier getTextureLocation(CaterpillarRenderState renderState) {return FOREST;}
 
-	@Override public void updateRenderState(T entity, CaterpillarRenderState renderState, float f)
+	@Override public void extractRenderState(T entity, CaterpillarRenderState renderState, float f)
 	{
-		super.updateRenderState(entity, renderState, f);
-		renderState.grassARGB = new Color(BiomeColors.getGrassColor(entity.getEntityWorld(), entity.getSteppingPos())).getRGB();
-		renderState.foliageARGB = new Color(BiomeColors.getFoliageColor(entity.getEntityWorld(), entity.getSteppingPos())).getRGB();
+		super.extractRenderState(entity, renderState, f);
+		renderState.grassARGB = new Color(BiomeColors.getAverageGrassColor(entity.level(), entity.getOnPos())).getRGB();
+		renderState.foliageARGB = new Color(BiomeColors.getAverageFoliageColor(entity.level(), entity.getOnPos())).getRGB();
 	}
 }

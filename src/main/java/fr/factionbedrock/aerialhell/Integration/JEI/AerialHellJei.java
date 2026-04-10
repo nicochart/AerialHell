@@ -10,7 +10,7 @@ import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 
 public class AerialHellJei implements IModPlugin
 {

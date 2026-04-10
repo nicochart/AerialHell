@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Util;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

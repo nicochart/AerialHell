@@ -2,10 +2,10 @@ package fr.factionbedrock.aerialhell.Entity.MultipartEntity;
 
 import fr.factionbedrock.aerialhell.Entity.BaseMobEntityInterface;
 import fr.factionbedrock.aerialhell.Util.DebugHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
 public interface PartEntity extends BaseMobEntityInterface
@@ -19,7 +19,7 @@ public interface PartEntity extends BaseMobEntityInterface
     /* ---------------------------------------------------- */
     //You will also need to implement getSelf() from BaseEntityInterface
 
-    boolean partSuperDamage(ServerWorld world, DamageSource source, float amount); //override and return super.damage(world, source, amount)
+    boolean partSuperDamage(ServerLevel world, DamageSource source, float amount); //override and return super.damage(world, source, amount)
     boolean isPartAlwaysInvulnerableTo(DamageSource damageSource); //override and return super.isAlwaysInvulnerableTo(damageSource)
 
     MasterPartInfo getMasterInfo();
@@ -34,7 +34,7 @@ public interface PartEntity extends BaseMobEntityInterface
     {
         if (this.getMasterRaw() == null) {this.setMasterRaw(this.getMasterByID());}
         MasterPartEntity master = this.getMasterRaw();
-        if (master == null || master.getSelf().isDead() || master.getSelf().isRemoved() || !master.is(this.getSelf()))
+        if (master == null || master.getSelf().isDeadOrDying() || master.getSelf().isRemoved() || !master.is(this.getSelf()))
         {
             this.incrementTicksInInvalidSituation();
             if (this.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION) {this.reactToInvalidSituationWithMaster();}
@@ -46,7 +46,7 @@ public interface PartEntity extends BaseMobEntityInterface
         this.tryToFindBackMaster();
     }
 
-    default boolean partDamage(ServerWorld world, DamageSource source, float amount, boolean forceLocalDamage) //replace super.damage(world, source, amount) call by this call with false "forceLocalDamage" (do not call super!)
+    default boolean partDamage(ServerLevel world, DamageSource source, float amount, boolean forceLocalDamage) //replace super.damage(world, source, amount) call by this call with false "forceLocalDamage" (do not call super!)
     {
         if (forceLocalDamage) {return this.partSuperDamage(world, source, amount);}
         else
@@ -59,7 +59,7 @@ public interface PartEntity extends BaseMobEntityInterface
     default boolean canPartBePushAwayBy(Entity other) //call as condition in pushAwayFrom(entity)
     {
         if (this.getMaster() == null) {return true;}
-        return !other.isPartOf(this.getMaster().getSelf());
+        return !other.is(this.getMaster().getSelf());
     }
 
     default boolean recognizesPart(Entity other) //call in isPartOf(entity)
@@ -85,7 +85,7 @@ public interface PartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------------------- */
     /* -------- Other utility methods (for the interface) -------- */
     /* ----------------------------------------------------------- */
-    default TrackedData<Integer> getMasterIdData() {return this.getMasterInfo().getIdData();}
+    default EntityDataAccessor<Integer> getMasterIdData() {return this.getMasterInfo().getIdData();}
     default void setMasterRaw(MasterPartEntity master) {this.getMasterInfo().setMaster(master);}
     default @Nullable MasterPartEntity getMasterRaw() {return this.getMasterInfo().getMaster();}
 
@@ -100,17 +100,17 @@ public interface PartEntity extends BaseMobEntityInterface
     default void killPart()
     {
         this.onPartDeath();
-        if (this.getLevel() instanceof ServerWorld serverWorld)
+        if (this.getLevel() instanceof ServerLevel serverWorld)
         {
-            this.partDamage(serverWorld, this.getSelf().getDamageSources().outOfWorld(), this.getSelf().getMaxHealth(), true);
+            this.partDamage(serverWorld, this.getSelf().damageSources().fellOutOfWorld(), this.getSelf().getMaxHealth(), true);
         }
     }
 
-    default boolean tryRedirectDamageToMaster(ServerWorld world, DamageSource source, float amount)
+    default boolean tryRedirectDamageToMaster(ServerLevel world, DamageSource source, float amount)
     {
         MasterPartEntity master = this.getMasterRaw();
-        if (master == null || master.getSelf().isDead()) {return this.partDamage(world, source, amount, true);} //if master can't receive damage, damage part instead
-        return master.getSelf().damage(world, source, amount);
+        if (master == null || master.getSelf().isDeadOrDying()) {return this.partDamage(world, source, amount, true);} //if master can't receive damage, damage part instead
+        return master.getSelf().hurtServer(world, source, amount);
     }
 
     //if the master is not found (for example after being placed with a structure nbt, or if the master was deleted for whatever reason)
@@ -121,7 +121,7 @@ public interface PartEntity extends BaseMobEntityInterface
             case NONE : {}
             case DISCARD :
             {
-                if (!this.getLevel().isClient()) {this.getSelf().discard();}
+                if (!this.getLevel().isClientSide()) {this.getSelf().discard();}
             }
         };
     }
@@ -139,7 +139,7 @@ public interface PartEntity extends BaseMobEntityInterface
 
     @Nullable default MasterPartEntity getMasterByID()
     {
-        Entity entity = this.getLevel().getEntityById(this.getMasterId());
+        Entity entity = this.getLevel().getEntity(this.getMasterId());
         return entity instanceof MasterPartEntity masterEntity ? masterEntity : null;
     }
 

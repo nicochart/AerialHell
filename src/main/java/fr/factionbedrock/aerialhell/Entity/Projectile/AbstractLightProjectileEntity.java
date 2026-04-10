@@ -3,54 +3,54 @@ package fr.factionbedrock.aerialhell.Entity.Projectile;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.projectile.thrown.ThrownEntity;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
-public abstract class AbstractLightProjectileEntity extends ThrownEntity
+public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
 {
     private int ticksInAir = 0;
-    public AbstractLightProjectileEntity(EntityType<? extends AbstractLightProjectileEntity> type, World world) {super(type, world);}
+    public AbstractLightProjectileEntity(EntityType<? extends AbstractLightProjectileEntity> type, Level world) {super(type, world);}
 
-    public AbstractLightProjectileEntity(EntityType<? extends AbstractLightProjectileEntity> type, LivingEntity shooter, World world)
+    public AbstractLightProjectileEntity(EntityType<? extends AbstractLightProjectileEntity> type, LivingEntity shooter, Level world)
     {
         super(type, shooter.getX(), shooter.getEyeY() - 0.1F, shooter.getZ(), world);
         this.setOwner(shooter);
     }
-    @Override public void setVelocity(double x, double y, double z, float velocity, float inaccuracy)
+    @Override public void shoot(double x, double y, double z, float velocity, float inaccuracy)
     {
-    	super.setVelocity(x, y, z, velocity, inaccuracy);
+    	super.shoot(x, y, z, velocity, inaccuracy);
     	this.playSound(this.getShootSound(), 3, 0.875F + 0.25F * random.nextFloat());
     }
 
     //@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);}
-    @Override protected void initDataTracker(DataTracker.Builder builder) {}
-    @Override public boolean hasNoGravity() {return true;}
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {}
+    @Override public boolean isNoGravity() {return true;}
 
     @Override public void tick()
     {
     	double d1,d2,d3; d1 = 0.5D - random.nextFloat(); d2 = 0.5D - random.nextFloat(); d3 = 0.5D - random.nextFloat();
-        this.getEntityWorld().addParticleClient(this.getFlyParticle(), this.getX() + d1, this.getY() + 0.3D + d2, this.getZ() + d3, d1, d2, d3);
+        this.level().addParticle(this.getFlyParticle(), this.getX() + d1, this.getY() + 0.3D + d2, this.getZ() + d3, d1, d2, d3);
         super.tick();
-        if (!this.isOnGround()) {++this.ticksInAir;}
+        if (!this.onGround()) {++this.ticksInAir;}
         if (this.ticksInAir > 300) {this.discard();}
-        if (this.getEntityWorld().getBlockState(this.getBlockPos()).isIn(AerialHellTags.Blocks.SOLID_ETHER)) {this.playHitEffect(); this.discard();}
-        if (this.getEntityWorld() instanceof ServerWorld serverWorld)
+        if (this.level().getBlockState(this.blockPosition()).is(AerialHellTags.Blocks.SOLID_ETHER)) {this.playHitEffect(); this.discard();}
+        if (this.level() instanceof ServerLevel serverWorld)
         {
             transformBlocks(serverWorld, this, this.getShiftType());
         }
 
     }
 
-    static void transformBlocks(ServerWorld world, AbstractLightProjectileEntity projectile, BiomeShifter.ShiftType shiftType)
+    static void transformBlocks(ServerLevel world, AbstractLightProjectileEntity projectile, BiomeShifter.ShiftType shiftType)
     {
         BlockPos pos;
         for (int x=-2; x<=2; x++)
@@ -78,25 +78,25 @@ public abstract class AbstractLightProjectileEntity extends ThrownEntity
 
     protected abstract BiomeShifter.ShiftType getShiftType();
 
-    @Override protected void onCollision(HitResult result)
+    @Override protected void onHit(HitResult result)
     {
         this.playHitEffect();
-        super.onCollision(result);
-        if (result.getType() != HitResult.Type.ENTITY && !this.getEntityWorld().isClient()) {this.discard();}
+        super.onHit(result);
+        if (result.getType() != HitResult.Type.ENTITY && !this.level().isClientSide()) {this.discard();}
     }
 
     public void playHitEffect()
     {
         double d1,d2,d3,d4,d5,d6;
         d1 = 0.5D - random.nextFloat(); d2 = 0.5D - random.nextFloat(); d3 = 0.5D - random.nextFloat(); d4 = 0.5D - random.nextFloat(); d5 = 0.5D - random.nextFloat(); d6 = 0.5D - random.nextFloat();
-        this.getEntityWorld().addParticleClient(this.getImpactParticle(), this.getX() - d1, this.getY() - d2, this.getZ() - d3, -d1, -d2, -d3);
-        this.getEntityWorld().addParticleClient(this.getImpactParticle(), this.getX() - d4, this.getY() - d5, this.getZ() - d6, -d4, -d5, -d6);
-        this.getEntityWorld().addParticleClient(this.getFlyParticle(), this.getX() + d1, this.getY() + d2, this.getZ() + d3, d1, d2, d3);
-        this.getEntityWorld().addParticleClient(this.getFlyParticle(), this.getX() + d4, this.getY() + d5, this.getZ() + d6, d4, d5, d6);
+        this.level().addParticle(this.getImpactParticle(), this.getX() - d1, this.getY() - d2, this.getZ() - d3, -d1, -d2, -d3);
+        this.level().addParticle(this.getImpactParticle(), this.getX() - d4, this.getY() - d5, this.getZ() - d6, -d4, -d5, -d6);
+        this.level().addParticle(this.getFlyParticle(), this.getX() + d1, this.getY() + d2, this.getZ() + d3, d1, d2, d3);
+        this.level().addParticle(this.getFlyParticle(), this.getX() + d4, this.getY() + d5, this.getZ() + d6, d4, d5, d6);
         this.playDisappearSound(1, 0.75F + 0.5F * random.nextFloat());
     }
 
-    @Override protected void onEntityHit(EntityHitResult result)
+    @Override protected void onHitEntity(EntityHitResult result)
     {
         this.playDisappearSound(1, 0.25F + 0.25F * random.nextFloat());
     }

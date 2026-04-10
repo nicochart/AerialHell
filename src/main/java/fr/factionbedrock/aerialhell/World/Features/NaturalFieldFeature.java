@@ -6,29 +6,28 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.NaturalFieldConfig;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CropBlock;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.util.FeatureContext;
-
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 public class NaturalFieldFeature extends Feature<NaturalFieldConfig> implements DungeonSensitiveFeatureCheck
 {
     public NaturalFieldFeature(Codec<NaturalFieldConfig> codec) {super(codec);}
 
-    @Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.NATURAL_FIELD_LIST;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.NATURAL_FIELD_LIST;}
 
-    @Override public boolean generate(FeatureContext<NaturalFieldConfig> context)
+    @Override public boolean place(FeaturePlaceContext<NaturalFieldConfig> context)
     {
-        BlockPos blockPos = context.getOrigin(); StructureWorldAccess world = context.getWorld();
-		boolean canGenerate = isAboveSurfaceBlockPos(world, blockPos) && !BlockHelper.hasAnySolidSurfaceAbove(world, blockPos.up(2), 3);
+        BlockPos blockPos = context.origin(); WorldGenLevel world = context.level();
+		boolean canGenerate = isAboveSurfaceBlockPos(world, blockPos) && !BlockHelper.hasAnySolidSurfaceAbove(world, blockPos.above(2), 3);
 		
         if (canGenerate && this.isDungeonSensitiveValid(context))
         {
@@ -38,10 +37,10 @@ public class NaturalFieldFeature extends Feature<NaturalFieldConfig> implements 
         return false;
     }
     
-    protected void generateField(FeatureContext<NaturalFieldConfig> context)
+    protected void generateField(FeaturePlaceContext<NaturalFieldConfig> context)
     {
-        StructureWorldAccess world = context.getWorld(); Random rand = context.getRandom(); BlockPos blockPos = context.getOrigin();
-    	BlockPos.Mutable placementPos = new BlockPos.Mutable();
+        WorldGenLevel world = context.level(); RandomSource rand = context.random(); BlockPos blockPos = context.origin();
+    	BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
     	boolean isBig = rand.nextDouble() > 0.8;
         int radiusX = getRandomRadius(rand, isBig);
         int radiusZ = getRandomRadius(rand, isBig);
@@ -51,32 +50,32 @@ public class NaturalFieldFeature extends Feature<NaturalFieldConfig> implements 
             for(int z = -radiusZ; z <= radiusZ; z++)
             {
                 BlockPos pos = new BlockPos(x, 0, z);
-                if (isPosInsideEllipsis(pos, radiusX, radiusZ) && world.getRandom().nextFloat() < context.getConfig().baseChance())
+                if (isPosInsideEllipsis(pos, radiusX, radiusZ) && world.getRandom().nextFloat() < context.config().baseChance())
                 {
-                    placementPos.set(blockPos.add(pos));
+                    placementPos.set(blockPos.offset(pos));
                     findHeightForPlacement(context, placementPos);
                     if (isValidBlockPosForStellarWheat(world, placementPos))
                     {
-                        world.setBlockState(placementPos.down(), AerialHellBlocks.STELLAR_FARMLAND.getDefaultState(), 2);
-                        BlockState placementState = context.getConfig().cropStateProvider().get(rand, placementPos);
+                        world.setBlock(placementPos.below(), AerialHellBlocks.STELLAR_FARMLAND.defaultBlockState(), 2);
+                        BlockState placementState = context.config().cropStateProvider().getState(rand, placementPos);
                         if (placementState.getBlock() instanceof CropBlock)
                         {
-                            placementState = placementState.with(CropBlock.AGE, world.getRandom().nextBetweenExclusive(4, 8));
+                            placementState = placementState.setValue(CropBlock.AGE, world.getRandom().nextInt(4, 8));
                         }
-                        world.setBlockState(placementPos, placementState, 2);
+                        world.setBlock(placementPos, placementState, 2);
                     }
                 }
             }
         }
     }
 
-    protected static void findHeightForPlacement(FeatureContext<NaturalFieldConfig> context, BlockPos.Mutable blockPos)
+    protected static void findHeightForPlacement(FeaturePlaceContext<NaturalFieldConfig> context, BlockPos.MutableBlockPos blockPos)
     {
-        StructureWorldAccess world = context.getWorld();
+        WorldGenLevel world = context.level();
         int step = 0;
-        while (step < context.getConfig().maxVerticalOffset() && !isAboveSurfaceBlockPos(world, blockPos))
+        while (step < context.config().maxVerticalOffset() && !isAboveSurfaceBlockPos(world, blockPos))
         {
-            float probabilityToMove = context.getConfig().acceptOffsetChance() / (step + 1);
+            float probabilityToMove = context.config().acceptOffsetChance() / (step + 1);
             if (world.getRandom().nextFloat() > probabilityToMove) {return;}
 
             if (world.getBlockState(blockPos).isAir()) {blockPos.move(Direction.DOWN);}
@@ -85,17 +84,17 @@ public class NaturalFieldFeature extends Feature<NaturalFieldConfig> implements 
         }
     }
 
-    private static boolean isAboveSurfaceBlockPos(StructureWorldAccess world, BlockPos blockPos)
+    private static boolean isAboveSurfaceBlockPos(WorldGenLevel world, BlockPos blockPos)
     {
-        return world.getBlockState(blockPos).isAir() && !world.getBlockState(blockPos.down()).isAir();
+        return world.getBlockState(blockPos).isAir() && !world.getBlockState(blockPos.below()).isAir();
     }
 
-    private static boolean isValidBlockPosForStellarWheat(StructureWorldAccess world, BlockPos blockPos)
+    private static boolean isValidBlockPosForStellarWheat(WorldGenLevel world, BlockPos blockPos)
     {
-        return world.getBlockState(blockPos).isAir() && world.getBlockState(blockPos.down()).isIn(AerialHellTags.Blocks.STELLAR_DIRT);
+        return world.getBlockState(blockPos).isAir() && world.getBlockState(blockPos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT);
     }
     
-    private int getRandomRadius(Random rand, boolean isBig)
+    private int getRandomRadius(RandomSource rand, boolean isBig)
     {
     	return isBig ? (int) (5 + rand.nextFloat() * 5) : (int) (3 + rand.nextFloat() * 4);
     }

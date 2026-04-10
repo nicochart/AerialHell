@@ -2,32 +2,30 @@ package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.BlockEntity.*;
-import fr.factionbedrock.aerialhell.BlockEntity.AerialHellSignBlockEntity;
-
 import com.google.common.collect.Sets;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class AerialHellBlockEntities
 {
-	public static final BlockEntityType<OscillatorBlockEntity> OSCILLATOR = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("oscillator"),
+	public static final BlockEntityType<OscillatorBlockEntity> OSCILLATOR = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.id("oscillator"),
 			FabricBlockEntityTypeBuilder.create(OscillatorBlockEntity::new, AerialHellBlocks.OSCILLATOR).build());
 
-	public static final BlockEntityType<FreezerBlockEntity> FREEZER = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("freezer"),
+	public static final BlockEntityType<FreezerBlockEntity> FREEZER = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.id("freezer"),
 			FabricBlockEntityTypeBuilder.create(FreezerBlockEntity::new,AerialHellBlocks.FREEZER).build());
 
-	public static final BlockEntityType<IntangibleTemporaryBlockEntity> INTANGIBLE_TEMPORARY_BLOCK = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("intangible_temporary_block"),
+	public static final BlockEntityType<IntangibleTemporaryBlockEntity> INTANGIBLE_TEMPORARY_BLOCK = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.id("intangible_temporary_block"),
 			FabricBlockEntityTypeBuilder.create(IntangibleTemporaryBlockEntity::new,AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK).build());
 
-	public static final BlockEntityType<BiomeShifterBlockEntity> BIOME_SHIFTER = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("biome_shifter"),
+	public static final BlockEntityType<BiomeShifterBlockEntity> BIOME_SHIFTER = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.id("biome_shifter"),
 			FabricBlockEntityTypeBuilder.create((pos, blockState) -> new BiomeShifterBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null),
 				AerialHellBlocks.FLUORITE_ORE,
 				AerialHellBlocks.FLUORITE_BLOCK
 			).build());
 
-	public static final BlockEntityType<ReactorBlockEntity> REACTOR = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("reactor"),
+	public static final BlockEntityType<ReactorBlockEntity> REACTOR = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.id("reactor"),
 			FabricBlockEntityTypeBuilder.create((pos, blockState) -> new ReactorBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null),
 				AerialHellBlocks.WEAK_LIGHT_REACTOR,
 				AerialHellBlocks.HIGH_POWER_LIGHT_REACTOR,
@@ -35,13 +33,13 @@ public class AerialHellBlockEntities
 				AerialHellBlocks.HIGH_POWER_SHADOW_REACTOR
 			).build());
 
-	public static final BlockEntityType<StellarFurnaceBlockEntity> STELLAR_FURNACE = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("stellar_furnace"),
+	public static final BlockEntityType<StellarFurnaceBlockEntity> STELLAR_FURNACE = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.id("stellar_furnace"),
 			FabricBlockEntityTypeBuilder.create(StellarFurnaceBlockEntity::new,
 					AerialHellBlocks.STELLAR_FURNACE,
 					AerialHellBlocks.GHOST_STELLAR_FURNACE
 			).build());
 
-	public static final BlockEntityType<AerialHellSignBlockEntity> SIGN = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("sign"),
+	public static final BlockEntityType<AerialHellSignBlockEntity> SIGN = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.id("sign"),
 			FabricBlockEntityTypeBuilder.create(AerialHellSignBlockEntity::new,
 					AerialHellBlocks.AERIAL_TREE_STANDING_SIGN,
 					AerialHellBlocks.AERIAL_TREE_WALL_SIGN,
@@ -61,7 +59,7 @@ public class AerialHellBlockEntities
 					AerialHellBlocks.GRAY_SHROOM_WALL_SIGN
 			).build());
 
-	public static final BlockEntityType<AerialHellHangingSignBlockEntity> HANGING_SIGN = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("hanging_sign"),
+	public static final BlockEntityType<AerialHellHangingSignBlockEntity> HANGING_SIGN = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.id("hanging_sign"),
 			FabricBlockEntityTypeBuilder.create(AerialHellHangingSignBlockEntity::new,
 					AerialHellBlocks.AERIAL_TREE_HANGING_SIGN,
 					AerialHellBlocks.AERIAL_TREE_WALL_HANGING_SIGN,
@@ -81,7 +79,7 @@ public class AerialHellBlockEntities
 					AerialHellBlocks.GRAY_SHROOM_WALL_HANGING_SIGN
 			).build());
 
-	public static final BlockEntityType<AerialHellBarrelBlockEntity> BARREL = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("barrel"),
+	public static final BlockEntityType<AerialHellBarrelBlockEntity> BARREL = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.id("barrel"),
 			FabricBlockEntityTypeBuilder.create(AerialHellBarrelBlockEntity::new,
 					AerialHellBlocks.AERIAL_TREE_BARREL,
 					AerialHellBlocks.GOLDEN_BEECH_BARREL,
@@ -94,7 +92,7 @@ public class AerialHellBlockEntities
 					AerialHellBlocks.GHOST_BOAT_BARREL
 			).build());
 
-	public static final BlockEntityType<AerialHellChestBlockEntity> CHEST = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("chest"),
+	public static final BlockEntityType<AerialHellChestBlockEntity> CHEST = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.id("chest"),
 			FabricBlockEntityTypeBuilder.create(AerialHellChestBlockEntity::new,
 					AerialHellBlocks.AERIAL_TREE_CHEST,
 					AerialHellBlocks.GOLDEN_BEECH_CHEST,
@@ -112,7 +110,7 @@ public class AerialHellBlockEntities
 					AerialHellBlocks.GOLDEN_NETHER_CHEST
 			).build());
 
-	public static final BlockEntityType<ChestMimicBlockEntity> CHEST_MIMIC = Registry.register(Registries.BLOCK_ENTITY_TYPE, AerialHell.id("chest_mimic"),
+	public static final BlockEntityType<ChestMimicBlockEntity> CHEST_MIMIC = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.id("chest_mimic"),
 			FabricBlockEntityTypeBuilder.create(ChestMimicBlockEntity::new,
 					AerialHellBlocks.AERIAL_TREE_CHEST_MIMIC,
 					AerialHellBlocks.GOLDEN_BEECH_CHEST_MIMIC,

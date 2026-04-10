@@ -8,31 +8,35 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.world.World;
-
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import java.util.List;
 
 public class ShadowAutomatonEntity extends AutomatonEntity implements MisleadableEntity
 {
-    public ShadowAutomatonEntity(EntityType<? extends HostileEntity> type, World world) {super(type, world);}
+    public ShadowAutomatonEntity(EntityType<? extends Monster> type, Level world) {super(type, world);}
 
     /* ------- MisleadableEntity : Interface method implementation ------- */
-    @Override public MobEntity getSelf() {return this;}
+    @Override public Mob getSelf() {return this;}
 
     @Override public boolean isMisleadedBy(LivingEntity livingEntity)
     {
@@ -41,31 +45,31 @@ public class ShadowAutomatonEntity extends AutomatonEntity implements Misleadabl
     /* ------------------------------------------------------------------- */
 
     /* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
-    @Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
+    @Override public boolean hurtServer(ServerLevel serverWorld, DamageSource source, float amount)
     {
-        return this.misleadableDamage(serverWorld, source, amount, super::damage);
+        return this.misleadableDamage(serverWorld, source, amount, super::hurtServer);
     }
     /* ------------------------------------------------------------------------------------------ */
 
-    public static DefaultAttributeContainer.Builder registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
-        return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.MAX_HEALTH, 50.0D)
-                .add(EntityAttributes.ARMOR, 3.0D)
-                .add(EntityAttributes.ATTACK_DAMAGE, 9.0D)
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.23D);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 50.0D)
+                .add(Attributes.ARMOR, 3.0D)
+                .add(Attributes.ATTACK_DAMAGE, 9.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.23D);
     }
 
-    @Override protected void initGoals()
+    @Override protected void registerGoals()
     {
         List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocks.VOLUCITE_TORCH, AerialHellBlocks.VOLUCITE_WALL_TORCH);
-        this.goalSelector.add(0, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
-        this.goalSelector.add(2, new MeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.add(3, new WanderAroundFarGoal(this, 0.6D));
-        this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(4, new LookAroundGoal(this));
-        this.targetSelector.add(1, new RevengeGoal(this));
-        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true, (potentialTarget, serverWorld) -> !this.isMisleadedBy(potentialTarget)));
+        this.goalSelector.addGoal(0, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.25D, false));
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.6D));
+        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, (potentialTarget, serverWorld) -> !this.isMisleadedBy(potentialTarget)));
     }
 
     @Override public void tick()
@@ -74,14 +78,14 @@ public class ShadowAutomatonEntity extends AutomatonEntity implements Misleadabl
         if (random.nextFloat() > 0.95) {EntityHelper.addBatParticle(this, this.random, 1);}
     }
 
-    @Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
+    @Override public boolean doHurtTarget(ServerLevel serverWorld, Entity attackedEntity)
     {
-        if (super.tryAttack(serverWorld, attackedEntity))
+        if (super.doHurtTarget(serverWorld, attackedEntity))
         {
             if (attackedEntity instanceof LivingEntity && !EntityHelper.isLivingEntityShadowImmune(((LivingEntity) attackedEntity)))
             {
-                ((LivingEntity) attackedEntity).addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 40, 0));
-                ((LivingEntity) attackedEntity).addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.VULNERABILITY, 60, 0));
+                ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 40, 0));
+                ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY, 60, 0));
             }
             return true;
         }

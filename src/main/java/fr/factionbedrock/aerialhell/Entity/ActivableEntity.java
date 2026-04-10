@@ -2,15 +2,14 @@ package fr.factionbedrock.aerialhell.Entity;
 
 import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-
 import java.util.List;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public interface ActivableEntity extends BaseMobEntityInterface
 {
@@ -28,13 +27,13 @@ public interface ActivableEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     default void activableEntityTick() //call in tick()
     {
-        if (!this.getLevel().isClient())
+        if (!this.getLevel().isClientSide())
         {
             this.updateActiveStatus();
         }
     }
 
-    default void activableDamage(boolean superDamaged, ServerWorld serverWorld, DamageSource source, float amount) //call in damage(world, source, amount)
+    default void activableDamage(boolean superDamaged, ServerLevel serverWorld, DamageSource source, float amount) //call in damage(world, source, amount)
     {
         if (superDamaged)
         {
@@ -43,14 +42,14 @@ public interface ActivableEntity extends BaseMobEntityInterface
         }
     }
 
-    default void activableWriteCustomData(WriteView view) //call in writeCustomData(valueOutput)
+    default void activableWriteCustomData(ValueOutput view) //call in writeCustomData(valueOutput)
     {
         view.putBoolean("is_active", this.isActive());
     }
 
-    default void activableReadCustomData(ReadView view) //call in readCustomData(valueInput)
+    default void activableReadCustomData(ValueInput view) //call in readCustomData(valueInput)
     {
-        this.setActive(view.getBoolean("is_active", false));
+        this.setActive(view.getBooleanOr("is_active", false));
     }
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */
@@ -59,7 +58,7 @@ public interface ActivableEntity extends BaseMobEntityInterface
     /* -------------------------------------------------------------- */
     /* -------- Other utility methods to eventually override -------- */
     /* -------------------------------------------------------------- */
-    default void onActiveStatusChange(ServerWorld serverWorld, boolean newActiveStatus) {} //only server side
+    default void onActiveStatusChange(ServerLevel serverWorld, boolean newActiveStatus) {} //only server side
     /* -------------------------------------------------------------- */
     /* -------------------------------------------------------------- */
     /* -------------------------------------------------------------- */
@@ -70,8 +69,8 @@ public interface ActivableEntity extends BaseMobEntityInterface
     default void updateActiveStatus()
     {
         if (this.activateOnlyOnHit() && !this.canDeactivate()) {return;}
-        if (!(this.getLevel() instanceof ServerWorld serverWorld)) {return;}
-        if (this.getSelf().age % this.getCheckForTargetPeriodInTicks() != 0) {return;}
+        if (!(this.getLevel() instanceof ServerLevel serverWorld)) {return;}
+        if (this.getSelf().tickCount % this.getCheckForTargetPeriodInTicks() != 0) {return;}
         int increment = this.getCheckForTargetPeriodInTicks();
 
         boolean hasTarget = this.checkVanillaTarget() || this.checkNearbyTarget();
@@ -116,7 +115,7 @@ public interface ActivableEntity extends BaseMobEntityInterface
         return this.hasNearbyTarget();
     }
 
-    default void changeActiveStatus(ServerWorld serverWorld, boolean newStatus) //this method is supposed to get called only server side
+    default void changeActiveStatus(ServerLevel serverWorld, boolean newStatus) //this method is supposed to get called only server side
     {
         this.setActive(newStatus);
         this.resetDeactivationTicks();
@@ -163,7 +162,7 @@ public interface ActivableEntity extends BaseMobEntityInterface
 
     default int getCheckForTargetPeriodInTicks() {return this.getActivableInfo().getCheckForTargetPeriodInTicks();}
     default double getTargetSearchDistance() {return this.getActivableInfo().getTargetSearchDistance(this);}
-    default TrackedData<Boolean> getActiveDataAccessor() {return this.getActivableInfo().getActiveDataAccessor();}
+    default EntityDataAccessor<Boolean> getActiveDataAccessor() {return this.getActivableInfo().getActiveDataAccessor();}
 
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */

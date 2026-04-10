@@ -2,24 +2,24 @@ package fr.factionbedrock.aerialhell.Inventory.Menu;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
-public class ReactorMenu extends ScreenHandler
+public class ReactorMenu extends AbstractContainerMenu
 {
-	private final Inventory container;
+	private final Container container;
 
-	public ReactorMenu(int containerId, PlayerInventory playerInventory)
+	public ReactorMenu(int containerId, Inventory playerInventory)
 	{
-		this(containerId, playerInventory, new SimpleInventory(1));
+		this(containerId, playerInventory, new SimpleContainer(1));
 	}
 
-	public ReactorMenu(int containerId, PlayerInventory playerInventory, Inventory container)
+	public ReactorMenu(int containerId, Inventory playerInventory, Container container)
 	{
 		super(AerialHellMenuTypes.REACTOR, containerId);
 		this.container = container;
@@ -29,19 +29,19 @@ public class ReactorMenu extends ScreenHandler
 		createBlockEntityInventory(container);
 	}
 
-	private void createBlockEntityInventory(Inventory container)
+	private void createBlockEntityInventory(Container container)
 	{
 		addSlot(new Slot(container,0,80,36)
 		{
-			@Override public boolean canInsert(ItemStack stack)
+			@Override public boolean mayPlace(ItemStack stack)
 			{
-				return stack.isOf(AerialHellItems.FLUORITE) || stack.isOf(AerialHellItems.FLUORITE_BLOCK)
-					|| stack.isOf(AerialHellItems.SHADOW_CRYSTAL) || stack.isOf(AerialHellItems.SHADOW_SHARD) || stack.isOf(AerialHellItems.CURSED_CRYSAL) || stack.isOf(AerialHellItems.CURSED_CRYSAL_BLOCK);
+				return stack.is(AerialHellItems.FLUORITE) || stack.is(AerialHellItems.FLUORITE_BLOCK)
+					|| stack.is(AerialHellItems.SHADOW_CRYSTAL) || stack.is(AerialHellItems.SHADOW_SHARD) || stack.is(AerialHellItems.CURSED_CRYSAL) || stack.is(AerialHellItems.CURSED_CRYSAL_BLOCK);
 			}
 		});
 	}
 
-	private void createPlayerInventory(Inventory container)
+	private void createPlayerInventory(Container container)
 	{
 		for (int row = 0; row < 3; row++) {
 			for (int column = 0; column < 9; column++) {
@@ -53,7 +53,7 @@ public class ReactorMenu extends ScreenHandler
 		}
 	}
 
-	private void createPlayerHotbar(Inventory container)
+	private void createPlayerHotbar(Container container)
 	{
 		for (int column = 0; column < 9; column++) {
 			addSlot(new Slot(container,
@@ -63,33 +63,33 @@ public class ReactorMenu extends ScreenHandler
 		}
 	}
 
-	@Override public ItemStack quickMove(PlayerEntity player, int index)
+	@Override public ItemStack quickMoveStack(Player player, int index)
 	{
 		Slot fromSlot = getSlot(index);
-		ItemStack fromStack = fromSlot.getStack();
+		ItemStack fromStack = fromSlot.getItem();
 
-		if (fromStack.getCount() <= 0) {fromSlot.setStack(ItemStack.EMPTY);}
-		if (!fromSlot.hasStack()) {return ItemStack.EMPTY;}
+		if (fromStack.getCount() <= 0) {fromSlot.setByPlayer(ItemStack.EMPTY);}
+		if (!fromSlot.hasItem()) {return ItemStack.EMPTY;}
 
 		ItemStack copyFromStack = fromStack.copy();
 
 		if (index < 36) //player inventory
 		{
-			if(!insertItem(fromStack, 36, 37, false)) {return ItemStack.EMPTY;}
+			if(!moveItemStackTo(fromStack, 36, 37, false)) {return ItemStack.EMPTY;}
 		}
 		else if (index == 36) //reactor inventory
 		{
-			if(!insertItem(fromStack, 0, 36, false)) {return ItemStack.EMPTY;}
+			if(!moveItemStackTo(fromStack, 0, 36, false)) {return ItemStack.EMPTY;}
 		}
 
-		fromSlot.markDirty();
-		fromSlot.onTakeItem(player, fromStack);
+		fromSlot.setChanged();
+		fromSlot.onTake(player, fromStack);
 
 		return copyFromStack;
 	}
 
-	@Override public boolean canUse(PlayerEntity player)
+	@Override public boolean stillValid(Player player)
 	{
-		return this.container.canPlayerUse(player);
+		return this.container.stillValid(player);
 	}
 }

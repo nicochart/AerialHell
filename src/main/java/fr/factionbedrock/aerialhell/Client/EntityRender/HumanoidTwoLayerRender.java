@@ -1,6 +1,7 @@
 
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.HumanoidTwoLayerModel;
@@ -10,57 +11,56 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimeNinjaPirateE
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimePirateEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.SlimeNinjaPirateEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.SlimePirateEntity;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderLayers;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
-import net.minecraft.client.render.entity.state.ArmedEntityRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
+import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class HumanoidTwoLayerRender extends MobEntityRenderer<AbstractHumanoidMonster, HumanoidTwoLayerRenderState, HumanoidTwoLayerModel<HumanoidTwoLayerRenderState>>
+public class HumanoidTwoLayerRender extends MobRenderer<AbstractHumanoidMonster, HumanoidTwoLayerRenderState, HumanoidTwoLayerModel<HumanoidTwoLayerRenderState>>
 {
-    private static final Identifier SLIME_PIRATE = Identifier.of(AerialHell.MODID, "textures/entity/pirate/slime.png");
-    private static final Identifier SLIME_NINJA_PIRATE = Identifier.of(AerialHell.MODID, "textures/entity/pirate/slime_ninja.png");
-    private static final Identifier GHOST_PIRATE = Identifier.of(AerialHell.MODID, "textures/entity/pirate/ghost.png");
-    private static final Identifier GHOST_NINJA_PIRATE = Identifier.of(AerialHell.MODID, "textures/entity/pirate/ghost_ninja.png");
-    private static final Identifier MUMMY = Identifier.of(AerialHell.MODID, "textures/entity/mummy/mummy.png");
+    private static final Identifier SLIME_PIRATE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/slime.png");
+    private static final Identifier SLIME_NINJA_PIRATE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/slime_ninja.png");
+    private static final Identifier GHOST_PIRATE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/ghost.png");
+    private static final Identifier GHOST_NINJA_PIRATE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/pirate/ghost_ninja.png");
+    private static final Identifier MUMMY = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/mummy/mummy.png");
 
-    public HumanoidTwoLayerRender(EntityRendererFactory.Context context)
+    public HumanoidTwoLayerRender(EntityRendererProvider.Context context)
     {
-        super(context, new HumanoidTwoLayerModel<>(context.getPart(AerialHellModelLayers.SLIME_PIRATE)), 0.4f);
-        this.addFeature(new HeldItemFeatureRenderer<>(this));
+        super(context, new HumanoidTwoLayerModel<>(context.bakeLayer(AerialHellModelLayers.SLIME_PIRATE)), 0.4f);
+        this.addLayer(new ItemInHandLayer<>(this));
     }
 
     @Override public HumanoidTwoLayerRenderState createRenderState() {return new HumanoidTwoLayerRenderState();}
 
-    @Override public void updateRenderState(AbstractHumanoidMonster entity, HumanoidTwoLayerRenderState renderState, float partialTick)
+    @Override public void extractRenderState(AbstractHumanoidMonster entity, HumanoidTwoLayerRenderState renderState, float partialTick)
     {
-        super.updateRenderState(entity, renderState, partialTick);
-        renderState.texture = getTexture(entity);
-        renderState.baby = entity.isBaby();
-        renderState.isAggressive = entity.isAttacking();
-        renderState.handSwingProgress = entity.getHandSwingProgress(partialTick);
-        ArmedEntityRenderState.updateRenderState(entity, renderState, this.itemModelResolver, partialTick);
+        super.extractRenderState(entity, renderState, partialTick);
+        renderState.texture = getTextureLocation(entity);
+        renderState.isBaby = entity.isBaby();
+        renderState.isAggressive = entity.isAggressive();
+        renderState.attackTime = entity.getAttackAnim(partialTick);
+        ArmedEntityRenderState.extractArmedEntityRenderState(entity, renderState, this.itemModelResolver, partialTick);
     }
 
-    @Nullable @Override protected RenderLayer getRenderLayer(HumanoidTwoLayerRenderState renderState, boolean isVisible, boolean renderTranslucent, boolean appearsGlowing)
+    @Nullable @Override protected RenderType getRenderType(HumanoidTwoLayerRenderState renderState, boolean isVisible, boolean renderTranslucent, boolean appearsGlowing)
     {
-        return RenderLayers.entityTranslucent(renderState.texture);
+        return RenderTypes.entityTranslucent(renderState.texture);
     }
 
-    @Override protected void scale(HumanoidTwoLayerRenderState renderState, MatrixStack matrixStack)
+    @Override protected void scale(HumanoidTwoLayerRenderState renderState, PoseStack matrixStack)
     {
-        float scale = renderState.baby ? 0.5F : 1.0F;
+        float scale = renderState.isBaby ? 0.5F : 1.0F;
         matrixStack.scale(scale, scale, scale);
     }
 
-    @Override public Identifier getTexture(HumanoidTwoLayerRenderState renderState) {return renderState.texture;}
+    @Override public Identifier getTextureLocation(HumanoidTwoLayerRenderState renderState) {return renderState.texture;}
 
-    @NotNull public Identifier getTexture(AbstractHumanoidMonster entity)
+    @NotNull public Identifier getTextureLocation(AbstractHumanoidMonster entity)
     {
         if (entity instanceof GhostSlimeNinjaPirateEntity) {return GHOST_NINJA_PIRATE;}
         else if (entity instanceof SlimeNinjaPirateEntity) {return SLIME_NINJA_PIRATE;}

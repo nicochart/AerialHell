@@ -5,51 +5,50 @@ import fr.factionbedrock.aerialhell.Block.Plants.VerticalGrowingPlantBlock;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.World.Features.Config.VerticalGrowingPlantConfig;
-import net.minecraft.block.BlockState;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.minecraft.world.gen.stateprovider.BlockStateProvider;
-
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 //copy of TwistingVinesFeature class with some customizations and a config with one more parameter; editing placeWeepingVinesColumn and isInvalidPlacementLocation to adapt to Aerial Hell
 public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantConfig> implements DungeonSensitiveFeatureCheck
 {
     public VerticalGrowingPlantFeature(Codec<VerticalGrowingPlantConfig> codec) {super(codec);}
 
-    @Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.VERTICAL_GROWING_PLANT_LIST;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.VERTICAL_GROWING_PLANT_LIST;}
 
-    public boolean generate(FeatureContext<VerticalGrowingPlantConfig> context)
+    public boolean place(FeaturePlaceContext<VerticalGrowingPlantConfig> context)
     {
-        StructureWorldAccess worldgenlevel = context.getWorld(); BlockPos blockpos = context.getOrigin();
+        WorldGenLevel worldgenlevel = context.level(); BlockPos blockpos = context.origin();
         if (isInvalidPlacementLocation(worldgenlevel, blockpos) || !this.isDungeonSensitiveValid(context)) {return false;}
         else
         {
-            Random random = context.getRandom();
-            VerticalGrowingPlantConfig config = context.getConfig();
+            RandomSource random = context.random();
+            VerticalGrowingPlantConfig config = context.config();
             int spreadXZ = config.spreadWidth();
             int spreadY = config.spreadHeight();
             int minHeight = config.minHeight();
             int maxHeight = config.maxHeight();
             int minTries = config.minTries();
             int maxTries = config.maxTries();
-            int tries = (minTries == maxTries) ? minTries : MathHelper.nextInt(random, minTries, maxTries);
-            BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
+            int tries = (minTries == maxTries) ? minTries : Mth.nextInt(random, minTries, maxTries);
+            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
             for(int l = 0; l <= tries; ++l)
             {
-                blockpos$mutableblockpos.set(blockpos).move(MathHelper.nextInt(random, -spreadXZ, spreadXZ), MathHelper.nextInt(random, -spreadY, spreadY), MathHelper.nextInt(random, -spreadXZ, spreadXZ));
+                blockpos$mutableblockpos.set(blockpos).move(Mth.nextInt(random, -spreadXZ, spreadXZ), Mth.nextInt(random, -spreadY, spreadY), Mth.nextInt(random, -spreadXZ, spreadXZ));
                 if (findFirstAirBlockAboveGround(worldgenlevel, blockpos$mutableblockpos) && !isInvalidPlacementLocation(worldgenlevel, blockpos$mutableblockpos))
                 {
-                    int plantHeight = (minHeight == maxHeight) ? minHeight : MathHelper.nextInt(random, minHeight, maxHeight);
+                    int plantHeight = (minHeight == maxHeight) ? minHeight : Mth.nextInt(random, minHeight, maxHeight);
                     placeVerticalGrowingPlantColumn(worldgenlevel, random, blockpos$mutableblockpos, plantHeight, 9, 14, config.plantStateProvider());
                 }
             }
@@ -57,34 +56,34 @@ public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantCon
         }
     }
 
-    private static boolean findFirstAirBlockAboveGround(WorldAccess level, BlockPos.Mutable mutablePos)
+    private static boolean findFirstAirBlockAboveGround(LevelAccessor level, BlockPos.MutableBlockPos mutablePos)
     {
-        do {mutablePos.move(0, -1, 0); if (level.isOutOfHeightLimit(mutablePos)) {return false;}} while(level.getBlockState(mutablePos).isAir());
+        do {mutablePos.move(0, -1, 0); if (level.isOutsideBuildHeight(mutablePos)) {return false;}} while(level.getBlockState(mutablePos).isAir());
         mutablePos.move(0, 1, 0);
         return true;
     }
 
-    public static void placeVerticalGrowingPlantColumn(WorldAccess level, Random rand, BlockPos.Mutable mutablePos, int height, int minAge, int maxAge, BlockStateProvider plantProvider)
+    public static void placeVerticalGrowingPlantColumn(LevelAccessor level, RandomSource rand, BlockPos.MutableBlockPos mutablePos, int height, int minAge, int maxAge, BlockStateProvider plantProvider)
     {
-        VerticalGrowingPlantBlock plantBlock = (VerticalGrowingPlantBlock) plantProvider.get(rand, mutablePos).getBlock();
+        VerticalGrowingPlantBlock plantBlock = (VerticalGrowingPlantBlock) plantProvider.getState(rand, mutablePos).getBlock();
         for(int i = 1; i <= height; ++i)
         {
-            if (level.isAir(mutablePos))
+            if (level.isEmptyBlock(mutablePos))
             {
-                if (i == height || !level.isAir(mutablePos.up())) {level.setBlockState(mutablePos, plantBlock.getDefaultState().with(VerticalGrowingPlantBlock.AGE, MathHelper.nextInt(rand, minAge, maxAge)).with(VerticalGrowingPlantBlock.TOP, true), 2); break;}
-                level.setBlockState(mutablePos, plantBlock.getDefaultState().with(VerticalGrowingPlantBlock.TOP, false), 2);
+                if (i == height || !level.isEmptyBlock(mutablePos.above())) {level.setBlock(mutablePos, plantBlock.defaultBlockState().setValue(VerticalGrowingPlantBlock.AGE, Mth.nextInt(rand, minAge, maxAge)).setValue(VerticalGrowingPlantBlock.TOP, true), 2); break;}
+                level.setBlock(mutablePos, plantBlock.defaultBlockState().setValue(VerticalGrowingPlantBlock.TOP, false), 2);
             }
             mutablePos.move(Direction.UP);
         }
     }
 
-    private static boolean isInvalidPlacementLocation(WorldAccess level, BlockPos pos)
+    private static boolean isInvalidPlacementLocation(LevelAccessor level, BlockPos pos)
     {
-        if (!level.isAir(pos)) {return true;}
+        if (!level.isEmptyBlock(pos)) {return true;}
         else
         {
-            BlockState blockstate = level.getBlockState(pos.down());
-            return !blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT);
+            BlockState blockstate = level.getBlockState(pos.below());
+            return !blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT);
         }
     }
 }

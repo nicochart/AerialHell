@@ -7,37 +7,36 @@ import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.FleeEntityGoal;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.world.World;
-
 import java.util.List;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class CrystalGolemEntity extends AerialHellGolemEntity implements MisleadableEntity, GoalConditionEntity.PhaseAwareGoalConditionEntity
 {
     public static final int ACTIVE_GOALS = 0, DISAPPEARING_GOALS = 1;
-	public static final TrackedData<Boolean> DISAPPEARING = DataTracker.<Boolean>registerData(CrystalGolemEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> DISAPPEARING = SynchedEntityData.<Boolean>defineId(CrystalGolemEntity.class, EntityDataSerializers.BOOLEAN);
 	private int timeDisappearing;
 
-    public CrystalGolemEntity(EntityType<? extends HostileEntity> type, World world)
+    public CrystalGolemEntity(EntityType<? extends Monster> type, Level world)
     {
         super(type, world);
-        this.experiencePoints = 6;
+        this.xpReward = 6;
     }
 
     /* ------- MisleadableEntity : Interface method implementation ------- */
@@ -48,34 +47,34 @@ public class CrystalGolemEntity extends AerialHellGolemEntity implements Mislead
     /* ------------------------------------------------------------------- */
 
     /* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
-    @Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
+    @Override public boolean hurtServer(ServerLevel serverWorld, DamageSource source, float amount)
     {
-        return this.misleadableDamage(serverWorld, source, amount, super::damage);
+        return this.misleadableDamage(serverWorld, source, amount, super::hurtServer);
     }
     /* ------------------------------------------------------------------------------------------ */
 
-    @Override protected void initDataTracker(DataTracker.Builder builder)
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.initDataTracker(builder);
-        builder.add(DISAPPEARING, false);
+        super.defineSynchedData(builder);
+        builder.define(DISAPPEARING, false);
     }
 
-    @Override protected void writeCustomData(WriteView view)
+    @Override protected void addAdditionalSaveData(ValueOutput view)
     {
-        super.writeCustomData(view);
+        super.addAdditionalSaveData(view);
         view.putBoolean("Disappearing", this.isDisappearing());
     }
 
-    @Override protected void readCustomData(ReadView view)
+    @Override protected void readAdditionalSaveData(ValueInput view)
     {
-        super.readCustomData(view);
-        this.setDisappearing(view.getBoolean("Disappearing", false));
+        super.readAdditionalSaveData(view);
+        this.setDisappearing(view.getBooleanOr("Disappearing", false));
     }
 
-    public boolean isDisappearing() {return this.getDataTracker().get(DISAPPEARING);}
+    public boolean isDisappearing() {return this.getEntityData().get(DISAPPEARING);}
     public void setDisappearing(boolean flag)
     {
-    	this.getDataTracker().set(DISAPPEARING, flag);
+    	this.getEntityData().set(DISAPPEARING, flag);
     }
     public int getTimeDisappearing() {return this.timeDisappearing;}
     public int getMaxLifeTime() {return 1200;}
@@ -83,7 +82,7 @@ public class CrystalGolemEntity extends AerialHellGolemEntity implements Mislead
     @Override public void tick()
     {
     	super.tick();
-    	if (this.canImmediatelyDespawn(64) && this.age > getMaxLifeTime() && !isDisappearing()) {this.setDisappearing(true);}
+    	if (this.removeWhenFarAway(64) && this.tickCount > getMaxLifeTime() && !isDisappearing()) {this.setDisappearing(true);}
     	if (this.isDisappearing())
     	{
     		if (this.timeDisappearing < 95)
@@ -103,21 +102,21 @@ public class CrystalGolemEntity extends AerialHellGolemEntity implements Mislead
     {
     	for (int i=0; i<number; i++)
 		{
-			this.getEntityWorld().addParticleClient(ParticleTypes.CLOUD, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat() - 0.5, 0.5 * (random.nextFloat() - 0.5), 0.5 * (random.nextFloat() - 0.5), 0.5 * (random.nextFloat() - 0.5));
+			this.level().addParticle(ParticleTypes.CLOUD, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat() - 0.5, 0.5 * (random.nextFloat() - 0.5), 0.5 * (random.nextFloat() - 0.5), 0.5 * (random.nextFloat() - 0.5));
 		}
     }
 
-    public static DefaultAttributeContainer.Builder registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
-        return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.MAX_HEALTH, 45.0D)
-                .add(EntityAttributes.ARMOR, 2.0D)
-                .add(EntityAttributes.ATTACK_DAMAGE, 7.0D)
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.24D);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 45.0D)
+                .add(Attributes.ARMOR, 2.0D)
+                .add(Attributes.ATTACK_DAMAGE, 7.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.24D);
     }
 
-    @Override public boolean isFireImmune() {return true;}
-	@Override public boolean doesRenderOnFire() {return false;}
+    @Override public boolean fireImmune() {return true;}
+	@Override public boolean displayFireAnimation() {return false;}
 
     /* ----- GoalConditionEntity.PhaseAwareGoalConditionEntity : Interface method implementation ----- */
     @Override public boolean checkGoalCondition(int conditionIndex) {return this.canUseGoalsAdditionalCondition(conditionIndex);} //need to override checkGoalCondition because Crystal Golem implements both GoalSimpleConditionEntity (from AbstractActivableEntity) and PhaseAwareGoalConditionEntity
@@ -133,13 +132,13 @@ public class CrystalGolemEntity extends AerialHellGolemEntity implements Mislead
     }
     /* ----------------------------------------------------------------------------------------------- */
 
-    @Override protected void initGoals()
+    @Override protected void registerGoals()
     {
-    	super.initGoals();
+    	super.registerGoals();
         List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocks.SHADOW_TORCH, AerialHellBlocks.SHADOW_WALL_TORCH);
-        this.goalSelector.add(1, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
-        this.targetSelector.add(2, new ConditionalGoal(this, ACTIVE_GOALS, new ActiveTargetGoal<>(this, PlayerEntity.class, true, (potentialTarget, serverWorld) -> !this.isMisleadedBy(potentialTarget))));
-        this.goalSelector.add(1, new ConditionalGoal(this, DISAPPEARING_GOALS, new FleeEntityGoal<>(this, PlayerEntity.class, 16.0F, 1.2D, 1.5D)));
+        this.goalSelector.addGoal(1, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
+        this.targetSelector.addGoal(2, new ConditionalGoal(this, ACTIVE_GOALS, new NearestAttackableTargetGoal<>(this, Player.class, true, (potentialTarget, serverWorld) -> !this.isMisleadedBy(potentialTarget))));
+        this.goalSelector.addGoal(1, new ConditionalGoal(this, DISAPPEARING_GOALS, new AvoidEntityGoal<>(this, Player.class, 16.0F, 1.2D, 1.5D)));
     }
 
 	@Override public int getTicksToActivate() {return 10;}

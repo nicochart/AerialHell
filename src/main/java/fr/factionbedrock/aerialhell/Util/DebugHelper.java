@@ -1,23 +1,23 @@
 package fr.factionbedrock.aerialhell.Util;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
-import net.minecraft.world.World;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 
 public class DebugHelper
 {
-    public static void sendDebugMessage(World world, String message)
+    public static void sendDebugMessage(Level world, String message)
     {
-        long time = world.getTime();
-        String chatMessage = "[DEBUG - "+(world.isClient() ? "Client" : "Server")+" side - "+time+"] " + message;
+        long time = world.getGameTime();
+        String chatMessage = "[DEBUG - "+(world.isClientSide() ? "Client" : "Server")+" side - "+time+"] " + message;
 
-        if (world.isClient())
+        if (world.isClientSide())
         {
-            MinecraftClient.getInstance().player.sendMessage(Text.literal(chatMessage), false);
+            Minecraft.getInstance().player.displayClientMessage(Component.literal(chatMessage), false);
         }
         else if (world.getServer() != null)
         {
-            world.getServer().getPlayerManager().broadcast(Text.literal(chatMessage), false);
+            world.getServer().getPlayerList().broadcastSystemMessage(Component.literal(chatMessage), false);
         }
     }
 }

@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.State;
 
-import net.minecraft.client.render.entity.state.EntityRenderState;
-import net.minecraft.client.render.item.ItemRenderState;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.resources.Identifier;
 
 public class ShurikenRenderState extends EntityRenderState
 {
@@ -10,5 +10,5 @@ public class ShurikenRenderState extends EntityRenderState
     public float YRot;
     public float pitchO;
     public float shurikenZRot;
-    public final ItemRenderState item = new ItemRenderState();
+    public final ItemStackRenderState item = new ItemStackRenderState();
 }

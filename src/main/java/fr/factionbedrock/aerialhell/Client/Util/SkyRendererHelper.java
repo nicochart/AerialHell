@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Client.Util;
 
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.random.Random;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -13,17 +13,17 @@ public class SkyRendererHelper
     public static void buildSkyDisc(VertexConsumer buffer, float y)
     {
         float f = Math.signum(y) * SKY_DISC_RADIUS;
-        buffer.vertex(0.0F, y, 0.0F);
+        buffer.addVertex(0.0F, y, 0.0F);
 
         for (int i = -180; i <= 180; i += 45)
         {
-            buffer.vertex(f * MathHelper.cos((float)i * (float) (Math.PI / 180.0)), y, SKY_DISC_RADIUS * MathHelper.sin((float)i * (float) (Math.PI / 180.0)));
+            buffer.addVertex(f * Mth.cos((float)i * (float) (Math.PI / 180.0)), y, SKY_DISC_RADIUS * Mth.sin((float)i * (float) (Math.PI / 180.0)));
         }
     }
 
     public static void buildStars(VertexConsumer buffer)
     {
-        Random rand = Random.create(10842L);
+        RandomSource rand = RandomSource.create(10842L);
 
         //vecx & vecz are angular coordinates, vecy is distance - lens effect (0.0 looks like the cluster is closer, bigger. 1.0 or -1.0 is far away, smaller)
         //vecx is horizontal angle and vecz vertical angle. vecx = 0 -> vertically aligned with the moon
@@ -36,7 +36,7 @@ public class SkyRendererHelper
         buildScatteredStars(buffer, 2000, 0.01F, 0.4F, rand);
     }
 
-    private static void buildScatteredStars(VertexConsumer buffer, int starNumber, float bigChance, float bigSizeBonus, Random rand)
+    private static void buildScatteredStars(VertexConsumer buffer, int starNumber, float bigChance, float bigSizeBonus, RandomSource rand)
     {
         for (int i = 0; i < starNumber; i++)
         {
@@ -44,7 +44,7 @@ public class SkyRendererHelper
             float starSize = 0.15F + rand.nextFloat() * 0.1F;
             if (rand.nextFloat() < bigChance) {starSize += rand.nextFloat() * bigSizeBonus;}
 
-            float lengthSquared = MathHelper.magnitude(starVec.x, starVec.y, starVec.z);
+            float lengthSquared = Mth.lengthSquared(starVec.x, starVec.y, starVec.z);
             if (lengthSquared > 0.010000001F && lengthSquared < 1.0F)
             {
                 buildStar(buffer, starVec.normalize(100.0F), starSize);
@@ -52,7 +52,7 @@ public class SkyRendererHelper
         }
     }
 
-    private static void buildStarCluster(VertexConsumer buffer, int starNumber, Vector3f origin, Vector3f size, float bigChance, float bigSizeBonus, Random rand)
+    private static void buildStarCluster(VertexConsumer buffer, int starNumber, Vector3f origin, Vector3f size, float bigChance, float bigSizeBonus, RandomSource rand)
     {
         for (int i = 0; i < starNumber; i++)
         {
@@ -60,7 +60,7 @@ public class SkyRendererHelper
             float starSize = 0.15F + rand.nextFloat() * 0.1F;
             if (rand.nextFloat() < bigChance) {starSize += rand.nextFloat() * bigSizeBonus;}
 
-            float lengthSquared = MathHelper.magnitude(starVec.x, starVec.y, starVec.z);
+            float lengthSquared = Mth.lengthSquared(starVec.x, starVec.y, starVec.z);
             if (lengthSquared > 0.010000001F && lengthSquared < 1.0F)
             {
                 if (isStarInsideCluster(origin, starVec, new Vector3f(size).mul(0.70F)))
@@ -84,18 +84,18 @@ public class SkyRendererHelper
     private static void buildStar(VertexConsumer buffer, Vector3f normalizedStarVec, float starSize)
     {
         Quaternionf quaternionf = new Quaternionf().rotateTo(new Vector3f(0.0F, 0.0F, -1.0F), normalizedStarVec);
-        buffer.vertex(normalizedStarVec.add(new Vector3f(starSize, -starSize, 0.0F).rotate(quaternionf)));
-        buffer.vertex(normalizedStarVec.add(new Vector3f(starSize, starSize, 0.0F).rotate(quaternionf)));
-        buffer.vertex(normalizedStarVec.add(new Vector3f(-starSize, starSize, 0.0F).rotate(quaternionf)));
-        buffer.vertex(normalizedStarVec.add(new Vector3f(-starSize, -starSize, 0.0F).rotate(quaternionf)));
+        buffer.addVertex(normalizedStarVec.add(new Vector3f(starSize, -starSize, 0.0F).rotate(quaternionf)));
+        buffer.addVertex(normalizedStarVec.add(new Vector3f(starSize, starSize, 0.0F).rotate(quaternionf)));
+        buffer.addVertex(normalizedStarVec.add(new Vector3f(-starSize, starSize, 0.0F).rotate(quaternionf)));
+        buffer.addVertex(normalizedStarVec.add(new Vector3f(-starSize, -starSize, 0.0F).rotate(quaternionf)));
     }
 
-    private static Vector3f createRandomStar(Vector3f origin, Vector3f size, Random rand)
+    private static Vector3f createRandomStar(Vector3f origin, Vector3f size, RandomSource rand)
     {
         return new Vector3f(origin.x + size.x * (rand.nextFloat() - 0.5F), origin.y + size.y * (rand.nextFloat() - 0.5F), origin.z + size.z * (rand.nextFloat() - 0.5F));
     }
 
-    private static Vector3f createRandomStar(Random rand)
+    private static Vector3f createRandomStar(RandomSource rand)
     {
         return new Vector3f(rand.nextFloat() * 2.0F - 1.0F, rand.nextFloat() * 2.0F - 1.0F, rand.nextFloat() * 2.0F - 1.0F);
     }

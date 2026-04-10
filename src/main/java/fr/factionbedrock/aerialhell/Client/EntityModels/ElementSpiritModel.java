@@ -1,11 +1,17 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.ElementSpiritRenderState;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.util.Mth;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
@@ -32,52 +38,52 @@ public class ElementSpiritModel<S extends ElementSpiritRenderState> extends Enti
 		this.rightLeg = root.getChild("rightLeg");
 	}
 
-	public static TexturedModelData createBodyLayer()
+	public static LayerDefinition createBodyLayer()
 	{
-		ModelData meshdefinition = new ModelData();
-		ModelPartData partdefinition = meshdefinition.getRoot();
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-5.0F, -10.0F, -5.0F, 10.0F, 10.0F, 10.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 6.0F, 0.0F));
+		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-5.0F, -10.0F, -5.0F, 10.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 6.0F, 0.0F));
 
-		ModelPartData headShard = partdefinition.addChild("headShard", ModelPartBuilder.create(), ModelTransform.origin(0.0F, 6.0F, 0.0F));
+		PartDefinition headShard = partdefinition.addOrReplaceChild("headShard", CubeListBuilder.create(), PartPose.offset(0.0F, 6.0F, 0.0F));
 
-		ModelPartData headShard_r1 = headShard.addChild("headShard_r1", ModelPartBuilder.create().uv(42, 10).cuboid(-15.0F, -32.0F, -3.0F, 10.0F, 10.0F, 0.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 18.0F, 0.0F, 0.0F, 0.0F, 0.2182F));
+		PartDefinition headShard_r1 = headShard.addOrReplaceChild("headShard_r1", CubeListBuilder.create().texOffs(42, 10).addBox(-15.0F, -32.0F, -3.0F, 10.0F, 10.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 18.0F, 0.0F, 0.0F, 0.0F, 0.2182F));
 
-		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(0, 20).cuboid(-4.0F, -17.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(1.0F)), ModelTransform.origin(0.0F, 24.0F, 0.0F));
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 20).addBox(-4.0F, -17.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(1.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		ModelPartData leftArm = partdefinition.addChild("leftArm", ModelPartBuilder.create().uv(24, 20).cuboid(0.0F, 0.0F, -3.0F, 3.0F, 5.0F, 6.0F, new Dilation(0.0F)), ModelTransform.origin(5.0F, 6.0F, 0.0F));
+		PartDefinition leftArm = partdefinition.addOrReplaceChild("leftArm", CubeListBuilder.create().texOffs(24, 20).addBox(0.0F, 0.0F, -3.0F, 3.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(5.0F, 6.0F, 0.0F));
 
-		ModelPartData rightArm = partdefinition.addChild("rightArm", ModelPartBuilder.create().uv(24, 20).mirrored().cuboid(-3.0F, 0.0F, -3.0F, 3.0F, 5.0F, 6.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-5.0F, 6.0F, 0.0F));
+		PartDefinition rightArm = partdefinition.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(24, 20).mirror().addBox(-3.0F, 0.0F, -3.0F, 3.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-5.0F, 6.0F, 0.0F));
 
-		ModelPartData leftLeg = partdefinition.addChild("leftLeg", ModelPartBuilder.create().uv(0, 36).mirrored().cuboid(-2.0F, 1.0F, -2.0F, 4.0F, 6.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-2.0F, 17.0F, 0.0F));
+		PartDefinition leftLeg = partdefinition.addOrReplaceChild("leftLeg", CubeListBuilder.create().texOffs(0, 36).mirror().addBox(-2.0F, 1.0F, -2.0F, 4.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.0F, 17.0F, 0.0F));
 
-		ModelPartData rightLeg = partdefinition.addChild("rightLeg", ModelPartBuilder.create().uv(0, 36).cuboid(-2.0F, 1.0F, -2.0F, 4.0F, 6.0F, 4.0F, new Dilation(0.0F)), ModelTransform.origin(2.0F, 17.0F, 0.0F));
+		PartDefinition rightLeg = partdefinition.addOrReplaceChild("rightLeg", CubeListBuilder.create().texOffs(0, 36).addBox(-2.0F, 1.0F, -2.0F, 4.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(2.0F, 17.0F, 0.0F));
 
-		return TexturedModelData.of(meshdefinition, 64, 64);
+		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override public void setAngles(S renderState)
+	@Override public void setupAnim(S renderState)
 	{
-		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.relativeHeadYaw;
-		float limbSwing = renderState.limbSwingAnimationProgress;
-		float limbSwingAmount = renderState.limbSwingAmplitude;
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
 
-		this.head.yaw = netHeadYaw / 57.0F;
-		this.head.pitch = headPitch / 57.0F;
-		this.headShard.yaw = netHeadYaw / 57.0F;
-		this.headShard.pitch = headPitch / 57.0F;
+		this.head.yRot = netHeadYaw / 57.0F;
+		this.head.xRot = headPitch / 57.0F;
+		this.headShard.yRot = netHeadYaw / 57.0F;
+		this.headShard.xRot = headPitch / 57.0F;
 
-		this.rightArm.pitch = (-0.2F + 1.5F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount * 1.2F;
-		this.leftArm.pitch = (-0.2F - 1.5F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount * 1.2F;
+		this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 1.2F;
+		this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount * 1.2F;
 
-		this.leftLeg.pitch = -1.5F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;
-		this.rightLeg.pitch = 1.5F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;
-		this.leftLeg.yaw = 0.0F;
-		this.rightLeg.yaw = 0.0F;
+		this.leftLeg.xRot = -1.5F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.rightLeg.xRot = 1.5F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.leftLeg.yRot = 0.0F;
+		this.rightLeg.yRot = 0.0F;
 	}
 
-	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		headShard.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);

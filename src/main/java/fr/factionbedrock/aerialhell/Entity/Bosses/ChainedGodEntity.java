@@ -16,39 +16,44 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.block.BlockState;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.boss.BossBar;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.Item;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.registry.tag.DamageTypeTags;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.BossEvent;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEntity, StagedActivableEntity, GoalConditionEntity.PhaseAwareGoalConditionEntity
 {
@@ -57,11 +62,11 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 	public int timeDying;
 
 	/* --- Imploding Entity fields --- */
-	private static final TrackedData<Boolean> IMPLODING = DataTracker.registerData(ChainedGodEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> IMPLODING = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
 	private final ImplodingEntityInfo IMPLODING_INFO = new ImplodingEntityInfo(IMPLODING, 126, 600, new ImplodingEntityInfo.ImplodingSoundHelper(this::playRoarSound, 5.0F, 1.0F, -12));
 	/* ------------------------------- */
 	/* --- StagedActivableEntity fields --- */
-	private static final TrackedData<Boolean> UNCHAINING = DataTracker.registerData(ChainedGodEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> UNCHAINING = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
 	StagedActivableEntityInfo.ActivatingPhaseParameters CHAINED_GOD_UNCHAINING_PARAMETERS = PLAY_ACTIVATING_PHASE_ONLY_ONCE.copy().activatingThreshold(76).activatingStartSoundHelper(new PlaySoundHelper(this::playRoarSound, 5.0F, 1.6F));
 	public final StagedActivableEntityInfo STAGED_ACTIVABLE_INFO = new StagedActivableEntityInfo(this.ACTIVABLE_INFO, UNCHAINING, CHAINED_GOD_UNCHAINING_PARAMETERS);
 	/* -------------------------------------- */
@@ -110,49 +115,49 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 	}
 	/* ----------------------------------------------------------------------------------------------- */
 
-	public ChainedGodEntity(EntityType<? extends HostileEntity> type, World world)
+	public ChainedGodEntity(EntityType<? extends Monster> type, Level world)
 	{
 		super(type, world);
 		this.attackTimer = 0; this.hurtTime = 0; this.timeDying = 0;
-		bossInfo.setColor(BossBar.Color.RED);
-		bossInfo.setStyle(BossBar.Style.NOTCHED_6);
+		bossInfo.setColor(BossEvent.BossBarColor.RED);
+		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 	}
 
-	@Override protected void initGoals()
+	@Override protected void registerGoals()
 	{
-		this.targetSelector.add(2, new ConditionalGoal(this, OTHER_GOALS, new ActiveTargetGoal<>(this, PlayerEntity.class, true)));
-		this.targetSelector.add(1, new RevengeGoal(this));
-		this.goalSelector.add(0, new ChainedGodEntity.ChainedGodRandomFireballAttackGoal(this));
-		this.goalSelector.add(1, new ConditionalGoal(this, IMPLODE_GOAL, new ImplodeGoal(this)));
-		this.goalSelector.add(2, new ChainedGodEntity.ChainedGodFireballAttackGoal(this));
-		this.goalSelector.add(2, new ChainedGodSummonTornSpiritGoal(this));
-		this.goalSelector.add(3, new ConditionalGoal(this, FREELY_MOVING_GOALS, new MeleeAttackGoal(this, 1.25D, false)));
-		this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-		this.goalSelector.add(5, new ConditionalGoal(this, FREELY_MOVING_GOALS, new WanderAroundFarGoal(this, 0.6D)));
-		this.goalSelector.add(6, new ConditionalGoal(this, FREELY_MOVING_GOALS, new PounceAtTargetGoal(this, 0.7F)));
-		this.targetSelector.add(3, new ActiveTargetGoal<>(this, MudCycleMageEntity.class, true));
+		this.targetSelector.addGoal(2, new ConditionalGoal(this, OTHER_GOALS, new NearestAttackableTargetGoal<>(this, Player.class, true)));
+		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+		this.goalSelector.addGoal(0, new ChainedGodEntity.ChainedGodRandomFireballAttackGoal(this));
+		this.goalSelector.addGoal(1, new ConditionalGoal(this, IMPLODE_GOAL, new ImplodeGoal(this)));
+		this.goalSelector.addGoal(2, new ChainedGodEntity.ChainedGodFireballAttackGoal(this));
+		this.goalSelector.addGoal(2, new ChainedGodSummonTornSpiritGoal(this));
+		this.goalSelector.addGoal(3, new ConditionalGoal(this, FREELY_MOVING_GOALS, new MeleeAttackGoal(this, 1.25D, false)));
+		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+		this.goalSelector.addGoal(5, new ConditionalGoal(this, FREELY_MOVING_GOALS, new WaterAvoidingRandomStrollGoal(this, 0.6D)));
+		this.goalSelector.addGoal(6, new ConditionalGoal(this, FREELY_MOVING_GOALS, new LeapAtTargetGoal(this, 0.7F)));
+		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
 	}
 
-	public static DefaultAttributeContainer.Builder registerAttributes()
+	public static AttributeSupplier.Builder registerAttributes()
     {
-		return HostileEntity.createHostileAttributes()
-				.add(EntityAttributes.MAX_HEALTH, 1400.0D)
-				.add(EntityAttributes.FOLLOW_RANGE, 32.0D)
-				.add(EntityAttributes.MOVEMENT_SPEED, 0.3D)
-				.add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.2D)
-				.add(EntityAttributes.ATTACK_KNOCKBACK, 6.0D)
-				.add(EntityAttributes.ATTACK_DAMAGE, 25.0D);
+		return Monster.createMonsterAttributes()
+				.add(Attributes.MAX_HEALTH, 1400.0D)
+				.add(Attributes.FOLLOW_RANGE, 32.0D)
+				.add(Attributes.MOVEMENT_SPEED, 0.3D)
+				.add(Attributes.KNOCKBACK_RESISTANCE, 0.2D)
+				.add(Attributes.ATTACK_KNOCKBACK, 6.0D)
+				.add(Attributes.ATTACK_DAMAGE, 25.0D);
     }
 	
-	@Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
+	@Override public boolean hurtServer(ServerLevel serverWorld, DamageSource source, float amount)
 	{
-		Entity immediateSourceEntity = source.getSource();
-		Entity trueSourceEntity = source.getAttacker();
-		if ((this.isImploding() || this.isUnchaining()) && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
+		Entity immediateSourceEntity = source.getDirectEntity();
+		Entity trueSourceEntity = source.getEntity();
+		if ((this.isImploding() || this.isUnchaining()) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
 		if (!this.canGetProjectileDamages() && EntityHelper.isProjectile(immediateSourceEntity)) {return false;}
 		else
 		{
-			boolean flag = super.damage(serverWorld, source, amount);
+			boolean flag = super.hurtServer(serverWorld, source, amount);
 			if (flag)
 			{
 				if (trueSourceEntity instanceof LivingEntity && !EntityHelper.isProjectile(immediateSourceEntity))
@@ -167,29 +172,29 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 		}
 	}
 
-	@Override public boolean tryActuallyHurt(ServerWorld serverWorld, DamageSource damageSource, float amount)
+	@Override public boolean tryActuallyHurt(ServerLevel serverWorld, DamageSource damageSource, float amount)
 	{
 		return this.isFreelyMoving() && super.tryActuallyHurt(serverWorld, damageSource, amount);
 	}
 
-	@Override protected void initDataTracker(DataTracker.Builder builder)
+	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
 	{
-	    super.initDataTracker(builder);
-	    builder.add(IMPLODING, false);
-	    builder.add(UNCHAINING, false);
+	    super.defineSynchedData(builder);
+	    builder.define(IMPLODING, false);
+	    builder.define(UNCHAINING, false);
 	}
 
-	@Override protected void writeCustomData(WriteView view)
+	@Override protected void addAdditionalSaveData(ValueOutput view)
 	{
-		super.writeCustomData(view);
+		super.addAdditionalSaveData(view);
 		/* ------- ImplodingEntity : Delegating to interface ------- */
 		this.implodingWriteCustomData(view);
 		/* --------------------------------------------------------- */
 	}
 
-	@Override protected void readCustomData(ReadView view)
+	@Override protected void readAdditionalSaveData(ValueInput view)
 	{
-		super.readCustomData(view);
+		super.readAdditionalSaveData(view);
 		/* ------- ImplodingEntity : Delegating to interface ------- */
 		this.implodingReadCustomData(view);
 		/* --------------------------------------------------------- */
@@ -206,17 +211,17 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 		if (nextPhase == BossPhase.DYING) {this.playDeathSound();}
 	}
 
-	@Override public boolean isFireImmune() {return true;}
-	@Override public boolean doesRenderOnFire() {return false;}
+	@Override public boolean fireImmune() {return true;}
+	@Override public boolean displayFireAnimation() {return false;}
 
-	@Override public boolean handleFallDamage(double distance, float damageMultiplier, DamageSource source) {return false;}
+	@Override public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {return false;}
 	
 	@Override public void tick()
     {
 		/* -- ImplodingEntity : tick --*/
 		this.implodingTick();
 		/* ----------------------------*/
-		if (random.nextFloat() > 0.5 && this.getEntityWorld().isClient()) {spawnParticles(AerialHellParticleTypes.GOD_FLAME, 1, -0.06D);}
+		if (random.nextFloat() > 0.5 && this.level().isClientSide()) {spawnParticles(AerialHellParticleTypes.GOD_FLAME, 1, -0.06D);}
 
 		this.destroyObstacles();
 		super.tick();
@@ -238,11 +243,11 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 		this.timeDying++;
 		if (this.timeDying > 140)
 		{
-			if (this.lastDamageSource != null && lastDamageSource.getAttacker() instanceof ServerPlayerEntity player)
+			if (this.lastDamageSource != null && lastDamageSource.getEntity() instanceof ServerPlayer player)
 			{
-				Criteria.PLAYER_KILLED_ENTITY.trigger(player, this, lastDamageSource);
+				CriteriaTriggers.PLAYER_KILLED_ENTITY.trigger(player, this, lastDamageSource);
 			}
-			this.tryDying(this.lastDamageSource == null ? this.getDamageSources().generic() : this.lastDamageSource);
+			this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);
 		}
 	}
 
@@ -252,7 +257,7 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 
 	protected void runTransitionEffect()
 	{
-		if (this.getEntityWorld().isClient()) {this.spawnParticles(ParticleTypes.SMALL_FLAME, 5, -0.06D);}
+		if (this.level().isClientSide()) {this.spawnParticles(ParticleTypes.SMALL_FLAME, 5, -0.06D);}
 		this.runRoarEffects(NearbyEntitiesInteractionInfo.REPULSE_NEAR);
 	}
 
@@ -263,7 +268,7 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 		if (this.random.nextInt(4) == 0) {this.makeRandomRoofBlockFall(5, 15, 12, 20);}
 		float dragOrRepulseFactor = type.noInteraction() ? 0.0F : type.getType().isDrag() ? 64.0F : 5.8F;
 		this.dragOrRepulseEntities(type, dragOrRepulseFactor);
-		if (this.getEntityWorld().isClient()) {this.spawnParticles(ParticleTypes.LAVA, 5, 0.5D);}
+		if (this.level().isClientSide()) {this.spawnParticles(ParticleTypes.LAVA, 5, 0.5D);}
 	}
 
 	private void spawnParticles(SimpleParticleType type, int number, double dy)
@@ -276,7 +281,7 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 			double z = getZ() + (random.nextFloat() - 0.5F) * rand;
 			double dx = (random.nextFloat() - 0.5F)/10;
 			double dz = (random.nextFloat() - 0.5F)/10;
-			this.getEntityWorld().addParticleClient(type, x, y, z, dx, dy, dz);
+			this.level().addParticle(type, x, y, z, dx, dy, dz);
 		}
 	}
 
@@ -284,58 +289,58 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 	{
 		if (!LoadedConfigParams.DO_BOSS_GRIEFING) {return;}
 		
-		BlockPos pos = this.getBlockPos().up(); int x,y,z; int xzRadius = 3, yRadius = 3;
+		BlockPos pos = this.blockPosition().above(); int x,y,z; int xzRadius = 3, yRadius = 3;
 		for (x=-xzRadius;x<=xzRadius;x++)
 		{
 			for (y=-yRadius;y<=yRadius;y++)
 			{
 				for (z=-xzRadius;z<=xzRadius;z++)
 				{
-					if (getEntityWorld().getBlockState(pos.add(x, y, z)).isIn(AerialHellTags.Blocks.CHAINED_GOD_CAN_WALK_DESTROY))
+					if (level().getBlockState(pos.offset(x, y, z)).is(AerialHellTags.Blocks.CHAINED_GOD_CAN_WALK_DESTROY))
 					{
-						getEntityWorld().breakBlock(pos.add(x, y, z), this.random.nextInt(3) > 1);
+						level().destroyBlock(pos.offset(x, y, z), this.random.nextInt(3) > 1);
 					}
 				}
 			}
 		}
 	}
 	
-	@Override public void tickMovement()
+	@Override public void aiStep()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
-		super.tickMovement();
+		super.aiStep();
     }
 	
 	@Override public boolean isPushable() {return false;}
 	
-	@Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
+	@Override public boolean doHurtTarget(ServerLevel serverWorld, Entity attackedEntity)
 	{
-		DamageSource damagesource = this.getDamageSources().mobAttack(this);
-		this.getEntityWorld().sendEntityStatus(this, (byte)4);
-		float f = (float)this.getAttributeValue(EntityAttributes.ATTACK_DAMAGE);
+		DamageSource damagesource = this.damageSources().mobAttack(this);
+		this.level().broadcastEntityEvent(this, (byte)4);
+		float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 		float amount = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
-		float kb = (float)this.getAttributeValue(EntityAttributes.ATTACK_KNOCKBACK);
-		boolean flag = attackedEntity.damage(serverWorld, damagesource, amount);
+		float kb = (float)this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
+		boolean flag = attackedEntity.hurtServer(serverWorld, damagesource, amount);
 		if (flag)
 		{
-			((LivingEntity)attackedEntity).takeKnockback(kb * 0.5F, (double) MathHelper.sin(this.getYaw() * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(this.getYaw() * ((float)Math.PI / 180F))));
-			attackedEntity.setVelocity(attackedEntity.getVelocity().x, (double)0.8F, attackedEntity.getVelocity().z);
-			if (getEntityWorld() instanceof ServerWorld svWorld) {EnchantmentHelper.onTargetDamaged(svWorld, attackedEntity, damagesource);}
+			((LivingEntity)attackedEntity).knockback(kb * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));
+			attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().x, (double)0.8F, attackedEntity.getDeltaMovement().z);
+			if (level() instanceof ServerLevel svWorld) {EnchantmentHelper.doPostAttackEffects(svWorld, attackedEntity, damagesource);}
 		}
 
-		this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
+		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 		return flag;
 	}
 
 	@Override
-	public void handleStatus(byte id) //broadcastEntityEvent
+	public void handleEntityEvent(byte id) //broadcastEntityEvent
 	{
 		if (id == 4)
 		{
 			this.attackTimer = 10;
-			this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
+			this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 		}
-		else {super.handleStatus(id);}
+		else {super.handleEntityEvent(id);}
 	}
 	
 	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_AMBIENT;}
@@ -345,7 +350,7 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 
     @Override protected void playStepSound(BlockPos pos, BlockState blockIn)
     {
-    	if (!blockIn.isLiquid())
+    	if (!blockIn.liquid())
     	{
         	this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_STEP, 0.5F, 0.8F + 0.5F*random.nextFloat());
         }
@@ -359,12 +364,12 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 
 	@Override protected void playHurtSound(DamageSource damageSource, boolean died)
 	{
-		if (damageSource.isOf(DamageTypes.GENERIC_KILL) && this.isDead()) {return;} //tryDying method is already playing death sound
+		if (damageSource.is(DamageTypes.GENERIC_KILL) && this.isDeadOrDying()) {return;} //tryDying method is already playing death sound
 
 		if (died)
 		{
 			SoundEvent soundevent = this.getDeathSound();
-			if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getSoundPitch());}
+			if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getVoicePitch());}
 		}
 		else {this.playHurtSound(damageSource);}
 	}
@@ -382,17 +387,17 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 	{
 		public ChainedGodFireballAttackGoal(ChainedGodEntity entity) {super(entity);}
 
-		@Override public boolean canStart()
+		@Override public boolean canUse()
 		{
 			ChainedGodEntity chainedGod = (ChainedGodEntity)this.getParentEntity();
 			LivingEntity target = chainedGod.getTarget();
 			double DistanceToTarget = 0; if (target != null) {DistanceToTarget = chainedGod.distanceTo(target);}
-			return chainedGod.canShootFireballs() && target != null && target.isAlive() && chainedGod.canTarget(target) && DistanceToTarget < 16;
+			return chainedGod.canShootFireballs() && target != null && target.isAlive() && chainedGod.canAttack(target) && DistanceToTarget < 16;
 		}
 
-		@Override public ProjectileEntity createProjectile(World world, LivingEntity shooter, double accX, double accY, double accZ)
+		@Override public Projectile createProjectile(Level world, LivingEntity shooter, double accX, double accY, double accZ)
 		{
-			Random rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
+			RandomSource rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
 			return new ChainedGodFireballEntity(world, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget);
 		}
 
@@ -411,13 +416,13 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 		public ChainedGodRandomFireballAttackGoal(ChainedGodEntity entity) {super(entity);}
 		private ChainedGodEntity getChainedGodGoalOwner() {return (ChainedGodEntity)this.getParentEntity();}
 
-		@Override public boolean canStart() {return super.canStart() && this.getChainedGodGoalOwner().isUnchaining();}
+		@Override public boolean canUse() {return super.canUse() && this.getChainedGodGoalOwner().isUnchaining();}
 
-		@Override public ProjectileEntity createProjectile(World world, LivingEntity shooter, double accX, double accY, double accZ)
+		@Override public Projectile createProjectile(Level world, LivingEntity shooter, double accX, double accY, double accZ)
 		{
-			Random rand = this.getParentEntity().getRandom();
+			RandomSource rand = this.getParentEntity().getRandom();
 			ChainedGodFireballEntity projectile = new ChainedGodFireballEntity(world, shooter, rand.nextInt(7) - 3, rand.nextInt(5) - 2, rand.nextInt(7) - 3);
-			projectile.setPos(projectile.getX(), projectile.getY() + 1.0F, projectile.getZ());
+			projectile.setPosRaw(projectile.getX(), projectile.getY() + 1.0F, projectile.getZ());
 			return projectile;
 		}
 
@@ -435,7 +440,7 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 
 		public ChainedGodEntity getChainedGodGoalOwner() {return (ChainedGodEntity) this.getGoalOwner();}
 
-		@Override public boolean canStart()
+		@Override public boolean canUse()
 		{
 			ChainedGodEntity goalOwner = this.getChainedGodGoalOwner();
 			return goalOwner.isInTransitionPhase();
@@ -443,10 +448,10 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 
 		@Override public Entity createEntity()
 		{
-			return AerialHellEntities.TORN_SPIRIT.create(this.getGoalOwner().getEntityWorld(), SpawnReason.MOB_SUMMONED);
+			return AerialHellEntities.TORN_SPIRIT.create(this.getGoalOwner().level(), EntitySpawnReason.MOB_SUMMONED);
 		}
 
-		@Override protected void setEntityPosToSummonPos(Entity entity) {entity.setPos(this.getGoalOwner().getX(), this.getGoalOwner().getY() + 1.0, this.getGoalOwner().getZ());}
+		@Override protected void setEntityPosToSummonPos(Entity entity) {entity.setPosRaw(this.getGoalOwner().getX(), this.getGoalOwner().getY() + 1.0, this.getGoalOwner().getZ());}
 
 		@Override protected int getSummonTimerTargetValue()
 		{

@@ -2,49 +2,48 @@ package fr.factionbedrock.aerialhell.Entity.Projectile;
 
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.AbstractFireballEntity;
-import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.item.ItemStack;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.entity.projectile.hurtingprojectile.Fireball;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
-public class PoisonballEntity extends AbstractFireballEntity
+public class PoisonballEntity extends Fireball
 {
-	public PoisonballEntity(EntityType<? extends PoisonballEntity> type, World world)
+	public PoisonballEntity(EntityType<? extends PoisonballEntity> type, Level world)
 	{
 		super(type, world);
 	}
 
-	public PoisonballEntity(World world, double x, double y, double z, double accX, double accY, double accZ)
+	public PoisonballEntity(Level world, double x, double y, double z, double accX, double accY, double accZ)
 	{
-		super(AerialHellEntities.POISONBALL, x, y, z, new Vec3d(accX, accY, accZ), world);
+		super(AerialHellEntities.POISONBALL, x, y, z, new Vec3(accX, accY, accZ), world);
 	}
 
-	public PoisonballEntity(World world, LivingEntity shooter, double accX, double accY, double accZ)
+	public PoisonballEntity(Level world, LivingEntity shooter, double accX, double accY, double accZ)
 	{
-		super(AerialHellEntities.POISONBALL, shooter, new Vec3d(accX, accY, accZ), world);
+		super(AerialHellEntities.POISONBALL, shooter, new Vec3(accX, accY, accZ), world);
 	}
 
-	@Override public boolean isFireImmune() {return true;}
-	@Override protected boolean isBurning() {return false;}
-	@Override public float getBrightnessAtEyes() {return 0.0F;}
+	@Override public boolean fireImmune() {return true;}
+	@Override protected boolean shouldBurn() {return false;}
+	@Override public float getLightLevelDependentMagicValue() {return 0.0F;}
 
 	@Override
-	protected void onCollision(HitResult result)
+	protected void onHit(HitResult result)
 	{
-		super.onCollision(result);
+		super.onHit(result);
 		if (result.getType() == HitResult.Type.ENTITY)
 		{
 			Entity entity = ((EntityHitResult)result).getEntity();
@@ -54,44 +53,44 @@ public class PoisonballEntity extends AbstractFireballEntity
 
 				if (!livingEntity.isBlocking())
 				{
-					entity.setVelocity(this.getVelocity().x * 0.3, entity.getVelocity().y + 0.1, this.getVelocity().z * 0.3);
+					entity.setDeltaMovement(this.getDeltaMovement().x * 0.3, entity.getDeltaMovement().y + 0.1, this.getDeltaMovement().z * 0.3);
 				}
 				else //TODO
 				{
-					ItemStack activeItemStack = livingEntity.getActiveItem();
+					ItemStack activeItemStack = livingEntity.getUseItem();
 					//activeItemStack.damage(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
-					this.getEntityWorld().playSound((PlayerEntity) null, entity.getBlockPos(), SoundEvents.ITEM_SHIELD_BREAK.value(), SoundCategory.PLAYERS, 1.0F, 0.8F + this.getEntityWorld().random.nextFloat() * 0.4F);
+					this.level().playSound((Player) null, entity.blockPosition(), SoundEvents.SHIELD_BREAK.value(), SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
 				}
-				if (!this.getEntityWorld().isClient()) {livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 160, 0));}
+				if (!this.level().isClientSide()) {livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 160, 0));}
 			}
 		}
 		this.discard();
 	}
 
-	@Override protected void initDataTracker(DataTracker.Builder builder) {super.initDataTracker(builder);}
+	@Override protected void defineSynchedData(SynchedEntityData.Builder builder) {super.defineSynchedData(builder);}
 
 	@Override public void tick()
 	{
 		Entity entity = this.getOwner();
-		if (this.getEntityWorld().isClient() || (entity == null || !entity.isRemoved()) && this.getEntityWorld().isChunkLoaded(this.getBlockPos()))
+		if (this.level().isClientSide() || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition()))
 		{
 			super.tick();
-			HitResult hitResult = ProjectileUtil.getCollision(this, this::canHit, this.getRaycastShapeType());
+			HitResult hitResult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity, this.getClipType());
 			if (hitResult.getType() != HitResult.Type.MISS)
 			{
-				this.onCollision(hitResult);
+				this.onHit(hitResult);
 			}
 
-			Vec3d movement = this.getVelocity();
+			Vec3 movement = this.getDeltaMovement();
 			double d0 = this.getX() + movement.x; double d1 = this.getY() + movement.y; double d2 = this.getZ() + movement.z;
-			ProjectileUtil.setRotationFromVelocity(this, 0.2F);
+			ProjectileUtil.rotateTowardsMovement(this, 0.2F);
 
-			this.setVelocity(this.getVelocity().add(this.getVelocity().normalize().multiply(this.accelerationPower)).multiply(this.getDrag()));
-			this.setPos(d0, d1, d2);
+			this.setDeltaMovement(this.getDeltaMovement().add(this.getDeltaMovement().normalize().scale(this.accelerationPower)).scale(this.getInertia()));
+			this.setPosRaw(d0, d1, d2);
 		}
 		else {this.discard(); return;}
 		
-		if (this.isInLava() || this.isTouchingWater() || this.age > 500) {this.discard();}
+		if (this.isInLava() || this.isInWater() || this.tickCount > 500) {this.discard();}
 	}
 
 	//@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);} crashes the game

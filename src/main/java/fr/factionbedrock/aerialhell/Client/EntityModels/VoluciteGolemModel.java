@@ -1,11 +1,17 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.AerialHellGolemRenderState;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.util.Mth;
 
 // Made with Blockbench 5.0.7
 // Exported for Minecraft version 1.17 or later with Mojang mappings
@@ -52,76 +58,76 @@ public class VoluciteGolemModel extends EntityModel<AerialHellGolemRenderState>
 		this.right_leg = root.getChild("right_leg");
 	}
 
-	public static TexturedModelData createBodyLayer()
+	public static LayerDefinition createBodyLayer()
 	{
-		ModelData meshdefinition = new ModelData();
-		ModelPartData partdefinition = meshdefinition.getRoot();
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		//ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(44, 42).cuboid(-5.0F, -8.0F, -4.5F, 10.0F, 8.0F, 8.0F, new Dilation(-0.2F))
 		//.uv(52, 35).cuboid(-3.0F, -10.0F, -2.5F, 6.0F, 3.0F, 4.0F, new Dilation(-0.2F)), ModelTransform.origin(0.0F, -10.0F, 0.0F));
 
-		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(35, 66).cuboid(-7.0F, -32.0F, -7.0F, 14.0F, 10.0F, 13.0F, new Dilation(-1.0F))
-		.uv(45, 95).cuboid(-4.5F, -21.0F, -4.5F, 9.0F, 5.0F, 8.0F, new Dilation(0.0F))
-		.uv(53, 89).cuboid(-2.5F, -23.0F, -2.5F, 5.0F, 2.0F, 4.0F, new Dilation(0.0F))
-		.uv(53, 58).cuboid(-2.5F, -35.0F, -2.5F, 5.0F, 4.0F, 4.0F, new Dilation(0.0F))
-		.uv(36, 66).cuboid(-8.0F, -31.0F, -2.5F, 2.0F, 4.0F, 4.0F, new Dilation(0.0F))
-		.uv(76, 66).cuboid(6.0F, -31.0F, -2.5F, 2.0F, 4.0F, 4.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 24.0F, 0.0F));
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(35, 66).addBox(-7.0F, -32.0F, -7.0F, 14.0F, 10.0F, 13.0F, new CubeDeformation(-1.0F))
+		.texOffs(45, 95).addBox(-4.5F, -21.0F, -4.5F, 9.0F, 5.0F, 8.0F, new CubeDeformation(0.0F))
+		.texOffs(53, 89).addBox(-2.5F, -23.0F, -2.5F, 5.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
+		.texOffs(53, 58).addBox(-2.5F, -35.0F, -2.5F, 5.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
+		.texOffs(36, 66).addBox(-8.0F, -31.0F, -2.5F, 2.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
+		.texOffs(76, 66).addBox(6.0F, -31.0F, -2.5F, 2.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		ModelPartData right_arm = partdefinition.addChild("right_arm", ModelPartBuilder.create().uv(31, 12).mirrored().cuboid(-4.5F, 3.5F, -2.5F, 4.0F, 23.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(31, 7).mirrored().cuboid(-4.0F, -0.5F, -2.5F, 4.0F, 1.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-8.0F, -6.0F, 0.0F));
+		PartDefinition right_arm = partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(31, 12).mirror().addBox(-4.5F, 3.5F, -2.5F, 4.0F, 23.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(31, 7).mirror().addBox(-4.0F, -0.5F, -2.5F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-8.0F, -6.0F, 0.0F));
 
-		ModelPartData block = right_arm.addChild("block", ModelPartBuilder.create().uv(10, 11).mirrored().cuboid(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(4, 16).mirrored().cuboid(-6.0F, -1.5F, -1.0F, 2.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-1.0F, 3.0F, 0.0F));
+		PartDefinition block = right_arm.addOrReplaceChild("block", CubeListBuilder.create().texOffs(10, 11).mirror().addBox(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(4, 16).mirror().addBox(-6.0F, -1.5F, -1.0F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-1.0F, 3.0F, 0.0F));
 
-		ModelPartData block2 = right_arm.addChild("block2", ModelPartBuilder.create().uv(10, 20).mirrored().cuboid(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(2, 25).mirrored().cuboid(-7.0F, -1.5F, -1.0F, 3.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-1.0F, 8.0F, 0.0F));
+		PartDefinition block2 = right_arm.addOrReplaceChild("block2", CubeListBuilder.create().texOffs(10, 20).mirror().addBox(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(2, 25).mirror().addBox(-7.0F, -1.5F, -1.0F, 3.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-1.0F, 8.0F, 0.0F));
 
-		ModelPartData block3 = right_arm.addChild("block3", ModelPartBuilder.create().uv(10, 29).mirrored().cuboid(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(0, 34).mirrored().cuboid(-8.0F, -1.5F, -1.0F, 4.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-1.0F, 13.0F, 0.0F));
+		PartDefinition block3 = right_arm.addOrReplaceChild("block3", CubeListBuilder.create().texOffs(10, 29).mirror().addBox(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(0, 34).mirror().addBox(-8.0F, -1.5F, -1.0F, 4.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-1.0F, 13.0F, 0.0F));
 
-		ModelPartData block4 = right_arm.addChild("block4", ModelPartBuilder.create().uv(10, 38).mirrored().cuboid(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(0, 43).mirrored().cuboid(-8.0F, -1.5F, -1.0F, 4.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-1.0F, 18.0F, 0.0F));
+		PartDefinition block4 = right_arm.addOrReplaceChild("block4", CubeListBuilder.create().texOffs(10, 38).mirror().addBox(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(0, 43).mirror().addBox(-8.0F, -1.5F, -1.0F, 4.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-1.0F, 18.0F, 0.0F));
 
-		ModelPartData block5 = right_arm.addChild("block5", ModelPartBuilder.create().uv(10, 47).mirrored().cuboid(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(2, 52).mirrored().cuboid(-7.0F, -1.5F, -1.0F, 3.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-1.0F, 23.0F, 0.0F));
+		PartDefinition block5 = right_arm.addOrReplaceChild("block5", CubeListBuilder.create().texOffs(10, 47).mirror().addBox(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(2, 52).mirror().addBox(-7.0F, -1.5F, -1.0F, 3.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-1.0F, 23.0F, 0.0F));
 
-		ModelPartData left_arm = partdefinition.addChild("left_arm", ModelPartBuilder.create().uv(81, 12).mirrored().cuboid(0.5F, 3.5F, -2.5F, 4.0F, 23.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(81, 7).mirrored().cuboid(0.0F, -0.5F, -2.5F, 4.0F, 1.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(8.0F, -6.0F, 0.0F));
+		PartDefinition left_arm = partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(81, 12).mirror().addBox(0.5F, 3.5F, -2.5F, 4.0F, 23.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(81, 7).mirror().addBox(0.0F, -0.5F, -2.5F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(8.0F, -6.0F, 0.0F));
 
-		ModelPartData block6 = left_arm.addChild("block6", ModelPartBuilder.create().uv(98, 11).mirrored().cuboid(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(118, 16).mirrored().cuboid(1.0F, -1.5F, -1.0F, 2.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 3.0F, 0.0F));
+		PartDefinition block6 = left_arm.addOrReplaceChild("block6", CubeListBuilder.create().texOffs(98, 11).mirror().addBox(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(118, 16).mirror().addBox(1.0F, -1.5F, -1.0F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 3.0F, 0.0F));
 
-		ModelPartData block7 = left_arm.addChild("block7", ModelPartBuilder.create().uv(98, 20).mirrored().cuboid(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(118, 25).mirrored().cuboid(1.0F, -1.5F, -1.0F, 3.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 8.0F, 0.0F));
+		PartDefinition block7 = left_arm.addOrReplaceChild("block7", CubeListBuilder.create().texOffs(98, 20).mirror().addBox(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(118, 25).mirror().addBox(1.0F, -1.5F, -1.0F, 3.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 8.0F, 0.0F));
 
-		ModelPartData block8 = left_arm.addChild("block8", ModelPartBuilder.create().uv(98, 29).mirrored().cuboid(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(118, 34).mirrored().cuboid(1.0F, -1.5F, -1.0F, 4.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 13.0F, 0.0F));
+		PartDefinition block8 = left_arm.addOrReplaceChild("block8", CubeListBuilder.create().texOffs(98, 29).mirror().addBox(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(118, 34).mirror().addBox(1.0F, -1.5F, -1.0F, 4.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 13.0F, 0.0F));
 
-		ModelPartData block9 = left_arm.addChild("block9", ModelPartBuilder.create().uv(98, 38).mirrored().cuboid(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(118, 43).mirrored().cuboid(1.0F, -1.5F, -1.0F, 4.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 18.0F, 0.0F));
+		PartDefinition block9 = left_arm.addOrReplaceChild("block9", CubeListBuilder.create().texOffs(98, 38).mirror().addBox(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(118, 43).mirror().addBox(1.0F, -1.5F, -1.0F, 4.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 18.0F, 0.0F));
 
-		ModelPartData block10 = left_arm.addChild("block10", ModelPartBuilder.create().uv(98, 47).mirrored().cuboid(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(118, 52).mirrored().cuboid(1.0F, -1.5F, -1.0F, 3.0F, 1.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 23.0F, 0.0F));
+		PartDefinition block10 = left_arm.addOrReplaceChild("block10", CubeListBuilder.create().texOffs(98, 47).mirror().addBox(-4.0F, -3.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(118, 52).mirror().addBox(1.0F, -1.5F, -1.0F, 3.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 23.0F, 0.0F));
 
-		ModelPartData left_leg = partdefinition.addChild("left_leg", ModelPartBuilder.create().uv(63, 108).mirrored().cuboid(-1.5F, 0.0F, -2.5F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(79, 119).mirrored().cuboid(-2.0F, 11.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(79, 110).mirrored().cuboid(-2.0F, 6.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F)).mirrored(false)
-		.uv(79, 101).mirrored().cuboid(-2.0F, 1.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(3.0F, 8.0F, 0.0F));
+		PartDefinition left_leg = partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(63, 108).mirror().addBox(-1.5F, 0.0F, -2.5F, 4.0F, 16.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(79, 119).mirror().addBox(-2.0F, 11.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(79, 110).mirror().addBox(-2.0F, 6.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(79, 101).mirror().addBox(-2.0F, 1.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(3.0F, 8.0F, 0.0F));
 
-		ModelPartData right_leg = partdefinition.addChild("right_leg", ModelPartBuilder.create().uv(45, 108).cuboid(-2.5F, 0.0F, -2.5F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F))
-		.uv(25, 119).cuboid(-3.0F, 11.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F))
-		.uv(25, 110).cuboid(-3.0F, 6.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F))
-		.uv(25, 101).cuboid(-3.0F, 1.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.0F)), ModelTransform.origin(-3.0F, 8.0F, 0.0F));
+		PartDefinition right_leg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(45, 108).addBox(-2.5F, 0.0F, -2.5F, 4.0F, 16.0F, 4.0F, new CubeDeformation(0.0F))
+		.texOffs(25, 119).addBox(-3.0F, 11.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F))
+		.texOffs(25, 110).addBox(-3.0F, 6.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F))
+		.texOffs(25, 101).addBox(-3.0F, 1.0F, -3.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.0F, 8.0F, 0.0F));
 
-		return TexturedModelData.of(meshdefinition, 128, 128);
+		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
-	@Override public void setAngles(AerialHellGolemRenderState renderState)
+	@Override public void setupAnim(AerialHellGolemRenderState renderState)
 	{
 		//float headPitch = renderState.pitch;
 		//float netHeadYaw = renderState.yaw;
-		float limbSwing = renderState.limbSwingAnimationProgress;
-		float limbSwingAmount = renderState.limbSwingAmplitude;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
 
 		//this.head.yaw = netHeadYaw * ((float)Math.PI / 180F);
 		//this.head.pitch = headPitch * ((float)Math.PI / 180F);
@@ -129,21 +135,21 @@ public class VoluciteGolemModel extends EntityModel<AerialHellGolemRenderState>
 		int i = renderState.attackTimer;
 		if (i > 0)
 		{
-			this.left_arm.pitch = -2.0F + 0.6F * MathHelper.wrap((float)i, 10.0F);
-			this.right_arm.pitch = -2.0F + 0.6F * MathHelper.wrap((float)i, 10.0F);
+			this.left_arm.xRot = -2.0F + 0.6F * Mth.triangleWave((float)i, 10.0F);
+			this.right_arm.xRot = -2.0F + 0.6F * Mth.triangleWave((float)i, 10.0F);
 		}
 		else
 		{
-			this.left_arm.pitch = (-0.2F + 0.8F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount;
-			this.right_arm.pitch = (-0.2F - 0.8F * MathHelper.wrap(limbSwing, 13.0F)) * limbSwingAmount;
+			this.left_arm.xRot = (-0.2F + 0.8F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
+			this.right_arm.xRot = (-0.2F - 0.8F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
 		}
 
-		this.left_leg.pitch = -1.5F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;
-		this.right_leg.pitch = 1.5F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;
-		this.left_leg.yaw = 0.0F; this.right_leg.yaw = 0.0F;
+		this.left_leg.xRot = -1.5F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.right_leg.xRot = 1.5F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		this.left_leg.yRot = 0.0F; this.right_leg.yRot = 0.0F;
 	}
 
-	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		//head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);

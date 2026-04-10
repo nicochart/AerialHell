@@ -1,9 +1,9 @@
 package fr.factionbedrock.aerialhell.Mixin;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Rarity;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,9 +18,9 @@ public class RarityFromItemStackMixin
     private void onGetRarity(CallbackInfoReturnable<Rarity> cir)
     {
         ItemStack itemstack = (ItemStack) (Object) this;
-        if (itemstack.hasEnchantments())
+        if (itemstack.isEnchanted())
         {
-            Rarity rarity = itemstack.getOrDefault(DataComponentTypes.RARITY, Rarity.COMMON);
+            Rarity rarity = itemstack.getOrDefault(DataComponents.RARITY, Rarity.COMMON);
             if (AerialHellRarities.VALUES.contains(rarity))
             {
                 cir.cancel();

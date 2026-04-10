@@ -1,9 +1,9 @@
 package fr.factionbedrock.aerialhell.World.Features.Util;
 
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.gen.feature.util.FeatureContext;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import org.joml.Vector3f;
 
 public interface SplineKnots
@@ -11,10 +11,10 @@ public interface SplineKnots
     default BlockPos getKnotsDeformedPos(BlockPos basePos, BlockPos[] knots, int knotsNumber, KnotsParameters knotsParams)
     {
         Vector3f knotsDeformationVector = getPosKnotsDeformationVector(basePos, knots, knotsNumber, knotsParams);
-        return basePos.add((int) knotsDeformationVector.x, (int) knotsDeformationVector.y, (int) knotsDeformationVector.z);
+        return basePos.offset((int) knotsDeformationVector.x, (int) knotsDeformationVector.y, (int) knotsDeformationVector.z);
     }
 
-    default BlockPos createRandomKnot(FeatureContext<?> context)
+    default BlockPos createRandomKnot(FeaturePlaceContext<?> context)
     {
         BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
         int i=0; BlockPos knot;
@@ -43,7 +43,7 @@ public interface SplineKnots
 
     default Vector3f getKnotDeformationVector(BlockPos deformedPos, BlockPos knot, KnotsParameters knotsParams)
     {
-        float knotDeformationFactor = knotsParams.getKnotDeformationFactor((float) Math.sqrt(deformedPos.getSquaredDistance(knot)));
+        float knotDeformationFactor = knotsParams.getKnotDeformationFactor((float) Math.sqrt(deformedPos.distSqr(knot)));
         return new Vector3f(knot.getX() - deformedPos.getX(), knot.getY() - deformedPos.getY(), knot.getZ() - deformedPos.getZ()).normalize(knotDeformationFactor * knotsParams.getKnotDeformation());
     }
 
@@ -66,10 +66,10 @@ public interface SplineKnots
         public int getKnotDeformationMinDistance() {return KNOT_DEFORMATION_MIN_DISTANCE;}
         public int getKnotDeformationMaxDistance() {return KNOT_DEFORMATION_MAX_DISTANCE;}
 
-        public int getRandomKnotDistance(Random rand)
+        public int getRandomKnotDistance(RandomSource rand)
         {
             int sign = rand.nextInt(2) == 0 ? -1 : 1;
-            return sign * rand.nextBetweenExclusive(KNOT_MIN_DISTANCE_TO_POS, KNOT_MAX_DISTANCE_TO_POS);
+            return sign * rand.nextInt(KNOT_MIN_DISTANCE_TO_POS, KNOT_MAX_DISTANCE_TO_POS);
         }
 
         public float getKnotDeformationFactor(float distanceToKnot)

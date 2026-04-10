@@ -1,22 +1,22 @@
 package fr.factionbedrock.aerialhell.Inventory.Menu;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.recipe.RecipePropertySet;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.book.RecipeBookType;
-import net.minecraft.screen.AbstractFurnaceScreenHandler;
-import net.minecraft.screen.PropertyDelegate;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractFurnaceMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.RecipeBookType;
+import net.minecraft.world.item.crafting.RecipePropertySet;
+import net.minecraft.world.item.crafting.RecipeType;
 
-public class StellarFurnaceMenu extends AbstractFurnaceScreenHandler
+public class StellarFurnaceMenu extends AbstractFurnaceMenu
 {
-	public StellarFurnaceMenu(int windowId, PlayerInventory playerInventory)
+	public StellarFurnaceMenu(int windowId, Inventory playerInventory)
 	{
 		super(AerialHellMenuTypes.STELLAR_FURNACE, RecipeType.SMELTING, RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory);
 	}
 
-	public StellarFurnaceMenu(int windowId, PlayerInventory playerInventory, Inventory furnaceInventory, PropertyDelegate data)
+	public StellarFurnaceMenu(int windowId, Inventory playerInventory, Container furnaceInventory, ContainerData data)
 	{
 		super(AerialHellMenuTypes.STELLAR_FURNACE, RecipeType.SMELTING, RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory, furnaceInventory, data);
 	}

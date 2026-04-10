@@ -1,15 +1,15 @@
 package fr.factionbedrock.aerialhell.Effect;
 
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 
-public class AerialHellEffect extends StatusEffect
+public class AerialHellEffect extends MobEffect
 {
-    public AerialHellEffect(StatusEffectCategory category, int liquidColor) {super(category, liquidColor);}
+    public AerialHellEffect(MobEffectCategory category, int liquidColor) {super(category, liquidColor);}
     
     @Override
-    public boolean canApplyUpdateEffect(int duration, int amplifier) {return true;}
+    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {return true;}
 
     @Override
-    public boolean isInstant() {return false;}
+    public boolean isInstantenous() {return false;}
 }

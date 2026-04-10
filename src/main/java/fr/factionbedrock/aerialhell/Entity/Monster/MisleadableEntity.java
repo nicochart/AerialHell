@@ -3,18 +3,18 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 import fr.factionbedrock.aerialhell.Entity.BaseMobEntityInterface;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.TargetPredicate;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.server.world.ServerWorld;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Player;
 
 public interface MisleadableEntity extends BaseMobEntityInterface
 {
@@ -31,16 +31,16 @@ public interface MisleadableEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     /* -------- Delegate methods needing call -------- */
     /* ----------------------------------------------- */
-    default boolean misleadableDamage(ServerWorld serverWorld, DamageSource source, float amount, SuperDamageReference superReference) //call and return in damage(level, source, amount) instead of super (do not call super !). superReference is super::damage
+    default boolean misleadableDamage(ServerLevel serverWorld, DamageSource source, float amount, SuperDamageReference superReference) //call and return in damage(level, source, amount) instead of super (do not call super !). superReference is super::damage
     {
-        Entity sourceEntity = source.getAttacker();
+        Entity sourceEntity = source.getEntity();
         if (sourceEntity instanceof LivingEntity livingSource && this.isMisleadedBy(livingSource) && !EntityHelper.isCreaOrSpecPlayer(livingSource)) //got hurt by misleading entity
         {
             if (this.canMisleaderDamage())
             {
                 if (this.doesApplyTraitorEffectToMisleaderDamageSource(livingSource))
                 {
-                    livingSource.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.TRAITOR, 12000, 0));
+                    livingSource.addEffect(new MobEffectInstance(AerialHellMobEffects.TRAITOR, 12000, 0));
                 }
                 return superReference.apply(serverWorld, source, amount); //calling super
             }
@@ -68,16 +68,16 @@ public interface MisleadableEntity extends BaseMobEntityInterface
     /* --------------------------------------- */
     /* -------- Other utility methods -------- */
     /* --------------------------------------- */
-    @Nullable default LivingEntity misleadableFindTarget(TargetPredicate targetConditions) //call server side
+    @Nullable default LivingEntity misleadableFindTarget(TargetingConditions targetConditions) //call server side
     {
-        if (!(this.getLevel() instanceof ServerWorld serverWorld)) {return null;}
+        if (!(this.getLevel() instanceof ServerLevel serverWorld)) {return null;}
         else
         {
             double x = this.getX(), y = this.getSelf().getEyeY(), z = this.getZ();
-            List<Entity> nearbyEntities = serverWorld.getOtherEntities(this.getSelf(), this.getSelf().getBoundingBox().expand(20), EntityPredicates.maxDistance(x, y, z, 16));
+            List<Entity> nearbyEntities = serverWorld.getEntities(this.getSelf(), this.getSelf().getBoundingBox().inflate(20), EntitySelector.withinDistance(x, y, z, 16));
 
             List<LivingEntity> nearbyTargetablePlayers = this.getTargetableEntitiesFromList(nearbyEntities);
-            return serverWorld.getClosestEntity(nearbyTargetablePlayers, targetConditions, this.getSelf(), x, y, z);
+            return serverWorld.getNearestEntity(nearbyTargetablePlayers, targetConditions, this.getSelf(), x, y, z);
         }
     }
 
@@ -85,13 +85,13 @@ public interface MisleadableEntity extends BaseMobEntityInterface
     {
         return list.stream()
                 .filter(entity -> entity instanceof LivingEntity)
-                .filter(entity -> !this.isMisleadedBy((PlayerEntity) entity))
-                .map(entity -> (PlayerEntity) entity)
+                .filter(entity -> !this.isMisleadedBy((Player) entity))
+                .map(entity -> (Player) entity)
                 .collect(Collectors.toList());
     }
     /* --------------------------------------- */
     /* --------------------------------------- */
     /* --------------------------------------- */
 
-    @FunctionalInterface interface SuperDamageReference {boolean apply(ServerWorld serverWorld, DamageSource damageSource, float amount);}
+    @FunctionalInterface interface SuperDamageReference {boolean apply(ServerLevel serverWorld, DamageSource damageSource, float amount);}
 }

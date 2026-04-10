@@ -1,69 +1,69 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Spider;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.SpiderEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.spider.Spider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 public class CrystalSpiderEntity extends AbstractAerialHellSpiderEntity
 {
-    public CrystalSpiderEntity(EntityType<? extends SpiderEntity> type, World worldIn) {super(type, worldIn);}
+    public CrystalSpiderEntity(EntityType<? extends Spider> type, Level worldIn) {super(type, worldIn);}
     
     @Override
-    public void initGoals()
+    public void registerGoals()
     {
-        this.goalSelector.add(4, new CrystalSpiderEntity.AttackGoal(this));
-        this.targetSelector.add(1, new CrystalSpiderEntity.TargetGoal<>(this, PlayerEntity.class));
-        this.targetSelector.add(1, (new RevengeGoal(this)).setGroupRevenge(CrystalSpiderEntity.class));
-        super.initGoals();
+        this.goalSelector.addGoal(4, new CrystalSpiderEntity.AttackGoal(this));
+        this.targetSelector.addGoal(1, new CrystalSpiderEntity.TargetGoal<>(this, Player.class));
+        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(CrystalSpiderEntity.class));
+        super.registerGoals();
     }
     
-    public static DefaultAttributeContainer.Builder registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
-        return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.25)
-                .add(EntityAttributes.ATTACK_DAMAGE, 4)
-                .add(EntityAttributes.ARMOR, 0)
-                .add(EntityAttributes.MAX_HEALTH, 24);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MOVEMENT_SPEED, 0.25)
+                .add(Attributes.ATTACK_DAMAGE, 4)
+                .add(Attributes.ARMOR, 0)
+                .add(Attributes.MAX_HEALTH, 24);
     }
     
     static class AttackGoal extends MeleeAttackGoal
     {
-        public AttackGoal(SpiderEntity spider)
+        public AttackGoal(Spider spider)
         {
            super(spider, 1.0D, true);
         }
         
-        public boolean shouldContinue()
+        public boolean canContinueToUse()
         {
-            float f = this.mob.getBrightnessAtEyes(); //goalOwner (=attacker) .getBrightness()
+            float f = this.mob.getLightLevelDependentMagicValue(); //goalOwner (=attacker) .getBrightness()
             if (f >= 0.5F && this.mob.getRandom().nextInt(100) == 0)
             {
             	this.mob.setTarget((LivingEntity)null);
                 return false;
             }
-            else {return super.shouldContinue();}
+            else {return super.canContinueToUse();}
         }
     }
     
-    static class TargetGoal<T extends LivingEntity> extends ActiveTargetGoal<T>
+    static class TargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T>
     {
-        public TargetGoal(SpiderEntity spider, Class<T> classTarget)
+        public TargetGoal(Spider spider, Class<T> classTarget)
         {
         	super(spider, classTarget, true);
         }
 
-        public boolean canStart()
+        public boolean canUse()
         {
-        	float f = this.mob.getBrightnessAtEyes(); //goalOwner.getBrightness()
-            return f >= 0.5F ? false : super.canStart();
+        	float f = this.mob.getLightLevelDependentMagicValue(); //goalOwner.getBrightness()
+            return f >= 0.5F ? false : super.canUse();
         }
     }
 }

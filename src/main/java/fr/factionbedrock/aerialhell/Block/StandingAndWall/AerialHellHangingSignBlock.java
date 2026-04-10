@@ -1,16 +1,16 @@
 package fr.factionbedrock.aerialhell.Block.StandingAndWall;
 
 import fr.factionbedrock.aerialhell.BlockEntity.AerialHellHangingSignBlockEntity;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HangingSignBlock;
-import net.minecraft.block.WoodType;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.CeilingHangingSignBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.WoodType;
 
-public class AerialHellHangingSignBlock extends HangingSignBlock
+public class AerialHellHangingSignBlock extends CeilingHangingSignBlock
 {
-	public AerialHellHangingSignBlock(WoodType woodType, AbstractBlock.Settings settings) {super(woodType, settings);}
+	public AerialHellHangingSignBlock(WoodType woodType, BlockBehaviour.Properties settings) {super(woodType, settings);}
 
-	@Override public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {return new AerialHellHangingSignBlockEntity(pos, state);}
+	@Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new AerialHellHangingSignBlockEntity(pos, state);}
 }

@@ -2,20 +2,24 @@ package fr.factionbedrock.aerialhell.Block.Plants.Vines;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
-import net.minecraft.block.*;
-import net.minecraft.state.StateManager;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.GrowingPlantHeadBlock;
+import net.minecraft.world.level.block.TwistingVinesPlantBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 
 public class AerialHellTwistingVinesPlantBlock extends TwistingVinesPlantBlock
 {
-    public AerialHellTwistingVinesPlantBlock(AbstractBlock.Settings settings)
+    public AerialHellTwistingVinesPlantBlock(BlockBehaviour.Properties settings)
     {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(AerialHellBooleanProperties.SHIFTED_RENDER, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(AerialHellBooleanProperties.SHIFTED_RENDER, false));
     }
 
-    @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(AerialHellBooleanProperties.SHIFTED_RENDER);}
+    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(AerialHellBooleanProperties.SHIFTED_RENDER);}
 
-    @Override protected AbstractPlantStemBlock getStem()
+    @Override protected GrowingPlantHeadBlock getHeadBlock()
     {
         if (this == AerialHellBlocks.LAZULI_ROOTS_PLANT) {return AerialHellBlocks.LAZULI_ROOTS;}
         else if (this == AerialHellBlocks.STELLAR_ROOTS_PLANT) {return AerialHellBlocks.STELLAR_ROOTS;}

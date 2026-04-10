@@ -7,48 +7,59 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.World.AerialHellTeleporter;
-import net.minecraft.block.*;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCollisionHandler;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.*;
-import net.minecraft.world.border.WorldBorder;
-import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.dimension.NetherPortal;
-import net.minecraft.world.tick.ScheduledTickView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.BlockUtil;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.NetherPortalBlock;
+import net.minecraft.world.level.block.Portal;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.border.WorldBorder;
+import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.portal.PortalShape;
+import net.minecraft.world.level.portal.TeleportTransition;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public class AerialHellPortalBlock extends Block implements Portal
 {
-    public static final EnumProperty<Direction.Axis> AXIS = Properties.HORIZONTAL_AXIS;
-    protected static final VoxelShape X_AABB = Block.createCuboidShape(0.0D, 0.0D, 6.0D, 16.0D, 16.0D, 10.0D);
-    protected static final VoxelShape Z_AABB = Block.createCuboidShape(6.0D, 0.0D, 0.0D, 10.0D, 16.0D, 16.0D);
+    public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
+    protected static final VoxelShape X_AABB = Block.box(0.0D, 0.0D, 6.0D, 16.0D, 16.0D, 10.0D);
+    protected static final VoxelShape Z_AABB = Block.box(6.0D, 0.0D, 0.0D, 10.0D, 16.0D, 16.0D);
 
-    public AerialHellPortalBlock(Settings settings)
+    public AerialHellPortalBlock(Properties settings)
     {
         super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(AXIS, Direction.Axis.X));
+        this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Direction.Axis.X));
     }
 
-    @Override protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context)
+    @Override protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context)
     {
-        switch(state.get(AXIS))
+        switch(state.getValue(AXIS))
         {
             case Z:
                 return Z_AABB;
@@ -58,7 +69,7 @@ public class AerialHellPortalBlock extends Block implements Portal
         }
     }
 
-    public boolean trySpawnPortal(WorldAccess world, BlockPos pos)
+    public boolean trySpawnPortal(LevelAccessor world, BlockPos pos)
     {
         AerialHellPortalBlock.AerialHellPortalShape size = this.isPortal(world, pos);
         if (size != null)
@@ -69,7 +80,7 @@ public class AerialHellPortalBlock extends Block implements Portal
         else {return false;}
     }
 
-    @Nullable public AerialHellPortalBlock.AerialHellPortalShape isPortal(WorldAccess world, BlockPos pos)
+    @Nullable public AerialHellPortalBlock.AerialHellPortalShape isPortal(LevelAccessor world, BlockPos pos)
     {
         AerialHellPortalBlock.AerialHellPortalShape portalShape = new AerialHellPortalShape(world, pos, Direction.Axis.X);
         if (portalShape.isValid() && portalShape.numPortalBlocks == 0) {return portalShape;}
@@ -80,23 +91,23 @@ public class AerialHellPortalBlock extends Block implements Portal
         }
     }
 
-    @Override public BlockState getStateForNeighborUpdate(BlockState stateIn, WorldView world, ScheduledTickView tickView, BlockPos currentPos, Direction facing, BlockPos facingPos, BlockState facingState, Random rand)
+    @Override public BlockState updateShape(BlockState stateIn, LevelReader world, ScheduledTickAccess tickView, BlockPos currentPos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource rand)
     {
         Direction.Axis direction$axis = facing.getAxis();
-        Direction.Axis direction$axis1 = stateIn.get(AXIS);
+        Direction.Axis direction$axis1 = stateIn.getValue(AXIS);
         boolean flag = direction$axis1 != direction$axis && direction$axis.isHorizontal();
-        return !flag && facingState.getBlock() != this && !(new AerialHellPortalShape(world, currentPos, direction$axis1)).isComplete() ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(stateIn, world, tickView, currentPos, facing, facingPos, facingState, rand);
+        return !flag && facingState.getBlock() != this && !(new AerialHellPortalShape(world, currentPos, direction$axis1)).isComplete() ? Blocks.AIR.defaultBlockState() : super.updateShape(stateIn, world, tickView, currentPos, facing, facingPos, facingState, rand);
     }
 
-    @Override protected void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean intersects)
+    @Override protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier handler, boolean intersects)
     {
-        if(entity.canUsePortals(false))
+        if(entity.canUsePortal(false))
         {
             if (entity instanceof LivingEntity livingEntity && EntityHelper.isLivingEntityOnPortalCooldown(livingEntity))
             {
                 EntityHelper.setAfterTeleportationEffect((LivingEntity)entity, !EntityHelper.isCreativePlayer(entity) ? 110 : 20);
             }
-            else if (entity.hasPortalCooldown()) {entity.resetPortalCooldown();}
+            else if (entity.isOnPortalCooldown()) {entity.setPortalCooldown();}
             else
             {
                 if (entity instanceof LivingEntity livingEntity)
@@ -131,45 +142,45 @@ public class AerialHellPortalBlock extends Block implements Portal
     }
 
     @Nullable @Override
-    public TeleportTarget createTeleportTarget(ServerWorld world, Entity entity, BlockPos pos)
+    public TeleportTransition getPortalDestination(ServerLevel world, Entity entity, BlockPos pos)
     {
-        RegistryKey<World> resourcekey = world.getRegistryKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION ? World.OVERWORLD : AerialHellDimensions.AERIAL_HELL_DIMENSION;
-        ServerWorld serverWorld = world.getServer().getWorld(resourcekey);
+        ResourceKey<Level> resourcekey = world.dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION ? Level.OVERWORLD : AerialHellDimensions.AERIAL_HELL_DIMENSION;
+        ServerLevel serverWorld = world.getServer().getLevel(resourcekey);
         if (serverWorld == null) {return null;}
         else
         {
-            boolean flag = serverWorld.getRegistryKey() == AerialHellDimensions.AERIAL_HELL_DIMENSION;
+            boolean flag = serverWorld.dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION;
             WorldBorder worldborder = serverWorld.getWorldBorder();
-            double d0 = DimensionType.getCoordinateScaleFactor(world.getDimension(), serverWorld.getDimension());
-            BlockPos blockpos = worldborder.clampFloored(entity.getX() * d0, entity.getY(), entity.getZ() * d0);
+            double d0 = DimensionType.getTeleportationScale(world.dimensionType(), serverWorld.dimensionType());
+            BlockPos blockpos = worldborder.clampToBounds(entity.getX() * d0, entity.getY(), entity.getZ() * d0);
             return this.getOrCreateExitPortalTarget(serverWorld, entity, pos, blockpos, flag, worldborder);
         }
     }
 
-    @Nullable private TeleportTarget getOrCreateExitPortalTarget(ServerWorld world, Entity entity, BlockPos pos, BlockPos exitPos, boolean isNether, WorldBorder worldBorder)
+    @Nullable private TeleportTransition getOrCreateExitPortalTarget(ServerLevel world, Entity entity, BlockPos pos, BlockPos exitPos, boolean isNether, WorldBorder worldBorder)
     {
         AerialHellTeleporter portalForcer = new AerialHellTeleporter(world);
         Optional<BlockPos> optional = portalForcer.findClosestPortalPosition(exitPos, isNether, worldBorder);
-        BlockLocating.Rectangle blockutil$foundrectangle;
-        TeleportTarget.PostDimensionTransition postTransition;
+        BlockUtil.FoundRectangle blockutil$foundrectangle;
+        TeleportTransition.PostTeleportTransition postTransition;
         if (optional.isPresent())
         {
             BlockPos blockpos = optional.get();
             BlockState blockstate = world.getBlockState(blockpos);
-            blockutil$foundrectangle = BlockLocating.getLargestRectangle(
+            blockutil$foundrectangle = BlockUtil.getLargestRectangleAround(
                     blockpos,
-                    blockstate.get(Properties.HORIZONTAL_AXIS),
+                    blockstate.getValue(BlockStateProperties.HORIZONTAL_AXIS),
                     21,
                     Direction.Axis.Y,
                     21,
                     p_351970_ -> world.getBlockState(p_351970_) == blockstate
             );
-            postTransition = TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET.then(entityx -> entityx.addPortalChunkTicketAt(blockpos));
+            postTransition = TeleportTransition.PLAY_PORTAL_SOUND.then(entityx -> entityx.placePortalTicket(blockpos));
         }
         else
         {
-            Direction.Axis direction$axis = entity.getEntityWorld().getBlockState(pos).getOrEmpty(AXIS).orElse(Direction.Axis.X);
-            Optional<BlockLocating.Rectangle> optional1 = portalForcer.createPortal(exitPos, direction$axis);
+            Direction.Axis direction$axis = entity.level().getBlockState(pos).getOptionalValue(AXIS).orElse(Direction.Axis.X);
+            Optional<BlockUtil.FoundRectangle> optional1 = portalForcer.createPortal(exitPos, direction$axis);
             if (optional1.isEmpty())
             {
                 AerialHell.LOGGER.error("Unable to create a portal, likely target out of worldborder");
@@ -177,59 +188,59 @@ public class AerialHellPortalBlock extends Block implements Portal
             }
 
             blockutil$foundrectangle = optional1.get();
-            postTransition = TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET.then(TeleportTarget.ADD_PORTAL_CHUNK_TICKET);
+            postTransition = TeleportTransition.PLAY_PORTAL_SOUND.then(TeleportTransition.PLACE_PORTAL_TICKET);
         }
 
         return getExitPortalTarget(entity, pos, blockutil$foundrectangle, world, postTransition);
     }
 
-    private static TeleportTarget getExitPortalTarget(Entity entity, BlockPos pos, BlockLocating.Rectangle rectangle, ServerWorld world, TeleportTarget.PostDimensionTransition postTeleportTarget)
+    private static TeleportTransition getExitPortalTarget(Entity entity, BlockPos pos, BlockUtil.FoundRectangle rectangle, ServerLevel world, TeleportTransition.PostTeleportTransition postTeleportTarget)
     {
-        BlockState blockstate = entity.getEntityWorld().getBlockState(pos);
+        BlockState blockstate = entity.level().getBlockState(pos);
         Direction.Axis direction$axis;
-        Vec3d vec3d;
-        if (blockstate.contains(Properties.HORIZONTAL_AXIS))
+        Vec3 vec3d;
+        if (blockstate.hasProperty(BlockStateProperties.HORIZONTAL_AXIS))
         {
-            direction$axis = blockstate.get(Properties.HORIZONTAL_AXIS);
-            BlockLocating.Rectangle blockutil$foundrectangle = BlockLocating.getLargestRectangle(
-                    pos, direction$axis, 21, Direction.Axis.Y, 21, p_351016_ -> entity.getEntityWorld().getBlockState(p_351016_) == blockstate
+            direction$axis = blockstate.getValue(BlockStateProperties.HORIZONTAL_AXIS);
+            BlockUtil.FoundRectangle blockutil$foundrectangle = BlockUtil.getLargestRectangleAround(
+                    pos, direction$axis, 21, Direction.Axis.Y, 21, p_351016_ -> entity.level().getBlockState(p_351016_) == blockstate
             );
-            vec3d = entity.positionInPortal(direction$axis, blockutil$foundrectangle);
+            vec3d = entity.getRelativePortalPosition(direction$axis, blockutil$foundrectangle);
         }
         else
         {
             direction$axis = Direction.Axis.X;
-            vec3d = new Vec3d(0.5, 0.0, 0.0);
+            vec3d = new Vec3(0.5, 0.0, 0.0);
         }
 
         return createTeleportTarget(world, rectangle, direction$axis, vec3d, entity, postTeleportTarget);
     }
 
-    private static TeleportTarget createTeleportTarget(ServerWorld level, BlockLocating.Rectangle exitPortalRectangle, Direction.Axis axis, Vec3d offset, Entity entity, TeleportTarget.PostDimensionTransition postTeleportTarget)
+    private static TeleportTransition createTeleportTarget(ServerLevel level, BlockUtil.FoundRectangle exitPortalRectangle, Direction.Axis axis, Vec3 offset, Entity entity, TeleportTransition.PostTeleportTransition postTeleportTarget)
     {
-        BlockPos blockpos = exitPortalRectangle.lowerLeft;
+        BlockPos blockpos = exitPortalRectangle.minCorner;
         BlockState blockstate = level.getBlockState(blockpos);
-        Direction.Axis direction$axis = blockstate.getOrEmpty(Properties.HORIZONTAL_AXIS).orElse(Direction.Axis.X);
-        double width = exitPortalRectangle.width;
-        double height = exitPortalRectangle.height;
+        Direction.Axis direction$axis = blockstate.getOptionalValue(BlockStateProperties.HORIZONTAL_AXIS).orElse(Direction.Axis.X);
+        double width = exitPortalRectangle.axis1Size;
+        double height = exitPortalRectangle.axis2Size;
         EntityDimensions entitydimensions = entity.getDimensions(entity.getPose());
         int i = axis == direction$axis ? 0 : 90;
-        Vec3d speed = entity.getVelocity();
-        Vec3d vec3 = axis == direction$axis ? speed : new Vec3d(speed.z, speed.y, -speed.x);
-        double d2 = (double)entitydimensions.width() / 2.0 + (width - (double)entitydimensions.width()) * offset.getX();
-        double d3 = (height - (double)entitydimensions.height()) * offset.getY();
-        double d4 = 0.5 + offset.getZ();
+        Vec3 speed = entity.getDeltaMovement();
+        Vec3 vec3 = axis == direction$axis ? speed : new Vec3(speed.z, speed.y, -speed.x);
+        double d2 = (double)entitydimensions.width() / 2.0 + (width - (double)entitydimensions.width()) * offset.x();
+        double d3 = (height - (double)entitydimensions.height()) * offset.y();
+        double d4 = 0.5 + offset.z();
         boolean flag = direction$axis == Direction.Axis.X;
-        Vec3d vec31 = new Vec3d((double)blockpos.getX() + (flag ? d2 : d4), (double)blockpos.getY() + d3, (double)blockpos.getZ() + (flag ? d4 : d2));
-        Vec3d vec32 = AerialHellPortalShape.findOpenPosition(vec31, level, entity, entitydimensions);
-        return new TeleportTarget(level, vec32, vec3, entity.getBodyYaw() + (float)i, entity.getPitch(), postTeleportTarget);
+        Vec3 vec31 = new Vec3((double)blockpos.getX() + (flag ? d2 : d4), (double)blockpos.getY() + d3, (double)blockpos.getZ() + (flag ? d4 : d2));
+        Vec3 vec32 = AerialHellPortalShape.findCollisionFreePosition(vec31, level, entity, entitydimensions);
+        return new TeleportTransition(level, vec32, vec3, entity.getVisualRotationYInDegrees() + (float)i, entity.getXRot(), postTeleportTarget);
     }
 
-    @Override public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random)
+    @Override public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random)
     {
         if (random.nextInt(100) == 0)
         {
-            world.playSoundClient((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, AerialHellSoundEvents.BLOCK_AERIAL_HELL_PORTAL_AMBIENT, SoundCategory.BLOCKS, 0.6F, 0.9F + random.nextFloat() * 0.2F, false);
+            world.playLocalSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, AerialHellSoundEvents.BLOCK_AERIAL_HELL_PORTAL_AMBIENT, SoundSource.BLOCKS, 0.6F, 0.9F + random.nextFloat() * 0.2F, false);
         }
 
         for(int i = 0; i < 4; ++i)
@@ -241,7 +252,7 @@ public class AerialHellPortalBlock extends Block implements Portal
             double ySpeed = ((double)random.nextFloat() - 0.5D) * 0.5D;
             double zSpeed = ((double)random.nextFloat() - 0.5D) * 0.5D;
             int j = random.nextInt(2) * 2 - 1;
-            if (!world.getBlockState(pos.west()).isOf(this) && !world.getBlockState(pos.east()).isOf(this))
+            if (!world.getBlockState(pos.west()).is(this) && !world.getBlockState(pos.east()).is(this))
             {
                 x = (double)pos.getX() + 0.5D + 0.25D * (double)j;
                 xSpeed = random.nextFloat() * 2.0F * (float)j;
@@ -252,24 +263,24 @@ public class AerialHellPortalBlock extends Block implements Portal
                 zSpeed = random.nextFloat() * 2.0F * (float)j;
             }
 
-            world.addParticleClient(AerialHellParticleTypes.AERIAL_HELL_PORTAL, x, y, z, xSpeed, ySpeed, zSpeed);
+            world.addParticle(AerialHellParticleTypes.AERIAL_HELL_PORTAL, x, y, z, xSpeed, ySpeed, zSpeed);
         }
     }
 
-    @Override protected ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state, boolean includeData) {return ItemStack.EMPTY;}
+    @Override protected ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state, boolean includeData) {return ItemStack.EMPTY;}
 
-    @Override protected BlockState rotate(BlockState state, BlockRotation rotation)
+    @Override protected BlockState rotate(BlockState state, Rotation rotation)
     {
         switch (rotation)
         {
             case COUNTERCLOCKWISE_90:
             case CLOCKWISE_90:
-                switch ((Direction.Axis)state.get(AXIS))
+                switch ((Direction.Axis)state.getValue(AXIS))
                 {
                     case X:
-                        return state.with(AXIS, Direction.Axis.Z);
+                        return state.setValue(AXIS, Direction.Axis.Z);
                     case Z:
-                        return state.with(AXIS, Direction.Axis.X);
+                        return state.setValue(AXIS, Direction.Axis.X);
                     default:
                         return state;
                 }
@@ -278,16 +289,16 @@ public class AerialHellPortalBlock extends Block implements Portal
         }
     }
 
-    @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {builder.add(AXIS);}
+    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(AXIS);}
 
-    public static class AerialHellPortalShape extends NetherPortal
+    public static class AerialHellPortalShape extends PortalShape
     {
         private static final int MIN_WIDTH = 1;
         public static final int MAX_WIDTH = 21;
         private static final int MIN_HEIGHT = 2;
         public static final int MAX_HEIGHT = 21;
-        private static final AbstractBlock.ContextPredicate IS_VALID_FRAME_BLOCK = (state, getter, pos) -> state.isOf(AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK);
-        private final WorldView level;
+        private static final BlockBehaviour.StatePredicate IS_VALID_FRAME_BLOCK = (state, getter, pos) -> state.is(AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK);
+        private final LevelReader level;
         private final Direction.Axis axis;
         private final Direction rightDir;
         private int numPortalBlocks;
@@ -295,7 +306,7 @@ public class AerialHellPortalBlock extends Block implements Portal
         private int height;
         private final int width;
 
-        public AerialHellPortalShape(WorldView level, BlockPos bottomLeftPos, Direction.Axis axis)
+        public AerialHellPortalShape(LevelReader level, BlockPos bottomLeftPos, Direction.Axis axis)
         {
             super(axis, 0, Direction.WEST, bottomLeftPos, 0, 0);
             this.level = level;
@@ -318,11 +329,11 @@ public class AerialHellPortalBlock extends Block implements Portal
         @Nullable
         private BlockPos calculateBottomLeft(BlockPos pos)
         {
-            for (int i = Math.max(this.level.getBottomY(), pos.getY() - MAX_HEIGHT); pos.getY() > i && isEmpty(this.level.getBlockState(pos.down())); pos = pos.down()){}
+            for (int i = Math.max(this.level.getMinY(), pos.getY() - MAX_HEIGHT); pos.getY() > i && isEmpty(this.level.getBlockState(pos.below())); pos = pos.below()){}
 
             Direction direction = this.rightDir.getOpposite();
             int j = this.getDistanceUntilEdgeAboveFrame(pos, direction) - 1;
-            return j < 0 ? null : pos.offset(direction, j);
+            return j < 0 ? null : pos.relative(direction, j);
         }
 
         private int calculateWidth()
@@ -333,7 +344,7 @@ public class AerialHellPortalBlock extends Block implements Portal
 
         private int getDistanceUntilEdgeAboveFrame(BlockPos pos, Direction direction)
         {
-            BlockPos.Mutable mutable = new BlockPos.Mutable();
+            BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
 
             for (int i = 0; i <= MAX_WIDTH; ++i)
             {
@@ -349,22 +360,22 @@ public class AerialHellPortalBlock extends Block implements Portal
 
         private int calculateHeight()
         {
-            BlockPos.Mutable mutable = new BlockPos.Mutable();
+            BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
             int i = this.getDistanceUntilTop(mutable);
             return i >= MIN_HEIGHT && i <= MAX_HEIGHT && this.hasTopFrame(mutable, i) ? i : 0;
         }
 
-        private boolean hasTopFrame(BlockPos.Mutable pos, int height)
+        private boolean hasTopFrame(BlockPos.MutableBlockPos pos, int height)
         {
             for (int i = 0; i < this.width; ++i)
             {
-                BlockPos.Mutable mutablePos = pos.set(this.bottomLeft).move(Direction.UP, height).move(this.rightDir, i);
+                BlockPos.MutableBlockPos mutablePos = pos.set(this.bottomLeft).move(Direction.UP, height).move(this.rightDir, i);
                 if (!IS_VALID_FRAME_BLOCK.test(this.level.getBlockState(mutablePos), this.level, mutablePos)) {return false;}
             }
             return true;
         }
 
-        private int getDistanceUntilTop(BlockPos.Mutable pos)
+        private int getDistanceUntilTop(BlockPos.MutableBlockPos pos)
         {
             for (int i = 0; i < MAX_HEIGHT; ++i)
             {
@@ -380,19 +391,19 @@ public class AerialHellPortalBlock extends Block implements Portal
                     BlockState blockstate = this.level.getBlockState(pos);
                     if (!isEmpty(blockstate)) {return i;}
 
-                    if (blockstate.isOf(AerialHellBlocks.AERIAL_HELL_PORTAL)) {++this.numPortalBlocks;}
+                    if (blockstate.is(AerialHellBlocks.AERIAL_HELL_PORTAL)) {++this.numPortalBlocks;}
                 }
             }
             return MAX_HEIGHT;
         }
 
-        private static boolean isEmpty(BlockState state) {return state.isAir() || state.isOf(AerialHellBlocks.AERIAL_HELL_PORTAL);}
+        private static boolean isEmpty(BlockState state) {return state.isAir() || state.is(AerialHellBlocks.AERIAL_HELL_PORTAL);}
         public boolean isValid() {return this.bottomLeft != null && this.width >= MIN_WIDTH && this.width <= MAX_WIDTH && this.height >= MIN_HEIGHT && this.height <= MAX_HEIGHT;}
 
-        public void createPortalBlocks(WorldAccess world)
+        public void createPortalBlocks(LevelAccessor world)
         {
-            BlockState blockstate = AerialHellBlocks.AERIAL_HELL_PORTAL.getDefaultState().with(NetherPortalBlock.AXIS, this.axis);
-            BlockPos.iterate(this.bottomLeft, this.bottomLeft.offset(Direction.UP, this.height - 1).offset(this.rightDir, this.width - 1)).forEach(pos -> world.setBlockState(pos, blockstate, 18));
+            BlockState blockstate = AerialHellBlocks.AERIAL_HELL_PORTAL.defaultBlockState().setValue(NetherPortalBlock.AXIS, this.axis);
+            BlockPos.betweenClosed(this.bottomLeft, this.bottomLeft.relative(Direction.UP, this.height - 1).relative(this.rightDir, this.width - 1)).forEach(pos -> world.setBlock(pos, blockstate, 18));
         }
 
         public boolean isComplete() {return this.isValid() && this.numPortalBlocks == this.width * this.height;}

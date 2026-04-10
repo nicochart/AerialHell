@@ -1,26 +1,26 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.BarrelMimic;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 
 public class ShadowPineBarrelMimicEntity extends AbstractBarrelMimicEntity
 {
-	public ShadowPineBarrelMimicEntity(EntityType<? extends ShadowPineBarrelMimicEntity> type, World world)
+	public ShadowPineBarrelMimicEntity(EntityType<? extends ShadowPineBarrelMimicEntity> type, Level world)
 	{
 		super(type, world);
 	}
 	
-	public static DefaultAttributeContainer.Builder registerAttributes()
+	public static AttributeSupplier.Builder registerAttributes()
 	{
 		return createMobAttributes()
-				.add(EntityAttributes.MAX_HEALTH, 40.0D)
-				.add(EntityAttributes.ATTACK_DAMAGE, 3.0D)
-				.add(EntityAttributes.MOVEMENT_SPEED, 0.3D)
-				.add(EntityAttributes.FOLLOW_RANGE, 16.0D);
+				.add(Attributes.MAX_HEALTH, 40.0D)
+				.add(Attributes.ATTACK_DAMAGE, 3.0D)
+				.add(Attributes.MOVEMENT_SPEED, 0.3D)
+				.add(Attributes.FOLLOW_RANGE, 16.0D);
 	}
 
 	@Override

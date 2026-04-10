@@ -6,9 +6,9 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.client.particle.CampfireSmokeParticle;
 import net.minecraft.client.particle.FlameParticle;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class AerialHellParticleTypes
 {
@@ -25,7 +25,7 @@ public class AerialHellParticleTypes
 	public static final SimpleParticleType FALLING_CRYSTALLIZED_LEAVES = register("falling_crystallized_leaves", FabricParticleTypes.simple(false));
 
 
-	public static SimpleParticleType register(String name, SimpleParticleType type) {return Registry.register(Registries.PARTICLE_TYPE, AerialHell.id(name), type);}
+	public static SimpleParticleType register(String name, SimpleParticleType type) {return Registry.register(BuiltInRegistries.PARTICLE_TYPE, AerialHell.id(name), type);}
 
 	public static void load() {}
 
@@ -36,11 +36,11 @@ public class AerialHellParticleTypes
 		ParticleFactoryRegistry.getInstance().register(COPPER_PINE_LEAVES, CopperPineLeavesParticle.Factory::new);
 		ParticleFactoryRegistry.getInstance().register(OSCILLATOR, OscillatorParticle.Factory::new);
 		ParticleFactoryRegistry.getInstance().register(SNOWFLAKE, SnowFlakeParticle.Factory::new);
-		ParticleFactoryRegistry.getInstance().register(GOD_FLAME, FlameParticle.Factory::new);
+		ParticleFactoryRegistry.getInstance().register(GOD_FLAME, FlameParticle.Provider::new);
 		ParticleFactoryRegistry.getInstance().register(SHADOW_TROLL_BAT, ShadowParticle.Factory::new);
 		ParticleFactoryRegistry.getInstance().register(SHADOW_PARTICLE, ShadowParticle.Factory::new);
 		ParticleFactoryRegistry.getInstance().register(SHADOW_LIGHT, LightParticle.Factory::new);
-		ParticleFactoryRegistry.getInstance().register(FAT_PHANTOM_SMOKE, CampfireSmokeParticle.CosySmokeFactory::new);
+		ParticleFactoryRegistry.getInstance().register(FAT_PHANTOM_SMOKE, CampfireSmokeParticle.CosyProvider::new);
 		ParticleFactoryRegistry.getInstance().register(FALLING_CRYSTALLIZED_LEAVES, FallingCrystallizedLeavesParticle.Factory::new);
 	}
 }

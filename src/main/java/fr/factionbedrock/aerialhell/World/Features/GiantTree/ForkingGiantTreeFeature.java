@@ -12,17 +12,17 @@ import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantFo
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantTrunk;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.PosLists.FoliagePosList;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.PosLists.ForkingTrunkBlockPosList;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.util.FeatureContext;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGiantTreeConfig>
 {
@@ -31,30 +31,30 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
 
     public ForkingGiantTreeFeature(Codec<ForkingGiantTreeConfig> codec) {super(codec);}
 
-    @Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FORKING_GIANT_TREE_TREE;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FORKING_GIANT_TREE_TREE;}
 
-    @Override public boolean generate(FeatureContext<ForkingGiantTreeConfig> context)
+    @Override public boolean place(FeaturePlaceContext<ForkingGiantTreeConfig> context)
     {
-        Random rand = context.getRandom(); ForkingGiantTreeConfig config = context.getConfig();
-        BlockPos origin = context.getOrigin();
+        RandomSource rand = context.random(); ForkingGiantTreeConfig config = context.config();
+        BlockPos origin = context.origin();
 
         if (!canPlace(context)) {return false;}
         else
         {
             int maxXZdistance=config.trunkMaxHorizontalOffset(), minYdistance=config.trunkMinVerticalOffset(), maxYdistance=config.trunkMaxVerticalOffset();
-            BlockPos trunkStart = origin.down(2);
-            int xOffset = rand.nextBetweenExclusive(-maxXZdistance, maxXZdistance), yOffset = rand.nextBetweenExclusive(minYdistance, maxYdistance), zOffset = rand.nextBetweenExclusive(-maxXZdistance, maxXZdistance);
-            BlockPos trunkEnd = origin.add(xOffset, yOffset, zOffset);
-            if (!FeatureHelper.isBelowMaxBuildHeight(context, context.getOrigin().up(yOffset + getYFoliageSize(trunkStart, trunkEnd, context)/2))) {return false;}
+            BlockPos trunkStart = origin.below(2);
+            int xOffset = rand.nextInt(-maxXZdistance, maxXZdistance), yOffset = rand.nextInt(minYdistance, maxYdistance), zOffset = rand.nextInt(-maxXZdistance, maxXZdistance);
+            BlockPos trunkEnd = origin.offset(xOffset, yOffset, zOffset);
+            if (!FeatureHelper.isBelowMaxBuildHeight(context, context.origin().above(yOffset + getYFoliageSize(trunkStart, trunkEnd, context)/2))) {return false;}
             FoliagePosList foliagePosList = generateTrunk(context, trunkStart, trunkEnd, false);
             generateFoliagesAndBranches(context, foliagePosList);
             return true;
         }
     }
 
-    protected FoliagePosList generateTrunk(FeatureContext<ForkingGiantTreeConfig> context, BlockPos trunkStart, BlockPos trunkEnd, boolean generateDebug)
+    protected FoliagePosList generateTrunk(FeaturePlaceContext<ForkingGiantTreeConfig> context, BlockPos trunkStart, BlockPos trunkEnd, boolean generateDebug)
     {
-        ForkingGiantTrunk trunkSpline = new ForkingGiantTrunk(context, new StraightLine.StraightLineParameters(trunkStart, trunkEnd), 2 + context.getRandom().nextInt(2), false);
+        ForkingGiantTrunk trunkSpline = new ForkingGiantTrunk(context, new StraightLine.StraightLineParameters(trunkStart, trunkEnd), 2 + context.random().nextInt(2), false);
         ForkingTrunkBlockPosList trunkPosList = trunkSpline.generateForkingTrunk(generateDebug);
         trunkSpline = null;
 
@@ -70,19 +70,19 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
         return foliagePosList;
     }
 
-    @Nullable protected ForkingTrunkBlockPosList generateTrunkFork(FeatureContext<ForkingGiantTreeConfig> context, BlockPos supportTrunkStart, BlockPos supportTrunkEnd, ForkingTrunkBlockPosList supportTrunkPosList, int forkIndex)
+    @Nullable protected ForkingTrunkBlockPosList generateTrunkFork(FeaturePlaceContext<ForkingGiantTreeConfig> context, BlockPos supportTrunkStart, BlockPos supportTrunkEnd, ForkingTrunkBlockPosList supportTrunkPosList, int forkIndex)
     {
         BlockPos forkStart = supportTrunkPosList.getForkPos(forkIndex);
         if (forkStart == null) {return null;}
         BlockPos forkEnd = getForkEnd(forkStart, supportTrunkStart, supportTrunkEnd, -2, 0.5F);
 
-        ForkingGiantTrunk trunkSpline = new ForkingGiantTrunk(context, new StraightLine.StraightLineParameters(forkStart, forkEnd), 1 + context.getRandom().nextInt(2), true);
+        ForkingGiantTrunk trunkSpline = new ForkingGiantTrunk(context, new StraightLine.StraightLineParameters(forkStart, forkEnd), 1 + context.random().nextInt(2), true);
         ForkingTrunkBlockPosList trunkPosList = trunkSpline.generateForkingTrunk(false);
         trunkSpline = null;
         return trunkPosList;
     }
 
-    protected void generateFoliagesAndBranches(FeatureContext<ForkingGiantTreeConfig> context, FoliagePosList posList)
+    protected void generateFoliagesAndBranches(FeaturePlaceContext<ForkingGiantTreeConfig> context, FoliagePosList posList)
     {
         FoliagePosList.FoliageInfo mainFoliageInfo = posList.getFoliage1();
         FoliagePosList.FoliageInfo fork1FoliageInfo = posList.getFoliage2();
@@ -97,14 +97,14 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
         if (fork2FoliageInfo != null) {generateBranches(context, fork2FoliageInfo.getFoliagePos(), fork2FoliageInfo.getXzSize(), fork2FoliageInfo.getySize());}
     }
 
-    protected void generateFoliage(FeatureContext<ForkingGiantTreeConfig> context, BlockPos centerPos, int xzSize, int ySize)
+    protected void generateFoliage(FeaturePlaceContext<ForkingGiantTreeConfig> context, BlockPos centerPos, int xzSize, int ySize)
     {
         GiantFoliage foliage = new GiantFoliage(context, ClassicGiantFoliage.createClassicGiantFoliageEllipsoidParameters(xzSize, ySize), centerPos, 8);
         foliage.generateFoliage();
         foliage = null;
     }
 
-    protected void generateBranches(FeatureContext<ForkingGiantTreeConfig> context, BlockPos foliageCenterPos, int xzFoliageSize, int yFoliageSize)
+    protected void generateBranches(FeaturePlaceContext<ForkingGiantTreeConfig> context, BlockPos foliageCenterPos, int xzFoliageSize, int yFoliageSize)
     {
         int yMaxDistance = yFoliageSize - 1; int yMinDistance = yMaxDistance >= 3 ? 2 : yMaxDistance - 1;
         int xzMaxDistance = xzFoliageSize; int xzMinDistance = xzMaxDistance * 2 / 3;
@@ -117,15 +117,15 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
         generateRandomBranch(context, foliageCenterPos, 1, 4, - xzMaxDistance, xzMaxDistance, yMinDistance, yMaxDistance, - xzMaxDistance, xzMaxDistance);
     }
 
-    protected void generateRandomBranch(FeatureContext<ForkingGiantTreeConfig> context, BlockPos foliageCenterPos, int startMinYoffset, int startMaxYoffset, int minXoffset, int maxXoffset, int minYoffset, int maxYoffset, int minZoffset, int maxZoffset)
+    protected void generateRandomBranch(FeaturePlaceContext<ForkingGiantTreeConfig> context, BlockPos foliageCenterPos, int startMinYoffset, int startMaxYoffset, int minXoffset, int maxXoffset, int minYoffset, int maxYoffset, int minZoffset, int maxZoffset)
     {
-        Random rand = context.getRandom();
-        BlockPos branchStart = foliageCenterPos.down(rand.nextBetweenExclusive(startMinYoffset, startMaxYoffset));
-        BlockPos branchEnd = foliageCenterPos.add(rand.nextBetweenExclusive(minXoffset, maxXoffset), rand.nextBetweenExclusive(minYoffset, maxYoffset), rand.nextBetweenExclusive(minZoffset, maxZoffset));
+        RandomSource rand = context.random();
+        BlockPos branchStart = foliageCenterPos.below(rand.nextInt(startMinYoffset, startMaxYoffset));
+        BlockPos branchEnd = foliageCenterPos.offset(rand.nextInt(minXoffset, maxXoffset), rand.nextInt(minYoffset, maxYoffset), rand.nextInt(minZoffset, maxZoffset));
         generateBranch(context, branchStart, branchEnd);
     }
 
-    protected void generateBranch(FeatureContext<ForkingGiantTreeConfig> context, BlockPos branchStart, BlockPos branchEnd)
+    protected void generateBranch(FeaturePlaceContext<ForkingGiantTreeConfig> context, BlockPos branchStart, BlockPos branchEnd)
     {
         GiantBranch branch = new GiantBranch(context, new StraightLine.StraightLineParameters(branchStart, branchEnd), 1);
         branch.generate(false, false);
@@ -135,17 +135,17 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
     protected BlockPos getForkEnd(BlockPos forkStart, BlockPos supportTrunkStart, BlockPos supportTrunkEnd, float xzfactor, float yfactor)
     {
         int xOffset = supportTrunkEnd.getX() - supportTrunkStart.getX(), yOffset = supportTrunkEnd.getY() - supportTrunkStart.getY(), zOffset = supportTrunkEnd.getZ() - supportTrunkStart.getZ();
-        return forkStart.add((int) (xzfactor*xOffset), (int) (yOffset*yfactor), (int) (xzfactor*zOffset));
+        return forkStart.offset((int) (xzfactor*xOffset), (int) (yOffset*yfactor), (int) (xzfactor*zOffset));
     }
 
-    protected int getYFoliageSize(BlockPos trunkStart, BlockPos trunkEnd, FeatureContext<ForkingGiantTreeConfig> context) {return getYFoliageSize(trunkStart, trunkEnd, context, 1);}
-    protected int getYFoliageSize(BlockPos trunkStart, BlockPos trunkEnd, FeatureContext<ForkingGiantTreeConfig> context, float sizeFactor) {return getYFoliageSize(trunkStart, trunkEnd, context.getConfig().trunkMinVerticalOffset(), context.getConfig().trunkMaxVerticalOffset(), sizeFactor);}
+    protected int getYFoliageSize(BlockPos trunkStart, BlockPos trunkEnd, FeaturePlaceContext<ForkingGiantTreeConfig> context) {return getYFoliageSize(trunkStart, trunkEnd, context, 1);}
+    protected int getYFoliageSize(BlockPos trunkStart, BlockPos trunkEnd, FeaturePlaceContext<ForkingGiantTreeConfig> context, float sizeFactor) {return getYFoliageSize(trunkStart, trunkEnd, context.config().trunkMinVerticalOffset(), context.config().trunkMaxVerticalOffset(), sizeFactor);}
     protected int getYFoliageSize(BlockPos trunkStart, BlockPos trunkEnd, int minTrunkHeight, int maxTrunkHeight, float sizeFactor) {return getYFoliageSize(trunkEnd.getY() - trunkStart.getY(), minTrunkHeight, maxTrunkHeight, sizeFactor);}
     protected int getYFoliageSize(int trunkHeight, int minTrunkHeight, int maxTrunkHeight, float sizeFactor) {return getYFoliageSize((int) (trunkHeight * sizeFactor), (int) (minTrunkHeight * sizeFactor), (int) (maxTrunkHeight * sizeFactor));}
     protected int getYFoliageSize(int trunkHeight, int minTrunkHeight, int maxTrunkHeight) {return Math.max((minTrunkHeight + maxTrunkHeight) / 16 /*average divided by 8*/, trunkHeight / 8);}
     protected int getXZFoliageSize(int yFoliageSize) {return (int) (yFoliageSize * 3.2F);}
 
-    protected FoliagePosList.FoliageInfo createFoliageInfo(FeatureContext<ForkingGiantTreeConfig> context, BlockPos trunkStart, BlockPos trunkEnd, ForkingTrunkBlockPosList trunkPosList, float sizeFactor)
+    protected FoliagePosList.FoliageInfo createFoliageInfo(FeaturePlaceContext<ForkingGiantTreeConfig> context, BlockPos trunkStart, BlockPos trunkEnd, ForkingTrunkBlockPosList trunkPosList, float sizeFactor)
     {
         int yFoliageSize = getYFoliageSize(trunkStart, trunkEnd, context, sizeFactor); int xzFoliageSize = getXZFoliageSize(yFoliageSize);
         return new FoliagePosList.FoliageInfo(trunkPosList.getEndPos(), xzFoliageSize, yFoliageSize);
@@ -154,10 +154,10 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
     private static class ForkingGiantTrunk extends ClassicGiantTrunk
     {
         private final boolean largeTrunk, isFork;
-        public ForkingGiantTrunk(FeatureContext<ForkingGiantTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber, boolean isFork)
+        public ForkingGiantTrunk(FeaturePlaceContext<ForkingGiantTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber, boolean isFork)
         {
-            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.getConfig().trunkProvider().get(context.getRandom(), context.getOrigin()).getBlock());
-            this.largeTrunk = (context.getConfig().trunkMaxVerticalOffset() + context.getConfig().trunkMinVerticalOffset()) / 2 > 16;
+            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.random(), context.origin()).getBlock());
+            this.largeTrunk = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 16;
             this.isFork = isFork;
         }
 
@@ -167,7 +167,7 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
         {
             int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(this.straightLineParams.getStart(), this.straightLineParams.getEnd());
 
-            BlockPos.Mutable placementPos = this.straightLineParams.getStart().mutableCopy();
+            BlockPos.MutableBlockPos placementPos = this.straightLineParams.getStart().mutable();
             BlockPos forkPos1 = null, forkPos2 = null;
             while(!placementPos.equals(this.straightLineParams.getEnd()) && i <= maxAbsOffset * straightLineParams.getPrecisionMultiplicator())
             {
@@ -191,7 +191,7 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
 
         private void generateForkToSupportTrunkJonction(BlockPos supportStart, BlockPos supportEnd)
         {
-            StraightLineForkJonction jonction = new StraightLineForkJonction(((FeatureContext<ForkingGiantTreeConfig>) this.context), new StraightLine.StraightLineParameters(supportStart, supportEnd));
+            StraightLineForkJonction jonction = new StraightLineForkJonction(((FeaturePlaceContext<ForkingGiantTreeConfig>) this.context), new StraightLine.StraightLineParameters(supportStart, supportEnd));
             jonction.generate(false, false);
             jonction = null;
         }
@@ -210,29 +210,29 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
 
         public boolean randomPlaceForkPos(int forkNumber)
         {
-            if (forkNumber == 1) {return context.getRandom().nextFloat() < 0.2F;}
-            else /*if (forkNumber == 2)*/ {return context.getRandom().nextFloat() < 0.05F;}
+            if (forkNumber == 1) {return context.random().nextFloat() < 0.2F;}
+            else /*if (forkNumber == 2)*/ {return context.random().nextFloat() < 0.05F;}
         }
 
-        @Override protected boolean tryPlacingBlocks(BlockPos.Mutable pos, int step, int maxStep)
+        @Override protected boolean tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
         {
             if (this.isFork) {return this.tryPlacingBlocksCross(pos);}
             else {return super.tryPlacingBlocks(pos, step, maxStep);}
         }
 
-        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((ForkingGiantTreeConfig)context.getConfig()).trunkProvider().get(context.getRandom(), pos);}
+        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((ForkingGiantTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);}
     }
 
     private static class GiantFoliage extends ClassicGiantFoliage
     {
-        public GiantFoliage(FeatureContext<ForkingGiantTreeConfig> context, EllipsoidParameters parameters, BlockPos centerPos, int knotsNumber)
+        public GiantFoliage(FeaturePlaceContext<ForkingGiantTreeConfig> context, EllipsoidParameters parameters, BlockPos centerPos, int knotsNumber)
         {
-            super(context, () -> context.getConfig().foliageProvider().get(context.getRandom(), context.getOrigin()).getBlock(), parameters, centerPos, Types.CENTER_1x1, knotsNumber, FOLIAGE_KNOTS_PARAMETERS, true);
+            super(context, () -> context.config().foliageProvider().getState(context.random(), context.origin()).getBlock(), parameters, centerPos, Types.CENTER_1x1, knotsNumber, FOLIAGE_KNOTS_PARAMETERS, true);
         }
 
         @Override public BlockState getStateForPlacement(BlockPos ellipsoidPos)
         {
-            return ((ForkingGiantTreeConfig)context.getConfig()).foliageProvider().get(context.getRandom(), centerPos.add(ellipsoidPos)).with(LeavesBlock.DISTANCE, getLeavesDistance(ellipsoidPos));
+            return ((ForkingGiantTreeConfig)context.config()).foliageProvider().getState(context.random(), centerPos.offset(ellipsoidPos)).setValue(LeavesBlock.DISTANCE, getLeavesDistance(ellipsoidPos));
         }
     }
 
@@ -240,27 +240,27 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
     {
         private final boolean largeTrunk;
 
-        public GiantBranch(FeatureContext<ForkingGiantTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
+        public GiantBranch(FeaturePlaceContext<ForkingGiantTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
         {
-            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.getConfig().trunkProvider().get(context.getRandom(), context.getOrigin()).getBlock());
-            this.largeTrunk = (context.getConfig().trunkMaxVerticalOffset() + context.getConfig().trunkMinVerticalOffset()) / 2 > 16;
+            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.random(), context.origin()).getBlock());
+            this.largeTrunk = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 16;
         }
 
         @Override protected boolean isLarge() {return this.largeTrunk;}
 
-        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((ForkingGiantTreeConfig)context.getConfig()).trunkProvider().get(context.getRandom(), pos);}
+        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((ForkingGiantTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);}
     }
 
     private static class StraightLineForkJonction extends StraightLine
     {
-        public StraightLineForkJonction(FeatureContext<ForkingGiantTreeConfig> context, StraightLineParameters straightLineParams) {super(context, straightLineParams, () -> context.getConfig().trunkProvider().get(context.getRandom(), context.getOrigin()).getBlock());}
+        public StraightLineForkJonction(FeaturePlaceContext<ForkingGiantTreeConfig> context, StraightLineParameters straightLineParams) {super(context, straightLineParams, () -> context.config().trunkProvider().getState(context.random(), context.origin()).getBlock());}
 
-        @Override protected boolean isReplaceable(StructureWorldAccess reader, BlockPos blockPos)
+        @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
         {
             BlockState previousBlock = reader.getBlockState(blockPos);
-            return super.isReplaceable(reader, blockPos) || previousBlock.isIn(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.isOf(AerialHellBlocks.STELLAR_STONE);
+            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocks.STELLAR_STONE);
         }
 
-        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((ForkingGiantTreeConfig)context.getConfig()).trunkProvider().get(context.getRandom(), pos);}
+        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((ForkingGiantTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);}
     }
 }

@@ -3,45 +3,45 @@ package fr.factionbedrock.aerialhell.Entity.Projectile;
 import fr.factionbedrock.aerialhell.Entity.Passive.StellarChickenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.particle.ItemStackParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
-public class ThrownStellarEgg extends ThrownItemEntity
+public class ThrownStellarEgg extends ThrowableItemProjectile
 {
-    public ThrownStellarEgg(EntityType<? extends ThrownStellarEgg> type, World world) {super(type, world);}
-    public ThrownStellarEgg(World world, LivingEntity shooter) {super(AerialHellEntities.THROWN_STELLAR_EGG, shooter, world, AerialHellItems.STELLAR_EGG.getDefaultStack());}
-    public ThrownStellarEgg(World world, double x, double y, double z) {super(AerialHellEntities.THROWN_STELLAR_EGG, x, y, z, world, AerialHellItems.STELLAR_EGG.getDefaultStack());}
+    public ThrownStellarEgg(EntityType<? extends ThrownStellarEgg> type, Level world) {super(type, world);}
+    public ThrownStellarEgg(Level world, LivingEntity shooter) {super(AerialHellEntities.THROWN_STELLAR_EGG, shooter, world, AerialHellItems.STELLAR_EGG.getDefaultInstance());}
+    public ThrownStellarEgg(Level world, double x, double y, double z) {super(AerialHellEntities.THROWN_STELLAR_EGG, x, y, z, world, AerialHellItems.STELLAR_EGG.getDefaultInstance());}
 
-    @Override public void handleStatus(byte p_37484_) //copied from EggEntity
+    @Override public void handleEntityEvent(byte p_37484_) //copied from EggEntity
     {
         if (p_37484_ == 3)
         {
             for(int i = 0; i < 8; ++i)
             {
-                this.getEntityWorld().addParticleClient(new ItemStackParticleEffect(ParticleTypes.ITEM, this.getDefaultItem().getDefaultStack()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
+                this.level().addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getDefaultItem().getDefaultInstance()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
             }
         }
     }
 
-    @Override protected void onEntityHit(EntityHitResult entityHitResult) //copied from EggEntity
+    @Override protected void onHitEntity(EntityHitResult entityHitResult) //copied from EggEntity
     {
-        super.onEntityHit(entityHitResult);
-        entityHitResult.getEntity().serverDamage(this.getDamageSources().thrown(this, this.getOwner()), 0.0F);
+        super.onHitEntity(entityHitResult);
+        entityHitResult.getEntity().hurt(this.damageSources().thrown(this, this.getOwner()), 0.0F);
     }
 
-    @Override protected void onCollision(HitResult hitResult) //copied from EggEntity, replacing Chicken with StellarChicken
+    @Override protected void onHit(HitResult hitResult) //copied from EggEntity, replacing Chicken with StellarChicken
     {
-        super.onCollision(hitResult);
-        if (!this.getEntityWorld().isClient())
+        super.onHit(hitResult);
+        if (!this.level().isClientSide())
         {
             if (this.random.nextInt(8) == 0)
             {
@@ -50,18 +50,18 @@ public class ThrownStellarEgg extends ThrownItemEntity
 
                 for(int j = 0; j < i; ++j)
                 {
-                    StellarChickenEntity chicken = AerialHellEntities.STELLAR_CHICKEN.create(this.getEntityWorld(), SpawnReason.TRIGGERED);
+                    StellarChickenEntity chicken = AerialHellEntities.STELLAR_CHICKEN.create(this.level(), EntitySpawnReason.TRIGGERED);
                     if (chicken != null)
                     {
-                        chicken.setBreedingAge(-24000);
-                        chicken.refreshPositionAndAngles(this.getX(), this.getY(), this.getZ(), this.getYaw(), 0.0F);
-                        chicken.setColor(this.getEntityWorld().getColor(this.getBlockPos(), Biome::getGrassColorAt));
+                        chicken.setAge(-24000);
+                        chicken.snapTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
+                        chicken.setColor(this.level().getBlockTint(this.blockPosition(), Biome::getGrassColor));
 
-                        this.getEntityWorld().spawnEntity(chicken);
+                        this.level().addFreshEntity(chicken);
                     }
                 }
             }
-            this.getEntityWorld().sendEntityStatus(this, (byte)3);
+            this.level().broadcastEntityEvent(this, (byte)3);
             this.discard();
         }
     }

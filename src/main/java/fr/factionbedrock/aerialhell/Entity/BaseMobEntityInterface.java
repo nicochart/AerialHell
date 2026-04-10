@@ -1,26 +1,26 @@
 package fr.factionbedrock.aerialhell.Entity;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.control.LookControl;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.control.LookControl;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public interface BaseMobEntityInterface extends BaseEntityInterface
 {
-    default float toLevelYRot(float relativeYRot) {return this.getSelf().bodyYaw + relativeYRot;}
+    default float toLevelYRot(float relativeYRot) {return this.getSelf().yBodyRot + relativeYRot;}
 
-    default Vec3d getUnrotatedRelativePosOf(@NotNull MobEntity entity) {return this.toUnrotatedRelativePos(entity.getEntityPos());}
-    default Vec3d toUnrotatedRelativePos(Vec3d levelPos) {return this.toUnrotatePos(this.toRelativePos(levelPos));}
-    default Vec3d toRotatedPos(Vec3d unrotatedRelativePos) {return unrotatedRelativePos.rotateY(-this.getRotateAngle());}
-    default Vec3d toUnrotatePos(Vec3d rotatedRelativePos) {return rotatedRelativePos.rotateY(this.getRotateAngle());}
-    default float getRotateAngle() {return (float) Math.toRadians(this.getSelf().bodyYaw);}
-    default Vec3d getRelativePosOf(@NotNull MobEntity entity) {return toRelativePos(entity.getEntityPos());}
-    default Vec3d toRelativePos(Vec3d levelPos) {return levelPos.subtract(this.getSelf().getEntityPos());}
-    default Vec3d fromUnrotatedRelativeToLevelPos(Vec3d unrotatedRelativePos) {return this.toLevelPos(this.toRotatedPos(unrotatedRelativePos));}
-    default Vec3d toLevelPos(Vec3d rotatedRelativePos) {return this.getSelf().getEntityPos().add(rotatedRelativePos);}
+    default Vec3 getUnrotatedRelativePosOf(@NotNull Mob entity) {return this.toUnrotatedRelativePos(entity.position());}
+    default Vec3 toUnrotatedRelativePos(Vec3 levelPos) {return this.toUnrotatePos(this.toRelativePos(levelPos));}
+    default Vec3 toRotatedPos(Vec3 unrotatedRelativePos) {return unrotatedRelativePos.yRot(-this.getRotateAngle());}
+    default Vec3 toUnrotatePos(Vec3 rotatedRelativePos) {return rotatedRelativePos.yRot(this.getRotateAngle());}
+    default float getRotateAngle() {return (float) Math.toRadians(this.getSelf().yBodyRot);}
+    default Vec3 getRelativePosOf(@NotNull Mob entity) {return toRelativePos(entity.position());}
+    default Vec3 toRelativePos(Vec3 levelPos) {return levelPos.subtract(this.getSelf().position());}
+    default Vec3 fromUnrotatedRelativeToLevelPos(Vec3 unrotatedRelativePos) {return this.toLevelPos(this.toRotatedPos(unrotatedRelativePos));}
+    default Vec3 toLevelPos(Vec3 rotatedRelativePos) {return this.getSelf().position().add(rotatedRelativePos);}
     
-    @Override MobEntity getSelf();
+    @Override Mob getSelf();
 
     default LivingEntity getTarget() {return this.getSelf().getTarget();}
     default LookControl getLookControl() {return this.getSelf().getLookControl();}

@@ -2,52 +2,52 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Shadow;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.VexEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Vex;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
-public class ShadowFlyingSkullEntity extends VexEntity
+public class ShadowFlyingSkullEntity extends Vex
 {
     public float jawOpeningAmplitude = 0.2F;
     public float jawOpeningFrequencyMalus = 7.0F;
-    public ShadowFlyingSkullEntity(EntityType<? extends VexEntity> type, World world) {super(type, world); this.setLifeTicks(700); this.SetRandomJawOpeningAmplitudeAndFrequency();}
+    public ShadowFlyingSkullEntity(EntityType<? extends Vex> type, Level world) {super(type, world); this.setLimitedLife(700); this.SetRandomJawOpeningAmplitudeAndFrequency();}
 
-    public static DefaultAttributeContainer.Builder registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
-        return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.MAX_HEALTH, 20.0D)
-                .add(EntityAttributes.FOLLOW_RANGE, 24.0D)
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.33D)
-                .add(EntityAttributes.ATTACK_DAMAGE, 6.0D);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 20.0D)
+                .add(Attributes.FOLLOW_RANGE, 24.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.33D)
+                .add(Attributes.ATTACK_DAMAGE, 6.0D);
     }
 
-    @Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
+    @Override public boolean doHurtTarget(ServerLevel serverWorld, Entity attackedEntity)
     {
-        if (super.tryAttack(serverWorld, attackedEntity))
+        if (super.doHurtTarget(serverWorld, attackedEntity))
         {
             if (attackedEntity instanceof LivingEntity)
             {
                 LivingEntity attackedLiving = ((LivingEntity) attackedEntity);
                 if (!EntityHelper.isLivingEntityShadowImmune(attackedLiving))
                 {
-                    attackedLiving.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.VULNERABILITY, 80, 0));
-                    attackedLiving.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 80, 1));
+                    attackedLiving.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY, 80, 0));
+                    attackedLiving.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 80, 1));
                 }
                 else //attacked entity is shadow immune
                 {
-                    attackedLiving.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 80, 0));
+                    attackedLiving.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 80, 0));
                 }
             }
             return true;
@@ -65,14 +65,14 @@ public class ShadowFlyingSkullEntity extends VexEntity
 
     @Override public void playSound(SoundEvent soundIn, float volume, float pitch)
     {
-        if (soundIn == SoundEvents.ENTITY_VEX_CHARGE && !this.isSilent())
+        if (soundIn == SoundEvents.VEX_CHARGE && !this.isSilent())
         {
-            this.getEntityWorld().playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_EVOKER_FANGS_ATTACK, this.getSoundCategory(), volume, pitch);
+            this.level().playSound((Player) null, this.getX(), this.getY(), this.getZ(), SoundEvents.EVOKER_FANGS_ATTACK, this.getSoundSource(), volume, pitch);
         }
         else {super.playSound(soundIn, volume, pitch);}
     }
 
-    @Override protected SoundEvent getAmbientSound() {return SoundEvents.ENTITY_WITHER_SKELETON_AMBIENT;}
-    @Override protected SoundEvent getDeathSound() {return SoundEvents.ENTITY_WITHER_SKELETON_DEATH;}
-    @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return SoundEvents.ENTITY_WITHER_SKELETON_HURT;}
+    @Override protected SoundEvent getAmbientSound() {return SoundEvents.WITHER_SKELETON_AMBIENT;}
+    @Override protected SoundEvent getDeathSound() {return SoundEvents.WITHER_SKELETON_DEATH;}
+    @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return SoundEvents.WITHER_SKELETON_HURT;}
 }

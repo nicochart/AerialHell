@@ -3,56 +3,56 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShortPlantBlock;
-import net.minecraft.block.TallPlantBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCollisionHandler;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.TallGrassBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 
-public class AerialHellTallShroomBlock extends ShortPlantBlock
+public class AerialHellTallShroomBlock extends TallGrassBlock
 {
 	private final boolean needsDarkness;
 
-	public AerialHellTallShroomBlock(AbstractBlock.Settings settings, boolean needsDarkness) {super(settings); this.needsDarkness = needsDarkness;}
+	public AerialHellTallShroomBlock(BlockBehaviour.Properties settings, boolean needsDarkness) {super(settings); this.needsDarkness = needsDarkness;}
 
-	@Override public void grow(ServerWorld world, Random rand, BlockPos pos, BlockState state)
+	@Override public void performBonemeal(ServerLevel world, RandomSource rand, BlockPos pos, BlockState state)
 	{
-		TallPlantBlock tall_plant;
+		DoublePlantBlock tall_plant;
 		if (this == AerialHellBlocks.GLOWING_BOLETUS)
 		{
-			tall_plant = (TallPlantBlock) AerialHellBlocks.TALL_GLOWING_BOLETUS;
+			tall_plant = (DoublePlantBlock) AerialHellBlocks.TALL_GLOWING_BOLETUS;
 			placePlant(world, pos, tall_plant);
 		}
 	}
 
-	protected void placePlant(ServerWorld world, BlockPos pos, TallPlantBlock plantIn)
+	protected void placePlant(ServerLevel world, BlockPos pos, DoublePlantBlock plantIn)
 	{
-		if (plantIn.getDefaultState().canPlaceAt(world, pos) && world.isAir(pos.up()))
+		if (plantIn.defaultBlockState().canSurvive(world, pos) && world.isEmptyBlock(pos.above()))
 		{
-			plantIn.placeAt(world, plantIn.getDefaultState(), pos, 2);
+			plantIn.placeAt(world, plantIn.defaultBlockState(), pos, 2);
 		}
 	}
 
-	@Override public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos)
+	@Override public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
 	{
-		BlockState belowState = world.getBlockState(pos.down());
-		if (this.canPlantOnTop(belowState, world, pos))
+		BlockState belowState = world.getBlockState(pos.below());
+		if (this.mayPlaceOn(belowState, world, pos))
 		{
 			if (!this.needsDarkness) {return true;}
 			else
 			{
-				boolean brightnessFlag = world.getLightLevel(pos, 0) < 13;
+				boolean brightnessFlag = world.getMaxLocalRawBrightness(pos, 0) < 13;
 				boolean solidSurfaceAbove = BlockHelper.hasAnySolidSurfaceAbove(world, pos, 3);
 				return brightnessFlag && solidSurfaceAbove;
 			}
@@ -60,17 +60,17 @@ public class AerialHellTallShroomBlock extends ShortPlantBlock
 		else {return false;}
 	}
 
-	@Override protected boolean canPlantOnTop(BlockState state, BlockView world, BlockPos pos)
+	@Override protected boolean mayPlaceOn(BlockState state, BlockGetter world, BlockPos pos)
 	{
-		if (this == AerialHellBlocks.GIANT_ROOT_SHROOM && state.isOf(AerialHellBlocks.GIANT_ROOT)) {return true;}
-		return state.isIn(BlockTags.DIRT) || state.isOf(AerialHellBlocks.STELLAR_COARSE_DIRT) || state.isIn(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || state.isIn(BlockTags.MUSHROOM_GROW_BLOCK);
+		if (this == AerialHellBlocks.GIANT_ROOT_SHROOM && state.is(AerialHellBlocks.GIANT_ROOT)) {return true;}
+		return state.is(BlockTags.DIRT) || state.is(AerialHellBlocks.STELLAR_COARSE_DIRT) || state.is(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || state.is(BlockTags.MUSHROOM_GROW_BLOCK);
 	}
 
-	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean intersects)
+	@Override public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier handler, boolean intersects)
 	{
 		if (this == AerialHellBlocks.GIANT_ROOT_SHROOM && entity instanceof LivingEntity livingEntity)
 		{
-			livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 100, 0, false, false, true));
+			livingEntity.addEffect(new MobEffectInstance(MobEffects.SPEED, 100, 0, false, false, true));
 		}
 	}
 }

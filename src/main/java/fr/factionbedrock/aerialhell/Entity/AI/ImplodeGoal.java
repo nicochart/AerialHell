@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
 import fr.factionbedrock.aerialhell.Entity.ImplodingEntity;
-import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.Goal;
 
 public class ImplodeGoal extends Goal
 {
@@ -10,13 +10,13 @@ public class ImplodeGoal extends Goal
 
     public ImplodeGoal(ImplodingEntity entity) {this.goalOwner = entity;}
 
-    @Override public boolean canStart()
+    @Override public boolean canUse()
     {
         if (this.goalOwner.isImploding()) {return true;}
         return !this.goalOwner.needsTargetToStartImploding() || this.goalOwner.getTarget() != null;
     }
 
-    @Override public boolean shouldContinue()
+    @Override public boolean canContinueToUse()
     {
         if (this.goalOwner.isImploding()) {return true;}
         if (!this.goalOwner.needsTargetToStartImploding() || this.goalOwner.getTarget() != null) {this.ticksNoTarget = 0; return true;}
@@ -46,7 +46,7 @@ public class ImplodeGoal extends Goal
         this.goalOwner.setImploding(false);
     }
 
-    @Override public boolean shouldRunEveryTick() {return true;}
+    @Override public boolean requiresUpdateEveryTick() {return true;}
 
     @Override public void tick()
     {

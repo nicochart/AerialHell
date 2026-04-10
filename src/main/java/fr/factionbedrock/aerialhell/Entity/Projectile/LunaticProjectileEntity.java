@@ -8,34 +8,33 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.world.World;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
 public class LunaticProjectileEntity extends AbstractLightProjectileEntity
 {
-    public LunaticProjectileEntity(EntityType<? extends LunaticProjectileEntity> type, World world) {super(type, world);}
+    public LunaticProjectileEntity(EntityType<? extends LunaticProjectileEntity> type, Level world) {super(type, world);}
     
-    public LunaticProjectileEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+    public LunaticProjectileEntity(Level world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
     {
     	super(AerialHellEntities.LUNATIC_PROJECTILE, shooter, world);
-    	this.setVelocity(accelX, accelY, accelZ, velocity, inaccuracy);
+    	this.shoot(accelX, accelY, accelZ, velocity, inaccuracy);
     }
 
     @Override protected BiomeShifter.ShiftType getShiftType() {return BiomeShifter.ShiftType.UNCORRUPT;}
 
     @Override
-    protected void onCollision(HitResult result)
+    protected void onHit(HitResult result)
     {
-        super.onCollision(result);
-    	this.getEntityWorld().addParticleClient(ParticleTypes.CLOUD, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+        super.onHit(result);
+    	this.level().addParticle(ParticleTypes.CLOUD, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
     }
     
     private boolean targetIsImmuneToLunaticProjectileKb(Entity target) //target is not a ChainedGod or Lunatic Priest
@@ -44,19 +43,19 @@ public class LunaticProjectileEntity extends AbstractLightProjectileEntity
     }
     
     @Override
-    protected void onEntityHit(EntityHitResult result)
+    protected void onHitEntity(EntityHitResult result)
     {
-    	super.onEntityHit(result);
+    	super.onHitEntity(result);
         Entity target = result.getEntity();
         if (target != this.getOwner()) //target != projectile shooter (not working yet..)
         {
-        	target.serverDamage(this.getDamageSources().thrown(this, getOwner()), 5);
+        	target.hurt(this.damageSources().thrown(this, getOwner()), 5);
             float amount = 4.0F;
             if (EntityHelper.isShadowEntity(target) || (target instanceof LivingEntity && EntityHelper.isLivingEntityVulnerable((LivingEntity) target))) {amount*=2;}
-            target.serverDamage(AerialHellDamageTypes.getDamageSource(this.getEntityWorld(), AerialHellDamageTypes.LUNATIC_PROJECTION), amount);
+            target.hurt(AerialHellDamageTypes.getDamageSource(this.level(), AerialHellDamageTypes.LUNATIC_PROJECTION), amount);
             if (!targetIsImmuneToLunaticProjectileKb(target))
             {
-            	target.addVelocity(this.getVelocity().x, 0.3D, this.getVelocity().z);
+            	target.push(this.getDeltaMovement().x, 0.3D, this.getDeltaMovement().z);
             }
         }
     }

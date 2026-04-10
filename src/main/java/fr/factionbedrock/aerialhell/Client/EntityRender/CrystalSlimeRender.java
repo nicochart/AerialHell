@@ -1,29 +1,29 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.CrystalSlimeModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.CrystalSlimeGelAndCrystalLayer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.CrystalSlimeRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.Identifier;
 
-public class CrystalSlimeRender extends MobEntityRenderer<CrystalSlimeEntity, CrystalSlimeRenderState, CrystalSlimeModel>
+public class CrystalSlimeRender extends MobRenderer<CrystalSlimeEntity, CrystalSlimeRenderState, CrystalSlimeModel>
 {	
-	private static final Identifier TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/crystal_slime/crystal_slime.png");
+	private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/crystal_slime/crystal_slime.png");
 	
-	public CrystalSlimeRender(EntityRendererFactory.Context context)
+	public CrystalSlimeRender(EntityRendererProvider.Context context)
 	{
-		super(context, new CrystalSlimeModel(context.getPart(AerialHellModelLayers.CRYSTAL_SLIME),false), 0.3F);
-		this.addFeature(new CrystalSlimeGelAndCrystalLayer(this, new CrystalSlimeModel(context.getPart(AerialHellModelLayers.CRYSTAL_SLIME),true)));
+		super(context, new CrystalSlimeModel(context.bakeLayer(AerialHellModelLayers.CRYSTAL_SLIME),false), 0.3F);
+		this.addLayer(new CrystalSlimeGelAndCrystalLayer(this, new CrystalSlimeModel(context.bakeLayer(AerialHellModelLayers.CRYSTAL_SLIME),true)));
 	}
 
 	@Override public CrystalSlimeRenderState createRenderState() {return new CrystalSlimeRenderState();}
 
-	@Override protected void scale(CrystalSlimeRenderState renderState, MatrixStack poseStack)
+	@Override protected void scale(CrystalSlimeRenderState renderState, PoseStack poseStack)
 	{
 		float f = 0.879F;
 		poseStack.scale(f, f, f);
@@ -33,16 +33,16 @@ public class CrystalSlimeRender extends MobEntityRenderer<CrystalSlimeEntity, Cr
 		poseStack.scale(f3 * f1, 1.0F / f3 * f1, f3 * f1);
 	}
 
-	@Override public void updateRenderState(CrystalSlimeEntity entity, CrystalSlimeRenderState renderState, float f)
+	@Override public void extractRenderState(CrystalSlimeEntity entity, CrystalSlimeRenderState renderState, float f)
 	{
-		super.updateRenderState(entity, renderState, f);
-		renderState.texture = getTexture(entity);
+		super.extractRenderState(entity, renderState, f);
+		renderState.texture = getTextureLocation(entity);
 	}
 
-	public Identifier getTexture(CrystalSlimeEntity entity)
+	public Identifier getTextureLocation(CrystalSlimeEntity entity)
 	{
 		return TEXTURE;
 	}
 
-	@Override public Identifier getTexture(CrystalSlimeRenderState renderState) {return renderState.texture;}
+	@Override public Identifier getTextureLocation(CrystalSlimeRenderState renderState) {return renderState.texture;}
 }

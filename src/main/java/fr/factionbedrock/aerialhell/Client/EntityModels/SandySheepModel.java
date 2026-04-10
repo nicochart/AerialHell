@@ -1,11 +1,17 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.SandySheepRenderState;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.util.Mth;
 
 // Made by Cixon
 // Exported for Minecraft version 1.17 or later with Mojang mappings
@@ -45,54 +51,54 @@ public class SandySheepModel extends EntityModel<SandySheepRenderState>
 		this.bodyCoat = root.getChild("bodyCoat");
 	}
 
-	public static TexturedModelData createBodyLayer()
+	public static LayerDefinition createBodyLayer()
 	{
-		ModelData meshdefinition = new ModelData();
-		ModelPartData partdefinition = meshdefinition.getRoot();
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-2.5F, -4.0F, -7.0F, 6.0F, 6.0F, 8.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 8.0F, -8.0F));
+		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-2.5F, -4.0F, -7.0F, 6.0F, 6.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 8.0F, -8.0F));
 
-		ModelPartData snout_r1 = head.addChild("snout_r1", ModelPartBuilder.create().uv(28, 8).cuboid(-1.0F, -18.01F, -16.0F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 16.0F, 8.0F, 0.0698F, 0.0F, 0.0F));
+		PartDefinition snout_r1 = head.addOrReplaceChild("snout_r1", CubeListBuilder.create().texOffs(28, 8).addBox(-1.0F, -18.01F, -16.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 16.0F, 8.0F, 0.0698F, 0.0F, 0.0F));
 
-		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(80, 42).cuboid(-3.5F, -17.0F, -8.5F, 8.0F, 6.0F, 16.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 24.0F, 0.0F));
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(80, 42).addBox(-3.5F, -17.0F, -8.5F, 8.0F, 6.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		ModelPartData rightFrontLeg = partdefinition.addChild("rightFrontLeg", ModelPartBuilder.create().uv(0, 49).cuboid(-1.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, new Dilation(0.0F)), ModelTransform.origin(-3.0F, 16.0F, -6.0F));
+		PartDefinition rightFrontLeg = partdefinition.addOrReplaceChild("rightFrontLeg", CubeListBuilder.create().texOffs(0, 49).addBox(-1.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.0F, 16.0F, -6.0F));
 
-		ModelPartData rightFrontLegCoat = partdefinition.addChild("rightFrontLegCoat", ModelPartBuilder.create().uv(12, 46).mirrored().cuboid(-3.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, new Dilation(-1.0F)).mirrored(false), ModelTransform.origin(-3.0F, 16.0F, -6.0F));
+		PartDefinition rightFrontLegCoat = partdefinition.addOrReplaceChild("rightFrontLegCoat", CubeListBuilder.create().texOffs(12, 46).mirror().addBox(-3.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, new CubeDeformation(-1.0F)).mirror(false), PartPose.offset(-3.0F, 16.0F, -6.0F));
 
-		ModelPartData rightBackLeg = partdefinition.addChild("rightBackLeg", ModelPartBuilder.create().uv(0, 49).cuboid(-1.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, new Dilation(0.0F)), ModelTransform.origin(-3.0F, 16.0F, 5.0F));
+		PartDefinition rightBackLeg = partdefinition.addOrReplaceChild("rightBackLeg", CubeListBuilder.create().texOffs(0, 49).addBox(-1.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.0F, 16.0F, 5.0F));
 
-		ModelPartData rightBackLegCoat = partdefinition.addChild("rightBackLegCoat", ModelPartBuilder.create().uv(12, 46).mirrored().cuboid(-3.0F, -5.0F, -3.5F, 7.0F, 10.0F, 8.0F, new Dilation(-1.0F)).mirrored(false), ModelTransform.origin(-3.0F, 16.0F, 5.0F));
+		PartDefinition rightBackLegCoat = partdefinition.addOrReplaceChild("rightBackLegCoat", CubeListBuilder.create().texOffs(12, 46).mirror().addBox(-3.0F, -5.0F, -3.5F, 7.0F, 10.0F, 8.0F, new CubeDeformation(-1.0F)).mirror(false), PartPose.offset(-3.0F, 16.0F, 5.0F));
 
-		ModelPartData leftFrontLeg = partdefinition.addChild("leftFrontLeg", ModelPartBuilder.create().uv(0, 49).mirrored().cuboid(-2.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 16.0F, -6.0F));
+		PartDefinition leftFrontLeg = partdefinition.addOrReplaceChild("leftFrontLeg", CubeListBuilder.create().texOffs(0, 49).mirror().addBox(-2.0F, -4.0F, -2.0F, 3.0F, 12.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 16.0F, -6.0F));
 
-		ModelPartData leftFrontLegCoat = partdefinition.addChild("leftFrontLegCoat", ModelPartBuilder.create().uv(12, 46).cuboid(-4.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, new Dilation(-1.0F)), ModelTransform.origin(4.0F, 16.0F, -6.0F));
+		PartDefinition leftFrontLegCoat = partdefinition.addOrReplaceChild("leftFrontLegCoat", CubeListBuilder.create().texOffs(12, 46).addBox(-4.0F, -5.0F, -5.0F, 7.0F, 10.0F, 8.0F, new CubeDeformation(-1.0F)), PartPose.offset(4.0F, 16.0F, -6.0F));
 
-		ModelPartData leftBackLeg = partdefinition.addChild("leftBackLeg", ModelPartBuilder.create().uv(0, 49).mirrored().cuboid(-2.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 16.0F, 5.0F));
+		PartDefinition leftBackLeg = partdefinition.addOrReplaceChild("leftBackLeg", CubeListBuilder.create().texOffs(0, 49).mirror().addBox(-2.0F, -4.0F, -1.0F, 3.0F, 12.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 16.0F, 5.0F));
 
-		ModelPartData leftBackLegCoat = partdefinition.addChild("leftBackLegCoat", ModelPartBuilder.create().uv(12, 46).cuboid(-4.0F, -5.0F, -3.5F, 7.0F, 10.0F, 8.0F, new Dilation(-1.0F)), ModelTransform.origin(4.0F, 16.0F, 5.0F));
+		PartDefinition leftBackLegCoat = partdefinition.addOrReplaceChild("leftBackLegCoat", CubeListBuilder.create().texOffs(12, 46).addBox(-4.0F, -5.0F, -3.5F, 7.0F, 10.0F, 8.0F, new CubeDeformation(-1.0F)), PartPose.offset(4.0F, 16.0F, 5.0F));
 
-		ModelPartData headCoat = partdefinition.addChild("headCoat", ModelPartBuilder.create().uv(40, 0).cuboid(-3.0F, -5.0F, -8.0F, 7.0F, 5.0F, 9.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 8.0F, -8.0F));
+		PartDefinition headCoat = partdefinition.addOrReplaceChild("headCoat", CubeListBuilder.create().texOffs(40, 0).addBox(-3.0F, -5.0F, -8.0F, 7.0F, 5.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 8.0F, -8.0F));
 
-		ModelPartData bodyCoat = partdefinition.addChild("bodyCoat", ModelPartBuilder.create().uv(0, 14).cuboid(-4.5F, -18.0F, -11.0F, 10.0F, 10.0F, 20.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 24.0F, 0.0F));
+		PartDefinition bodyCoat = partdefinition.addOrReplaceChild("bodyCoat", CubeListBuilder.create().texOffs(0, 14).addBox(-4.5F, -18.0F, -11.0F, 10.0F, 10.0F, 20.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		return TexturedModelData.of(meshdefinition, 128, 64);
+		return LayerDefinition.create(meshdefinition, 128, 64);
 	}
 
 	@Override
-	public void setAngles(SandySheepRenderState renderState)
+	public void setupAnim(SandySheepRenderState renderState)
 	{
-		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.relativeHeadYaw;
-		float limbSwing = renderState.limbSwingAnimationProgress;
-		float limbSwingAmount = renderState.limbSwingAmplitude;
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
 
-		this.hasWool = renderState.hasWool; this.isChild = renderState.baby;
+		this.hasWool = renderState.hasWool; this.isChild = renderState.isBaby;
 
-		this.head.yaw = netHeadYaw / 57.29578F;
-		this.head.pitch = headPitch / 57.29578F;
-		this.headCoat.yaw = netHeadYaw / 57.29578F;
-		this.headCoat.pitch = headPitch / 57.29578F;
+		this.head.yRot = netHeadYaw / 57.29578F;
+		this.head.xRot = headPitch / 57.29578F;
+		this.headCoat.yRot = netHeadYaw / 57.29578F;
+		this.headCoat.xRot = headPitch / 57.29578F;
 
 		this.animateRightLeg(this.rightFrontLeg, limbSwing, limbSwingAmount);
 		this.animateRightLeg(this.rightBackLeg, limbSwing, limbSwingAmount);
@@ -106,25 +112,25 @@ public class SandySheepModel extends EntityModel<SandySheepRenderState>
 
 	private void animateLeftLeg(ModelPart model, float limbSwing, float limbSwingAmount)
 	{
-		model.pitch = -1.0F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;
-		model.yaw = 0.0F;
+		model.xRot = -1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		model.yRot = 0.0F;
 	}
 
 	private void animateRightLeg(ModelPart model, float limbSwing, float limbSwingAmount)
 	{
-		model.pitch = 1.0F * MathHelper.wrap(limbSwing, 13.0F) * limbSwingAmount;
-		model.yaw = 0.0F;
+		model.xRot = 1.0F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
+		model.yRot = 0.0F;
 	}
 
 	@Override
-	public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		if(isChild)
 		{
 			poseStack.scale(0.5F, 0.5F, 0.5F);
 			poseStack.translate(0.0F, 1.5F, 0.0F);
 		}
-		poseStack.push();
+		poseStack.pushPose();
 
 		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
@@ -141,6 +147,6 @@ public class SandySheepModel extends EntityModel<SandySheepRenderState>
 			headCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 			bodyCoat.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		}
-		poseStack.pop();
+		poseStack.popPose();
 	}
 }

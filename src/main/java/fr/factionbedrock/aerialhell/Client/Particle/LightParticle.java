@@ -1,35 +1,35 @@
 package fr.factionbedrock.aerialhell.Client.Particle;
 
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleFactory;
+import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.PortalParticle;
-import net.minecraft.client.particle.SpriteProvider;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 
 public class LightParticle extends PortalParticle
 {
-	private final SpriteProvider spriteProvider;
-	protected LightParticle(ClientWorld world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, SpriteProvider spriteProvider)
+	private final SpriteSet spriteProvider;
+	protected LightParticle(ClientLevel world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, SpriteSet spriteProvider)
 	{
-		super(world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, spriteProvider.getFirst());
+		super(world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, spriteProvider.first());
 		this.spriteProvider = spriteProvider;
 
-		this.red = this.blue = this.green = 1.0F;
-		this.gravityStrength = 0.5F * (-0.5F + this.random.nextFloat());
-		this.scale *= 1.5F;
+		this.rCol = this.bCol = this.gCol = 1.0F;
+		this.gravity = 0.5F * (-0.5F + this.random.nextFloat());
+		this.quadSize *= 1.5F;
 	}
 	
-	@Override public int getBrightness(float partialTick) {return 255;}
+	@Override public int getLightColor(float partialTick) {return 255;}
 
-	public static class Factory implements ParticleFactory<SimpleParticleType>
+	public static class Factory implements ParticleProvider<SimpleParticleType>
 	{
-		private final SpriteProvider spriteProvider;
+		private final SpriteSet spriteProvider;
 
-		public Factory(SpriteProvider spriteProvider) {this.spriteProvider = spriteProvider;}
+		public Factory(SpriteSet spriteProvider) {this.spriteProvider = spriteProvider;}
 
-		public Particle createParticle(SimpleParticleType simpleParticleType, ClientWorld clientWorld, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Random random)
+		public Particle createParticle(SimpleParticleType simpleParticleType, ClientLevel clientWorld, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random)
 		{
 			return new LightParticle(clientWorld, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteProvider);
 		}
@@ -38,6 +38,6 @@ public class LightParticle extends PortalParticle
 	@Override public void tick()
 	{
 		super.tick();
-		this.updateSprite(this.spriteProvider);
+		this.setSpriteFromAge(this.spriteProvider);
 	}
 }

@@ -1,29 +1,29 @@
 package fr.factionbedrock.aerialhell.Entity.Util;
 
 import fr.factionbedrock.aerialhell.Entity.ActivableEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.player.PlayerEntity;
 import org.apache.commons.lang3.function.ToBooleanBiFunction;
 
 import java.util.function.Predicate;
 import java.util.function.ToDoubleFunction;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class ActivableEntityInfo
 {
-    private final TrackedData<Boolean> activeDataAccessor;
+    private final EntityDataAccessor<Boolean> activeDataAccessor;
     public final ActivationMethod activationMethod;
     private int activationTicks; //ticks inactive with nearby target
     private int deactivationTicks; //ticks active without nearby target
     private int deactivationThreshold; //ticks active without nearby target needed to deactivate (not constant, will increment while the entity remains in combat and with each hit the entity receives
 
-    public ActivableEntityInfo(TrackedData<Boolean> activeDataAccessor, ActivationMethod activationMethod)
+    public ActivableEntityInfo(EntityDataAccessor<Boolean> activeDataAccessor, ActivationMethod activationMethod)
     {
         this.activeDataAccessor = activeDataAccessor;
         this.activationMethod = activationMethod;
     }
 
-    public TrackedData<Boolean> getActiveDataAccessor() {return this.activeDataAccessor;}
+    public EntityDataAccessor<Boolean> getActiveDataAccessor() {return this.activeDataAccessor;}
     public int getActivationTicks() {return this.activationTicks;}
     public void setActivationTicks(int value) {this.activationTicks = value;}
     public int getDeactivationTicks() {return this.deactivationTicks;}
@@ -63,7 +63,7 @@ public class ActivableEntityInfo
             this.canUseVanillaTargetForActivation = true;
             this.canSearchNearbyTargetForActivation = true;
             this.checkForTargetPeriodInTicks = DEFAULT_CHECK_TARGET_PERIOD;
-            this.validTargetCondition = (activableEntity, potentialTarget) -> activableEntity.getSelf().canSee(potentialTarget) && potentialTarget instanceof PlayerEntity;
+            this.validTargetCondition = (activableEntity, potentialTarget) -> activableEntity.getSelf().hasLineOfSight(potentialTarget) && potentialTarget instanceof Player;
             this.activationThreshold = 10;
             this.minDeactivationThreshold = 120;
             this.maxDeactivationThreshold = 600;

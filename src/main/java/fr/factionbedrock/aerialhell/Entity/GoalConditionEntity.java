@@ -1,11 +1,11 @@
 package fr.factionbedrock.aerialhell.Entity;
 
-import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.world.entity.PathfinderMob;
 
 public interface GoalConditionEntity extends BaseMobEntityInterface
 {
     /* ---------- Global methods needing implementation ---------- */
-    @Override PathAwareEntity getSelf();
+    @Override PathfinderMob getSelf();
     
     boolean checkGoalCondition(int conditionIndex);
     /* ----------------------------------------------------------- */

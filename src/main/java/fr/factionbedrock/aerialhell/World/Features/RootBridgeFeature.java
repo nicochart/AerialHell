@@ -8,33 +8,33 @@ import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnots;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedStraightLine;
 import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
-import net.minecraft.block.BlockState;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.util.FeatureContext;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class RootBridgeFeature extends Feature<DefaultFeatureConfig> implements DungeonSensitiveFeatureCheck
+public class RootBridgeFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
     private final int MIN_ABS_XZ_OFFSET = 15, MAX_ABS_XZ_OFFSET = 22; //max bridge start-end xz distance from center of worldgen feature
     private final int MIN_ABS_Y_OFFSET = 5, MAX_ABS_Y_OFFSET = 15; //max bridge start-end y distance from center of worldgen feature
 
     private static final SplineKnots.KnotsParameters KNOTS_PARAMETERS = new SplineKnotsDeformedStraightLine.KnotsParameters(8, 16, 0.3F, 5, 20);
 
-    public RootBridgeFeature(Codec<DefaultFeatureConfig> codec) {super(codec);}
+    public RootBridgeFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
-    @Override public List<RegistryKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.ROOT_BRIDGE_LIST;}
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.ROOT_BRIDGE_LIST;}
 
-    @Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
+    @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
-        StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom();
+        WorldGenLevel reader = context.level(); RandomSource rand = context.random();
         BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
 
         boolean debugFlag = false;
@@ -47,14 +47,14 @@ public class RootBridgeFeature extends Feature<DefaultFeatureConfig> implements 
 
         if (!this.isDungeonSensitiveValid(context)) {return false;}
 
-        boolean isLongBridge = bridgeStart.getSquaredDistance(bridgeEnd) > 1024;
+        boolean isLongBridge = bridgeStart.distSqr(bridgeEnd) > 1024;
 
         if (isLongBridge) {generateBridgeWithIntermediatePos(context, bridgeStart, bridgeEnd, debugFlag);}
         else {generateBridge(context, bridgeStart, bridgeEnd, debugFlag);}
         return true;
     }
 
-    protected void generateBridgeWithIntermediatePos(FeatureContext<DefaultFeatureConfig> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
+    protected void generateBridgeWithIntermediatePos(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
     {
         BlockPos effectiveIntermediatePos1, effectiveIntermediatePos2, intermediatePos = getRandomIntermediatePos(context,  bridgeStart, bridgeEnd, 10);
         effectiveIntermediatePos1 = generateBridge(context, bridgeStart, intermediatePos, generateDebug);
@@ -64,28 +64,28 @@ public class RootBridgeFeature extends Feature<DefaultFeatureConfig> implements 
         line = null;
     }
 
-    protected BlockPos generateBridge(FeatureContext<DefaultFeatureConfig> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
+    protected BlockPos generateBridge(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
     {
-        RootBridge spline = new RootBridge(context, new StraightLine.StraightLineParameters(bridgeStart, bridgeEnd), 2 + (context.getRandom().nextInt(8) == 0 ? 1 : 0));
+        RootBridge spline = new RootBridge(context, new StraightLine.StraightLineParameters(bridgeStart, bridgeEnd), 2 + (context.random().nextInt(8) == 0 ? 1 : 0));
         BlockPos lastPos = spline.generate(false, generateDebug);
         spline = null;
         return lastPos;
     }
 
-    @Nullable protected BlockPos getRandomBridgeStart(StructureWorldAccess reader, Random rand, BlockPos centerOfFeature, int tries)
+    @Nullable protected BlockPos getRandomBridgeStart(WorldGenLevel reader, RandomSource rand, BlockPos centerOfFeature, int tries)
     {
         for (int t = 0; t < tries; t++)
         {
             int xOffset = getRandomOffset(rand, MIN_ABS_XZ_OFFSET, MAX_ABS_XZ_OFFSET);
             int yOffset = getRandomOffset(rand, MIN_ABS_Y_OFFSET, MAX_ABS_Y_OFFSET);
             int zOffset = getRandomOffset(rand, MIN_ABS_XZ_OFFSET, MAX_ABS_XZ_OFFSET);
-            BlockPos potentialBridgeStart = centerOfFeature.add(xOffset, yOffset, zOffset);
+            BlockPos potentialBridgeStart = centerOfFeature.offset(xOffset, yOffset, zOffset);
             if (isValidBridgeStartOrEnd(reader, potentialBridgeStart)) {return potentialBridgeStart;}
         }
         return null;
     }
 
-    @Nullable protected BlockPos getRandomFarBridgeEnd(StructureWorldAccess reader, Random rand, BlockPos centerOfFeature, BlockPos bridgeStart, int tries, boolean forceFarBridge)
+    @Nullable protected BlockPos getRandomFarBridgeEnd(WorldGenLevel reader, RandomSource rand, BlockPos centerOfFeature, BlockPos bridgeStart, int tries, boolean forceFarBridge)
     {
         //if bridge start offset was positive, bridge end offset will be negative
         int xMinEndOffset, yMinEndOffset, zMinEndOffset, xMaxEndOffset, yMaxEndOffset, zMaxEndOffset;
@@ -101,13 +101,13 @@ public class RootBridgeFeature extends Feature<DefaultFeatureConfig> implements 
         BlockPos potentialBridgeEnd = centerOfFeature;
         for (int t = 0; t < tries; t++)
         {
-            potentialBridgeEnd = centerOfFeature.add(rand.nextBetweenExclusive(xMinEndOffset, xMaxEndOffset), rand.nextBetweenExclusive(yMinEndOffset, yMaxEndOffset), rand.nextBetweenExclusive(zMinEndOffset, zMaxEndOffset));
+            potentialBridgeEnd = centerOfFeature.offset(rand.nextInt(xMinEndOffset, xMaxEndOffset), rand.nextInt(yMinEndOffset, yMaxEndOffset), rand.nextInt(zMinEndOffset, zMaxEndOffset));
             if (isValidBridgeStartOrEnd(reader, potentialBridgeEnd)) {return potentialBridgeEnd;}
         }
         return forceFarBridge ? potentialBridgeEnd : null;
     }
 
-    @Nullable protected BlockPos getRandomBridgeEnd(StructureWorldAccess reader, Random rand, BlockPos centerOfFeature, BlockPos bridgeStart, int tries, boolean forceNonNullReturn)
+    @Nullable protected BlockPos getRandomBridgeEnd(WorldGenLevel reader, RandomSource rand, BlockPos centerOfFeature, BlockPos bridgeStart, int tries, boolean forceNonNullReturn)
     {
         BlockPos potentialBridgeEnd = centerOfFeature;
         for (int t = 0; t < tries; t++)
@@ -115,68 +115,68 @@ public class RootBridgeFeature extends Feature<DefaultFeatureConfig> implements 
             int xOffset = getRandomOffset(rand, MIN_ABS_XZ_OFFSET, MAX_ABS_XZ_OFFSET);
             int yOffset = getRandomOffset(rand, MIN_ABS_Y_OFFSET, MAX_ABS_Y_OFFSET);
             int zOffset = getRandomOffset(rand, MIN_ABS_XZ_OFFSET, MAX_ABS_XZ_OFFSET);
-            potentialBridgeEnd = centerOfFeature.add(xOffset, yOffset, zOffset);
-            if (isValidBridgeStartOrEnd(reader, potentialBridgeEnd) && Math.sqrt(bridgeStart.getSquaredDistance(potentialBridgeEnd)) > 16) {return potentialBridgeEnd;}
+            potentialBridgeEnd = centerOfFeature.offset(xOffset, yOffset, zOffset);
+            if (isValidBridgeStartOrEnd(reader, potentialBridgeEnd) && Math.sqrt(bridgeStart.distSqr(potentialBridgeEnd)) > 16) {return potentialBridgeEnd;}
         }
         return forceNonNullReturn ? potentialBridgeEnd : null;
     }
 
-    protected BlockPos getRandomIntermediatePos(FeatureContext<DefaultFeatureConfig> context, BlockPos bridgeStart, BlockPos bridgeEnd, int maxTries)
+    protected BlockPos getRandomIntermediatePos(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, int maxTries)
     {
-        Random rand = context.getRandom();
+        RandomSource rand = context.random();
         BlockPos intermediatePos, centerOfFeature = FeatureHelper.getFeatureCenter(context);
         if (rand.nextInt(10) == 0) {return centerOfFeature;}
         for (int i=0; i<maxTries; i++)
         {
-            intermediatePos = bridgeStart.add((bridgeEnd.getX() - bridgeStart.getX()) / 2, (bridgeEnd.getY() - bridgeStart.getY()) / 2, (bridgeEnd.getZ() - bridgeStart.getZ()) / 2)
-                    .add(getRandomOffset(rand, 2, 4), getRandomOffset(rand, 2, 4), getRandomOffset(rand, 2, 4));
+            intermediatePos = bridgeStart.offset((bridgeEnd.getX() - bridgeStart.getX()) / 2, (bridgeEnd.getY() - bridgeStart.getY()) / 2, (bridgeEnd.getZ() - bridgeStart.getZ()) / 2)
+                    .offset(getRandomOffset(rand, 2, 4), getRandomOffset(rand, 2, 4), getRandomOffset(rand, 2, 4));
             if (FeatureHelper.isBlockPosInFeatureRegion(centerOfFeature, intermediatePos)) {return intermediatePos;}
         }
         //can't find any intermediate pos in feature region
         return centerOfFeature;
     }
 
-    private int getRandomOffset(Random rand, int minAbs, int maxAbs)
+    private int getRandomOffset(RandomSource rand, int minAbs, int maxAbs)
     {
         int sign = rand.nextInt(2) == 0 ? -1 : 1;
-        return sign * rand.nextBetweenExclusive(minAbs, maxAbs);
+        return sign * rand.nextInt(minAbs, maxAbs);
     }
 
-    private boolean isValidBridgeStartOrEnd(StructureWorldAccess reader, BlockPos pos) {return isValidSupportForBridge(reader.getBlockState(pos)) && thereIsAirAroundPosition(reader, pos);}
-    private boolean isValidSupportForBridge(BlockState state) {return state.isIn(AerialHellTags.Blocks.STELLAR_STONE) || state.getBlock() == AerialHellBlocks.STELLAR_DIRT;}
-    private boolean thereIsAirAroundPosition(StructureWorldAccess reader, BlockPos pos)
+    private boolean isValidBridgeStartOrEnd(WorldGenLevel reader, BlockPos pos) {return isValidSupportForBridge(reader.getBlockState(pos)) && thereIsAirAroundPosition(reader, pos);}
+    private boolean isValidSupportForBridge(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_STONE) || state.getBlock() == AerialHellBlocks.STELLAR_DIRT;}
+    private boolean thereIsAirAroundPosition(WorldGenLevel reader, BlockPos pos)
     {
         for (int distance = 1; distance < 6; distance+=2)
         {
-            if (thereIs3x3AirAreaAtPos(reader, pos.north(distance)) || thereIs3x3AirAreaAtPos(reader, pos.south(distance)) || thereIs3x3AirAreaAtPos(reader, pos.west(distance)) || thereIs3x3AirAreaAtPos(reader, pos.east(distance)) || thereIs3x3AirAreaAtPos(reader, pos.up(distance))) {return true;}
+            if (thereIs3x3AirAreaAtPos(reader, pos.north(distance)) || thereIs3x3AirAreaAtPos(reader, pos.south(distance)) || thereIs3x3AirAreaAtPos(reader, pos.west(distance)) || thereIs3x3AirAreaAtPos(reader, pos.east(distance)) || thereIs3x3AirAreaAtPos(reader, pos.above(distance))) {return true;}
         }
         return false;
     }
 
-    private boolean thereIs3x3AirAreaAtPos(StructureWorldAccess reader, BlockPos pos)
+    private boolean thereIs3x3AirAreaAtPos(WorldGenLevel reader, BlockPos pos)
     {
-        for (int x=-1; x<=1; x++) {for (int y=-1; y<=1; y++) {for (int z=-1; z<=1; z++) {if (!reader.getBlockState(pos.add(x, y, z)).isAir()) {return false;}}}} return true;
+        for (int x=-1; x<=1; x++) {for (int y=-1; y<=1; y++) {for (int z=-1; z<=1; z++) {if (!reader.getBlockState(pos.offset(x, y, z)).isAir()) {return false;}}}} return true;
     }
 
     private static class StraightRootBridge extends StraightLine
     {
-        public StraightRootBridge(FeatureContext<?> context, StraightLineParameters straightLineParams) {super(context, straightLineParams, () -> AerialHellBlocks.GIANT_ROOT);}
+        public StraightRootBridge(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams) {super(context, straightLineParams, () -> AerialHellBlocks.GIANT_ROOT);}
 
-        @Override protected boolean isReplaceable(StructureWorldAccess reader, BlockPos blockPos)
+        @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
         {
             BlockState previousBlock = reader.getBlockState(blockPos);
-            return super.isReplaceable(reader, blockPos) || previousBlock.isIn(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.isOf(AerialHellBlocks.STELLAR_STONE);
+            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocks.STELLAR_STONE);
         }
     }
 
     private static class RootBridge extends SplineKnotsDeformedStraightLine
     {
-        public RootBridge(FeatureContext<?> context, StraightLineParameters straightLineParams, int knotsNumber) {super(context, straightLineParams, knotsNumber, KNOTS_PARAMETERS, () -> AerialHellBlocks.GIANT_ROOT);}
+        public RootBridge(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams, int knotsNumber) {super(context, straightLineParams, knotsNumber, KNOTS_PARAMETERS, () -> AerialHellBlocks.GIANT_ROOT);}
 
-        @Override protected boolean isReplaceable(StructureWorldAccess reader, BlockPos blockPos)
+        @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
         {
             BlockState previousBlock = reader.getBlockState(blockPos);
-            return super.isReplaceable(reader, blockPos) || previousBlock.isIn(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.isOf(AerialHellBlocks.STELLAR_STONE);
+            return super.isReplaceable(reader, blockPos) || previousBlock.is(AerialHellTags.Blocks.STELLAR_DIRT) || previousBlock.is(AerialHellBlocks.STELLAR_STONE);
         }
     }
 }

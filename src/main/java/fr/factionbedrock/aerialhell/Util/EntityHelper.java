@@ -14,43 +14,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.EndermanEntity;
-import net.minecraft.entity.mob.SilverfishEntity;
-import net.minecraft.entity.mob.VexEntity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.packet.s2c.play.ChunkBiomeDataS2CPacket;
-import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.BlockBox;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.TeleportTarget;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.WorldChunk;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -59,30 +22,62 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundChunksBiomesPacket;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.portal.TeleportTransition;
+import net.minecraft.world.phys.EntityHitResult;
 
 public class EntityHelper
 {
-    public static boolean isCreativePlayer(Entity entity) {return entity instanceof PlayerEntity player && player.isCreative();}
+    public static boolean isCreativePlayer(Entity entity) {return entity instanceof Player player && player.isCreative();}
 
-    public static boolean isSpectatorPlayer(Entity entity) {return entity instanceof PlayerEntity player && player.isSpectator();}
+    public static boolean isSpectatorPlayer(Entity entity) {return entity instanceof Player player && player.isSpectator();}
 
-    public static boolean isCreaOrSpecPlayer(Entity entity) {return entity instanceof PlayerEntity player && (player.isCreative() || player.isSpectator());}
+    public static boolean isCreaOrSpecPlayer(Entity entity) {return entity instanceof Player player && (player.isCreative() || player.isSpectator());}
 
-    public static boolean isLivingEntityUnderInTheCloudsEffect(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS);}
+    public static boolean isLivingEntityUnderInTheCloudsEffect(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS);}
 
-    public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.SHADOW_IMMUNITY) || isLivingEntityShadowBind(entity);}
+    public static boolean isLivingEntityShadowImmune(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.SHADOW_IMMUNITY) || isLivingEntityShadowBind(entity);}
 
-    public static boolean isLivingEntityShadowBind(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.SHADOW_BIND) && entity.getStatusEffect(AerialHellMobEffects.SHADOW_BIND).getDuration() > 1;}
+    public static boolean isLivingEntityShadowBind(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.SHADOW_BIND) && entity.getEffect(AerialHellMobEffects.SHADOW_BIND).getDuration() > 1;}
 
-    public static boolean isLivingEntityVulnerable(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.VULNERABILITY);}
+    public static boolean isLivingEntityVulnerable(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.VULNERABILITY);}
 
-    public static boolean isLivingEntityATraitor(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.TRAITOR);}
+    public static boolean isLivingEntityATraitor(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.TRAITOR);}
 
-    public static boolean isLivingEntityUnderAerialHellPortalEffect(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL);}
+    public static boolean isLivingEntityUnderAerialHellPortalEffect(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL);}
 
-    public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return entity.getEntityWorld().getBlockState(entity.getBlockPos()).isOf(AerialHellBlocks.AERIAL_HELL_PORTAL);}
+    public static boolean isLivingEntityInAerialHellPortal(LivingEntity entity) {return entity.level().getBlockState(entity.blockPosition()).is(AerialHellBlocks.AERIAL_HELL_PORTAL);}
 
-    public static boolean isLivingEntityOnPortalCooldown(LivingEntity entity) {return entity.hasStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN) || entity.hasPortalCooldown();}
+    public static boolean isLivingEntityOnPortalCooldown(LivingEntity entity) {return entity.hasEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN) || entity.isOnPortalCooldown();}
 
     public static boolean isImmuneToSomeShadowDamage(Entity entity)
     {
@@ -91,16 +86,16 @@ public class EntityHelper
         return isShadowImmune || isShadowEntity;
     }
 
-    public static boolean isShadowEntity(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.SHADOW);}
-    public static boolean isLightEntity(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.LIGHT);}
-    public static boolean isGhostEntity(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.GHOST_PIRATE);}
+    public static boolean isShadowEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.SHADOW);}
+    public static boolean isLightEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.LIGHT);}
+    public static boolean isGhostEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.GHOST_PIRATE);}
     public static boolean isLightProjectile(Entity entity) {return entity instanceof LunaticProjectileEntity;}
-    public static boolean isProjectile(Entity entity) {return entity instanceof PersistentProjectileEntity || entity instanceof ThrownItemEntity;}
-    public static boolean isMudEntity(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.MUD);}
-    public static boolean isBossEntity(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.BOSS);}
-    public static boolean isAerialHellAnimalEntity(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.PASSIVE);}
-    public static boolean isAggressive(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.AGGRESSIVE);}
-    public static boolean isFeatheryEntity(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.FEATHERY);}
+    public static boolean isProjectile(Entity entity) {return entity instanceof AbstractArrow || entity instanceof ThrowableItemProjectile;}
+    public static boolean isMudEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.MUD);}
+    public static boolean isBossEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.BOSS);}
+    public static boolean isAerialHellAnimalEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.PASSIVE);}
+    public static boolean isAggressive(Entity entity) {return entity.getType().is(AerialHellTags.Entities.AGGRESSIVE);}
+    public static boolean isFeatheryEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.FEATHERY);}
 
     public static boolean isImmuneToBramblesDamage(Entity entity)
     {
@@ -109,7 +104,7 @@ public class EntityHelper
         else {return isImmuneToSomeShadowDamage(entity);}
     }
 
-    public static boolean isImmuneToSkyCactusCollision(Entity entity) {return entity.getType().isIn(AerialHellTags.Entities.SKY_CACTUS_COLLISION_IMMUNE);}
+    public static boolean isImmuneToSkyCactusCollision(Entity entity) {return entity.getType().is(AerialHellTags.Entities.SKY_CACTUS_COLLISION_IMMUNE);}
 
     public static boolean isImmuneToSolidEtherCollision(Entity entity)
     {
@@ -135,7 +130,7 @@ public class EntityHelper
         return false;
     }
 
-    public static boolean isImmuneToChainedGodDrag(Entity entity) {return isCreaOrSpecPlayer(entity) || entity.getType().isIn(AerialHellTags.Entities.CHAINED_GOD_DRAG_IMMUNE);}
+    public static boolean isImmuneToChainedGodDrag(Entity entity) {return isCreaOrSpecPlayer(entity) || entity.getType().is(AerialHellTags.Entities.CHAINED_GOD_DRAG_IMMUNE);}
 
     public static boolean hasSolidEtherWalkerEnchantment(LivingEntity entity)
     {
@@ -146,34 +141,34 @@ public class EntityHelper
         }*/
     }
 
-    public static boolean hasEnchantment(LivingEntity entity, RegistryKey<Enchantment> enchantmentKey)
+    public static boolean hasEnchantment(LivingEntity entity, ResourceKey<Enchantment> enchantmentKey)
     {
-        Optional<RegistryEntry.Reference<Enchantment>> enchantment = entity.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOptional(enchantmentKey);
+        Optional<Holder.Reference<Enchantment>> enchantment = entity.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).get(enchantmentKey);
         if (enchantment.isPresent())
         {
-            return EnchantmentHelper.getEquipmentLevel(enchantment.get(), entity) > 0;
+            return EnchantmentHelper.getEnchantmentLevel(enchantment.get(), entity) > 0;
         }
         return false;
     }
 
     public static void multiplyDeltaMovement(Entity entity, double xzFactor, double yFactor)
     {
-        entity.setVelocity(entity.getVelocity().multiply(xzFactor, yFactor, xzFactor));
+        entity.setDeltaMovement(entity.getDeltaMovement().multiply(xzFactor, yFactor, xzFactor));
     }
 
     public static void setAerialHellPortalEffect(LivingEntity entity)
     {
-        if (!entity.getEntityWorld().isClient())
+        if (!entity.level().isClientSide())
         {
-            entity.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL, 120, 0));
+            entity.addEffect(new MobEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL, 120, 0));
         }
     }
 
     public static void setAfterTeleportationEffect(LivingEntity entity, int duration)
     {
-        if (!entity.getEntityWorld().isClient())
+        if (!entity.level().isClientSide())
         {
-            entity.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN, duration, 0));
+            entity.addEffect(new MobEffectInstance(AerialHellMobEffects.AERIAL_HELL_PORTAL_COOLDOWN, duration, 0));
         }
     }
 
@@ -184,30 +179,30 @@ public class EntityHelper
 
     public static boolean isLivingEntityReadyToTeleport(LivingEntity entity)
     {
-        return isLivingEntityUnderAerialHellPortalEffect(entity) && entity.getStatusEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL).getDuration() < 20;
+        return isLivingEntityUnderAerialHellPortalEffect(entity) && entity.getEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL).getDuration() < 20;
     }
 
     public static void tryTeleportEntityWithAerialHellPortal(Entity entity, AerialHellPortalBlock portalBlock, BlockPos pos)
     {
-        if (entity.getEntityWorld() instanceof ServerWorld serverWorld)
+        if (entity.level() instanceof ServerLevel serverWorld)
         {
-            TeleportTarget dimensiontransition = portalBlock.createTeleportTarget(serverWorld, entity, pos);
+            TeleportTransition dimensiontransition = portalBlock.getPortalDestination(serverWorld, entity, pos);
             if (dimensiontransition != null)
             {
-                ServerWorld destinationWorld = dimensiontransition.world();
-                if (serverWorld.isEnterableWithPortal(destinationWorld) && (destinationWorld.getRegistryKey() == serverWorld.getRegistryKey() || entity.canTeleportBetween(serverWorld, destinationWorld)))
+                ServerLevel destinationWorld = dimensiontransition.newLevel();
+                if (serverWorld.isAllowedToEnterPortal(destinationWorld) && (destinationWorld.dimension() == serverWorld.dimension() || entity.canTeleport(serverWorld, destinationWorld)))
                 {
-                    entity.teleportTo(dimensiontransition);
+                    entity.teleport(dimensiontransition);
                 }
             }
         }
     }
 
-    public static void addBatParticle(LivingEntity entity, Random rand, int number)
+    public static void addBatParticle(LivingEntity entity, RandomSource rand, int number)
     {
         for (int i=0; i<number; i++)
         {
-            entity.getEntityWorld().addParticleClient(AerialHellParticleTypes.SHADOW_TROLL_BAT, entity.getX() + rand.nextFloat() - 0.5, entity.getY() + 2 * rand.nextFloat(), entity.getZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
+            entity.level().addParticle(AerialHellParticleTypes.SHADOW_TROLL_BAT, entity.getX() + rand.nextFloat() - 0.5, entity.getY() + 2 * rand.nextFloat(), entity.getZ() + rand.nextFloat() - 0.5, 2 * (rand.nextFloat()) - 0.5, -0.3D, 2 * (rand.nextFloat() - 0.5));
         }
     }
 
@@ -224,11 +219,11 @@ public class EntityHelper
     public static List<ItemStack> getEquippedHumanoidArmorItemList(LivingEntity livingEntity)
     {
         List<ItemStack> list = new ArrayList<>();
-        for(EquipmentSlot equipmentslot : AttributeModifierSlot.ARMOR)
+        for(EquipmentSlot equipmentslot : EquipmentSlotGroup.ARMOR)
         {
             if (equipmentslot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR)
             {
-                ItemStack itemstack = livingEntity.getEquippedStack(equipmentslot);
+                ItemStack itemstack = livingEntity.getItemBySlot(equipmentslot);
                 if (!itemstack.isEmpty()) {list.add(itemstack);}
             }
         }
@@ -238,31 +233,31 @@ public class EntityHelper
     public static List<ItemStack> getInHandsItemList(LivingEntity livingEntity)
     {
         List<ItemStack> list = new ArrayList<>();
-        for(EquipmentSlot equipmentslot : AttributeModifierSlot.HAND)
+        for(EquipmentSlot equipmentslot : EquipmentSlotGroup.HAND)
         {
-            ItemStack itemstack = livingEntity.getEquippedStack(equipmentslot);
+            ItemStack itemstack = livingEntity.getItemBySlot(equipmentslot);
             if (!itemstack.isEmpty()) {list.add(itemstack);}
         }
         return list;
     }
 
     //from in net.minecraft.server.world.ServerChunkLoadingManager sendChunkBiomePackets(..) method
-    public static void refreshChunkColors(ServerPlayerEntity player, ServerWorld world, int radius)
+    public static void refreshChunkColors(ServerPlayer player, ServerLevel world, int radius)
     {
-        BlockBox boundingbox = BlockHelper.getQuantizedBoundingBox(player.getSteppingPos().up(), radius);
-        List<Chunk> chunkAccessList = BlockHelper.getChunkAccessListForBoundingBox(world, boundingbox);
+        BoundingBox boundingbox = BlockHelper.getQuantizedBoundingBox(player.getOnPos().above(), radius);
+        List<ChunkAccess> chunkAccessList = BlockHelper.getChunkAccessListForBoundingBox(world, boundingbox);
 
-        List<WorldChunk> chunkList = new ArrayList<>();
-        for (Chunk chunkaccess : chunkAccessList)
+        List<LevelChunk> chunkList = new ArrayList<>();
+        for (ChunkAccess chunkaccess : chunkAccessList)
         {
-            if (chunkaccess instanceof WorldChunk levelchunk) {chunkList.add(levelchunk);}
+            if (chunkaccess instanceof LevelChunk levelchunk) {chunkList.add(levelchunk);}
             else {chunkList.add(world.getChunk(chunkaccess.getPos().x, chunkaccess.getPos().z));}
         }
 
-        player.networkHandler.sendPacket(ChunkBiomeDataS2CPacket.create(chunkList));
+        player.connection.send(ClientboundChunksBiomesPacket.forChunks(chunkList));
     }
 
-    public static void handleProjectileImpactWithEntity(ProjectileEntity projectileEntity, EntityHitResult hitResult, CallbackInfo ci)
+    public static void handleProjectileImpactWithEntity(Projectile projectileEntity, EntityHitResult hitResult, CallbackInfo ci)
     {
         boolean isLightProjectile = EntityHelper.isLightProjectile(projectileEntity);
 
@@ -277,72 +272,72 @@ public class EntityHelper
     }
 
     //copy of net.minecraft.client.gui.hud.InGameOverlayRenderer method of same name
-    @Nullable public static BlockState getInWallBlockState(PlayerEntity player)
+    @Nullable public static BlockState getInWallBlockState(Player player)
     {
-        BlockPos.Mutable mutable = new BlockPos.Mutable();
+        BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
 
         for (int i = 0; i < 8; i++)
         {
-            double eyeX = player.getX() + (double)(((float)((i >> 0) % 2) - 0.5F) * player.getWidth() * 0.8F);
+            double eyeX = player.getX() + (double)(((float)((i >> 0) % 2) - 0.5F) * player.getBbWidth() * 0.8F);
             double eyeY = player.getEyeY() + (double)(((float)((i >> 1) % 2) - 0.5F) * 0.1F * player.getScale());
-            double eyeZ = player.getZ() + (double)(((float)((i >> 2) % 2) - 0.5F) * player.getWidth() * 0.8F);
+            double eyeZ = player.getZ() + (double)(((float)((i >> 2) % 2) - 0.5F) * player.getBbWidth() * 0.8F);
             mutable.set(eyeX, eyeY, eyeZ);
-            BlockState blockState = player.getEntityWorld().getBlockState(mutable);
-            if (blockState.getRenderType() != BlockRenderType.INVISIBLE && blockState.shouldBlockVision(player.getEntityWorld(), mutable)) {return blockState;}
+            BlockState blockState = player.level().getBlockState(mutable);
+            if (blockState.getRenderShape() != RenderShape.INVISIBLE && blockState.isViewBlocking(player.level(), mutable)) {return blockState;}
         }
         return null;
     }
 
-    @Nullable public static FluidState getInLiquidFluidState(PlayerEntity player)
+    @Nullable public static FluidState getInLiquidFluidState(Player player)
     {
-        BlockPos.Mutable mutable = new BlockPos.Mutable();
+        BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
 
         for (int i = 0; i < 8; i++)
         {
-            double eyeX = player.getX() + (double)(((float)((i >> 0) % 2) - 0.5F) * player.getWidth() * 0.8F);
+            double eyeX = player.getX() + (double)(((float)((i >> 0) % 2) - 0.5F) * player.getBbWidth() * 0.8F);
             double eyeY = player.getEyeY() + (double)(((float)((i >> 1) % 2) - 0.5F) * 0.1F * player.getScale());
-            double eyeZ = player.getZ() + (double)(((float)((i >> 2) % 2) - 0.5F) * player.getWidth() * 0.8F);
+            double eyeZ = player.getZ() + (double)(((float)((i >> 2) % 2) - 0.5F) * player.getBbWidth() * 0.8F);
             mutable.set(eyeX, eyeY, eyeZ);
-            FluidState fluidState = player.getEntityWorld().getFluidState(mutable);
-            if (!fluidState.isOf(Fluids.EMPTY)) {return fluidState;}
+            FluidState fluidState = player.level().getFluidState(mutable);
+            if (!fluidState.is(Fluids.EMPTY)) {return fluidState;}
         }
         return null;
     }
 
-    public static void debugSnakeEntity(AbstractSnakeEntity snakeEntity, PlayerEntity messageReceiver)
+    public static void debugSnakeEntity(AbstractSnakeEntity snakeEntity, Player messageReceiver)
     {
-        if (!snakeEntity.getEntityWorld().isClient())
+        if (!snakeEntity.level().isClientSide())
         {
             AbstractSnakeEntity nextBodyPart = snakeEntity.getNextBodyPart(), previousBodyPart = snakeEntity.getPreviousBodyPart();
             String nextBodyPartString = "[", previousBodyPartString = "[";
             if (nextBodyPart != null)
             {
-                BlockPos pos = nextBodyPart.getBlockPos();
-                nextBodyPartString += (nextBodyPart.isDead() ? "Dead" : "Alive, health = "+nextBodyPart.getHealth()) + ", pos = " + pos.getX()+" "+pos.getY()+" "+pos.getZ() + ", distance = "+ snakeEntity.distanceTo(nextBodyPart);
-                if (nextBodyPart.hasStatusEffect(StatusEffects.GLOWING)) {nextBodyPartString += ", isGlowing = true";}
-                if (nextBodyPart.isAiDisabled()) {nextBodyPartString += ", isAiDisabled = true";}
+                BlockPos pos = nextBodyPart.blockPosition();
+                nextBodyPartString += (nextBodyPart.isDeadOrDying() ? "Dead" : "Alive, health = "+nextBodyPart.getHealth()) + ", pos = " + pos.getX()+" "+pos.getY()+" "+pos.getZ() + ", distance = "+ snakeEntity.distanceTo(nextBodyPart);
+                if (nextBodyPart.hasEffect(MobEffects.GLOWING)) {nextBodyPartString += ", isGlowing = true";}
+                if (nextBodyPart.isNoAi()) {nextBodyPartString += ", isAiDisabled = true";}
                 if (!nextBodyPart.isAttackable()) {nextBodyPartString += ", isAttackable = false";}
                 if (nextBodyPart.isRemoved()) {nextBodyPartString += ", isRemoved = true"+nextBodyPart.getRemovalReason()+")";}
                 if (nextBodyPart.isInvisible()) {nextBodyPartString += ", isInvisible = true";}
-                nextBodyPart.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 400, 0, false, false, false));
+                nextBodyPart.addEffect(new MobEffectInstance(MobEffects.GLOWING, 400, 0, false, false, false));
             }
             else {nextBodyPartString += "null";}
             if (previousBodyPart != null)
             {
-                BlockPos pos = previousBodyPart.getBlockPos();
-                previousBodyPartString += (previousBodyPart.isDead() ? "Dead" : "Alive, health = "+previousBodyPart.getHealth()) + ", pos = " + pos.getX()+" "+pos.getY()+" "+pos.getZ() + ", distance = "+snakeEntity.distanceTo(previousBodyPart);
-                if (previousBodyPart.hasStatusEffect(StatusEffects.GLOWING)) {previousBodyPartString += ", isGlowing = true";}
-                if (previousBodyPart.isAiDisabled()) {previousBodyPartString += ", isAiDisabled = true";}
+                BlockPos pos = previousBodyPart.blockPosition();
+                previousBodyPartString += (previousBodyPart.isDeadOrDying() ? "Dead" : "Alive, health = "+previousBodyPart.getHealth()) + ", pos = " + pos.getX()+" "+pos.getY()+" "+pos.getZ() + ", distance = "+snakeEntity.distanceTo(previousBodyPart);
+                if (previousBodyPart.hasEffect(MobEffects.GLOWING)) {previousBodyPartString += ", isGlowing = true";}
+                if (previousBodyPart.isNoAi()) {previousBodyPartString += ", isAiDisabled = true";}
                 if (!previousBodyPart.isAttackable()) {previousBodyPartString += ", isAttackable = false";}
                 if (previousBodyPart.isRemoved()) {previousBodyPartString += ", isRemoved = true ("+previousBodyPart.getRemovalReason()+")";}
                 if (previousBodyPart.isInvisible()) {previousBodyPartString += ", isInvisible = true";}
-                previousBodyPart.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 400, 0, false, false, false));
+                previousBodyPart.addEffect(new MobEffectInstance(MobEffects.GLOWING, 400, 0, false, false, false));
             }
             else {previousBodyPartString += "null";}
             nextBodyPartString += "]"; previousBodyPartString += "]";
-            messageReceiver.sendMessage(Text.literal("Entity "+snakeEntity.getType()+" : isHead = "+snakeEntity.isHead()), false);
-            messageReceiver.sendMessage(Text.literal("nextBodyPart = "+nextBodyPartString), false);
-            messageReceiver.sendMessage(Text.literal("previousBodyPart = "+previousBodyPartString), false);
+            messageReceiver.displayClientMessage(Component.literal("Entity "+snakeEntity.getType()+" : isHead = "+snakeEntity.isHead()), false);
+            messageReceiver.displayClientMessage(Component.literal("nextBodyPart = "+nextBodyPartString), false);
+            messageReceiver.displayClientMessage(Component.literal("previousBodyPart = "+previousBodyPartString), false);
         }
     }
 
@@ -367,6 +362,6 @@ public class EntityHelper
 
     public static List<Entity> getEntitiesInInflatedBoundingBox(Entity searchSource, double boundingBoxInflateValue, double boundingBoxYOffset)
     {
-        return searchSource.getEntityWorld().getOtherEntities(searchSource, searchSource.getBoundingBox().offset(0.0F, boundingBoxYOffset, 0.0F).expand(boundingBoxInflateValue), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR);
+        return searchSource.level().getEntities(searchSource, searchSource.getBoundingBox().move(0.0F, boundingBoxYOffset, 0.0F).inflate(boundingBoxInflateValue), EntitySelector.NO_CREATIVE_OR_SPECTATOR);
     }
 }

@@ -1,92 +1,91 @@
 package fr.factionbedrock.aerialhell.Item;
 
 import fr.factionbedrock.aerialhell.Entity.AerialHellPaintingEntity;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.TooltipDisplayComponent;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.decoration.AbstractDecorationEntity;
-import net.minecraft.entity.decoration.painting.PaintingVariant;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
-
 import java.util.Optional;
 import java.util.function.Consumer;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.decoration.HangingEntity;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 
 /* Copy of net.minecraft.item.DecorationItem but for Aerial Hell paintings */
 
 public class AerialHellHangingEntityItem extends Item
 {
-    private static final Text TOOLTIP_RANDOM_VARIANT = Text.translatable("painting.random").formatted(Formatting.GRAY);
-    private final EntityType<? extends AbstractDecorationEntity> entityType;
+    private static final Component TOOLTIP_RANDOM_VARIANT = Component.translatable("painting.random").withStyle(ChatFormatting.GRAY);
+    private final EntityType<? extends HangingEntity> entityType;
 
-    public AerialHellHangingEntityItem(EntityType<? extends AbstractDecorationEntity> type, Item.Settings settings)
+    public AerialHellHangingEntityItem(EntityType<? extends HangingEntity> type, Item.Properties settings)
     {
         super(settings);
         this.entityType = type;
     }
 
-    @Override public ActionResult useOnBlock(ItemUsageContext context)
+    @Override public InteractionResult useOn(UseOnContext context)
     {
-        BlockPos blockPos = context.getBlockPos();
-        Direction direction = context.getSide();
-        BlockPos blockPos2 = blockPos.offset(direction);
-        PlayerEntity playerEntity = context.getPlayer();
-        ItemStack itemStack = context.getStack();
-        if (playerEntity != null && !this.mayPlace(playerEntity, direction, itemStack, blockPos2)) {return ActionResult.FAIL;}
+        BlockPos blockPos = context.getClickedPos();
+        Direction direction = context.getClickedFace();
+        BlockPos blockPos2 = blockPos.relative(direction);
+        Player playerEntity = context.getPlayer();
+        ItemStack itemStack = context.getItemInHand();
+        if (playerEntity != null && !this.mayPlace(playerEntity, direction, itemStack, blockPos2)) {return InteractionResult.FAIL;}
         else
         {
-            World world = context.getWorld();
-            AbstractDecorationEntity abstractDecorationEntity;
+            Level world = context.getLevel();
+            HangingEntity abstractDecorationEntity;
             //if (this.type.get() == AerialHellEntities.AERIAL_HELL_PAINTING.get()) //always true atm
             //{
                 Optional<AerialHellPaintingEntity> optional = AerialHellPaintingEntity.create(world, blockPos2, direction);
-                if (optional.isEmpty()) {return ActionResult.CONSUME;}
+                if (optional.isEmpty()) {return InteractionResult.CONSUME;}
 
                 abstractDecorationEntity = optional.get();
             //}
 
-            if (abstractDecorationEntity.canStayAttached())
+            if (abstractDecorationEntity.survives())
             {
-                if (!world.isClient())
+                if (!world.isClientSide())
                 {
-                    abstractDecorationEntity.onPlace();
-                    world.emitGameEvent(playerEntity, GameEvent.ENTITY_PLACE, abstractDecorationEntity.getEntityPos());
-                    world.spawnEntity(abstractDecorationEntity);
+                    abstractDecorationEntity.playPlacementSound();
+                    world.gameEvent(playerEntity, GameEvent.ENTITY_PLACE, abstractDecorationEntity.position());
+                    world.addFreshEntity(abstractDecorationEntity);
                 }
 
-                itemStack.decrement(1);
-                return ActionResult.SUCCESS;
+                itemStack.shrink(1);
+                return InteractionResult.SUCCESS;
             }
-            else {return ActionResult.CONSUME;}
+            else {return InteractionResult.CONSUME;}
         }
     }
 
-    protected boolean mayPlace(PlayerEntity player, Direction side, ItemStack stack, BlockPos pos)
+    protected boolean mayPlace(Player player, Direction side, ItemStack stack, BlockPos pos)
     {
-        return !side.getAxis().isVertical() && player.canPlaceOn(pos, side, stack);
+        return !side.getAxis().isVertical() && player.mayUseItemAt(pos, side, stack);
     }
 
-    @Override public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type)
+    @Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type)
     {
         //if (this.entityType == AerialHellEntities.AERIAL_HELL_PAINTING && displayComponent.shouldDisplay(DataComponentTypes.PAINTING_VARIANT))
         //{
-            RegistryEntry<PaintingVariant> registryEntry = stack.get(DataComponentTypes.PAINTING_VARIANT);
+            Holder<PaintingVariant> registryEntry = stack.get(DataComponents.PAINTING_VARIANT);
             if (registryEntry != null)
             {
                 registryEntry.value().title().ifPresent(textConsumer);
                 registryEntry.value().author().ifPresent(textConsumer);
-                textConsumer.accept(Text.translatable("painting.dimensions", registryEntry.value().width(), registryEntry.value().height()));
+                textConsumer.accept(Component.translatable("painting.dimensions", registryEntry.value().width(), registryEntry.value().height()));
             }
             else if (type.isCreative()) {textConsumer.accept(TOOLTIP_RANDOM_VARIANT);}
         //}

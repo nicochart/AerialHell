@@ -6,37 +6,37 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.ShadowTrollModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.ShadowTrollShadowLayer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.ShadowTrollRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.effect.MobEffects;
 
-public class ShadowTrollRender extends MobEntityRenderer<ShadowTrollEntity, ShadowTrollRenderState, ShadowTrollModel>
+public class ShadowTrollRender extends MobRenderer<ShadowTrollEntity, ShadowTrollRenderState, ShadowTrollModel>
 {	
-	private static final Identifier TEXTURE_NORMAL = Identifier.of(AerialHell.MODID, "textures/entity/shadow_troll/shadow_troll.png");
-	private static final Identifier TEXTURE_INVERT = Identifier.of(AerialHell.MODID, "textures/entity/shadow_troll/shadow_troll_invert.png");
+	private static final Identifier TEXTURE_NORMAL = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/shadow_troll/shadow_troll.png");
+	private static final Identifier TEXTURE_INVERT = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/shadow_troll/shadow_troll_invert.png");
 
-	public ShadowTrollRender(EntityRendererFactory.Context context)
+	public ShadowTrollRender(EntityRendererProvider.Context context)
 	{
-		super(context, new ShadowTrollModel(context.getPart(AerialHellModelLayers.SHADOW_TROLL),true), 0.3F);
-		this.addFeature(new ShadowTrollShadowLayer(this, new ShadowTrollModel(context.getPart(AerialHellModelLayers.SHADOW_TROLL),false)));
+		super(context, new ShadowTrollModel(context.bakeLayer(AerialHellModelLayers.SHADOW_TROLL),true), 0.3F);
+		this.addLayer(new ShadowTrollShadowLayer(this, new ShadowTrollModel(context.bakeLayer(AerialHellModelLayers.SHADOW_TROLL),false)));
 	}
 
 	@Override public ShadowTrollRenderState createRenderState() {return new ShadowTrollRenderState();}
 
-	@Override public void updateRenderState(ShadowTrollEntity entity, ShadowTrollRenderState renderState, float partialTick)
+	@Override public void extractRenderState(ShadowTrollEntity entity, ShadowTrollRenderState renderState, float partialTick)
 	{
-		super.updateRenderState(entity, renderState, partialTick);
-		renderState.texture = getTexture(entity);
+		super.extractRenderState(entity, renderState, partialTick);
+		renderState.texture = getTextureLocation(entity);
 		renderState.isDisappearing = entity.isDisappearing();
 	}
 
-	public Identifier getTexture(ShadowTrollEntity entity)
+	public Identifier getTextureLocation(ShadowTrollEntity entity)
 	{
-		if (MinecraftClient.getInstance().player.hasStatusEffect(StatusEffects.NIGHT_VISION)) {return TEXTURE_INVERT;}
+		if (Minecraft.getInstance().player.hasEffect(MobEffects.NIGHT_VISION)) {return TEXTURE_INVERT;}
 		else {return TEXTURE_NORMAL;}
 	}
 
-	@Override public Identifier getTexture(ShadowTrollRenderState renderState) {return renderState.texture;}
+	@Override public Identifier getTextureLocation(ShadowTrollRenderState renderState) {return renderState.texture;}
 }

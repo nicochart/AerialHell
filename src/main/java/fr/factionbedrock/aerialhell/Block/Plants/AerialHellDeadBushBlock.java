@@ -1,19 +1,19 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.DryVegetationBlock;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DryVegetationBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class AerialHellDeadBushBlock extends DryVegetationBlock
 {
-	public AerialHellDeadBushBlock(AbstractBlock.Settings settings) {super(settings);}
+	public AerialHellDeadBushBlock(BlockBehaviour.Properties settings) {super(settings);}
 
 	@Override
-	protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos)
+	protected boolean mayPlaceOn(BlockState floor, BlockGetter world, BlockPos pos)
 	{
 		Block block = floor.getBlock();
 		return block == AerialHellBlocks.SLIPPERY_SAND;

@@ -1,18 +1,18 @@
 package fr.factionbedrock.aerialhell.Entity.AI.GhastLike;
 
-import net.minecraft.entity.ai.control.MoveControl;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 /* Same as net.minecraft.world.entity.monster.Ghast.GhastMoveControl but changed Ghast to MobEntity */
 public class FlyMoveHelperController extends MoveControl
 {
-    private final MobEntity parentEntity;
+    private final Mob parentEntity;
     private int courseChangeCooldown;
 
-    public FlyMoveHelperController(MobEntity flyingMob)
+    public FlyMoveHelperController(Mob flyingMob)
     {
         super(flyingMob);
         this.parentEntity = flyingMob;
@@ -20,28 +20,28 @@ public class FlyMoveHelperController extends MoveControl
 
     @Override public void tick()
     {
-        if (this.state == State.MOVE_TO)
+        if (this.operation == Operation.MOVE_TO)
         {
             if (this.courseChangeCooldown-- <= 0)
             {
                 this.courseChangeCooldown += this.parentEntity.getRandom().nextInt(5) + 2;
-                Vec3d vec = new Vec3d(this.targetX - this.parentEntity.getX(), this.targetY - this.parentEntity.getY(), this.targetZ - this.parentEntity.getZ());
+                Vec3 vec = new Vec3(this.wantedX - this.parentEntity.getX(), this.wantedY - this.parentEntity.getY(), this.wantedZ - this.parentEntity.getZ());
                 double d0 = vec.length();
                 vec = vec.normalize();
-                if (this.canReach(vec, MathHelper.ceil(d0))) {this.parentEntity.setVelocity(this.parentEntity.getVelocity().add(vec.multiply(0.1)));}
-                else {this.state = State.WAIT;}
+                if (this.canReach(vec, Mth.ceil(d0))) {this.parentEntity.setDeltaMovement(this.parentEntity.getDeltaMovement().add(vec.scale(0.1)));}
+                else {this.operation = Operation.WAIT;}
             }
         }
     }
 
-    private boolean canReach(Vec3d pos, int distance)
+    private boolean canReach(Vec3 pos, int distance)
     {
-        Box boundingBox = this.parentEntity.getBoundingBox();
+        AABB boundingBox = this.parentEntity.getBoundingBox();
 
         for (int i = 1; i < distance; ++i)
         {
-            boundingBox = boundingBox.offset(pos);
-            if (!this.parentEntity.getEntityWorld().isSpaceEmpty(this.parentEntity, boundingBox)) {return false;}
+            boundingBox = boundingBox.move(pos);
+            if (!this.parentEntity.level().noCollision(this.parentEntity, boundingBox)) {return false;}
         }
         return true;
     }

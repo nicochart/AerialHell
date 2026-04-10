@@ -1,46 +1,51 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.mob.HostileEntity;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
 
-public abstract class AerialHellHostileEntity extends HostileEntity
+public abstract class AerialHellHostileEntity extends Monster
 {
-    protected AerialHellHostileEntity(EntityType<? extends HostileEntity> type, World world) {super(type, world);}
+    protected AerialHellHostileEntity(EntityType<? extends Monster> type, Level world) {super(type, world);}
     
     @Override
-    protected void initGoals()
+    protected void registerGoals()
     {
-        this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(2, new MeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.add(3, new WanderAroundFarGoal(this, 0.6D));
-        this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(4, new LookAroundGoal(this));
-        this.targetSelector.add(1, new RevengeGoal(this));
-        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.25D, false));
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.6D));
+        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
-    public static boolean canHostileEntitySpawn(EntityType<? extends HostileEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random random)
+    public static boolean canHostileEntitySpawn(EntityType<? extends Monster> type, ServerLevelAccessor world, EntitySpawnReason reason, BlockPos pos, RandomSource random)
     {
         if (type == AerialHellEntities.CRYSTAL_SPIDER)
         {
-        	return random.nextInt(10) == 0 && canSpawnInDark(type, world, reason, pos, random);
+        	return random.nextInt(10) == 0 && checkMonsterSpawnRules(type, world, reason, pos, random);
         }
         else if (type == AerialHellEntities.EVIL_COW || type == AerialHellEntities.CORTINARIUS_COW)
         {
-        	return random.nextInt(50) == 0 && canSpawnInDark(type, world, reason, pos, random);
+        	return random.nextInt(50) == 0 && checkMonsterSpawnRules(type, world, reason, pos, random);
         }
         else
         {
-        	return random.nextInt(40) == 0 && canSpawnInDark(type, world, reason, pos, random);
+        	return random.nextInt(40) == 0 && checkMonsterSpawnRules(type, world, reason, pos, random);
         }
     }
 }

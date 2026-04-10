@@ -1,24 +1,24 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
-import net.minecraft.client.model.ModelData;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.model.TexturedModelData;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.state.LivingEntityRenderState;
-import net.minecraft.client.util.math.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 
 public class EmptyModel<S extends LivingEntityRenderState> extends EntityModel<S>
 {
 	public EmptyModel(ModelPart root) {super(root);}
 
-	public static TexturedModelData createBodyLayer()
+	public static LayerDefinition createBodyLayer()
 	{
-		ModelData meshdefinition = new ModelData();
-		return TexturedModelData.of(meshdefinition, 1, 1);
+		MeshDefinition meshdefinition = new MeshDefinition();
+		return LayerDefinition.create(meshdefinition, 1, 1);
 	}
+	
+	@Override public void setupAnim(S renderState) {}
 
-	@Override public void setAngles(S renderState) {}
-
-	@Override public void render(MatrixStack matrixStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint) {}
+	@Override public void renderToBuffer(PoseStack matrixStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint) {}
 }

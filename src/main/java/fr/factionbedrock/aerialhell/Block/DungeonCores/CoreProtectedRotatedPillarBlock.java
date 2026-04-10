@@ -1,31 +1,31 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.PillarBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.state.StateManager;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
-
 import static fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties.CORE_PROTECTED;
 
-public class CoreProtectedRotatedPillarBlock extends PillarBlock implements CoreProtectedPropertyBlock
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+
+public class CoreProtectedRotatedPillarBlock extends RotatedPillarBlock implements CoreProtectedPropertyBlock
 {
-	public CoreProtectedRotatedPillarBlock(AbstractBlock.Settings settings)
+	public CoreProtectedRotatedPillarBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);
-		this.setDefaultState(this.stateManager.getDefaultState().with(CORE_PROTECTED, false));
+		this.registerDefaultState(this.stateDefinition.any().setValue(CORE_PROTECTED, false));
 	}
 	
-	@Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
+	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
-		super.appendProperties(builder);
+		super.createBlockStateDefinition(builder);
 		builder.add(CORE_PROTECTED);
 	}
 
-	@Override public float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView world, BlockPos pos)
+	@Override public float getDestroyProgress(BlockState state, Player player, BlockGetter world, BlockPos pos)
 	{
 		return this.getModifiedDestroyProgress(state, player, world, pos);
 	}

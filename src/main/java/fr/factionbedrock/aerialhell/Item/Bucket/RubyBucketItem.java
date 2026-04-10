@@ -2,90 +2,90 @@ package fr.factionbedrock.aerialhell.Item.Bucket;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellFluids;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FluidDrainable;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.RaycastContext;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BucketPickup;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 
 public class RubyBucketItem extends Item
 {
-    public RubyBucketItem(Item.Settings settings)
+    public RubyBucketItem(Item.Properties settings)
     {
         super(settings);
     }
 
     @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand)
+    public InteractionResult use(Level world, Player user, InteractionHand hand)
     {
-        ItemStack itemstack = user.getStackInHand(hand);
-        BlockHitResult blockhitresult = raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY);
+        ItemStack itemstack = user.getItemInHand(hand);
+        BlockHitResult blockhitresult = getPlayerPOVHitResult(world, user, ClipContext.Fluid.SOURCE_ONLY);
         if (blockhitresult.getType() != HitResult.Type.BLOCK)
         {
-            return ActionResult.PASS;
+            return InteractionResult.PASS;
         }
         else
         {
             BlockPos blockpos = blockhitresult.getBlockPos();
-            Direction direction = blockhitresult.getSide();
-            BlockPos blockpos1 = blockpos.offset(direction);
-            if (world.canEntityModifyAt(user, blockpos) && user.canPlaceOn(blockpos1, direction, itemstack))
+            Direction direction = blockhitresult.getDirection();
+            BlockPos blockpos1 = blockpos.relative(direction);
+            if (world.mayInteract(user, blockpos) && user.mayUseItemAt(blockpos1, direction, itemstack))
             {
                 BlockState blockstate1 = world.getBlockState(blockpos);
-                if (blockstate1.getBlock() instanceof FluidDrainable)
+                if (blockstate1.getBlock() instanceof BucketPickup)
                 {
                     //BucketPickup bucketpickup = (BucketPickup)blockstate1.getBlock();
-                    Fluid fluid = world.getFluidState(blockpos).getFluid();
+                    Fluid fluid = world.getFluidState(blockpos).getType();
                     if (fluid == Fluids.WATER)
                     {
                         playPickupSound(fluid, user);
-                        world.setBlockState(blockpos, Blocks.AIR.getDefaultState());
+                        world.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
                         ItemStack afterPickupHandItemStack = new ItemStack(AerialHellItems.RUBY_WATER_BUCKET);
-                        return user.isCreative() ? ActionResult.SUCCESS : fillBucketFromStack(itemstack, user, afterPickupHandItemStack);
+                        return user.isCreative() ? InteractionResult.SUCCESS : fillBucketFromStack(itemstack, user, afterPickupHandItemStack);
                     }
                     else if (fluid == AerialHellFluids.LIQUID_OF_THE_GODS_STILL)
                     {
                         playPickupSound(fluid, user);
-                        world.setBlockState(blockpos, Blocks.AIR.getDefaultState());
+                        world.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
                         ItemStack afterPickupHandItemStack = new ItemStack(AerialHellItems.RUBY_LIQUID_OF_GODS_BUCKET);
-                        return user.isCreative() ? ActionResult.SUCCESS : fillBucketFromStack(itemstack, user, afterPickupHandItemStack);
+                        return user.isCreative() ? InteractionResult.SUCCESS : fillBucketFromStack(itemstack, user, afterPickupHandItemStack);
                     }
                 }
             }
         }
-        return ActionResult.FAIL;
+        return InteractionResult.FAIL;
     }
 
-    public ActionResult fillBucketFromStack(ItemStack emptyBucket, PlayerEntity player, ItemStack filledBucket)
+    public InteractionResult fillBucketFromStack(ItemStack emptyBucket, Player player, ItemStack filledBucket)
     {
         if (emptyBucket.getCount() > 1)
         {
-            emptyBucket.decrement(1);
-            if (!player.getInventory().insertStack(filledBucket)) {player.dropItem(filledBucket, false);}
-            return ActionResult.SUCCESS;
+            emptyBucket.shrink(1);
+            if (!player.getInventory().add(filledBucket)) {player.drop(filledBucket, false);}
+            return InteractionResult.SUCCESS;
         }
         else
         {
-            return ActionResult.SUCCESS.withNewHandStack(filledBucket);
+            return InteractionResult.SUCCESS.heldItemTransformedTo(filledBucket);
         }
     }
 
-    private void playPickupSound(Fluid fluid, PlayerEntity player)
+    private void playPickupSound(Fluid fluid, Player player)
     {
-        SoundEvent soundevent = SoundEvents.ITEM_BUCKET_FILL;
+        SoundEvent soundevent = SoundEvents.BUCKET_FILL;
         player.playSound(soundevent, 1.0F, 1.0F);
     }
 }

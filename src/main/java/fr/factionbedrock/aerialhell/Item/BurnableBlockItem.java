@@ -1,14 +1,14 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-
 import static fr.factionbedrock.aerialhell.Util.ItemHelper.burnTimeMap;
+
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
 public class BurnableBlockItem extends BlockItem
 {
-	public BurnableBlockItem(Block blockIn, Item.Settings settings, int burnTimeIn)
+	public BurnableBlockItem(Block blockIn, Item.Properties settings, int burnTimeIn)
 	{
 		super(blockIn, settings);
 		burnTimeMap.put(this, burnTimeIn);

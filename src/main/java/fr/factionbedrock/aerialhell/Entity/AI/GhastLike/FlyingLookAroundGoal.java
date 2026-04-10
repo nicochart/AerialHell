@@ -1,45 +1,44 @@
 package fr.factionbedrock.aerialhell.Entity.AI.GhastLike;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-
 import java.util.EnumSet;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.phys.Vec3;
 
 /* Same as net.minecraft.world.entity.monster.Ghast.GhastLookGoal but changed GhastEntity to MobEntity */
 public class FlyingLookAroundGoal extends Goal
 {
-    private final MobEntity parentEntity;
+    private final Mob parentEntity;
 
-    public FlyingLookAroundGoal(MobEntity flyingMob)
+    public FlyingLookAroundGoal(Mob flyingMob)
     {
         this.parentEntity = flyingMob;
-        this.setControls(EnumSet.of(Control.LOOK));
+        this.setFlags(EnumSet.of(Flag.LOOK));
     }
 
-    public MobEntity getParentEntity() {return parentEntity;}
+    public Mob getParentEntity() {return parentEntity;}
 
-    @Override public boolean canStart() {return true;}
+    @Override public boolean canUse() {return true;}
 
     @Override public void tick()
     {
         if (this.parentEntity.getTarget() == null)
         {
-            Vec3d vec = this.parentEntity.getVelocity();
-            this.parentEntity.setYaw(-((float) MathHelper.atan2(vec.x, vec.z)) * (180F / (float) Math.PI));
-            this.parentEntity.bodyYaw = this.parentEntity.getYaw();
+            Vec3 vec = this.parentEntity.getDeltaMovement();
+            this.parentEntity.setYRot(-((float) Mth.atan2(vec.x, vec.z)) * (180F / (float) Math.PI));
+            this.parentEntity.yBodyRot = this.parentEntity.getYRot();
         }
         else
         {
             LivingEntity livingentity = this.parentEntity.getTarget();
-            if (livingentity.squaredDistanceTo(this.parentEntity) < 64 * 64)
+            if (livingentity.distanceToSqr(this.parentEntity) < 64 * 64)
             {
                 double x = livingentity.getX() - this.parentEntity.getX();
                 double z = livingentity.getZ() - this.parentEntity.getZ();
-                this.parentEntity.setYaw(-((float) MathHelper.atan2(x, z)) * (180F / (float) Math.PI));
-                this.parentEntity.bodyYaw = this.parentEntity.getYaw();
+                this.parentEntity.setYRot(-((float) Mth.atan2(x, z)) * (180F / (float) Math.PI));
+                this.parentEntity.yBodyRot = this.parentEntity.getYRot();
             }
         }
     }

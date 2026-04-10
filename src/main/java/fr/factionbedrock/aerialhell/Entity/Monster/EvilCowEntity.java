@@ -2,64 +2,64 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.PounceAtTargetGoal;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsage;
-import net.minecraft.item.Items;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class EvilCowEntity extends AerialHellHostileEntity
 {
-    public EvilCowEntity(EntityType<? extends EvilCowEntity> type, World world) {super(type, world);}
+    public EvilCowEntity(EntityType<? extends EvilCowEntity> type, Level world) {super(type, world);}
 
-    public EvilCowEntity(World world) {this(AerialHellEntities.EVIL_COW, world);}
+    public EvilCowEntity(Level world) {this(AerialHellEntities.EVIL_COW, world);}
 
-    public static DefaultAttributeContainer.Builder registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
-        return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.MAX_HEALTH, 20.0D)
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.20000000298023224D)
-        		.add(EntityAttributes.ATTACK_DAMAGE, 3.0D);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 20.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.20000000298023224D)
+        		.add(Attributes.ATTACK_DAMAGE, 3.0D);
     }
     
     @Override
-    protected void initGoals()
+    protected void registerGoals()
     {
-    	super.initGoals();
-    	this.goalSelector.add(3, new PounceAtTargetGoal(this, 0.4F));
+    	super.registerGoals();
+    	this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
     }
 
-    @Override public ActionResult interactMob(PlayerEntity player, Hand hand)
+    @Override public InteractionResult mobInteract(Player player, InteractionHand hand)
     {
-        ItemStack itemstack = player.getStackInHand(hand);
-        if (itemstack.isOf(Items.BUCKET) || itemstack.isOf(AerialHellItems.RUBY_BUCKET) && !this.isBaby())
+        ItemStack itemstack = player.getItemInHand(hand);
+        if (itemstack.is(Items.BUCKET) || itemstack.is(AerialHellItems.RUBY_BUCKET) && !this.isBaby())
         {
-            player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
+            player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
             ItemStack filledBucket;
-            if (itemstack.isOf(Items.BUCKET))
+            if (itemstack.is(Items.BUCKET))
             {
-                filledBucket = ItemUsage.exchangeStack(itemstack, player, Items.MILK_BUCKET.getDefaultStack());
+                filledBucket = ItemUtils.createFilledResult(itemstack, player, Items.MILK_BUCKET.getDefaultInstance());
             }
             else //RUBY_BUCKET
             {
-                filledBucket = ItemUsage.exchangeStack(itemstack, player, AerialHellItems.RUBY_BUCKET.getDefaultStack());
+                filledBucket = ItemUtils.createFilledResult(itemstack, player, AerialHellItems.RUBY_BUCKET.getDefaultInstance());
             }
-            player.setStackInHand(hand, filledBucket);
-            return ActionResult.SUCCESS;
+            player.setItemInHand(hand, filledBucket);
+            return InteractionResult.SUCCESS;
         }
-        else {return super.interactMob(player, hand);}
+        else {return super.mobInteract(player, hand);}
     }
 
     @Nullable @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return AerialHellSoundEvents.ENTITY_EVIL_COW_HURT;}

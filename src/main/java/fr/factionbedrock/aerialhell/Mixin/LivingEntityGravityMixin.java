@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Mixin;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,16 +16,16 @@ public class LivingEntityGravityMixin
     {
         double baseGravity = callbackInfo.getReturnValue();
         LivingEntity entity = (LivingEntity) (Object) this;
-        if (entity.hasStatusEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS) && !entity.isInSneakingPose())
+        if (entity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS) && !entity.isCrouching())
         {
-            Vec3d deltaMovement = entity.getVelocity();
+            Vec3 deltaMovement = entity.getDeltaMovement();
             if (deltaMovement.y < -0.2D)
             {
                 double yDeficit = 1.0D / 4.0D * (deltaMovement.y + 0.2D);
                 callbackInfo.setReturnValue(yDeficit);
                 return;
             }
-            entity.setVelocity(deltaMovement.x * 1.5D, deltaMovement.y, deltaMovement.z * 1.5D);
+            entity.setDeltaMovement(deltaMovement.x * 1.5D, deltaMovement.y, deltaMovement.z * 1.5D);
             callbackInfo.setReturnValue(baseGravity - 0.05D);
         }
     }

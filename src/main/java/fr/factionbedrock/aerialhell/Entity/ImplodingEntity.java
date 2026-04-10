@@ -1,14 +1,14 @@
 package fr.factionbedrock.aerialhell.Entity;
 
 import fr.factionbedrock.aerialhell.Entity.Util.ImplodingEntityInfo;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public interface ImplodingEntity extends BaseMobEntityInterface
 {
@@ -24,23 +24,23 @@ public interface ImplodingEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     /* -------- Delegate methods needing call -------- */
     /* ----------------------------------------------- */
-    default void implodingWriteCustomData(WriteView view) //call in writeCustomData(valueOutput)
+    default void implodingWriteCustomData(ValueOutput view) //call in writeCustomData(valueOutput)
     {
         view.putBoolean("is_imploding", this.isImploding());
         view.putInt("imploding_cooldown_ticks", this.getImplodingCooldownTicks());
         view.putInt("imploding_cast_ticks", this.getImplodingCastTicks());
     }
 
-    default void implodingReadCustomData(ReadView view) //call in readCustomData(valueInput)
+    default void implodingReadCustomData(ValueInput view) //call in readCustomData(valueInput)
     {
-        this.setImploding(view.getBoolean("is_imploding", false));
-        this.setImplodingCooldownTicks(view.getInt("imploding_cooldown_ticks", 0));
-        this.setImplodingCastTicks(view.getInt("imploding_cast_ticks", 0));
+        this.setImploding(view.getBooleanOr("is_imploding", false));
+        this.setImplodingCooldownTicks(view.getIntOr("imploding_cooldown_ticks", 0));
+        this.setImplodingCastTicks(view.getIntOr("imploding_cast_ticks", 0));
     }
 
     default void implodingTick() //OPTIONAL - call in tick() if you want onImplodingCastTick() to be client-sided too
     {
-        if (this.getLevel().isClient() && this.isImploding()) {this.onImplodingCastTick();}
+        if (this.getLevel().isClientSide() && this.isImploding()) {this.onImplodingCastTick();}
     }
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */
@@ -57,9 +57,9 @@ public interface ImplodingEntity extends BaseMobEntityInterface
 
     default void onImplodingStart() //server side
     {
-        if (!this.doesImmobilizeWithSlownessEffectOnImplodingStart() && !this.getLevel().isClient())
+        if (!this.doesImmobilizeWithSlownessEffectOnImplodingStart() && !this.getLevel().isClientSide())
         {
-            this.getSelf().addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, this.getImplodingCastDuration(), 10, true, false));
+            this.getSelf().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, this.getImplodingCastDuration(), 10, true, false));
         }
     }
 
@@ -89,32 +89,32 @@ public interface ImplodingEntity extends BaseMobEntityInterface
 
     default void implode()
     {
-        World world = this.getLevel();
-        if (!world.isClient())
+        Level world = this.getLevel();
+        if (!world.isClientSide())
         {
-            world.createExplosion(this.getSelf(), this.getX(), this.getY(), this.getZ(), (float)5, World.ExplosionSourceType.MOB);
+            world.explode(this.getSelf(), this.getX(), this.getY(), this.getZ(), (float)5, Level.ExplosionInteraction.MOB);
         }
         this.spawnImplosionParticle();
     }
 
     default void spawnImplosionParticle()
     {
-        World world = this.getLevel();
-        if (world.isClient())
+        Level world = this.getLevel();
+        if (world.isClientSide())
         {
             for(int i = 0; i < 30; ++i)
             {
-                Random rand = this.getRandom(); double d0 = rand.nextGaussian() * 0.02D; double d1 = rand.nextGaussian() * 0.02D; double d2 = rand.nextGaussian() * 0.02D;
-                world.addParticleClient(ParticleTypes.LARGE_SMOKE, this.getParticleX(1.0D) - d0 * 10.0D, this.getRandomBodyY() - d1 * 10.0D, this.getParticleZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
+                RandomSource rand = this.getRandom(); double d0 = rand.nextGaussian() * 0.02D; double d1 = rand.nextGaussian() * 0.02D; double d2 = rand.nextGaussian() * 0.02D;
+                world.addParticle(ParticleTypes.LARGE_SMOKE, this.getParticleX(1.0D) - d0 * 10.0D, this.getRandomBodyY() - d1 * 10.0D, this.getParticleZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
             }
         }
-        else {world.sendEntityStatus(this.getSelf(), (byte)20);} //spawnAnim, poof particles
+        else {world.broadcastEntityEvent(this.getSelf(), (byte)20);} //spawnAnim, poof particles
     }
 
     default void setImploding(boolean isImploding) {this.getEntityData().set(this.getImplodingDataAccessor(), isImploding);}
     default boolean isImploding() {return this.getEntityData().get(this.getImplodingDataAccessor());}
 
-    default TrackedData<Boolean> getImplodingDataAccessor() {return this.getImplodingEntityInfo().getImplodingDataAccessor();}
+    default EntityDataAccessor<Boolean> getImplodingDataAccessor() {return this.getImplodingEntityInfo().getImplodingDataAccessor();}
 
     default boolean needsTargetToStartImploding() {return this.getImplodingTargetPolicy().needsTargetToStartImploding;}
     default boolean implodingCooldownResetsOnTargetLoss() {return this.getImplodingTargetPolicy().implodingCooldownResetsOnTargetLoss;}

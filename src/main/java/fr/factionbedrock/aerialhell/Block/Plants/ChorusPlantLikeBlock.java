@@ -2,73 +2,73 @@ package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ChorusPlantBlock;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldView;
-import net.minecraft.world.tick.ScheduledTickView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.block.ChorusPlantBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class ChorusPlantLikeBlock extends ChorusPlantBlock
 {
-    public ChorusPlantLikeBlock(AbstractBlock.Settings settings) {super(settings);}
+    public ChorusPlantLikeBlock(BlockBehaviour.Properties settings) {super(settings);}
 
-    @Override public BlockState getPlacementState(ItemPlacementContext context)
+    @Override public BlockState getStateForPlacement(BlockPlaceContext context)
     {
-        return getStateForPlacement(context.getWorld(), context.getBlockPos(), this.getDefaultState());
+        return getStateForPlacement(context.getLevel(), context.getClickedPos(), this.defaultBlockState());
     }
 
-    public static BlockState getStateForPlacement(BlockView world, BlockPos pos, BlockState state)
+    public static BlockState getStateForPlacement(BlockGetter world, BlockPos pos, BlockState state)
     {
-        BlockState state_below = world.getBlockState(pos.down());
-        BlockState state_above = world.getBlockState(pos.up());
+        BlockState state_below = world.getBlockState(pos.below());
+        BlockState state_above = world.getBlockState(pos.above());
         BlockState state_north = world.getBlockState(pos.north());
         BlockState state_east = world.getBlockState(pos.east());
         BlockState state_south = world.getBlockState(pos.south());
         BlockState state_west = world.getBlockState(pos.west());
         return state
-                .withIfExists(DOWN, Boolean.valueOf(state_below.isOf(state.getBlock()) || state_below.isOf(AerialHellBlocks.FULL_MOON_FLOWER) || state_below.isIn(AerialHellTags.Blocks.STELLAR_DIRT)))
-                .withIfExists(UP, Boolean.valueOf(state_above.isOf(state.getBlock()) || state_above.isOf(AerialHellBlocks.FULL_MOON_FLOWER)))
-                .withIfExists(NORTH, Boolean.valueOf(state_north.isOf(state.getBlock()) || state_north.isOf(AerialHellBlocks.FULL_MOON_FLOWER)))
-                .withIfExists(EAST, Boolean.valueOf(state_east.isOf(state.getBlock()) || state_east.isOf(AerialHellBlocks.FULL_MOON_FLOWER)))
-                .withIfExists(SOUTH, Boolean.valueOf(state_south.isOf(state.getBlock()) || state_south.isOf(AerialHellBlocks.FULL_MOON_FLOWER)))
-                .withIfExists(WEST, Boolean.valueOf(state_west.isOf(state.getBlock()) || state_west.isOf(AerialHellBlocks.FULL_MOON_FLOWER)));
+                .trySetValue(DOWN, Boolean.valueOf(state_below.is(state.getBlock()) || state_below.is(AerialHellBlocks.FULL_MOON_FLOWER) || state_below.is(AerialHellTags.Blocks.STELLAR_DIRT)))
+                .trySetValue(UP, Boolean.valueOf(state_above.is(state.getBlock()) || state_above.is(AerialHellBlocks.FULL_MOON_FLOWER)))
+                .trySetValue(NORTH, Boolean.valueOf(state_north.is(state.getBlock()) || state_north.is(AerialHellBlocks.FULL_MOON_FLOWER)))
+                .trySetValue(EAST, Boolean.valueOf(state_east.is(state.getBlock()) || state_east.is(AerialHellBlocks.FULL_MOON_FLOWER)))
+                .trySetValue(SOUTH, Boolean.valueOf(state_south.is(state.getBlock()) || state_south.is(AerialHellBlocks.FULL_MOON_FLOWER)))
+                .trySetValue(WEST, Boolean.valueOf(state_west.is(state.getBlock()) || state_west.is(AerialHellBlocks.FULL_MOON_FLOWER)));
     }
 
-    @Override protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random)
+    @Override protected BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random)
     {
-        if (!state.canPlaceAt(world, pos))
+        if (!state.canSurvive(world, pos))
         {
-            tickView.scheduleBlockTick(pos, this, 1);
-            return super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
+            tickView.scheduleTick(pos, this, 1);
+            return super.updateShape(state, world, tickView, pos, direction, neighborPos, neighborState, random);
         }
         else
         {
-            boolean flag = neighborState.isOf(this) || neighborState.isOf(AerialHellBlocks.FULL_MOON_FLOWER) || direction == Direction.DOWN && neighborState.isIn(AerialHellTags.Blocks.STELLAR_DIRT);
-            return state.with(FACING_PROPERTIES.get(direction), flag);
+            boolean flag = neighborState.is(this) || neighborState.is(AerialHellBlocks.FULL_MOON_FLOWER) || direction == Direction.DOWN && neighborState.is(AerialHellTags.Blocks.STELLAR_DIRT);
+            return state.setValue(PROPERTY_BY_DIRECTION.get(direction), flag);
         }
     }
 
-    @Override public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos)
+    @Override public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
     {
-        BlockState blockstate = world.getBlockState(pos.down());
-        boolean noAir = !world.getBlockState(pos.up()).isAir() && !blockstate.isAir();
+        BlockState blockstate = world.getBlockState(pos.below());
+        boolean noAir = !world.getBlockState(pos.above()).isAir() && !blockstate.isAir();
 
-        for(Direction direction : Direction.Type.HORIZONTAL)
+        for(Direction direction : Direction.Plane.HORIZONTAL)
         {
-            BlockPos blockpos = pos.offset(direction);
+            BlockPos blockpos = pos.relative(direction);
             BlockState blockstate1 = world.getBlockState(blockpos);
-            if (blockstate1.isOf(this))
+            if (blockstate1.is(this))
             {
                 if (noAir) {return false;}
-                BlockState blockstate2 = world.getBlockState(blockpos.down());
-                if (blockstate2.isOf(this) || blockstate2.isIn(AerialHellTags.Blocks.STELLAR_DIRT)) {return true;}
+                BlockState blockstate2 = world.getBlockState(blockpos.below());
+                if (blockstate2.is(this) || blockstate2.is(AerialHellTags.Blocks.STELLAR_DIRT)) {return true;}
             }
         }
-        return blockstate.isOf(this) || blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT);
+        return blockstate.is(this) || blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT);
     }
 }

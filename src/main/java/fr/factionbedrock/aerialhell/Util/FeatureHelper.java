@@ -2,34 +2,34 @@ package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.block.MapColor;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.structure.StructurePiece;
-import net.minecraft.structure.StructureStart;
-import net.minecraft.util.math.BlockBox;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
-import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.minecraft.world.gen.structure.Structure;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.material.MapColor;
 import org.joml.Vector3f;
 
 public class FeatureHelper
 {
-    public static boolean isFeatureGeneratingNextToDungeon(FeatureContext<?> context)
+    public static boolean isFeatureGeneratingNextToDungeon(FeaturePlaceContext<?> context)
     {
-        StructureWorldAccess world = context.getWorld();
-        BlockPos origin = context.getOrigin();
+        WorldGenLevel world = context.level();
+        BlockPos origin = context.origin();
 
-        Registry<Structure> registry = world.getRegistryManager().getOrThrow(RegistryKeys.STRUCTURE);
-        RegistryEntryList.Named<Structure> taggedStructures = registry.getOptional(AerialHellTags.Structures.DUNGEONS).orElse(null);
+        Registry<Structure> registry = world.registryAccess().lookupOrThrow(Registries.STRUCTURE);
+        HolderSet.Named<Structure> taggedStructures = registry.get(AerialHellTags.Structures.DUNGEONS).orElse(null);
         if (taggedStructures == null) return false;
 
         int originChunkX = origin.getX() >> 4;
@@ -40,13 +40,13 @@ public class FeatureHelper
         {
             for (int dz = -chunkRadius; dz <= chunkRadius; dz++)
             {
-                Chunk chunk = world.getChunk(originChunkX + dx, originChunkZ + dz);
+                ChunkAccess chunk = world.getChunk(originChunkX + dx, originChunkZ + dz);
 
-                for (RegistryEntry<Structure> entry : taggedStructures)
+                for (Holder<Structure> entry : taggedStructures)
                 {
                     Structure structure = entry.value();
-                    StructureStart start = chunk.getStructureStarts().get(structure);
-                    if (start != null && start.hasChildren() && isYInStructureHeight(origin.getY(), start)) {return true;}
+                    StructureStart start = chunk.getAllStarts().get(structure);
+                    if (start != null && start.isValid() && isYInStructureHeight(origin.getY(), start)) {return true;}
                 }
             }
         }
@@ -55,12 +55,12 @@ public class FeatureHelper
 
     public static boolean isYInStructureHeight(int y, StructureStart start)
     {
-        int minY = start.getChildren().getFirst().getBoundingBox().getMinY(), maxY = start.getChildren().getFirst().getBoundingBox().getMaxY();
-        for (StructurePiece piece : start.getChildren())
+        int minY = start.getPieces().getFirst().getBoundingBox().minY(), maxY = start.getPieces().getFirst().getBoundingBox().maxY();
+        for (StructurePiece piece : start.getPieces())
         {
-            BlockBox box = piece.getBoundingBox();
-            if (box.getMinY() < minY) {minY = box.getMinY();}
-            if (box.getMaxY() > maxY) {maxY = box.getMaxY();}
+            BoundingBox box = piece.getBoundingBox();
+            if (box.minY() < minY) {minY = box.minY();}
+            if (box.maxY() > maxY) {maxY = box.maxY();}
 
             if (y >= minY && y <= maxY) {return true;}
         }
@@ -76,17 +76,17 @@ public class FeatureHelper
         return false;//biome.getRegistryName() != null && (biome.getRegistryName().equals(shadowPlain) || biome.getRegistryName().equals(shadowForest)); //TODO
     }
 
-    public static boolean isReplaceableByLogOrLeavesFeature(WorldAccess level, BlockPos pos, boolean canReplacePlant)
+    public static boolean isReplaceableByLogOrLeavesFeature(LevelAccessor level, BlockPos pos, boolean canReplacePlant)
     {
-        return level.testBlockState(pos, (state) ->
+        return level.isStateAtPosition(pos, (state) ->
         {
-            return state.isReplaceable() || canReplacePlant && state.getMapColor(level, pos) == MapColor.GREEN; //TODO : it works ?
+            return state.canBeReplaced() || canReplacePlant && state.getMapColor(level, pos) == MapColor.COLOR_GREEN; //TODO : it works ?
         });
     }
 
-    public static BlockPos getFeatureCenter(FeatureContext<?> context)
+    public static BlockPos getFeatureCenter(FeaturePlaceContext<?> context)
     {
-        BlockPos origin = context.getOrigin();
+        BlockPos origin = context.origin();
         int x = origin.getX(), y = origin.getY(), z = origin.getZ();
 
         if (origin.getX() < 0) {x++;}
@@ -103,13 +103,13 @@ public class FeatureHelper
         return new BlockPos(centerOfFeatureX, y, centerOfFeatureZ);
     }
 
-    public static BlockPos getRandomPosInFeatureRegion(BlockPos featureCenter, Random rand, int MAX_XZ_DISTANCE_FROM_CENTER, int MAX_Y_DISTANCE_FROM_CENTER)
+    public static BlockPos getRandomPosInFeatureRegion(BlockPos featureCenter, RandomSource rand, int MAX_XZ_DISTANCE_FROM_CENTER, int MAX_Y_DISTANCE_FROM_CENTER)
     {
         //MAX_XZ_DISTANCE_FROM_CENTER must be <= 23
-        return featureCenter.add(rand.nextBetweenExclusive(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER), rand.nextBetweenExclusive(- MAX_Y_DISTANCE_FROM_CENTER, MAX_Y_DISTANCE_FROM_CENTER), rand.nextBetweenExclusive(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER));
+        return featureCenter.offset(rand.nextInt(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER), rand.nextInt(- MAX_Y_DISTANCE_FROM_CENTER, MAX_Y_DISTANCE_FROM_CENTER), rand.nextInt(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER));
     }
 
-    public static boolean isBlockPosInFeatureRegion(FeatureContext<DefaultFeatureConfig> context, BlockPos pos)
+    public static boolean isBlockPosInFeatureRegion(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos pos)
     {
         BlockPos featureCenter = getFeatureCenter(context);
         return isBlockPosInFeatureRegion(featureCenter, pos);
@@ -124,9 +124,9 @@ public class FeatureHelper
         //MAX_FEATURE_SIZE_HORIZONTAL/2 - 1 because we check from "feature center" blockpos, which is not really the center, since a chunk is 16x16.. the center is 2x2
     }
 
-    public static boolean isBelowMaxBuildHeight(FeatureContext<?> context, BlockPos pos)
+    public static boolean isBelowMaxBuildHeight(FeaturePlaceContext<?> context, BlockPos pos)
     {
-        return pos.getY() < context.getWorld().getHeight();
+        return pos.getY() < context.level().getHeight();
     }
 
     public static int getMaxAbsoluteXZOffset(BlockPos pos1, BlockPos pos2)
@@ -141,7 +141,7 @@ public class FeatureHelper
         return Math.max(Math.max(Math.abs(xOffset), Math.abs(yOffset)), Math.abs(zOffset));
     }
 
-    public static Vector3f getRandomOrthogonalVectorToLineDefinedWith2Points(BlockPos linePos1, BlockPos linePos2, Random rand)
+    public static Vector3f getRandomOrthogonalVectorToLineDefinedWith2Points(BlockPos linePos1, BlockPos linePos2, RandomSource rand)
     {
         Vector3f vector1 = new Vector3f(linePos2.getX() - linePos1.getX(), linePos2.getY() - linePos1.getY(), linePos2.getZ() - linePos1.getZ());
         Vector3f vector2 = new Vector3f(rand.nextInt(10), rand.nextInt(10), rand.nextInt(10));
@@ -149,15 +149,15 @@ public class FeatureHelper
         return new Vector3f(vector1.y * vector2.z - vector1.z * vector2.y, vector1.z * vector2.x - vector1.x * vector2.z, vector1.x * vector2.y - vector1.y * vector2.x);
     }
 
-    public static void generateDebug(FeatureContext<?> context)
+    public static void generateDebug(FeaturePlaceContext<?> context)
     {
-        StructureWorldAccess reader = context.getWorld();
+        WorldGenLevel reader = context.level();
         BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
         for (int i = -50; i <= 50; i++)
         {
-            reader.setBlockState(centerOfFeature.add(i, 0, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.getDefaultState(), 0);
-            reader.setBlockState(centerOfFeature.add(0, i, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.getDefaultState(), 0);
-            reader.setBlockState(centerOfFeature.add(0, 0, i), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.getDefaultState(), 0);
+            reader.setBlock(centerOfFeature.offset(i, 0, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.defaultBlockState(), 0);
+            reader.setBlock(centerOfFeature.offset(0, i, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.defaultBlockState(), 0);
+            reader.setBlock(centerOfFeature.offset(0, 0, i), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.defaultBlockState(), 0);
         }
 
         //feature center
@@ -167,12 +167,12 @@ public class FeatureHelper
             {
                 for (int z = -1; z <= 1; z++)
                 {
-                    reader.setBlockState(centerOfFeature.add(x, y, z), AerialHellBlocks.ARSONIST_BLOCK.getDefaultState(), 0);
+                    reader.setBlock(centerOfFeature.offset(x, y, z), AerialHellBlocks.ARSONIST_BLOCK.defaultBlockState(), 0);
                 }
             }
         }
 
         //feature origin
-        reader.setBlockState(context.getOrigin(), AerialHellBlocks.CRYSTAL_BRICKS.getDefaultState(), 0);
+        reader.setBlock(context.origin(), AerialHellBlocks.CRYSTAL_BRICKS.defaultBlockState(), 0);
     }
 }

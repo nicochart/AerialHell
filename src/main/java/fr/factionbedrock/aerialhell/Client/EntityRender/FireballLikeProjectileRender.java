@@ -1,26 +1,27 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.FireballLikeProjectileRenderState;
 import fr.factionbedrock.aerialhell.Entity.Projectile.DimensionShattererProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.PoisonballEntity;
-import net.minecraft.client.render.*;
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
-import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.state.EntityRenderState;
-import net.minecraft.client.render.state.CameraRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.projectile.AbstractFireballEntity;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.projectile.hurtingprojectile.Fireball;
 
-public class FireballLikeProjectileRender<T extends AbstractFireballEntity> extends EntityRenderer<T, FireballLikeProjectileRenderState>
+public class FireballLikeProjectileRender<T extends Fireball> extends EntityRenderer<T, FireballLikeProjectileRenderState>
 {
-    public static final Identifier POISONBALL = Identifier.of(AerialHell.MODID, "textures/entity/projectile/poisonball.png");
-    public static final Identifier DIMENSION_SHATTERER_PROJECTILE = Identifier.of(AerialHell.MODID, "textures/item/dimension_shatterer_projectile.png");
+    public static final Identifier POISONBALL = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/poisonball.png");
+    public static final Identifier DIMENSION_SHATTERER_PROJECTILE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/item/dimension_shatterer_projectile.png");
 
-    public FireballLikeProjectileRender(EntityRendererFactory.Context context)
+    public FireballLikeProjectileRender(EntityRendererProvider.Context context)
     {
         super(context);
         this.shadowRadius = 0.0F;
@@ -28,38 +29,38 @@ public class FireballLikeProjectileRender<T extends AbstractFireballEntity> exte
 
     @Override public FireballLikeProjectileRenderState createRenderState() {return new FireballLikeProjectileRenderState();}
 
-    @Override public void updateRenderState(T entity, FireballLikeProjectileRenderState renderState, float partialTick)
+    @Override public void extractRenderState(T entity, FireballLikeProjectileRenderState renderState, float partialTick)
     {
-        super.updateRenderState(entity, renderState, partialTick);
+        super.extractRenderState(entity, renderState, partialTick);
         renderState.scale = entity instanceof DimensionShattererProjectileEntity ? 2.0F : 1.0F;
-        renderState.texture = this.getTexture(entity);
+        renderState.texture = this.getTextureLocation(entity);
     }
 
-    @Override public void render(FireballLikeProjectileRenderState renderState, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState)
+    @Override public void submit(FireballLikeProjectileRenderState renderState, PoseStack matrices, SubmitNodeCollector queue, CameraRenderState cameraState)
     {
-        matrices.push();
+        matrices.pushPose();
         matrices.scale(renderState.scale, renderState.scale, renderState.scale);
-        matrices.multiply(cameraState.orientation);
-        RenderLayer layer = RenderLayers.entityCutoutNoCull(renderState.texture);
-        queue.submitCustom(matrices, layer, (matricesEntry, vertexConsumer) ->
+        matrices.mulPose(cameraState.orientation);
+        RenderType layer = RenderTypes.entityCutoutNoCull(renderState.texture);
+        queue.submitCustomGeometry(matrices, layer, (matricesEntry, vertexConsumer) ->
         {
-            produceVertex(vertexConsumer, matricesEntry, renderState.light, 0.0F, 0, 0, 1);
-            produceVertex(vertexConsumer, matricesEntry, renderState.light, 1.0F, 0, 1, 1);
-            produceVertex(vertexConsumer, matricesEntry, renderState.light, 1.0F, 1, 1, 0);
-            produceVertex(vertexConsumer, matricesEntry, renderState.light, 0.0F, 1, 0, 0);
+            produceVertex(vertexConsumer, matricesEntry, renderState.lightCoords, 0.0F, 0, 0, 1);
+            produceVertex(vertexConsumer, matricesEntry, renderState.lightCoords, 1.0F, 0, 1, 1);
+            produceVertex(vertexConsumer, matricesEntry, renderState.lightCoords, 1.0F, 1, 1, 0);
+            produceVertex(vertexConsumer, matricesEntry, renderState.lightCoords, 0.0F, 1, 0, 0);
         });
-        matrices.pop();
-        super.render(renderState, matrices, queue, cameraState);
+        matrices.popPose();
+        super.submit(renderState, matrices, queue, cameraState);
     }
 
-    public Identifier getTexture(T entity)
+    public Identifier getTextureLocation(T entity)
     {
         if (entity instanceof PoisonballEntity) {return POISONBALL;}
         else /*if (entity instanceof DimensionShattererProjectileEntity)*/ {return DIMENSION_SHATTERER_PROJECTILE;}
     }
 
-    private static void produceVertex(VertexConsumer vertexConsumer, MatrixStack.Entry matrix, int light, float x, int z, int textureU, int textureV)
+    private static void produceVertex(VertexConsumer vertexConsumer, PoseStack.Pose matrix, int light, float x, int z, int textureU, int textureV)
     {
-        vertexConsumer.vertex(matrix, x - 0.5F, (float)z - 0.25F, 0.0F).color(-1).texture((float)textureU, (float)textureV).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(matrix, 0.0F, 1.0F, 0.0F);
+        vertexConsumer.addVertex(matrix, x - 0.5F, (float)z - 0.25F, 0.0F).setColor(-1).setUv((float)textureU, (float)textureV).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(matrix, 0.0F, 1.0F, 0.0F);
     }
 }

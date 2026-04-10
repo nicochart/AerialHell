@@ -1,26 +1,25 @@
 package fr.factionbedrock.aerialhell.Item;
 
 import java.util.function.Consumer;
-
-import net.minecraft.component.type.TooltipDisplayComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 public class BossSpawnEggItem extends SpawnEggItem
 {
-	public BossSpawnEggItem(Item.Settings settings) {super(settings);}
+	public BossSpawnEggItem(Item.Properties settings) {super(settings);}
 	
-	@Override public boolean hasGlint(ItemStack stack) {return true;}
+	@Override public boolean isFoil(ItemStack stack) {return true;}
 
-	@Override public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type)
+	@Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type)
 	{
-		textConsumer.accept(this.getDescription().formatted(Formatting.DARK_RED));
+		textConsumer.accept(this.getDescription().withStyle(ChatFormatting.DARK_RED));
 	}
 
-	public MutableText getDescription() {return Text.translatable("item.aerialhell.boss_spawn_egg.desc");}
+	public MutableComponent getDescription() {return Component.translatable("item.aerialhell.boss_spawn_egg.desc");}
 }

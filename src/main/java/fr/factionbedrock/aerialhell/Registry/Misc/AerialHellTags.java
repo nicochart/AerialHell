@@ -1,16 +1,16 @@
 package fr.factionbedrock.aerialhell.Registry.Misc;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.decoration.painting.PaintingVariant;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Item;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.structure.Structure;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.material.Fluid;
 
 public class AerialHellTags
 {
@@ -134,7 +134,7 @@ public class AerialHellTags
 
 		private static TagKey<Block> tag(String name)
 		{
-			return TagKey.of(RegistryKeys.BLOCK, AerialHell.id(name));
+			return TagKey.create(Registries.BLOCK, AerialHell.id(name));
 		}
 	}
 
@@ -191,7 +191,7 @@ public class AerialHellTags
 
 		private static TagKey<Item> tag(String name)
 		{
-			return TagKey.of(RegistryKeys.ITEM, AerialHell.id(name));
+			return TagKey.create(Registries.ITEM, AerialHell.id(name));
 		}
 	}
 
@@ -215,7 +215,7 @@ public class AerialHellTags
 		public static final TagKey<EntityType<?>> CHAINED_GOD_DRAG_IMMUNE = tag("chained_god_drag_immune");
 		public static final TagKey<EntityType<?>> SENSITIVE_TO_VULNERABILITY_ENCHANTMENT = tag("sensitive_to_vulnerability_enchantment");
 
-		private static TagKey<EntityType<?>> tag(String name) {return TagKey.of(RegistryKeys.ENTITY_TYPE, AerialHell.id(name));}
+		private static TagKey<EntityType<?>> tag(String name) {return TagKey.create(Registries.ENTITY_TYPE, AerialHell.id(name));}
 	}
 
 	public static class Fluids
@@ -226,7 +226,7 @@ public class AerialHellTags
 
 		private static TagKey<Fluid> tag(String name)
 		{
-			return TagKey.of(RegistryKeys.FLUID, AerialHell.id( name));
+			return TagKey.create(Registries.FLUID, AerialHell.id( name));
 		}
 	}
 
@@ -236,7 +236,7 @@ public class AerialHellTags
 
 		private static TagKey<Structure> tag(String name)
 		{
-			return TagKey.of(RegistryKeys.STRUCTURE, AerialHell.id( name));
+			return TagKey.create(Registries.STRUCTURE, AerialHell.id( name));
 		}
 	}
 
@@ -246,7 +246,7 @@ public class AerialHellTags
 
 		private static TagKey<ConfiguredFeature<?,?>> tag(String name)
 		{
-			return TagKey.of(RegistryKeys.CONFIGURED_FEATURE, AerialHell.id(name));
+			return TagKey.create(Registries.CONFIGURED_FEATURE, AerialHell.id(name));
 		}
 	}
 
@@ -272,7 +272,7 @@ public class AerialHellTags
 
 		private static TagKey<Biome> tag(String name)
 		{
-			return TagKey.of(RegistryKeys.BIOME, AerialHell.id( name));
+			return TagKey.create(Registries.BIOME, AerialHell.id( name));
 		}
 	}
 
@@ -282,7 +282,7 @@ public class AerialHellTags
 
 		private static TagKey<PaintingVariant> tag(String name)
 		{
-			return TagKey.of(RegistryKeys.PAINTING_VARIANT, AerialHell.id(name));
+			return TagKey.create(Registries.PAINTING_VARIANT, AerialHell.id(name));
 		}
 	}
 }

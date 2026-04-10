@@ -1,12 +1,17 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.ShroomBoomRenderState;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.ArmPosing;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.util.Mth;
 
 // Made with Blockbench 4.7.0
 // Exported for Minecraft version 1.17 or later with Mojang mappings
@@ -35,51 +40,51 @@ public class ShroomBoomModel extends EntityModel<ShroomBoomRenderState>
 		this.arm2 = root.getChild("arm2");
 	}
 
-	public static TexturedModelData createBodyLayer()
+	public static LayerDefinition createBodyLayer()
 	{
-		ModelData meshdefinition = new ModelData();
-		ModelPartData partdefinition = meshdefinition.getRoot();
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		ModelPartData body = partdefinition.addChild("body", ModelPartBuilder.create().uv(16, 49).mirrored().cuboid(-4.0F, -18.0F, -2.0F, 8.0F, 11.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 24.0F, 0.0F));
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 49).mirror().addBox(-4.0F, -18.0F, -2.0F, 8.0F, 11.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		ModelPartData head = partdefinition.addChild("head", ModelPartBuilder.create().uv(12, 33).mirrored().cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(8, 17).mirrored().cuboid(-5.0F, -10.0F, -5.0F, 10.0F, 6.0F, 10.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(16, 9).mirrored().cuboid(-3.0F, -12.0F, -3.0F, 6.0F, 2.0F, 6.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(0.0F, 6.0F, 0.0F));
+		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(12, 33).mirror().addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(8, 17).mirror().addBox(-5.0F, -10.0F, -5.0F, 10.0F, 6.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(16, 9).mirror().addBox(-3.0F, -12.0F, -3.0F, 6.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 6.0F, 0.0F));
 
-		ModelPartData leg0 = partdefinition.addChild("leg0", ModelPartBuilder.create().uv(0, 53).mirrored().cuboid(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(2.0F, 18.0F, 4.0F));
+		PartDefinition leg0 = partdefinition.addOrReplaceChild("leg0", CubeListBuilder.create().texOffs(0, 53).mirror().addBox(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, 18.0F, 4.0F));
 
-		ModelPartData leg1 = partdefinition.addChild("leg1", ModelPartBuilder.create().uv(0, 53).mirrored().cuboid(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-2.0F, 18.0F, 4.0F));
+		PartDefinition leg1 = partdefinition.addOrReplaceChild("leg1", CubeListBuilder.create().texOffs(0, 53).mirror().addBox(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.0F, 18.0F, 4.0F));
 
-		ModelPartData leg2 = partdefinition.addChild("leg2", ModelPartBuilder.create().uv(0, 53).mirrored().cuboid(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(2.0F, 18.0F, -4.0F));
+		PartDefinition leg2 = partdefinition.addOrReplaceChild("leg2", CubeListBuilder.create().texOffs(0, 53).mirror().addBox(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(2.0F, 18.0F, -4.0F));
 
-		ModelPartData leg3 = partdefinition.addChild("leg3", ModelPartBuilder.create().uv(0, 53).mirrored().cuboid(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-2.0F, 18.0F, -4.0F));
+		PartDefinition leg3 = partdefinition.addOrReplaceChild("leg3", CubeListBuilder.create().texOffs(0, 53).mirror().addBox(-2.0F, -1.0F, -2.0F, 4.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.0F, 18.0F, -4.0F));
 
-		ModelPartData arm1 = partdefinition.addChild("arm1", ModelPartBuilder.create().uv(50, 53).mirrored().cuboid(-3.0F, 1.0F, -2.0F, 3.0F, 7.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(42, 17).mirrored().cuboid(-4.0F, -1.0F, -3.0F, 5.0F, 3.0F, 6.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-4.0F, 7.0F, 0.0F));
+		PartDefinition arm1 = partdefinition.addOrReplaceChild("arm1", CubeListBuilder.create().texOffs(50, 53).mirror().addBox(-3.0F, 1.0F, -2.0F, 3.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(42, 17).mirror().addBox(-4.0F, -1.0F, -3.0F, 5.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-4.0F, 7.0F, 0.0F));
 
-		ModelPartData arm2 = partdefinition.addChild("arm2", ModelPartBuilder.create().uv(50, 42).mirrored().cuboid(0.0F, 1.0F, -2.0F, 3.0F, 7.0F, 4.0F, new Dilation(0.0F)).mirrored(false)
-				.uv(42, 8).mirrored().cuboid(-1.0F, -1.0F, -3.0F, 5.0F, 3.0F, 6.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(4.0F, 7.0F, 0.0F));
+		PartDefinition arm2 = partdefinition.addOrReplaceChild("arm2", CubeListBuilder.create().texOffs(50, 42).mirror().addBox(0.0F, 1.0F, -2.0F, 3.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+				.texOffs(42, 8).mirror().addBox(-1.0F, -1.0F, -3.0F, 5.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 7.0F, 0.0F));
 
-		return TexturedModelData.of(meshdefinition, 64, 64);
+		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override public void setAngles(ShroomBoomRenderState renderState)
+	@Override public void setupAnim(ShroomBoomRenderState renderState)
 	{
-		float headPitch = renderState.pitch;
-		float netHeadYaw = renderState.relativeHeadYaw;
-		float limbSwing = renderState.limbSwingAnimationProgress;
-		float limbSwingAmount = renderState.limbSwingAmplitude;
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwing = renderState.walkAnimationPos;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
 
-		ArmPosing.zombieArms(this.arm2, this.arm1, renderState.isAggressive, renderState);
-		this.head.yaw = netHeadYaw * ((float)Math.PI / 180F);
-		this.head.pitch = headPitch * ((float)Math.PI / 180F);
-		this.leg0.pitch = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-		this.leg1.pitch = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-		this.leg2.pitch = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-		this.leg3.pitch = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		AnimationUtils.animateZombieArms(this.arm2, this.arm1, renderState.isAggressive, renderState);
+		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
+		this.head.xRot = headPitch * ((float)Math.PI / 180F);
+		this.leg0.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		this.leg1.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+		this.leg2.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+		this.leg3.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 	}
 
-	@Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
+	@Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
 	{
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);
 		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);

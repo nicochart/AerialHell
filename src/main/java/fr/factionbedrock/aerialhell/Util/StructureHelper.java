@@ -3,13 +3,12 @@ package fr.factionbedrock.aerialhell.Util;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructures;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Heightmap;
-import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.structure.Structure;
-
 import java.util.Optional;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.Structure;
 
 public class StructureHelper
 {
@@ -28,7 +27,7 @@ public class StructureHelper
 		return mudDungeonNearby || lunaticTempleNearby || goldenNetherPrisonNearby || shadowCatacombsNearby;
     }
 
-	public static boolean hasDungeonNearby(Structure.Context context, /*ServerLevel level,*/ int blockCheckDistance, boolean checkAltitude, int yCheck) //the ServerLevel is missing in Structure.Context ...
+	public static boolean hasDungeonNearby(Structure.GenerationContext context, /*ServerLevel level,*/ int blockCheckDistance, boolean checkAltitude, int yCheck) //the ServerLevel is missing in Structure.Context ...
 	{
 		/*BlockPos generationPos = context.chunkPos().getMiddleBlockPosition(yCheck);
 		//ServerLevel : ServerLifecycleHooks.getCurrentServer().getLevel(dimensionKey) - How to get the dimensionKey ?
@@ -55,13 +54,13 @@ public class StructureHelper
 		else {return false;}*/ return false;
 	}
 
-	public static boolean temporaryCheck_isStructureGeneratingInAerialHell(Structure.Context context)
+	public static boolean temporaryCheck_isStructureGeneratingInAerialHell(Structure.GenerationContext context)
 	{
-		BlockPos genPos = context.chunkPos().getCenterAtY(100);
-		int x=genPos.getX(), z=genPos.getZ(); int y = context.chunkGenerator().getHeightInGround(x, z, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, context.world(), context.noiseConfig());
-		BlockState surfaceBlock = context.chunkGenerator().getColumnSample(x, z, context.world(), context.noiseConfig()).getState(y);
+		BlockPos genPos = context.chunkPos().getMiddleBlockPosition(100);
+		int x=genPos.getX(), z=genPos.getZ(); int y = context.chunkGenerator().getFirstOccupiedHeight(x, z, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, context.heightAccessor(), context.randomState());
+		BlockState surfaceBlock = context.chunkGenerator().getBaseColumn(x, z, context.heightAccessor(), context.randomState()).getBlock(y);
 
-		boolean isSurfaceBlockAnAerialHellSurfaceBlock = surfaceBlock.isOf(AerialHellBlocks.STELLAR_GRASS_BLOCK) || surfaceBlock.isOf(AerialHellBlocks.STELLAR_STONE) || surfaceBlock.isOf(AerialHellBlocks.SHADOW_GRASS_BLOCK) || surfaceBlock.isOf(AerialHellBlocks.SLIPPERY_SAND);
+		boolean isSurfaceBlockAnAerialHellSurfaceBlock = surfaceBlock.is(AerialHellBlocks.STELLAR_GRASS_BLOCK) || surfaceBlock.is(AerialHellBlocks.STELLAR_STONE) || surfaceBlock.is(AerialHellBlocks.SHADOW_GRASS_BLOCK) || surfaceBlock.is(AerialHellBlocks.SLIPPERY_SAND);
 		return isSurfaceBlockAnAerialHellSurfaceBlock;
 	}
 

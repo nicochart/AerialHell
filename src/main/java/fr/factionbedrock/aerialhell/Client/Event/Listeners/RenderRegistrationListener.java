@@ -11,21 +11,21 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.world.level.block.state.BlockState;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.render.BlockRenderLayer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
-import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer;
-import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
-import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 
 public class RenderRegistrationListener
 {
     public static void registerBlockRenderLayers()
     {
 
-        BlockRenderLayer translucent = BlockRenderLayer.TRANSLUCENT;
-        BlockRenderLayer cutout = BlockRenderLayer.CUTOUT;
+        ChunkSectionLayer translucent = ChunkSectionLayer.TRANSLUCENT;
+        ChunkSectionLayer cutout = ChunkSectionLayer.CUTOUT;
 
         BlockRenderLayerMap.putBlock(AerialHellBlocks.AERIAL_HELL_PORTAL, translucent);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.GHOST_BOAT_CHEST, translucent);
@@ -274,7 +274,7 @@ public class RenderRegistrationListener
         EntityRendererRegistry.register(AerialHellEntities.FOREST_CATERPILLAR, ForestCaterpillarRender::new);
         EntityRendererRegistry.register(AerialHellEntities.CRYSTAL_CATERPILLAR, CaterpillarRender::new);
 
-        EntityRendererRegistry.register(AerialHellEntities.THROWN_STELLAR_EGG, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(AerialHellEntities.THROWN_STELLAR_EGG, ThrownItemRenderer::new);
         EntityRendererRegistry.register(AerialHellEntities.IRON_SHURIKEN, ShurikenRender::new);
         EntityRendererRegistry.register(AerialHellEntities.GOLD_SHURIKEN, ShurikenRender::new);
         EntityRendererRegistry.register(AerialHellEntities.DIAMOND_SHURIKEN, ShurikenRender::new);
@@ -295,11 +295,11 @@ public class RenderRegistrationListener
         EntityRendererRegistry.register(AerialHellEntities.SHADOW_PROJECTILE, LightProjectileRender::new);
         EntityRendererRegistry.register(AerialHellEntities.AERIAL_HELL_PAINTING, AerialHellPaintingRender::new);
 
-        BlockEntityRendererFactories.register(AerialHellBlockEntities.CHEST, AerialHellChestBlockEntityRenderer::new);
-        BlockEntityRendererFactories.register(AerialHellBlockEntities.CHEST, AerialHellChestBlockEntityRenderer::new);
-        BlockEntityRendererFactories.register(AerialHellBlockEntities.CHEST_MIMIC, AerialHellChestMimicBlockEntityRenderer::new);
-        BlockEntityRendererFactories.register(AerialHellBlockEntities.SIGN, SignBlockEntityRenderer::new);
-        BlockEntityRendererFactories.register(AerialHellBlockEntities.HANGING_SIGN, HangingSignBlockEntityRenderer::new);
+        BlockEntityRenderers.register(AerialHellBlockEntities.CHEST, AerialHellChestBlockEntityRenderer::new);
+        BlockEntityRenderers.register(AerialHellBlockEntities.CHEST, AerialHellChestBlockEntityRenderer::new);
+        BlockEntityRenderers.register(AerialHellBlockEntities.CHEST_MIMIC, AerialHellChestMimicBlockEntityRenderer::new);
+        BlockEntityRenderers.register(AerialHellBlockEntities.SIGN, SignRenderer::new);
+        BlockEntityRenderers.register(AerialHellBlockEntities.HANGING_SIGN, HangingSignRenderer::new);
     }
 
     public static void registerLayerDefinitions()
@@ -346,48 +346,48 @@ public class RenderRegistrationListener
         {
             BlockState originalState = context.state();
 
-            if (originalState.isOf(AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.STELLAR_GRASS_BLOCK)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_GRASS_BLOCK)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.STELLAR_GRASS)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.STELLAR_GRASS_BALL)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_GRASS)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_GRASS_BALL)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.BRAMBLES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_BRAMBLES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.AERIAL_TREE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_AERIAL_TREE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.GOLDEN_BEECH_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.COPPER_PINE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_COPPER_PINE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.LAPIS_ROBINIA_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.ENCHANTED_LAPIS_ROBINIA_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.HOLLOW_SHADOW_PINE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_PINE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.EYE_SHADOW_PINE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.STELLAR_JUNGLE_TREE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.AERIAL_TREE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_AERIAL_TREE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.GOLDEN_BEECH_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.COPPER_PINE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_COPPER_PINE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.LAPIS_ROBINIA_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_PINE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.HOLLOW_SHADOW_PINE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.PURPLE_SHADOW_PINE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.HOLLOW_PURPLE_SHADOW_PINE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.STELLAR_JUNGLE_TREE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.GLOWING_ROOTS_PLANT)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.GLOWING_ROOTS)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
-            else if (originalState.isOf(AerialHellBlocks.SHADOW_GLOWING_ROOTS)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            if (originalState.is(AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.STELLAR_GRASS_BLOCK)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_GRASS_BLOCK)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.STELLAR_GRASS)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.STELLAR_GRASS_BALL)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_GRASS)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_GRASS_BALL)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.BRAMBLES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_BRAMBLES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.AERIAL_TREE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_AERIAL_TREE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.GOLDEN_BEECH_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.COPPER_PINE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_COPPER_PINE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.LAPIS_ROBINIA_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.ENCHANTED_LAPIS_ROBINIA_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.HOLLOW_SHADOW_PINE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_PINE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.EYE_SHADOW_PINE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.STELLAR_JUNGLE_TREE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LOG)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.AERIAL_TREE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_AERIAL_TREE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.GOLDEN_BEECH_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_GOLDEN_BEECH_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.COPPER_PINE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_COPPER_PINE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.LAPIS_ROBINIA_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_LAPIS_ROBINIA_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_PINE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.HOLLOW_SHADOW_PINE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.PURPLE_SHADOW_PINE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.HOLLOW_PURPLE_SHADOW_PINE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.STELLAR_JUNGLE_TREE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LEAVES)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.GLOWING_ROOTS_PLANT)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.GLOWING_ROOTS)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
+            else if (originalState.is(AerialHellBlocks.SHADOW_GLOWING_ROOTS)) {return ShiftedModelRenderHelper.createAndRegisterDefaultShiftedRender(originalModel, originalState);}
             else {return originalModel;}
         }));
     }

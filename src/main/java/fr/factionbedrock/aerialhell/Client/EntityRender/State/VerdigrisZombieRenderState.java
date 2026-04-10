@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.State;
 
-import net.minecraft.client.render.entity.state.LancerEntityRenderState;
+import net.minecraft.client.renderer.entity.state.UndeadRenderState;
 
-public class VerdigrisZombieRenderState extends LancerEntityRenderState
+public class VerdigrisZombieRenderState extends UndeadRenderState
 {
     public int attackTime;
     public boolean isAggressive;

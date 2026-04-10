@@ -2,98 +2,101 @@ package fr.factionbedrock.aerialhell.Block;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.*;
-import net.minecraft.block.enums.BlockHalf;
-import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldView;
-import net.minecraft.world.tick.ScheduledTickView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.Half;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class LargeDeadLogBlock extends Block
 {
     public static final MapCodec<LargeDeadLogBlock> CODEC = RecordCodecBuilder.mapCodec((instance) -> {
-        return instance.group(BlockState.CODEC.fieldOf("base_state").forGetter((largeDeadLogBlock) -> {return largeDeadLogBlock.baseState;}), createSettingsCodec()).apply(instance, LargeDeadLogBlock::new);
+        return instance.group(BlockState.CODEC.fieldOf("base_state").forGetter((largeDeadLogBlock) -> {return largeDeadLogBlock.baseState;}), propertiesCodec()).apply(instance, LargeDeadLogBlock::new);
     });
 
-    public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
-    public static final EnumProperty<BlockHalf> HALF = Properties.BLOCK_HALF;
-    protected static final VoxelShape TOP = Block.createCuboidShape(0.0D, 14.0D, 0.0D, 16.0D, 16.0D, 16.0D);
-    protected static final VoxelShape BOTTOM = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
-    protected static final VoxelShape NORTH = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 2.0D);
-    protected static final VoxelShape SOUTH = Block.createCuboidShape(0.0D, 0.0D, 14.0D, 16.0D, 16.0D, 16.0D);
-    protected static final VoxelShape EAST = Block.createCuboidShape(14.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
-    protected static final VoxelShape WEST = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 2.0D, 16.0D, 16.0D);
+    public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
+    public static final EnumProperty<Half> HALF = BlockStateProperties.HALF;
+    protected static final VoxelShape TOP = Block.box(0.0D, 14.0D, 0.0D, 16.0D, 16.0D, 16.0D);
+    protected static final VoxelShape BOTTOM = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
+    protected static final VoxelShape NORTH = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 2.0D);
+    protected static final VoxelShape SOUTH = Block.box(0.0D, 0.0D, 14.0D, 16.0D, 16.0D, 16.0D);
+    protected static final VoxelShape EAST = Block.box(14.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
+    protected static final VoxelShape WEST = Block.box(0.0D, 0.0D, 0.0D, 2.0D, 16.0D, 16.0D);
     private final Block base;
     protected final BlockState baseState;
 
-    @Override public MapCodec<? extends LargeDeadLogBlock> getCodec() {return CODEC;}
+    @Override public MapCodec<? extends LargeDeadLogBlock> codec() {return CODEC;}
 
-    public LargeDeadLogBlock(BlockState state, AbstractBlock.Settings settings)
+    public LargeDeadLogBlock(BlockState state, BlockBehaviour.Properties settings)
     {
         super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(HALF, BlockHalf.BOTTOM));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(HALF, Half.BOTTOM));
         this.base = state.getBlock();
         this.baseState = state;
     }
 
-    @Override public VoxelShape getOutlineShape(BlockState state, BlockView blockGetter, BlockPos pos, ShapeContext context)
+    @Override public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context)
     {
-        BlockHalf half = state.get(HALF);
-        Direction facing = state.get(FACING);
-        VoxelShape BottomOrTopShape = half == BlockHalf.BOTTOM ? BOTTOM : TOP;
+        Half half = state.getValue(HALF);
+        Direction facing = state.getValue(FACING);
+        VoxelShape BottomOrTopShape = half == Half.BOTTOM ? BOTTOM : TOP;
         VoxelShape FacingShape = facing == Direction.NORTH ? NORTH : facing == Direction.SOUTH ? SOUTH : facing == Direction.WEST ? WEST : EAST;
-        return VoxelShapes.union(BottomOrTopShape, FacingShape);
+        return Shapes.or(BottomOrTopShape, FacingShape);
     }
 
-    @Override public BlockState getPlacementState(ItemPlacementContext placeContext)
+    @Override public BlockState getStateForPlacement(BlockPlaceContext placeContext)
     {
-        Direction direction = placeContext.getSide();
-        BlockPos blockpos = placeContext.getBlockPos();
-        BlockState blockstate = getStateForPlacement(placeContext.getHorizontalPlayerFacing(), direction != Direction.DOWN && (direction == Direction.UP || !(placeContext.getBlockPos().getY() - (double)blockpos.getY() > 0.5D)) ? BlockHalf.BOTTOM : BlockHalf.TOP);
+        Direction direction = placeContext.getClickedFace();
+        BlockPos blockpos = placeContext.getClickedPos();
+        BlockState blockstate = getStateForPlacement(placeContext.getHorizontalDirection(), direction != Direction.DOWN && (direction == Direction.UP || !(placeContext.getClickedPos().getY() - (double)blockpos.getY() > 0.5D)) ? Half.BOTTOM : Half.TOP);
         return blockstate;
     }
 
-    public BlockState getStateForPlacement(Direction direction, BlockHalf half)
+    public BlockState getStateForPlacement(Direction direction, Half half)
     {
-        return this.getDefaultState().with(FACING, direction).with(HALF, half);
+        return this.defaultBlockState().setValue(FACING, direction).setValue(HALF, half);
     }
 
-    @Override public BlockState getStateForNeighborUpdate(BlockState previousState, WorldView world, ScheduledTickView scheduledTickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random)
+    @Override public BlockState updateShape(BlockState previousState, LevelReader world, ScheduledTickAccess scheduledTickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random)
     {
-        return direction.getAxis().isHorizontal() ? previousState : super.getStateForNeighborUpdate(previousState, world, scheduledTickView, pos, direction, neighborPos, neighborState, random);
+        return direction.getAxis().isHorizontal() ? previousState : super.updateShape(previousState, world, scheduledTickView, pos, direction, neighborPos, neighborState, random);
     }
 
-    @Override public BlockState rotate(BlockState state, BlockRotation rotation)
+    @Override public BlockState rotate(BlockState state, Rotation rotation)
     {
-        return state.with(FACING, rotation.rotate(state.get(FACING)));
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
-    @Override public BlockState mirror(BlockState state, BlockMirror mirror)
+    @Override public BlockState mirror(BlockState state, Mirror mirror)
     {
-        Direction direction = state.get(FACING);
+        Direction direction = state.getValue(FACING);
         switch (mirror) {
             case LEFT_RIGHT:
-                if (direction.getAxis() == Direction.Axis.Z) {return state.rotate(BlockRotation.CLOCKWISE_180);}
+                if (direction.getAxis() == Direction.Axis.Z) {return state.rotate(Rotation.CLOCKWISE_180);}
                 break;
             case FRONT_BACK:
-                if (direction.getAxis() == Direction.Axis.X) {return state.rotate(BlockRotation.CLOCKWISE_180);}
+                if (direction.getAxis() == Direction.Axis.X) {return state.rotate(Rotation.CLOCKWISE_180);}
         }
         return super.mirror(state, mirror);
     }
 
-    @Override protected void appendProperties(StateManager.Builder<Block, BlockState> state) {state.add(FACING, HALF);}
+    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> state) {state.add(FACING, HALF);}
 
-    @Override public boolean canPathfindThrough(BlockState state, NavigationType type) {return false;}
+    @Override public boolean isPathfindable(BlockState state, PathComputationType type) {return false;}
 }

@@ -5,51 +5,50 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Recipe.FreezingRecipe;
 import fr.factionbedrock.aerialhell.Recipe.OscillatingRecipe;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
-
 import java.util.List;
 import java.util.Map;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 public class JEIHelper
 {
-    public static List<RecipeEntry<OscillatingRecipe>> createOscillatingRecipeEntryList()
+    public static List<RecipeHolder<OscillatingRecipe>> createOscillatingRecipeEntryList()
     {
         return OSCILLATING_MAP.entrySet().stream().map(entry -> createOscillatingRecipeEntry(entry.getKey(), entry.getValue())).toList();
     }
 
-    public static List<RecipeEntry<FreezingRecipe>> createFreezingRecipeEntryList()
+    public static List<RecipeHolder<FreezingRecipe>> createFreezingRecipeEntryList()
     {
         return FREEZING_MAP.entrySet().stream().map(entry -> createFreezingRecipeEntry(entry.getKey(), entry.getValue())).toList();
     }
 
-    public static RecipeEntry<OscillatingRecipe> createOscillatingRecipeEntry(List<Item> ingredients, Item result)
+    public static RecipeHolder<OscillatingRecipe> createOscillatingRecipeEntry(List<Item> ingredients, Item result)
     {
         OscillatingRecipe recipe = createOscillatingRecipe(ingredients, result);
         Identifier recipeIdentifier = AerialHell.id("oscillating_recipe");
-        return new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, recipeIdentifier), recipe);
+        return new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, recipeIdentifier), recipe);
     }
 
     public static OscillatingRecipe createOscillatingRecipe(List<Item> ingredient, Item result)
     {
-        return new OscillatingRecipe("", null, Ingredient.ofItems(ingredient.stream()), result.getDefaultStack(), 0, 200);
+        return new OscillatingRecipe("", null, Ingredient.of(ingredient.stream()), result.getDefaultInstance(), 0, 200);
     }
 
-    public static RecipeEntry<FreezingRecipe> createFreezingRecipeEntry(List<Item> ingredients, Item result)
+    public static RecipeHolder<FreezingRecipe> createFreezingRecipeEntry(List<Item> ingredients, Item result)
     {
         FreezingRecipe recipe = createFreezingRecipe(ingredients, result);
         Identifier recipeIdentifier = AerialHell.id("freezing_recipe");
-        return new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, recipeIdentifier), recipe);
+        return new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, recipeIdentifier), recipe);
     }
 
     public static FreezingRecipe createFreezingRecipe(List<Item> ingredient, Item result)
     {
-        return new FreezingRecipe("", null, Ingredient.ofItems(ingredient.stream()), result.getDefaultStack(), 0, 200);
+        return new FreezingRecipe("", null, Ingredient.of(ingredient.stream()), result.getDefaultInstance(), 0, 200);
     }
 
     public static Map<List<Item>, Item> OSCILLATING_MAP = new ImmutableMap.Builder<List<Item>, Item>()

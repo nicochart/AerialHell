@@ -5,28 +5,28 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.VoluciteGolemModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteGolemRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemEntity;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.Identifier;
 
-public class VoluciteGolemRender extends MobEntityRenderer<VoluciteGolemEntity, VoluciteGolemRenderState, VoluciteGolemModel>
+public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, VoluciteGolemRenderState, VoluciteGolemModel>
 {
 	private static String name = "volucite_golem";
-    private static final Identifier TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
-    public VoluciteGolemRender(EntityRendererFactory.Context context)
+    public VoluciteGolemRender(EntityRendererProvider.Context context)
     {
-        super(context, new VoluciteGolemModel(context.getPart(AerialHellModelLayers.VOLUCITE_GOLEM)), 0.6f);
+        super(context, new VoluciteGolemModel(context.bakeLayer(AerialHellModelLayers.VOLUCITE_GOLEM)), 0.6f);
     }
 
     @Override public VoluciteGolemRenderState createRenderState() {return new VoluciteGolemRenderState();}
 
-    @Override public void updateRenderState(VoluciteGolemEntity entity, VoluciteGolemRenderState renderState, float partialTick)
+    @Override public void extractRenderState(VoluciteGolemEntity entity, VoluciteGolemRenderState renderState, float partialTick)
     {
-        super.updateRenderState(entity, renderState, partialTick);
+        super.extractRenderState(entity, renderState, partialTick);
         renderState.attackTimer = entity.attackTimer;
-        renderState.eyePosition = entity.getCameraPosVec(partialTick);
+        renderState.eyePosition = entity.getEyePosition(partialTick);
     }
 
-    @Override public Identifier getTexture(VoluciteGolemRenderState renderState) {return TEXTURE;}
+    @Override public Identifier getTextureLocation(VoluciteGolemRenderState renderState) {return TEXTURE;}
 }

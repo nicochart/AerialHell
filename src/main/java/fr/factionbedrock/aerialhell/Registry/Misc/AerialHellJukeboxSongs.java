@@ -1,20 +1,20 @@
 package fr.factionbedrock.aerialhell.Registry.Misc;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import net.minecraft.block.jukebox.JukeboxSong;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.JukeboxSong;
 
 public interface AerialHellJukeboxSongs
 {
-    RegistryKey<JukeboxSong> AERIAL_HELL_THEME_TOMMAUP = create("aerial_hell_theme_tommaup");
-    RegistryKey<JukeboxSong> SWEDEN_ANDREAS_ZOELLER = create("sweden_andreas_zoeller");
-    RegistryKey<JukeboxSong> ENTHUSIAST_TOURS = create("enthusiast_tours");
-    RegistryKey<JukeboxSong> BMINOR_ARULO = create("bminor_arulo");
-    RegistryKey<JukeboxSong> RETRO_EXPLORATION_TOMMAUP = create("retro_exploration_tommaup");
+    ResourceKey<JukeboxSong> AERIAL_HELL_THEME_TOMMAUP = create("aerial_hell_theme_tommaup");
+    ResourceKey<JukeboxSong> SWEDEN_ANDREAS_ZOELLER = create("sweden_andreas_zoeller");
+    ResourceKey<JukeboxSong> ENTHUSIAST_TOURS = create("enthusiast_tours");
+    ResourceKey<JukeboxSong> BMINOR_ARULO = create("bminor_arulo");
+    ResourceKey<JukeboxSong> RETRO_EXPLORATION_TOMMAUP = create("retro_exploration_tommaup");
 
-    private static RegistryKey<JukeboxSong> create(String name)
+    private static ResourceKey<JukeboxSong> create(String name)
     {
-        return RegistryKey.of(RegistryKeys.JUKEBOX_SONG, AerialHell.id(name));
+        return ResourceKey.create(Registries.JUKEBOX_SONG, AerialHell.id(name));
     }
 }

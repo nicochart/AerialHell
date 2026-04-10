@@ -1,20 +1,20 @@
 package fr.factionbedrock.aerialhell.Entity.Util;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class ImplodingEntityInfo
 {
-    private final TrackedData<Boolean> implodingDataAccessor;
+    private final EntityDataAccessor<Boolean> implodingDataAccessor;
     private final ImplodingSoundHelper implodingSoundInfo;
     private final int castDuration; //ticks between imploding start and implosion - for sound synchro, you will need sound duration = castDuration - (implodingSoundInfo)soundOffset
     private final int cooldownDuration; //ticks between implosion and next imploding start
     private int castTicks;
     private int cooldownTicks;
 
-    public ImplodingEntityInfo(TrackedData<Boolean> implodingDataAccessor, int castDuration, int cooldownDuration, ImplodingSoundHelper implodingSoundInfo)
+    public ImplodingEntityInfo(EntityDataAccessor<Boolean> implodingDataAccessor, int castDuration, int cooldownDuration, ImplodingSoundHelper implodingSoundInfo)
     {
         this.implodingDataAccessor = implodingDataAccessor;
         this.castDuration = castDuration;
@@ -35,7 +35,7 @@ public class ImplodingEntityInfo
     public void playImplodingSound(@NotNull LivingEntity source) {this.implodingSoundInfo.playSound(source);}
     public int getSoundOffset() {return this.implodingSoundInfo.soundStartOffsetInTicks;}
 
-    public TrackedData<Boolean> getImplodingDataAccessor() {return this.implodingDataAccessor;}
+    public EntityDataAccessor<Boolean> getImplodingDataAccessor() {return this.implodingDataAccessor;}
 
     public static class ImplodingSoundHelper extends PlaySoundHelper
     {

@@ -3,80 +3,79 @@ package fr.factionbedrock.aerialhell.Util;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.LanternBlock;
-import net.minecraft.block.WallTorchBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.StructureBlockBlockEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkStatus;
-
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LanternBlock;
+import net.minecraft.world.level.block.WallTorchBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.StructureBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.world.level.material.FluidState;
 
 public class WorldHelper
 {
-    public static void doAerialHellNeighborUpdate(World world, BlockPos pos)
+    public static void doAerialHellNeighborUpdate(Level world, BlockPos pos)
     {
-        if (world.getDimensionEntry().matchesId(AerialHellDimensions.AERIAL_HELL_DIMENSION.getValue()))
+        if (world.dimensionTypeRegistration().is(AerialHellDimensions.AERIAL_HELL_DIMENSION.identifier()))
         {
             FluidState fluidstate = world.getFluidState(pos);
             BlockState blockstate = world.getBlockState(pos);
 
-            if (fluidstate.isIn(AerialHellTags.Fluids.CRYSTALLIZABLE))
+            if (fluidstate.is(AerialHellTags.Fluids.CRYSTALLIZABLE))
             {
-                world.setBlockState(pos, AerialHellBlocks.CRYSTAL_BLOCK.getDefaultState());
-                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                world.setBlockAndUpdate(pos, AerialHellBlocks.CRYSTAL_BLOCK.defaultBlockState());
+                world.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
             }
-            else if (blockstate.isOf(Blocks.MAGMA_BLOCK))
+            else if (blockstate.is(Blocks.MAGMA_BLOCK))
             {
-                world.setBlockState(pos, AerialHellBlocks.MAGMATIC_GEL_ORE.getDefaultState());
-                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                world.setBlockAndUpdate(pos, AerialHellBlocks.MAGMATIC_GEL_ORE.defaultBlockState());
+                world.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
             }
-            else if (blockstate.isOf(Blocks.FIRE))
+            else if (blockstate.is(Blocks.FIRE))
             {
-                world.setBlockState(pos, AerialHellBlocks.CRYSTALLIZED_FIRE.getDefaultState());
-                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                if (world.getBlockState(pos.down()).getBlock() == Blocks.AIR)
+                world.setBlockAndUpdate(pos, AerialHellBlocks.CRYSTALLIZED_FIRE.defaultBlockState());
+                world.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
+                if (world.getBlockState(pos.below()).getBlock() == Blocks.AIR)
                 {
-                    world.breakBlock(pos, true);
+                    world.destroyBlock(pos, true);
                 }
             }
-            else if (blockstate.isOf(Blocks.TORCH))
+            else if (blockstate.is(Blocks.TORCH))
             {
-                world.setBlockState(pos, AerialHellBlocks.CRYSTALLIZED_TORCH.getDefaultState());
-                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                world.setBlockAndUpdate(pos, AerialHellBlocks.CRYSTALLIZED_TORCH.defaultBlockState());
+                world.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
             }
-            else if (blockstate.isOf(Blocks.WALL_TORCH))
+            else if (blockstate.is(Blocks.WALL_TORCH))
             {
-                world.setBlockState(pos, AerialHellBlocks.CRYSTALLIZED_WALL_TORCH.getDefaultState().with(WallTorchBlock.FACING, blockstate.get(WallTorchBlock.FACING)));
-                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                world.setBlockAndUpdate(pos, AerialHellBlocks.CRYSTALLIZED_WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, blockstate.getValue(WallTorchBlock.FACING)));
+                world.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
             }
-            else if (blockstate.isOf(Blocks.LANTERN))
+            else if (blockstate.is(Blocks.LANTERN))
             {
-                world.setBlockState(pos, AerialHellBlocks.CRYSTALLIZED_LANTERN.getDefaultState().with(LanternBlock.HANGING, blockstate.get(LanternBlock.HANGING)).with(LanternBlock.WATERLOGGED, blockstate.get(LanternBlock.WATERLOGGED)));
-                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                world.setBlockAndUpdate(pos, AerialHellBlocks.CRYSTALLIZED_LANTERN.defaultBlockState().setValue(LanternBlock.HANGING, blockstate.getValue(LanternBlock.HANGING)).setValue(LanternBlock.WATERLOGGED, blockstate.getValue(LanternBlock.WATERLOGGED)));
+                world.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
             }
-            else if (blockstate.isOf(AerialHellBlocks.RUBY_LANTERN))
+            else if (blockstate.is(AerialHellBlocks.RUBY_LANTERN))
             {
-                world.setBlockState(pos, AerialHellBlocks.RUBY_CRYSTALLIZED_LANTERN.getDefaultState().with(LanternBlock.HANGING, blockstate.get(LanternBlock.HANGING)).with(LanternBlock.WATERLOGGED, blockstate.get(LanternBlock.WATERLOGGED)));
-                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                world.setBlockAndUpdate(pos, AerialHellBlocks.RUBY_CRYSTALLIZED_LANTERN.defaultBlockState().setValue(LanternBlock.HANGING, blockstate.getValue(LanternBlock.HANGING)).setValue(LanternBlock.WATERLOGGED, blockstate.getValue(LanternBlock.WATERLOGGED)));
+                world.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
             }
-            else if (blockstate.isOf(AerialHellBlocks.VOLUCITE_LANTERN))
+            else if (blockstate.is(AerialHellBlocks.VOLUCITE_LANTERN))
             {
-                world.setBlockState(pos, AerialHellBlocks.VOLUCITE_CRYSTALLIZED_LANTERN.getDefaultState().with(LanternBlock.HANGING, blockstate.get(LanternBlock.HANGING)).with(LanternBlock.WATERLOGGED, blockstate.get(LanternBlock.WATERLOGGED)));
-                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                world.setBlockAndUpdate(pos, AerialHellBlocks.VOLUCITE_CRYSTALLIZED_LANTERN.defaultBlockState().setValue(LanternBlock.HANGING, blockstate.getValue(LanternBlock.HANGING)).setValue(LanternBlock.WATERLOGGED, blockstate.getValue(LanternBlock.WATERLOGGED)));
+                world.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 1.0F, 1.0F);
             }
         }
     }
 
-    public static void listStructureBlockEntitiesInZone(List<StructureBlockBlockEntity> listToFill, ServerWorld world, BlockPos center, int radius)
+    public static void listStructureBlockEntitiesInZone(List<StructureBlockEntity> listToFill, ServerLevel world, BlockPos center, int radius)
     {
         int chunkRadius = (radius >> 4) + 1;
 
@@ -87,15 +86,15 @@ public class WorldHelper
         {
             for (int cz = centerChunkZ - chunkRadius; cz <= centerChunkZ + chunkRadius; cz++)
             {
-                Chunk chunk = world.getChunk(cx, cz, ChunkStatus.FULL, false);
+                ChunkAccess chunk = world.getChunk(cx, cz, ChunkStatus.FULL, false);
                 if (chunk == null) continue;
 
-                for (BlockPos pos : chunk.getBlockEntityPositions())
+                for (BlockPos pos : chunk.getBlockEntitiesPos())
                 {
-                    if (pos.isWithinDistance(center, radius))
+                    if (pos.closerThan(center, radius))
                     {
                         BlockEntity blockentity = chunk.getBlockEntity(pos);
-                        if (blockentity instanceof StructureBlockBlockEntity structureBlockEntity)
+                        if (blockentity instanceof StructureBlockEntity structureBlockEntity)
                         {
                             listToFill.add(structureBlockEntity);
                         }

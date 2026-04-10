@@ -7,29 +7,29 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartInfo;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import org.jspecify.annotations.Nullable;
 
-public class VoluciteGolemHeadEntity extends HostileEntity implements PartEntity, BeamAttackEntity
+public class VoluciteGolemHeadEntity extends Monster implements PartEntity, BeamAttackEntity
 {
     /* -- PartEntity fields -- */
-    private static final TrackedData<Integer> MASTER_ID = DataTracker.registerData(VoluciteGolemHeadEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final EntityDataAccessor<Integer> MASTER_ID = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.INT);
     private final MasterPartInfo MASTER = new MasterPartInfo(MASTER_ID);
     /* ----------------------- */
 
@@ -39,48 +39,48 @@ public class VoluciteGolemHeadEntity extends HostileEntity implements PartEntity
     public static final int BEAMING_OVERHEAT_DURATION = 60;
     public static final int BEAMING_TOTAL_DURATION = 260;
     public static final int BEAMING_COOLDOWN = 40;
-    private static final TrackedData<Integer> ATTACK_TARGET_ID = DataTracker.registerData(VoluciteGolemHeadEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final TrackedData<Integer> BEAMING_PHASE = DataTracker.registerData(VoluciteGolemHeadEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final TrackedData<Boolean> BEAM_TARGET_POS_NEEDS_SYNC = DataTracker.registerData(VoluciteGolemHeadEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> BEAM_TARGET_POS_NEEDS_SYNC = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.BOOLEAN);
     private @Nullable LivingEntity clientSideCachedAttackTarget;
     private final BeamAttackEntityInfo BEAM_ATTACK_ENTITY_INFO = new BeamAttackEntityInfo(ATTACK_TARGET_ID, BEAMING_PHASE, BEAM_TARGET_POS_NEEDS_SYNC);
     /* ----------------------------- */
 
-    public VoluciteGolemHeadEntity(EntityType<? extends HostileEntity> type, World world)
+    public VoluciteGolemHeadEntity(EntityType<? extends Monster> type, Level world)
     {
         super(type, world);
     }
 
-    @Override protected void initDataTracker(DataTracker.Builder builder)
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.initDataTracker(builder);
+        super.defineSynchedData(builder);
         /* -- BeamAttackEntity synched data -- */
-        builder.add(ATTACK_TARGET_ID, 0);
-        builder.add(BEAMING_PHASE, BeamingPhases.OFF);
-        builder.add(BEAM_TARGET_POS_NEEDS_SYNC, false);
+        builder.define(ATTACK_TARGET_ID, 0);
+        builder.define(BEAMING_PHASE, BeamingPhases.OFF);
+        builder.define(BEAM_TARGET_POS_NEEDS_SYNC, false);
         /* ----------------------------------- */
 
         /* -- PartEntity synched data -- */
-        builder.add(MASTER_ID, 0);
+        builder.define(MASTER_ID, 0);
         /* ----------------------------- */
     }
 
-    @Override protected void initGoals()
+    @Override protected void registerGoals()
     {
-        this.goalSelector.add(4, new BeamAttackGoal(this, BEAMING_LOAD_DURATION, BEAMING_OVERHEAT_DURATION, BEAMING_TOTAL_DURATION, BEAMING_COOLDOWN));
-        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetSelector.add(1, new ActiveTargetGoal<>(this, MudSoldierEntity.class, true));
+        this.goalSelector.addGoal(4, new BeamAttackGoal(this, BEAMING_LOAD_DURATION, BEAMING_OVERHEAT_DURATION, BEAMING_TOTAL_DURATION, BEAMING_COOLDOWN));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, MudSoldierEntity.class, true));
     }
 
-    public static DefaultAttributeContainer.Builder registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
-        return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.MAX_HEALTH, 100.0D)
-                .add(EntityAttributes.ARMOR, 1.0D)
-                .add(EntityAttributes.ATTACK_DAMAGE, 1.0D)
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.1D)
-                .add(EntityAttributes.KNOCKBACK_RESISTANCE, 1.0D)
-                .add(EntityAttributes.FOLLOW_RANGE, 48.0D);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 100.0D)
+                .add(Attributes.ARMOR, 1.0D)
+                .add(Attributes.ATTACK_DAMAGE, 1.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.1D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
+                .add(Attributes.FOLLOW_RANGE, 48.0D);
     }
 
     @Override public void tick()
@@ -92,14 +92,14 @@ public class VoluciteGolemHeadEntity extends HostileEntity implements PartEntity
         super.tick();
     }
 
-    @Override public MobEntity getSelf() {return this;} //both PartEntity & BeamAttackEntity need this implementation
+    @Override public Mob getSelf() {return this;} //both PartEntity & BeamAttackEntity need this implementation
     @Override @Nullable public VoluciteGolemEntity getMaster() {return (VoluciteGolemEntity) PartEntity.super.getMaster();}
 
     /* ------------------------------------------------------------------- */
     /* ---------- PartEntity : Interface methods implementation ---------- */
     /* ------------------------------------------------------------------- */
-    @Override public boolean partSuperDamage(ServerWorld world, DamageSource source, float amount) {return super.damage(world, source, amount);}
-    @Override public boolean isPartAlwaysInvulnerableTo(DamageSource damageSource) {return super.isAlwaysInvulnerableTo(damageSource);}
+    @Override public boolean partSuperDamage(ServerLevel world, DamageSource source, float amount) {return super.hurtServer(world, source, amount);}
+    @Override public boolean isPartAlwaysInvulnerableTo(DamageSource damageSource) {return super.isInvulnerableToBase(damageSource);}
 
     @Override public MasterPartInfo getMasterInfo() {return this.MASTER;}
     /* ------------------------------------------------------------------- */
@@ -109,12 +109,12 @@ public class VoluciteGolemHeadEntity extends HostileEntity implements PartEntity
     /* ----------------------------------------------------------------------------------------- */
     /* ---------- PartEntity : Superclass methods Overridden to delegate to interface ---------- */
     /* ----------------------------------------------------------------------------------------- */
-    @Override public void pushAwayFrom(Entity other) {if (this.canPartBePushAwayBy(other)) {super.pushAwayFrom(other);}}
+    @Override public void push(Entity other) {if (this.canPartBePushAwayBy(other)) {super.push(other);}}
     //@Override public void tick() {this.onTick(); super.tick();} done above for both PartEntity & BeamAttackEntity
 
-    @Override public final boolean damage(ServerWorld world, DamageSource source, float amount) {return this.partDamage(world, source, amount, false);}
+    @Override public final boolean hurtServer(ServerLevel world, DamageSource source, float amount) {return this.partDamage(world, source, amount, false);}
 
-    @Override public boolean isPartOf(Entity other) {return super.isPartOf(other) || this.recognizesPart(other);}
+    @Override public boolean is(Entity other) {return super.is(other) || this.recognizesPart(other);}
     /* ----------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------- */
@@ -123,13 +123,13 @@ public class VoluciteGolemHeadEntity extends HostileEntity implements PartEntity
     /* ----------- PartEntity : Superclass methods Overridden for part-specific behavior ----------- */
     /* --------------------------------------------------------------------------------------------- */
     @Override public boolean isPushable() {return false;}
-    @Override public boolean isInsideWall() {return false;}
+    @Override public boolean isInWall() {return false;}
     @Override public boolean isAttackable() {return true;}
-    @Override public boolean handleFallDamage(double fallDistance, float damageMultiplier, DamageSource damageSource) {return false;}
-    @Override public boolean hasNoGravity() {return !this.isDead();}
+    @Override public boolean causeFallDamage(double fallDistance, float damageMultiplier, DamageSource damageSource) {return false;}
+    @Override public boolean isNoGravity() {return !this.isDeadOrDying();}
     @Override public boolean isSilent() {return true;}
-    @Override public boolean canImmediatelyDespawn(double distanceToClosestPlayer) {return false;}
-    @Override public void takeKnockback(double strength, double x, double z) {;}
+    @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
+    @Override public void knockback(double strength, double x, double z) {;}
     /* --------------------------------------------------------------------------------------------- */
     /* --------------------------------------------------------------------------------------------- */
     /* --------------------------------------------------------------------------------------------- */
@@ -142,12 +142,12 @@ public class VoluciteGolemHeadEntity extends HostileEntity implements PartEntity
         this.setBeamingPhaseToOff();
     }
 
-    @Override public boolean partDamage(ServerWorld world, DamageSource source, float amount, boolean forceLocalDamage)
+    @Override public boolean partDamage(ServerLevel world, DamageSource source, float amount, boolean forceLocalDamage)
     {
         boolean flag = PartEntity.super.partDamage(world, source, amount, forceLocalDamage);
         if (flag && this.updateTargetOnHurtByFarAwayLivingEntity())
         {
-            Entity trueSourceEntity = source.getAttacker();
+            Entity trueSourceEntity = source.getEntity();
             if (trueSourceEntity instanceof LivingEntity && !EntityHelper.isCreativePlayer(trueSourceEntity) && this.distanceTo(trueSourceEntity) > 10)
             {
                 this.setTarget((LivingEntity) trueSourceEntity);
@@ -174,8 +174,8 @@ public class VoluciteGolemHeadEntity extends HostileEntity implements PartEntity
     @Override public boolean canBeamHitEntity(LivingEntity entity) {return this.getMaster() != null && !this.getMaster().is(entity);}
     @Override public Entity getImmediateBeamSource() {return this;}
     @Override public Entity getTrueBeamSource() {return this.getMaster() != null ? this.getMaster() : this;}
-    @Override public void onStartBeaming(int beamingDuration) {if (this.getMaster() != null) {this.getMaster().addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, beamingDuration, 2, false, false));}}
-    @Override public void onStopBeaming() {if (this.getMaster() != null) {this.getMaster().removeStatusEffect(StatusEffects.SLOWNESS);}}
+    @Override public void onStartBeaming(int beamingDuration) {if (this.getMaster() != null) {this.getMaster().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, beamingDuration, 2, false, false));}}
+    @Override public void onStopBeaming() {if (this.getMaster() != null) {this.getMaster().removeEffect(MobEffects.SLOWNESS);}}
 
     @Override public boolean isBeamSilent() {return false;} //PartEntity is silent but Beam Sound is still played by this part
     /* ------------------------------------------------------------------------------------------- */

@@ -1,12 +1,17 @@
 package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.StellarChickenRenderState;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.util.Mth;
 
 //copy of ChickenRenderer but with StellarChickenRenderState
 public class StellarChickenModel extends EntityModel<StellarChickenRenderState>
@@ -35,39 +40,39 @@ public class StellarChickenModel extends EntityModel<StellarChickenRenderState>
         this.leftWing = root.getChild("left_wing");
     }
 
-    public static TexturedModelData createBodyLayer()
+    public static LayerDefinition createBodyLayer()
     {
-        ModelData meshdefinition = new ModelData();
-        ModelPartData partdefinition = meshdefinition.getRoot();
-        partdefinition.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-2.0F, -6.0F, -2.0F, 4.0F, 6.0F, 3.0F), ModelTransform.origin(0.0F, 15.0F, -4.0F));
-        partdefinition.addChild("beak", ModelPartBuilder.create().uv(14, 0).cuboid(-2.0F, -4.0F, -4.0F, 4.0F, 2.0F, 2.0F), ModelTransform.origin(0.0F, 15.0F, -4.0F));
-        partdefinition.addChild("red_thing", ModelPartBuilder.create().uv(14, 4).cuboid(-1.0F, -2.0F, -3.0F, 2.0F, 2.0F, 2.0F), ModelTransform.origin(0.0F, 15.0F, -4.0F));
-        partdefinition.addChild("body",ModelPartBuilder.create().uv(0, 9).cuboid(-3.0F, -4.0F, -3.0F, 6.0F, 8.0F, 6.0F), ModelTransform.of(0.0F, 16.0F, 0.0F, (float) (Math.PI / 2), 0.0F, 0.0F));
-        ModelPartBuilder cubelistbuilder = ModelPartBuilder.create().uv(26, 0).cuboid(-1.0F, 0.0F, -3.0F, 3.0F, 5.0F, 3.0F);
-        partdefinition.addChild("right_leg", cubelistbuilder, ModelTransform.origin(-2.0F, 19.0F, 1.0F));
-        partdefinition.addChild("left_leg", cubelistbuilder, ModelTransform.origin(1.0F, 19.0F, 1.0F));
-        partdefinition.addChild("right_wing", ModelPartBuilder.create().uv(24, 13).cuboid(0.0F, 0.0F, -3.0F, 1.0F, 4.0F, 6.0F), ModelTransform.origin(-4.0F, 13.0F, 0.0F));
-        partdefinition.addChild("left_wing", ModelPartBuilder.create().uv(24, 13).cuboid(-1.0F, 0.0F, -3.0F, 1.0F, 4.0F, 6.0F), ModelTransform.origin(4.0F, 13.0F, 0.0F));
-        return TexturedModelData.of(meshdefinition, 64, 32);
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -6.0F, -2.0F, 4.0F, 6.0F, 3.0F), PartPose.offset(0.0F, 15.0F, -4.0F));
+        partdefinition.addOrReplaceChild("beak", CubeListBuilder.create().texOffs(14, 0).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 2.0F, 2.0F), PartPose.offset(0.0F, 15.0F, -4.0F));
+        partdefinition.addOrReplaceChild("red_thing", CubeListBuilder.create().texOffs(14, 4).addBox(-1.0F, -2.0F, -3.0F, 2.0F, 2.0F, 2.0F), PartPose.offset(0.0F, 15.0F, -4.0F));
+        partdefinition.addOrReplaceChild("body",CubeListBuilder.create().texOffs(0, 9).addBox(-3.0F, -4.0F, -3.0F, 6.0F, 8.0F, 6.0F), PartPose.offsetAndRotation(0.0F, 16.0F, 0.0F, (float) (Math.PI / 2), 0.0F, 0.0F));
+        CubeListBuilder cubelistbuilder = CubeListBuilder.create().texOffs(26, 0).addBox(-1.0F, 0.0F, -3.0F, 3.0F, 5.0F, 3.0F);
+        partdefinition.addOrReplaceChild("right_leg", cubelistbuilder, PartPose.offset(-2.0F, 19.0F, 1.0F));
+        partdefinition.addOrReplaceChild("left_leg", cubelistbuilder, PartPose.offset(1.0F, 19.0F, 1.0F));
+        partdefinition.addOrReplaceChild("right_wing", CubeListBuilder.create().texOffs(24, 13).addBox(0.0F, 0.0F, -3.0F, 1.0F, 4.0F, 6.0F), PartPose.offset(-4.0F, 13.0F, 0.0F));
+        partdefinition.addOrReplaceChild("left_wing", CubeListBuilder.create().texOffs(24, 13).addBox(-1.0F, 0.0F, -3.0F, 1.0F, 4.0F, 6.0F), PartPose.offset(4.0F, 13.0F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 64, 32);
     }
 
-    public void setAngles(StellarChickenRenderState renderState)
+    public void setupAnim(StellarChickenRenderState renderState)
     {
-        super.setAngles(renderState);
-        float f = (MathHelper.sin(renderState.flapProgress) + 1.0F) * renderState.maxWingDeviation;
-        this.head.pitch = renderState.pitch * (float) (Math.PI / 180.0);
-        this.head.yaw = renderState.relativeHeadYaw * (float) (Math.PI / 180.0);
-        this.beak.pitch = renderState.pitch * (float) (Math.PI / 180.0);
-        this.beak.yaw = renderState.relativeHeadYaw * (float) (Math.PI / 180.0);
-        this.redThing.pitch = renderState.pitch * (float) (Math.PI / 180.0);
-        this.redThing.yaw = renderState.relativeHeadYaw * (float) (Math.PI / 180.0);
-        float f1 = renderState.limbSwingAmplitude;
-        float f2 = renderState.limbSwingAnimationProgress;
-        this.rightLeg.pitch = MathHelper.cos(f2 * 0.6662F) * 1.4F * f1;
-        this.leftLeg.pitch = MathHelper.cos(f2 * 0.6662F + (float) Math.PI) * 1.4F * f1;
-        this.rightWing.roll = f;
-        this.leftWing.roll = -f;
-        this.isBaby = renderState.baby;
+        super.setupAnim(renderState);
+        float f = (Mth.sin(renderState.flap) + 1.0F) * renderState.flapSpeed;
+        this.head.xRot = renderState.xRot * (float) (Math.PI / 180.0);
+        this.head.yRot = renderState.yRot * (float) (Math.PI / 180.0);
+        this.beak.xRot = renderState.xRot * (float) (Math.PI / 180.0);
+        this.beak.yRot = renderState.yRot * (float) (Math.PI / 180.0);
+        this.redThing.xRot = renderState.xRot * (float) (Math.PI / 180.0);
+        this.redThing.yRot = renderState.yRot * (float) (Math.PI / 180.0);
+        float f1 = renderState.walkAnimationSpeed;
+        float f2 = renderState.walkAnimationPos;
+        this.rightLeg.xRot = Mth.cos(f2 * 0.6662F) * 1.4F * f1;
+        this.leftLeg.xRot = Mth.cos(f2 * 0.6662F + (float) Math.PI) * 1.4F * f1;
+        this.rightWing.zRot = f;
+        this.leftWing.zRot = -f;
+        this.isBaby = renderState.isBaby;
         this.chickenColor = renderState.color;
     }
 
@@ -78,25 +83,25 @@ public class StellarChickenModel extends EntityModel<StellarChickenRenderState>
     protected Iterable<ModelPart> uncoloredBodyParts() {return ImmutableList.of(this.rightLeg, this.leftLeg);}
 
     //Copy of net.minecraft.client.model.AgeableListModel.render(...) but editing colors (r,g,b) for some model parts
-    @Override public void render(MatrixStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
+    @Override public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int tint)
     {
         float babyYHeadOffset = 5.0F, babyZHeadOffset = 2.0F, babyBodyScale = 2.0F, bodyYOffset = 24.0F;
 
         if (this.isBaby)
         {
-            poseStack.push();
+            poseStack.pushPose();
 
             poseStack.translate(0.0F, babyYHeadOffset / 16.0F, babyZHeadOffset / 16.0F);
             this.coloredHeadParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, chickenColor);});
             this.uncoloredHeadParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);});
-            poseStack.pop();
-            poseStack.push();
+            poseStack.popPose();
+            poseStack.pushPose();
             float f1 = 1.0F / babyBodyScale;
             poseStack.scale(f1, f1, f1);
             poseStack.translate(0.0F, bodyYOffset / 16.0F, 0.0F);
             this.coloredBodyParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, chickenColor);});
             this.uncoloredBodyParts().forEach((part) -> {part.render(poseStack, vertexConsumer, packedLight, packedOverlay, tint);});
-            poseStack.pop();
+            poseStack.popPose();
         }
         else
         {

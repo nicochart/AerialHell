@@ -9,20 +9,19 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.DamageTypeTags;
-import net.minecraft.registry.tag.EntityTypeTags;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -31,11 +30,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public class LivingDamageMixin
 {
-    @Inject(method = "damage", at = @At("RETURN"), cancellable = true)
-    private void onDamage(ServerWorld serverWorld, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir)
+    @Inject(method = "hurtServer", at = @At("RETURN"), cancellable = true)
+    private void onDamage(ServerLevel serverWorld, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir)
     {
         LivingEntity damagedEntity = (LivingEntity) (Object) this;
-        Entity sourceEntity = damageSource.getAttacker();
+        Entity sourceEntity = damageSource.getEntity();
 
         float baseAmount = calculateBaseAmount(serverWorld, damagedEntity, damageSource, amount);
         float damageMultiplier = applyDamageEffectsAndCalculateDamageMultiplier(damagedEntity, damageSource, baseAmount);
@@ -44,17 +43,17 @@ public class LivingDamageMixin
 
     //target method (damage(..)) already dealt baseAmount damage
     //apply damage multiplier by applying damage diff (adding or removing health)
-    private static void applyMultipliedDamage(ServerWorld serverWorld, LivingEntity damagedEntity, DamageSource source, float baseAmount, float multiplier)
+    private static void applyMultipliedDamage(ServerLevel serverWorld, LivingEntity damagedEntity, DamageSource source, float baseAmount, float multiplier)
     {
         if (multiplier == 1) {return;}
         else if (multiplier > 1)
         {
             float additionalDamage = (multiplier - 1) * baseAmount;
             float totalDamage = multiplier * baseAmount;
-            if (totalDamage > damagedEntity.lastDamageTaken)
+            if (totalDamage > damagedEntity.lastHurt)
             {
-                damagedEntity.applyDamage(serverWorld, source, additionalDamage);
-                damagedEntity.lastDamageTaken = totalDamage;
+                damagedEntity.actuallyHurt(serverWorld, source, additionalDamage);
+                damagedEntity.lastHurt = totalDamage;
             }
         }
         else //multiplier < 1
@@ -62,18 +61,18 @@ public class LivingDamageMixin
             float healthToRestore = (1 - multiplier) * baseAmount;
             float totalDamage = multiplier * baseAmount;
             damagedEntity.setHealth(damagedEntity.getHealth() + healthToRestore);
-            damagedEntity.lastDamageTaken = totalDamage;
+            damagedEntity.lastHurt = totalDamage;
         }
     }
 
-    private static float calculateBaseAmount(ServerWorld serverWorld, LivingEntity damagedEntity, DamageSource source, float amount)
+    private static float calculateBaseAmount(ServerLevel serverWorld, LivingEntity damagedEntity, DamageSource source, float amount)
     {
         float baseAmount = amount;
-        float blockedAmount = damagedEntity.getDamageBlockedAmount(serverWorld, source, amount);
+        float blockedAmount = damagedEntity.applyItemBlocking(serverWorld, source, amount);
         baseAmount -= blockedAmount;
         if (baseAmount <= 0.0F) {return 0.0F;}
-        if (source.isIn(DamageTypeTags.IS_FREEZING) && damagedEntity.getType().isIn(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {baseAmount *= 5.0F;}
-        if (source.isIn(DamageTypeTags.DAMAGES_HELMET) && !damagedEntity.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {baseAmount *= 0.75F;}
+        if (source.is(DamageTypeTags.IS_FREEZING) && damagedEntity.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {baseAmount *= 5.0F;}
+        if (source.is(DamageTypeTags.DAMAGES_HELMET) && !damagedEntity.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {baseAmount *= 0.75F;}
 
         return baseAmount;
     }
@@ -81,11 +80,11 @@ public class LivingDamageMixin
     private static float applyDamageEffectsAndCalculateDamageMultiplier(LivingEntity target, DamageSource damageSource, float baseAmount)
     {
         float multiplier = 1;
-        Entity attackerEntity = damageSource.getAttacker();
+        Entity attackerEntity = damageSource.getEntity();
 
         multiplier *= applyEffectsDueToPotionEffects(damageSource, target);
 
-        Item targetMainHandItem = target.getMainHandStack().getItem();
+        Item targetMainHandItem = target.getMainHandItem().getItem();
         multiplier *= getDamageMultiplierFromTargetMainHandItemStack(targetMainHandItem, target);
 
         if (attackerEntity instanceof LivingEntity sourceLiving)
@@ -93,7 +92,7 @@ public class LivingDamageMixin
             Iterable<ItemStack> stuff = EntityHelper.getEquippedHumanoidArmorItemList(target);
             multiplier *= applyEffectsBasedOnTargetEquippedArmor(stuff, sourceLiving, target);
 
-            ItemStack mainHandItemStack = sourceLiving.getMainHandStack();
+            ItemStack mainHandItemStack = sourceLiving.getMainHandItem();
             multiplier *= applyEffectsBasedOnSourceHandEquippedItem(mainHandItemStack, sourceLiving, target, baseAmount);
         }
         return multiplier;
@@ -102,11 +101,11 @@ public class LivingDamageMixin
     private static float applyEffectsDueToPotionEffects(DamageSource damageSource, LivingEntity target)
     {
         float multiplier = 1.0F;
-        if ((damageSource.isOf(DamageTypes.ON_FIRE) || damageSource.isOf(DamageTypes.ON_FIRE) || damageSource.isOf(DamageTypes.LAVA)) && target.hasStatusEffect(AerialHellMobEffects.GOD)) {multiplier = 0;} //target with Gods Effect has Fire Resistance
+        if ((damageSource.is(DamageTypes.ON_FIRE) || damageSource.is(DamageTypes.ON_FIRE) || damageSource.is(DamageTypes.LAVA)) && target.hasEffect(AerialHellMobEffects.GOD)) {multiplier = 0;} //target with Gods Effect has Fire Resistance
         if (EntityHelper.isLivingEntityVulnerable(target)) {
-            int vulnerabilityMultiplier = target.getStatusEffect(AerialHellMobEffects.VULNERABILITY).getAmplifier() + 1;
+            int vulnerabilityMultiplier = target.getEffect(AerialHellMobEffects.VULNERABILITY).getAmplifier() + 1;
             multiplier = 2.0F * vulnerabilityMultiplier; //*2 *vulnerabilityMultiplier damage if target is vulnerable
-            if (damageSource.getAttacker() instanceof LilithEntity) {multiplier *= 1.5F;} //total *3 *multiplier if source is Lilith boss
+            if (damageSource.getEntity() instanceof LilithEntity) {multiplier *= 1.5F;} //total *3 *multiplier if source is Lilith boss
         }
         return multiplier;
     }
@@ -121,17 +120,17 @@ public class LivingDamageMixin
         float multiplier = 1.0F;
         for (ItemStack armorStack : armorStuff)
         {
-            if (armorStack.isIn(AerialHellTags.Items.MAGMATIC_GEL)) //target equipped of any magmatic gel armor
+            if (armorStack.is(AerialHellTags.Items.MAGMATIC_GEL)) //target equipped of any magmatic gel armor
             {
                 if (!EntityHelper.isCreativePlayer(source))
                 {
-                    source.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 120, 1, true, false));
+                    source.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 120, 1, true, false));
                 }
             }
-            if (armorStack.isIn(AerialHellTags.Items.ARSONIST)) //target equipped of any arsonist armor
+            if (armorStack.is(AerialHellTags.Items.ARSONIST)) //target equipped of any arsonist armor
             {
-                source.setOnFireFor(5);
-                if (target.getFireTicks() > 0) //damage reduction if player with arsonist armor is on fire
+                source.igniteForSeconds(5);
+                if (target.getRemainingFireTicks() > 0) //damage reduction if player with arsonist armor is on fire
                 {
                     multiplier *= 0.93F;
                 }
@@ -144,58 +143,58 @@ public class LivingDamageMixin
     {
         Item sourceEquippedItem = sourceEquippedItemStack.getItem();
         float multiplier = 1.0F;
-        if (sourceEquippedItemStack.isIn(AerialHellTags.Items.MAGMATIC_GEL)) //source attacking target with any magmatic gel tool
+        if (sourceEquippedItemStack.is(AerialHellTags.Items.MAGMATIC_GEL)) //source attacking target with any magmatic gel tool
         {
             int count = 0;
-            for (ItemStack armorStack : EntityHelper.getEquippedHumanoidArmorItemList(source)) {if (armorStack.isIn(AerialHellTags.Items.MAGMATIC_GEL)) {count++;}}
+            for (ItemStack armorStack : EntityHelper.getEquippedHumanoidArmorItemList(source)) {if (armorStack.is(AerialHellTags.Items.MAGMATIC_GEL)) {count++;}}
             int amplifier = count == 4 ? 1 : 0;
-            target.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(StatusEffects.SLOWNESS, 120, amplifier, true, false)));
+            target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.SLOWNESS, 120, amplifier, true, false)));
         }
         else if (sourceEquippedItem == AerialHellItems.ABSOLUTE_ZERO_SWORD) //source attacking target with absolute zero sword
         {
-            target.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 2, true, false)));
+            target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.SLOWNESS, 100, 2, true, false)));
         }
-        else if (sourceEquippedItemStack.isIn(AerialHellTags.Items.ARSONIST)) //source attacking target with any arsonist tool
+        else if (sourceEquippedItemStack.is(AerialHellTags.Items.ARSONIST)) //source attacking target with any arsonist tool
         {
-            target.setOnFireFor(5);
-            if (source.getFireTicks() > 0)
+            target.igniteForSeconds(5);
+            if (source.getRemainingFireTicks() > 0)
             {
                 multiplier *= 1.5F; //damage bonus when on fire
             }
         }
         else if (sourceEquippedItem == AerialHellItems.DISLOYAL_SWORD) //source attacking target with disloyal sword
         {
-            target.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 0, true, false)));
-            target.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 0, true, false)));
-            target.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 100, 0, true, false)));
+            target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.SLOWNESS, 100, 0, true, false)));
+            target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, true, false)));
+            target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MINING_FATIGUE, 100, 0, true, false)));
         }
         else if (sourceEquippedItem == AerialHellItems.GOD_SWORD) //source attacking target with god sword
         {
-            target.setOnFireFor(5);
+            target.igniteForSeconds(5);
         }
         else if (sourceEquippedItem == AerialHellItems.REAPER_SCYTHE) //source attacking target with reaper scythe
         {
             if (!EntityHelper.isLivingEntityShadowImmune(target))
             {
-                target.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(StatusEffects.BLINDNESS, 100, 0, true, false)));
-                target.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 1, true, false)));
-                target.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1, true, false)));
-                target.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(AerialHellMobEffects.VULNERABILITY, 70, 0, true, false)));
+                target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.BLINDNESS, 100, 0, true, false)));
+                target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.WEAKNESS, 100, 1, true, false)));
+                target.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.SLOWNESS, 100, 1, true, false)));
+                target.addEffect(new MobEffectInstance(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY, 70, 0, true, false)));
             }
             else
             {
-                source.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(StatusEffects.WITHER, 80, 2, true, false)));
+                source.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.WITHER, 80, 2, true, false)));
             }
-            source.addStatusEffect(new StatusEffectInstance(new StatusEffectInstance(AerialHellMobEffects.VULNERABILITY, 60, 0, true, false)));
+            source.addEffect(new MobEffectInstance(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY, 60, 0, true, false)));
         }
         else if (sourceEquippedItem == AerialHellItems.CURSED_SWORD || sourceEquippedItem == AerialHellItems.CURSED_AXE) //source attacking target with cursed tool
         {
             float damage_return_amount = (EntityHelper.isLivingEntityShadowImmune(source) || EntityHelper.isLivingEntityVulnerable(target)) ? amount / 2 : amount;
-            source.serverDamage(AerialHellDamageTypes.getDamageSource(source.getEntityWorld(), AerialHellDamageTypes.CURSED_TOOL), damage_return_amount);
+            source.hurt(AerialHellDamageTypes.getDamageSource(source.level(), AerialHellDamageTypes.CURSED_TOOL), damage_return_amount);
             if (!EntityHelper.isLivingEntityShadowImmune(target))
             {
                 int vulnerabilityAmplifier = (EntityHelper.isLightEntity(target) && !(target instanceof LunaticPriestEntity)) ? 1 : 0;
-                target.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.VULNERABILITY, 40, vulnerabilityAmplifier));
+                target.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY, 40, vulnerabilityAmplifier));
             }
         }
         else if (sourceEquippedItem == AerialHellItems.SWORD_OF_LIGHT || sourceEquippedItem == AerialHellItems.AXE_OF_LIGHT || sourceEquippedItem == AerialHellItems.LUNATIC_SWORD || sourceEquippedItem == AerialHellItems.LUNATIC_AXE || sourceEquippedItem == AerialHellItems.LUNATIC_HOE || sourceEquippedItem == AerialHellItems.LUNATIC_SHOVEL || sourceEquippedItem == AerialHellItems.LUNATIC_PICKAXE || sourceEquippedItem == AerialHellItems.STELLAR_STONE_BREAKER) //source attacking target with light tool
@@ -205,7 +204,7 @@ public class LivingDamageMixin
                 multiplier *= (sourceEquippedItem == AerialHellItems.SWORD_OF_LIGHT || sourceEquippedItem == AerialHellItems.AXE_OF_LIGHT) ? 1.8F : 1.4F;
             }
         }
-        else if (sourceEquippedItem == AerialHellItems.NETHERIAN_KING_SWORD && source.getEntityWorld().getRegistryKey() == World.NETHER)
+        else if (sourceEquippedItem == AerialHellItems.NETHERIAN_KING_SWORD && source.level().dimension() == Level.NETHER)
         {
             multiplier *= 2.0F;
         }

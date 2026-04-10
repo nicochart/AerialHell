@@ -2,9 +2,9 @@ package fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Inventory.Menu.FreezerMenu;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Inventory;
 
 public class FreezerScreen extends FurnaceLikeScreen<FreezerMenu>
 {
@@ -12,7 +12,7 @@ public class FreezerScreen extends FurnaceLikeScreen<FreezerMenu>
 	public static final Identifier LIT_PROGRESS_SPRITE =  AerialHell.id("container/freezer/freezing_progress");
 	public static final Identifier FREEZING_PROGRESS_SPRITE =  AerialHell.id("container/freezer/progress");
 
-	public FreezerScreen(FreezerMenu container, PlayerInventory inventory, Text name)
+	public FreezerScreen(FreezerMenu container, Inventory inventory, Component name)
 	{
 		super(container, inventory, name, FREEZER_GUI_TEXTURES, LIT_PROGRESS_SPRITE, FREEZING_PROGRESS_SPRITE);
 	}

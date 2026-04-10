@@ -2,14 +2,14 @@ package fr.factionbedrock.aerialhell.Mixin;
 
 import fr.factionbedrock.aerialhell.Block.DungeonCores.DungeonCoreBlock;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,16 +19,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class OnBlockPlacedMixin
 {
 	//net.minecraft.block.Block.onPlaced
-	@Inject(method = "onPlaced", at = @At("HEAD"), cancellable = true)
-	private void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack, CallbackInfo callbackInfo)
+	@Inject(method = "setPlacedBy", at = @At("HEAD"), cancellable = true)
+	private void onBlockPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack, CallbackInfo callbackInfo)
 	{
-		if (world.isClient()) {return;}
+		if (world.isClientSide()) {return;}
 
 		BlockState blockstate = world.getBlockState(pos);
-		if (blockstate.isIn(AerialHellTags.Blocks.DUNGEON_CORES))
+		if (blockstate.is(AerialHellTags.Blocks.DUNGEON_CORES))
 		{
 			((DungeonCoreBlock) blockstate.getBlock()).setAreaProtected(world, pos, true);
-			world.playSound(null, pos, SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+			world.playSound(null, pos, SoundEvents.BEACON_ACTIVATE, SoundSource.PLAYERS, 1.0F, 1.0F);
 		}
 	}
 }

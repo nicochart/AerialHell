@@ -1,58 +1,63 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.*;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCollisionHandler;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GhostBoatFenceGateBlock extends FenceGateBlock
 {
-	public GhostBoatFenceGateBlock(WoodType woodType, AbstractBlock.Settings settings)
+	public GhostBoatFenceGateBlock(WoodType woodType, BlockBehaviour.Properties settings)
 	{
-		super(woodType, settings.solidBlock((state, blockGetter, pos) -> false).suffocates((state, blockGetter, pos) -> false).blockVision((state, blockGetter, pos) -> false));
+		super(woodType, settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
 	}
 
-	@Override public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit)
+	@Override public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit)
 	{
-		return (!canEntityCollide(player) && !player.isCreative()) ? ActionResult.SUCCESS : super.onUse(state, world, pos, player, hit);
+		return (!canEntityCollide(player) && !player.isCreative()) ? InteractionResult.SUCCESS : super.useWithoutItem(state, world, pos, player, hit);
 	}
 
-	@Override public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean intersects)
+	@Override public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier handler, boolean intersects)
 	{
 		entity.fallDistance = 0.0F;
-		if (entity.getVelocity().y < 0.0)
+		if (entity.getDeltaMovement().y < 0.0)
 		{
 			if (entity instanceof LivingEntity livingEntity) {this.livingEntityInside(state, world, pos, livingEntity);}
 			else {this.nonLivingEntityInside(state, world, pos, entity);}
 		}
 	}
 
-	public void livingEntityInside(BlockState state, World world, BlockPos pos, LivingEntity entity)
+	public void livingEntityInside(BlockState state, Level world, BlockPos pos, LivingEntity entity)
 	{
 		if (!canEntityCollide(entity))
 		{
-			double y_delta_movement_factor = entity.getVelocity().y < 0.1D ? 0.8D : CollisionConditionHalfTransparentBlock.default_y_delta_movement_factor;
+			double y_delta_movement_factor = entity.getDeltaMovement().y < 0.1D ? 0.8D : CollisionConditionHalfTransparentBlock.default_y_delta_movement_factor;
 			EntityHelper.multiplyDeltaMovement(entity, CollisionConditionHalfTransparentBlock.default_living_entity_xz_delta_movement_factor, y_delta_movement_factor);
 		}
 	}
 
-	public void nonLivingEntityInside(BlockState state, World world, BlockPos pos, Entity entity)
+	public void nonLivingEntityInside(BlockState state, Level world, BlockPos pos, Entity entity)
 	{
 		EntityHelper.multiplyDeltaMovement(entity, CollisionConditionHalfTransparentBlock.default_non_living_entity_xz_delta_movement_factor, CollisionConditionHalfTransparentBlock.default_y_delta_movement_factor);
 	}
 
-	@Override public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context)
+	@Override public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context)
 	{
-		if (context instanceof EntityShapeContext entityShapeContext && entityShapeContext.getEntity() != null)
+		if (context instanceof EntityCollisionContext entityShapeContext && entityShapeContext.getEntity() != null)
 		{
 			Entity entity = entityShapeContext.getEntity();
 			if (canEntityCollide(entity)) {return super.getCollisionShape(state, world, pos, context);}
@@ -62,5 +67,5 @@ public class GhostBoatFenceGateBlock extends FenceGateBlock
 
 	protected boolean canEntityCollide(Entity entity) {return !EntityHelper.isImmuneToGhostBlockCollision(entity);}
 
-	@Override public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {return VoxelShapes.empty();}
+	@Override public VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {return Shapes.empty();}
 }

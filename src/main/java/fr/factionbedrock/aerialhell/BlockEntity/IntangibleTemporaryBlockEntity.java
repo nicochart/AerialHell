@@ -1,13 +1,13 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 public class IntangibleTemporaryBlockEntity extends BlockEntity
@@ -22,13 +22,13 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
         this.tickCount = 0;
     }
 
-    public static void tick(World world, BlockPos pos, BlockState state, IntangibleTemporaryBlockEntity blockEntity)
+    public static void tick(Level world, BlockPos pos, BlockState state, IntangibleTemporaryBlockEntity blockEntity)
     {
         if (blockEntity.tickCount < 0) {blockEntity.tickCount = 0;}
         blockEntity.tickCount++;
         if (blockEntity.tickCount >= LIFETIME)
         {
-            world.setBlockState(pos, blockEntity.beforeState == null ? Blocks.AIR.getDefaultState() : blockEntity.beforeState, 2);
+            world.setBlock(pos, blockEntity.beforeState == null ? Blocks.AIR.defaultBlockState() : blockEntity.beforeState, 2);
         }
     }
 
@@ -37,17 +37,17 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
     public void resetTickCount() {this.tickCount = 0;}
     public int getTickCount() {return tickCount;}
 
-    @Override protected void writeData(WriteView view)
+    @Override protected void saveAdditional(ValueOutput view)
     {
-        super.writeData(view);
-        view.put("beforeState", BlockState.CODEC, beforeState == null ? Blocks.AIR.getDefaultState() : beforeState);
+        super.saveAdditional(view);
+        view.store("beforeState", BlockState.CODEC, beforeState == null ? Blocks.AIR.defaultBlockState() : beforeState);
         view.putInt("tickCount", tickCount);
     }
 
-    @Override protected void readData(ReadView view)
+    @Override protected void loadAdditional(ValueInput view)
     {
-        super.readData(view);
-        this.beforeState = view.read("beforeState", BlockState.CODEC).orElse(Blocks.AIR.getDefaultState());
-        this.tickCount = view.getOptionalInt("tickCount").get();
+        super.loadAdditional(view);
+        this.beforeState = view.read("beforeState", BlockState.CODEC).orElse(Blocks.AIR.defaultBlockState());
+        this.tickCount = view.getInt("tickCount").get();
     }
 }

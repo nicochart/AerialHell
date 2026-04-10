@@ -7,20 +7,19 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import com.google.common.collect.Maps;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.FuelRegistry;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.AbstractCookingRecipe;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-
 import java.util.Map;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.FuelValues;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class OscillatorBlockEntity extends AbstractFurnaceBlockEntity
 {
@@ -28,12 +27,12 @@ public class OscillatorBlockEntity extends AbstractFurnaceBlockEntity
 
 	public OscillatorBlockEntity(BlockPos pos, BlockState state) {this(AerialHellBlockEntities.OSCILLATOR, pos, state, RecipeTypes.OSCILLATING);}
 
-	@Override protected Text getContainerName()
+	@Override protected Component getDefaultName()
 	{
-		return Text.translatable("container." + AerialHell.MODID + ".oscillator");
+		return Component.translatable("container." + AerialHell.MODID + ".oscillator");
 	}
 
-	@Override protected ScreenHandler createScreenHandler(int id, PlayerInventory inv) {return new OscillatorMenu(id, inv, this, this.propertyDelegate);}
+	@Override protected AbstractContainerMenu createMenu(int id, Inventory inv) {return new OscillatorMenu(id, inv, this, this.dataAccess);}
 
 	public static Map<Item, Integer> getOscillatingMap()
 	{
@@ -46,7 +45,7 @@ public class OscillatorBlockEntity extends AbstractFurnaceBlockEntity
 	}
 
 	@Override
-	protected int getFuelTime(FuelRegistry fuelRegistry, ItemStack fuel)
+	protected int getBurnDuration(FuelValues fuelRegistry, ItemStack fuel)
 	{
 		if (fuel.isEmpty() || !getOscillatingMap().containsKey(fuel.getItem())) {return 0;}
 		else {return getOscillatingMap().get(fuel.getItem());}

@@ -1,31 +1,31 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Snake;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
-import net.minecraft.world.World;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 public class WormEntity extends AbstractSnakeEntity
 {
-    public WormEntity(EntityType<? extends WormEntity> type, World world) {super(type, world);}
+    public WormEntity(EntityType<? extends WormEntity> type, Level world) {super(type, world);}
 
     @Override protected BodyPartDeathReaction getBodyPartDeathReaction() {return BodyPartDeathReaction.SPLIT_IF_NOT_HEAD;}
-    @Override protected UniformIntProvider getLength() {return UniformIntProvider.create(10,24);}
+    @Override protected UniformInt getLength() {return UniformInt.of(10,24);}
     @Override protected int getMinLength() {return 2;}
 
-    public static DefaultAttributeContainer.Builder registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
-        return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.MAX_HEALTH, 18.0D)
-                .add(EntityAttributes.ATTACK_DAMAGE, 3.0D)
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.23D)
-                .add(EntityAttributes.FOLLOW_RANGE, 35.0D);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 18.0D)
+                .add(Attributes.ATTACK_DAMAGE, 3.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.23D)
+                .add(Attributes.FOLLOW_RANGE, 35.0D);
     }
 
     @Nullable @Override protected SoundEvent getAmbientSound(){return this.isHead() ? AerialHellSoundEvents.ENTITY_WORM_AMBIENT : null;}

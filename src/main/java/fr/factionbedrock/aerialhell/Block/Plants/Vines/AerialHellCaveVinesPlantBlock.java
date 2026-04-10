@@ -3,24 +3,24 @@ package fr.factionbedrock.aerialhell.Block.Plants.Vines;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.AbstractPlantStemBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CaveVinesBodyBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.CaveVinesPlantBlock;
+import net.minecraft.world.level.block.GrowingPlantHeadBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 
-public class AerialHellCaveVinesPlantBlock extends CaveVinesBodyBlock
+public class AerialHellCaveVinesPlantBlock extends CaveVinesPlantBlock
 {
-    public AerialHellCaveVinesPlantBlock(AbstractBlock.Settings settings) {super(settings);}
+    public AerialHellCaveVinesPlantBlock(BlockBehaviour.Properties settings) {super(settings);}
 
-    @Override protected AbstractPlantStemBlock getStem()
+    @Override protected GrowingPlantHeadBlock getHeadBlock()
     {
         if (this == AerialHellBlocks.GLOWING_STICK_FRUIT_VINES_PLANT) {return AerialHellBlocks.GLOWING_STICK_FRUIT_VINES;}
         else /*if (this == AerialHellBlocks.BLOSSOMING_VINES_PLANT)*/{return AerialHellBlocks.BLOSSOMING_VINES;}
@@ -32,15 +32,15 @@ public class AerialHellCaveVinesPlantBlock extends CaveVinesBodyBlock
         else /*if (this == AerialHellBlocks.BLOSSOMING_VINES_PLANT)*/{return AerialHellItems.VINE_BLOSSOM;}
     }
 
-    @Override public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state, boolean includeData) {return new ItemStack(this.getBerryItem());}
+    @Override public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state, boolean includeData) {return new ItemStack(this.getBerryItem());}
 
-    @Override public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit)
+    @Override public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit)
     {
         return AerialHellCaveVinesBlock.tryPickBerries(player, state, world, pos, this.getBerryItem());
     }
 
-    @Override public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos)
+    @Override public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
     {
-        return super.canPlaceAt(state, world, pos) && !world.getBlockState(pos.offset((this.growthDirection.getOpposite()))).isIn(AerialHellTags.Blocks.SOLID_ETHER);
+        return super.canSurvive(state, world, pos) && !world.getBlockState(pos.relative((this.growthDirection.getOpposite()))).is(AerialHellTags.Blocks.SOLID_ETHER);
     }
 }

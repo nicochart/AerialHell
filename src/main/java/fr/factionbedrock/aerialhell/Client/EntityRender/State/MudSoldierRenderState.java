@@ -1,9 +1,9 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.State;
 
-import net.minecraft.client.render.entity.state.SkeletonEntityRenderState;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.state.SkeletonRenderState;
+import net.minecraft.resources.Identifier;
 
-public class MudSoldierRenderState extends SkeletonEntityRenderState
+public class MudSoldierRenderState extends SkeletonRenderState
 {
     public Identifier texture;
 }

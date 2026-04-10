@@ -9,59 +9,65 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.entity.projectile.SmallFireballEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldEvents;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.entity.projectile.hurtingprojectile.SmallFireball;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.phys.Vec3;
 
-public class TornSpiritEntity extends HostileEntity
+public class TornSpiritEntity extends Monster
 {
-	public TornSpiritEntity(EntityType<? extends HostileEntity> type, World world)
+	public TornSpiritEntity(EntityType<? extends Monster> type, Level world)
     {
         super(type, world);
     }
 	
-	@Override protected void initGoals()
+	@Override protected void registerGoals()
     {
-		this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
-		this.goalSelector.add(2, new TornSpiritEntity.FireballAttackGoal(this));
-		this.goalSelector.add(3, new MeleeAttackGoal(this, 1.25D, false));
-		this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.6D));
-        this.goalSelector.add(6, new PounceAtTargetGoal(this, 0.55F));
-        this.targetSelector.add(7, new ActiveTargetGoal<>(this, MudSoldierEntity.class, true));
-        this.targetSelector.add(8, new ActiveTargetGoal<>(this, MudSpectralSoldierEntity.class, true));
-        this.targetSelector.add(9, new ActiveTargetGoal<>(this, MudCycleMageEntity.class, true));
-        this.goalSelector.add(3, new FleeEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
+		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+		this.goalSelector.addGoal(2, new TornSpiritEntity.FireballAttackGoal(this));
+		this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.25D, false));
+		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.6D));
+        this.goalSelector.addGoal(6, new LeapAtTargetGoal(this, 0.55F));
+        this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, MudSoldierEntity.class, true));
+        this.targetSelector.addGoal(8, new NearestAttackableTargetGoal<>(this, MudSpectralSoldierEntity.class, true));
+        this.targetSelector.addGoal(9, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
+        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }
 	
-	public static DefaultAttributeContainer.Builder registerAttributes()
+	public static AttributeSupplier.Builder registerAttributes()
     {
-		return HostileEntity.createHostileAttributes()
-				.add(EntityAttributes.MAX_HEALTH, 50.0D)
-				.add(EntityAttributes.FOLLOW_RANGE, 24.0D)
-				.add(EntityAttributes.MOVEMENT_SPEED, 0.33D)
-				.add(EntityAttributes.ATTACK_DAMAGE, 17.0D);
+		return Monster.createMonsterAttributes()
+				.add(Attributes.MAX_HEALTH, 50.0D)
+				.add(Attributes.FOLLOW_RANGE, 24.0D)
+				.add(Attributes.MOVEMENT_SPEED, 0.33D)
+				.add(Attributes.ATTACK_DAMAGE, 17.0D);
     }
 	
-	@Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
+	@Override public boolean hurtServer(ServerLevel serverWorld, DamageSource source, float amount)
 	{
-		boolean flag = super.damage(serverWorld, source, amount);
+		boolean flag = super.hurtServer(serverWorld, source, amount);
 		if (flag)
 		{
-			if (source.getAttacker() instanceof LivingEntity  livingEntity && !(source.getSource() instanceof PersistentProjectileEntity))
+			if (source.getEntity() instanceof LivingEntity  livingEntity && !(source.getDirectEntity() instanceof AbstractArrow))
 			{
 				if (!(EntityHelper.isCreativePlayer(livingEntity)))
 				{
@@ -72,8 +78,8 @@ public class TornSpiritEntity extends HostileEntity
 		return flag;
 	}
 	
-	@Override public boolean isFireImmune() {return true;}
-	@Override public boolean doesRenderOnFire() {return false;}
+	@Override public boolean fireImmune() {return true;}
+	@Override public boolean displayFireAnimation() {return false;}
 	
 	@Override public void tick()
     {
@@ -82,7 +88,7 @@ public class TornSpiritEntity extends HostileEntity
         double x = getX() + (random.nextFloat() - 0.5F) * rand;
         double y = (this.getBoundingBox().minY + rand) + 0.5D;
         double z = getZ() + (random.nextFloat() - 0.5F) * rand;
-        this.getEntityWorld().addParticleClient(AerialHellParticleTypes.GOD_FLAME, x, y, z, 0.0D, -0.06D, 0.0D);
+        this.level().addParticle(AerialHellParticleTypes.GOD_FLAME, x, y, z, 0.0D, -0.06D, 0.0D);
         
         super.tick();
     }
@@ -101,15 +107,15 @@ public class TornSpiritEntity extends HostileEntity
 	    public FireballAttackGoal(TornSpiritEntity fireminionIn)
 	    {
 	    	this.tornspirit = fireminionIn;
-			this.setControls(EnumSet.of(Goal.Control.JUMP, Goal.Control.MOVE));
+			this.setFlags(EnumSet.of(Goal.Flag.JUMP, Goal.Flag.MOVE));
 	    }
 
-	    public boolean canStart()
+	    public boolean canUse()
 	    {
 	    	LivingEntity target = this.tornspirit.getTarget();
 	    	double DistanceToTarget = 0;
 	    	if (target != null)	{DistanceToTarget = this.tornspirit.distanceTo(target);}
-	        return target != null && target.isAlive() && this.tornspirit.canTarget(target) && DistanceToTarget > 10;
+	        return target != null && target.isAlive() && this.tornspirit.canAttack(target) && DistanceToTarget > 10;
 	    }
 	    
 	    public void start() {this.attackStep = 0;}
@@ -122,7 +128,7 @@ public class TornSpiritEntity extends HostileEntity
 	        LivingEntity target = this.tornspirit.getTarget();
 	        if (target != null)
 	        {
-	        	boolean canSeeTarget = this.tornspirit.getVisibilityCache().canSee(target);
+	        	boolean canSeeTarget = this.tornspirit.getSensing().hasLineOfSight(target);
 	            if (canSeeTarget)
 	            {
 	               this.firedRecentlyTimer = 0;
@@ -132,7 +138,7 @@ public class TornSpiritEntity extends HostileEntity
 	               ++this.firedRecentlyTimer;
 	            }
 
-	            double squaredDistanceToTarget = this.tornspirit.squaredDistanceTo(target);
+	            double squaredDistanceToTarget = this.tornspirit.distanceToSqr(target);
 	            if (squaredDistanceToTarget < 4.0D)
 	            {
 	               if (!canSeeTarget)
@@ -143,15 +149,15 @@ public class TornSpiritEntity extends HostileEntity
 	               if (this.attackTime <= 0)
 	               {
 	                  this.attackTime = 20;
-	                  this.tornspirit.tryAttack(getServerWorld(this.tornspirit), target);
+	                  this.tornspirit.doHurtTarget(getServerLevel(this.tornspirit), target);
 	               }
 
-	               this.tornspirit.getMoveControl().moveTo(target.getX(), target.getY(), target.getZ(), 2.0D);
+	               this.tornspirit.getMoveControl().setWantedPosition(target.getX(), target.getY(), target.getZ(), 2.0D);
 	             }
 	             else if (squaredDistanceToTarget < this.getFollowDistance() * this.getFollowDistance() && canSeeTarget)
 	             {
 	               double Xdistance = target.getX() - this.tornspirit.getX();
-	               double Ydistance = target.getBodyY(0.5D) - this.tornspirit.getBodyY(0.5D);
+	               double Ydistance = target.getY(0.5D) - this.tornspirit.getY(0.5D);
 	               double Zdistance = target.getZ() - this.tornspirit.getZ();
 	               if (this.attackTime <= 0)
 	               {
@@ -172,28 +178,28 @@ public class TornSpiritEntity extends HostileEntity
 
 	                  if (this.attackStep > 1)
 	                  {
-	                     float halfDistanceToTarget = MathHelper.sqrt(MathHelper.sqrt((float) squaredDistanceToTarget)) * 0.5F;
+	                     float halfDistanceToTarget = Mth.sqrt(Mth.sqrt((float) squaredDistanceToTarget)) * 0.5F;
 	                     if (!this.tornspirit.isSilent())
 	                     {
-	                        this.tornspirit.getEntityWorld().syncWorldEvent(null, WorldEvents.BLAZE_SHOOTS, this.tornspirit.getBlockPos(), 0);
+	                        this.tornspirit.level().levelEvent(null, LevelEvent.SOUND_BLAZE_FIREBALL, this.tornspirit.blockPosition(), 0);
 	                     }
 	                     
 	                     int n = (int)(Math.random() * 2) + 1; //nombre al�atoire entre 1 et 3
 	                    		 
 	                     for(int i = 0; i < n; ++i)
 	                     {
-							 Vec3d vec3 = new Vec3d(Xdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget);
-							 SmallFireballEntity smallfireball = new SmallFireballEntity(this.tornspirit.getEntityWorld(), this.tornspirit, vec3.normalize());
-							 smallfireball.setPos(smallfireball.getX(), this.tornspirit.getBodyY(0.5D) + 0.5D, smallfireball.getZ());
-	                        this.tornspirit.getEntityWorld().spawnEntity(smallfireball);
+							 Vec3 vec3 = new Vec3(Xdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget);
+							 SmallFireball smallfireball = new SmallFireball(this.tornspirit.level(), this.tornspirit, vec3.normalize());
+							 smallfireball.setPosRaw(smallfireball.getX(), this.tornspirit.getY(0.5D) + 0.5D, smallfireball.getZ());
+	                        this.tornspirit.level().addFreshEntity(smallfireball);
 	                     }
 	                  }
 	               }
-	               this.tornspirit.getLookControl().lookAt(target, 10.0F, 10.0F);
+	               this.tornspirit.getLookControl().setLookAt(target, 10.0F, 10.0F);
 	             }
 	             else if (this.firedRecentlyTimer < 5)
 	             {
-	               this.tornspirit.getMoveControl().moveTo(target.getX(), target.getY(), target.getZ(), 1.0D);
+	               this.tornspirit.getMoveControl().setWantedPosition(target.getX(), target.getY(), target.getZ(), 1.0D);
 	             }
 
 	            super.tick();
@@ -202,7 +208,7 @@ public class TornSpiritEntity extends HostileEntity
 
 	     private double getFollowDistance()
 	     {
-	         return this.tornspirit.getAttributeValue(EntityAttributes.FOLLOW_RANGE);
+	         return this.tornspirit.getAttributeValue(Attributes.FOLLOW_RANGE);
 	     }
 	}
 }

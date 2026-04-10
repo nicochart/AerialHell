@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Client.Util;
 
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 
 public class CalculateTintContextInfo
 {

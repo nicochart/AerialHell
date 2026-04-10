@@ -7,20 +7,19 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 
 import com.google.common.collect.Maps;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.FuelRegistry;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.AbstractCookingRecipe;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-
 import java.util.Map;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.FuelValues;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class FreezerBlockEntity extends AbstractFurnaceBlockEntity
 {
@@ -28,12 +27,12 @@ public class FreezerBlockEntity extends AbstractFurnaceBlockEntity
 
 	public FreezerBlockEntity(BlockPos pos, BlockState state) {this(AerialHellBlockEntities.FREEZER, pos, state, RecipeTypes.FREEZING);}
 
-	@Override protected Text getContainerName()
+	@Override protected Component getDefaultName()
 	{
-		return Text.translatable("container." + AerialHell.MODID + ".freezer");
+		return Component.translatable("container." + AerialHell.MODID + ".freezer");
 	}
 
-	@Override protected ScreenHandler createScreenHandler(int id, PlayerInventory inv) {return new FreezerMenu(id, inv, this, this.propertyDelegate);}
+	@Override protected AbstractContainerMenu createMenu(int id, Inventory inv) {return new FreezerMenu(id, inv, this, this.dataAccess);}
 
 	public static Map<Item, Integer> getFreezingMap()
 	{
@@ -44,7 +43,7 @@ public class FreezerBlockEntity extends AbstractFurnaceBlockEntity
 	}
 
 	@Override
-	protected int getFuelTime(FuelRegistry fuelRegistry, ItemStack fuel)
+	protected int getBurnDuration(FuelValues fuelRegistry, ItemStack fuel)
 	{
 		if (fuel.isEmpty() || !getFreezingMap().containsKey(fuel.getItem())) {return 0;}
 		else {return getFreezingMap().get(fuel.getItem());}

@@ -1,16 +1,16 @@
 package fr.factionbedrock.aerialhell.Entity.AI.GhastLike;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 
 /* Same as ShootProjectileGoal but shoots a flurry of projectile, like a blaze, instead of only one projectile */
 public abstract class ShootProjectileFlurryGoal extends ShootProjectileGoal
 {
     private int shotProjectileCount;
 
-    public ShootProjectileFlurryGoal(MobEntity mob) {super(mob);}
+    public ShootProjectileFlurryGoal(Mob mob) {super(mob);}
 
-    public ShootProjectileFlurryGoal(MobEntity mob, boolean affectMovements) {super(mob, affectMovements);}
+    public ShootProjectileFlurryGoal(Mob mob, boolean affectMovements) {super(mob, affectMovements);}
 
     @Override public void start()
     {

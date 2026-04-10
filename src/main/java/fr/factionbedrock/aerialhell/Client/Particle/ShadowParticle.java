@@ -1,31 +1,31 @@
 package fr.factionbedrock.aerialhell.Client.Particle;
 
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 
-public class ShadowParticle extends BillboardParticle
+public class ShadowParticle extends SingleQuadParticle
 {
-	private final SpriteProvider spriteProvider;
-	protected ShadowParticle(ClientWorld world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, SpriteProvider spriteProvider)
+	private final SpriteSet spriteProvider;
+	protected ShadowParticle(ClientLevel world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, SpriteSet spriteProvider)
 	{
-		super(world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, spriteProvider.getFirst());
+		super(world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, spriteProvider.first());
 		this.spriteProvider = spriteProvider;
 
-		this.red = this.blue = this.green = 1.0F;
-		this.gravityStrength = -0.2F;
-		this.scale *= 1.5F;
-		this.maxAge =(int) (32.0F + 4.0F * Math.random());
+		this.rCol = this.bCol = this.gCol = 1.0F;
+		this.gravity = -0.2F;
+		this.quadSize *= 1.5F;
+		this.lifetime =(int) (32.0F + 4.0F * Math.random());
 	}
 
-	public static class Factory implements ParticleFactory<SimpleParticleType>
+	public static class Factory implements ParticleProvider<SimpleParticleType>
 	{
-		private final SpriteProvider spriteProvider;
+		private final SpriteSet spriteProvider;
 
-		public Factory(SpriteProvider spriteProvider) {this.spriteProvider = spriteProvider;}
+		public Factory(SpriteSet spriteProvider) {this.spriteProvider = spriteProvider;}
 
-		public Particle createParticle(SimpleParticleType simpleParticleType, ClientWorld clientWorld, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, Random random)
+		public Particle createParticle(SimpleParticleType simpleParticleType, ClientLevel clientWorld, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random)
 		{
 			return new ShadowParticle(clientWorld, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteProvider);
 		}
@@ -34,8 +34,8 @@ public class ShadowParticle extends BillboardParticle
 	@Override public void tick()
 	{
 		super.tick();
-		this.updateSprite(this.spriteProvider);
+		this.setSpriteFromAge(this.spriteProvider);
 	}
 
-	@Override protected RenderType getRenderType() {return RenderType.PARTICLE_ATLAS_TRANSLUCENT;}
+	@Override protected Layer getLayer() {return Layer.TRANSLUCENT;}
 }

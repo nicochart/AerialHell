@@ -1,17 +1,17 @@
 package fr.factionbedrock.aerialhell.Client.BlockBakedModels;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.client.render.model.BlockModelPart;
-import net.minecraft.client.render.model.BlockStateModel;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockRenderView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import net.minecraft.client.renderer.block.model.BlockModelPart;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class LazyShiftingBlockBakedModel implements BlockStateModel
 {
@@ -26,10 +26,10 @@ public class LazyShiftingBlockBakedModel implements BlockStateModel
         this.shouldDisplayShiftedModel = shouldDisplayShiftedModel;
     }
 
-    @Override public List<BlockModelPart> getParts(Random random) {return getModel().getParts(random);}
-    @Override public @Nullable Object createGeometryKey(BlockRenderView blockView, BlockPos pos, BlockState state, Random random) {return this;}
-    @Override public void addParts(Random random, List<BlockModelPart> parts) {getModel().addParts(random, parts);}
-    @Override public Sprite particleSprite() {return getModel().particleSprite();}
+    @Override public List<BlockModelPart> collectParts(RandomSource random) {return getModel().collectParts(random);}
+    @Override public @Nullable Object createGeometryKey(BlockAndTintGetter blockView, BlockPos pos, BlockState state, RandomSource random) {return this;}
+    @Override public void collectParts(RandomSource random, List<BlockModelPart> parts) {getModel().collectParts(random, parts);}
+    @Override public TextureAtlasSprite particleIcon() {return getModel().particleIcon();}
 
     private BlockStateModel getModel()
     {

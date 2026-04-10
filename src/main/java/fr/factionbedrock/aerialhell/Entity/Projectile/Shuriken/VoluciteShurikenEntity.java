@@ -3,41 +3,41 @@ package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class VoluciteShurikenEntity extends AbstractShurikenEntity
 {
 	private int ticksLiving;
 	
-	public VoluciteShurikenEntity(EntityType<? extends VoluciteShurikenEntity> entityTypeIn, World world)
+	public VoluciteShurikenEntity(EntityType<? extends VoluciteShurikenEntity> entityTypeIn, Level world)
 	{
 		super(entityTypeIn, world);
 		this.ticksLiving = 0;
 	}
 
-	public VoluciteShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
+	public VoluciteShurikenEntity(Level world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy, ItemStack itemStack)
 	{
 		super(AerialHellEntities.VOLUCITE_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy, itemStack);
 	}
 
-	public VoluciteShurikenEntity(double x, double y, double z, World world, ItemStack itemStack)
+	public VoluciteShurikenEntity(double x, double y, double z, Level world, ItemStack itemStack)
 	{
 		super(AerialHellEntities.VOLUCITE_SHURIKEN, x, y, z, world, itemStack);
 	}
 
-	public VoluciteShurikenEntity(LivingEntity shooter, World world, ItemStack itemStack)
+	public VoluciteShurikenEntity(LivingEntity shooter, Level world, ItemStack itemStack)
 	{
 		super(AerialHellEntities.VOLUCITE_SHURIKEN, shooter, world, itemStack);
 	}
 
-	public VoluciteShurikenEntity(World world)
+	public VoluciteShurikenEntity(Level world)
 	{
 		super(AerialHellEntities.VOLUCITE_SHURIKEN, world);
 	}
@@ -61,7 +61,7 @@ public class VoluciteShurikenEntity extends AbstractShurikenEntity
         }
         if (this.ticksLiving > 50 && this.ticksLiving < 100)
         {
-        	this.setVelocity(this.getVelocity().x,this.getVelocity().y-0.01,this.getVelocity().z);
+        	this.setDeltaMovement(this.getDeltaMovement().x,this.getDeltaMovement().y-0.01,this.getDeltaMovement().z);
         }
         ++this.ticksLiving;
     }
@@ -71,7 +71,7 @@ public class VoluciteShurikenEntity extends AbstractShurikenEntity
 	{
 		if (entity instanceof LivingEntity)
         {
-        	((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 20, 1, true, false));
+        	((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.LEVITATION, 20, 1, true, false));
         }
 	}
 	@Override protected Item getDefaultItem() {return AerialHellItems.VOLUCITE_SHURIKEN;}

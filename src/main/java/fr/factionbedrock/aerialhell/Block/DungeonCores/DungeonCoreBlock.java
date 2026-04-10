@@ -3,16 +3,16 @@ package fr.factionbedrock.aerialhell.Block.DungeonCores;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 
 import static fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties.CORE_PROTECTED;
 
@@ -20,20 +20,20 @@ public class DungeonCoreBlock extends Block
 {	
 	int coreProtectRange; //odd number is better
 	
-	public DungeonCoreBlock(AbstractBlock.Settings settings, int coreRangeIn)
+	public DungeonCoreBlock(BlockBehaviour.Properties settings, int coreRangeIn)
 	{
 		super(settings);
 		this.coreProtectRange = coreRangeIn;
 	}
 	
-	@Override public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player)
+	@Override public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player)
 	{
 		setAreaProtected(world, pos, false);
-		return super.onBreak(world, pos, state, player);
+		return super.playerWillDestroy(world, pos, state, player);
 	}
 
 	//triggered by onBreak (false) and by OnBlockPlacedMixin (true)
-	public void setAreaProtected(World world, BlockPos originPos, boolean protect)
+	public void setAreaProtected(Level world, BlockPos originPos, boolean protect)
 	{		
 		if (isMudCore(this))
 		{
@@ -57,7 +57,7 @@ public class DungeonCoreBlock extends Block
 		}
 	}
 	
-	private void setAreaProtected(World world, BlockPos originPos, TagKey<Block> tag, boolean protect)
+	private void setAreaProtected(Level world, BlockPos originPos, TagKey<Block> tag, boolean protect)
 	{
 		for(int x = originPos.getX() - (coreProtectRange - 1)/2; x <= originPos.getX() + (coreProtectRange - 1)/2; x++)
         {
@@ -67,7 +67,7 @@ public class DungeonCoreBlock extends Block
 		        {
 					BlockPos newPos = new BlockPos(x, y, z);
 					BlockState blockstate = world.getBlockState(newPos);
-					if (blockstate.isIn(tag))
+					if (blockstate.is(tag))
 					{
 						setBlockProtected(world, newPos, protect);
 					}
@@ -76,17 +76,17 @@ public class DungeonCoreBlock extends Block
         }
 	}
 	
-	private void setBlockProtected(World world, BlockPos pos, boolean protect)
+	private void setBlockProtected(Level world, BlockPos pos, boolean protect)
 	{
 		BlockState old_blockstate = world.getBlockState(pos);
 		if (old_blockstate.getBlock() instanceof CoreProtectedPropertyBlock)
 		{
-			world.setBlockState(pos, old_blockstate.with(CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CORE_PROTECTED, protect));
 		}
 	}
 	
 	@Override
-	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rand)
 	{
 		float x = pos.getX() + 0.5F;
 		float y = pos.getY() + 0.5F;
@@ -114,7 +114,7 @@ public class DungeonCoreBlock extends Block
 			particle = ParticleTypes.ENCHANT;
 		}
 		
-		world.addParticleClient(particle, x + 1.5F * (rand.nextFloat() - 0.5F), y + 1.5F * (rand.nextFloat() - 0.5F), z + 1.5F * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F));
+		world.addParticle(particle, x + 1.5F * (rand.nextFloat() - 0.5F), y + 1.5F * (rand.nextFloat() - 0.5F), z + 1.5F * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F), 0.4 * (rand.nextFloat() - 0.5F));
 	}
 	
 	private boolean isMudCore(DungeonCoreBlock core) {return (core == AerialHellBlocks.MUD_DUNGEON_CORE);}

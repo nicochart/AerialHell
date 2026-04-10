@@ -1,11 +1,11 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.SignBlockEntity;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class AerialHellHangingSignBlockEntity extends SignBlockEntity
 {
@@ -15,7 +15,7 @@ public class AerialHellHangingSignBlockEntity extends SignBlockEntity
 	public AerialHellHangingSignBlockEntity(BlockPos pos, BlockState state) {super(AerialHellBlockEntities.HANGING_SIGN, pos, state);}
 
 	@Override public int getTextLineHeight() {return TEXT_LINE_HEIGHT;}
-	@Override public int getMaxTextWidth() {return MAX_TEXT_WIDTH;}
+	@Override public int getMaxTextLineWidth() {return MAX_TEXT_WIDTH;}
 
-	@Override public SoundEvent getInteractionFailSound() {return SoundEvents.BLOCK_HANGING_SIGN_WAXED_INTERACT_FAIL;}
+	@Override public SoundEvent getSignInteractionFailedSoundEvent() {return SoundEvents.WAXED_HANGING_SIGN_INTERACT_FAIL;}
 }

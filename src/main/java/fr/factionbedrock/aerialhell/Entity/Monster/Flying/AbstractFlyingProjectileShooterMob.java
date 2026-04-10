@@ -3,56 +3,56 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Flying;
 import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.FlyMoveHelperController;
 import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.FlyingLookAroundGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.RandomFlyGoal;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.Monster;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
-public abstract class AbstractFlyingProjectileShooterMob extends MobEntity implements Monster
+public abstract class AbstractFlyingProjectileShooterMob extends Mob implements Enemy
 {
-	public static final TrackedData<Boolean> ATTACKING = DataTracker.registerData(AbstractFlyingProjectileShooterMob.class, TrackedDataHandlerRegistry.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.defineId(AbstractFlyingProjectileShooterMob.class, EntityDataSerializers.BOOLEAN);
 
-	public AbstractFlyingProjectileShooterMob(EntityType<? extends AbstractFlyingProjectileShooterMob> type, World world) {super(type, world); this.moveControl = new FlyMoveHelperController(this);}
+	public AbstractFlyingProjectileShooterMob(EntityType<? extends AbstractFlyingProjectileShooterMob> type, Level world) {super(type, world); this.moveControl = new FlyMoveHelperController(this);}
 
-	@Override protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) {}
-	@Override public void travel(Vec3d movementInput) {this.travelFlying(movementInput, 0.02F);}
-	@Override public boolean isClimbing() {return false;}
+	@Override protected void checkFallDamage(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) {}
+	@Override public void travel(Vec3 movementInput) {this.travelFlying(movementInput, 0.02F);}
+	@Override public boolean onClimbable() {return false;}
 
-	@Override protected void initGoals()
+	@Override protected void registerGoals()
 	{
-		this.goalSelector.add(5, new RandomFlyGoal(this));
-		this.goalSelector.add(7, new FlyingLookAroundGoal(this));
-		this.goalSelector.add(7, new AbstractFlyingProjectileShooterMob.ShootProjectileGoal(this));
+		this.goalSelector.addGoal(5, new RandomFlyGoal(this));
+		this.goalSelector.addGoal(7, new FlyingLookAroundGoal(this));
+		this.goalSelector.addGoal(7, new AbstractFlyingProjectileShooterMob.ShootProjectileGoal(this));
 		//no target defined here
 	}
 
-	@Override protected void initDataTracker(DataTracker.Builder builder)
+	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
 	{
-		super.initDataTracker(builder);
-		builder.add(ATTACKING, false);
+		super.defineSynchedData(builder);
+		builder.define(ATTACKING, false);
 	}
 	
-	public boolean isAttacking() {return this.getDataTracker().get(ATTACKING);}
-	public void setAttacking(boolean isAttacking) {this.getDataTracker().set(ATTACKING, isAttacking);}
+	public boolean isAggressive() {return this.getEntityData().get(ATTACKING);}
+	public void setAggressive(boolean isAttacking) {this.getEntityData().set(ATTACKING, isAttacking);}
 
-	@Override public boolean canImmediatelyDespawn(double distanceToClosestPlayer) {return true;}
+	@Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return true;}
 
-	@Override public void tickMovement()
+	@Override public void aiStep()
 	{
-		super.tickMovement();
+		super.aiStep();
 		if (this.getY() < 0 || this.getY() > 272) {this.discard();}
 	}
 
-	public abstract ProjectileEntity createProjectile(World world, LivingEntity shooter, double accX, double accY, double accZ);
+	public abstract Projectile createProjectile(Level world, LivingEntity shooter, double accX, double accY, double accZ);
 	public abstract SoundEvent getShootSound();
 
 	public static class ShootProjectileGoal extends fr.factionbedrock.aerialhell.Entity.AI.GhastLike.ShootProjectileGoal
@@ -63,8 +63,8 @@ public abstract class AbstractFlyingProjectileShooterMob extends MobEntity imple
 		@Override public int getShootDelay() {return 10;}
 		@Override public int getShootTimeInterval() {return 50;}
 		@Override public boolean doesShootTimeDecreaseWhenTargetOutOfSight() {return true;}
-		@Override public ProjectileEntity createProjectile(World world, LivingEntity shooter, double accX, double accY, double accZ) {return ((AbstractFlyingProjectileShooterMob)getParentEntity()).createProjectile(world, shooter, accX, accY, accZ);}
-		@Override protected void setAttacking(boolean bool) {((AbstractFlyingProjectileShooterMob)getParentEntity()).setAttacking(bool);}
+		@Override public Projectile createProjectile(Level world, LivingEntity shooter, double accX, double accY, double accZ) {return ((AbstractFlyingProjectileShooterMob)getParentEntity()).createProjectile(world, shooter, accX, accY, accZ);}
+		@Override protected void setAttacking(boolean bool) {((AbstractFlyingProjectileShooterMob)getParentEntity()).setAggressive(bool);}
 		@Override public SoundEvent getShootSound() {return ((AbstractFlyingProjectileShooterMob)getParentEntity()).getShootSound();}
 	}
 }

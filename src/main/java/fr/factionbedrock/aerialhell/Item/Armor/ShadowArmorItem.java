@@ -5,60 +5,60 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
-import net.minecraft.component.type.TooltipDisplayComponent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 public class ShadowArmorItem extends Item
 {
-    public ShadowArmorItem(Item.Settings settings) {super(settings);}
+    public ShadowArmorItem(Item.Properties settings) {super(settings);}
 
-    @Override public void inventoryTick(ItemStack stack, ServerWorld world, Entity entity, @Nullable EquipmentSlot slot)
+    @Override public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, @Nullable EquipmentSlot slot)
     {
-        if (entity instanceof PlayerEntity playerEntity && slot == EquipmentSlot.CHEST)
+        if (entity instanceof Player playerEntity && slot == EquipmentSlot.CHEST)
         {
-            if (ItemHelper.getItemInTagCount(EntityHelper.getEquippedHumanoidArmorItemList(playerEntity), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !world.isClient())
+            if (ItemHelper.getItemInTagCount(EntityHelper.getEquippedHumanoidArmorItemList(playerEntity), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !world.isClientSide())
             {
-                playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 220, 0, false, false));
+                playerEntity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 220, 0, false, false));
 
-                int shadowBindAmplifier = playerEntity.hasStatusEffect(AerialHellMobEffects.SHADOW_BIND) ? 0 : 1;
-                playerEntity.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.SHADOW_BIND, 200, shadowBindAmplifier, false, false));
+                int shadowBindAmplifier = playerEntity.hasEffect(AerialHellMobEffects.SHADOW_BIND) ? 0 : 1;
+                playerEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_BIND, 200, shadowBindAmplifier, false, false));
             }
         }
     }
 
-    @Override public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type)
+    @Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type)
     {
         if (LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT)
         {
-            textConsumer.accept(this.getTextureShiftDescription().formatted(Formatting.GRAY));
+            textConsumer.accept(this.getTextureShiftDescription().withStyle(ChatFormatting.GRAY));
 
             if (LoadedConfigParams.ENABLE_SHADOW_BIND_RELOAD_TEXTURE)
             {
-                textConsumer.accept(this.getReloadTextureDescription().formatted(Formatting.GRAY));
+                textConsumer.accept(this.getReloadTextureDescription().withStyle(ChatFormatting.GRAY));
             }
             else
             {
-                textConsumer.accept(this.getDisabledReloadTextureDescription().formatted(Formatting.GRAY));
+                textConsumer.accept(this.getDisabledReloadTextureDescription().withStyle(ChatFormatting.GRAY));
             }
         }
-        super.appendTooltip(stack, context, displayComponent, textConsumer, type);
+        super.appendHoverText(stack, context, displayComponent, textConsumer, type);
     }
 
-    public MutableText getReloadTextureDescription() {return Text.translatable("item.aerialhell.shadow_armor.reload_texture_desc");}
-    public MutableText getDisabledReloadTextureDescription() {return Text.translatable("item.aerialhell.shadow_armor.disabled_reload_texture_desc");}
-    public MutableText getTextureShiftDescription() {return Text.translatable("item.aerialhell.shadow_armor.texture_shift_desc");}
+    public MutableComponent getReloadTextureDescription() {return Component.translatable("item.aerialhell.shadow_armor.reload_texture_desc");}
+    public MutableComponent getDisabledReloadTextureDescription() {return Component.translatable("item.aerialhell.shadow_armor.disabled_reload_texture_desc");}
+    public MutableComponent getTextureShiftDescription() {return Component.translatable("item.aerialhell.shadow_armor.texture_shift_desc");}
 }

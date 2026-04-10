@@ -1,86 +1,87 @@
 accessWidener v2 named
 
 #AxeItem strippable
-accessible field net/minecraft/item/AxeItem STRIPPED_BLOCKS Ljava/util/Map;
-mutable field net/minecraft/item/AxeItem STRIPPED_BLOCKS Ljava/util/Map;
+accessible field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
+mutable field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
 
 #NetherPortal
-accessible method net/minecraft/world/dimension/NetherPortal <init> (Lnet/minecraft/util/math/Direction$Axis;ILnet/minecraft/util/math/Direction;Lnet/minecraft/util/math/BlockPos;II)V # NetherPortal constructor
+accessible method net/minecraft/world/level/portal/PortalShape <init> (Lnet/minecraft/core/Direction$Axis;ILnet/minecraft/core/Direction;Lnet/minecraft/core/BlockPos;II)V
+
+accessible method net/minecraft/world/dimension/NetherPortal <init> (Lnet/minecraft/util/math/Direction$Axis;ILnet/minecraft/util/math/Direction;Lnet/minecraft/util/math/BlockPos;II)V
 
 #POI registration
-accessible method net/minecraft/world/poi/PointOfInterestTypes register (Lnet/minecraft/registry/Registry;Lnet/minecraft/registry/RegistryKey;Ljava/util/Set;II)Lnet/minecraft/world/poi/PointOfInterestType;
+accessible method net/minecraft/world/entity/ai/village/poi/PoiTypes register (Lnet/minecraft/core/Registry;Lnet/minecraft/resources/ResourceKey;Ljava/util/Set;II)Lnet/minecraft/world/entity/ai/village/poi/PoiType;
 
 #Living Entity
-accessible field net/minecraft/entity/LivingEntity lastDamageSource Lnet/minecraft/entity/damage/DamageSource;
-accessible field net/minecraft/entity/LivingEntity lastDamageTime J
-accessible field net/minecraft/entity/LivingEntity lastDamageTaken F
-#accessible method net/minecraft/entity/LivingEntity applyDamage (Lnet/minecraft/entity/damage/DamageSource;F)V
+accessible field net/minecraft/world/entity/LivingEntity lastDamageSource Lnet/minecraft/world/damagesource/DamageSource;
+accessible field net/minecraft/world/entity/LivingEntity lastDamageStamp J
+accessible field net/minecraft/world/entity/LivingEntity lastHurt F
 
 #MobEntity - Used in ShadowTrollEntity
-accessible method net/minecraft/entity/mob/MobEntity isAffectedByDaylight ()Z
+accessible method net/minecraft/world/entity/Mob isSunBurnTick ()Z
 
 #ZombieEntity
-accessible field net/minecraft/entity/mob/ZombieEntity BABY_SPEED_MODIFIER_ID Lnet/minecraft/util/Identifier;
+accessible field net/minecraft/world/entity/monster/zombie/Zombie SPEED_MODIFIER_BABY_ID Lnet/minecraft/resources/Identifier;
 
-#AbstractSkeletonEntity
-accessible method net/minecraft/entity/mob/AbstractSkeletonEntity getStepSound ()Lnet/minecraft/sound/SoundEvent;
+#AbstractSkeleton getStepSound method (has no visibility in mojang code)
+accessible method net/minecraft/world/entity/monster/skeleton/AbstractSkeleton getStepSound ()Lnet/minecraft/sounds/SoundEvent;
 
 #PhantomEntity
-accessible field net/minecraft/entity/mob/PhantomEntity SIZE Lnet/minecraft/entity/data/TrackedData;
+accessible field net/minecraft/world/entity/monster/Phantom ID_SIZE Lnet/minecraft/network/syncher/EntityDataAccessor;
 
 #CraftingScreenHandler
-accessible field net/minecraft/screen/CraftingScreenHandler context Lnet/minecraft/screen/ScreenHandlerContext;
+accessible field net/minecraft/world/inventory/CraftingMenu access Lnet/minecraft/world/inventory/ContainerLevelAccess;
 
 #ChestBlockEntityRenderer
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestLeft Lnet/minecraft/client/render/block/entity/model/ChestBlockModel;
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer doubleChestRight Lnet/minecraft/client/render/block/entity/model/ChestBlockModel;
-accessible field net/minecraft/client/render/block/entity/ChestBlockEntityRenderer singleChest Lnet/minecraft/client/render/block/entity/model/ChestBlockModel;
+accessible field net/minecraft/client/renderer/blockentity/ChestRenderer doubleLeftModel Lnet/minecraft/client/model/object/chest/ChestModel;
+accessible field net/minecraft/client/renderer/blockentity/ChestRenderer doubleRightModel Lnet/minecraft/client/model/object/chest/ChestModel;
+accessible field net/minecraft/client/renderer/blockentity/ChestRenderer singleModel Lnet/minecraft/client/model/object/chest/ChestModel;
 
 #ShiftableLeavesBlock
 accessible field net/minecraft/block/LeavesBlock leafParticleChance F
 
 #Used in AbstractBossEntity startRiding
-accessible method net/minecraft/entity/vehicle/AbstractBoatEntity asItem ()Lnet/minecraft/item/Item;
+accessible method net/minecraft/world/entity/vehicle/boat/AbstractBoat getDropItem ()Lnet/minecraft/world/item/Item;
 
 #WoodType
-accessible method net/minecraft/block/WoodType register (Lnet/minecraft/block/WoodType;)Lnet/minecraft/block/WoodType;
+accessible method net/minecraft/world/level/block/state/properties/WoodType register (Lnet/minecraft/world/level/block/state/properties/WoodType;)Lnet/minecraft/world/level/block/state/properties/WoodType;
 
 #used in RenderBlockOverlayMixin
-accessible field net/minecraft/client/gui/hud/InGameOverlayRenderer client Lnet/minecraft/client/MinecraftClient;
-accessible field net/minecraft/client/gui/hud/InGameOverlayRenderer vertexConsumers Lnet/minecraft/client/render/VertexConsumerProvider;
+accessible field net/minecraft/client/renderer/ScreenEffectRenderer minecraft Lnet/minecraft/client/Minecraft;
+accessible field net/minecraft/client/renderer/ScreenEffectRenderer bufferSource Lnet/minecraft/client/renderer/MultiBufferSource;
 
 #WorldRenderer
 accessible field net/minecraft/client/render/WorldRenderer worldRenderState Lnet/minecraft/client/render/state/WorldRenderState;
-#accessible field net/minecraft/client/render/WorldRenderer lightSkyBuffer Lnet/minecraft/client/gl/VertexBuffer;
 accessible field net/minecraft/client/render/GameRenderer fogRenderer Lnet/minecraft/client/render/fog/FogRenderer;
 
-#ServerWorld
-accessible field net/minecraft/server/world/ServerWorld worldProperties Lnet/minecraft/world/level/ServerWorldProperties; #used in SleepFinishMixin
-
-accessible field net/minecraft/client/gui/hud/InGameHud client Lnet/minecraft/client/MinecraftClient;
+#ServerLevel
+accessible field net/minecraft/server/level/ServerLevel serverLevelData Lnet/minecraft/world/level/storage/ServerLevelData;
 
 #Used in most of entities model, for custom opacity or color render / baby scale / ..
-extendable method net/minecraft/client/model/Model render (Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;III)V
+extendable method net/minecraft/client/model/Model renderToBuffer (Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V
 
 #Used to handle projectile impact in mixins
-accessible method net/minecraft/entity/projectile/ProjectileEntity canHit (Lnet/minecraft/entity/Entity;)Z
-accessible method net/minecraft/entity/projectile/PersistentProjectileEntity getEntityCollision (Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/hit/EntityHitResult;
+accessible method net/minecraft/world/entity/projectile/Projectile canHitEntity (Lnet/minecraft/world/entity/Entity;)Z
+accessible method net/minecraft/world/entity/projectile/arrow/AbstractArrow findHitEntity (Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/EntityHitResult;
 
 # Netherite Upgrade
-accessible method net/minecraft/item/SmithingTemplateItem getNetheriteUpgradeEmptyBaseSlotTextures ()Ljava/util/List;
-accessible method net/minecraft/item/SmithingTemplateItem getNetheriteUpgradeEmptyAdditionsSlotTextures ()Ljava/util/List;
+accessible method net/minecraft/world/item/SmithingTemplateItem createNetheriteUpgradeIconList ()Ljava/util/List;
+accessible method net/minecraft/world/item/SmithingTemplateItem createNetheriteUpgradeMaterialList ()Ljava/util/List;
 
 # Chorus Like plants
-accessible field net/minecraft/block/ChorusFlowerBlock plantBlock Lnet/minecraft/block/Block;
+accessible field net/minecraft/world/level/block/ChorusFlowerBlock plant Lnet/minecraft/world/level/block/Block;
 
 #Used in Aerial Hell tools items
-accessible field net/minecraft/item/Item components Lnet/minecraft/component/ComponentMap;
-mutable field net/minecraft/item/Item components Lnet/minecraft/component/ComponentMap;
-accessible method net/minecraft/item/Item$Settings getValidatedComponents (Lnet/minecraft/text/Text;Lnet/minecraft/util/Identifier;)Lnet/minecraft/component/ComponentMap;
+accessible field net/minecraft/world/item/Item components Lnet/minecraft/core/component/DataComponentMap;
+mutable field net/minecraft/world/item/Item components Lnet/minecraft/core/component/DataComponentMap;
+accessible method net/minecraft/world/item/Item$Properties buildAndValidateComponents (Lnet/minecraft/network/chat/Component;Lnet/minecraft/resources/Identifier;)Lnet/minecraft/core/component/DataComponentMap;
 
 #Used in LivingDamageMixin
-accessible method net/minecraft/entity/LivingEntity applyDamage (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;F)V
+accessible method net/minecraft/world/entity/LivingEntity actuallyHurt (Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)V
+
+#Used in RenderHudOverlayMixin
+accessible field net/minecraft/client/gui/Gui minecraft Lnet/minecraft/client/Minecraft;
 
 #Used in RenderSkyMixin
-accessible field net/minecraft/client/render/WorldRenderer world Lnet/minecraft/client/world/ClientWorld;
-accessible field net/minecraft/client/render/WorldRenderer framebufferSet Lnet/minecraft/client/render/DefaultFramebufferSet;
+accessible field net/minecraft/client/renderer/LevelRenderer level Lnet/minecraft/client/multiplayer/ClientLevel;
+accessible field net/minecraft/client/renderer/LevelRenderer targets Lnet/minecraft/client/renderer/LevelTargetBundle;

@@ -2,16 +2,16 @@ package fr.factionbedrock.aerialhell.Entity;
 
 import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 //adds an "activating" phase between "deactivated" and "activated"
 public interface StagedActivableEntity extends ActivableEntity
@@ -31,19 +31,19 @@ public interface StagedActivableEntity extends ActivableEntity
     @Override default void activableEntityTick() //call in tick()
     {
         ActivableEntity.super.activableEntityTick();
-        if (this.needsActivatingTicksSyncClientSide() && this.getLevel().isClient()) {this.setActivatingTicks(this.isActivating() ? this.getActivatingTicks() + 1 : 0);}
+        if (this.needsActivatingTicksSyncClientSide() && this.getLevel().isClientSide()) {this.setActivatingTicks(this.isActivating() ? this.getActivatingTicks() + 1 : 0);}
         if (this.isActivating())
         {
             this.onActivatingPhaseTick(); //calling onActivatingPhaseTick() here to call it on both client and server side.
         }
     }
 
-    @Override default void activableDamage(boolean superDamaged, ServerWorld serverWorld, DamageSource source, float amount) //call in damage(level, source, amount)
+    @Override default void activableDamage(boolean superDamaged, ServerLevel serverWorld, DamageSource source, float amount) //call in damage(level, source, amount)
     {
         ActivableEntity.super.activableDamage(superDamaged, serverWorld, source, amount);
     }
 
-    @Override default void activableWriteCustomData(WriteView view) //call in writeCustomData(valueOutput)
+    @Override default void activableWriteCustomData(ValueOutput view) //call in writeCustomData(valueOutput)
     {
         ActivableEntity.super.activableWriteCustomData(view);
         view.putBoolean("is_activating", this.isActivating());
@@ -51,12 +51,12 @@ public interface StagedActivableEntity extends ActivableEntity
         if (this.alreadyActivatedOnce()) {view.putBoolean("activated_once", true);}
     }
 
-    @Override default void activableReadCustomData(ReadView view) //call in readCustomData(valueInput)
+    @Override default void activableReadCustomData(ValueInput view) //call in readCustomData(valueInput)
     {
         ActivableEntity.super.activableReadCustomData(view);
-        this.setActivating(view.getBoolean("is_activating", false));
-        this.setActivatingTicks(view.getInt("activating_ticks", 0));
-        if (view.getBoolean("activated_once", false)) {this.setAlreadyActivatedOnce();}
+        this.setActivating(view.getBooleanOr("is_activating", false));
+        this.setActivatingTicks(view.getIntOr("activating_ticks", 0));
+        if (view.getBooleanOr("activated_once", false)) {this.setAlreadyActivatedOnce();}
     }
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */
@@ -71,7 +71,7 @@ public interface StagedActivableEntity extends ActivableEntity
 
     default boolean needsActivatingTicksSyncClientSide() {return false;} //if false, this.getActivatingTicks will always return 0 client-side.
 
-    @Override default void onActiveStatusChange(ServerWorld serverWorld, boolean newActiveStatus) {} //only server side
+    @Override default void onActiveStatusChange(ServerLevel serverWorld, boolean newActiveStatus) {} //only server side
     /* -------------------------------------------------------------- */
     /* -------------------------------------------------------------- */
     /* -------------------------------------------------------------- */
@@ -79,7 +79,7 @@ public interface StagedActivableEntity extends ActivableEntity
     /* ----------------------------------------------------------- */
     /* -------- Other utility methods (for the interface) -------- */
     /* ----------------------------------------------------------- */
-    @Override default void changeActiveStatus(ServerWorld serverWorld, boolean newStatus) //this method is supposed to get called only server side - overriden to start activating phase if condition met
+    @Override default void changeActiveStatus(ServerLevel serverWorld, boolean newStatus) //this method is supposed to get called only server side - overriden to start activating phase if condition met
     {
         ActivableEntity.super.changeActiveStatus(serverWorld, newStatus);
         if (newStatus && !this.skipActivatingPhase()) //start activating phase
@@ -122,7 +122,7 @@ public interface StagedActivableEntity extends ActivableEntity
         this.setAlreadyActivatedOnce();
     }
 
-    private void immobilizeWithSlowness(int duration) {if (!this.getLevel().isClient()) {this.getSelf().addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, duration, 10, true, false));}}
+    private void immobilizeWithSlowness(int duration) {if (!this.getLevel().isClientSide()) {this.getSelf().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, duration, 10, true, false));}}
 
     default boolean alreadyActivatedOnce() {return this.getActivableInfo().activatedOnceDataAccessor != null ? this.getEntityData().get(this.getActivableInfo().activatedOnceDataAccessor) : this.getActivableInfo().activatedOnce;}
     default void setAlreadyActivatedOnce()
@@ -154,15 +154,15 @@ public interface StagedActivableEntity extends ActivableEntity
 
     class StagedActivableEntityInfo extends ActivableEntityInfo
     {
-        private final TrackedData<Boolean> activatingDataAccessor; //true if the entity is in activating phase
-        @Nullable private final TrackedData<Boolean> activatedOnceDataAccessor; //true if the Activable Entity was active once (i.e. already got though activating phase once) - use this if you want client-server sync of activatedOnce
+        private final EntityDataAccessor<Boolean> activatingDataAccessor; //true if the entity is in activating phase
+        @Nullable private final EntityDataAccessor<Boolean> activatedOnceDataAccessor; //true if the Activable Entity was active once (i.e. already got though activating phase once) - use this if you want client-server sync of activatedOnce
         private boolean activatedOnce; //true if the Activable Entity was active once (i.e. already got though activating phase once) - only server side
         private int activatingTicks; //transition from deactivated to active ticks count
         private final ActivatingPhaseParameters activatingPhaseParameters;
 
-        public StagedActivableEntityInfo(ActivableEntityInfo activableInfo, TrackedData<Boolean> activatingDataAccessor, ActivatingPhaseParameters activatingPhaseParameters) {this(activableInfo.getActiveDataAccessor(), activatingDataAccessor, null, activableInfo.activationMethod, activatingPhaseParameters);}
-        public StagedActivableEntityInfo(ActivableEntityInfo activableInfo, TrackedData<Boolean> activatingDataAccessor, @Nullable TrackedData<Boolean> activatedOnceDataAccessor, ActivatingPhaseParameters activatingPhaseParameters) {this(activableInfo.getActiveDataAccessor(), activatingDataAccessor, activatedOnceDataAccessor, activableInfo.activationMethod, activatingPhaseParameters);}
-        public StagedActivableEntityInfo(TrackedData<Boolean> activeDataAccessor, TrackedData<Boolean> activatingDataAccessor, @Nullable TrackedData<Boolean> activatedOnceDataAccessor, ActivationMethod activationMethod, ActivatingPhaseParameters activatingPhaseParameters)
+        public StagedActivableEntityInfo(ActivableEntityInfo activableInfo, EntityDataAccessor<Boolean> activatingDataAccessor, ActivatingPhaseParameters activatingPhaseParameters) {this(activableInfo.getActiveDataAccessor(), activatingDataAccessor, null, activableInfo.activationMethod, activatingPhaseParameters);}
+        public StagedActivableEntityInfo(ActivableEntityInfo activableInfo, EntityDataAccessor<Boolean> activatingDataAccessor, @Nullable EntityDataAccessor<Boolean> activatedOnceDataAccessor, ActivatingPhaseParameters activatingPhaseParameters) {this(activableInfo.getActiveDataAccessor(), activatingDataAccessor, activatedOnceDataAccessor, activableInfo.activationMethod, activatingPhaseParameters);}
+        public StagedActivableEntityInfo(EntityDataAccessor<Boolean> activeDataAccessor, EntityDataAccessor<Boolean> activatingDataAccessor, @Nullable EntityDataAccessor<Boolean> activatedOnceDataAccessor, ActivationMethod activationMethod, ActivatingPhaseParameters activatingPhaseParameters)
         {
             super(activeDataAccessor, activationMethod);
             this.activatingDataAccessor = activatingDataAccessor;

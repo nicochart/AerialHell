@@ -1,16 +1,16 @@
 package fr.factionbedrock.aerialhell.Block.ShadowSpreader;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class ShadowStoneBlock extends BasicShadowSpreaderBlock
 {
-	public ShadowStoneBlock(AbstractBlock.Settings settings) {super(settings);}
+	public ShadowStoneBlock(BlockBehaviour.Properties settings) {super(settings);}
 
-	@Override public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
+	@Override public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand)
 	{
 		ShadowSpreaderBlock.trySpreading(state, world, pos, rand, true);
 	}

@@ -3,76 +3,76 @@ package fr.factionbedrock.aerialhell.Fluid;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellFluids;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FluidBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.fluid.FlowableFluid;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.item.Item;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Property;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 
-public abstract class LiquidOfGodsFluid extends FlowableFluid
+public abstract class LiquidOfGodsFluid extends FlowingFluid
 {
     public LiquidOfGodsFluid() {}
 
     @Override public Fluid getFlowing() {return AerialHellFluids.LIQUID_OF_THE_GODS_FLOWING;}
 
-    @Override public Fluid getStill() {return AerialHellFluids.LIQUID_OF_THE_GODS_STILL;}
+    @Override public Fluid getSource() {return AerialHellFluids.LIQUID_OF_THE_GODS_STILL;}
 
-    @Override protected boolean isInfinite(ServerWorld world) {return false;}
+    @Override protected boolean canConvertToSource(ServerLevel world) {return false;}
 
-    @Override protected void beforeBreakingBlock(WorldAccess world, BlockPos pos, BlockState state)
+    @Override protected void beforeDestroyingBlock(LevelAccessor world, BlockPos pos, BlockState state)
     {
         BlockEntity blockEntity = state.hasBlockEntity() ? world.getBlockEntity(pos) : null;
-        Block.dropStacks(state, world, pos, blockEntity);
+        Block.dropResources(state, world, pos, blockEntity);
     }
 
-    @Override protected int getMaxFlowDistance(WorldView world) {return 2;}
+    @Override protected int getSlopeFindDistance(LevelReader world) {return 2;}
 
-    @Override protected int getLevelDecreasePerBlock(WorldView world) {return 3;}
+    @Override protected int getDropOff(LevelReader world) {return 3;}
 
-    @Override public Item getBucketItem() {return AerialHellItems.IRON_LIQUID_OF_GODS_BUCKET;}
+    @Override public Item getBucket() {return AerialHellItems.IRON_LIQUID_OF_GODS_BUCKET;}
 
-    @Override protected boolean canBeReplacedWith(FluidState state, BlockView world, BlockPos pos, Fluid fluid, Direction direction) {return direction == Direction.DOWN;}
+    @Override protected boolean canBeReplacedWith(FluidState state, BlockGetter world, BlockPos pos, Fluid fluid, Direction direction) {return direction == Direction.DOWN;}
 
-    @Override public int getTickRate(WorldView world) {return 40;}
+    @Override public int getTickDelay(LevelReader world) {return 40;}
 
-    @Override protected float getBlastResistance() {return 100.0F;}
+    @Override protected float getExplosionResistance() {return 100.0F;}
 
-    @Override protected BlockState toBlockState(FluidState state) {return (BlockState) AerialHellBlocks.LIQUID_OF_THE_GODS.getDefaultState().with(FluidBlock.LEVEL, getBlockStateLevel(state));}
+    @Override protected BlockState createLegacyBlock(FluidState state) {return (BlockState) AerialHellBlocks.LIQUID_OF_THE_GODS.defaultBlockState().setValue(LiquidBlock.LEVEL, getLegacyLevel(state));}
 
-    @Override public boolean matchesType(Fluid fluid) { return fluid == AerialHellFluids.LIQUID_OF_THE_GODS_FLOWING || fluid == AerialHellFluids.LIQUID_OF_THE_GODS_STILL;}
+    @Override public boolean isSame(Fluid fluid) { return fluid == AerialHellFluids.LIQUID_OF_THE_GODS_FLOWING || fluid == AerialHellFluids.LIQUID_OF_THE_GODS_STILL;}
 
     public static class Flowing extends LiquidOfGodsFluid
     {
         public Flowing() {}
 
-        protected void appendProperties(StateManager.Builder<Fluid, FluidState> builder)
+        protected void createFluidStateDefinition(StateDefinition.Builder<Fluid, FluidState> builder)
         {
-            super.appendProperties(builder);
+            super.createFluidStateDefinition(builder);
             builder.add(new Property[]{LEVEL});
         }
 
-        public int getLevel(FluidState state) {return state.get(LEVEL);}
+        public int getAmount(FluidState state) {return state.getValue(LEVEL);}
 
-        public boolean isStill(FluidState state) {return false;}
+        public boolean isSource(FluidState state) {return false;}
     }
 
     public static class Still extends LiquidOfGodsFluid
     {
         public Still() {}
 
-        public int getLevel(FluidState state) {return 8;}
+        public int getAmount(FluidState state) {return 8;}
 
-        public boolean isStill(FluidState state) {return true;}
+        public boolean isSource(FluidState state) {return true;}
     }
 }

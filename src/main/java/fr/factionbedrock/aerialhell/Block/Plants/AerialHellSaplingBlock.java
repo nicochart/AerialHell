@@ -1,22 +1,26 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
-import net.minecraft.block.*;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.grower.TreeGrower;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import org.jetbrains.annotations.Nullable;
 
 public class AerialHellSaplingBlock extends SaplingBlock
 {
-	private final RegistryKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey;
-	@Nullable private final RegistryKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey;
+	private final ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey;
+	@Nullable private final ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey;
 	private final float hugeChange;
 
-	public AerialHellSaplingBlock(SaplingGenerator treeIn, AbstractBlock.Settings settings, RegistryKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey, RegistryKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey, float hugeChance)
+	public AerialHellSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties settings, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey, ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey, float hugeChance)
 	{
 		super(treeIn, settings);
 		this.giantTreeFeatureKey = giantTreeFeatureKey;
@@ -24,14 +28,14 @@ public class AerialHellSaplingBlock extends SaplingBlock
 		this.hugeChange = hugeChance;
 	}
 
-	public AerialHellSaplingBlock(SaplingGenerator treeIn, AbstractBlock.Settings settings, RegistryKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey)
+	public AerialHellSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties settings, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey)
 	{
 		this(treeIn, settings, giantTreeFeatureKey, null, 0.0F);
 	}
 
-	@Override public void generate(ServerWorld serverWorld, BlockPos pos, BlockState state, Random rand)
+	@Override public void advanceTree(ServerLevel serverWorld, BlockPos pos, BlockState state, RandomSource rand)
 	{
-		if (state.get(STAGE) == 0) {serverWorld.setBlockState(pos, state.cycle(STAGE), 4);}
+		if (state.getValue(STAGE) == 0) {serverWorld.setBlock(pos, state.cycle(STAGE), 4);}
 		else
 		{
 			GiantTreeGenerationDirection giantGenerationDirection = getGiantTreeDirection(serverWorld, pos, state);
@@ -39,27 +43,27 @@ public class AerialHellSaplingBlock extends SaplingBlock
 			{
 				ConfiguredFeature<?, ?> configuredfeature = getGiantTreeCFeature(serverWorld, rand);
 				BlockPos generationPos = getGenerationPos(pos, giantGenerationDirection);
-				if (configuredfeature.generate(serverWorld, serverWorld.getChunkManager().getChunkGenerator(), rand, generationPos)) {removeSaplingsAroundPos(serverWorld, generationPos);}
-				else {serverWorld.setBlockState(pos, state);}
+				if (configuredfeature.place(serverWorld, serverWorld.getChunkSource().getGenerator(), rand, generationPos)) {removeSaplingsAroundPos(serverWorld, generationPos);}
+				else {serverWorld.setBlockAndUpdate(pos, state);}
 			}
-			else {super.generate(serverWorld, pos, state, rand);}
+			else {super.advanceTree(serverWorld, pos, state, rand);}
 		}
 	}
 
 	private BlockPos getGenerationPos(BlockPos saplingPos, GiantTreeGenerationDirection generationDirection)
 	{
 		BlockPos offsetVector = generationDirection.getOffsetVector();
-		return offsetVector != null ? saplingPos.add(offsetVector): saplingPos;
+		return offsetVector != null ? saplingPos.offset(offsetVector): saplingPos;
 	}
 
-	public ConfiguredFeature<?, ?> getGiantTreeCFeature(ServerWorld world, Random rand)
+	public ConfiguredFeature<?, ?> getGiantTreeCFeature(ServerLevel world, RandomSource rand)
 	{
-		RegistryKey<ConfiguredFeature<?, ?>> cfKey = (hugeTreeFeatureKey != null && rand.nextFloat() < hugeChange) ? hugeTreeFeatureKey : giantTreeFeatureKey;
-		return world.getRegistryManager().getOrThrow(RegistryKeys.CONFIGURED_FEATURE).getOptional(cfKey).orElse(null).value(); //TODO check
+		ResourceKey<ConfiguredFeature<?, ?>> cfKey = (hugeTreeFeatureKey != null && rand.nextFloat() < hugeChange) ? hugeTreeFeatureKey : giantTreeFeatureKey;
+		return world.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).get(cfKey).orElse(null).value(); //TODO check
 	}
 
 	//Returns the direction of the generation of the giant tree (NONE if there is no generation possible)
-	public GiantTreeGenerationDirection getGiantTreeDirection(ServerWorld serverWorld, BlockPos pos, BlockState state)
+	public GiantTreeGenerationDirection getGiantTreeDirection(ServerLevel serverWorld, BlockPos pos, BlockState state)
 	{
 		if (checkGiantTreeGenerationDirection(serverWorld, pos, GiantTreeGenerationDirection.MIDDLE)) {return GiantTreeGenerationDirection.MIDDLE;}
 		else if (checkGiantTreeGenerationDirection(serverWorld, pos, GiantTreeGenerationDirection.NORTH)) {return GiantTreeGenerationDirection.NORTH;}
@@ -73,31 +77,31 @@ public class AerialHellSaplingBlock extends SaplingBlock
 		else {return GiantTreeGenerationDirection.NONE;}
 	}
 
-	private boolean checkGiantTreeGenerationDirection(ServerWorld serverWorld, BlockPos pos, GiantTreeGenerationDirection direction)
+	private boolean checkGiantTreeGenerationDirection(ServerLevel serverWorld, BlockPos pos, GiantTreeGenerationDirection direction)
 	{
 		AerialHellSaplingBlock sapling = (AerialHellSaplingBlock) this.asBlock();
 		if (direction.getOffsetVector() == null) {return false;}
-		BlockPos centerPos = pos.add(direction.getOffsetVector());
+		BlockPos centerPos = pos.offset(direction.getOffsetVector());
 		for (int x=-1; x<=1; x++)
 		{
 			for (int z=-1; z<=1; z++)
 			{
-				if (serverWorld.getBlockState(centerPos.add(x, 0, z)).getBlock() != sapling) {return false;}
+				if (serverWorld.getBlockState(centerPos.offset(x, 0, z)).getBlock() != sapling) {return false;}
 			}
 		}
 		return true;
 	}
 
-	private void removeSaplingsAroundPos(ServerWorld serverWorld, BlockPos centerPos)
+	private void removeSaplingsAroundPos(ServerLevel serverWorld, BlockPos centerPos)
 	{
 		AerialHellSaplingBlock sapling = (AerialHellSaplingBlock) this.asBlock();
 		for (int x=-1; x<=1; x++)
 		{
 			for (int z=-1; z<=1; z++)
 			{
-				if (serverWorld.getBlockState(centerPos.add(x, 0, z)).getBlock() == sapling)
+				if (serverWorld.getBlockState(centerPos.offset(x, 0, z)).getBlock() == sapling)
 				{
-					serverWorld.setBlockState(centerPos.add(x, 0, z), Blocks.AIR.getDefaultState(), 2);
+					serverWorld.setBlock(centerPos.offset(x, 0, z), Blocks.AIR.defaultBlockState(), 2);
 				}
 			}
 		}

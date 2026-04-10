@@ -5,27 +5,27 @@ import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.ReactorBlock;
 import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.LootableContainerBlockEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.text.Text;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
-public class ReactorBlockEntity extends LootableContainerBlockEntity implements BiomeShifter
+public class ReactorBlockEntity extends RandomizableContainerBlockEntity implements BiomeShifter
 {
-    private DefaultedList<ItemStack> items = DefaultedList.ofSize(1, ItemStack.EMPTY);
+    private NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
     public static int MAX_PROTECTION_DISTANCE = 100;
     public static int MAX_ACTIVE_TIMER = 500000;
     private int activeTimer;
@@ -47,21 +47,21 @@ public class ReactorBlockEntity extends LootableContainerBlockEntity implements 
     @Override @Nullable public Supplier<Block> getShiftedOrBrokenVariant() {return this.shiftedOrBrokenVariant;}
     public int getActiveTimer() {return activeTimer;}
 
-    @Override protected Text getContainerName()
+    @Override protected Component getDefaultName()
     {
         String type = this.shiftType == ShiftType.UNCORRUPT ? "light" : "shadow";
-        return Text.translatable("container." + AerialHell.MODID + "." + type + "_reactor");
+        return Component.translatable("container." + AerialHell.MODID + "." + type + "_reactor");
     }
 
-    @Override protected ScreenHandler createScreenHandler(int id, PlayerInventory inv) {return new ReactorMenu(id, inv, this);}
+    @Override protected AbstractContainerMenu createMenu(int id, Inventory inv) {return new ReactorMenu(id, inv, this);}
 
-    public static void tick(World world, BlockPos pos, BlockState state, ReactorBlockEntity blockEntity)
+    public static void tick(Level world, BlockPos pos, BlockState state, ReactorBlockEntity blockEntity)
     {
         boolean isActive = blockEntity.updateActiveTimer();
-        if (state.get(ReactorBlock.ACTIVE) != isActive) {world.setBlockState(pos, state.with(ReactorBlock.ACTIVE, isActive));}
+        if (state.getValue(ReactorBlock.ACTIVE) != isActive) {world.setBlockAndUpdate(pos, state.setValue(ReactorBlock.ACTIVE, isActive));}
 
         BiomeShifter.transformRandomBlocks(world, pos, state, blockEntity);
-        ReactorBlock.tickParticleAndSoundAnimation((ServerWorld) world, state, pos, world.random, blockEntity.shiftType);
+        ReactorBlock.tickParticleAndSoundAnimation((ServerLevel) world, state, pos, world.random, blockEntity.shiftType);
     }
 
     public boolean updateActiveTimer() //returns true if isActive, else false
@@ -82,7 +82,7 @@ public class ReactorBlockEntity extends LootableContainerBlockEntity implements 
                     if (this.activeTimer + activeTimerIncrement <= MAX_ACTIVE_TIMER)
                     {
                         this.activeTimer += activeTimerIncrement;
-                        stack.decrement(1);
+                        stack.shrink(1);
                         isActive = true;
                     }
                 }
@@ -90,14 +90,14 @@ public class ReactorBlockEntity extends LootableContainerBlockEntity implements 
             else
             {
                 int activeTimerIncrement = 0;
-                if (stack.isOf(AerialHellItems.SHADOW_CRYSTAL)) {activeTimerIncrement = 400 * active_factor;}
-                else if (stack.isOf(AerialHellItems.SHADOW_SHARD)) {activeTimerIncrement = 1000 * active_factor;}
-                else if (stack.isOf(AerialHellItems.CURSED_CRYSAL)) {activeTimerIncrement = 2000 * active_factor;}
-                else if (stack.isOf(AerialHellItems.CURSED_CRYSAL_BLOCK)) {activeTimerIncrement = 18000 * active_factor;}
+                if (stack.is(AerialHellItems.SHADOW_CRYSTAL)) {activeTimerIncrement = 400 * active_factor;}
+                else if (stack.is(AerialHellItems.SHADOW_SHARD)) {activeTimerIncrement = 1000 * active_factor;}
+                else if (stack.is(AerialHellItems.CURSED_CRYSAL)) {activeTimerIncrement = 2000 * active_factor;}
+                else if (stack.is(AerialHellItems.CURSED_CRYSAL_BLOCK)) {activeTimerIncrement = 18000 * active_factor;}
                 if (activeTimerIncrement > 0 && this.activeTimer + activeTimerIncrement <= MAX_ACTIVE_TIMER)
                 {
                     this.activeTimer += activeTimerIncrement;
-                    stack.decrement(1);
+                    stack.shrink(1);
                     isActive = true;
                 }
             }
@@ -106,28 +106,28 @@ public class ReactorBlockEntity extends LootableContainerBlockEntity implements 
         return isActive;
     }
 
-    @Override protected void writeData(WriteView view)
+    @Override protected void saveAdditional(ValueOutput view)
     {
-        super.writeData(view);
-        Inventories.writeData(view, this.items);
+        super.saveAdditional(view);
+        ContainerHelper.saveAllItems(view, this.items);
         view.putInt("field_size", fieldSize);
         view.putInt("active_timer", activeTimer);
         boolean isShadow = this.shiftType == ShiftType.CORRUPT;
         view.putBoolean("is_shadow", isShadow);
     }
 
-    @Override protected void readData(ReadView view)
+    @Override protected void loadAdditional(ValueInput view)
     {
-        super.readData(view);
-        this.items = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-        Inventories.readData(view, this.items);
-        this.fieldSize = view.getOptionalInt("field_size").get();
-        this.activeTimer = view.getOptionalInt("active_timer").get();
-        boolean isShadow = view.getBoolean("is_shadow", false);
+        super.loadAdditional(view);
+        this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(view, this.items);
+        this.fieldSize = view.getInt("field_size").get();
+        this.activeTimer = view.getInt("active_timer").get();
+        boolean isShadow = view.getBooleanOr("is_shadow", false);
         this.shiftType = isShadow ? ShiftType.CORRUPT : ShiftType.UNCORRUPT;
     }
 
-    @Override public DefaultedList<ItemStack> getHeldStacks() {return this.items;}
-    @Override protected void setHeldStacks(DefaultedList<ItemStack> items) {this.items = items;}
-    @Override public int size() {return this.items.size();}
+    @Override public NonNullList<ItemStack> getItems() {return this.items;}
+    @Override protected void setItems(NonNullList<ItemStack> items) {this.items = items;}
+    @Override public int getContainerSize() {return this.items.size();}
 }

@@ -2,67 +2,67 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Shadow;
 
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.AbstractAerialHellSpiderEntity;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.SpiderEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.spider.Spider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 public class ShadowSpiderEntity extends AbstractAerialHellSpiderEntity
 {
-    public ShadowSpiderEntity(EntityType<? extends SpiderEntity> type, World world)
+    public ShadowSpiderEntity(EntityType<? extends Spider> type, Level world)
     {
         super(type, world);
     }
     
     @Override
-    public void initGoals()
+    public void registerGoals()
     {
-        this.goalSelector.add(4, new MeleeAttackGoal(this, 1.0D, true));
-        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetSelector.add(1, (new RevengeGoal(this)).setGroupRevenge(ShadowSpiderEntity.class));
-        super.initGoals();
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(ShadowSpiderEntity.class));
+        super.registerGoals();
     }
     
-    public static DefaultAttributeContainer.Builder registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
-        return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.25)
-                .add(EntityAttributes.ATTACK_DAMAGE, 7)
-                .add(EntityAttributes.ARMOR, 4)
-                .add(EntityAttributes.MAX_HEALTH, 32);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MOVEMENT_SPEED, 0.25)
+                .add(Attributes.ATTACK_DAMAGE, 7)
+                .add(Attributes.ARMOR, 4)
+                .add(Attributes.MAX_HEALTH, 32);
     }
     
     @Override
-    public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
+    public boolean doHurtTarget(ServerLevel serverWorld, Entity attackedEntity)
     {
-    	if (super.tryAttack(serverWorld, attackedEntity))
+    	if (super.doHurtTarget(serverWorld, attackedEntity))
     	{
     		if (attackedEntity instanceof LivingEntity livingEntity)
         	{
     			if (!EntityHelper.isLivingEntityShadowImmune(livingEntity))
     			{
 	    			int amplifier = 0;
-	    			if (livingEntity.getStatusEffect(StatusEffects.SLOWNESS) != null)
+	    			if (livingEntity.getEffect(MobEffects.SLOWNESS) != null)
 	    			{
-	    				amplifier = livingEntity.getStatusEffect(StatusEffects.SLOWNESS).getAmplifier();
+	    				amplifier = livingEntity.getEffect(MobEffects.SLOWNESS).getAmplifier();
 	    				if (amplifier < 2) {amplifier++;}
 	    				else
 	    				{
-	    					livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0));
+	    					livingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0));
 	    				}
 	    			}
-	    			livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 90 + amplifier * 30, amplifier));
+	    			livingEntity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 90 + amplifier * 30, amplifier));
     			}
         	}
     		return true;

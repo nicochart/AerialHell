@@ -10,30 +10,36 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.*;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MovementType;
-import net.minecraft.entity.ai.control.MoveControl;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.boss.BossBar;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.Item;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.BossEvent;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public class LunaticPriestEntity extends AbstractBossEntity implements GoalConditionEntity.PhaseAwareGoalConditionEntity
@@ -41,12 +47,12 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
 	public static final int BOTH_PHASES_GOALS = 0, PHASE_1_GOALS = 1, PHASE_2_GOALS = 2;
 	public int attackTimer;
 	
-	public LunaticPriestEntity(EntityType<? extends HostileEntity> type, World world)
+	public LunaticPriestEntity(EntityType<? extends Monster> type, Level world)
 	{
 		super(type, world);
 		this.attackTimer = 0;
-		bossInfo.setColor(BossBar.Color.YELLOW);
-		bossInfo.setStyle(BossBar.Style.NOTCHED_6);
+		bossInfo.setColor(BossEvent.BossBarColor.YELLOW);
+		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 	}
 
 	/* ----- GoalConditionEntity.PhaseAwareGoalConditionEntity : Interface method implementation ----- */
@@ -71,22 +77,22 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
 	}
 	/* ----------------------------------------------------------------------------------------------- */
 
-	@Override protected void initGoals()
+	@Override protected void registerGoals()
     {
 		/*Phase 1 only*/
-		this.goalSelector.add(5, new ConditionalGoal(this, PHASE_1_GOALS, new RandomFlyGoal(this)));
-		this.goalSelector.add(7, new ConditionalGoal(this, PHASE_1_GOALS, new FlyingLookAroundGoal(this)));
+		this.goalSelector.addGoal(5, new ConditionalGoal(this, PHASE_1_GOALS, new RandomFlyGoal(this)));
+		this.goalSelector.addGoal(7, new ConditionalGoal(this, PHASE_1_GOALS, new FlyingLookAroundGoal(this)));
 		/*Phase 2 only*/
-		this.goalSelector.add(6, new ConditionalGoal(this, PHASE_2_GOALS, new LookAroundGoal(this)));
-		this.goalSelector.add(4, new ConditionalGoal(this, PHASE_2_GOALS, new WanderAroundFarGoal(this, 1.0D)));
+		this.goalSelector.addGoal(6, new ConditionalGoal(this, PHASE_2_GOALS, new RandomLookAroundGoal(this)));
+		this.goalSelector.addGoal(4, new ConditionalGoal(this, PHASE_2_GOALS, new WaterAvoidingRandomStrollGoal(this, 1.0D)));
 		/*Both phases*/
-		this.goalSelector.add(5, new ConditionalGoal(this, BOTH_PHASES_GOALS, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F)));
-		this.goalSelector.add(2, new ConditionalGoal(this, BOTH_PHASES_GOALS, new LunaticProjectileAttackGoal(this)));
-		this.goalSelector.add(3, new ConditionalGoal(this, BOTH_PHASES_GOALS, new MeleeAttackGoal(this, 1.25D, false)));
-		this.targetSelector.add(2, new ConditionalGoal(this, BOTH_PHASES_GOALS, new ActiveTargetGoal<>(this, PlayerEntity.class, true)));
+		this.goalSelector.addGoal(5, new ConditionalGoal(this, BOTH_PHASES_GOALS, new LookAtPlayerGoal(this, Player.class, 8.0F)));
+		this.goalSelector.addGoal(2, new ConditionalGoal(this, BOTH_PHASES_GOALS, new LunaticProjectileAttackGoal(this)));
+		this.goalSelector.addGoal(3, new ConditionalGoal(this, BOTH_PHASES_GOALS, new MeleeAttackGoal(this, 1.25D, false)));
+		this.targetSelector.addGoal(2, new ConditionalGoal(this, BOTH_PHASES_GOALS, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		/*Independant of phases*/
-		this.targetSelector.add(1, new RevengeGoal(this));
-		this.goalSelector.add(4, new FleeEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
+		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+		this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }
 	
 	public float getMaxHealthForPhase2() {return this.getMaxHealth() / 2;}
@@ -96,7 +102,7 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
 		super.setActive(isActive);
 		if (!isActive)
 		{
-			this.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 120, 2, true, false));
+			this.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 2, true, false));
 		}
 		else
 		{
@@ -117,12 +123,12 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
 		if (nextPhase == BossPhase.FIRST_PHASE)
 		{
 			this.moveControl = new FlyMoveHelperController(this);
-			this.setVelocity(this.getVelocity().add(0,2,0));
+			this.setDeltaMovement(this.getDeltaMovement().add(0,2,0));
 		}
 		else if (nextPhase == BossPhase.SECOND_PHASE)
 		{
 			this.moveControl = new MoveControl(this);
-			this.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 120, 2, true, false));
+			this.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 2, true, false));
 		}
 	}
 
@@ -134,125 +140,125 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
 		else {return false;}
 	}
 	
-	@Override public boolean damage(ServerWorld serverWorld, DamageSource source, float amount)
+	@Override public boolean hurtServer(ServerLevel serverWorld, DamageSource source, float amount)
 	{
-		boolean flag = super.damage(serverWorld, source, amount);
+		boolean flag = super.hurtServer(serverWorld, source, amount);
 		if (flag)
 		{
-			if (source.getAttacker() instanceof LivingEntity)
+			if (source.getEntity() instanceof LivingEntity)
 			{
-				if (!EntityHelper.isCreativePlayer(source.getAttacker()))
+				if (!EntityHelper.isCreativePlayer(source.getEntity()))
 				{
-					this.setTarget((LivingEntity) source.getAttacker());
+					this.setTarget((LivingEntity) source.getEntity());
 				}
 			}
 		}
 		return flag;
 	}
 	
-	public static DefaultAttributeContainer.Builder registerAttributes()
+	public static AttributeSupplier.Builder registerAttributes()
     {
-		return HostileEntity.createHostileAttributes()
-				.add(EntityAttributes.MAX_HEALTH, 600.0D)
-				.add(EntityAttributes.FOLLOW_RANGE, 48.0D)
-				.add(EntityAttributes.MOVEMENT_SPEED, 0.27D)
-				.add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.05D)
-				.add(EntityAttributes.ATTACK_KNOCKBACK, 1.0D)
-				.add(EntityAttributes.ATTACK_DAMAGE, 7.0D);
+		return Monster.createMonsterAttributes()
+				.add(Attributes.MAX_HEALTH, 600.0D)
+				.add(Attributes.FOLLOW_RANGE, 48.0D)
+				.add(Attributes.MOVEMENT_SPEED, 0.27D)
+				.add(Attributes.KNOCKBACK_RESISTANCE, 0.05D)
+				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
+				.add(Attributes.ATTACK_DAMAGE, 7.0D);
     }
 	
-	@Override public boolean isFireImmune() {return true;}
-	@Override public boolean doesRenderOnFire() {return false;}
+	@Override public boolean fireImmune() {return true;}
+	@Override public boolean displayFireAnimation() {return false;}
 	
-	@Override public boolean tryAttack(ServerWorld serverWorld, Entity attackedEntity)
+	@Override public boolean doHurtTarget(ServerLevel serverWorld, Entity attackedEntity)
 	{
-		DamageSource damagesource = this.getDamageSources().mobAttack(this);
-		this.getEntityWorld().sendEntityStatus(this, (byte)4);
-		float f = (float)this.getAttributeValue(EntityAttributes.ATTACK_DAMAGE);
+		DamageSource damagesource = this.damageSources().mobAttack(this);
+		this.level().broadcastEntityEvent(this, (byte)4);
+		float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 		float f1 = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
-		boolean flag = attackedEntity.damage(serverWorld, damagesource, f1);
+		boolean flag = attackedEntity.hurtServer(serverWorld, damagesource, f1);
 		if (flag)
 		{
-			attackedEntity.setVelocity(attackedEntity.getVelocity().x, (double)0.4F, attackedEntity.getVelocity().z);
-			EnchantmentHelper.onTargetDamaged(serverWorld, attackedEntity, damagesource);
+			attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().x, (double)0.4F, attackedEntity.getDeltaMovement().z);
+			EnchantmentHelper.doPostAttackEffects(serverWorld, attackedEntity, damagesource);
 		}
 
-		this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
+		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 		return flag;
 	}
 	
 	@Override
-	public void handleStatus(byte id)
+	public void handleEntityEvent(byte id)
 	{
 		if (id == 4)
 		{
 	         this.attackTimer = 10;
-	         this.playSound(SoundEvents.ENTITY_IRON_GOLEM_ATTACK, 1.0F, 1.0F);
+	         this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 	    }
-		else {super.handleStatus(id);}
+		else {super.handleEntityEvent(id);}
 	}
 
 	@Override public Item getTrophy() {return AerialHellItems.LUNAR_PRIEST_TROPHY;}
 
-	@Override public void tickMovement()
+	@Override public void aiStep()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
-		super.tickMovement();
+		super.aiStep();
     }
 	
-	@Override public boolean handleFallDamage(double distance, float damageMultiplier, DamageSource source)
+	@Override public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source)
 	{
 		if (isInPhase1()) {return false;}
-		else {return super.handleFallDamage(distance, damageMultiplier, source);}
+		else {return super.causeFallDamage(distance, damageMultiplier, source);}
 	}
 	
-	@Override protected void fall(double y, boolean onGroundIn, BlockState state, BlockPos pos) {}
+	@Override protected void checkFallDamage(double y, boolean onGroundIn, BlockState state, BlockPos pos) {}
 	
 	/*copied from net.minecraft.entity.FlyingEntity*/
-	@Override public void travel(Vec3d travelVector)
+	@Override public void travel(Vec3 travelVector)
 	{
 		if (isInPhase1())
 		{
 			if (isActive())
 			{
-				if (this.isLogicalSideForUpdatingMovement())
+				if (this.isLocalInstanceAuthoritative())
 				{
-					if (this.isTouchingWater())
+					if (this.isInWater())
 					{
-						this.updateVelocity(0.02F, travelVector);
-						this.move(MovementType.SELF, this.getVelocity());
-						this.setVelocity(this.getVelocity().multiply(0.8F));
+						this.moveRelative(0.02F, travelVector);
+						this.move(MoverType.SELF, this.getDeltaMovement());
+						this.setDeltaMovement(this.getDeltaMovement().scale(0.8F));
 					}
 					else if (this.isInLava())
 					{
-						this.updateVelocity(0.02F, travelVector);
-						this.move(MovementType.SELF, this.getVelocity());
-						this.setVelocity(this.getVelocity().multiply(0.5));
+						this.moveRelative(0.02F, travelVector);
+						this.move(MoverType.SELF, this.getDeltaMovement());
+						this.setDeltaMovement(this.getDeltaMovement().scale(0.5));
 					}
 					else
 					{
 						float f = 0.91F;
-						if (this.isOnGround()) {f = this.getEntityWorld().getBlockState(this.getVelocityAffectingPos()).getBlock().getSlipperiness() * 0.91F;}
+						if (this.onGround()) {f = this.level().getBlockState(this.getBlockPosBelowThatAffectsMyMovement()).getBlock().getFriction() * 0.91F;}
 
 						float f1 = 0.16277137F / (f * f * f);
 						f = 0.91F;
-						if (this.isOnGround()) {f = this.getEntityWorld().getBlockState(this.getVelocityAffectingPos()).getBlock().getSlipperiness() * 0.91F;}
+						if (this.onGround()) {f = this.level().getBlockState(this.getBlockPosBelowThatAffectsMyMovement()).getBlock().getFriction() * 0.91F;}
 
-						this.updateVelocity(this.isOnGround() ? 0.1F * f1 : 0.02F, travelVector);
-						this.move(MovementType.SELF, this.getVelocity());
-						this.setVelocity(this.getVelocity().multiply((double)f));
+						this.moveRelative(this.onGround() ? 0.1F * f1 : 0.02F, travelVector);
+						this.move(MoverType.SELF, this.getDeltaMovement());
+						this.setDeltaMovement(this.getDeltaMovement().scale((double)f));
 					}
 				}
-				this.updateLimbs(false);
+				this.calculateEntityAnimation(false);
 			}
 		}
 		else {super.travel(travelVector);}
 	}
 	
-	@Override public boolean isClimbing()
+	@Override public boolean onClimbable()
 	{
 		if (isInPhase1() && isActive()) {return false;}
-		else {return super.isClimbing();}
+		else {return super.onClimbable();}
 	}
 
 	public float getShootVelocityInaccuracy() {return this.isInPhase1() ? 0.0f : 0.3f;}
@@ -267,10 +273,10 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
 
 		@Override public boolean isValidTarget(@Nullable LivingEntity target)
 		{
-			return super.isValidTarget(target) && this.getParentEntity().canSee(target);
+			return super.isValidTarget(target) && this.getParentEntity().hasLineOfSight(target);
 		}
 
-		@Override public ProjectileEntity createProjectile(World world, LivingEntity shooter, double accX, double accY, double accZ)
+		@Override public Projectile createProjectile(Level world, LivingEntity shooter, double accX, double accY, double accZ)
 		{
 			return new LunaticProjectileEntity(world, shooter, accX, accY, accZ, 0.7f + shooter.getRandom().nextFloat(), ((LunaticPriestEntity)this.getParentEntity()).getShootVelocityInaccuracy());
 		}

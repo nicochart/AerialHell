@@ -2,52 +2,52 @@ package fr.factionbedrock.aerialhell.Entity.Neutral;
 
 import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.World;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.Level;
 
 public class ForestCaterpillarEntity extends AbstractCaterpillarEntity
 {
-	public ForestCaterpillarEntity(EntityType<? extends AbstractCaterpillarEntity> type, World world)
+	public ForestCaterpillarEntity(EntityType<? extends AbstractCaterpillarEntity> type, Level world)
     {
         super(type, world);
     }
 	
-	public ForestCaterpillarEntity(World world)
+	public ForestCaterpillarEntity(Level world)
     {
         this(AerialHellEntities.FOREST_CATERPILLAR, world);
     }
 	
-	public static DefaultAttributeContainer.Builder registerAttributes()
+	public static AttributeSupplier.Builder registerAttributes()
     {
         return AbstractCaterpillarEntity.createMobAttributes()
-                .add(EntityAttributes.MAX_HEALTH, 16.0D)
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.23D)
-                .add(EntityAttributes.FOLLOW_RANGE, 10.0D)
-        		.add(EntityAttributes.ATTACK_DAMAGE, 3.0D);
+                .add(Attributes.MAX_HEALTH, 16.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.23D)
+                .add(Attributes.FOLLOW_RANGE, 10.0D)
+        		.add(Attributes.ATTACK_DAMAGE, 3.0D);
     }
 	
 	@Override
-	public boolean tryAttack(ServerWorld serverWorld, Entity entityIn)
+	public boolean doHurtTarget(ServerLevel serverWorld, Entity entityIn)
 	{
-		if (super.tryAttack(serverWorld, entityIn))
+		if (super.doHurtTarget(serverWorld, entityIn))
 		{
 	         if (entityIn instanceof LivingEntity)
 	         {
 	            int i = 0;
-	            if (this.getEntityWorld().getDifficulty() == Difficulty.NORMAL) {i = 4;}
-	            else if (this.getEntityWorld().getDifficulty() == Difficulty.HARD) {i = 9;}
+	            if (this.level().getDifficulty() == Difficulty.NORMAL) {i = 4;}
+	            else if (this.level().getDifficulty() == Difficulty.HARD) {i = 9;}
 
 	            if (i > 0)
 	            {
-	               ((LivingEntity)entityIn).addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, i * 20, 2)); //poison III
+	               ((LivingEntity)entityIn).addEffect(new MobEffectInstance(MobEffects.POISON, i * 20, 2)); //poison III
 	            }
 	         }
 	         return true;

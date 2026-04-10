@@ -1,26 +1,26 @@
 package fr.factionbedrock.aerialhell.Entity;
 
 import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.world.World;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
-public abstract class AbstractActivableEntity extends HostileEntity implements ActivableEntity, GoalConditionEntity.GoalSimpleConditionEntity
+public abstract class AbstractActivableEntity extends Monster implements ActivableEntity, GoalConditionEntity.GoalSimpleConditionEntity
 {
 	/* -- ActivableEntity fields -- */
-	public static final TrackedData<Boolean> ACTIVE = DataTracker.registerData(AbstractActivableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> ACTIVE = SynchedEntityData.defineId(AbstractActivableEntity.class, EntityDataSerializers.BOOLEAN);
 	public final ActivableEntityInfo.ActivationMethod AERIAL_HELL_ACTIVABLE_ACTIVATION_METHOD = ActivableEntity.DEFAULT_ACTIVATION_METHOD.copy().activationThreshold(this.getTicksToActivate()).targetSearchDistance(this.getMinDistanceToActivate(), this.getMinDistanceToDeactivate());
 	public final ActivableEntityInfo ACTIVABLE_INFO = new ActivableEntityInfo(ACTIVE, AERIAL_HELL_ACTIVABLE_ACTIVATION_METHOD);
 	/* ---------------------------- */
-	public AbstractActivableEntity(EntityType<? extends HostileEntity> type, World world) {super(type, world);}
+	public AbstractActivableEntity(EntityType<? extends Monster> type, Level world) {super(type, world);}
 
 	/* ------------------------------------------------------------------------ */
 	/* ---------- ActivableEntity : Interface methods implementation ---------- */
@@ -33,7 +33,7 @@ public abstract class AbstractActivableEntity extends HostileEntity implements A
 	/* -------------------------------------------------------------------- */
 	/* ------ GoalConditionEntity : Interface methods implementation ------ */
 	/* -------------------------------------------------------------------- */
-	@Override public PathAwareEntity getSelf() {return this;}
+	@Override public PathfinderMob getSelf() {return this;}
 
 	@Override public boolean canUseGoalsAdditionalCondition() {return this.isActive();}
 	/* -------------------------------------------------------------------- */
@@ -41,21 +41,21 @@ public abstract class AbstractActivableEntity extends HostileEntity implements A
 	/* -------------------------------------------------------------------- */
 
 	@Override
-	protected void initDataTracker(DataTracker.Builder builder)
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
 	{
-		super.initDataTracker(builder);
+		super.defineSynchedData(builder);
 
 		/* -- ActivableEntity synched data -- */
-		builder.add(ACTIVE, false);
+		builder.define(ACTIVE, false);
 		/* ---------------------------------- */
 	}
 
 	/* ---------------------------------------------------------------------------------------------- */
 	/* ---------- ActivableEntity : Superclass methods Overridden to delegate to interface ---------- */
 	/* ---------------------------------------------------------------------------------------------- */
-	@Override public boolean damage(ServerWorld world, DamageSource source, float amount)
+	@Override public boolean hurtServer(ServerLevel world, DamageSource source, float amount)
 	{
-		boolean flag = super.damage(world, source, amount);
+		boolean flag = super.hurtServer(world, source, amount);
 		this.activableDamage(flag, world, source, amount);
 		return flag;
 	}
@@ -66,15 +66,15 @@ public abstract class AbstractActivableEntity extends HostileEntity implements A
 		this.activableEntityTick();
 	}
 
-	@Override protected void writeCustomData(WriteView view)
+	@Override protected void addAdditionalSaveData(ValueOutput view)
 	{
-		super.writeCustomData(view);
+		super.addAdditionalSaveData(view);
 		this.activableWriteCustomData(view);
 	}
 
-	@Override protected void readCustomData(ReadView view)
+	@Override protected void readAdditionalSaveData(ValueInput view)
 	{
-		super.readCustomData(view);
+		super.readAdditionalSaveData(view);
 		this.activableReadCustomData(view);
 	}
 	/* ---------------------------------------------------------------------------------------------- */
