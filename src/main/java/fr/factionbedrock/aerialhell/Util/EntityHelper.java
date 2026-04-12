@@ -2,12 +2,9 @@ package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Block.AerialHellPortalBlock;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Entity.Monster.*;
-import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.*;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowAutomatonEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Snake.AbstractSnakeEntity;
-import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
@@ -257,18 +254,19 @@ public class EntityHelper
         player.connection.send(ClientboundChunksBiomesPacket.forChunks(chunkList));
     }
 
-    public static void handleProjectileImpactWithEntity(Projectile projectileEntity, EntityHitResult hitResult, CallbackInfo ci)
+    public static boolean canProjectileImpact(Projectile projectileEntity, Entity hitEntity)
     {
+        if (isCreativePlayer(projectileEntity.getOwner())) {return true;}
         boolean isLightProjectile = EntityHelper.isLightProjectile(projectileEntity);
 
-        Entity hitEntity = hitResult.getEntity();
-
-        if ((hitEntity instanceof ShadowTrollEntity || hitEntity instanceof ShadowAutomatonEntity) && !isLightProjectile) {ci.cancel();}
+        if ((hitEntity instanceof ShadowTrollEntity || hitEntity instanceof ShadowAutomatonEntity) && !isLightProjectile) {return false;}
 
         if (EntityHelper.isGhostEntity(hitEntity) && !isLightProjectile)
         {
-            if (EntityHelper.isImmuneToGhostBlockCollision(projectileEntity.getOwner())) {ci.cancel();}
+            if (EntityHelper.isImmuneToGhostBlockCollision(projectileEntity.getOwner())) {return false;}
         }
+
+        return true;
     }
 
     //copy of net.minecraft.client.gui.hud.InGameOverlayRenderer method of same name

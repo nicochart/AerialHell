@@ -16,7 +16,7 @@
 		"ServerPlayerTickMixin",
 		"ServerPlayerInteractionManagerMixin",
 		"SleepFinishMixin",
-		"ImpactFromThrownEntityMixin",
+		"ProjectileCanHitEntityMixin",
 		"ImpactFromPersistentProjectileEntityMixin",
 		"LivingDamageMixin",
 		"BlockBreakingSpeedMixin",
