@@ -26,32 +26,32 @@ public class RockFeature extends Feature<NoneFeatureConfiguration> implements Du
 
 	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.MOSSY_STELLAR_COBBLESTONE_ROCK_LIST;}
 
-	protected BlockState randomState(RandomSource rand, BlockPos pos) {return blockStateProvider.getState(rand, pos);}
-	protected void placeBlocks(WorldGenLevel reader, BlockPos pos, BlockState state, int number, Direction direction) {for (int d=0;d<number;d++) {reader.setBlock(pos.relative(direction, d), state, 2);}}
+	protected BlockState randomState(WorldGenLevel level, RandomSource rand, BlockPos pos) {return blockStateProvider.getState(level, rand, pos);}
+	protected void placeBlocks(WorldGenLevel level, BlockPos pos, BlockState state, int number, Direction direction) {for (int d=0;d<number;d++) {level.setBlock(pos.relative(direction, d), state, 2);}}
 	protected boolean canGenerateAtPos(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos placementPos) {return hasSupportToGenerate(context.level(), placementPos) && this.isDungeonSensitiveValid(context);}
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
-		BlockPos placementPos = findPosForPlacement(reader, pos);
+		BlockPos pos = context.origin(); WorldGenLevel level = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
+		BlockPos placementPos = findPosForPlacement(level, pos);
 		if (!canGenerateAtPos(context, placementPos)) {return false;}
 		
-		placeBlocks(reader, placementPos, randomState(rand, placementPos), 3, Direction.UP); placeBlocks(reader, placementPos.relative(Direction.DOWN), randomState(rand, placementPos), 1 + rand.nextInt(2), Direction.DOWN);
+		placeBlocks(level, placementPos, randomState(level, rand, placementPos), 3, Direction.UP); placeBlocks(level, placementPos.relative(Direction.DOWN), randomState(level, rand, placementPos), 1 + rand.nextInt(2), Direction.DOWN);
 		
-		placeBlocks(reader, placementPos.relative(Direction.NORTH), randomState(rand, placementPos), 2, Direction.UP); placeBlocks(reader, placementPos.relative(Direction.NORTH).relative(Direction.DOWN), randomState(rand, placementPos), rand.nextInt(2), Direction.DOWN);
-		placeBlocks(reader, placementPos.relative(Direction.EAST), randomState(rand, placementPos), 2, Direction.UP); placeBlocks(reader, placementPos.relative(Direction.EAST).relative(Direction.DOWN), randomState(rand, placementPos), rand.nextInt(3), Direction.DOWN);
-		placeBlocks(reader, placementPos.relative(Direction.SOUTH), randomState(rand, placementPos), rand.nextInt(4) < 3 ? 2 : 1, Direction.UP); placeBlocks(reader, placementPos.relative(Direction.SOUTH).relative(Direction.DOWN), randomState(rand, placementPos), rand.nextInt(3), Direction.DOWN);
-		placeBlocks(reader, placementPos.relative(Direction.WEST), randomState(rand, placementPos), rand.nextInt(4) < 3 ? 2 : 1, Direction.UP); placeBlocks(reader, placementPos.relative(Direction.WEST).relative(Direction.DOWN), randomState(rand, placementPos), rand.nextInt(2), Direction.DOWN);
+		placeBlocks(level, placementPos.relative(Direction.NORTH), randomState(level, rand, placementPos), 2, Direction.UP); placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(2), Direction.DOWN);
+		placeBlocks(level, placementPos.relative(Direction.EAST), randomState(level, rand, placementPos), 2, Direction.UP); placeBlocks(level, placementPos.relative(Direction.EAST).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(3), Direction.DOWN);
+		placeBlocks(level, placementPos.relative(Direction.SOUTH), randomState(level, rand, placementPos), rand.nextInt(4) < 3 ? 2 : 1, Direction.UP); placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(3), Direction.DOWN);
+		placeBlocks(level, placementPos.relative(Direction.WEST), randomState(level, rand, placementPos), rand.nextInt(4) < 3 ? 2 : 1, Direction.UP); placeBlocks(level, placementPos.relative(Direction.WEST).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(2), Direction.DOWN);
 		
-		placeBlocks(reader, placementPos.relative(Direction.NORTH).relative(Direction.EAST), randomState(rand, placementPos), rand.nextInt(2), Direction.UP); placeBlocks(reader, placementPos.relative(Direction.NORTH).relative(Direction.EAST).relative(Direction.DOWN), randomState(rand, placementPos), rand.nextInt(3), Direction.DOWN);
-		placeBlocks(reader, placementPos.relative(Direction.NORTH).relative(Direction.WEST), randomState(rand, placementPos), rand.nextInt(2), Direction.UP); placeBlocks(reader, placementPos.relative(Direction.NORTH).relative(Direction.WEST).relative(Direction.DOWN), randomState(rand, placementPos), rand.nextInt(3), Direction.DOWN);
-		placeBlocks(reader, placementPos.relative(Direction.SOUTH).relative(Direction.EAST), randomState(rand, placementPos), rand.nextInt(2), Direction.UP); placeBlocks(reader, placementPos.relative(Direction.SOUTH).relative(Direction.EAST).relative(Direction.DOWN), randomState(rand, placementPos), rand.nextInt(3), Direction.DOWN);
-		placeBlocks(reader, placementPos.relative(Direction.SOUTH).relative(Direction.WEST), randomState(rand, placementPos), rand.nextInt(2), Direction.UP); placeBlocks(reader, placementPos.relative(Direction.SOUTH).relative(Direction.WEST).relative(Direction.DOWN), randomState(rand, placementPos), rand.nextInt(3), Direction.DOWN);
+		placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.EAST), randomState(level, rand, placementPos), rand.nextInt(2), Direction.UP); placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.EAST).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(3), Direction.DOWN);
+		placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.WEST), randomState(level, rand, placementPos), rand.nextInt(2), Direction.UP); placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.WEST).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(3), Direction.DOWN);
+		placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.EAST), randomState(level, rand, placementPos), rand.nextInt(2), Direction.UP); placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.EAST).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(3), Direction.DOWN);
+		placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.WEST), randomState(level, rand, placementPos), rand.nextInt(2), Direction.UP); placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.WEST).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(3), Direction.DOWN);
 		
 		return true;
 	}
 	
-	protected BlockPos findPosForPlacement(WorldGenLevel reader, BlockPos originalPos)
+	protected BlockPos findPosForPlacement(WorldGenLevel level, BlockPos originalPos)
 	{
 		int x = originalPos.getX(), y=250, z=originalPos.getZ();
 		int ymin = 50;
@@ -59,15 +59,15 @@ public class RockFeature extends Feature<NoneFeatureConfiguration> implements Du
 		mutablePos.set(new BlockPos(x, y, z));
 		while (y > ymin)
 		{
-			if (hasSupportToGenerate(reader, mutablePos)) {return mutablePos;}
+			if (hasSupportToGenerate(level, mutablePos)) {return mutablePos;}
 			else {y--; mutablePos.set(new BlockPos(x, y, z));}
 		}
 		return originalPos;
 	}
 	
-	private boolean hasSupportToGenerate(WorldGenLevel reader, BlockPos pos)
+	private boolean hasSupportToGenerate(WorldGenLevel level, BlockPos pos)
 	{
-		if (reader.isEmptyBlock(pos) && reader.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT)) {return true;}
+		if (level.isEmptyBlock(pos) && level.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT)) {return true;}
 		else {return false;}
 	}
 }

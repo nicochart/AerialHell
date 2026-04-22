@@ -29,6 +29,7 @@ import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellTreeGrowers;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.effect.MobEffects;
@@ -242,7 +243,7 @@ public class AerialHellBlocks
 	public static final DeferredBlock<RotatedPillarBlock> STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM = BLOCKS.register(Keys.STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM.identifier().getPath(), () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(GIANT_CORTINARIUS_VIOLACEUS_STEM.get()).setId(Keys.STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM)));
 	public static final DeferredBlock<Block> GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK = BLOCKS.register(Keys.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK.identifier().getPath(), () -> new Block(BlockBehaviour.Properties.of().setId(Keys.GIANT_CORTINARIUS_VIOLACEUS_CAP_BLOCK).mapColor(MapColor.TERRACOTTA_BLUE).strength(0.5F).sound(SoundType.STEM)));
 	public static final DeferredBlock<Block> GIANT_CORTINARIUS_VIOLACEUS_LIGHT = BLOCKS.register(Keys.GIANT_CORTINARIUS_VIOLACEUS_LIGHT.identifier().getPath(), () -> new Block(BlockBehaviour.Properties.of().setId(Keys.GIANT_CORTINARIUS_VIOLACEUS_LIGHT).mapColor(MapColor.COLOR_PURPLE).strength(1.0F).sound(SoundType.SHROOMLIGHT).lightLevel((state) -> {return 15;})));
-	public static final DeferredBlock<FungusBlock> CORTINARIUS_VIOLACEUS = BLOCKS.register(Keys.CORTINARIUS_VIOLACEUS.identifier().getPath(), () -> new AerialHellFungusBlock(AerialHellConfiguredFeatures.GIANT_CORTINARIUS_VIOLACEUS_PLANTED, STELLAR_GRASS_BLOCK.get(), BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FUNGUS).setId(Keys.CORTINARIUS_VIOLACEUS)));
+	public static final DeferredBlock<NetherFungusBlock> CORTINARIUS_VIOLACEUS = BLOCKS.register(Keys.CORTINARIUS_VIOLACEUS.identifier().getPath(), () -> new AerialHellFungusBlock(AerialHellConfiguredFeatures.GIANT_CORTINARIUS_VIOLACEUS_PLANTED, STELLAR_GRASS_BLOCK.get(), BlockTags.SUPPORTS_WARPED_FUNGUS, BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FUNGUS).setId(Keys.CORTINARIUS_VIOLACEUS)));
 	public static final DeferredBlock<Block> GLOWING_BOLETUS = BLOCKS.register(Keys.GLOWING_BOLETUS.identifier().getPath(), () -> new AerialHellTallShroomBlock(BlockBehaviour.Properties.of().setId(Keys.GLOWING_BOLETUS).mapColor(MapColor.PLANT).noCollision().lightLevel((state) -> {return 9;}).instabreak().sound(SoundType.GLOW_LICHEN), true));
 	public static final DeferredBlock<Block> TALL_GLOWING_BOLETUS = BLOCKS.register(Keys.TALL_GLOWING_BOLETUS.identifier().getPath(), () -> new DoubleShroomBlock(BlockBehaviour.Properties.of().setId(Keys.TALL_GLOWING_BOLETUS).mapColor(MapColor.PLANT).noCollision().lightLevel((state) -> {return 11;}).instabreak().sound(SoundType.GLOW_LICHEN)));
 	public static final DeferredBlock<Block> BLUE_MEANIE_CLUSTER = BLOCKS.register(Keys.BLUE_MEANIE_CLUSTER.identifier().getPath(), () -> new TallShroomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ROSE_BUSH).setId(Keys.BLUE_MEANIE_CLUSTER)));

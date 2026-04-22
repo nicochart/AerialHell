@@ -4,6 +4,8 @@ import java.util.function.Consumer;
 
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponentInitializers;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.*;
 import net.minecraft.network.chat.Component;
@@ -23,7 +25,8 @@ public class AerialHellSwordItem extends Item
 		//copy of super(..) actions to edit this.components to add custom attributes
 		//material.applyToolProperties(....)
 		Item.Properties toolProperties = ItemHelper.applySwordProperties(properties, toolMaterial, attackDamage, attackSpeed, movementSpeed, maxHealth);
-		this.components = toolProperties.buildAndValidateComponents(Component.translatable(this.descriptionId), properties.effectiveModel());
+		DataComponentInitializers.Initializer<Item> componentInitializer = properties.finalizeInitializer(Component.translatable(this.descriptionId), toolProperties.effectiveModel());
+		BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.add(properties.itemIdOrThrow(), componentInitializer);
 	}
 
 	@Override public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)

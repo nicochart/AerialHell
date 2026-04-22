@@ -64,9 +64,9 @@ public class IntangibleTemporaryBlock extends CollisionConditionHalfTransparentB
 
     private static Supplier<ItemEntity> createItemEntitySupplier(Level level, BlockPos pos, ItemStack stack)
     {
-        double dx = Mth.nextDouble(level.random, -0.1, 0.1);
-        double dy = Mth.nextDouble(level.random, 0.0, 0.1);
-        double dz = Mth.nextDouble(level.random, -0.1, 0.1);
+        double dx = Mth.nextDouble(level.getRandom(), -0.1, 0.1);
+        double dy = Mth.nextDouble(level.getRandom(), 0.0, 0.1);
+        double dz = Mth.nextDouble(level.getRandom(), -0.1, 0.1);
         return () -> new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), stack, dx, dy, dz);
     }
 

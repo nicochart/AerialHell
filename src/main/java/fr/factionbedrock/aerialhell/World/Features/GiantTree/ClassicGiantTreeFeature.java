@@ -103,13 +103,13 @@ public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGia
         private final boolean largeTrunk;
         public GiantTrunk(FeaturePlaceContext<ClassicGiantTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
         {
-            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.random(), context.origin()).getBlock());
+            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.level(), context.random(), context.origin()).getBlock());
             this.largeTrunk = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 16;
         }
 
         @Override public BlockState getStateForPlacement(BlockPos pos)
         {
-            return ((ClassicGiantTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);
+            return ((ClassicGiantTreeConfig)context.config()).trunkProvider().getState(context.level(), context.random(), pos);
         }
 
         @Override protected boolean isLarge() {return this.largeTrunk;}
@@ -119,12 +119,12 @@ public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGia
     {
         public GiantFoliage(FeaturePlaceContext<ClassicGiantTreeConfig> context, Ellipsoid.EllipsoidParameters parameters, BlockPos centerPos, int knotsNumber)
         {
-            super(context, () -> context.config().foliageProvider().getState(context.random(), context.origin()).getBlock(), parameters, centerPos, Ellipsoid.Types.CENTER_1x1, knotsNumber, FOLIAGE_KNOTS_PARAMETERS, true);
+            super(context, () -> context.config().foliageProvider().getState(context.level(), context.random(), context.origin()).getBlock(), parameters, centerPos, Ellipsoid.Types.CENTER_1x1, knotsNumber, FOLIAGE_KNOTS_PARAMETERS, true);
         }
 
         @Override public BlockState getStateForPlacement(BlockPos ellipsoidPos)
         {
-            return ((ClassicGiantTreeConfig)context.config()).foliageProvider().getState(context.random(), centerPos.offset(ellipsoidPos)).setValue(LeavesBlock.DISTANCE, getLeavesDistance(ellipsoidPos));
+            return ((ClassicGiantTreeConfig)context.config()).foliageProvider().getState(context.level(), context.random(), centerPos.offset(ellipsoidPos)).setValue(LeavesBlock.DISTANCE, getLeavesDistance(ellipsoidPos));
         }
     }
 
@@ -134,7 +134,7 @@ public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGia
 
         public GiantBranch(FeaturePlaceContext<ClassicGiantTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
         {
-            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.random(), context.origin()).getBlock());
+            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.level(), context.random(), context.origin()).getBlock());
             this.largeTrunk = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 16;
         }
 
@@ -142,7 +142,7 @@ public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGia
 
         @Override public BlockState getStateForPlacement(BlockPos pos)
         {
-            return ((ClassicGiantTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);
+            return ((ClassicGiantTreeConfig)context.config()).trunkProvider().getState(context.level(), context.random(), pos);
         }
     }
 }

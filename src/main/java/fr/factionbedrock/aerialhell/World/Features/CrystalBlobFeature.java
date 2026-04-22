@@ -43,7 +43,7 @@ public class CrystalBlobFeature extends Feature<CrystalBlobConfig> implements Du
 
 	private void place(BlockPos pos, RandomSource rand, WorldGenLevel level, BlockStateProvider blockProvider)
 	{
-		level.setBlock(pos, blockProvider.getState(rand, pos), 2);
+		level.setBlock(pos, blockProvider.getState(level, rand, pos), 2);
 
 		for(int i = 0; i < 1700; ++i)
 		{
@@ -67,7 +67,7 @@ public class CrystalBlobFeature extends Feature<CrystalBlobConfig> implements Du
 					if (j > 1) {break;}
 				}
 
-				if (j == 1) {level.setBlock(blockpos, blockProvider.getState(rand, blockpos), 2);}
+				if (j == 1) {level.setBlock(blockpos, blockProvider.getState(level, rand, blockpos), 2);}
 			}
 		}
 	}

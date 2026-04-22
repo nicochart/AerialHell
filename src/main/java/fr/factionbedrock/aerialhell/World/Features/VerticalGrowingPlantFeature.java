@@ -64,9 +64,9 @@ public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantCon
         return true;
     }
 
-    public static void placeVerticalGrowingPlantColumn(LevelAccessor level, RandomSource rand, BlockPos.MutableBlockPos mutablePos, int height, int minAge, int maxAge, BlockStateProvider plantProvider)
+    public static void placeVerticalGrowingPlantColumn(WorldGenLevel level, RandomSource rand, BlockPos.MutableBlockPos mutablePos, int height, int minAge, int maxAge, BlockStateProvider plantProvider)
     {
-        VerticalGrowingPlantBlock plantBlock = (VerticalGrowingPlantBlock) plantProvider.getState(rand, mutablePos).getBlock();
+        VerticalGrowingPlantBlock plantBlock = (VerticalGrowingPlantBlock) plantProvider.getState(level, rand, mutablePos).getBlock();
         for(int i = 1; i <= height; ++i)
         {
             if (level.isEmptyBlock(mutablePos))

@@ -30,7 +30,7 @@ public class KodamaRender<T extends KodamaEntity> extends MobRenderer<T, KodamaR
 		renderState.texture = TEXTURE;
 		renderState.scale = calculateScale(entity);
 		renderState.faceId = entity.getFaceId();
-		renderState.dayTime = entity.level().getDayTime() % 24000;
+		renderState.dayTime = entity.getDayTime();
 		renderState.rattleHeadRotZAmplitude = entity.rattleHeadRotZAmplitude;
 		renderState.rattlingTiltAngle = entity.getRattlingTiltAngle();
 		renderState.maxRattlingTiltAngle = entity.getMaxRattlingTiltAngle();

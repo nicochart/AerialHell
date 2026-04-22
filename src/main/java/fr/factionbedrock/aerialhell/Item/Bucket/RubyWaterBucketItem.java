@@ -86,7 +86,7 @@ public class RubyWaterBucketItem extends Item
             int i = posIn.getX();
             int j = posIn.getY();
             int k = posIn.getZ();
-            worldIn.playSound(player, posIn, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 2.6F + (worldIn.random.nextFloat() - worldIn.random.nextFloat()) * 0.8F);
+            worldIn.playSound(player, posIn, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 2.6F + (worldIn.getRandom().nextFloat() - worldIn.getRandom().nextFloat()) * 0.8F);
 
             for(int l = 0; l < 8; ++l)
             {

@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
@@ -91,7 +91,7 @@ public class RenderListener
     }*/
 
     //Copy of Gui.renderTextureOverlay
-    public static void renderTextureOverlay(GuiGraphics graphics, Identifier textureLocation, float alpha)
+    public static void renderTextureOverlay(GuiGraphicsExtractor graphics, Identifier textureLocation, float alpha)
     {
         int color = ARGB.white(alpha);
         graphics.blit(RenderPipelines.GUI_TEXTURED, textureLocation, 0, 0, 0.0F, 0.0F, graphics.guiWidth(), graphics.guiHeight(), graphics.guiWidth(), graphics.guiHeight(), color);

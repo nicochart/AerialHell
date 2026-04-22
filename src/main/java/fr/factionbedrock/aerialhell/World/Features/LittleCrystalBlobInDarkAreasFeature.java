@@ -28,7 +28,7 @@ public class LittleCrystalBlobInDarkAreasFeature extends Feature<CrystalBlobConf
 	@Override public boolean place(FeaturePlaceContext<CrystalBlobConfig> context)
 	{
 		BlockStateProvider blockProvider = context.config().crystalStateProvider();
-		BlockPos pos = context.origin(); WorldGenLevel world = context.level(); RandomSource rand = context.random();
+		BlockPos pos = context.origin(); WorldGenLevel level = context.level(); RandomSource rand = context.random();
 		int x = pos.getX(), y=10, z=pos.getZ();
 		int ymax = 160;
 		BlockPos blockpos;
@@ -37,33 +37,33 @@ public class LittleCrystalBlobInDarkAreasFeature extends Feature<CrystalBlobConf
 		boolean hasSupport = false;
 		while (!hasSupport && y < ymax)
 		{
-			if (hasSupportToGenerate(mutablePos, world)) {hasSupport = true;}
+			if (hasSupportToGenerate(mutablePos, level)) {hasSupport = true;}
 			else {y++; mutablePos.set(new BlockPos(x, y, z));}
 		}
 		if (y==ymax) {return false;}
-		if (!squareHasRoof(mutablePos, world)) {return false;}
+		if (!squareHasRoof(mutablePos, level)) {return false;}
 		pos = mutablePos;
 		
 		if (rand.nextInt(160) < y) {return false;}
 		if (!this.isDungeonSensitiveValid(context)) {return false;}
 
-		world.setBlock(pos, blockProvider.getState(rand, pos), 2);
+		level.setBlock(pos, blockProvider.getState(level, rand, pos), 2);
         for(int i = 0; i < 300; ++i)
         {
         	blockpos = pos.offset(rand.nextInt(2) - rand.nextInt(2), rand.nextInt(5), rand.nextInt(2) - rand.nextInt(2)); //55855
 
-            if (world.isEmptyBlock(blockpos))
+            if (level.isEmptyBlock(blockpos))
             {
             	int j = 0;
 
 	            for(Direction direction : Direction.values())
 	            {
-		            if (world.getBlockState(blockpos.relative(direction)).is(AerialHellTags.Blocks.NATURAL_CRYSTAL_BLOCK)) {++j;}
+		            if (level.getBlockState(blockpos.relative(direction)).is(AerialHellTags.Blocks.NATURAL_CRYSTAL_BLOCK)) {++j;}
 
 		            if (j > 1) {break;}
 	            }
 
-	            if (j == 1) {world.setBlock(blockpos, blockProvider.getState(rand, blockpos), 2);}
+	            if (j == 1) {level.setBlock(blockpos, blockProvider.getState(level, rand, blockpos), 2);}
             }
         }
 	    return true;

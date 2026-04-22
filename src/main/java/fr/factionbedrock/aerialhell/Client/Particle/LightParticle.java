@@ -21,8 +21,8 @@ public class LightParticle extends PortalParticle
 		this.gravity = 0.5F * (-0.5F + this.random.nextFloat());
 		this.quadSize *= 1.5F;
 	}
-	
-	@Override public int getLightColor(float partialTick) {return 255;}
+
+	@Override public int getLightCoords(float partialTick) {return 255;}
 
 	@OnlyIn(Dist.CLIENT)
 	public static class Provider implements ParticleProvider<SimpleParticleType>

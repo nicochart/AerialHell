@@ -41,7 +41,7 @@ public class ChestMimicBlock extends ChestBlock
 			if (worldIn.isClientSide()) {addSpawnParticle(worldIn, pos);}
 			else
 			{
-				worldIn.playSound(null, pos, SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 0.5F, 0.7F + 0.5F * worldIn.random.nextFloat());
+				worldIn.playSound(null, pos, SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 0.5F, 0.7F + 0.5F * worldIn.getRandom().nextFloat());
 				revealMimic(state, worldIn, pos);
 				worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			}
@@ -69,7 +69,7 @@ public class ChestMimicBlock extends ChestBlock
 	{
 		for(int i = 0; i < 20; ++i)
 		{
-			double dx = worldIn.random.nextGaussian() * 0.04D, dy = worldIn.random.nextGaussian() * 0.04D, dz = worldIn.random.nextGaussian() * 0.04D;
+			double dx = worldIn.getRandom().nextGaussian() * 0.04D, dy = worldIn.getRandom().nextGaussian() * 0.04D, dz = worldIn.getRandom().nextGaussian() * 0.04D;
 			double x = pos.getX() + 0.5F + dx * 10.0D, y = pos.getY() + 0.5F + dy * 10.0D, z = pos.getZ() + 0.5F + dz * 10.0D;
 			worldIn.addParticle(this.getMimicSpawnParticle(), x, y, z, dx * 10.0D, dy * 10.0D, dz * 10.0D);
 		}

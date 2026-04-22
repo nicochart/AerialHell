@@ -1,11 +1,13 @@
 package fr.factionbedrock.aerialhell.Client.BlockBakedModels;
 
-import net.minecraft.client.renderer.block.model.BlockModelPart;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -24,10 +26,9 @@ public class ShiftingBlockBakedModel implements BlockStateModel
         this.shouldDisplayShiftedModel = shouldDisplayShiftedModel;
     }
 
-    @Override public List<BlockModelPart> collectParts(RandomSource random) {return getModel().collectParts(random);}
-    @Override public Object createGeometryKey(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random) {return this;}
-    @Override public void collectParts(RandomSource randomSource, List<BlockModelPart> list) {getModel().collectParts(randomSource, list);}
-    @Override public TextureAtlasSprite particleIcon() {return getModel().particleIcon();}
+    @Override public void collectParts(RandomSource randomSource, List<BlockStateModelPart> list) {this.getModel().collectParts(randomSource, list);}
+    @Override public Material.Baked particleMaterial() {return this.getModel().particleMaterial();}
+    @Override public @BakedQuad.MaterialFlags int materialFlags() {return this.getModel().materialFlags();}
 
     private BlockStateModel getModel()
     {

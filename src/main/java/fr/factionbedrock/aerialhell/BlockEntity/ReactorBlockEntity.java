@@ -62,7 +62,7 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
         if (state.getValue(ReactorBlock.ACTIVE) != isActive) {level.setBlockAndUpdate(pos, state.setValue(ReactorBlock.ACTIVE, isActive));}
 
         BiomeShifter.transformRandomBlocks(level, pos, state, blockEntity);
-        ReactorBlock.tickParticleAndSoundAnimation((ServerLevel) level, state, pos, level.random, blockEntity.shiftType);
+        ReactorBlock.tickParticleAndSoundAnimation((ServerLevel) level, state, pos, level.getRandom(), blockEntity.shiftType);
     }
 
     public boolean updateActiveTimer() //returns true if isActive, else false

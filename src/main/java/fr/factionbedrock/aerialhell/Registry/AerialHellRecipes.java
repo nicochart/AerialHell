@@ -15,8 +15,8 @@ public class AerialHellRecipes
 	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, AerialHell.MODID);
 
 
-	public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<OscillatingRecipe>> OSCILLATING = RECIPE_SERIALIZERS.register("oscillating", OscillatingRecipe.Serializer::new);
-	public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<FreezingRecipe>> FREEZING = RECIPE_SERIALIZERS.register("freezing", FreezingRecipe.Serializer::new);
+	public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<OscillatingRecipe>> OSCILLATING_SERIALIZER = RECIPE_SERIALIZERS.register("oscillating", () -> OscillatingRecipe.SERIALIZER);
+	public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<FreezingRecipe>> FREEZING_SERIALIZER = RECIPE_SERIALIZERS.register("freezing", () -> FreezingRecipe.SERIALIZER);
 
 
 

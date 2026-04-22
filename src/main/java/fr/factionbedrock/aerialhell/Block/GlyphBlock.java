@@ -45,7 +45,7 @@ public class GlyphBlock extends Block
 		{
 			BooleanProperty property = face == Direction.NORTH ? NORTH : face == Direction.EAST ? EAST : face == Direction.SOUTH ? SOUTH : WEST;
 			level.setBlockAndUpdate(pos, state.setValue(property, !state.getValue(property)));
-			level.playSound(player, pos, this.getInteractSound(state, level, pos, player), SoundSource.BLOCKS, 1.0F, 0.9F + (0.2F * level.random.nextFloat()));
+			level.playSound(player, pos, this.getInteractSound(state, level, pos, player), SoundSource.BLOCKS, 1.0F, 0.9F + (0.2F * level.getRandom().nextFloat()));
 			return InteractionResult.SUCCESS;
 		}
 		else //change glyph if valid face
@@ -55,7 +55,7 @@ public class GlyphBlock extends Block
 			{
 				int newIndex = getNextIndex(state.getValue(GLYPH_INDEX), player);
 				level.setBlockAndUpdate(pos, state.setValue(GLYPH_INDEX, newIndex));
-				level.playSound(player, pos, this.getInteractSound(state, level, pos, player), SoundSource.BLOCKS, 1.0F, 0.9F + (0.2F * level.random.nextFloat()));
+				level.playSound(player, pos, this.getInteractSound(state, level, pos, player), SoundSource.BLOCKS, 1.0F, 0.9F + (0.2F * level.getRandom().nextFloat()));
 				return InteractionResult.SUCCESS;
 			}
 		}

@@ -37,7 +37,7 @@ public class JEIHelper
 
     public static OscillatingRecipe createOscillatingRecipe(List<Item> ingredient, Item result)
     {
-        return new OscillatingRecipe("", null, Ingredient.of(ingredient.stream()), result.getDefaultInstance(), 0, 200);
+        return new OscillatingRecipe(null, null, Ingredient.of(ingredient.stream()), result.getDefaultInstance().getCraftingRemainder(), 0, 200);
     }
 
     public static RecipeHolder<FreezingRecipe> createFreezingRecipeHolder(List<Item> ingredients, Item result)
@@ -49,7 +49,7 @@ public class JEIHelper
 
     public static FreezingRecipe createFreezingRecipe(List<Item> ingredient, Item result)
     {
-        return new FreezingRecipe("", null, Ingredient.of(ingredient.stream()), result.getDefaultInstance(), 0, 200);
+        return new FreezingRecipe(null, null, Ingredient.of(ingredient.stream()), result.getDefaultInstance().getCraftingRemainder(), 0, 200);
     }
 
     public static Map<List<Item>, Item> OSCILLATING_MAP = new ImmutableMap.Builder<List<Item>, Item>()

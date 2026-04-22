@@ -30,14 +30,14 @@ public class SingleBlockNeedingSupportFeature extends Feature<SingleBlockNeeding
 		if (pos == null || !this.isDungeonSensitiveValid(context)) {return false;}
 		else
 		{
-			context.level().setBlock(pos, block.getState(context.random(), pos), 0);
+			context.level().setBlock(pos, block.getState(context.level(), context.random(), pos), 0);
 			return true;
 		}
 	}
 	
 	@Nullable protected BlockPos findPosForPlacement(FeaturePlaceContext<SingleBlockNeedingSupportConfig> context)
 	{
-		Block support = context.config().support().getState(context.random(), context.origin()).getBlock();
+		Block support = context.config().support().getState(context.level(), context.random(), context.origin()).getBlock();
 		int maxTries = context.config().maxTries();
 		BlockPos testedPos, featureCenter = FeatureHelper.getFeatureCenter(context);
 		WorldGenLevel level = context.level();

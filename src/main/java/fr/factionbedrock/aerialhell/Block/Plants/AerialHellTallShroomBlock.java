@@ -62,7 +62,7 @@ public class AerialHellTallShroomBlock extends TallGrassBlock
 	@Override protected boolean mayPlaceOn(BlockState state, BlockGetter getter, BlockPos pos)
 	{
 		if (this == AerialHellBlocks.GIANT_ROOT_SHROOM.get() && state.is(AerialHellBlocks.GIANT_ROOT.get())) {return true;}
-		return state.is(BlockTags.DIRT) || state.is(AerialHellBlocks.STELLAR_COARSE_DIRT.get()) || state.is(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || state.is(BlockTags.MUSHROOM_GROW_BLOCK);
+		return state.is(BlockTags.DIRT) || state.is(AerialHellBlocks.STELLAR_COARSE_DIRT.get()) || state.is(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || state.is(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT);
 	}
 
 	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean intersects)

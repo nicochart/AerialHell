@@ -71,9 +71,9 @@ public class AerialBerryBushBlock extends VegetationBlock implements Bonemealabl
         }
         else if (age > 1)
         {
-            int j = 1 + worldIn.random.nextInt(2);
+            int j = 1 + worldIn.getRandom().nextInt(2);
             popResource(worldIn, pos, new ItemStack(AerialHellItems.AERIAL_BERRY.get(), j + (age == 3 ? 1 : 0)));
-            worldIn.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.9F + worldIn.random.nextFloat() * 0.3F);
+            worldIn.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.9F + worldIn.getRandom().nextFloat() * 0.3F);
             worldIn.setBlock(pos, state.setValue(AGE, 1), 2);
             return InteractionResult.SUCCESS;
         }

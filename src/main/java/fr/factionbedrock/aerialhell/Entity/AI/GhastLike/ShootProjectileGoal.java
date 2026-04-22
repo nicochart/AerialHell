@@ -125,7 +125,7 @@ public abstract class ShootProjectileGoal extends Goal
     {
         if (this.getShootSound() != null) //if it's time to play shoot sound
         {
-            this.parentEntity.playSound(this.getShootSound(), 3.0F, (this.parentEntity.level().random.nextFloat() - this.parentEntity.level().random.nextFloat()) * 0.2F + 1.0F);
+            this.parentEntity.playSound(this.getShootSound(), 3.0F, (this.parentEntity.level().getRandom().nextFloat() - this.parentEntity.level().getRandom().nextFloat()) * 0.2F + 1.0F);
             return true;
         }
         return false;

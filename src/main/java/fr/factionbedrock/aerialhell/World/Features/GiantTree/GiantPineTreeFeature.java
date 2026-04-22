@@ -58,7 +58,7 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
         private final boolean largeTrunk;
         public GiantPineTree(FeaturePlaceContext<GiantPineTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
         {
-            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.random(), context.origin()).getBlock());
+            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.level(), context.random(), context.origin()).getBlock());
             this.largeTrunk = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 30;
         }
 
@@ -188,8 +188,8 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
             else {return false;}
         }
 
-        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);}
-        public BlockState getLeavesStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).foliageProvider().getState(context.random(), pos).setValue(LeavesBlock.DISTANCE, 1);}
+        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).trunkProvider().getState(context.level(), context.random(), pos);}
+        public BlockState getLeavesStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).foliageProvider().getState(context.level(), context.random(), pos).setValue(LeavesBlock.DISTANCE, 1);}
 
         protected boolean isReplaceableByLeaves(WorldGenLevel reader, BlockPos blockPos)
         {
@@ -203,7 +203,7 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
         private final boolean isLarge;
         public StraightPineBranch(FeaturePlaceContext<GiantPineTreeConfig> context, StraightLineParameters straightLineParams)
         {
-            super(context, straightLineParams, () -> context.config().trunkProvider().getState(context.random(), context.origin()).getBlock());
+            super(context, straightLineParams, () -> context.config().trunkProvider().getState(context.level(), context.random(), context.origin()).getBlock());
             this.isLarge = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 22 && straightLineParams.getStart().distSqr(straightLineParams.getEnd()) > 64;
         }
 
@@ -279,8 +279,8 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
             return isPlaceable || isTreeBlockAlready;
         }
 
-        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);}
-        public BlockState getLeavesStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).foliageProvider().getState(context.random(), pos).setValue(LeavesBlock.DISTANCE, 1);}
+        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).trunkProvider().getState(context.level(), context.random(), pos);}
+        public BlockState getLeavesStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).foliageProvider().getState(context.level(), context.random(), pos).setValue(LeavesBlock.DISTANCE, 1);}
 
         @Override protected boolean isReplaceable(WorldGenLevel level, BlockPos blockPos)
         {

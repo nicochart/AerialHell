@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -56,7 +57,7 @@ public class StellarChickenEntity extends Chicken
 
     private int getBlockPositionTint()
     {
-        return this.level().getBlockTint(this.blockPosition(), Biome::getGrassColor);
+        return this.level() instanceof ClientLevel level ? level.getBlockTint(this.blockPosition(), Biome::getGrassColor) : 0;
     }
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)

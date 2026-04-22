@@ -9,7 +9,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.block.FarmlandBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class StellarCropBlock extends CropBlock
@@ -54,7 +54,7 @@ public class StellarCropBlock extends CropBlock
                 if (blockState.is(AerialHellBlocks.STELLAR_FARMLAND))
                 {
                     bonusMoisture = 1.0F;
-                    if (blockState.getValue(FarmBlock.MOISTURE) > 0) {bonusMoisture = 3.0F;}
+                    if (blockState.getValue(FarmlandBlock.MOISTURE) > 0) {bonusMoisture = 3.0F;}
                 }
 
                 if (x != 0 || z != 0) {bonusMoisture /= 4.0F;}

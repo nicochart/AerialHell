@@ -12,15 +12,16 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LevelTargetBundle;
 import net.minecraft.client.renderer.SkyRenderer;
-import net.minecraft.client.renderer.state.LevelRenderState;
-import net.minecraft.client.renderer.state.SkyRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.state.level.LevelRenderState;
+import net.minecraft.client.renderer.state.level.SkyRenderState;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.material.FogType;
-import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -36,19 +37,23 @@ public class RenderSkyMixin
     @Shadow private @Nullable SkyRenderer skyRenderer;
     @Shadow private LevelTargetBundle targets;
     private static AerialHellDimensionSkyRenderer ahSkyRenderer = null;
-    
-    @Inject(method = "addSkyPass(Lcom/mojang/blaze3d/framegraph/FrameGraphBuilder;" + "Lnet/minecraft/client/Camera;" + "Lcom/mojang/blaze3d/buffers/GpuBufferSlice;" + "Lorg/joml/Matrix4f;)V", at = @At("HEAD"), cancellable = true)
-    private void addSkyPass(FrameGraphBuilder frameGraphBuilder, Camera camera, GpuBufferSlice shaderFog, Matrix4f modelViewMatrix, CallbackInfo callbackInfo)
+
+    @Inject(
+            method = "addSkyPass(Lcom/mojang/blaze3d/framegraph/FrameGraphBuilder;Lnet/minecraft/client/renderer/state/level/CameraRenderState;Lcom/mojang/blaze3d/buffers/GpuBufferSlice;Lorg/joml/Matrix4fc;)V",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void addSkyPass(FrameGraphBuilder frameGraphBuilder, CameraRenderState cameraState, GpuBufferSlice shaderFog, Matrix4fc modelViewMatrix, CallbackInfo callbackInfo)
     {
         LevelRenderer levelRenderer = (LevelRenderer) (Object) this;
         ClientLevel world = levelRenderer.level;
         //Override only for Aerial Hell dimension
         if (world == null || world.dimension() != AerialHellDimensions.AERIAL_HELL_DIMENSION) {return;}
 
-        FogType cameraSubmersionType = camera.getFluidInCamera();
-        if (cameraSubmersionType != FogType.POWDER_SNOW && cameraSubmersionType != FogType.LAVA && !hasBlindnessOrDarknessEffect(camera))
+        FogType fogType = cameraState.fogType;
+        if (fogType != FogType.POWDER_SNOW && fogType != FogType.LAVA && !cameraState.entityRenderState.doesMobEffectBlockSky)
         {
-            SkyRenderState skyRenderState = levelRenderState.skyRenderState;
+            SkyRenderState skyRenderState = this.levelRenderState.skyRenderState;
             if (skyRenderState.skybox != DimensionType.Skybox.NONE)
             {
                 FramePass framePass = frameGraphBuilder.addPass("sky");

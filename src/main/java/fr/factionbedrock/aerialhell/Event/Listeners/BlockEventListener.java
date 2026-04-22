@@ -7,7 +7,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.Lightmap;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.level.block.Block;
@@ -157,7 +157,7 @@ public class BlockEventListener
     public static void renderCustomOverlay(Player player, PoseStack poseStack, Identifier texture)
     {
         BlockPos blockpos = BlockPos.containing(player.getX(), player.getEyeY(), player.getZ());
-        float brightness = LightTexture.getBrightness(player.level().dimensionType(), player.level().getMaxLocalRawBrightness(blockpos));
+        float brightness = Lightmap.getBrightness(player.level().dimensionType(), player.level().getMaxLocalRawBrightness(blockpos));
         int color = ARGB.colorFromFloat(1.0F, brightness, brightness, brightness);
         float yaw = -player.getYRot() / 64.0F;
         float pitch = player.getXRot() / 64.0F;

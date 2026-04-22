@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.core.BlockPos;
@@ -59,7 +59,7 @@ public class LightProjectileRender<T extends AbstractLightProjectileEntity> exte
         renderState.texture = getTextureLocation(entity);
     }
 
-    public static RenderType getRenderType(Identifier texture) {return RenderTypes.entityCutoutNoCull(texture);}
+    public static RenderType getRenderType(Identifier texture) {return RenderTypes.entityCutout(texture);}
 
     public Identifier getTextureLocation(T entity)
     {

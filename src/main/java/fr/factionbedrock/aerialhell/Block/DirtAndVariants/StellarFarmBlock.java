@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
@@ -11,13 +10,13 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.block.FarmlandBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 import javax.annotation.Nullable;
 
-public class StellarFarmBlock extends FarmBlock
+public class StellarFarmBlock extends FarmlandBlock
 {
     public StellarFarmBlock(Properties prop) {super(prop);}
 

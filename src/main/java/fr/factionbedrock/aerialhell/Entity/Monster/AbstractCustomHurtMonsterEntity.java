@@ -46,7 +46,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
             {
                 this.noActionTime = 0;
 
-                if (source.is(DamageTypeTags.IS_FREEZING) && this.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {amount *= 5.0F;}
+                if (source.is(DamageTypeTags.IS_FREEZING) && this.is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {amount *= 5.0F;}
                 this.walkAnimation.setSpeed(1.5F);
 
                 boolean wasOnHurtCooldown = (float)this.invulnerableTime > 10.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN);

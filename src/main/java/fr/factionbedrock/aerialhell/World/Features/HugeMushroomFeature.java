@@ -50,11 +50,11 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
         int capHeight = (int) (stemSize * yCapFactor);
         int yCap = (int) (stemSize * (1.0F - yCapFactor));
         BlockPos centerPos = blockPos.offset(0, yCap, 0);
-        GiantCap cap = new GiantCap(context, createEllipsoidParameters(capRadius, capHeight, 1), config.capProvider, centerPos);
+        GiantCap cap = new GiantCap(context, createEllipsoidParameters(capRadius, capHeight, 1), config.capProvider(), centerPos);
         cap.generateOutsideBorder();
     }
     
-    protected void generateStem(HugeMushroomFeatureConfiguration config, LevelAccessor world, RandomSource rand, BlockPos blockPos, int stemSize)
+    protected void generateStem(HugeMushroomFeatureConfiguration config, WorldGenLevel level, RandomSource rand, BlockPos blockPos, int stemSize)
     {
         BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
         for(int y = 0; y < stemSize; ++y)
@@ -64,9 +64,9 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
                 for (int z = 0; z < 2; z++)
                 {
                     placementPos.set(blockPos).move(x, y, z);
-                    if (FeatureHelper.isReplaceableByLogOrLeavesFeature(world, placementPos, true) || world.getBlockState(placementPos).is(AerialHellBlocks.VERDIGRIS_AGARIC.get()))
+                    if (FeatureHelper.isReplaceableByLogOrLeavesFeature(level, placementPos, true) || level.getBlockState(placementPos).is(AerialHellBlocks.VERDIGRIS_AGARIC.get()))
                     {
-                        this.setBlock(world, placementPos, config.stemProvider.getState(rand, blockPos));
+                        this.setBlock(level, placementPos, config.stemProvider().getState(level, rand, blockPos));
                     }
                 }
             }
@@ -104,7 +104,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
             for (int z = 0; z < 2; z++)
             {
                 blockState = world.getBlockState(pos.offset(x, -1, z));
-                if (!(blockState.is(BlockTags.MUSHROOM_GROW_BLOCK))) {return false;}
+                if (!(blockState.is(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT))) {return false;}
             }
         }
         return true;
@@ -121,7 +121,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
 
         public GiantCap(FeaturePlaceContext<?> context, Ellipsoid.EllipsoidParameters parameters, BlockStateProvider capProvider, BlockPos centerPos)
         {
-            super(context, () -> capProvider.getState(context.random(), FeatureHelper.getFeatureCenter(context)).getBlock(), parameters, centerPos, Ellipsoid.Types.CENTER_2x2);
+            super(context, () -> capProvider.getState(context.level(), context.random(), FeatureHelper.getFeatureCenter(context)).getBlock(), parameters, centerPos, Ellipsoid.Types.CENTER_2x2);
             this.capProvider = capProvider;
         }
 
@@ -134,7 +134,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
             boolean eastInEll = isPosInsideEllipsoid(x + 1, y, z);
             boolean westInEll = isPosInsideEllipsoid(x - 1, y, z);
 
-            return this.capProvider.getState(context.random(), pos)
+            return this.capProvider.getState(context.level(), context.random(), pos)
                     .setValue(HugeMushroomBlock.NORTH, !northInEll)
                     .setValue(HugeMushroomBlock.SOUTH, !southInEll)
                     .setValue(HugeMushroomBlock.WEST, !westInEll)

@@ -71,9 +71,9 @@ public class VibrantAerialBerryBushBlock extends VegetationBlock implements Bone
         }
         else if (age > 13)
         {
-            int j = 1 + worldIn.random.nextInt(2);
+            int j = 1 + worldIn.getRandom().nextInt(2);
             popResource(worldIn, pos, new ItemStack(AerialHellItems.VIBRANT_AERIAL_BERRY.get(), j + (age == 15 ? 1 : 0)));
-            worldIn.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 1F + worldIn.random.nextFloat() * 0.2F);
+            worldIn.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 1F + worldIn.getRandom().nextFloat() * 0.2F);
             worldIn.setBlock(pos, state.setValue(AGE, 13), 2);
             return InteractionResult.SUCCESS;
         }

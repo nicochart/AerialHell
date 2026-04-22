@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -14,6 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.clock.WorldClock;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -27,6 +29,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 
 public class KodamaEntity extends AerialHellAnimalEntity
 {
@@ -43,6 +46,12 @@ public class KodamaEntity extends AerialHellAnimalEntity
     public static boolean canSpawn(EntityType<? extends AerialHellAnimalEntity> entityType, LevelAccessor worldIn, EntitySpawnReason spawnType, BlockPos pos, RandomSource random)
     {
         return worldIn.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT);
+    }
+
+    public long getDayTime()
+    {
+        Optional<Holder<WorldClock>> defaultClock = this.level().dimensionType().defaultClock();
+        return defaultClock.isEmpty() ? 0 : this.level().clockManager().getTotalTicks(defaultClock.get()) % 24000;
     }
 
     @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficulty, EntitySpawnReason mobSpawnType, @Nullable SpawnGroupData spawnGroupData)

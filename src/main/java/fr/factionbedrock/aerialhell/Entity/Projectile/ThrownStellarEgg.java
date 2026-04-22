@@ -10,6 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.EntityHitResult;
@@ -27,7 +28,7 @@ public class ThrownStellarEgg extends ThrowableItemProjectile
         {
             for(int i = 0; i < 8; ++i)
             {
-                this.level().addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
+                this.level().addParticle(new ItemParticleOption(ParticleTypes.ITEM, ItemStackTemplate.fromNonEmptyStack(this.getItem())), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
             }
         }
     }
@@ -55,7 +56,7 @@ public class ThrownStellarEgg extends ThrowableItemProjectile
                     {
                         chicken.setAge(-24000);
                         chicken.snapTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                        chicken.setColor(this.level().getBlockTint(this.blockPosition(), Biome::getGrassColor));
+                        chicken.setColor(0); //TODO does color update correctly after spawn ?
 
                         this.level().addFreshEntity(chicken);
                     }
