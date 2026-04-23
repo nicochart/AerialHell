@@ -4,7 +4,6 @@ import fr.factionbedrock.aerialhell.Client.Event.Listeners.DataPacketPayloads;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Config.AerialHellConfigLoader;
 import fr.factionbedrock.aerialhell.Event.Listeners.BlockEventListener;
-import fr.factionbedrock.aerialhell.Event.Listeners.LivingEntityEventListener;
 import fr.factionbedrock.aerialhell.Event.Listeners.ToolsAndArmorEventListener;
 import fr.factionbedrock.aerialhell.Recipe.CustomBrewingRecipe;
 import fr.factionbedrock.aerialhell.Registry.*;
@@ -71,7 +70,6 @@ public class AerialHellSetup
         bus.addListener(BlockEventListener::onNeighborNotifyEvent);
         bus.addListener(BlockEventListener::onEntityPlaceEvent);
         bus.addListener(BlockEventListener::onOverlay);
-        bus.addListener(LivingEntityEventListener::onSleepFinishEvent);
         bus.addListener(ToolsAndArmorEventListener::onProjectileCollideWithEntity);
         bus.addListener(ToolsAndArmorEventListener::onLivingDamageEvent);
         bus.addListener(ToolsAndArmorEventListener::onPlayerHarvest);

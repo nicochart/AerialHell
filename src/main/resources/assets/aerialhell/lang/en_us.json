@@ -971,6 +971,7 @@
   "death.attack.aerialhell.cursed_tool.player": "%1$s commited suicide with a cursed tool",
   "death.attack.aerialhell.lunatic_projection": "%1$s entered the light",
   "death.attack.aerialhell.god_bless": "%1$s received god's blessing",
+  "death.attack.aerialhell.god_bless.player": "%1$s received god's blessing by %2$s",
   "death.attack.aerialhell.golem_beam": "%1$s was killed by a Golem Beam",
   "death.attack.aerialhell.golem_beam.player": "%1$s was killed by %2$s's Beam",
 

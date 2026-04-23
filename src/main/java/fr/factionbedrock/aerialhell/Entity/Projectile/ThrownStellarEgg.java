@@ -56,7 +56,8 @@ public class ThrownStellarEgg extends ThrowableItemProjectile
                     {
                         chicken.setAge(-24000);
                         chicken.snapTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                        chicken.setColor(0); //TODO does color update correctly after spawn ?
+                        //color will update right after spawn (on next tick)
+                        chicken.setColor(0);
 
                         this.level().addFreshEntity(chicken);
                     }

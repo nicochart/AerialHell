@@ -21,6 +21,7 @@ public class AerialHellClientSetup
         modEventBus.addListener(BlocksAndItemsColorHandler::handleBlockColors);
         modEventBus.addListener(BlocksAndItemsColorHandler::handleItemColors);
         modEventBus.addListener(FluidRenderHandler::handleFluidRender);
+        modEventBus.addListener(FluidRenderHandler::handleFluidOverlayRender);
         modEventBus.addListener(RenderRegistrationListener::onRegisterRenderers);
         modEventBus.addListener(RenderRegistrationListener::onRegisterLayerDefinitions);
         if (LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT)

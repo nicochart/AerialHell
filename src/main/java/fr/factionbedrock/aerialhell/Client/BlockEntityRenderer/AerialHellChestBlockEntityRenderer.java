@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.BlockEntityRenderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellChestMaterials;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.BlockEntity.AerialHellChestBlockEntity;
@@ -32,7 +31,7 @@ public class AerialHellChestBlockEntityRenderer extends ChestRenderer<AerialHell
 		this.sprites = context.sprites();
 	}
 
-	protected SpriteId getMaterialAndRenderType(AerialHellChestBlockEntity blockEntity, ChestType chestType)
+	protected SpriteId getSpriteId(AerialHellChestBlockEntity blockEntity, ChestType chestType)
 	{
 		Block block = blockEntity.getBlockState().getBlock();
 		if (block == AerialHellBlocks.AERIAL_TREE_CHEST.get())
@@ -99,7 +98,7 @@ public class AerialHellChestBlockEntityRenderer extends ChestRenderer<AerialHell
 
 	@Override @Nullable public SpriteId getCustomSprite(AerialHellChestBlockEntity blockEntity, ChestRenderState renderState)
 	{
-		return getMaterialAndRenderType(blockEntity, renderState.type);
+		return getSpriteId(blockEntity, renderState.type);
 	}
 
 	private static SpriteId chooseSprite(ChestType type, Material materialSingle, Material materialLeft, Material materialRight)

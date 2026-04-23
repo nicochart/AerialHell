@@ -53,10 +53,7 @@ public class StellarChickenEntity extends Chicken
         super.tick();
     }
 
-    private int getBlockPositionGrassColor()
-    {
-        return this.level().getBiome(this.blockPosition()).value().getGrassColor(this.blockPosition().getX(), this.blockPosition().getZ());
-    }
+    private int getBlockPositionGrassColor() {return this.level().getBiome(this.blockPosition()).value().getGrassColor(this.blockPosition().getX(), this.blockPosition().getZ());}
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
