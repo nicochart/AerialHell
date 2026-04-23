@@ -4,7 +4,6 @@ import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -26,7 +25,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.*;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
@@ -41,23 +39,23 @@ public class StellarChickenEntity extends Chicken
 
     @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason mobSpawnType, @Nullable SpawnGroupData spawnGroupData)
     {
-        this.setColor(getBlockPositionTint());
+        this.setColor(this.getBlockPositionGrassColor());
         return super.finalizeSpawn(level, difficulty, mobSpawnType, spawnGroupData);
     }
 
     @Override public void tick()
     {
-        if (this.getColor() == 0)
+        if (this.getColor() == 0 && !this.level().isClientSide())
         {
-            int color = getBlockPositionTint();
+            int color = this.getBlockPositionGrassColor();
             this.setColor(color != 0 ? color : 1);
         }
         super.tick();
     }
 
-    private int getBlockPositionTint()
+    private int getBlockPositionGrassColor()
     {
-        return this.level() instanceof ClientLevel level ? level.getBlockTint(this.blockPosition(), Biome::getGrassColor) : 0;
+        return this.level().getBiome(this.blockPosition()).value().getGrassColor(this.blockPosition().getX(), this.blockPosition().getZ());
     }
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)

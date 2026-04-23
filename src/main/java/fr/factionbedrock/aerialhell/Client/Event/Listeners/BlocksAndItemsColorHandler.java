@@ -27,7 +27,6 @@ public class BlocksAndItemsColorHandler
 {
     public static void handleBlockColors(RegisterColorHandlersEvent.BlockTintSources event)
     {
-        //TODO does it work ? Suppose that first layer (element in the list) is tintindex 0, second layer is tintindex 1, etc
         event.register(List.of(BlockTintSources.grassBlock(), BlockTintSources.foliage(), BlockTintSources.water()),
                 AerialHellBlocks.CHISELED_STELLAR_GRASS_BLOCK.get(),
                 AerialHellBlocks.STELLAR_JUNGLE_TREE_SAPLING.get(),
@@ -110,8 +109,7 @@ public class BlocksAndItemsColorHandler
         );
     }
 
-    //TODO does it work ?
-    public static BlockTintSource getVegetationColorFirstLayer() //index 0
+    public static BlockTintSource getVegetationColorFirstLayer() //tintindex 0
     {
         return new BlockTintSource()
         {
@@ -159,7 +157,7 @@ public class BlocksAndItemsColorHandler
         };
     }
 
-    public static BlockTintSource getVegetationColorSecondLayer() //index 1
+    public static BlockTintSource getVegetationColorSecondLayer() //tintindex 1
     {
         return new BlockTintSource()
         {

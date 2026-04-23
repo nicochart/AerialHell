@@ -38,11 +38,7 @@ public class RenderSkyMixin
     @Shadow private LevelTargetBundle targets;
     private static AerialHellDimensionSkyRenderer ahSkyRenderer = null;
 
-    @Inject(
-            method = "addSkyPass(Lcom/mojang/blaze3d/framegraph/FrameGraphBuilder;Lnet/minecraft/client/renderer/state/level/CameraRenderState;Lcom/mojang/blaze3d/buffers/GpuBufferSlice;Lorg/joml/Matrix4fc;)V",
-            at = @At("HEAD"),
-            cancellable = true
-    )
+    @Inject(method = "addSkyPass(Lcom/mojang/blaze3d/framegraph/FrameGraphBuilder;Lnet/minecraft/client/renderer/state/level/CameraRenderState;Lcom/mojang/blaze3d/buffers/GpuBufferSlice;Lorg/joml/Matrix4fc;)V", at = @At("HEAD"), cancellable = true)
     private void addSkyPass(FrameGraphBuilder frameGraphBuilder, CameraRenderState cameraState, GpuBufferSlice shaderFog, Matrix4fc modelViewMatrix, CallbackInfo callbackInfo)
     {
         LevelRenderer levelRenderer = (LevelRenderer) (Object) this;

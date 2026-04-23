@@ -115,9 +115,7 @@ public class AerialHellChestBlockEntityRenderer extends ChestRenderer<AerialHell
 	@Override public void submit(ChestRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState)
 	{
 		poseStack.pushPose();
-		poseStack.translate(0.5F, 0.5F, 0.5F);
 		poseStack.mulPose(modelTransformation(renderState.facing));
-		poseStack.translate(-0.5F, -0.5F, -0.5F);
 		float openess = renderState.open;
 		openess = 1.0F - openess;
 		openess = 1.0F - openess * openess * openess;

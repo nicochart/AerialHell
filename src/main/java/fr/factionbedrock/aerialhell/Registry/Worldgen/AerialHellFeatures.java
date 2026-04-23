@@ -23,6 +23,8 @@ public class AerialHellFeatures
 {
 	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(BuiltInRegistries.FEATURE, AerialHell.MODID);
 
+	public static final DeferredHolder<Feature<?>, RandomPatchFeature> RANDOM_PATCH = FEATURES.register("random_patch", () -> new RandomPatchFeature(RandomPatchConfiguration.CODEC));
+
 	public static final DeferredHolder<Feature<?>, AerialHellLakeFeature> AERIAL_HELL_LAKE = FEATURES.register("lake", () -> new AerialHellLakeFeature(AerialHellLakeFeature.Configuration.CODEC));
 
 	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> GIANT_GANODERMA_APPLANATUM = FEATURES.register("giant_ganoderma_applanatum", () -> new GiantGanodermaApplanatumFeature(NoneFeatureConfiguration.CODEC));
