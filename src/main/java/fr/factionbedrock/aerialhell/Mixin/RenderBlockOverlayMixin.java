@@ -6,7 +6,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.Lightmap;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.ScreenEffectRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class RenderBlockOverlayMixin
 {
     @Inject(method = "renderScreenEffect", at = @At("HEAD"), cancellable = true)
-    private void renderOverlays(boolean sleeping, float tickProgress, SubmitNodeCollector queue, CallbackInfo callbackInfo)
+    private void renderOverlays(final boolean isFirstPerson, final boolean isSleeping, final float partialTicks, final SubmitNodeCollector submitNodeCollector, final boolean hideGui, CallbackInfo callbackInfo)
     {
         ScreenEffectRenderer renderer = (ScreenEffectRenderer) (Object) this;
         Player player = renderer.minecraft.player;
@@ -78,7 +78,7 @@ public class RenderBlockOverlayMixin
     private static void renderCustomOverlay(Player player, PoseStack matrices, MultiBufferSource vertexConsumers, Identifier texture)
     {
         BlockPos blockPos = BlockPos.containing(player.getX(), player.getEyeY(), player.getZ());
-        float brightness = LightTexture.getBrightness(player.level().dimensionType(), player.level().getMaxLocalRawBrightness(blockPos));
+        float brightness = Lightmap.getBrightness(player.level().dimensionType(), player.level().getMaxLocalRawBrightness(blockPos));
         int color = ARGB.colorFromFloat(0.9F, brightness, brightness, brightness);
         float yaw = -player.getYRot() / 64.0F;
         float pitch = player.getXRot() / 64.0F;

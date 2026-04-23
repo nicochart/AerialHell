@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Registry.CreativeModeTabs;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -26,7 +26,7 @@ public class AerialHellCreativeModeTabs
 
     private static CreativeModeTab createItemGroup(String name, Item iconItem)
     {
-        return FabricItemGroup.builder().title(Component.translatable("itemGroup."+name)).icon(iconItem::getDefaultInstance).build();
+        return FabricCreativeModeTab.builder().title(Component.translatable("itemGroup."+name)).icon(iconItem::getDefaultInstance).build();
     }
 
     @Nullable public static ResourceKey<CreativeModeTab> getItemGroupKey(CreativeModeTab group)

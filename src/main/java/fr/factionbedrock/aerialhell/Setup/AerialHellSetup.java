@@ -23,7 +23,7 @@ public class AerialHellSetup
         //listen(bus);
         //eventBusListen(NeoForge.EVENT_BUS);
 
-        PayloadTypeRegistry.playS2C().register(AerialHellData.ID, AerialHellData.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(AerialHellData.ID, AerialHellData.CODEC);
         ServerPayloadHandler.handleDataOnMain();
     }
 

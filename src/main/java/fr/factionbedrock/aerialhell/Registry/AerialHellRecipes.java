@@ -11,8 +11,8 @@ import fr.factionbedrock.aerialhell.Recipe.FreezingRecipe;
 
 public class AerialHellRecipes
 {
-	public static final RecipeSerializer<OscillatingRecipe> OSCILLATING = registerSerializer("oscillating", new OscillatingRecipe.Serializer());
-	public static final RecipeSerializer<FreezingRecipe> FREEZING = registerSerializer("freezing", new FreezingRecipe.Serializer());
+	public static final RecipeSerializer<OscillatingRecipe> OSCILLATING_SERIALIZER = registerSerializer("oscillating", OscillatingRecipe.SERIALIZER);
+	public static final RecipeSerializer<FreezingRecipe> FREEZING_SERIALIZER = registerSerializer("freezing", FreezingRecipe.SERIALIZER);
 
 	public static <S extends RecipeSerializer<T>, T extends Recipe<?>> S registerSerializer(String name, S serializer) {return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, AerialHell.id(name), serializer);}
 

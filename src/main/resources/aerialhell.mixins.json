@@ -1,7 +1,7 @@
 {
 	"required": true,
 	"package": "fr.factionbedrock.aerialhell.Mixin",
-	"compatibilityLevel": "JAVA_21",
+	"compatibilityLevel": "JAVA_25",
 	"mixins": [
 		"CustomBrewingRecipeMixin",
 		"OnBlockPlacedMixin",
@@ -15,7 +15,6 @@
 		"LivingEntityGravityMixin",
 		"ServerPlayerTickMixin",
 		"ServerPlayerInteractionManagerMixin",
-		"SleepFinishMixin",
 		"ProjectileCanHitEntityMixin",
 		"ImpactFromPersistentProjectileEntityMixin",
 		"LivingDamageMixin",

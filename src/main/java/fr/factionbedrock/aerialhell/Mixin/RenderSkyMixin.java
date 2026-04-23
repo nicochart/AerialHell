@@ -11,8 +11,9 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.SkyRenderer;
-import net.minecraft.client.renderer.state.LevelRenderState;
-import net.minecraft.client.renderer.state.SkyRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.state.level.LevelRenderState;
+import net.minecraft.client.renderer.state.level.SkyRenderState;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -35,7 +36,7 @@ public class RenderSkyMixin
     private static AerialHellDimensionSkyRenderer ahSkyRenderer = null;
     
     @Inject(method = "addSkyPass", at = @At("HEAD"), cancellable = true)
-    private void renderSky(FrameGraphBuilder frameGraphBuilder, Camera camera, GpuBufferSlice fogBuffer, CallbackInfo callbackInfo)
+    private void renderSky(FrameGraphBuilder frameGraphBuilder, CameraRenderState cameraRenderState, GpuBufferSlice fogBuffer, CallbackInfo callbackInfo)
     {
         LevelRenderer worldRenderer = (LevelRenderer) (Object) this;
         ClientLevel world = worldRenderer.level;
@@ -43,10 +44,10 @@ public class RenderSkyMixin
         //Override only for Aerial Hell dimension
         if (world == null || world.dimension() != AerialHellDimensions.AERIAL_HELL_DIMENSION) {return;}
 
-        FogType cameraSubmersionType = camera.getFluidInCamera();
-        if (cameraSubmersionType != FogType.POWDER_SNOW && cameraSubmersionType != FogType.LAVA && !hasBlindnessOrDarknessEffect(camera))
+        FogType fogType = cameraRenderState.fogType;
+        if (fogType != FogType.POWDER_SNOW && fogType != FogType.LAVA && !cameraRenderState.entityRenderState.doesMobEffectBlockSky)
         {
-            SkyRenderState skyRenderState = levelRenderState.skyRenderState;
+            SkyRenderState skyRenderState = this.levelRenderState.skyRenderState;
             if (skyRenderState.skybox != DimensionType.Skybox.NONE)
             {
                 FramePass framePass = frameGraphBuilder.addPass("sky");

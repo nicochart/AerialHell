@@ -9,24 +9,24 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
-import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.world.level.block.state.BlockState;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 
 public class RenderRegistrationListener
 {
     public static void registerBlockRenderLayers()
     {
-
         ChunkSectionLayer translucent = ChunkSectionLayer.TRANSLUCENT;
         ChunkSectionLayer cutout = ChunkSectionLayer.CUTOUT;
 
+        //TODO is it still necessary ?
+        /*
         BlockRenderLayerMap.putBlock(AerialHellBlocks.AERIAL_HELL_PORTAL, translucent);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.GHOST_BOAT_CHEST, translucent);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.GHOST_BOAT_PLANKS, translucent);
@@ -219,6 +219,7 @@ public class RenderRegistrationListener
         BlockRenderLayerMap.putBlock(AerialHellBlocks.MUD_CYCLE_MAGE_TROPHY, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.CHAINED_GOD_TROPHY, cutout);
         BlockRenderLayerMap.putBlock(AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK, translucent);
+        */
     }
 
     public static void registerRenderers()
@@ -298,46 +299,46 @@ public class RenderRegistrationListener
         BlockEntityRenderers.register(AerialHellBlockEntities.CHEST, AerialHellChestBlockEntityRenderer::new);
         BlockEntityRenderers.register(AerialHellBlockEntities.CHEST, AerialHellChestBlockEntityRenderer::new);
         BlockEntityRenderers.register(AerialHellBlockEntities.CHEST_MIMIC, AerialHellChestMimicBlockEntityRenderer::new);
-        BlockEntityRenderers.register(AerialHellBlockEntities.SIGN, SignRenderer::new);
+        BlockEntityRenderers.register(AerialHellBlockEntities.SIGN, StandingSignRenderer::new);
         BlockEntityRenderers.register(AerialHellBlockEntities.HANGING_SIGN, HangingSignRenderer::new);
     }
 
     public static void registerLayerDefinitions()
     {
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CATERPILLAR, ForestCaterpillarModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.BOAR, BoarModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.ENT, EntModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SNAKE, SnakeModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.STELLAR_CHICKEN, StellarChickenModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CHAINED_GOD, ChainedGodModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CHEST_MIMIC, ChestMimicModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CRYSTAL_GOLEM, CrystalGolemModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CRYSTAL_SLIME, CrystalSlimeModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.ELEMENT_SPIRIT, ElementSpiritModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.FLYING_JELLYFISH, FlyingJellyfishModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.GLIDING_TURTLE, GlidingTurtleModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.KODAMA, KodamaModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.LILITH, LilithModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.LUNATIC_PRIEST, LunaticPriestModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.MUD_CYCLE_MAGE, MudCycleMageModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.VOLUCITE_GOLEM, VoluciteGolemModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.VOLUCITE_GOLEM_HEAD, VoluciteGolemHeadModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.MUD_GOLEM, MudGolemModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SANDY_SHEEP, SandySheepModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SHADOW_FLYING_SKULL, ShadowFlyingSkullModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SHADOW_TROLL, ShadowTrollModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SHROOMBOOM, ShroomBoomModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SPIDER_BARREL_MIMIC, SpiderBarrelMimicModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.AUTOMATON, AutomatonModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.TORN_SPIRIT, TornSpiritModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.VERDIGRIS_ZOMBIE, VerdigrisZombieModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SLIME_PIRATE, HumanoidTwoLayerModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CATERPILLAR, ForestCaterpillarModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.BOAR, BoarModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.ENT, EntModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SNAKE, SnakeModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.STELLAR_CHICKEN, StellarChickenModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CHAINED_GOD, ChainedGodModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CHEST_MIMIC, ChestMimicModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CRYSTAL_GOLEM, CrystalGolemModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CRYSTAL_SLIME, CrystalSlimeModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.ELEMENT_SPIRIT, ElementSpiritModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.FLYING_JELLYFISH, FlyingJellyfishModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.GLIDING_TURTLE, GlidingTurtleModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.KODAMA, KodamaModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.LILITH, LilithModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.LUNATIC_PRIEST, LunaticPriestModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.MUD_CYCLE_MAGE, MudCycleMageModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.VOLUCITE_GOLEM, VoluciteGolemModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.VOLUCITE_GOLEM_HEAD, VoluciteGolemHeadModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.MUD_GOLEM, MudGolemModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SANDY_SHEEP, SandySheepModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SHADOW_FLYING_SKULL, ShadowFlyingSkullModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SHADOW_TROLL, ShadowTrollModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SHROOMBOOM, ShroomBoomModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SPIDER_BARREL_MIMIC, SpiderBarrelMimicModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.AUTOMATON, AutomatonModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.TORN_SPIRIT, TornSpiritModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.VERDIGRIS_ZOMBIE, VerdigrisZombieModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SLIME_PIRATE, HumanoidTwoLayerModel::createBodyLayer);
 
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CORTINARIUS_COW_SHROOM, CortinariusCowShroomModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CRYSTAL_GOLEM_CRYSTAL, CrystalGolemCrystalModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SPIDER_SPIKE, HellSpiderSpikeModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CORTINARIUS_COW_SHROOM, CortinariusCowShroomModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CRYSTAL_GOLEM_CRYSTAL, CrystalGolemCrystalModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SPIDER_SPIKE, HellSpiderSpikeModel::createBodyLayer);
 
-        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.EMPTY, EmptyModel::createBodyLayer);
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.EMPTY, EmptyModel::createBodyLayer);
     }
 
     public static void registerShiftingBakedModels()

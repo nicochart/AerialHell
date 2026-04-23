@@ -29,7 +29,7 @@ public class BarrelMimicBlock extends RotatedPillarBlock
 		if (world.isClientSide()) {addSpawnParticle(world, pos);}
 		else
 		{
-			world.playSound(null, pos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 0.5F, 0.7F + 0.5F * world.random.nextFloat());
+			world.playSound(null, pos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 0.5F, 0.7F + 0.5F * world.getRandom().nextFloat());
 			revealMimic(state, world, pos);
 			world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 		}
@@ -54,7 +54,7 @@ public class BarrelMimicBlock extends RotatedPillarBlock
 	{
 		for(int i = 0; i < 20; ++i)
 		{
-			double dx = world.random.nextGaussian() * 0.04D, dy = world.random.nextGaussian() * 0.04D, dz = world.random.nextGaussian() * 0.04D;
+			double dx = world.getRandom().nextGaussian() * 0.04D, dy = world.getRandom().nextGaussian() * 0.04D, dz = world.getRandom().nextGaussian() * 0.04D;
 			double x = pos.getX() + 0.5F + dx * 10.0D, y = pos.getY() + 0.5F + dy * 10.0D, z = pos.getZ() + 0.5F + dz * 10.0D;
 			world.addParticle(this.getMimicSpawnParticle(), x, y, z, dx * 10.0D, dy * 10.0D, dz * 10.0D);
 		}

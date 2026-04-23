@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Particle.*;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.client.particle.CampfireSmokeParticle;
 import net.minecraft.client.particle.FlameParticle;
@@ -31,16 +31,16 @@ public class AerialHellParticleTypes
 
 	public static void registerParticleFactories()
 	{
-		ParticleFactoryRegistry.getInstance().register(AERIAL_HELL_PORTAL, AerialHellPortalParticle.Factory::new);
-		ParticleFactoryRegistry.getInstance().register(LUNATIC_PARTICLE, LightParticle.Factory::new);
-		ParticleFactoryRegistry.getInstance().register(COPPER_PINE_LEAVES, CopperPineLeavesParticle.Factory::new);
-		ParticleFactoryRegistry.getInstance().register(OSCILLATOR, OscillatorParticle.Factory::new);
-		ParticleFactoryRegistry.getInstance().register(SNOWFLAKE, SnowFlakeParticle.Factory::new);
-		ParticleFactoryRegistry.getInstance().register(GOD_FLAME, FlameParticle.Provider::new);
-		ParticleFactoryRegistry.getInstance().register(SHADOW_TROLL_BAT, ShadowParticle.Factory::new);
-		ParticleFactoryRegistry.getInstance().register(SHADOW_PARTICLE, ShadowParticle.Factory::new);
-		ParticleFactoryRegistry.getInstance().register(SHADOW_LIGHT, LightParticle.Factory::new);
-		ParticleFactoryRegistry.getInstance().register(FAT_PHANTOM_SMOKE, CampfireSmokeParticle.CosyProvider::new);
-		ParticleFactoryRegistry.getInstance().register(FALLING_CRYSTALLIZED_LEAVES, FallingCrystallizedLeavesParticle.Factory::new);
+		ParticleProviderRegistry.getInstance().register(AERIAL_HELL_PORTAL, AerialHellPortalParticle.Factory::new);
+		ParticleProviderRegistry.getInstance().register(LUNATIC_PARTICLE, LightParticle.Factory::new);
+		ParticleProviderRegistry.getInstance().register(COPPER_PINE_LEAVES, CopperPineLeavesParticle.Factory::new);
+		ParticleProviderRegistry.getInstance().register(OSCILLATOR, OscillatorParticle.Factory::new);
+		ParticleProviderRegistry.getInstance().register(SNOWFLAKE, SnowFlakeParticle.Factory::new);
+		ParticleProviderRegistry.getInstance().register(GOD_FLAME, FlameParticle.Provider::new);
+		ParticleProviderRegistry.getInstance().register(SHADOW_TROLL_BAT, ShadowParticle.Factory::new);
+		ParticleProviderRegistry.getInstance().register(SHADOW_PARTICLE, ShadowParticle.Factory::new);
+		ParticleProviderRegistry.getInstance().register(SHADOW_LIGHT, LightParticle.Factory::new);
+		ParticleProviderRegistry.getInstance().register(FAT_PHANTOM_SMOKE, CampfireSmokeParticle.CosyProvider::new);
+		ParticleProviderRegistry.getInstance().register(FALLING_CRYSTALLIZED_LEAVES, FallingCrystallizedLeavesParticle.Factory::new);
 	}
 }

@@ -11,7 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.block.FarmlandBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
 
-public class StellarFarmBlock extends FarmBlock
+public class StellarFarmBlock extends FarmlandBlock
 {
     public StellarFarmBlock(BlockBehaviour.Properties settings) {super(settings);}
 
@@ -47,7 +47,7 @@ public class StellarFarmBlock extends FarmBlock
 
     @Override public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, double fallDistance)
     {
-        if (world instanceof ServerLevel serverWorld && world.random.nextFloat() < fallDistance - 0.5F && entity instanceof LivingEntity && (entity instanceof Player || serverWorld.getGameRules().get(GameRules.MOB_GRIEFING)) && entity.getBbWidth() * entity.getBbWidth() * entity.getBbHeight() > 0.512F)
+        if (world instanceof ServerLevel serverWorld && world.getRandom().nextFloat() < fallDistance - 0.5F && entity instanceof LivingEntity && (entity instanceof Player || serverWorld.getGameRules().get(GameRules.MOB_GRIEFING)) && entity.getBbWidth() * entity.getBbWidth() * entity.getBbHeight() > 0.512F)
         {
             turnToStellarDirt(entity, state, world, pos);
         }

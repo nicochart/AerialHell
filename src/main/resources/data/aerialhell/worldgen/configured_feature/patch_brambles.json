@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:random_patch",
+  "type": "aerialhell:random_patch",
   "config": {
     "tries": 15,
     "xz_spread": 9,

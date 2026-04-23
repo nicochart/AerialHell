@@ -71,7 +71,7 @@ public class LivingDamageMixin
         float blockedAmount = damagedEntity.applyItemBlocking(serverWorld, source, amount);
         baseAmount -= blockedAmount;
         if (baseAmount <= 0.0F) {return 0.0F;}
-        if (source.is(DamageTypeTags.IS_FREEZING) && damagedEntity.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {baseAmount *= 5.0F;}
+        if (source.is(DamageTypeTags.IS_FREEZING) && damagedEntity.is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {baseAmount *= 5.0F;}
         if (source.is(DamageTypeTags.DAMAGES_HELMET) && !damagedEntity.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {baseAmount *= 0.75F;}
 
         return baseAmount;

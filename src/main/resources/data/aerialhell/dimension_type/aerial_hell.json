@@ -13,9 +13,11 @@
     "minecraft:visual/fog_color": "#c0d8ff",
     "minecraft:visual/sky_color": "#78a7ff"
   },
+  "default_clock": "minecraft:overworld",
   "coordinate_scale": 0.125,
   "has_ceiling": false,
   "has_skylight": true,
+  "has_ender_dragon_fight": false,
   "height": 272,
   "infiniburn": "#minecraft:infiniburn_overworld",
   "logical_height": 272,

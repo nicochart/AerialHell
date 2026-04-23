@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.PaintingRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -85,7 +85,7 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
                     case EAST -> q = Mth.floor(paintingEntity.getZ() + (double)m);
                 }
 
-                paintingEntityRenderState.lightCoordsPerBlock[l + k * i] = LevelRenderer.getLightColor(world, new BlockPos(o, p, q));
+                paintingEntityRenderState.lightCoordsPerBlock[l + k * i] = LevelRenderer.getLightCoords(world, new BlockPos(o, p, q));
             }
         }
     }

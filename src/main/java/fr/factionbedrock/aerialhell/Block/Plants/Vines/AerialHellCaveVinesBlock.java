@@ -49,7 +49,7 @@ public class AerialHellCaveVinesBlock extends CaveVinesBlock
         if (state.getValue(BERRIES))
         {
             Block.popResource(world, pos, new ItemStack(berryItem, 1));
-            float f = Mth.randomBetween(world.random, 0.8F, 1.2F);
+            float f = Mth.randomBetween(world.getRandom(), 0.8F, 1.2F);
             world.playSound(null, pos, SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, f);
             BlockState blockState = state.setValue(BERRIES, false);
             world.setBlock(pos, blockState, Block.UPDATE_CLIENTS);

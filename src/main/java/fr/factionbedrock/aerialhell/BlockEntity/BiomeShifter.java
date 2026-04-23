@@ -34,7 +34,7 @@ public interface BiomeShifter
     static void transformRandomBlocks(Level world, BlockPos pos, BlockState state, BiomeShifter blockEntity)
     {
         ShiftType shiftType = blockEntity.getShiftType();
-        int fieldSize = blockEntity.getRealFieldSize(); RandomSource rand = world.random;
+        int fieldSize = blockEntity.getRealFieldSize(); RandomSource rand = world.getRandom();
         int tryNumber = (int) (fieldSize * fieldSize * fieldSize * 1.0F/8.0F);
         boolean transformed; int transformedCount = 0;
         for (int i=0; i<tryNumber; i++)
@@ -66,7 +66,7 @@ public interface BiomeShifter
 
     private static void sendTransformEffect(ServerLevel serverworld, BlockPos blockpos, ShiftType type)
     {
-        RandomSource rand = serverworld.random;
+        RandomSource rand = serverworld.getRandom();
         ParticleOptions particle = type == ShiftType.CORRUPT ? AerialHellParticleTypes.SHADOW_LIGHT : AerialHellParticleTypes.OSCILLATOR;
         SoundEvent sound = type == ShiftType.CORRUPT ? SoundEvents.LODESTONE_HIT : SoundEvents.WART_BLOCK_HIT;
         Vec3 vecpos = new Vec3(blockpos.getX() + 0.5, blockpos.getY() + 0.5, blockpos.getZ() + 0.5);

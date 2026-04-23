@@ -535,7 +535,7 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 
 		public void triggerShootAllNow()
 		{
-			this.shootAll(this.getParentEntity().getTarget(), (potentialTarget) -> this.getDefaultTargetPredicate().test(potentialTarget) && !potentialTarget.getType().is(AerialHellTags.Entities.SHADOW));
+			this.shootAll(this.getParentEntity().getTarget(), (potentialTarget) -> this.getDefaultTargetPredicate().test(potentialTarget) && !potentialTarget.is(AerialHellTags.Entities.SHADOW));
 			this.resetTask();
 		}
 

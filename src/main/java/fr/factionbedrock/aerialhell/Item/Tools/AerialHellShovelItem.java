@@ -4,6 +4,9 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import java.util.List;
 import java.util.function.Consumer;
+
+import net.minecraft.core.component.DataComponentInitializers;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
@@ -24,14 +27,15 @@ public class AerialHellShovelItem extends ShovelItem
 		FLATTENABLES.put(AerialHellBlocks.CHISELED_STELLAR_GRASS_BLOCK, AerialHellBlocks.STELLAR_DIRT_PATH.defaultBlockState());
 	}
 
-	public AerialHellShovelItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, Item.Properties settings)
+	public AerialHellShovelItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, Item.Properties properties)
 	{
-		super(toolMaterial, 0.0F, 0.0F, settings); //attackDamage and attackSpeed are overridden below
+		super(toolMaterial, 0.0F, 0.0F, properties); //attackDamage and attackSpeed are overridden below
 
 		//copy of super(..) actions to edit this.components to add custom attributes
 		//material.applyToolProperties(....)
-		Item.Properties toolSettings = ItemHelper.applyToolProperties(settings, toolMaterial, BlockTags.MINEABLE_WITH_SHOVEL, attackDamage, attackSpeed, movementSpeed, maxHealth);
-		this.components = toolSettings.buildAndValidateComponents(Component.translatable(this.descriptionId), settings.effectiveModel());
+		Item.Properties toolProperties = ItemHelper.applyToolProperties(properties, toolMaterial, BlockTags.MINEABLE_WITH_SHOVEL, attackDamage, attackSpeed, movementSpeed, maxHealth);
+		DataComponentInitializers.Initializer<Item> componentInitializer = properties.finalizeInitializer(Component.translatable(this.descriptionId), toolProperties.effectiveModel());
+		BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.add(properties.itemIdOrThrow(), componentInitializer);
 	}
 
 	@Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type)

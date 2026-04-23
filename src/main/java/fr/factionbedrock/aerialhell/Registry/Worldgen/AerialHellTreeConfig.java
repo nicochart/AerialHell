@@ -56,7 +56,7 @@ public class AerialHellTreeConfig
             BlockStateProvider.simple(AerialHellBlocks.LAPIS_ROBINIA_LEAVES.defaultBlockState()),
             new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)), //rayon,décalage,hauteur
             new TwoLayersFeatureSize(1, 0, 2)
-    )).dirt(BlockStateProvider.simple(AerialHellBlocks.STELLAR_DIRT)).ignoreVines().build();
+    )).belowTrunkProvider(BlockStateProvider.simple(AerialHellBlocks.STELLAR_DIRT)).ignoreVines().build();
 
     public static final TreeConfiguration GOLDEN_BEECH_CONFIG = makeClassicStellarDirtTreeConfig(
             AerialHellBlocks.GOLDEN_BEECH_LOG.defaultBlockState(),
@@ -73,7 +73,7 @@ public class AerialHellTreeConfig
             BlockStateProvider.simple(AerialHellBlocks.SHADOW_PINE_LEAVES.defaultBlockState()),
             new SpruceFoliagePlacer(UniformInt.of(2, 3), UniformInt.of(0, 2), UniformInt.of(1, 2)), //rayon,décalage,hauteur
             new TwoLayersFeatureSize(3, 0, 2)
-    )).dirt(BlockStateProvider.simple(AerialHellBlocks.STELLAR_DIRT)).ignoreVines().build();
+    )).belowTrunkProvider(BlockStateProvider.simple(AerialHellBlocks.STELLAR_DIRT)).ignoreVines().build();
 
     public static final TreeConfiguration PURPLE_SHADOW_PINE_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
             new WeightedStateProvider(WeightedList.<BlockState>builder()
@@ -83,7 +83,7 @@ public class AerialHellTreeConfig
             BlockStateProvider.simple(AerialHellBlocks.PURPLE_SHADOW_PINE_LEAVES.defaultBlockState()),
             new SpruceFoliagePlacer(UniformInt.of(2, 3), UniformInt.of(0, 2), UniformInt.of(1, 2)), //rayon,décalage,hauteur
             new TwoLayersFeatureSize(3, 0, 2)
-    )).dirt(BlockStateProvider.simple(AerialHellBlocks.STELLAR_DIRT)).ignoreVines().build();
+    )).belowTrunkProvider(BlockStateProvider.simple(AerialHellBlocks.STELLAR_DIRT)).ignoreVines().build();
 
     public static final TreeConfiguration MEGA_SHADOW_PINE_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
             new WeightedStateProvider(WeightedList.<BlockState>builder()
@@ -93,7 +93,7 @@ public class AerialHellTreeConfig
             BlockStateProvider.simple(AerialHellBlocks.SHADOW_PINE_LEAVES.defaultBlockState()),
             new MegaPineFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0), UniformInt.of(3, 4)), //rayon,décalage,hauteur
             new TwoLayersFeatureSize(1, 1, 2)
-    )).dirt(BlockStateProvider.simple(AerialHellBlocks.STELLAR_DIRT)).decorators(ImmutableList.of(new AlterGroundDecorator(BlockStateProvider.simple(AerialHellBlocks.SHADOW_GRASS_BLOCK.defaultBlockState())))).ignoreVines().build();
+    )).belowTrunkProvider(BlockStateProvider.simple(AerialHellBlocks.STELLAR_DIRT)).decorators(ImmutableList.of(new AlterGroundDecorator(BlockStateProvider.simple(AerialHellBlocks.SHADOW_GRASS_BLOCK.defaultBlockState())))).ignoreVines().build();
 
     public static final TreeConfiguration MEGA_PURPLE_SHADOW_PINE_CONFIG = (new TreeConfiguration.TreeConfigurationBuilder(
             new WeightedStateProvider(WeightedList.<BlockState>builder()
@@ -103,7 +103,7 @@ public class AerialHellTreeConfig
             BlockStateProvider.simple(AerialHellBlocks.PURPLE_SHADOW_PINE_LEAVES.defaultBlockState()),
             new MegaPineFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0), UniformInt.of(4, 13)), //rayon,décalage,hauteur
             new TwoLayersFeatureSize(1, 1, 2)
-    )).decorators(ImmutableList.of(new AlterGroundDecorator(BlockStateProvider.simple(AerialHellBlocks.SHADOW_GRASS_BLOCK.defaultBlockState())))).dirt(BlockStateProvider.simple(AerialHellBlocks.STELLAR_DIRT)).ignoreVines().build();
+    )).decorators(ImmutableList.of(new AlterGroundDecorator(BlockStateProvider.simple(AerialHellBlocks.SHADOW_GRASS_BLOCK.defaultBlockState())))).belowTrunkProvider(BlockStateProvider.simple(AerialHellBlocks.STELLAR_DIRT)).ignoreVines().build();
 
     public static final TreeConfiguration CRYSTALLIZED_TREE_CONFIG = makeClassicStellarDirtTreeConfig(
             AerialHellBlocks.AERIAL_TREE_LOG.defaultBlockState(),
@@ -119,6 +119,6 @@ public class AerialHellTreeConfig
 
     private static TreeConfiguration makeClassicStellarDirtTreeConfig(BlockState logBlockState, TrunkPlacer trunkPlacer, BlockState leavesBlockState, FoliagePlacer foliagePlacer, FeatureSize featureSize)
     {
-        return makeClassicTreeConfigBuilder(logBlockState, trunkPlacer, leavesBlockState, foliagePlacer, featureSize).dirt(BlockStateProvider.simple(AerialHellBlocks.STELLAR_DIRT)).ignoreVines().build();
+        return makeClassicTreeConfigBuilder(logBlockState, trunkPlacer, leavesBlockState, foliagePlacer, featureSize).belowTrunkProvider(BlockStateProvider.simple(AerialHellBlocks.STELLAR_DIRT)).ignoreVines().build();
     }
 }

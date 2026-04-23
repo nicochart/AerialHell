@@ -1,17 +1,14 @@
 package fr.factionbedrock.aerialhell.Client.BlockBakedModels;
 
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
+import net.minecraft.client.resources.model.sprite.Material;
 
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import net.minecraft.client.renderer.block.model.BlockModelPart;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.block.state.BlockState;
 
 public class LazyShiftingBlockBakedModel implements BlockStateModel
 {
@@ -26,10 +23,9 @@ public class LazyShiftingBlockBakedModel implements BlockStateModel
         this.shouldDisplayShiftedModel = shouldDisplayShiftedModel;
     }
 
-    @Override public List<BlockModelPart> collectParts(RandomSource random) {return getModel().collectParts(random);}
-    @Override public @Nullable Object createGeometryKey(BlockAndTintGetter blockView, BlockPos pos, BlockState state, RandomSource random) {return this;}
-    @Override public void collectParts(RandomSource random, List<BlockModelPart> parts) {getModel().collectParts(random, parts);}
-    @Override public TextureAtlasSprite particleIcon() {return getModel().particleIcon();}
+    @Override public void collectParts(RandomSource randomSource, List<BlockStateModelPart> list) {this.getModel().collectParts(randomSource, list);}
+    @Override public Material.Baked particleMaterial() {return this.getModel().particleMaterial();}
+    @Override public @BakedQuad.MaterialFlags int materialFlags() {return this.getModel().materialFlags();}
 
     private BlockStateModel getModel()
     {

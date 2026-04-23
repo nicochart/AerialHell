@@ -57,7 +57,7 @@ public class DeadGiantTreeFeature extends AbstractGiantTreeFeature<DeadGiantTree
         private final boolean largeTrunk;
         public DeadGiantTrunk(FeaturePlaceContext<DeadGiantTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
         {
-            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.random(), context.origin()).getBlock());
+            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.level(), context.random(), context.origin()).getBlock());
             this.largeTrunk = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 12;
         }
 
@@ -73,7 +73,7 @@ public class DeadGiantTreeFeature extends AbstractGiantTreeFeature<DeadGiantTree
 
         @Override public BlockState getStateForPlacement(BlockPos pos)
         {
-            return ((DeadGiantTreeConfig)context.config()).trunkProvider().getState(context.random(), pos);
+            return ((DeadGiantTreeConfig)context.config()).trunkProvider().getState(context.level(), context.random(), pos);
         }
 
         @Override public BlockPos generateInsideBorder(boolean stopAtAnyObstacle, boolean generateDebug)

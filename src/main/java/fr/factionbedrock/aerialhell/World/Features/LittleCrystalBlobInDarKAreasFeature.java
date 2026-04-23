@@ -46,7 +46,7 @@ public class LittleCrystalBlobInDarKAreasFeature extends Feature<CrystalBlobConf
 		if (rand.nextInt(160) < y) {return false;}
 		if (!this.isDungeonSensitiveValid(context)) {return false;}
 
-		world.setBlock(pos, blockProvider.getState(rand, pos), 2);
+		world.setBlock(pos, blockProvider.getState(world, rand, pos), 2);
         for(int i = 0; i < 300; ++i)
         {
         	blockpos = pos.offset(rand.nextInt(2) - rand.nextInt(2), rand.nextInt(5), rand.nextInt(2) - rand.nextInt(2)); //55855
@@ -62,7 +62,7 @@ public class LittleCrystalBlobInDarKAreasFeature extends Feature<CrystalBlobConf
 		            if (j > 1) {break;}
 	            }
 
-	            if (j == 1) {world.setBlock(blockpos, blockProvider.getState(rand, blockpos), 2);}
+	            if (j == 1) {world.setBlock(blockpos, blockProvider.getState(world, rand, blockpos), 2);}
             }
         }
 	    return true;

@@ -11,7 +11,7 @@ public class KodamaRattleGoal extends Goal
 
     public KodamaRattleGoal(KodamaEntity entity) {this.goalOwner = entity;}
 
-    @Override public boolean canUse() {return goalOwner.level().getDayTime() % 24000 > 12000;}
+    @Override public boolean canUse() {return goalOwner.getDayTime() > 12000;}
     @Override public void start() {this.resetTask();}
     @Override public void stop() {this.resetTask();}
     @Override public boolean requiresUpdateEveryTick() {return true;}

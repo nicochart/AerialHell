@@ -6,8 +6,12 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.core.Holder;
+import net.minecraft.world.clock.WorldClock;
 import org.jetbrains.annotations.Nullable;
 import java.util.List;
+import java.util.Optional;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -46,6 +50,12 @@ public class KodamaEntity extends AerialHellAnimalEntity
     public static boolean canSpawn(EntityType<? extends AerialHellAnimalEntity> type, ServerLevelAccessor world, EntitySpawnReason reason, BlockPos pos, RandomSource randomIn)
     {
         return world.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT);
+    }
+
+    public long getDayTime()
+    {
+        Optional<Holder<WorldClock>> defaultClock = this.level().dimensionType().defaultClock();
+        return defaultClock.isEmpty() ? 0 : this.level().clockManager().getTotalTicks(defaultClock.get()) % 24000;
     }
 
     @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorldAccess, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData spawnGroupData)

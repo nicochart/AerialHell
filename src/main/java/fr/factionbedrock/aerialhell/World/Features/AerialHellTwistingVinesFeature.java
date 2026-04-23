@@ -66,14 +66,14 @@ public class AerialHellTwistingVinesFeature extends Feature<AerialHellTwistingVi
         return true;
     }
 
-    public static void placeWeepingVinesColumn(LevelAccessor world, RandomSource rand, BlockPos.MutableBlockPos mutablePos, int height, int minAge, int maxAge, BlockStateProvider headProvider, BlockStateProvider bodyProvider)
+    public static void placeWeepingVinesColumn(WorldGenLevel world, RandomSource rand, BlockPos.MutableBlockPos mutablePos, int height, int minAge, int maxAge, BlockStateProvider headProvider, BlockStateProvider bodyProvider)
     {
         for(int i = 1; i <= height; ++i)
         {
             if (world.isEmptyBlock(mutablePos))
             {
-                if (i == height || !world.isEmptyBlock(mutablePos.above())) {world.setBlock(mutablePos, headProvider.getState(rand, mutablePos).setValue(GrowingPlantHeadBlock.AGE, Integer.valueOf(Mth.nextInt(rand, minAge, maxAge))), 2); break;}
-                world.setBlock(mutablePos, bodyProvider.getState(rand, mutablePos), 2);
+                if (i == height || !world.isEmptyBlock(mutablePos.above())) {world.setBlock(mutablePos, headProvider.getState(world, rand, mutablePos).setValue(GrowingPlantHeadBlock.AGE, Integer.valueOf(Mth.nextInt(rand, minAge, maxAge))), 2); break;}
+                world.setBlock(mutablePos, bodyProvider.getState(world, rand, mutablePos), 2);
             }
             mutablePos.move(Direction.UP);
         }

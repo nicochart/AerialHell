@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.projectile.hurtingprojectile.Fireball;
@@ -41,7 +41,7 @@ public class FireballLikeProjectileRender<T extends Fireball> extends EntityRend
         matrices.pushPose();
         matrices.scale(renderState.scale, renderState.scale, renderState.scale);
         matrices.mulPose(cameraState.orientation);
-        RenderType layer = RenderTypes.entityCutoutNoCull(renderState.texture);
+        RenderType layer = RenderTypes.entityCutout(renderState.texture);
         queue.submitCustomGeometry(matrices, layer, (matricesEntry, vertexConsumer) ->
         {
             produceVertex(vertexConsumer, matricesEntry, renderState.lightCoords, 0.0F, 0, 0, 1);

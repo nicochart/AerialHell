@@ -11,6 +11,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -36,7 +37,7 @@ public class JEIHelper
 
     public static OscillatingRecipe createOscillatingRecipe(List<Item> ingredient, Item result)
     {
-        return new OscillatingRecipe("", null, Ingredient.of(ingredient.stream()), result.getDefaultInstance(), 0, 200);
+        return new OscillatingRecipe(null, null, Ingredient.of(ingredient.stream()), ItemStackTemplate.fromNonEmptyStack(result.getDefaultInstance()), 0, 200);
     }
 
     public static RecipeHolder<FreezingRecipe> createFreezingRecipeEntry(List<Item> ingredients, Item result)
@@ -48,7 +49,7 @@ public class JEIHelper
 
     public static FreezingRecipe createFreezingRecipe(List<Item> ingredient, Item result)
     {
-        return new FreezingRecipe("", null, Ingredient.of(ingredient.stream()), result.getDefaultInstance(), 0, 200);
+        return new FreezingRecipe(null, null, Ingredient.of(ingredient.stream()), ItemStackTemplate.fromNonEmptyStack(result.getDefaultInstance()), 0, 200);
     }
 
     public static Map<List<Item>, Item> OSCILLATING_MAP = new ImmutableMap.Builder<List<Item>, Item>()

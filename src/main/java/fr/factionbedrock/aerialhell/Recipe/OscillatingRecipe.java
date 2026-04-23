@@ -1,36 +1,33 @@
 package fr.factionbedrock.aerialhell.Recipe;
 
+import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.CookingBookCategory;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeBookCategories;
-import net.minecraft.world.item.crafting.RecipeBookCategory;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.crafting.*;
 
 //vanilla copy : net.minecraft.world.item.crafting.SmeltingRecipe
 public class OscillatingRecipe extends AbstractCookingRecipe
 {
-	public OscillatingRecipe(String group, CookingBookCategory category, Ingredient ingredient, ItemStack result, float experience, int cookingTime)
+	public static final MapCodec<OscillatingRecipe> MAP_CODEC = cookingMapCodec(OscillatingRecipe::new, 200);
+	public static final StreamCodec<RegistryFriendlyByteBuf, OscillatingRecipe> STREAM_CODEC = cookingStreamCodec(OscillatingRecipe::new);
+	public static final RecipeSerializer<OscillatingRecipe> SERIALIZER = new RecipeSerializer(MAP_CODEC, STREAM_CODEC);
+
+	public OscillatingRecipe(Recipe.CommonInfo commonInfo, AbstractCookingRecipe.CookingBookInfo bookInfo, Ingredient ingredient, ItemStackTemplate result, float experience, int cookingTime)
 	{
-		super(group, category, ingredient, result, experience, cookingTime);
+		super(commonInfo, bookInfo, ingredient, result, experience, cookingTime);
 	}
 
-	@Override public Item furnaceIcon() {return AerialHellBlocks.OSCILLATOR.asItem();}
+	@Override protected Item furnaceIcon() {return AerialHellBlocks.OSCILLATOR.asItem();}
+
+	@Override public RecipeSerializer<OscillatingRecipe> getSerializer() {return AerialHellRecipes.OSCILLATING_SERIALIZER;}
 
 	@Override public RecipeType<OscillatingRecipe> getType() {return RecipeTypes.OSCILLATING;}
 
-	@Override public RecipeSerializer<OscillatingRecipe> getSerializer() {return AerialHellRecipes.OSCILLATING;}
-
 	@Override public RecipeBookCategory recipeBookCategory() {return RecipeBookCategories.FURNACE_BLOCKS;}
-
-	public static class Serializer extends AbstractCookingRecipe.Serializer<OscillatingRecipe>
-	{
-		public Serializer() {super(OscillatingRecipe::new, 200);}
-	}
 }

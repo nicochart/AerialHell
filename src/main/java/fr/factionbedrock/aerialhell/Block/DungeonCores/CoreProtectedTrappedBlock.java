@@ -48,7 +48,7 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 				}
 				world.addFreshEntity(creature);
 			}
-			world.playSound(null, pos, AerialHellSoundEvents.TRAPPED_BLOCK_STEP, SoundSource.BLOCKS, 1.0F, world.random.nextFloat() * 0.1F + 0.9F);
+			world.playSound(null, pos, AerialHellSoundEvents.TRAPPED_BLOCK_STEP, SoundSource.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
 		}
 	}
 	

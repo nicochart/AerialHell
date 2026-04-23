@@ -60,7 +60,7 @@ public class BlockHelper
 
     public static boolean isItemCorrectForHarvesting(BlockState state, Item item)
     {
-        Tool tool = item.components.get(DataComponents.TOOL);
+        Tool tool = item.components().get(DataComponents.TOOL);
         if (tool != null)
         {
             return tool.isCorrectForDrops(state);
@@ -83,7 +83,7 @@ public class BlockHelper
         else if (blockState.getFluidState().getAmount() == 8) {return false;}
         else
         {
-            int i = LightEngine.getLightBlockInto(state, blockState, Direction.UP, blockState.getLightBlock());
+            int i = LightEngine.getLightBlockInto(state, blockState, Direction.UP, blockState.getLightDampening());
             return i < 15;
         }
     }

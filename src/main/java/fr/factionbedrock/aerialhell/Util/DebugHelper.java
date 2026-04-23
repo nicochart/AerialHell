@@ -13,7 +13,7 @@ public class DebugHelper
 
         if (world.isClientSide())
         {
-            Minecraft.getInstance().player.displayClientMessage(Component.literal(chatMessage), false);
+            Minecraft.getInstance().player.sendSystemMessage(Component.literal(chatMessage));
         }
         else if (world.getServer() != null)
         {

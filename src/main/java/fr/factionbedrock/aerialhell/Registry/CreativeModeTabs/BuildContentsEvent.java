@@ -1,20 +1,20 @@
 package fr.factionbedrock.aerialhell.Registry.CreativeModeTabs;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.world.item.CreativeModeTabs;
 
 public class BuildContentsEvent
 {
     public static void buildContents()
     {
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries ->
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries ->
         {
             entries.accept(AerialHellItems.STELLAR_PORTAL_FRAME_BLOCK);
             entries.accept(AerialHellItems.STELLAR_LIGHTER);
         });
 
-        ItemGroupEvents.modifyEntriesEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)).register(entries ->
+        CreativeModeTabEvents.modifyOutputEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_BLOCKS)).register(entries ->
         {
             entries.accept(AerialHellItems.STELLAR_PORTAL_FRAME_BLOCK);
             entries.accept(AerialHellItems.STELLAR_LIGHTER);
@@ -490,7 +490,7 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.GRAY_SHROOM_VINE_ROPE_SPOOL);
         });
 
-        ItemGroupEvents.modifyEntriesEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)).register(entries ->
+        CreativeModeTabEvents.modifyOutputEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_DUNGEON_BLOCKS)).register(entries ->
         {
             entries.accept(AerialHellItems.LUNATIC_LANTERN);
             entries.accept(AerialHellItems.SHADOW_LANTERN);
@@ -617,7 +617,7 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.LILITH_TROPHY);
             entries.accept(AerialHellItems.CHAINED_GOD_TROPHY);
         });
-        ItemGroupEvents.modifyEntriesEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_TOOLS)).register(entries ->
+        CreativeModeTabEvents.modifyOutputEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_TOOLS)).register(entries ->
         {
             entries.accept(AerialHellItems.SKY_WOOD_PICKAXE);
             entries.accept(AerialHellItems.STELLAR_STONE_PICKAXE);
@@ -663,7 +663,7 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.ARSONIST_HOE);
         });
 
-        ItemGroupEvents.modifyEntriesEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_COMBAT)).register(entries ->
+        CreativeModeTabEvents.modifyOutputEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_COMBAT)).register(entries ->
         {
             entries.accept(AerialHellItems.IRON_SHURIKEN);
             entries.accept(AerialHellItems.GOLD_SHURIKEN);
@@ -757,7 +757,7 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.SHADOW_BOOTS);
         });
 
-        ItemGroupEvents.modifyEntriesEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_FOODSTUFFS)).register(entries ->
+        CreativeModeTabEvents.modifyOutputEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_FOODSTUFFS)).register(entries ->
         {
             entries.accept(AerialHellItems.AERIAL_BERRY);
             entries.accept(AerialHellItems.ROASTED_AERIAL_BERRY);
@@ -805,7 +805,7 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.VIBRANT_GOLDEN_NETHER_STEAK);
         });
 
-        ItemGroupEvents.modifyEntriesEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)).register(entries ->
+        CreativeModeTabEvents.modifyOutputEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)).register(entries ->
         {
             entries.accept(AerialHellItems.STELLAR_PORTAL_FRAME_BRICK);
             entries.accept(AerialHellItems.STELLAR_LIGHTER);
@@ -879,7 +879,7 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.AERIAL_HELL_PAINTING);
         });
 
-        ItemGroupEvents.modifyEntriesEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_SPAWN_EGGS)).register(entries ->
+        CreativeModeTabEvents.modifyOutputEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_SPAWN_EGGS)).register(entries ->
         {
             entries.accept(AerialHellItems.AERIAL_TREE_CHEST_MIMIC);
             entries.accept(AerialHellItems.GOLDEN_BEECH_CHEST_MIMIC);

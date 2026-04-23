@@ -83,16 +83,16 @@ public class EntityHelper
         return isShadowImmune || isShadowEntity;
     }
 
-    public static boolean isShadowEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.SHADOW);}
-    public static boolean isLightEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.LIGHT);}
-    public static boolean isGhostEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.GHOST_PIRATE);}
+    public static boolean isShadowEntity(Entity entity) {return entity.is(AerialHellTags.Entities.SHADOW);}
+    public static boolean isLightEntity(Entity entity) {return entity.is(AerialHellTags.Entities.LIGHT);}
+    public static boolean isGhostEntity(Entity entity) {return entity.is(AerialHellTags.Entities.GHOST_PIRATE);}
     public static boolean isLightProjectile(Entity entity) {return entity instanceof LunaticProjectileEntity;}
     public static boolean isProjectile(Entity entity) {return entity instanceof AbstractArrow || entity instanceof ThrowableItemProjectile;}
-    public static boolean isMudEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.MUD);}
-    public static boolean isBossEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.BOSS);}
-    public static boolean isAerialHellAnimalEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.PASSIVE);}
-    public static boolean isAggressive(Entity entity) {return entity.getType().is(AerialHellTags.Entities.AGGRESSIVE);}
-    public static boolean isFeatheryEntity(Entity entity) {return entity.getType().is(AerialHellTags.Entities.FEATHERY);}
+    public static boolean isMudEntity(Entity entity) {return entity.is(AerialHellTags.Entities.MUD);}
+    public static boolean isBossEntity(Entity entity) {return entity.is(AerialHellTags.Entities.BOSS);}
+    public static boolean isAerialHellAnimalEntity(Entity entity) {return entity.is(AerialHellTags.Entities.PASSIVE);}
+    public static boolean isAggressive(Entity entity) {return entity.is(AerialHellTags.Entities.AGGRESSIVE);}
+    public static boolean isFeatheryEntity(Entity entity) {return entity.is(AerialHellTags.Entities.FEATHERY);}
 
     public static boolean isImmuneToBramblesDamage(Entity entity)
     {
@@ -101,7 +101,7 @@ public class EntityHelper
         else {return isImmuneToSomeShadowDamage(entity);}
     }
 
-    public static boolean isImmuneToSkyCactusCollision(Entity entity) {return entity.getType().is(AerialHellTags.Entities.SKY_CACTUS_COLLISION_IMMUNE);}
+    public static boolean isImmuneToSkyCactusCollision(Entity entity) {return entity.is(AerialHellTags.Entities.SKY_CACTUS_COLLISION_IMMUNE);}
 
     public static boolean isImmuneToSolidEtherCollision(Entity entity)
     {
@@ -127,7 +127,7 @@ public class EntityHelper
         return false;
     }
 
-    public static boolean isImmuneToChainedGodDrag(Entity entity) {return isCreaOrSpecPlayer(entity) || entity.getType().is(AerialHellTags.Entities.CHAINED_GOD_DRAG_IMMUNE);}
+    public static boolean isImmuneToChainedGodDrag(Entity entity) {return isCreaOrSpecPlayer(entity) || entity.is(AerialHellTags.Entities.CHAINED_GOD_DRAG_IMMUNE);}
 
     public static boolean hasSolidEtherWalkerEnchantment(LivingEntity entity)
     {
@@ -248,7 +248,7 @@ public class EntityHelper
         for (ChunkAccess chunkaccess : chunkAccessList)
         {
             if (chunkaccess instanceof LevelChunk levelchunk) {chunkList.add(levelchunk);}
-            else {chunkList.add(world.getChunk(chunkaccess.getPos().x, chunkaccess.getPos().z));}
+            else {chunkList.add(world.getChunk(chunkaccess.getPos().x(), chunkaccess.getPos().z()));}
         }
 
         player.connection.send(ClientboundChunksBiomesPacket.forChunks(chunkList));
@@ -333,9 +333,9 @@ public class EntityHelper
             }
             else {previousBodyPartString += "null";}
             nextBodyPartString += "]"; previousBodyPartString += "]";
-            messageReceiver.displayClientMessage(Component.literal("Entity "+snakeEntity.getType()+" : isHead = "+snakeEntity.isHead()), false);
-            messageReceiver.displayClientMessage(Component.literal("nextBodyPart = "+nextBodyPartString), false);
-            messageReceiver.displayClientMessage(Component.literal("previousBodyPart = "+previousBodyPartString), false);
+            messageReceiver.sendSystemMessage(Component.literal("Entity "+snakeEntity.getType()+" : isHead = "+snakeEntity.isHead()));
+            messageReceiver.sendSystemMessage(Component.literal("nextBodyPart = "+nextBodyPartString));
+            messageReceiver.sendSystemMessage(Component.literal("previousBodyPart = "+previousBodyPartString));
         }
     }
 

@@ -1,7 +1,8 @@
 package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.SoundType;
@@ -54,11 +55,11 @@ public class AerialHellWoodTypes
 
     public static void addWoodTypeToSheets(WoodType woodType)
     {
-        SIGN_MATERIALS.put(woodType, createSignTextureId(woodType));
-        HANGING_SIGN_MATERIALS.put(woodType, createHangingSignTextureId(woodType));
+        SIGN_SPRITES.put(woodType, createSignSprite(woodType));
+        HANGING_SIGN_SPRITES.put(woodType, createHangingSignSprite(woodType));
     }
 
-    //copies of methods of same name from net.minecraft.client.render.TexturedRenderLayers
-    private static Material createSignTextureId(WoodType type) {return new Material(SIGN_SHEET, AerialHell.id("entity/signs/" + type.name()));}
-    private static Material createHangingSignTextureId(WoodType type) {return new Material(SIGN_SHEET, AerialHell.id("entity/signs/hanging/" + type.name()));}
+    //copies of methods of same name from net.minecraft.client.renderer.Sheets
+    private static SpriteId createSignSprite(final WoodType type) {return SIGN_MAPPER.apply(AerialHell.id(type.name()));}
+    private static SpriteId createHangingSignSprite(final WoodType type) {return HANGING_SIGN_MAPPER.apply(AerialHell.id(type.name()));}
 }

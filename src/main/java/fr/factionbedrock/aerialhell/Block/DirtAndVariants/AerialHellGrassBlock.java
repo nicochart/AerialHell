@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.DirtAndVariants;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
+import fr.factionbedrock.aerialhell.World.Features.Config.RandomPatchConfiguration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
@@ -12,7 +13,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import java.util.List;
 import java.util.Optional;
@@ -59,9 +59,9 @@ public abstract class AerialHellGrassBlock extends GrassBlock implements Bonemea
 				Holder registryEntry;
 				if (rand.nextInt(8) == 0)
 				{
-					List<ConfiguredFeature<?, ?>> list = world.getBiome(blockpos1).value().getGenerationSettings().getFlowerFeatures();
+					List<ConfiguredFeature<?, ?>> list = world.getBiome(blockpos1).value().getGenerationSettings().getBoneMealFeatures();
 					if (list.isEmpty()) {continue;}
-					registryEntry = ((RandomPatchConfiguration)(list.get(0)).config()).feature();
+					registryEntry = ((RandomPatchConfiguration)list.get(0).config()).feature();
 				}
 				else
 				{

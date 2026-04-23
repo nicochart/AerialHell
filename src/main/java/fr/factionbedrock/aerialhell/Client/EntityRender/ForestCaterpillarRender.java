@@ -6,6 +6,8 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.ForestCaterpillarModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.CaterpillarRenderState;
 import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
 import java.awt.*;
+
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -29,7 +31,7 @@ public class ForestCaterpillarRender<T extends AbstractCaterpillarEntity> extend
 	@Override public void extractRenderState(T entity, CaterpillarRenderState renderState, float f)
 	{
 		super.extractRenderState(entity, renderState, f);
-		renderState.grassARGB = new Color(BiomeColors.getAverageGrassColor(entity.level(), entity.getOnPos())).getRGB();
-		renderState.foliageARGB = new Color(BiomeColors.getAverageFoliageColor(entity.level(), entity.getOnPos())).getRGB();
+		renderState.grassARGB = entity.level() instanceof ClientLevel level ? new Color(BiomeColors.getAverageGrassColor(level, entity.getOnPos())).getRGB() : 0;
+		renderState.foliageARGB = entity.level() instanceof ClientLevel level ? new Color(BiomeColors.getAverageFoliageColor(level, entity.getOnPos())).getRGB() : 0;
 	}
 }

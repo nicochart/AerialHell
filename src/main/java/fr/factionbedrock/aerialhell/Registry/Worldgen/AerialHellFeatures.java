@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.World.Features.*;
 import fr.factionbedrock.aerialhell.World.Features.Config.*;
+import fr.factionbedrock.aerialhell.World.Features.Config.RandomPatchConfiguration;
 import fr.factionbedrock.aerialhell.World.Features.GiantTree.ClassicGiantTreeFeature;
 import fr.factionbedrock.aerialhell.World.Features.GiantTree.DeadGiantTreeFeature;
 import fr.factionbedrock.aerialhell.World.Features.GiantTree.ForkingGiantTreeFeature;
@@ -16,11 +17,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 
 public class AerialHellFeatures
 {
+	public static final Feature<?> RANDOM_PATCH = register("random_patch", new RandomPatchFeature(RandomPatchConfiguration.CODEC));
+
 	public static final Feature<?> AERIAL_HELL_LAKE = register("lake", new AerialHellLakeFeature(AerialHellLakeFeature.Config.CODEC));
 
 	public static final Feature<?> GIANT_GANODERMA_APPLANATUM = register("giant_ganoderma_applanatum", new GiantGanodermaApplanatumFeature(NoneFeatureConfiguration.CODEC));

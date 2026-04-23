@@ -17,14 +17,14 @@
 		"client": ["fr.factionbedrock.aerialhell.AerialHell"],
 		"jei_mod_plugin": ["fr.factionbedrock.aerialhell.Integration.JEI.AerialHellJei"]
 	},
-	"accessWidener" : "aerialhell.accesswidener",
+	"accessWidener" : "aerialhell.classtweaker",
 	"mixins": [
 		"aerialhell.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.18.4",
-		"minecraft": "~1.21.11",
-		"java": ">=21",
+		"fabricloader": ">=0.18.6",
+		"minecraft": "~26.1",
+		"java": ">=25",
 		"fabric-api": "*"
 	},
 	"suggests": {}

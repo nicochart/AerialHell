@@ -32,6 +32,6 @@ public class DoubleShroomBlock extends DoublePlantBlock
 
     @Override protected boolean mayPlaceOn(BlockState floor, BlockGetter world, BlockPos pos)
     {
-        return floor.is(BlockTags.DIRT) || floor.is(AerialHellBlocks.STELLAR_COARSE_DIRT) || floor.is(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || floor.is(BlockTags.MUSHROOM_GROW_BLOCK);
+        return floor.is(BlockTags.DIRT) || floor.is(AerialHellBlocks.STELLAR_COARSE_DIRT) || floor.is(AerialHellTags.Blocks.STELLAR_STONE_AND_DERIVATIVES) || floor.is(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT);
     }
 }

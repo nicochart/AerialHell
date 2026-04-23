@@ -61,7 +61,7 @@ public class ReactorBlockEntity extends RandomizableContainerBlockEntity impleme
         if (state.getValue(ReactorBlock.ACTIVE) != isActive) {world.setBlockAndUpdate(pos, state.setValue(ReactorBlock.ACTIVE, isActive));}
 
         BiomeShifter.transformRandomBlocks(world, pos, state, blockEntity);
-        ReactorBlock.tickParticleAndSoundAnimation((ServerLevel) world, state, pos, world.random, blockEntity.shiftType);
+        ReactorBlock.tickParticleAndSoundAnimation((ServerLevel) world, state, pos, world.getRandom(), blockEntity.shiftType);
     }
 
     public boolean updateActiveTimer() //returns true if isActive, else false

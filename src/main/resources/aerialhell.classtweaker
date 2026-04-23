@@ -1,4 +1,4 @@
-accessWidener v2 named
+classTweaker v1 official
 
 #AxeItem strippable
 accessible field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
@@ -31,9 +31,7 @@ accessible field net/minecraft/world/entity/monster/Phantom ID_SIZE Lnet/minecra
 accessible field net/minecraft/world/inventory/CraftingMenu access Lnet/minecraft/world/inventory/ContainerLevelAccess;
 
 #ChestBlockEntityRenderer
-accessible field net/minecraft/client/renderer/blockentity/ChestRenderer doubleLeftModel Lnet/minecraft/client/model/object/chest/ChestModel;
-accessible field net/minecraft/client/renderer/blockentity/ChestRenderer doubleRightModel Lnet/minecraft/client/model/object/chest/ChestModel;
-accessible field net/minecraft/client/renderer/blockentity/ChestRenderer singleModel Lnet/minecraft/client/model/object/chest/ChestModel;
+accessible field net/minecraft/client/renderer/blockentity/ChestRenderer models Lnet/minecraft/client/renderer/MultiblockChestResources;
 
 #Used in AbstractBossEntity startRiding
 accessible method net/minecraft/world/entity/vehicle/boat/AbstractBoat getDropItem ()Lnet/minecraft/world/item/Item;
@@ -55,17 +53,15 @@ extendable method net/minecraft/client/model/Model renderToBuffer (Lcom/mojang/b
 accessible method net/minecraft/world/entity/projectile/Projectile canHitEntity (Lnet/minecraft/world/entity/Entity;)Z
 accessible method net/minecraft/world/entity/projectile/arrow/AbstractArrow findHitEntity (Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/EntityHitResult;
 
+# Item Properties
+accessible method net/minecraft/world/item/Item$Properties finalizeInitializer (Lnet/minecraft/network/chat/Component;Lnet/minecraft/resources/Identifier;)Lnet/minecraft/core/component/DataComponentInitializers$Initializer;
+
 # Netherite Upgrade
 accessible method net/minecraft/world/item/SmithingTemplateItem createNetheriteUpgradeIconList ()Ljava/util/List;
 accessible method net/minecraft/world/item/SmithingTemplateItem createNetheriteUpgradeMaterialList ()Ljava/util/List;
 
 # Chorus Like plants
 accessible field net/minecraft/world/level/block/ChorusFlowerBlock plant Lnet/minecraft/world/level/block/Block;
-
-#Used in Aerial Hell tools items
-accessible field net/minecraft/world/item/Item components Lnet/minecraft/core/component/DataComponentMap;
-mutable field net/minecraft/world/item/Item components Lnet/minecraft/core/component/DataComponentMap;
-accessible method net/minecraft/world/item/Item$Properties buildAndValidateComponents (Lnet/minecraft/network/chat/Component;Lnet/minecraft/resources/Identifier;)Lnet/minecraft/core/component/DataComponentMap;
 
 #Used in LivingDamageMixin
 accessible method net/minecraft/world/entity/LivingEntity actuallyHurt (Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)V

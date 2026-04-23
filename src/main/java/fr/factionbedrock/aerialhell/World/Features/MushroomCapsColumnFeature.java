@@ -59,7 +59,7 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
         private final boolean largeTrunk;
         public GiantPineTree(FeaturePlaceContext<MushroomCapsColumnConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
         {
-            super(context, straightLineParams, knotsNumber, STEM_KNOTS_PARAMETERS, () -> context.config().stemProvider().getState(context.random(), context.origin()).getBlock());
+            super(context, straightLineParams, knotsNumber, STEM_KNOTS_PARAMETERS, () -> context.config().stemProvider().getState(context.level(), context.random(), context.origin()).getBlock());
             this.largeTrunk = (context.config().stemMaxVerticalOffset() + context.config().stemMinVerticalOffset()) / 2 > 30;
         }
 
@@ -109,14 +109,14 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
             return new Ellipsoid.EllipsoidParameters(xzSize, ySize, xzSize, - xzSize - bonus, xzSize + bonus, 0, ySize + bonus, - xzSize - bonus, xzSize + bonus);
         }
 
-        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((MushroomCapsColumnConfig)context.config()).stemProvider().getState(context.random(), pos);}
+        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((MushroomCapsColumnConfig)context.config()).stemProvider().getState(context.level(), context.random(), pos);}
     }
 
     private static class GiantCap extends Ellipsoid
     {
         public GiantCap(FeaturePlaceContext<MushroomCapsColumnConfig> context, Ellipsoid.EllipsoidParameters parameters, BlockPos centerPos)
         {
-            super(context, () -> context.config().capProvider().getState(context.random(), FeatureHelper.getFeatureCenter(context)).getBlock(), parameters, centerPos, Ellipsoid.Types.CENTER_1x1);
+            super(context, () -> context.config().capProvider().getState(context.level(), context.random(), FeatureHelper.getFeatureCenter(context)).getBlock(), parameters, centerPos, Ellipsoid.Types.CENTER_1x1);
         }
 
         public void generateLight(int number)
@@ -158,12 +158,12 @@ public class MushroomCapsColumnFeature extends AbstractGiantTreeFeature<Mushroom
 
         @Override public BlockState getStateForPlacement(BlockPos pos)
         {
-            return ((MushroomCapsColumnConfig) context.config()).capProvider().getState(context.random(), pos);
+            return ((MushroomCapsColumnConfig) context.config()).capProvider().getState(context.level(), context.random(), pos);
         }
 
         public BlockState getLightStateForPlacement(BlockPos pos)
         {
-            return ((MushroomCapsColumnConfig) context.config()).lightProvider().getState(context.random(), pos);
+            return ((MushroomCapsColumnConfig) context.config()).lightProvider().getState(context.level(), context.random(), pos);
         }
     }
 }

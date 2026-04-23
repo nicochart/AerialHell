@@ -1,10 +1,9 @@
 package fr.factionbedrock.aerialhell.Client.Util;
 
-import fr.factionbedrock.aerialhell.Block.DirtAndVariants.AerialHellGrassBlock;
 import fr.factionbedrock.aerialhell.Client.BlockBakedModels.LazyShiftingBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.world.level.block.state.BlockState;
 import java.util.HashMap;
 import java.util.Map;

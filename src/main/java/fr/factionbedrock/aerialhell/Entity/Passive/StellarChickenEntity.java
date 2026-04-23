@@ -48,21 +48,21 @@ public class StellarChickenEntity extends Chicken
 
     @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason mobSpawnType, @Nullable SpawnGroupData spawnGroupData)
     {
-        this.setColor(getBlockPositionTint());
+        this.setColor(getBlockPositionGrassColor());
         return super.finalizeSpawn(world, difficulty, mobSpawnType, spawnGroupData);
     }
 
     @Override public void tick()
     {
-        if (this.getColor() == 0)
+        if (this.getColor() == 0 && !this.level().isClientSide())
         {
-            int color = getBlockPositionTint();
+            int color = this.getBlockPositionGrassColor();
             this.setColor(color != 0 ? color : 1);
         }
         super.tick();
     }
 
-    private int getBlockPositionTint() {return this.level().getBlockTint(this.blockPosition(), Biome::getGrassColor);}
+    private int getBlockPositionGrassColor() {return this.level().getBiome(this.blockPosition()).value().getGrassColor(this.blockPosition().getX(), this.blockPosition().getZ());}
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {

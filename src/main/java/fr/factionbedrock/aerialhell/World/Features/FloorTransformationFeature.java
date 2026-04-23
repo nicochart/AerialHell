@@ -92,7 +92,7 @@ public class FloorTransformationFeature extends Feature<FloorTransformationConfi
 	protected BlockState getPlacementState(FeaturePlaceContext<FloorTransformationConfig> context, BlockPos pos, PlacementType type)
 	{
 		FloorTransformationConfig config = context.config(); RandomSource rand = context.random();
-		return type == PlacementType.INNER ? config.innerStateProvider().getState(rand, pos) : config.outerStateProvider().getState(rand, pos);
+		return type == PlacementType.INNER ? config.innerStateProvider().getState(context.level(), rand, pos) : config.outerStateProvider().getState(context.level(), rand, pos);
 	}
 
 	protected boolean canGenerate(FeaturePlaceContext<FloorTransformationConfig> context, BlockPos pos)

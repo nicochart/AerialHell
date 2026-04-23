@@ -59,7 +59,7 @@ public class PoisonballEntity extends Fireball
 				{
 					ItemStack activeItemStack = livingEntity.getUseItem();
 					//activeItemStack.damage(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
-					this.level().playSound((Player) null, entity.blockPosition(), SoundEvents.SHIELD_BREAK.value(), SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
+					this.level().playSound((Player) null, entity.blockPosition(), SoundEvents.SHIELD_BREAK.value(), SoundSource.PLAYERS, 1.0F, 0.8F + this.level().getRandom().nextFloat() * 0.4F);
 				}
 				if (!this.level().isClientSide()) {livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 160, 0));}
 			}

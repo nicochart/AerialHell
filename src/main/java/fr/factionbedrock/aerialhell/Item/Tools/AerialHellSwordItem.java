@@ -2,6 +2,9 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import java.util.function.Consumer;
+
+import net.minecraft.core.component.DataComponentInitializers;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -16,14 +19,15 @@ public class AerialHellSwordItem extends Item
 		this(toolMaterial, attackDamage, attackSpeed, 0.0F, 0.0F, settings);
 	}
 
-	public AerialHellSwordItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, Item.Properties settings)
+	public AerialHellSwordItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, Item.Properties properties)
 	{
-		super(settings.sword(toolMaterial, 0.0F, 0.0F)); //attackDamage and attackSpeed are overridden below
+		super(properties.sword(toolMaterial, 0.0F, 0.0F)); //attackDamage and attackSpeed are overridden below
 
 		//copy of super(..) actions to edit this.components to add custom attributes
 		//material.applyToolProperties(....)
-		Item.Properties toolSettings = ItemHelper.applySwordProperties(settings, toolMaterial, attackDamage, attackSpeed, movementSpeed, maxHealth);
-		this.components = toolSettings.buildAndValidateComponents(Component.translatable(this.descriptionId), settings.effectiveModel());
+		Item.Properties toolProperties = ItemHelper.applySwordProperties(properties, toolMaterial, attackDamage, attackSpeed, movementSpeed, maxHealth);
+		DataComponentInitializers.Initializer<Item> componentInitializer = properties.finalizeInitializer(Component.translatable(this.descriptionId), toolProperties.effectiveModel());
+		BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.add(properties.itemIdOrThrow(), componentInitializer);
 	}
 
 	@Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type)

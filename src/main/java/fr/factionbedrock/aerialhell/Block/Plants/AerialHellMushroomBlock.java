@@ -25,13 +25,13 @@ public class AerialHellMushroomBlock extends MushroomBlock
 
 	@Override protected boolean mayPlaceOn(BlockState floor, BlockGetter world, BlockPos pos)
 	{
-		return floor.is(AerialHellTags.Blocks.STELLAR_DIRT) || floor.is(BlockTags.MUSHROOM_GROW_BLOCK);
+		return floor.is(AerialHellTags.Blocks.STELLAR_DIRT) || floor.is(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT);
 	}
 
 	@Override public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
 	{
 		BlockState blockstate = world.getBlockState(pos.below());
-        return blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) || blockstate.is(BlockTags.MUSHROOM_GROW_BLOCK);
+        return blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) || blockstate.is(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT);
 	}
 
 	private static enum HugeGenerationDirections{NONE, NORTH_WEST, NORTH_EAST, SOUTH_WEST, SOUTH_EAST}

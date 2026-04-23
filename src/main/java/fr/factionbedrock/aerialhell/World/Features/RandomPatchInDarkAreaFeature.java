@@ -4,11 +4,11 @@ import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import java.util.List;
+
+import fr.factionbedrock.aerialhell.World.Features.Config.RandomPatchConfiguration;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.RandomPatchFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 
 public class RandomPatchInDarkAreaFeature extends RandomPatchFeature implements DungeonSensitiveFeatureCheck
 {

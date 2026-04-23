@@ -63,8 +63,8 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Config>
                 }
             }
 
-            BlockState fluidState = config.fluid().getState(random, origin);
-            BlockState barrierState = config.barrier().getState(random, origin);
+            BlockState fluidState = config.fluid().getState(world, random, origin);
+            BlockState barrierState = config.barrier().getState(world, random, origin);
 
             for (int k1 = 0; k1 < 16; k1++)
             {

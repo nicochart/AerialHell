@@ -57,7 +57,7 @@ public class NaturalFieldFeature extends Feature<NaturalFieldConfig> implements 
                     if (isValidBlockPosForStellarWheat(world, placementPos))
                     {
                         world.setBlock(placementPos.below(), AerialHellBlocks.STELLAR_FARMLAND.defaultBlockState(), 2);
-                        BlockState placementState = context.config().cropStateProvider().getState(rand, placementPos);
+                        BlockState placementState = context.config().cropStateProvider().getState(world, rand, placementPos);
                         if (placementState.getBlock() instanceof CropBlock)
                         {
                             placementState = placementState.setValue(CropBlock.AGE, world.getRandom().nextInt(4, 8));

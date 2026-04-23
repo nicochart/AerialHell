@@ -67,7 +67,7 @@ public class BonePileBlock extends SnowLayerBlock
             BlockPos posToUpdate = pos;
             if (topBlockStateIsBonePile) {posToUpdate = pos.above(); downBlockStateIsBonePile=true;}
             int currentLayerNumber = world.getBlockState(posToUpdate).getValue(LAYERS);
-            int newLayerNumber = getNewLayerNumber(currentLayerNumber, downBlockStateIsBonePile, world.random);
+            int newLayerNumber = getNewLayerNumber(currentLayerNumber, downBlockStateIsBonePile, world.getRandom());
             updateLayerNumber(world, posToUpdate, newLayerNumber, entity);
 
         }
@@ -77,14 +77,14 @@ public class BonePileBlock extends SnowLayerBlock
     {
         if (newLayerNumber > 0)
         {
-            if (!world.isClientSide()) {world.setBlockAndUpdate(pos, world.getBlockState(pos).setValue(LAYERS, newLayerNumber).setValue(WALK_DESTROY_TIMER, getRandomWalkDestroyTimer(world.random)));}
+            if (!world.isClientSide()) {world.setBlockAndUpdate(pos, world.getBlockState(pos).setValue(LAYERS, newLayerNumber).setValue(WALK_DESTROY_TIMER, getRandomWalkDestroyTimer(world.getRandom())));}
         }
         else
         {
             if (!world.isClientSide()) {world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());}
         }
-        if (!world.isClientSide()) {if (newLayerNumber < 2 || world.random.nextInt(4) == 0) {entityIn.spawnAtLocation((ServerLevel) world, new ItemStack(AerialHellItems.MUD_BONE));}}
-        else {entityIn.playSound(AerialHellSoundEvents.BLOCK_BONE_PILE_STEP_BREAK, 0.5F, 0.9F + world.random.nextFloat() * 0.3F);}
+        if (!world.isClientSide()) {if (newLayerNumber < 2 || world.getRandom().nextInt(4) == 0) {entityIn.spawnAtLocation((ServerLevel) world, new ItemStack(AerialHellItems.MUD_BONE));}}
+        else {entityIn.playSound(AerialHellSoundEvents.BLOCK_BONE_PILE_STEP_BREAK, 0.5F, 0.9F + world.getRandom().nextFloat() * 0.3F);}
     }
 
     private boolean canEntityWalkDestroy(Level world, BlockPos pos, Entity walkingEntity)

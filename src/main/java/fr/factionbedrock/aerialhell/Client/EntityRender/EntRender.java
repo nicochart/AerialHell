@@ -6,6 +6,8 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.EntModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.EntRenderState;
 import fr.factionbedrock.aerialhell.Entity.Monster.EntEntity;
 import java.awt.*;
+
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -24,7 +26,7 @@ public class EntRender<E extends EntEntity> extends MobRenderer<E, EntRenderStat
     {
         super.extractRenderState(entity, renderState, partialTick);
         renderState.isAggressive = entity.isAggressive();
-        renderState.color = new Color(BiomeColors.getAverageFoliageColor(entity.level(), entity.getOnPos())).getRGB();
+        renderState.color = entity.level() instanceof ClientLevel level ? new Color(BiomeColors.getAverageFoliageColor(level, entity.getOnPos())).getRGB() : 0;
         renderState.attackTime = entity.getAttackAnim(partialTick);
     }
 
