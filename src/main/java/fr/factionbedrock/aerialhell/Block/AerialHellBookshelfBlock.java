@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
@@ -12,9 +13,5 @@ public class AerialHellBookshelfBlock extends Block
 		super(properties);
 	}
 
-	@Override
-	public float getEnchantPowerBonus(BlockState state, LevelReader world, BlockPos pos)
-    {
-        return 1;
-    }
+	@Override public float getEnchantPowerBonus(BlockState state, BlockGetter level, BlockPos pos) {return 1.0F;}
 }
