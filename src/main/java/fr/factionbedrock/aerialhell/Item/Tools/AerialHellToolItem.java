@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
 import com.mojang.datafixers.util.Pair;
+import fr.factionbedrock.aerialhell.Item.Ability.ItemAbility;
 import fr.factionbedrock.aerialhell.Item.WithInformationItem;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -26,7 +27,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
@@ -40,23 +40,23 @@ import java.util.function.Predicate;
 // To behave like a tool, the properties must call one of them before passing the properties to the constructor.
 public class AerialHellToolItem extends WithInformationItem
 {
-	@Nullable public final ToolAbility toolAbility;
+	@Nullable public final ItemAbility itemAbility;
 	public final List<UseInteractionToolType> useInteractionToolTypes;
 
 	public AerialHellToolItem(Properties properties) {this(properties, null, List.of());}
-	public AerialHellToolItem(Properties properties, ToolAbility toolAbility) {this(properties, toolAbility, List.of());}
+	public AerialHellToolItem(Properties properties, ItemAbility itemAbility) {this(properties, itemAbility, List.of());}
 	public AerialHellToolItem(Properties properties, List<UseInteractionToolType> useInteractionToolTypes) {this(properties, null, useInteractionToolTypes);}
-	public AerialHellToolItem(Properties properties, @Nullable ToolAbility toolAbility, List<UseInteractionToolType> useInteractionToolTypes)
+	public AerialHellToolItem(Properties properties, @Nullable ItemAbility itemAbility, List<UseInteractionToolType> useInteractionToolTypes)
 	{
 		super(properties);
-		this.toolAbility = toolAbility;
+		this.itemAbility = itemAbility;
 		this.useInteractionToolTypes = useInteractionToolTypes;
 	}
 
 	//applying tick (passive) tool ability modules
 	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
 	{
-		if (this.toolAbility != null && entity instanceof LivingEntity livingEntity) {this.toolAbility.tryApplyPassiveModules(livingEntity, stack, slot);}
+		if (this.itemAbility != null && entity instanceof LivingEntity livingEntity) {this.itemAbility.tryApplyPassiveModules(livingEntity, stack, slot);}
 	}
 
 	//applying use tool ability modules
@@ -64,14 +64,14 @@ public class AerialHellToolItem extends WithInformationItem
 	{
 		ItemStack heldItemStack = player.getItemInHand(hand);
 		boolean used = false;
-		if (this.toolAbility != null) {used = this.toolAbility.tryApplyOnUseModules(player, heldItemStack, hand.asEquipmentSlot());}
+		if (this.itemAbility != null) {used = this.itemAbility.tryApplyOnUseModules(player, heldItemStack, hand.asEquipmentSlot());}
 		return used ? InteractionResult.CONSUME : super.use(level, player, hand);
 	}
 
 	//applying hurtEnemy (semi-passive) tool ability modules
 	@Override public void hurtEnemy(ItemStack itemStack, LivingEntity target, LivingEntity attacker)
 	{
-		if (this.toolAbility != null) {this.toolAbility.tryApplyOnHurtEnemyModules(attacker, itemStack, null);}
+		if (this.itemAbility != null) {this.itemAbility.tryApplyOnHurtEnemyModules(attacker, itemStack, null);}
 		super.hurtEnemy(itemStack, target, attacker);
 	}
 
@@ -250,7 +250,7 @@ public class AerialHellToolItem extends WithInformationItem
 	}
 
 	//inspired of AxeItem, HoeItem and ShovelItem methods of same name
-	@Override public boolean canPerformAction(ItemInstance stack, ItemAbility itemAbility)
+	@Override public boolean canPerformAction(ItemInstance stack, net.neoforged.neoforge.common.ItemAbility itemAbility)
 	{
 		boolean canPerformAxeAction = this.useInteractionToolTypes.contains(UseInteractionToolType.AXE) && ItemAbilities.DEFAULT_AXE_ACTIONS.contains(itemAbility);
 		boolean canPerformHoeAction = this.useInteractionToolTypes.contains(UseInteractionToolType.HOE) && ItemAbilities.DEFAULT_HOE_ACTIONS.contains(itemAbility);
