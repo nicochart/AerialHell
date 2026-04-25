@@ -19,8 +19,5 @@ public class WithInformationItem extends Item
 		tooltipAdder.accept(this.getDescription().withStyle(ChatFormatting.GRAY));
 	}
 
-	public MutableComponent getDescription()
-	{
-		return Component.translatable(this.getDescriptionId() + ".desc");
-	}
+	public MutableComponent getDescription() {return Component.translatable(this.getDescriptionId() + ".desc");}
 }

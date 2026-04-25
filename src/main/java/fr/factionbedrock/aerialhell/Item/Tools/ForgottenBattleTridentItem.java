@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
+import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 
@@ -18,7 +19,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 
-public class ForgottenBattleTridentItem extends AerialHellSwordItem
+public class ForgottenBattleTridentItem extends AerialHellToolItem
 {	
 	public ForgottenBattleTridentItem(Properties properties) {super(properties);}
 	

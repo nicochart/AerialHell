@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
+import java.util.List;
 import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
@@ -9,9 +10,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class EffectAxeItem extends AerialHellAxeItem
+public class EffectAxeItem extends AerialHellToolItem
 {
-	public EffectAxeItem(Properties properties) {super(properties);}
+	public EffectAxeItem(Properties properties) {super(properties, List.of(UseInteractionToolType.AXE));}
 	
 	@Override public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
     {

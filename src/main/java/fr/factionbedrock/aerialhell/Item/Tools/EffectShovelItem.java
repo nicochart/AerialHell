@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
+import java.util.List;
 import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
@@ -14,11 +15,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class EffectShovelItem extends AerialHellShovelItem
+public class EffectShovelItem extends AerialHellToolItem
 {	
 	private int timer;
 
-	public EffectShovelItem(Properties properties) {super(properties);}
+	public EffectShovelItem(Properties properties) {super(properties, List.of(UseInteractionToolType.SHOVEL));}
 
 	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
 	{

@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
+import java.util.List;
 import java.util.Random;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
@@ -13,9 +14,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class EffectHoeItem extends AerialHellHoeItem
+public class EffectHoeItem extends AerialHellToolItem
 {
-	public EffectHoeItem(Properties properties) {super(properties);}
+	public EffectHoeItem(Properties properties) {super(properties, List.of(UseInteractionToolType.HOE));}
 	
 	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {}
 	
