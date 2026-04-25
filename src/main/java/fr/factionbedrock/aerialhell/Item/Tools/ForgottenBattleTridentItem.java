@@ -7,8 +7,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -22,13 +20,9 @@ import net.minecraft.world.level.Level;
 
 public class ForgottenBattleTridentItem extends AerialHellSwordItem
 {	
-	public ForgottenBattleTridentItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, Properties properties)
-	{
-		super(toolMaterial, attackDamage, attackSpeed, movementSpeed, maxHealth, properties);
-	}
+	public ForgottenBattleTridentItem(Properties properties) {super(properties);}
 	
-	@Override
-    public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
+	@Override public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
 		ItemStack heldItem = playerIn.getItemInHand(handIn);
 		Random rand = new Random();
@@ -56,8 +50,5 @@ public class ForgottenBattleTridentItem extends AerialHellSwordItem
 		tooltipAdder.accept(this.getDescription().withStyle(ChatFormatting.GRAY));
 	}
 
-	public MutableComponent getDescription()
-	{
-		return Component.translatable(this.getDescriptionId() + ".desc");
-	}
+	public MutableComponent getDescription() {return Component.translatable(this.getDescriptionId() + ".desc");}
 }

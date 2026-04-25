@@ -2,10 +2,7 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.function.Consumer;
 
-import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponentInitializers;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.*;
 import net.minecraft.network.chat.Component;
@@ -13,21 +10,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
 
 public class AerialHellSwordItem extends Item
 {
-	public AerialHellSwordItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, Properties properties)
-	{
-		this(toolMaterial, attackDamage, attackSpeed, 0.0F, 0.0F, properties);
-	}
-
-	public AerialHellSwordItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, Properties properties)
-	{
-		super(properties.sword(toolMaterial, 0.0F, 0.0F));//attackDamage and attackSpeed are overridden below
-
-		//copy of super(..) actions to edit this.components to add custom attributes
-		//material.applyToolProperties(....)
-		Item.Properties toolProperties = ItemHelper.applySwordProperties(properties, toolMaterial, attackDamage, attackSpeed, movementSpeed, maxHealth);
-		DataComponentInitializers.Initializer<Item> componentInitializer = properties.finalizeInitializer(Component.translatable(this.descriptionId), toolProperties.effectiveModel());
-		BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.add(properties.itemIdOrThrow(), componentInitializer);
-	}
+	public AerialHellSwordItem( Properties properties) {super(properties);}
 
 	@Override public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
 	{

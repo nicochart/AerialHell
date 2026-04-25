@@ -32,9 +32,9 @@ public class BerserkAxeItem extends EffectAxeItem
 {
 	private int weight_ticks;
 	
-	public BerserkAxeItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, Properties properties)
+	public BerserkAxeItem(Properties properties)
 	{
-		super(toolMaterial, attackDamage, attackSpeed, 0.0F, 0.0F, properties);
+		super(properties);
 		this.weight_ticks = 0;
 	}
 	

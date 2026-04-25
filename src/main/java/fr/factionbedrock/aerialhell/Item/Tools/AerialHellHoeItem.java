@@ -1,37 +1,75 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-import fr.factionbedrock.aerialhell.Util.ItemHelper;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponentInitializers;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.tags.BlockTags;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
 
-public class AerialHellHoeItem extends HoeItem
+// Copy of vanilla HoeItem, but only takes Item.Properties as constructor parameter.
+// Unlike vanilla, this class does not call properties.hoe(...) internally.
+// To behave like an hoe, the properties must have hoe(...) called on them before being passed to the constructor.
+public class AerialHellHoeItem extends Item
 {
-	public AerialHellHoeItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, Properties properties)
-	{
-		super(toolMaterial, 0.0F, 0.0F, properties); //attackDamage and attackSpeed are overridden below
-
-		//copy of super(..) actions to edit this.components to add custom attributes
-		//material.applyToolProperties(....)
-		Item.Properties toolProperties = ItemHelper.applyToolProperties(properties, toolMaterial, BlockTags.MINEABLE_WITH_HOE, attackDamage, attackSpeed, movementSpeed, maxHealth);
-		DataComponentInitializers.Initializer<Item> componentInitializer = properties.finalizeInitializer(Component.translatable(this.descriptionId), toolProperties.effectiveModel());
-		BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.add(properties.itemIdOrThrow(), componentInitializer);
-	}
+	public AerialHellHoeItem(Properties properties) {super(properties);}
 
 	@Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
 	{
 		tooltipAdder.accept(this.getDescription().withStyle(ChatFormatting.GRAY));
 	}
 
-	public MutableComponent getDescription()
+	public MutableComponent getDescription() {return Component.translatable(this.getDescriptionId() + ".desc");}
+
+	//copy of vanilla HoeItem with no modification
+	@Override public InteractionResult useOn(UseOnContext context)
 	{
-		return Component.translatable(this.getDescriptionId() + ".desc");
+		Level level = context.getLevel();
+		BlockPos pos = context.getClickedPos();
+		BlockState toolModifiedState = level.getBlockState(pos).getToolModifiedState(context, ItemAbilities.HOE_TILL, false);
+		Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> logicPair = toolModifiedState == null ? null : Pair.of((Predicate)(ctx) -> true, changeIntoState(toolModifiedState));
+		if (logicPair == null) {return InteractionResult.PASS;}
+		else
+		{
+			Predicate<UseOnContext> predicate = (Predicate)logicPair.getFirst();
+			Consumer<UseOnContext> action = (Consumer)logicPair.getSecond();
+			if (predicate.test(context))
+			{
+				Player player = context.getPlayer();
+				level.playSound(player, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+				if (!level.isClientSide())
+				{
+					action.accept(context);
+					if (player != null) {context.getItemInHand().hurtAndBreak(1, player, context.getHand().asEquipmentSlot());}
+				}
+				return InteractionResult.SUCCESS;
+			}
+			else {return InteractionResult.PASS;}
+		}
 	}
+
+	public static Consumer<UseOnContext> changeIntoState(BlockState state)
+	{
+		return (context) ->
+		{
+			context.getLevel().setBlock(context.getClickedPos(), state, 11);
+			context.getLevel().gameEvent(GameEvent.BLOCK_CHANGE, context.getClickedPos(), GameEvent.Context.of(context.getPlayer(), state));
+		};
+	}
+
+	@Override public boolean canPerformAction(ItemInstance stack, ItemAbility itemAbility) {return ItemAbilities.DEFAULT_HOE_ACTIONS.contains(itemAbility);}
 }

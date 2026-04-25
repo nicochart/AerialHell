@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.Random;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
@@ -12,7 +11,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,15 +18,7 @@ public class EffectSwordItem extends AerialHellSwordItem
 {
 	private int timer;
 
-	public EffectSwordItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, Properties properties)
-	{
-		this(toolMaterial, attackDamage, attackSpeed, 0.0F, 0.0F, properties);
-	}
-
-	public EffectSwordItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, Properties properties)
-	{
-		super(toolMaterial, attackDamage, attackSpeed, movementSpeed, maxHealth, properties);
-	}
+	public EffectSwordItem(Properties properties) {super(properties);}
 	
 	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
 	{
@@ -49,8 +39,7 @@ public class EffectSwordItem extends AerialHellSwordItem
 		}
 	}
 	
-	@Override
-    public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
+	@Override public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
 		ItemStack heldItem = playerIn.getItemInHand(handIn);
 		Random rand = new Random();
