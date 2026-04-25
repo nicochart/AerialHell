@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 
 public class EffectAxeItem extends AerialHellToolItem
 {
-	public EffectAxeItem(Properties properties) {super(properties, List.of(), List.of(UseInteractionToolType.AXE));}
+	public EffectAxeItem(Properties properties) {super(properties, null, List.of(UseInteractionToolType.AXE));}
 	
 	@Override public InteractionResult use(Level level, Player player, InteractionHand hand)
     {

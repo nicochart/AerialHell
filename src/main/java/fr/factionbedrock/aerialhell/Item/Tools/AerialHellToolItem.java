@@ -40,52 +40,38 @@ import java.util.function.Predicate;
 // To behave like a tool, the properties must call one of them before passing the properties to the constructor.
 public class AerialHellToolItem extends WithInformationItem
 {
-	public final List<ToolEffectInfo> toolEffects;
+	@Nullable public final ToolAbility toolAbility;
 	public final List<UseInteractionToolType> useInteractionToolTypes;
 
-	public AerialHellToolItem(Properties properties) {this(properties, List.of());}
-	public AerialHellToolItem(Properties properties, List<UseInteractionToolType> useInteractionToolTypes) {this(properties, List.of(), useInteractionToolTypes);}
-	public AerialHellToolItem(Properties properties, List<ToolEffectInfo> toolEffects, List<UseInteractionToolType> useInteractionToolTypes)
+	public AerialHellToolItem(Properties properties) {this(properties, null, List.of());}
+	public AerialHellToolItem(Properties properties, ToolAbility toolAbility) {this(properties, toolAbility, List.of());}
+	public AerialHellToolItem(Properties properties, List<UseInteractionToolType> useInteractionToolTypes) {this(properties, null, useInteractionToolTypes);}
+	public AerialHellToolItem(Properties properties, @Nullable ToolAbility toolAbility, List<UseInteractionToolType> useInteractionToolTypes)
 	{
 		super(properties);
-		this.toolEffects = toolEffects;
+		this.toolAbility = toolAbility;
 		this.useInteractionToolTypes = useInteractionToolTypes;
 	}
 
-	//applying tick tool effects
+	//applying tick (passive) tool ability modules
 	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
 	{
-		for (ToolEffectInfo toolEffect : toolEffects)
-		{
-			if (toolEffect.isTickEffect() && entity instanceof LivingEntity livingEntity) {toolEffect.tryApplyEffect(livingEntity, stack, slot);}
-		}
+		if (this.toolAbility != null && entity instanceof LivingEntity livingEntity) {this.toolAbility.tryApplyPassiveModules(livingEntity, stack, slot);}
 	}
 
-	//applying use tool effects
+	//applying use tool ability modules
 	@Override public InteractionResult use(Level level, Player player, InteractionHand hand)
 	{
 		ItemStack heldItemStack = player.getItemInHand(hand);
 		boolean used = false;
-		for (ToolEffectInfo toolEffect : toolEffects)
-		{
-			if (toolEffect.isUseEffect())
-			{
-				used = used || toolEffect.tryApplyEffect(player, heldItemStack, hand.asEquipmentSlot());
-			}
-		}
+		if (this.toolAbility != null) {used = this.toolAbility.tryApplyOnUseModules(player, heldItemStack, hand.asEquipmentSlot());}
 		return used ? InteractionResult.CONSUME : super.use(level, player, hand);
 	}
 
-	//applying hurtEnemy tool effects
+	//applying hurtEnemy (semi-passive) tool ability modules
 	@Override public void hurtEnemy(ItemStack itemStack, LivingEntity target, LivingEntity attacker)
 	{
-		for (ToolEffectInfo toolEffect : toolEffects)
-		{
-			if (toolEffect.isHurtEnemyEffect())
-			{
-				toolEffect.tryApplyEffect(attacker, itemStack, null);
-			}
-		}
+		if (this.toolAbility != null) {this.toolAbility.tryApplyOnHurtEnemyModules(attacker, itemStack, null);}
 		super.hurtEnemy(itemStack, target, attacker);
 	}
 

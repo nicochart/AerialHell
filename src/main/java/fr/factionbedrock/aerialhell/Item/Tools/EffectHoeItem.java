@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class EffectHoeItem extends AerialHellToolItem
 {
-	public EffectHoeItem(Properties properties) {super(properties, List.of(), List.of(UseInteractionToolType.HOE));}
+	public EffectHoeItem(Properties properties) {super(properties, null, List.of(UseInteractionToolType.HOE));}
 	
 	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {}
 	

@@ -19,7 +19,7 @@ public class EffectShovelItem extends AerialHellToolItem
 {	
 	private int timer;
 
-	public EffectShovelItem(Properties properties) {super(properties, List.of(), List.of(UseInteractionToolType.SHOVEL));}
+	public EffectShovelItem(Properties properties) {super(properties, null, List.of(UseInteractionToolType.SHOVEL));}
 
 	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
 	{
