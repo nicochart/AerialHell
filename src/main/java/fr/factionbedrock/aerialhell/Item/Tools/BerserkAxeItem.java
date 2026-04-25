@@ -74,10 +74,9 @@ public class BerserkAxeItem extends EffectAxeItem
 		}
 	}
 	
-	@Override
-    public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
+	@Override public InteractionResult use(Level level, Player player, InteractionHand hand)
     {
-		ItemStack heldItem = playerIn.getItemInHand(handIn);
+		ItemStack heldItem = player.getItemInHand(hand);
 		Random rand = new Random();
 		int cooldown = Math.min(getStatus() + 1, 3) * 200;
 		
@@ -86,26 +85,25 @@ public class BerserkAxeItem extends EffectAxeItem
 		
 		for (int i=0 ; i<20; i++)
 		{
-			worldIn.addParticle(ParticleTypes.SMOKE, playerIn.getX() + 4*(rand.nextFloat() - 0.5F), playerIn.getY() + 4*rand.nextFloat(), playerIn.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
+			level.addParticle(ParticleTypes.SMOKE, player.getX() + 4*(rand.nextFloat() - 0.5F), player.getY() + 4*rand.nextFloat(), player.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
 		}
-		playerIn.playSound(SoundEvents.RAVAGER_ROAR, 1.0F, 0.5F + rand.nextFloat());
-		if (worldIn.isClientSide())
+		player.playSound(SoundEvents.RAVAGER_ROAR, 1.0F, 0.5F + rand.nextFloat());
+		if (level.isClientSide())
 		{
-			Vec3 forward = playerIn.getForward().multiply(1.7,1.3,1.7);
+			Vec3 forward = player.getForward().multiply(1.7,1.3,1.7);
 			if (forward.y < 1) {forward = new Vec3(forward.x, 1, forward.z);}
-			playerIn.setDeltaMovement(playerIn.getDeltaMovement().add(forward));
+			player.setDeltaMovement(player.getDeltaMovement().add(forward));
 		}
 		
-		playerIn.getCooldowns().addCooldown(heldItem, cooldown);
-		heldItem.hurtAndBreak(1, playerIn, handIn);
+		player.getCooldowns().addCooldown(heldItem, cooldown);
+		heldItem.hurtAndBreak(1, player, hand);
         return InteractionResult.CONSUME;
 	}
 	
-	@Override
-	public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker)
+	@Override public void hurtEnemy(ItemStack itemStack, LivingEntity target, LivingEntity attacker)
 	{
 		this.increaseWeight();
-		super.hurtEnemy(stack, target, attacker);
+		super.hurtEnemy(itemStack, target, attacker);
 	}
 
 	@Override public boolean canDestroyBlock(ItemStack stack, BlockState state, Level level, BlockPos pos, LivingEntity entity)
@@ -164,10 +162,5 @@ public class BerserkAxeItem extends EffectAxeItem
 	@Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
 	{
 		tooltipAdder.accept(this.getDescription().append(Integer.toString(getStatus())).withStyle(ChatFormatting.GRAY));
-	}
-
-	public MutableComponent getDescription()
-	{
-		return Component.translatable(this.getDescriptionId() + ".desc");
 	}
 }

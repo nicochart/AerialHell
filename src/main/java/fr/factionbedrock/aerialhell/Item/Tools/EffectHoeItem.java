@@ -16,24 +16,24 @@ import org.jetbrains.annotations.Nullable;
 
 public class EffectHoeItem extends AerialHellToolItem
 {
-	public EffectHoeItem(Properties properties) {super(properties, List.of(UseInteractionToolType.HOE));}
+	public EffectHoeItem(Properties properties) {super(properties, List.of(), List.of(UseInteractionToolType.HOE));}
 	
 	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {}
 	
-	@Override public InteractionResult use(Level level, Player playerIn, InteractionHand handIn)
+	@Override public InteractionResult use(Level level, Player player, InteractionHand hand)
     {
-		ItemStack heldItem = playerIn.getItemInHand(handIn);
+		ItemStack heldItem = player.getItemInHand(hand);
 		Random rand = new Random();
 		if (this == AerialHellItems.VOLUCITE_HOE.get())
 		{
-			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, level, playerIn, handIn, rand, false)) {return InteractionResult.CONSUME;}
+			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, level, player, hand, rand, false)) {return InteractionResult.CONSUME;}
 			else {return InteractionResult.PASS;}
 		}
 		else if (this == AerialHellItems.REAPER_SCYTHE.get())
 		{
-			EffectToolHelper.applyReaperWalkEffect(this, heldItem, level, playerIn, handIn, rand, 600);
+			EffectToolHelper.applyReaperWalkEffect(this, heldItem, level, player, hand, rand, 600);
 	        return InteractionResult.CONSUME;
 		}
-		else {return super.use(level, playerIn, handIn);}
+		else {return super.use(level, player, hand);}
     }
 }

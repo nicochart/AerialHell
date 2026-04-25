@@ -40,55 +40,55 @@ public class EffectSwordItem extends AerialHellToolItem
 		}
 	}
 	
-	@Override public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
+	@Override public InteractionResult use(Level level, Player player, InteractionHand hand)
     {
-		ItemStack heldItem = playerIn.getItemInHand(handIn);
+		ItemStack heldItem = player.getItemInHand(hand);
 		Random rand = new Random();
 		if (this == AerialHellItems.VOLUCITE_SWORD.get())
 		{
-			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, handIn, rand, true)) {return InteractionResult.CONSUME;}
+			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, level, player, hand, rand, true)) {return InteractionResult.CONSUME;}
 			else {return InteractionResult.PASS;}
 		}
 		else if (this == AerialHellItems.NINJA_SWORD.get())
 		{
-			EffectToolHelper.applyNinjaEffect(this, heldItem, worldIn, playerIn, rand, handIn,400);
+			EffectToolHelper.applyNinjaEffect(this, heldItem, level, player, rand, hand,400);
 	        return InteractionResult.CONSUME;
 		}
 		else if (this == AerialHellItems.NINJA_MASTER_SWORD.get())
 		{
-			EffectToolHelper.applyNinjaEffect(this, heldItem, worldIn, playerIn, rand, handIn, 340);
+			EffectToolHelper.applyNinjaEffect(this, heldItem, level, player, rand, hand, 340);
 	        return InteractionResult.CONSUME;
 		}
 		else if (this == AerialHellItems.RANDOM_SWORD.get())
 		{
-			EffectToolHelper.applyRandomEffect(this, heldItem, worldIn, playerIn, handIn, rand);
+			EffectToolHelper.applyRandomEffect(this, heldItem, level, player, hand, rand);
 	        return InteractionResult.CONSUME;
 		}
 		else if (this == AerialHellItems.SWORD_OF_LIGHT.get())
 		{
-			EffectToolHelper.applyLunaticLight(this, heldItem, worldIn, playerIn, handIn, rand, 160);
+			EffectToolHelper.applyLunaticLight(this, heldItem, level, player, hand, rand, 160);
 		    return InteractionResult.CONSUME;
 		}
 		else if (this == AerialHellItems.ANTIDOTE_SWORD.get())
 		{
-			if (EffectToolHelper.tryRemovingPoisonAndWitherEffect(this, heldItem, worldIn, playerIn, handIn, rand)) {return InteractionResult.CONSUME;}
+			if (EffectToolHelper.tryRemovingPoisonAndWitherEffect(this, heldItem, level, player, hand, rand)) {return InteractionResult.CONSUME;}
 			else {return InteractionResult.PASS;}
 		}
 		else if (this == AerialHellItems.GLOUTON_SWORD.get())
 		{
-			if (EffectToolHelper.tryEatingTool(this, heldItem, worldIn, playerIn, handIn, rand)) {return InteractionResult.CONSUME;}
+			if (EffectToolHelper.tryEatingTool(this, heldItem, level, player, hand, rand)) {return InteractionResult.CONSUME;}
 			else {return InteractionResult.PASS;}
 		}
 		else if (this == AerialHellItems.NETHERIAN_KING_SWORD.get())
 		{
-			EffectToolHelper.applyFireResistanceEffect(this, heldItem, worldIn, playerIn, handIn, rand, 200, 600);
+			EffectToolHelper.applyFireResistanceEffect(this, heldItem, level, player, hand, rand, 200, 600);
 		    return InteractionResult.CONSUME;
 		}
 		else if (this == AerialHellItems.GLASS_CANON_SWORD.get())
 		{
-			EffectToolHelper.PlayerLiftoff(this, heldItem, worldIn, playerIn, handIn, rand);
+			EffectToolHelper.PlayerLiftoff(this, heldItem, level, player, hand, rand);
 	        return InteractionResult.CONSUME;
 		}
-		else {return super.use(worldIn, playerIn, handIn);}
+		else {return super.use(level, player, hand);}
     }
 }

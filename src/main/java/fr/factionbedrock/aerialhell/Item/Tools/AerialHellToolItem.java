@@ -6,6 +6,7 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -13,6 +14,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
@@ -31,30 +34,64 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-// Inspired of vanilla SwordItem, PickaxeItem, AxeItem, HoeItem and ShovelItem, but only takes Item.Properties as constructor parameter.
+// Inspired of vanilla AxeItem, HoeItem and ShovelItem, but only takes Item.Properties as constructor parameter.
 // AxeItem, HoeItem and ShovelItem interaction abilities are all managed.
 // Unlike vanilla, this class does not call properties.sword(...), properties.pickaxe(...), properties.axe(...), properties.hoe(...), properties.shovel(...) internally.
 // To behave like a tool, the properties must call one of them before passing the properties to the constructor.
 public class AerialHellToolItem extends WithInformationItem
 {
+	public final List<ToolEffectInfo> toolEffects;
 	public final List<UseInteractionToolType> useInteractionToolTypes;
 
 	public AerialHellToolItem(Properties properties) {this(properties, List.of());}
-
-	public AerialHellToolItem(Properties properties, List<UseInteractionToolType> useInteractionToolTypes)
+	public AerialHellToolItem(Properties properties, List<UseInteractionToolType> useInteractionToolTypes) {this(properties, List.of(), useInteractionToolTypes);}
+	public AerialHellToolItem(Properties properties, List<ToolEffectInfo> toolEffects, List<UseInteractionToolType> useInteractionToolTypes)
 	{
 		super(properties);
+		this.toolEffects = toolEffects;
 		this.useInteractionToolTypes = useInteractionToolTypes;
+	}
+
+	//applying tick tool effects
+	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
+	{
+		for (ToolEffectInfo toolEffect : toolEffects)
+		{
+			if (toolEffect.isTickEffect() && entity instanceof LivingEntity livingEntity) {toolEffect.tryApplyEffect(livingEntity, stack, slot);}
+		}
+	}
+
+	//applying use tool effects
+	@Override public InteractionResult use(Level level, Player player, InteractionHand hand)
+	{
+		ItemStack heldItemStack = player.getItemInHand(hand);
+		boolean used = false;
+		for (ToolEffectInfo toolEffect : toolEffects)
+		{
+			if (toolEffect.isUseEffect())
+			{
+				used = used || toolEffect.tryApplyEffect(player, heldItemStack, hand.asEquipmentSlot());
+			}
+		}
+		return used ? InteractionResult.CONSUME : super.use(level, player, hand);
+	}
+
+	//applying hurtEnemy tool effects
+	@Override public void hurtEnemy(ItemStack itemStack, LivingEntity target, LivingEntity attacker)
+	{
+		for (ToolEffectInfo toolEffect : toolEffects)
+		{
+			if (toolEffect.isHurtEnemyEffect())
+			{
+				toolEffect.tryApplyEffect(attacker, itemStack, null);
+			}
+		}
+		super.hurtEnemy(itemStack, target, attacker);
 	}
 
 	//inspired of vanilla ShovelItem, AxeItem and HoeItem
 	@Override public InteractionResult useOn(UseOnContext context)
 	{
-		Level level = context.getLevel();
-		BlockPos pos = context.getClickedPos();
-		BlockState blockState = level.getBlockState(pos);
-		Player player = context.getPlayer();
-
 		InteractionResult result = InteractionResult.PASS;
 		if (this.useInteractionToolTypes.contains(UseInteractionToolType.AXE))
 		{

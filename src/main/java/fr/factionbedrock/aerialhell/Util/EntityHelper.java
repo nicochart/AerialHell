@@ -10,6 +10,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.protocol.game.ClientboundChunksBiomesPacket;
 import net.minecraft.resources.ResourceKey;
@@ -179,6 +180,15 @@ public class EntityHelper
         }
     }
 
+    public static void addParticlesOnEntity(int number, SimpleParticleType particleType, Entity entity)
+    {
+        RandomSource rand = entity.getRandom();
+        for (int count=0 ; count < number; count++)
+        {
+            entity.level().addParticle(particleType, entity.getX() + 4*(rand.nextFloat() - 0.5F), entity.getY() + 4*rand.nextFloat(), entity.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
+        }
+    }
+
     public static void addBatParticle(LivingEntity entity, RandomSource rand, int number)
     {
         for (int i=0; i<number; i++)
@@ -189,7 +199,7 @@ public class EntityHelper
 
     public static boolean isLivingEntityMisleadingLunar(LivingEntity entity)
     {
-        return ItemHelper.getItemInTagCount(EntityHelper.getEquippedHumanoidArmorItemList(entity), AerialHellTags.Items.LUNATIC_STUFF) >= 4 && !isLivingEntityATraitor(entity);
+        return ItemHelper.countItemStacksInTag(EntityHelper.getEquippedHumanoidArmorItemList(entity), AerialHellTags.Items.LUNATIC_STUFF) >= 4 && !isLivingEntityATraitor(entity);
     }
 
     public static boolean isLivingEntityMisleadingShadow(LivingEntity entity)
@@ -220,6 +230,16 @@ public class EntityHelper
             if (!itemstack.isEmpty()) {list.add(itemstack);}
         }
         return list;
+    }
+
+    public static int countVoluciteStuff(LivingEntity livingEntity)
+    {
+        return ItemHelper.countVoluciteStuff(getEquippedHumanoidArmorItemList(livingEntity));
+    }
+
+    public static int countHeavyStuff(LivingEntity livingEntity)
+    {
+        return ItemHelper.countHeavyStuff(getEquippedHumanoidArmorItemList(livingEntity));
     }
 
     //from in net.minecraft.server.level.ChunkMap resendBiomesForChunks(..) method

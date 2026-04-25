@@ -7,7 +7,9 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -21,12 +23,11 @@ import net.minecraft.world.level.Level;
 
 public class EffectToolHelper
 {
-	public static void addParticleOnPlayer(int count, SimpleParticleType particleType, Player playerIn, Level worldIn, Random rand)
+	public static void addParticleOnEntity(int number, SimpleParticleType particleType, Entity entity, Level level, Random rand)
 	{
-		int i;
-		for (i=0 ; i<count; i++)
+		for (int count=0 ; count < number; count++)
 		{
-			worldIn.addParticle(particleType, playerIn.getX() + 4*(rand.nextFloat() - 0.5F), playerIn.getY() + 4*rand.nextFloat(), playerIn.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
+			entity.level().addParticle(particleType, entity.getX() + 4*(rand.nextFloat() - 0.5F), entity.getY() + 4*rand.nextFloat(), entity.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
 		}
 	}
 	
@@ -38,7 +39,7 @@ public class EffectToolHelper
 	
 	public static void applyFullVolucitePower(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand)
 	{
-		addParticleOnPlayer(20, ParticleTypes.CLOUD, playerIn, worldIn, rand);
+		addParticleOnEntity(20, ParticleTypes.CLOUD, playerIn, worldIn, rand);
 		playerIn.playSound(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.5F);
 		if (!worldIn.isClientSide())
 		{
@@ -50,7 +51,7 @@ public class EffectToolHelper
 	
 	public static void applyHalfVolucitePower(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand)
 	{
-		addParticleOnPlayer(20, ParticleTypes.CLOUD, playerIn, worldIn, rand);
+		addParticleOnEntity(20, ParticleTypes.CLOUD, playerIn, worldIn, rand);
 		playerIn.playSound(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.6F);
 		if (!worldIn.isClientSide()) {playerIn.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 80, 0));}
 		setDamageAndCooldown(ItemIn, heldItem, playerIn, hand, 250);
@@ -71,7 +72,7 @@ public class EffectToolHelper
 	
 	public static void applyNinjaEffect(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, Random rand, InteractionHand hand, int cooldown)
 	{
-		addParticleOnPlayer(20, ParticleTypes.CLOUD, playerIn, worldIn, rand);
+		addParticleOnEntity(20, ParticleTypes.CLOUD, playerIn, worldIn, rand);
 		playerIn.playSound(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.6F);
 		if (!worldIn.isClientSide())
 		{
@@ -83,7 +84,7 @@ public class EffectToolHelper
 
 	public static void applyReaperWalkEffect(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand, int cooldown)
 	{
-		addParticleOnPlayer(20, AerialHellParticleTypes.SHADOW_LIGHT.get(), playerIn, worldIn, rand);
+		addParticleOnEntity(20, AerialHellParticleTypes.SHADOW_LIGHT.get(), playerIn, worldIn, rand);
 		playerIn.playSound(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.6F);
 		if (!worldIn.isClientSide())
 		{
@@ -96,7 +97,7 @@ public class EffectToolHelper
 	
 	public static void applyRandomEffect(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand)
 	{
-		addParticleOnPlayer(20, ParticleTypes.ENCHANT, playerIn, worldIn, rand);
+		addParticleOnEntity(20, ParticleTypes.ENCHANT, playerIn, worldIn, rand);
 		playerIn.playSound(SoundEvents.ENCHANTMENT_TABLE_USE, 1.0F, 1.5F);
 		
 		if (!worldIn.isClientSide())
@@ -171,7 +172,7 @@ public class EffectToolHelper
 	
 	public static void PlayerLiftoff(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand)
 	{
-		addParticleOnPlayer(20, ParticleTypes.EXPLOSION, playerIn, worldIn, rand);
+		addParticleOnEntity(20, ParticleTypes.EXPLOSION, playerIn, worldIn, rand);
 		playerIn.playSound(SoundEvents.GENERIC_EXPLODE.value(), 1.0F, 0.5F + rand.nextFloat());
 		int cooldown;
 		if (playerIn.isShiftKeyDown()) //armored glass
@@ -194,7 +195,7 @@ public class EffectToolHelper
 	
 	public static void applyFireResistanceEffect(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand, int duration, int base_cooldown)
 	{
-		addParticleOnPlayer(20, ParticleTypes.FLAME, playerIn, worldIn, rand);
+		addParticleOnEntity(20, ParticleTypes.FLAME, playerIn, worldIn, rand);
 		playerIn.playSound(SoundEvents.GENERIC_EXTINGUISH_FIRE, 1.0F, 0.5F + rand.nextFloat());
 		int cooldown = base_cooldown,count = 0;
 		for (ItemStack armorStack : EntityHelper.getEquippedHumanoidArmorItemList(playerIn)) {if (armorStack.is(AerialHellTags.Items.ARSONIST_STUFF)) {count++;}}
@@ -208,7 +209,7 @@ public class EffectToolHelper
 	
 	public static void applyJumpBoostEffect(Item ItemIn, ItemStack heldItem, Level worldIn, Player playerIn, InteractionHand hand, Random rand, int duration, int amplifier)
 	{
-		addParticleOnPlayer(20, ParticleTypes.CRIMSON_SPORE, playerIn, worldIn, rand);
+		addParticleOnEntity(20, ParticleTypes.CRIMSON_SPORE, playerIn, worldIn, rand);
 		playerIn.playSound(SoundEvents.PARROT_IMITATE_MAGMA_CUBE, 1.0F, 0.5F + rand.nextFloat());
 		if (!worldIn.isClientSide())
 		{

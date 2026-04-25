@@ -12,26 +12,26 @@ import net.minecraft.world.level.Level;
 
 public class EffectAxeItem extends AerialHellToolItem
 {
-	public EffectAxeItem(Properties properties) {super(properties, List.of(UseInteractionToolType.AXE));}
+	public EffectAxeItem(Properties properties) {super(properties, List.of(), List.of(UseInteractionToolType.AXE));}
 	
-	@Override public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
+	@Override public InteractionResult use(Level level, Player player, InteractionHand hand)
     {
-		ItemStack heldItem = playerIn.getItemInHand(handIn);
+		ItemStack heldItem = player.getItemInHand(hand);
 		Random rand = new Random();
 		
 		if (this == AerialHellItems.VOLUCITE_AXE.get())
 		{
-			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, handIn, rand, true)) {return InteractionResult.CONSUME;}
+			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, level, player, hand, rand, true)) {return InteractionResult.CONSUME;}
 			else {return InteractionResult.PASS;}
 		}
 		else if (this == AerialHellItems.AXE_OF_LIGHT.get())
 		{
-			EffectToolHelper.applyLunaticLight(this, heldItem, worldIn, playerIn, handIn, rand, 320);
+			EffectToolHelper.applyLunaticLight(this, heldItem, level, player, hand, rand, 320);
 		    return InteractionResult.CONSUME;
 		}
 		else
 		{
-			return super.use(worldIn, playerIn, handIn);
+			return super.use(level, player, hand);
 		}
     }
 }

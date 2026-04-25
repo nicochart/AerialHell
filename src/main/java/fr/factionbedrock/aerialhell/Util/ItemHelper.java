@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Util;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -13,17 +14,33 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 
 import javax.annotation.Nullable;
+import java.util.function.Predicate;
 
 public class ItemHelper
 {
-    public static int getItemInTagCount(Iterable<ItemStack> stuff, TagKey<Item> tag)
+    public static int countItemStacksMatching(Iterable<ItemStack> itemStackList, Predicate<ItemStack> condition)
     {
         int count = 0;
-        for (ItemStack item : stuff)
+        for (ItemStack itemStack : itemStackList)
         {
-            if (item.is(tag)) {count++;}
+            if (condition.test(itemStack)) {count++;}
         }
         return count;
+    }
+
+    public static int countItemStacksInTag(Iterable<ItemStack> itemStackList, TagKey<Item> tag)
+    {
+        return countItemStacksMatching(itemStackList, (itemStack) -> itemStack.is(tag));
+    }
+
+    public static int countVoluciteStuff(Iterable<ItemStack> itemStackList)
+    {
+        return countItemStacksInTag(itemStackList, AerialHellTags.Items.VOLUCITE_STUFF);
+    }
+
+    public static int countHeavyStuff(Iterable<ItemStack> itemStackList)
+    {
+        return countItemStacksMatching(itemStackList, (itemStack) -> itemStack.is(AerialHellTags.Items.OBSIDIAN_STUFF) || itemStack.is(AerialHellTags.Items.ARSONIST_STUFF));
     }
 
     public static class SmithingTemplate

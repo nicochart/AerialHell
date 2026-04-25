@@ -31,7 +31,7 @@ public class ShadowArmorItem extends Item
         //Equippable equippableComponent = this.components().get(DataComponents.EQUIPPABLE);
         if (entity instanceof Player playerEntity && /*equippableComponent.slot()*/slot == EquipmentSlot.CHEST)
         {
-            if (ItemHelper.getItemInTagCount(EntityHelper.getEquippedHumanoidArmorItemList(playerEntity), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !level.isClientSide())
+            if (ItemHelper.countItemStacksInTag(EntityHelper.getEquippedHumanoidArmorItemList(playerEntity), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !level.isClientSide())
             {
                 playerEntity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 220, 0, false, false));
 

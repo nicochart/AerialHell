@@ -43,20 +43,20 @@ public class EffectPickaxeItem extends AerialHellToolItem
 		}
 	}
 	
-	@Override public InteractionResult use(Level worldIn, Player playerIn, InteractionHand handIn)
+	@Override public InteractionResult use(Level level, Player player, InteractionHand hand)
     {
-		ItemStack heldItem = playerIn.getItemInHand(handIn);
+		ItemStack heldItem = player.getItemInHand(hand);
 		Random rand = new Random();
 		if (this == AerialHellItems.VOLUCITE_PICKAXE.get())
 		{
-			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, worldIn, playerIn, handIn, rand, false)) {return InteractionResult.CONSUME;}
+			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, level, player, hand, rand, false)) {return InteractionResult.CONSUME;}
 			else {return InteractionResult.PASS;}
 		}
 		else if (this == AerialHellItems.MAGMA_CUBE_PICKAXE.get())
 		{
-			EffectToolHelper.applyJumpBoostEffect(this, heldItem, worldIn, playerIn, handIn, rand, 100, 2);
+			EffectToolHelper.applyJumpBoostEffect(this, heldItem, level, player, hand, rand, 100, 2);
 			return InteractionResult.CONSUME;
 		}
-		else {return super.use(worldIn, playerIn, handIn);}
+		else {return super.use(level, player, hand);}
     }
 }
