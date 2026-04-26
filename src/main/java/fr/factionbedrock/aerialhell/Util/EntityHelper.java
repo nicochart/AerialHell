@@ -242,6 +242,9 @@ public class EntityHelper
         return ItemHelper.countHeavyStuff(getEquippedHumanoidArmorItemList(livingEntity));
     }
 
+    public static boolean hasFullVoluciteStuff(LivingEntity livingEntity) {return countVoluciteStuff(livingEntity) == 4;}
+    public static boolean hasNoHeavyStuff(LivingEntity livingEntity) {return countHeavyStuff(livingEntity) == 0;}
+
     //from in net.minecraft.server.level.ChunkMap resendBiomesForChunks(..) method
     public static void refreshChunkColors(ServerPlayer player, ServerLevel level, int radius)
     {

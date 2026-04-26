@@ -2,6 +2,8 @@ package fr.factionbedrock.aerialhell.Item.Ability.Module;
 
 import fr.factionbedrock.aerialhell.Effect.RandomMobEffectInstance;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
+import fr.factionbedrock.aerialhell.Item.Ability.ModuleAction;
+import fr.factionbedrock.aerialhell.Item.Ability.ModuleUseSituation;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -15,50 +17,53 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
 public class ActionModule extends AbilityModule
 {
     private final ModuleAction action;
 
-    public ActionModule(ModuleAction action, UseSituation useSituation)
+    public ActionModule(ModuleAction action, ModuleUseSituation useSituation)
     {
         super(useSituation);
         this.action = action;
     }
 
-    public static ActionModule passive(ModuleAction action) {return new ActionModule(action, UseSituation.PASSIVE);}
-    public static ActionModule onUse(ModuleAction action) {return new ActionModule(action, UseSituation.ON_USE);}
-    public static ActionModule onHurtEnemy(ModuleAction action) {return new ActionModule(action, UseSituation.ON_HURT_ENEMY);}
+    public static ActionModule passive(ModuleAction action) {return new ActionModule(action, ModuleUseSituation.PASSIVE);}
+    public static ActionModule onUse(ModuleAction action) {return new ActionModule(action, ModuleUseSituation.ON_USE);}
+    public static ActionModule onHurtEnemy(ModuleAction action) {return new ActionModule(action, ModuleUseSituation.ON_HURT_ENEMY);}
 
     public void apply(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot) {this.action.apply(entity, itemStack, equipmentSlot);}
 
     public static class MobEffect extends ActionModule
     {
-        private MobEffect(MobEffectInstance mobEffectInstance, UseSituation useSituation) {this(rand -> mobEffectInstance, useSituation);}
-
-        private MobEffect(RandomMobEffectInstance randomMobEffectInstanceTemplate, UseSituation useSituation)
+        private MobEffect(ModuleUseSituation useSituation, MobEffectInstance... mobEffectInstances) {this(useSituation, Arrays.stream(mobEffectInstances).map(effect -> (RandomMobEffectInstance) rand -> effect).toArray(RandomMobEffectInstance[]::new));}
+        private MobEffect(ModuleUseSituation useSituation, RandomMobEffectInstance... randomMobEffectInstanceTemplates)
         {
             super((entity, stack, equipmentSlot) ->
             {
                 if (!entity.level().isClientSide())
                 {
-                    MobEffectInstance mobEffectInstanceTemplate = randomMobEffectInstanceTemplate.get(entity.getRandom());
-                    entity.addEffect(new MobEffectInstance(mobEffectInstanceTemplate));
+                    for (RandomMobEffectInstance randomMobEffectInstanceTemplate : randomMobEffectInstanceTemplates)
+                    {
+                        MobEffectInstance mobEffectInstanceTemplate = randomMobEffectInstanceTemplate.get(entity.getRandom());
+                        entity.addEffect(new MobEffectInstance(mobEffectInstanceTemplate));
+                    }
                 }
             }, useSituation);
         }
-        public static MobEffect passive(MobEffectInstance mobEffectInstanceTemplate) {return new MobEffect(mobEffectInstanceTemplate, UseSituation.PASSIVE);}
-        public static MobEffect onUse(MobEffectInstance mobEffectInstanceTemplate) {return new MobEffect(mobEffectInstanceTemplate, UseSituation.ON_USE);}
-        public static MobEffect onHurtEnemy(MobEffectInstance mobEffectInstanceTemplate) {return new MobEffect(mobEffectInstanceTemplate, UseSituation.ON_HURT_ENEMY);}
-        public static MobEffect passive(RandomMobEffectInstance randomMobEffectInstanceTemplate) {return new MobEffect(randomMobEffectInstanceTemplate, UseSituation.PASSIVE);}
-        public static MobEffect onUse(RandomMobEffectInstance randomMobEffectInstanceTemplate) {return new MobEffect(randomMobEffectInstanceTemplate, UseSituation.ON_USE);}
-        public static MobEffect onHurtEnemy(RandomMobEffectInstance randomMobEffectInstanceTemplate) {return new MobEffect(randomMobEffectInstanceTemplate, UseSituation.ON_HURT_ENEMY);}
+        public static MobEffect passive(MobEffectInstance... mobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.PASSIVE, mobEffectInstanceTemplates);}
+        public static MobEffect onUse(MobEffectInstance... mobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.ON_USE, mobEffectInstanceTemplates);}
+        public static MobEffect onHurtEnemy(MobEffectInstance... mobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.ON_HURT_ENEMY, mobEffectInstanceTemplates);}
+        public static MobEffect passive(RandomMobEffectInstance... randomMobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.PASSIVE, randomMobEffectInstanceTemplates);}
+        public static MobEffect onUse(RandomMobEffectInstance... randomMobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.ON_USE, randomMobEffectInstanceTemplates);}
+        public static MobEffect onHurtEnemy(RandomMobEffectInstance... randomMobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.ON_HURT_ENEMY, randomMobEffectInstanceTemplates);}
     }
 
     public static class ThrowProjectile extends ActionModule
     {
-        private ThrowProjectile(EntityType<? extends Projectile> type, float velocity, float inaccuracy, UseSituation useSituation)
+        private ThrowProjectile(EntityType<? extends Projectile> type, float velocity, float inaccuracy, ModuleUseSituation useSituation)
         {
             super((shooter, stack, equipmentSlot) ->
             {
@@ -77,14 +82,14 @@ public class ActionModule extends AbilityModule
             }, useSituation);
         }
 
-        public static ThrowProjectile passive(EntityType<? extends Projectile> type, float velocity, float inaccuracy) {return new ThrowProjectile(type, velocity, inaccuracy, UseSituation.PASSIVE);}
-        public static ThrowProjectile onUse(EntityType<? extends Projectile> type, float velocity, float inaccuracy) {return new ThrowProjectile(type, velocity, inaccuracy, UseSituation.ON_USE);}
-        public static ThrowProjectile onHurtEnemy(EntityType<? extends Projectile> type, float velocity, float inaccuracy) {return new ThrowProjectile(type, velocity, inaccuracy, UseSituation.ON_HURT_ENEMY);}
+        public static ThrowProjectile passive(EntityType<? extends Projectile> type, float velocity, float inaccuracy) {return new ThrowProjectile(type, velocity, inaccuracy, ModuleUseSituation.PASSIVE);}
+        public static ThrowProjectile onUse(EntityType<? extends Projectile> type, float velocity, float inaccuracy) {return new ThrowProjectile(type, velocity, inaccuracy, ModuleUseSituation.ON_USE);}
+        public static ThrowProjectile onHurtEnemy(EntityType<? extends Projectile> type, float velocity, float inaccuracy) {return new ThrowProjectile(type, velocity, inaccuracy, ModuleUseSituation.ON_HURT_ENEMY);}
     }
 
     public static class RemoveMobEffect extends ActionModule
     {
-        public RemoveMobEffect(Holder<net.minecraft.world.effect.MobEffect> mobEffect, UseSituation useSituation)
+        public RemoveMobEffect(Holder<net.minecraft.world.effect.MobEffect> mobEffect, ModuleUseSituation useSituation)
         {
             super((entity, stack, equipmentSlot) ->
             {
@@ -95,33 +100,33 @@ public class ActionModule extends AbilityModule
             }, useSituation);
         }
 
-        public static RemoveMobEffect passive(Holder<net.minecraft.world.effect.MobEffect> mobEffect) {return new RemoveMobEffect(mobEffect, UseSituation.PASSIVE);}
-        public static RemoveMobEffect onUse(Holder<net.minecraft.world.effect.MobEffect> mobEffect) {return new RemoveMobEffect(mobEffect, UseSituation.ON_USE);}
-        public static RemoveMobEffect onHurtEnemy(Holder<net.minecraft.world.effect.MobEffect> mobEffect) {return new RemoveMobEffect(mobEffect, UseSituation.ON_HURT_ENEMY);}
+        public static RemoveMobEffect passive(Holder<net.minecraft.world.effect.MobEffect> mobEffect) {return new RemoveMobEffect(mobEffect, ModuleUseSituation.PASSIVE);}
+        public static RemoveMobEffect onUse(Holder<net.minecraft.world.effect.MobEffect> mobEffect) {return new RemoveMobEffect(mobEffect, ModuleUseSituation.ON_USE);}
+        public static RemoveMobEffect onHurtEnemy(Holder<net.minecraft.world.effect.MobEffect> mobEffect) {return new RemoveMobEffect(mobEffect, ModuleUseSituation.ON_HURT_ENEMY);}
     }
 
     public static class Particle extends ActionModule
     {
-        private Particle(SimpleParticleType particleType, int count, UseSituation useSituation)
+        private Particle(SimpleParticleType particleType, int count, ModuleUseSituation useSituation)
         {
             super((entity, stack, equipmentSlot) -> EntityHelper.addParticlesOnEntity(count, particleType, entity), useSituation);
         }
 
-        public static Particle passive(SimpleParticleType particleType) {return new Particle(particleType, 5, UseSituation.PASSIVE);}
-        public static Particle onUse(SimpleParticleType particleType) {return new Particle(particleType, 20, UseSituation.ON_USE);}
-        public static Particle onHurtEnemy(SimpleParticleType particleType) {return new Particle(particleType, 20, UseSituation.ON_HURT_ENEMY);}
+        public static Particle passive(SimpleParticleType particleType) {return new Particle(particleType, 5, ModuleUseSituation.PASSIVE);}
+        public static Particle onUse(SimpleParticleType particleType) {return new Particle(particleType, 20, ModuleUseSituation.ON_USE);}
+        public static Particle onHurtEnemy(SimpleParticleType particleType) {return new Particle(particleType, 20, ModuleUseSituation.ON_HURT_ENEMY);}
     }
 
     public static class Sound extends ActionModule
     {
-        private Sound(PlaySoundHelper playSoundHelper, UseSituation useSituation) {super((entity, stack, equipmentSlot) -> playSoundHelper.playSound(entity), useSituation);}
-        private Sound(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider, UseSituation useSituation) {super((entity, stack, equipmentSlot) -> playSoundHelperProvider.apply(entity).playSound(entity), useSituation);}
+        private Sound(PlaySoundHelper playSoundHelper, ModuleUseSituation useSituation) {super((entity, stack, equipmentSlot) -> playSoundHelper.playSound(entity), useSituation);}
+        private Sound(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider, ModuleUseSituation useSituation) {super((entity, stack, equipmentSlot) -> playSoundHelperProvider.apply(entity).playSound(entity), useSituation);}
 
-        public static Sound passive(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider) {return new Sound(playSoundHelperProvider, UseSituation.PASSIVE);}
-        public static Sound onUse(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider) {return new Sound(playSoundHelperProvider, UseSituation.ON_USE);}
-        public static Sound onHurtEnemy(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider) {return new Sound(playSoundHelperProvider, UseSituation.ON_HURT_ENEMY);}
-        public static Sound passive(PlaySoundHelper playSoundHelper) {return new Sound(playSoundHelper, UseSituation.PASSIVE);}
-        public static Sound onUse(PlaySoundHelper playSoundHelper) {return new Sound(playSoundHelper, UseSituation.ON_USE);}
-        public static Sound onHurtEnemy(PlaySoundHelper playSoundHelper) {return new Sound(playSoundHelper, UseSituation.ON_HURT_ENEMY);}
+        public static Sound passive(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider) {return new Sound(playSoundHelperProvider, ModuleUseSituation.PASSIVE);}
+        public static Sound onUse(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider) {return new Sound(playSoundHelperProvider, ModuleUseSituation.ON_USE);}
+        public static Sound onHurtEnemy(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider) {return new Sound(playSoundHelperProvider, ModuleUseSituation.ON_HURT_ENEMY);}
+        public static Sound passive(PlaySoundHelper playSoundHelper) {return new Sound(playSoundHelper, ModuleUseSituation.PASSIVE);}
+        public static Sound onUse(PlaySoundHelper playSoundHelper) {return new Sound(playSoundHelper, ModuleUseSituation.ON_USE);}
+        public static Sound onHurtEnemy(PlaySoundHelper playSoundHelper) {return new Sound(playSoundHelper, ModuleUseSituation.ON_HURT_ENEMY);}
     }
 }

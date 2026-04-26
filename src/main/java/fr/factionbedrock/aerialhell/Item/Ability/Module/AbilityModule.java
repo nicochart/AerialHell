@@ -1,24 +1,18 @@
 package fr.factionbedrock.aerialhell.Item.Ability.Module;
 
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
+import fr.factionbedrock.aerialhell.Item.Ability.ModuleUseSituation;
 
 public abstract class AbilityModule
 {
-    private final UseSituation useSituation;
+    private final ModuleUseSituation useSituation;
 
-    public AbilityModule(UseSituation useSituation)
+    public AbilityModule(ModuleUseSituation useSituation)
     {
         this.useSituation = useSituation;
     }
 
-    public boolean isPassive() {return this.useSituation == UseSituation.PASSIVE;}
-    public boolean isOnUse() {return this.useSituation == UseSituation.ON_USE;}
-    public boolean isOnHurtEnemy() {return this.useSituation == UseSituation.ON_HURT_ENEMY;}
+    public boolean isPassive() {return this.useSituation == ModuleUseSituation.PASSIVE;}
+    public boolean isOnUse() {return this.useSituation == ModuleUseSituation.ON_USE;}
+    public boolean isOnHurtEnemy() {return this.useSituation == ModuleUseSituation.ON_HURT_ENEMY;}
 
-    public enum UseSituation{PASSIVE, ON_USE, ON_HURT_ENEMY}
-
-    @FunctionalInterface public interface ModuleAction {void apply(LivingEntity entity, ItemStack stack, @Nullable EquipmentSlot slot);}
 }
