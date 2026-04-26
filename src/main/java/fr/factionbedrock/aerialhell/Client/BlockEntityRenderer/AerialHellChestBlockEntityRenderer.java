@@ -110,7 +110,7 @@ public class AerialHellChestBlockEntityRenderer extends ChestRenderer<AerialHell
 		};
 	}
 
-	public void submit(ChestRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState)
+	@Override public void submit(ChestRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState)
 	{
 		poseStack.pushPose();
 		poseStack.translate(0.5F, 0.5F, 0.5F);
