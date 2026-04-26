@@ -66,7 +66,7 @@ public class ItemAbility
 
     public boolean tryApplyOnUseModules(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot)
     {
-        if ( this.tryApplyModules(entity, itemStack, equipmentSlot, this.onUseModules, this.onUseConditions, this.onUseSideEffects)) {return true;}
+        if (this.tryApplyModules(entity, itemStack, equipmentSlot, this.onUseModules, this.onUseConditions, this.onUseSideEffects)) {return true;}
         return this.fallbackAbility != null && this.fallbackAbility.tryApplyOnUseModules(entity, itemStack, equipmentSlot);
     }
 
@@ -80,9 +80,9 @@ public class ItemAbility
     {
         if (conditionModules.conditionsMet(entity, itemStack, equipmentSlot))
         {
-            actionModules.applyAll(entity, itemStack, equipmentSlot);
+            boolean didSomething = actionModules.applyAll(entity, itemStack, equipmentSlot);
             sideEffectModules.applyAll(entity, itemStack, equipmentSlot);
-            return true;
+            return didSomething;
         }
         return false;
     }
@@ -120,6 +120,7 @@ public class ItemAbility
 
     private static class ActionModulesList
     {
+        private int moduleCount;
         private final List<ActionModule.MobEffect> mobEffectModules;
         private final List<ActionModule.Particle> particleModules;
         private final List<ActionModule.RemoveMobEffect> removeMobEffectModules;
@@ -129,6 +130,7 @@ public class ItemAbility
 
         private ActionModulesList()
         {
+            this.moduleCount = 0;
             this.mobEffectModules = new ArrayList<>();
             this.particleModules = new ArrayList<>();
             this.removeMobEffectModules = new ArrayList<>();
@@ -139,6 +141,7 @@ public class ItemAbility
 
         private void add(ActionModule module)
         {
+            this.moduleCount++;
             if (module instanceof ActionModule.MobEffect mobEffectModule) {this.mobEffectModules.add(mobEffectModule); return;}
             if (module instanceof ActionModule.Particle particleModule) {this.particleModules.add(particleModule); return;}
             if (module instanceof ActionModule.RemoveMobEffect removeMobEffectModule) {this.removeMobEffectModules.add(removeMobEffectModule); return;}
@@ -147,7 +150,7 @@ public class ItemAbility
             if (module instanceof ActionModule customModule) {this.customModules.add(customModule); return;}
         }
 
-        private void applyAll(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot)
+        private boolean applyAll(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot)
         {
             for(ActionModule module : this.mobEffectModules) {module.apply(entity, itemStack, equipmentSlot);}
             for(ActionModule module : this.particleModules) {module.apply(entity, itemStack, equipmentSlot);}
@@ -155,7 +158,11 @@ public class ItemAbility
             for(ActionModule module : this.soundModules) {module.apply(entity, itemStack, equipmentSlot);}
             for(ActionModule module : this.throwProjectileModules) {module.apply(entity, itemStack, equipmentSlot);}
             for(ActionModule module : this.customModules) {module.apply(entity, itemStack, equipmentSlot);}
+
+            return !this.isEmpty();
         }
+
+        private boolean isEmpty() {return this.moduleCount == 0;}
 
         public ActionModulesList copy()
         {

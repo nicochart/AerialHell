@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplate;
+import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplateListProvider;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Item.Ability.*;
 import fr.factionbedrock.aerialhell.Item.Ability.Module.ActionModule;
@@ -11,43 +13,44 @@ import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.List;
+
 public class AerialHellItemAbilities
 {
-    private static final ActionModule.MobEffect GOD_EFFECT_PASSIVE = ActionModule.MobEffect.passive(new MobEffectInstance(AerialHellMobEffects.GOD, 7, 0));
-    private static final ActionModule.MobEffect JUMP_BOOST_PASSIVE = ActionModule.MobEffect.passive(new MobEffectInstance(MobEffects.JUMP_BOOST, 7, 0));
+    private static final ActionModule.MobEffect GOD_EFFECT_PASSIVE = ActionModule.MobEffect.passive(MobEffectTemplateListProvider.createFromTemplateList(new MobEffectTemplate(AerialHellMobEffects.GOD, 32, 0, true, true, true))); //ambient = true to always display icon
+    private static final ActionModule.MobEffect JUMP_BOOST_PASSIVE = ActionModule.MobEffect.passive(MobEffectTemplateListProvider.createFromTemplateList(new MobEffectTemplate(MobEffects.JUMP_BOOST, 32, 0, true, true, true))); //ambient = true to always display icon
 
     private static final ConditionModule STACK_IN_MAIN_OR_OFF_HAND_PASSIVE = ConditionModule.passive((entity, stack, equipmentSlot) -> stack.is(entity.getMainHandItem().getItem()) || stack.is(entity.getOffhandItem().getItem()));
 
-    private static final ActionModule.MobEffect HALF_VOLUCITE_POWER_ON_USE = ActionModule.MobEffect.onUse(new MobEffectInstance(MobEffects.SLOW_FALLING, 80, 0));
-    private static final ActionModule.MobEffect FULL_VOLUCITE_POWER_ON_USE = ActionModule.MobEffect.onUse(new MobEffectInstance(MobEffects.SLOW_FALLING, 120, 0), new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate(), 100, 1));
-    private static final ActionModule.MobEffect NINJA_EFFECT_ON_USE = ActionModule.MobEffect.onUse(new MobEffectInstance(MobEffects.INVISIBILITY, 200, 0), new MobEffectInstance(MobEffects.SPEED, 120, 0));
-    private static final ActionModule.MobEffect NINJA_MASTER_EFFECT_ON_USE = ActionModule.MobEffect.onUse(new MobEffectInstance(MobEffects.INVISIBILITY, 220, 0), new MobEffectInstance(MobEffects.SPEED, 160, 1));
-    private static final ActionModule.MobEffect RANDOM_EFFECT_ON_USE = ActionModule.MobEffect.onUse((RandomSource rand) ->
+    private static final ActionModule.MobEffect HALF_VOLUCITE_POWER_ON_USE = ActionModule.MobEffect.onUse(MobEffectTemplateListProvider.createFromTemplateList(new MobEffectTemplate(MobEffects.SLOW_FALLING, 80, 0)));
+    private static final ActionModule.MobEffect FULL_VOLUCITE_POWER_ON_USE = ActionModule.MobEffect.onUse(MobEffectTemplateListProvider.createFromTemplateList(new MobEffectTemplate(MobEffects.SLOW_FALLING, 120, 0), new MobEffectTemplate(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate(), 100, 1)));
+    private static final ActionModule.MobEffect NINJA_EFFECT_ON_USE = ActionModule.MobEffect.onUse(MobEffectTemplateListProvider.createFromTemplateList(new MobEffectTemplate(MobEffects.INVISIBILITY, 200, 0), new MobEffectTemplate(MobEffects.SPEED, 120, 0)));
+    private static final ActionModule.MobEffect NINJA_MASTER_EFFECT_ON_USE = ActionModule.MobEffect.onUse(MobEffectTemplateListProvider.createFromTemplateList(new MobEffectTemplate(MobEffects.INVISIBILITY, 220, 0), new MobEffectTemplate(MobEffects.SPEED, 160, 1)));
+    private static final ActionModule.MobEffect RANDOM_EFFECT_ON_USE = ActionModule.MobEffect.onUse((entity) ->
     {
-        if (rand.nextFloat() < 0.25F) {return new MobEffectInstance(MobEffects.SPEED, 750, 0);}
-        else if (rand.nextFloat() < 0.3333F) {return new MobEffectInstance(MobEffects.JUMP_BOOST, 750, 0);}
-        else if (rand.nextFloat() < 0.5F) {return new MobEffectInstance(MobEffects.RESISTANCE, 750, 0);}
+        RandomSource rand = entity.getRandom();
+        if (rand.nextFloat() < 0.25F) {return List.of(new MobEffectTemplate(MobEffects.SPEED, 750, 0));}
+        else if (rand.nextFloat() < 0.3333F) {return List.of(new MobEffectTemplate(MobEffects.JUMP_BOOST, 750, 0));}
+        else if (rand.nextFloat() < 0.5F) {return List.of(new MobEffectTemplate(MobEffects.RESISTANCE, 750, 0));}
         else
         {
-            //TODO add new MobEffectInstance(MobEffects.UNLUCK, 750, 0); find a way to send two MobEffectInstances in one template
-            return new MobEffectInstance(MobEffects.POISON, 80, 1);
+            return List.of(new MobEffectTemplate(MobEffects.UNLUCK, 750, 0), new MobEffectTemplate(MobEffects.POISON, 80, 1));
         }
     });
-    private static final ActionModule.MobEffect GLOUTON_EFFECT_ON_USE = ActionModule.MobEffect.onUse(new MobEffectInstance(MobEffects.SATURATION, 1, 0), new MobEffectInstance(MobEffects.REGENERATION, 40, 0));
-    private static final ActionModule.MobEffect ARMORED_GLASS_EFFECT_ON_USE = ActionModule.MobEffect.onUse(new MobEffectInstance(MobEffects.RESISTANCE, 200, 1), new MobEffectInstance(MobEffects.SLOWNESS, 100, 0));
+    private static final ActionModule.MobEffect GLOUTON_EFFECT_ON_USE = ActionModule.MobEffect.onUse(MobEffectTemplateListProvider.createFromTemplateList(new MobEffectTemplate(MobEffects.SATURATION, 1, 0), new MobEffectTemplate(MobEffects.REGENERATION, 40, 0)));
+    private static final ActionModule.MobEffect ARMORED_GLASS_EFFECT_ON_USE = ActionModule.MobEffect.onUse(MobEffectTemplateListProvider.createFromTemplateList(new MobEffectTemplate(MobEffects.RESISTANCE, 200, 1), new MobEffectTemplate(MobEffects.SLOWNESS, 100, 0)));
 
     private static final ActionModule LIFTOFF_ON_USE = ActionModule.onUse((entity, stack, slot) -> entity.setDeltaMovement(entity.getDeltaMovement().add(0, 2.0F, 0)));
 
     private static final SideEffectModule.Cooldown LIGHT_AXE_COOLDOWN_ON_USE = SideEffectModule.Cooldown.onUse(((entity) -> EntityHelper.hasFullLunaticStuff(entity) ? 160 : 320));
     private static final SideEffectModule.Cooldown LIGHT_SWORD_COOLDOWN_ON_USE = SideEffectModule.Cooldown.onUse(((entity) -> EntityHelper.hasFullLunaticStuff(entity) ? 80 : 160));
-    private static final ActionModule.MobEffect LIGHT_AXE_WEAKNESS_ON_USE = ActionModule.MobEffect.onUse((LivingEntity entity) -> new MobEffectInstance(MobEffects.WEAKNESS, LIGHT_AXE_COOLDOWN_ON_USE.getCooldownDuration(entity) / 2, 2));
-    private static final ActionModule.MobEffect LIGHT_SWORD_WEAKNESS_ON_USE = ActionModule.MobEffect.onUse((LivingEntity entity) -> new MobEffectInstance(MobEffects.WEAKNESS, LIGHT_SWORD_COOLDOWN_ON_USE.getCooldownDuration(entity) / 2, 2));
+    private static final ActionModule.MobEffect LIGHT_AXE_WEAKNESS_ON_USE = ActionModule.MobEffect.onUse((LivingEntity entity) -> List.of(new MobEffectTemplate(MobEffects.WEAKNESS, LIGHT_AXE_COOLDOWN_ON_USE.getCooldownDuration(entity) / 2, 2)));
+    private static final ActionModule.MobEffect LIGHT_SWORD_WEAKNESS_ON_USE = ActionModule.MobEffect.onUse((LivingEntity entity) -> List.of(new MobEffectTemplate(MobEffects.WEAKNESS, LIGHT_SWORD_COOLDOWN_ON_USE.getCooldownDuration(entity) / 2, 2)));
     private static final ActionModule.ThrowProjectile LIGHT_PROJECTILE_ON_USE = ActionModule.ThrowProjectile.onUse(AerialHellEntities.LUNATIC_PROJECTILE.get(), 0.7f, 0);
 
     private static final SideEffectModule.Cooldown NETHERIAN_KING_SWORD_COOLDOWN_ON_USE = SideEffectModule.Cooldown.onUse(((entity) -> EntityHelper.hasFullArsonistStuff(entity) ? 300 : 600));
@@ -59,13 +62,15 @@ public class AerialHellItemAbilities
     private static final SideEffectModule.Cooldown COOLDOWN_600_ON_USE = SideEffectModule.Cooldown.onUse(((entity) -> 600));
     private static final SideEffectModule.Cooldown COOLDOWN_900_ON_USE = SideEffectModule.Cooldown.onUse(((entity) -> 900));
 
+    private static final ConditionModule HAS_POISON_OR_WITHER_ON_USE = ConditionModule.onUse((entity) -> entity.hasEffect(MobEffects.POISON) || entity.hasEffect(MobEffects.WITHER));
+
     private static final ActionModule.RemoveMobEffect REMOVE_POISON_ON_USE = ActionModule.RemoveMobEffect.onUse(MobEffects.POISON);
     private static final ActionModule.RemoveMobEffect REMOVE_WITHER_ON_USE = ActionModule.RemoveMobEffect.onUse(MobEffects.WITHER);
 
-    private static final ActionModule.MobEffect FIRE_RESISTANCE_280_ON_USE = ActionModule.MobEffect.onUse(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 280, 0));
-    private static final ActionModule.MobEffect SLOW_FALLING_III_200_ON_USE = ActionModule.MobEffect.onUse(new MobEffectInstance(MobEffects.SLOW_FALLING, 200, 2));
-    private static final ActionModule.MobEffect JUMP_BOOST_III_100_ON_USE = ActionModule.MobEffect.onUse(new MobEffectInstance(MobEffects.JUMP_BOOST, 100, 2));
-    private static final ActionModule.MobEffect SHADOW_IMMUNITY_120_ON_USE = ActionModule.MobEffect.onUse(new MobEffectInstance(AerialHellMobEffects.SHADOW_IMMUNITY, 120, 0));
+    private static final ActionModule.MobEffect FIRE_RESISTANCE_280_ON_USE = ActionModule.MobEffect.onUse(MobEffectTemplateListProvider.createFromTemplateList(new MobEffectTemplate(MobEffects.FIRE_RESISTANCE, 280, 0)));
+    private static final ActionModule.MobEffect SLOW_FALLING_III_200_ON_USE = ActionModule.MobEffect.onUse(MobEffectTemplateListProvider.createFromTemplateList(new MobEffectTemplate(MobEffects.SLOW_FALLING, 200, 2)));
+    private static final ActionModule.MobEffect JUMP_BOOST_III_100_ON_USE = ActionModule.MobEffect.onUse(MobEffectTemplateListProvider.createFromTemplateList(new MobEffectTemplate(MobEffects.JUMP_BOOST, 100, 2)));
+    private static final ActionModule.MobEffect SHADOW_IMMUNITY_120_ON_USE = ActionModule.MobEffect.onUse(MobEffectTemplateListProvider.createFromTemplateList(new MobEffectTemplate(AerialHellMobEffects.SHADOW_IMMUNITY, 120, 0)));
     private static final ConditionModule HAS_NO_SHADOW_STUFF_ON_USE = ConditionModule.onUse(EntityHelper::hasNoShadowStuff);
     private static final ConditionModule HAS_NO_HEAVY_STUFF_ON_USE = ConditionModule.onUse(EntityHelper::hasNoHeavyStuff);
     private static final ConditionModule HAS_NO_LUNATIC_STUFF_ON_USE = ConditionModule.onUse(EntityHelper::hasNoLunaticStuff);
@@ -97,7 +102,7 @@ public class AerialHellItemAbilities
 
     public static final ItemAbility RANDOM_SWORD = new ItemAbility(RANDOM_EFFECT_ON_USE, ENCHANT_PARTICLES_ON_USE, ENCHANTMENT_TABLE_USE_SOUND_ON_USE, COOLDOWN_900_ON_USE, DAMAGE_ITEM_ON_USE);
 
-    public static final ItemAbility ANTIDOTE_SWORD = new ItemAbility(REMOVE_POISON_ON_USE, REMOVE_WITHER_ON_USE, SPORE_BLOSSOM_AIR_PARTICLES_ON_USE, GENERIC_DRINK_SOUND_ON_USE, COOLDOWN_900_ON_USE, DAMAGE_ITEM_ON_USE);
+    public static final ItemAbility ANTIDOTE_SWORD = new ItemAbility(REMOVE_POISON_ON_USE, REMOVE_WITHER_ON_USE, SPORE_BLOSSOM_AIR_PARTICLES_ON_USE, GENERIC_DRINK_SOUND_ON_USE, HAS_POISON_OR_WITHER_ON_USE, COOLDOWN_900_ON_USE, DAMAGE_ITEM_ON_USE);
 
     public static final ItemAbility GLOUTON_SWORD = new ItemAbility(GLOUTON_EFFECT_ON_USE, PLAYER_CAN_EAT_ON_USE, COOLDOWN_20_ON_USE, GENERIC_EAT_SOUND_ON_USE, DAMAGE_ITEM_ON_USE);
 
@@ -121,5 +126,4 @@ public class AerialHellItemAbilities
     public static final ItemAbility MAGMA_CUBE = new ItemAbility(STACK_IN_MAIN_OR_OFF_HAND_PASSIVE, JUMP_BOOST_PASSIVE, JUMP_BOOST_III_100_ON_USE, CRISMON_SPORE_PARTICLES_ON_USE, PARROT_IMITATE_MAGMA_CUBE_SOUND_ON_USE, COOLDOWN_400_ON_USE, DAMAGE_ITEM_ON_USE);
 
     public static final ItemAbility GOD = new ItemAbility(STACK_IN_MAIN_OR_OFF_HAND_PASSIVE, GOD_EFFECT_PASSIVE);
-
 }

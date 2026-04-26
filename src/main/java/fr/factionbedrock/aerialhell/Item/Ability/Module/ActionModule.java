@@ -1,14 +1,13 @@
 package fr.factionbedrock.aerialhell.Item.Ability.Module;
 
-import fr.factionbedrock.aerialhell.Effect.MobEffectInstanceProvider;
-import fr.factionbedrock.aerialhell.Effect.RandomMobEffectInstance;
+import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplate;
+import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplateListProvider;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Item.Ability.ModuleAction;
 import fr.factionbedrock.aerialhell.Item.Ability.ModuleUseSituation;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -18,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.function.Function;
 
 public class ActionModule extends AbilityModule
@@ -39,32 +37,23 @@ public class ActionModule extends AbilityModule
 
     public static class MobEffect extends ActionModule
     {
-        private MobEffect(ModuleUseSituation useSituation, MobEffectInstance... mobEffectInstances) {this(useSituation, Arrays.stream(mobEffectInstances).map(effect -> (RandomMobEffectInstance) rand -> effect).toArray(RandomMobEffectInstance[]::new));}
-        private MobEffect(ModuleUseSituation useSituation, RandomMobEffectInstance... randomMobEffectInstanceTemplates) {this(useSituation, Arrays.stream(randomMobEffectInstanceTemplates).map(template -> (MobEffectInstanceProvider) entity -> template.get(entity.getRandom())).toArray(MobEffectInstanceProvider[]::new));}
-        private MobEffect(ModuleUseSituation useSituation, MobEffectInstanceProvider... mobEffectInstanceProviders)
+        private MobEffect(ModuleUseSituation useSituation, MobEffectTemplateListProvider mobEffectTemplateListProvider)
         {
             super((entity, stack, equipmentSlot) ->
             {
                 if (!entity.level().isClientSide())
                 {
-                    for (MobEffectInstanceProvider mobEffectInstanceProvider : mobEffectInstanceProviders)
+                    for (MobEffectTemplate template : mobEffectTemplateListProvider.get(entity))
                     {
-                        MobEffectInstance mobEffectInstanceTemplate = mobEffectInstanceProvider.create(entity);
-                        entity.addEffect(new MobEffectInstance(mobEffectInstanceTemplate));
+                        entity.addEffect(template.createNewInstance(entity));
                     }
                 }
             }, useSituation);
         }
 
-        public static MobEffect passive(MobEffectInstance... mobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.PASSIVE, mobEffectInstanceTemplates);}
-        public static MobEffect onUse(MobEffectInstance... mobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.ON_USE, mobEffectInstanceTemplates);}
-        public static MobEffect onHurtEnemy(MobEffectInstance... mobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.ON_HURT_ENEMY, mobEffectInstanceTemplates);}
-        public static MobEffect passive(RandomMobEffectInstance... randomMobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.PASSIVE, randomMobEffectInstanceTemplates);}
-        public static MobEffect onUse(RandomMobEffectInstance... randomMobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.ON_USE, randomMobEffectInstanceTemplates);}
-        public static MobEffect onHurtEnemy(RandomMobEffectInstance... randomMobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.ON_HURT_ENEMY, randomMobEffectInstanceTemplates);}
-        public static MobEffect passive(MobEffectInstanceProvider... mobEffectInstanceProvider) {return new MobEffect(ModuleUseSituation.PASSIVE, mobEffectInstanceProvider);}
-        public static MobEffect onUse(MobEffectInstanceProvider... mobEffectInstanceProvider) {return new MobEffect(ModuleUseSituation.ON_USE, mobEffectInstanceProvider);}
-        public static MobEffect onHurtEnemy(MobEffectInstanceProvider... mobEffectInstanceProvider) {return new MobEffect(ModuleUseSituation.ON_HURT_ENEMY, mobEffectInstanceProvider);}
+        public static MobEffect passive(MobEffectTemplateListProvider mobEffectInstancesProvider) {return new MobEffect(ModuleUseSituation.PASSIVE, mobEffectInstancesProvider);}
+        public static MobEffect onUse(MobEffectTemplateListProvider mobEffectInstancesProvider) {return new MobEffect(ModuleUseSituation.ON_USE, mobEffectInstancesProvider);}
+        public static MobEffect onHurtEnemy(MobEffectTemplateListProvider mobEffectInstancesProvider) {return new MobEffect(ModuleUseSituation.ON_HURT_ENEMY, mobEffectInstancesProvider);}
     }
 
     public static class ThrowProjectile extends ActionModule

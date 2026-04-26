@@ -56,7 +56,7 @@ public class AerialHellToolItem extends WithInformationItem
 	//applying tick (passive) tool ability modules
 	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
 	{
-		if (this.itemAbility != null && entity instanceof LivingEntity livingEntity) {this.itemAbility.tryApplyPassiveModules(livingEntity, stack, slot);}
+		if (this.itemAbility != null && entity instanceof LivingEntity livingEntity && entity.tickCount % 10 == 0) {this.itemAbility.tryApplyPassiveModules(livingEntity, stack, slot);}
 	}
 
 	//applying use tool ability modules
