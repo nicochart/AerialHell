@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Ability.Module;
 
+import fr.factionbedrock.aerialhell.Effect.MobEffectInstanceProvider;
 import fr.factionbedrock.aerialhell.Effect.RandomMobEffectInstance;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Item.Ability.ModuleAction;
@@ -39,26 +40,31 @@ public class ActionModule extends AbilityModule
     public static class MobEffect extends ActionModule
     {
         private MobEffect(ModuleUseSituation useSituation, MobEffectInstance... mobEffectInstances) {this(useSituation, Arrays.stream(mobEffectInstances).map(effect -> (RandomMobEffectInstance) rand -> effect).toArray(RandomMobEffectInstance[]::new));}
-        private MobEffect(ModuleUseSituation useSituation, RandomMobEffectInstance... randomMobEffectInstanceTemplates)
+        private MobEffect(ModuleUseSituation useSituation, RandomMobEffectInstance... randomMobEffectInstanceTemplates) {this(useSituation, Arrays.stream(randomMobEffectInstanceTemplates).map(template -> (MobEffectInstanceProvider) entity -> template.get(entity.getRandom())).toArray(MobEffectInstanceProvider[]::new));}
+        private MobEffect(ModuleUseSituation useSituation, MobEffectInstanceProvider... mobEffectInstanceProviders)
         {
             super((entity, stack, equipmentSlot) ->
             {
                 if (!entity.level().isClientSide())
                 {
-                    for (RandomMobEffectInstance randomMobEffectInstanceTemplate : randomMobEffectInstanceTemplates)
+                    for (MobEffectInstanceProvider mobEffectInstanceProvider : mobEffectInstanceProviders)
                     {
-                        MobEffectInstance mobEffectInstanceTemplate = randomMobEffectInstanceTemplate.get(entity.getRandom());
+                        MobEffectInstance mobEffectInstanceTemplate = mobEffectInstanceProvider.create(entity);
                         entity.addEffect(new MobEffectInstance(mobEffectInstanceTemplate));
                     }
                 }
             }, useSituation);
         }
+
         public static MobEffect passive(MobEffectInstance... mobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.PASSIVE, mobEffectInstanceTemplates);}
         public static MobEffect onUse(MobEffectInstance... mobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.ON_USE, mobEffectInstanceTemplates);}
         public static MobEffect onHurtEnemy(MobEffectInstance... mobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.ON_HURT_ENEMY, mobEffectInstanceTemplates);}
         public static MobEffect passive(RandomMobEffectInstance... randomMobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.PASSIVE, randomMobEffectInstanceTemplates);}
         public static MobEffect onUse(RandomMobEffectInstance... randomMobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.ON_USE, randomMobEffectInstanceTemplates);}
         public static MobEffect onHurtEnemy(RandomMobEffectInstance... randomMobEffectInstanceTemplates) {return new MobEffect(ModuleUseSituation.ON_HURT_ENEMY, randomMobEffectInstanceTemplates);}
+        public static MobEffect passive(MobEffectInstanceProvider... mobEffectInstanceProvider) {return new MobEffect(ModuleUseSituation.PASSIVE, mobEffectInstanceProvider);}
+        public static MobEffect onUse(MobEffectInstanceProvider... mobEffectInstanceProvider) {return new MobEffect(ModuleUseSituation.ON_USE, mobEffectInstanceProvider);}
+        public static MobEffect onHurtEnemy(MobEffectInstanceProvider... mobEffectInstanceProvider) {return new MobEffect(ModuleUseSituation.ON_HURT_ENEMY, mobEffectInstanceProvider);}
     }
 
     public static class ThrowProjectile extends ActionModule
@@ -120,7 +126,13 @@ public class ActionModule extends AbilityModule
     public static class Sound extends ActionModule
     {
         private Sound(PlaySoundHelper playSoundHelper, ModuleUseSituation useSituation) {super((entity, stack, equipmentSlot) -> playSoundHelper.playSound(entity), useSituation);}
-        private Sound(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider, ModuleUseSituation useSituation) {super((entity, stack, equipmentSlot) -> playSoundHelperProvider.apply(entity).playSound(entity), useSituation);}
+        private Sound(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider, ModuleUseSituation useSituation)
+        {
+            super((entity, stack, equipmentSlot) ->
+            {
+                playSoundHelperProvider.apply(entity).playSound(entity);
+            }, useSituation);
+        }
 
         public static Sound passive(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider) {return new Sound(playSoundHelperProvider, ModuleUseSituation.PASSIVE);}
         public static Sound onUse(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider) {return new Sound(playSoundHelperProvider, ModuleUseSituation.ON_USE);}

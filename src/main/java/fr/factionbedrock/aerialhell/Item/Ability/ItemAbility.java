@@ -125,6 +125,7 @@ public class ItemAbility
         private final List<ActionModule.RemoveMobEffect> removeMobEffectModules;
         private final List<ActionModule.Sound> soundModules;
         private final List<ActionModule.ThrowProjectile> throwProjectileModules;
+        private final List<ActionModule> customModules;
 
         private ActionModulesList()
         {
@@ -133,15 +134,17 @@ public class ItemAbility
             this.removeMobEffectModules = new ArrayList<>();
             this.soundModules = new ArrayList<>();
             this.throwProjectileModules = new ArrayList<>();
+            this.customModules = new ArrayList<>();
         }
 
         private void add(ActionModule module)
         {
-            if (module instanceof ActionModule.MobEffect mobEffectModule) {this.mobEffectModules.add(mobEffectModule);}
-            if (module instanceof ActionModule.Particle particleModule) {this.particleModules.add(particleModule);}
-            if (module instanceof ActionModule.RemoveMobEffect removeMobEffectModule) {this.removeMobEffectModules.add(removeMobEffectModule);}
-            if (module instanceof ActionModule.Sound soundModule) {this.soundModules.add(soundModule);}
-            if (module instanceof ActionModule.ThrowProjectile throwProjectilesModule) {this.throwProjectileModules.add(throwProjectilesModule);}
+            if (module instanceof ActionModule.MobEffect mobEffectModule) {this.mobEffectModules.add(mobEffectModule); return;}
+            if (module instanceof ActionModule.Particle particleModule) {this.particleModules.add(particleModule); return;}
+            if (module instanceof ActionModule.RemoveMobEffect removeMobEffectModule) {this.removeMobEffectModules.add(removeMobEffectModule); return;}
+            if (module instanceof ActionModule.Sound soundModule) {this.soundModules.add(soundModule); return;}
+            if (module instanceof ActionModule.ThrowProjectile throwProjectilesModule) {this.throwProjectileModules.add(throwProjectilesModule); return;}
+            if (module instanceof ActionModule customModule) {this.customModules.add(customModule); return;}
         }
 
         private void applyAll(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot)
@@ -151,6 +154,7 @@ public class ItemAbility
             for(ActionModule module : this.removeMobEffectModules) {module.apply(entity, itemStack, equipmentSlot);}
             for(ActionModule module : this.soundModules) {module.apply(entity, itemStack, equipmentSlot);}
             for(ActionModule module : this.throwProjectileModules) {module.apply(entity, itemStack, equipmentSlot);}
+            for(ActionModule module : this.customModules) {module.apply(entity, itemStack, equipmentSlot);}
         }
 
         public ActionModulesList copy()
@@ -161,6 +165,7 @@ public class ItemAbility
             copy.removeMobEffectModules.addAll(this.removeMobEffectModules);
             copy.soundModules.addAll(this.soundModules);
             copy.throwProjectileModules.addAll(this.throwProjectileModules);
+            copy.customModules.addAll(this.customModules);
             return copy;
         }
     }
@@ -175,7 +180,7 @@ public class ItemAbility
         {
             for(ConditionModule condition : this.conditionModules)
             {
-                if (!condition.conditionMet(entity)) {return false;}
+                if (!condition.conditionMet(entity, itemStack, equipmentSlot)) {return false;}
             }
             return true;
         }

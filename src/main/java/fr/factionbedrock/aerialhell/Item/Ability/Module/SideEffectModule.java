@@ -48,6 +48,7 @@ public class SideEffectModule extends AbilityModule
 
     public static class Cooldown extends SideEffectModule
     {
+        private final ToIntFunction<LivingEntity> cooldownDuration;
         private Cooldown(ToIntFunction<LivingEntity> cooldownDuration, ModuleUseSituation useSituation)
         {
             super((entity, stack, equipmentSlot) ->
@@ -55,7 +56,11 @@ public class SideEffectModule extends AbilityModule
                 int cooldown = cooldownDuration.applyAsInt(entity);
                 if (entity instanceof Player player && cooldown != 0) {player.getCooldowns().addCooldown(stack, cooldown);}
             }, useSituation);
+
+            this.cooldownDuration = cooldownDuration;
         }
+
+        public int getCooldownDuration(LivingEntity entity) {return this.cooldownDuration.applyAsInt(entity);}
 
         public static Cooldown passive(ToIntFunction<LivingEntity> cooldownDuration) {return new Cooldown(cooldownDuration, ModuleUseSituation.PASSIVE);}
         public static Cooldown onUse(ToIntFunction<LivingEntity> cooldownDuration) {return new Cooldown(cooldownDuration, ModuleUseSituation.ON_USE);}

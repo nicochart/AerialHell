@@ -33,15 +33,17 @@ public class ItemHelper
         return countItemStacksMatching(itemStackList, (itemStack) -> itemStack.is(tag));
     }
 
-    public static int countVoluciteStuff(Iterable<ItemStack> itemStackList)
-    {
-        return countItemStacksInTag(itemStackList, AerialHellTags.Items.VOLUCITE_STUFF);
-    }
+    public static int countLunaticStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.LUNATIC_STUFF);}
+    public static int countShadowStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.SHADOW_STUFF);}
+    public static int countArsonistStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.ARSONIST_STUFF);}
+    public static int countVoluciteStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.VOLUCITE_STUFF);}
 
     public static int countHeavyStuff(Iterable<ItemStack> itemStackList)
     {
         return countItemStacksMatching(itemStackList, (itemStack) -> itemStack.is(AerialHellTags.Items.OBSIDIAN_STUFF) || itemStack.is(AerialHellTags.Items.ARSONIST_STUFF));
     }
+
+
 
     public static class SmithingTemplate
     {

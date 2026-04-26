@@ -1,16 +1,15 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
+import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.TooltipFlag;
@@ -28,13 +27,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class BerserkAxeItem extends EffectAxeItem
+public class BerserkAxeItem extends AerialHellToolItem
 {
 	private int weight_ticks;
 	
-	public BerserkAxeItem(Properties properties)
+	public BerserkAxeItem(Properties properties, List<UseInteractionToolType> interactionToolTypes)
 	{
-		super(properties);
+		super(properties, interactionToolTypes);
 		this.weight_ticks = 0;
 	}
 	
