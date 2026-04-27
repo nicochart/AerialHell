@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Item.Ability.Module;
 
 import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplate;
 import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplateListProvider;
+import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplateProvider;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Item.Ability.ModuleAction;
 import fr.factionbedrock.aerialhell.Item.Ability.ModuleUseSituation;
@@ -17,6 +18,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 public class ActionModule extends AbilityModule
@@ -37,23 +40,46 @@ public class ActionModule extends AbilityModule
 
     public static class MobEffect extends ActionModule
     {
-        private MobEffect(ModuleUseSituation useSituation, MobEffectTemplateListProvider mobEffectTemplateListProvider)
+        private final List<MobEffectTemplateListProvider> mobEffectTemplateListProviders;
+
+        private MobEffect(ModuleUseSituation useSituation)
         {
-            super((entity, stack, equipmentSlot) ->
+            super((entity, stack, equipmentSlot) -> {}, useSituation); //action overriden below
+
+            this.mobEffectTemplateListProviders = new ArrayList<>();
+        }
+
+        @Override public void apply(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot)
+        {
+            if (!entity.level().isClientSide())
             {
-                if (!entity.level().isClientSide())
+                for (MobEffectTemplateListProvider templateList : this.mobEffectTemplateListProviders)
                 {
-                    for (MobEffectTemplate template : mobEffectTemplateListProvider.get(entity))
+                    for (MobEffectTemplate template : templateList.get(entity))
                     {
                         entity.addEffect(template.createNewInstance(entity));
                     }
                 }
-            }, useSituation);
+            }
         }
 
-        public static MobEffect passive(MobEffectTemplateListProvider mobEffectInstancesProvider) {return new MobEffect(ModuleUseSituation.PASSIVE, mobEffectInstancesProvider);}
-        public static MobEffect onUse(MobEffectTemplateListProvider mobEffectInstancesProvider) {return new MobEffect(ModuleUseSituation.ON_USE, mobEffectInstancesProvider);}
-        public static MobEffect onHurtEnemy(MobEffectTemplateListProvider mobEffectInstancesProvider) {return new MobEffect(ModuleUseSituation.ON_HURT_ENEMY, mobEffectInstancesProvider);}
+        public MobEffect addEffects(MobEffectTemplateListProvider templateList) {this.mobEffectTemplateListProviders.add(templateList); return this;}
+
+        public MobEffect addEffects(MobEffectTemplate... templates)
+        {
+            for (MobEffectTemplate template : templates) {this.mobEffectTemplateListProviders.add(template.toListProvider());}
+            return this;
+        }
+
+        public MobEffect addEffects(MobEffectTemplateProvider... templates)
+        {
+            for (MobEffectTemplateProvider template : templates) {this.mobEffectTemplateListProviders.add(template.toListProvider());}
+            return this;
+        }
+
+        public static MobEffect passive() {return new MobEffect(ModuleUseSituation.PASSIVE);}
+        public static MobEffect onUse() {return new MobEffect(ModuleUseSituation.ON_USE);}
+        public static MobEffect onHurtEnemy() {return new MobEffect(ModuleUseSituation.ON_HURT_ENEMY);}
     }
 
     public static class ThrowProjectile extends ActionModule

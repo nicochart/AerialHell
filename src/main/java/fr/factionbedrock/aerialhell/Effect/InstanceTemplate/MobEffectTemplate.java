@@ -5,6 +5,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 
@@ -35,4 +36,7 @@ public class MobEffectTemplate
     {
         return new MobEffectInstance(this.effect, this.duration.applyAsInt(entity), this.amplifier.applyAsInt(entity), this.ambient.test(entity), this.visible.test(entity), this.showIcon.test(entity));
     }
+
+    public MobEffectTemplateProvider toProvider() {return (entity) -> this;}
+    public MobEffectTemplateListProvider toListProvider() {return entity -> List.of(this);}
 }
