@@ -40,6 +40,8 @@ public class EntityHelper
 {
     public static boolean isCreativePlayer(Entity entity) {return entity instanceof Player player && player.isCreative();}
 
+    public static boolean isFlyingCreativePlayer(Entity entity) {return entity instanceof Player player && player.isCreative() && player.getAbilities().flying;}
+
     public static boolean isSpectatorPlayer(Entity entity) {return entity instanceof Player player && player.isSpectator();}
 
     public static boolean isCreaOrSpecPlayer(Entity entity) {return entity instanceof Player player && (player.isCreative() || player.isSpectator());}
