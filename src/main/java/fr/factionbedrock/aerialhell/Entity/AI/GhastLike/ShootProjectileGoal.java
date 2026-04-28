@@ -181,7 +181,7 @@ public abstract class ShootProjectileGoal extends Goal
     public Projectile createProjectile(LivingEntity target)
     {
         double Xdistance = target.getX() - (this.parentEntity.getX());
-        double Ydistance = target.getY(0.5) - this.parentEntity.getY(0.5);
+        double Ydistance = target.getY(this.getProjectileTargetYBoundingBoxProgress()) - this.parentEntity.getY(0.5);
         double Zdistance = target.getZ() - (this.parentEntity.getZ());
         Projectile projectile = this.createProjectile(this.parentEntity.level(), this.parentEntity, Xdistance, Ydistance, Zdistance);
         projectile.setPos(this.parentEntity.getX(), this.parentEntity.getY(0.5) + this.getYProjectileOffset(), this.parentEntity.getZ());
@@ -193,6 +193,7 @@ public abstract class ShootProjectileGoal extends Goal
         return (potentialTarget) -> potentialTarget instanceof LivingEntity livingTarget && this.parentEntity.hasLineOfSight(livingTarget) && livingTarget.canBeSeenAsEnemy();
     }
 
+    public double getProjectileTargetYBoundingBoxProgress() {return 0.5D;}
     public abstract double getYProjectileOffset();
     public abstract int getShootDelay(); //(tick) actual moment for the projectile to spawn. The sound is played at 0 and projectile sent at this time
     public abstract int getShootTimeInterval(); //time gap between two shots

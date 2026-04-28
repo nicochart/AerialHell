@@ -152,6 +152,15 @@ public class ActionModule extends AbilityModule
                 }
             });
         }
+
+        public static ThrowProjectile.Builder builder() {return new ThrowProjectile.Builder();}
+
+        public static class Builder
+        {
+            private Builder() {}
+
+            public final ThrowProjectile build(EntityType<? extends Projectile> type, float velocity, float inaccuracy) {return new ThrowProjectile(type, velocity, inaccuracy);}
+        }
     }
 
     public static class RemoveMobEffect extends ActionModule

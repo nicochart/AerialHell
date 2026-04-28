@@ -1,10 +1,12 @@
 package fr.factionbedrock.aerialhell.Item.Ability.Module;
 
 import fr.factionbedrock.aerialhell.Item.Ability.ModuleAction;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantments;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.ToIntFunction;
@@ -36,6 +38,31 @@ public class SideEffectModule extends AbilityModule
         }
 
         public static DamageItem simple() {return new DamageItem(1);}
+        public static DamageItem withAmount(int amount) {return new DamageItem(amount);}
+    }
+
+    public static class Shrink extends SideEffectModule
+    {
+        private Shrink(int amount)
+        {
+            super((entity, stack, equipmentSlot) ->
+            {
+                if (equipmentSlot != null)
+                {
+                    if (!EntityHelper.isCreativePlayer(entity) && !EntityHelper.hasEnchantment(entity, Enchantments.INFINITY)) {stack.shrink(amount);}
+                }
+            });
+        }
+
+        public static Shrink.Builder builder() {return new Shrink.Builder();}
+
+        public static class Builder
+        {
+            public Builder() {}
+
+            public Shrink simple() {return new Shrink(1);}
+            public Shrink withAmount(int amount) {return new Shrink(amount);}
+        }
     }
 
     public static class Cooldown extends SideEffectModule

@@ -9,7 +9,6 @@ import fr.factionbedrock.aerialhell.Item.Bucket.RubyLiquidOfGodsBucketItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.RubyWaterBucketItem;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterials;
 import fr.factionbedrock.aerialhell.Item.Material.ToolMaterials;
-import fr.factionbedrock.aerialhell.Item.Shuriken.*;
 import fr.factionbedrock.aerialhell.Item.Tools.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellJukeboxSongs;
@@ -28,8 +27,6 @@ import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-
-import java.util.List;
 
 import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 
@@ -780,18 +777,18 @@ public class AerialHellItems
     public static final DeferredItem<Item> DIMENSION_SHATTERER_PROJECTILE = ITEMS.register(Keys.DIMENSION_SHATTERER_PROJECTILE.identifier().getPath(),() -> new DimensionShattererProjectileItem(new Item.Properties().setId(Keys.DIMENSION_SHATTERER_PROJECTILE).stacksTo(16)));
 
     //shurikens
-    public static final DeferredItem<Item> IRON_SHURIKEN = ITEMS.register(Keys.IRON_SHURIKEN.identifier().getPath(), () -> new IronShurikenItem(new Item.Properties().rarity(Rarity.COMMON).setId(Keys.IRON_SHURIKEN)));
-    public static final DeferredItem<Item> GOLD_SHURIKEN = ITEMS.register(Keys.GOLD_SHURIKEN.identifier().getPath(), () -> new GoldShurikenItem(new Item.Properties().rarity(Rarity.COMMON).setId(Keys.GOLD_SHURIKEN)));
-    public static final DeferredItem<Item> DIAMOND_SHURIKEN = ITEMS.register(Keys.DIAMOND_SHURIKEN.identifier().getPath(), () -> new DiamondShurikenItem(new Item.Properties().rarity(Rarity.COMMON).setId(Keys.DIAMOND_SHURIKEN)));
-    public static final DeferredItem<Item> NETHERITE_SHURIKEN = ITEMS.register(Keys.NETHERITE_SHURIKEN.identifier().getPath(), () -> new NetheriteShurikenItem(new Item.Properties().rarity(Rarity.UNCOMMON).setId(Keys.NETHERITE_SHURIKEN)));
-    public static final DeferredItem<Item> RUBY_SHURIKEN = ITEMS.register(Keys.RUBY_SHURIKEN.identifier().getPath(), () -> new RubyShurikenItem(new Item.Properties().rarity(Rarity.COMMON).setId(Keys.RUBY_SHURIKEN)));
-    public static final DeferredItem<Item> AZURITE_SHURIKEN = ITEMS.register(Keys.AZURITE_SHURIKEN.identifier().getPath(), () -> new AzuriteShurikenItem(new Item.Properties().rarity(Rarity.COMMON).setId(Keys.AZURITE_SHURIKEN)));
-    public static final DeferredItem<Item> MAGMATIC_GEL_SHURIKEN = ITEMS.register(Keys.MAGMATIC_GEL_SHURIKEN.identifier().getPath(), () -> new MagmaticGelShurikenItem(new Item.Properties().rarity(AerialHellRarities.FROZEN.getValue()).setId(Keys.MAGMATIC_GEL_SHURIKEN)));
-    public static final DeferredItem<Item> VOLUCITE_SHURIKEN = ITEMS.register(Keys.VOLUCITE_SHURIKEN.identifier().getPath(), () -> new VoluciteShurikenItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT.getValue()).setId(Keys.VOLUCITE_SHURIKEN)));
-    public static final DeferredItem<Item> OBSIDIAN_SHURIKEN = ITEMS.register(Keys.OBSIDIAN_SHURIKEN.identifier().getPath(), () -> new ObsidianShurikenItem(new Item.Properties().rarity(Rarity.EPIC).setId(Keys.OBSIDIAN_SHURIKEN)));
-    public static final DeferredItem<Item> LUNATIC_CRYSTAL_SHURIKEN = ITEMS.register(Keys.LUNATIC_CRYSTAL_SHURIKEN.identifier().getPath(), () -> new LunaticCrystalShurikenItem(new Item.Properties().rarity(AerialHellRarities.LEGENDARY.getValue()).setId(Keys.LUNATIC_CRYSTAL_SHURIKEN)));
-    public static final DeferredItem<Item> ARSONIST_SHURIKEN = ITEMS.register(Keys.ARSONIST_SHURIKEN.identifier().getPath(), () -> new ArsonistShurikenItem(new Item.Properties().rarity(AerialHellRarities.MYTHICAL.getValue()).setId(Keys.ARSONIST_SHURIKEN)));
-    public static final DeferredItem<Item> LIGHTNING_SHURIKEN = ITEMS.register(Keys.LIGHTNING_SHURIKEN.identifier().getPath(), () -> new LightningShurikenItem(new Item.Properties().rarity(Rarity.UNCOMMON).setId(Keys.LIGHTNING_SHURIKEN)));
+    public static final DeferredItem<Item> IRON_SHURIKEN = ITEMS.register(Keys.IRON_SHURIKEN.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.IRON_SHURIKEN).rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_IRON_SHURIKEN))));
+    public static final DeferredItem<Item> GOLD_SHURIKEN = ITEMS.register(Keys.GOLD_SHURIKEN.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.GOLD_SHURIKEN).rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_GOLD_SHURIKEN))));
+    public static final DeferredItem<Item> DIAMOND_SHURIKEN = ITEMS.register(Keys.DIAMOND_SHURIKEN.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.DIAMOND_SHURIKEN).rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_DIAMOND_SHURIKEN))));
+    public static final DeferredItem<Item> NETHERITE_SHURIKEN = ITEMS.register(Keys.NETHERITE_SHURIKEN.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.NETHERITE_SHURIKEN).rarity(Rarity.UNCOMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_NETHERITE_SHURIKEN))));
+    public static final DeferredItem<Item> RUBY_SHURIKEN = ITEMS.register(Keys.RUBY_SHURIKEN.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.RUBY_SHURIKEN).rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_RUBY_SHURIKEN))));
+    public static final DeferredItem<Item> AZURITE_SHURIKEN = ITEMS.register(Keys.AZURITE_SHURIKEN.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.AZURITE_SHURIKEN).rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_AZURITE_SHURIKEN))));
+    public static final DeferredItem<Item> MAGMATIC_GEL_SHURIKEN = ITEMS.register(Keys.MAGMATIC_GEL_SHURIKEN.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.MAGMATIC_GEL_SHURIKEN).rarity(AerialHellRarities.FROZEN.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_MAGMATIC_GEL_SHURIKEN))));
+    public static final DeferredItem<Item> VOLUCITE_SHURIKEN = ITEMS.register(Keys.VOLUCITE_SHURIKEN.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.VOLUCITE_SHURIKEN).rarity(AerialHellRarities.VIBRANT.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_VOLUCITE_GEL_SHURIKEN))));
+    public static final DeferredItem<Item> OBSIDIAN_SHURIKEN = ITEMS.register(Keys.OBSIDIAN_SHURIKEN.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.OBSIDIAN_SHURIKEN).rarity(Rarity.EPIC).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_OBSIDIAN_SHURIKEN))));
+    public static final DeferredItem<Item> LUNATIC_CRYSTAL_SHURIKEN = ITEMS.register(Keys.LUNATIC_CRYSTAL_SHURIKEN.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.LUNATIC_CRYSTAL_SHURIKEN).rarity(AerialHellRarities.LEGENDARY.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_LUNATIC_CRYSTAL_SHURIKEN))));
+    public static final DeferredItem<Item> ARSONIST_SHURIKEN = ITEMS.register(Keys.ARSONIST_SHURIKEN.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.ARSONIST_SHURIKEN).rarity(AerialHellRarities.MYTHICAL.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_ARSONIST_SHURIKEN))));
+    public static final DeferredItem<Item> LIGHTNING_SHURIKEN = ITEMS.register(Keys.LIGHTNING_SHURIKEN.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.LIGHTNING_SHURIKEN).rarity(Rarity.UNCOMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_LIGHTNING_SHURIKEN))));
 
     //food
     public static final DeferredItem<Item> AERIAL_BERRY = ITEMS.register(Keys.AERIAL_BERRY.identifier().getPath(),() -> new Item(new Item.Properties().setId(Keys.AERIAL_BERRY).food(AerialHellFoods.Properties.AERIAL_BERRY)));
@@ -925,7 +922,7 @@ public class AerialHellItems
     public static final DeferredItem<Item> ARSONIST_SWORD = ITEMS.register(Keys.ARSONIST_SWORD.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.ARSONIST_SWORD).sword(ToolMaterials.ARSONIST, 3, -2.4F, 0.0F, 0.0F).fireResistant().rarity(AerialHellRarities.MYTHICAL.getValue())));
 
     public static final DeferredItem<Item> HEAVY_SWORD = ITEMS.register(Keys.HEAVY_SWORD.identifier().getPath(), () -> new Item(new AerialHellItem.Properties().setId(Keys.HEAVY_SWORD).sword(ToolMaterials.HEAVY, 3, -2.7F, 0.0F, 0.0F).fireResistant().rarity(Rarity.EPIC)));
-    
+
     public static final DeferredItem<Item> HEALTH_BOOST_SWORD = ITEMS.register(Keys.HEALTH_BOOST_SWORD.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.HEALTH_BOOST_SWORD).sword(ToolMaterials.LUNATIC, 3, -2.4F, 0.0F, 4.0F).fireResistant().rarity(Rarity.EPIC)));
     public static final DeferredItem<Item> NINJA_SWORD = ITEMS.register(Keys.NINJA_SWORD.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.NINJA_SWORD).sword(ToolMaterials.OBSIDIAN, 2, -1.6F, 0.15F, 0.0F).fireResistant().rarity(AerialHellRarities.LEGENDARY.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.NINJA_SWORD))));
     public static final DeferredItem<Item> NINJA_MASTER_SWORD = ITEMS.register(Keys.NINJA_MASTER_SWORD.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.NINJA_MASTER_SWORD).sword(ToolMaterials.OBSIDIAN, 4, -2.4F, 0.15F, 0.0F).fireResistant().rarity(AerialHellRarities.MYTHICAL.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.NINJA_MASTER_SWORD))));

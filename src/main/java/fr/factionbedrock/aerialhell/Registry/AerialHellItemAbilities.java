@@ -54,13 +54,12 @@ public class AerialHellItemAbilities
     private static final SideEffectModule.Cooldown LIGHT_SWORD_COOLDOWN = SideEffectModule.Cooldown.builder().of(((entity) -> EntityHelper.hasFullLunaticStuff(entity) ? 80 : 160));
     private static final ActionModule.MobEffectList LIGHT_AXE_WEAKNESS = ActionModule.MobEffectList.builder().addEffects((entity) -> List.of(new MobEffectTemplate(MobEffects.WEAKNESS, LIGHT_AXE_COOLDOWN.getCooldownDuration(entity) / 2, 2))).build();
     private static final ActionModule.MobEffectList LIGHT_SWORD_WEAKNESS = ActionModule.MobEffectList.builder().addEffects((entity) -> List.of(new MobEffectTemplate(MobEffects.WEAKNESS, LIGHT_SWORD_COOLDOWN.getCooldownDuration(entity) / 2, 2))).build();
-    private static final ActionModule.ThrowProjectile LIGHT_PROJECTILE = new ActionModule.ThrowProjectile(AerialHellEntities.LUNATIC_PROJECTILE.get(), 0.7f, 0);
 
+    private static final ActionModule.ThrowProjectile.Builder THROW_PROJECTILE = ActionModule.ThrowProjectile.builder();
 
     private static final SideEffectModule.Cooldown.Builder COOLDOWN = SideEffectModule.Cooldown.builder();
 
     private static final ConditionModule HAS_POISON_OR_WITHER = ConditionModule.entityCondition((entity) -> entity.hasEffect(MobEffects.POISON) || entity.hasEffect(MobEffects.WITHER));
-
 
     private static final ConditionModule HAS_NO_SHADOW_STUFF = ConditionModule.entityCondition(EntityHelper::hasNoShadowStuff);
     private static final ConditionModule HAS_NO_HEAVY_STUFF = ConditionModule.entityCondition(EntityHelper::hasNoHeavyStuff);
@@ -71,6 +70,8 @@ public class AerialHellItemAbilities
     private static final ConditionModule PLAYER_SHIFT_KEY_DOWN = ConditionModule.entityCondition((Entity::isShiftKeyDown));
     private static final ConditionModule PLAYER_SHIFT_KEY_UP = PLAYER_SHIFT_KEY_DOWN.opposite();
     private static final SideEffectModule.DamageItem DAMAGE_ITEM = SideEffectModule.DamageItem.simple();
+    private static final SideEffectModule.Shrink SHRINK_ONE_ITEM = SideEffectModule.Shrink.builder().simple();
+    private static final SideEffectModule.Shrink.Builder SHRINK = SideEffectModule.Shrink.builder();
     private static final ActionModule.Sound ILLUSIONER_CAST_SPELL_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.375F + 0.25F * entity.getRandom().nextFloat()));
     private static final ActionModule.Sound ENCHANTMENT_TABLE_USE_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.ENCHANTMENT_TABLE_USE, 1.0F, 1.375F + 0.25F * entity.getRandom().nextFloat()));
     private static final ActionModule.Sound GENERIC_DRINK_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.GENERIC_DRINK.value(), 1.0F, 1.5F + 0.4F * entity.getRandom().nextFloat()));
@@ -80,6 +81,7 @@ public class AerialHellItemAbilities
     private static final ActionModule.Sound GENERIC_EXPLODE_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.GENERIC_EXPLODE.value(), 1.0F, 0.5F + entity.getRandom().nextFloat()));
     private static final ActionModule.Sound GLASS_BREAK_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.GLASS_BREAK, 1.0F, 0.25F + 0.5F * entity.getRandom().nextFloat()));
     private static final ActionModule.Sound PARROT_IMITATE_MAGMA_CUBE_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.PARROT_IMITATE_MAGMA_CUBE, 1.0F, 0.5F + entity.getRandom().nextFloat()));
+    private static final ActionModule.Sound SHURIKEN_SHOOT_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(AerialHellSoundEvents.ENTITY_SHURIKEN_SHOOT.get(), 1.0F, 1.0F / (entity.getRandom().nextFloat() * 0.4F + 0.8F)));
 
     private static final ActionModule.Particle.Builder CLOUD_PARTICLES = ActionModule.Particle.builder(ParticleTypes.CLOUD);
     private static final ActionModule.Particle.Builder ENCHANT_PARTICLES = ActionModule.Particle.builder(ParticleTypes.ENCHANT);
@@ -164,7 +166,7 @@ public class AerialHellItemAbilities
 
     private static final ItemAbility LIGHT_WEAPON_COMMON = ItemAbility.builder()
             .addOnUseModules(ModuleList.builder()
-                    .addActions(LIGHT_PROJECTILE)
+                    .addActions(THROW_PROJECTILE.build(AerialHellEntities.LUNATIC_PROJECTILE.get(), 0.7f, 0))
                     .addConditions(HAS_NO_SHADOW_STUFF)
                     .addSideEffects(DAMAGE_ITEM)
                     .build())
@@ -259,4 +261,17 @@ public class AerialHellItemAbilities
                     .addConditions(STACK_IN_MAIN_OR_OFF_HAND_PASSIVE)
                     .build()
             ).build();
+
+    public static final ItemAbility THROW_IRON_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.IRON_SHURIKEN.get(), 1.8F, 1.0F)).addSideEffects(COOLDOWN.of(8), SHRINK_ONE_ITEM).build()).build();
+    public static final ItemAbility THROW_GOLD_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.GOLD_SHURIKEN.get(), 2.0F, 1.0F)).addSideEffects(COOLDOWN.of(7), SHRINK_ONE_ITEM).build()).build();
+    public static final ItemAbility THROW_DIAMOND_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.DIAMOND_SHURIKEN.get(), 1.8F, 1.0F)).addSideEffects(COOLDOWN.of(8), SHRINK_ONE_ITEM).build()).build();
+    public static final ItemAbility THROW_NETHERITE_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.NETHERITE_SHURIKEN.get(), 1.6F, 1.0F)).addSideEffects(COOLDOWN.of(8), SHRINK_ONE_ITEM).build()).build();
+    public static final ItemAbility THROW_RUBY_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.RUBY_SHURIKEN.get(), 1.8F, 1.0F)).addSideEffects(COOLDOWN.of(8), SHRINK_ONE_ITEM).build()).build();
+    public static final ItemAbility THROW_AZURITE_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.AZURITE_SHURIKEN.get(), 2.0F, 1.0F)).addSideEffects(COOLDOWN.of(8), SHRINK_ONE_ITEM).build()).build();
+    public static final ItemAbility THROW_MAGMATIC_GEL_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get(), 1.7F, 1.5F)).addSideEffects(COOLDOWN.of(8), SHRINK_ONE_ITEM).build()).build();
+    public static final ItemAbility THROW_VOLUCITE_GEL_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.VOLUCITE_SHURIKEN.get(), 1.6F, 0.0F)).addSideEffects(COOLDOWN.of(8), SHRINK_ONE_ITEM).build()).build();
+    public static final ItemAbility THROW_OBSIDIAN_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.OBSIDIAN_SHURIKEN.get(), 1.6F, 1.0F)).addSideEffects(COOLDOWN.of(8), SHRINK_ONE_ITEM).build()).build();
+    public static final ItemAbility THROW_LUNATIC_CRYSTAL_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), 1.8F, 0.0F)).addSideEffects(COOLDOWN.of(8), SHRINK_ONE_ITEM).build()).build();
+    public static final ItemAbility THROW_ARSONIST_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.ARSONIST_SHURIKEN.get(), 1.7F, 1.0F)).addSideEffects(COOLDOWN.of(9), SHRINK_ONE_ITEM).build()).build();
+    public static final ItemAbility THROW_LIGHTNING_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.LIGHTNING_SHURIKEN.get(), 1.7F, 1.0F)).addSideEffects(COOLDOWN.of(8), SHRINK_ONE_ITEM).build()).build();
 }

@@ -48,6 +48,7 @@ public class ItemAbility
         return false;
     }
 
+    public static Builder copyOf(ItemAbility.Builder source) {return source.copy();}
     public static Builder builder() {return new Builder();}
 
     static class ActionModuleList

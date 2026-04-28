@@ -185,40 +185,40 @@ public class AerialHellEntities
 	public static final DeferredHolder<EntityType<?>, EntityType<ThrownStellarEgg>> THROWN_STELLAR_EGG = ENTITIES.register("thrown_stellar_egg", () -> EntityType.Builder.<ThrownStellarEgg>of(ThrownStellarEgg::new, MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.THROWN_STELLAR_EGG));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<IronShurikenEntity>> IRON_SHURIKEN = ENTITIES.register("iron_shuriken", () -> EntityType.Builder.<IronShurikenEntity>of(IronShurikenEntity::new, MobCategory.MISC)
+	public static final DeferredHolder<EntityType<?>, EntityType<ShurikenEntity>> IRON_SHURIKEN = ENTITIES.register("iron_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 8.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.IRON_SHURIKEN));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<GoldShurikenEntity>> GOLD_SHURIKEN = ENTITIES.register("gold_shuriken", () -> EntityType.Builder.<GoldShurikenEntity>of(GoldShurikenEntity::new, MobCategory.MISC)
+	public static final DeferredHolder<EntityType<?>, EntityType<ShurikenEntity>> GOLD_SHURIKEN = ENTITIES.register("gold_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 9.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.GOLD_SHURIKEN));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<DiamondShurikenEntity>> DIAMOND_SHURIKEN = ENTITIES.register("diamond_shuriken", () -> EntityType.Builder.<DiamondShurikenEntity>of(DiamondShurikenEntity::new, MobCategory.MISC)
+	public static final DeferredHolder<EntityType<?>, EntityType<ShurikenEntity>> DIAMOND_SHURIKEN = ENTITIES.register("diamond_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 11.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.DIAMOND_SHURIKEN));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<NetheriteShurikenEntity>> NETHERITE_SHURIKEN = ENTITIES.register("netherite_shuriken", () -> EntityType.Builder.<NetheriteShurikenEntity>of(NetheriteShurikenEntity::new, MobCategory.MISC)
+	public static final DeferredHolder<EntityType<?>, EntityType<ShurikenEntity>> NETHERITE_SHURIKEN = ENTITIES.register("netherite_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 12.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.NETHERITE_SHURIKEN));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<RubyShurikenEntity>> RUBY_SHURIKEN = ENTITIES.register("ruby_shuriken", () -> EntityType.Builder.<RubyShurikenEntity>of(RubyShurikenEntity::new, MobCategory.MISC)
+	public static final DeferredHolder<EntityType<?>, EntityType<ShurikenEntity>> RUBY_SHURIKEN = ENTITIES.register("ruby_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 9.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.RUBY_SHURIKEN));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<AzuriteShurikenEntity>> AZURITE_SHURIKEN = ENTITIES.register("azurite_shuriken", () -> EntityType.Builder.<AzuriteShurikenEntity>of(AzuriteShurikenEntity::new, MobCategory.MISC)
+	public static final DeferredHolder<EntityType<?>, EntityType<ShurikenEntity>> AZURITE_SHURIKEN = ENTITIES.register("azurite_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 9.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.AZURITE_SHURIKEN));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<MagmaticGelShurikenEntity>> MAGMATIC_GEL_SHURIKEN = ENTITIES.register("magmatic_gel_shuriken", () -> EntityType.Builder.<MagmaticGelShurikenEntity>of(MagmaticGelShurikenEntity::new, MobCategory.MISC)
+	public static final DeferredHolder<EntityType<?>, EntityType<SlowingShurikenEntity>> MAGMATIC_GEL_SHURIKEN = ENTITIES.register("magmatic_gel_shuriken", () -> EntityType.Builder.<SlowingShurikenEntity>of((entityType, level) -> new SlowingShurikenEntity(entityType, level, 9.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.MAGMATIC_GEL_SHURIKEN));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteShurikenEntity>> VOLUCITE_SHURIKEN = ENTITIES.register("volucite_shuriken", () -> EntityType.Builder.<VoluciteShurikenEntity>of(VoluciteShurikenEntity::new, MobCategory.MISC)
+	public static final DeferredHolder<EntityType<?>, EntityType<NoGravityShurikenEntity>> VOLUCITE_SHURIKEN = ENTITIES.register("volucite_shuriken", () -> EntityType.Builder.<NoGravityShurikenEntity>of((entityType, level) -> new NoGravityShurikenEntity(entityType, level, 13.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.VOLUCITE_SHURIKEN));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<ObsidianShurikenEntity>> OBSIDIAN_SHURIKEN = ENTITIES.register("obsidian_shuriken", () -> EntityType.Builder.<ObsidianShurikenEntity>of(ObsidianShurikenEntity::new, MobCategory.MISC)
+	public static final DeferredHolder<EntityType<?>, EntityType<ShurikenEntity>> OBSIDIAN_SHURIKEN = ENTITIES.register("obsidian_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 11.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.OBSIDIAN_SHURIKEN));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<LunaticCrystalShurikenEntity>> LUNATIC_CRYSTAL_SHURIKEN = ENTITIES.register("lunatic_crystal_shuriken", () -> EntityType.Builder.<LunaticCrystalShurikenEntity>of(LunaticCrystalShurikenEntity::new, MobCategory.MISC)
+	public static final DeferredHolder<EntityType<?>, EntityType<ShurikenEntity>> LUNATIC_CRYSTAL_SHURIKEN = ENTITIES.register("lunatic_crystal_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 12.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.LUNATIC_CRYSTAL_SHURIKEN));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<ArsonistShurikenEntity>> ARSONIST_SHURIKEN = ENTITIES.register("arsonist_shuriken", () -> EntityType.Builder.<ArsonistShurikenEntity>of(ArsonistShurikenEntity::new, MobCategory.MISC)
+	public static final DeferredHolder<EntityType<?>, EntityType<FlamingShurikenEntity>> ARSONIST_SHURIKEN = ENTITIES.register("arsonist_shuriken", () -> EntityType.Builder.<FlamingShurikenEntity>of((entityType, level) -> new FlamingShurikenEntity(entityType, level, 14.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.ARSONIST_SHURIKEN));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<LightningShurikenEntity>> LIGHTNING_SHURIKEN = ENTITIES.register("lightning_shuriken", () -> EntityType.Builder.<LightningShurikenEntity>of(LightningShurikenEntity::new, MobCategory.MISC)
+	public static final DeferredHolder<EntityType<?>, EntityType<LightningShurikenEntity>> LIGHTNING_SHURIKEN = ENTITIES.register("lightning_shuriken", () -> EntityType.Builder.<LightningShurikenEntity>of((entityType, level) -> new LightningShurikenEntity(entityType, level, 2.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.LIGHTNING_SHURIKEN));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteArrowEntity>> VOLUCITE_BLOWPIPE_ARROW = ENTITIES.register("volucite_blowpipe_arrow", () -> EntityType.Builder.<VoluciteArrowEntity>of(VoluciteArrowEntity::new, MobCategory.MISC)
