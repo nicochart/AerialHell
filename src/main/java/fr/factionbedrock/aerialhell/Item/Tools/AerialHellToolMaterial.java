@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
-import fr.factionbedrock.aerialhell.Item.AerialHellItemProperties;
+import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -42,15 +42,15 @@ public class AerialHellToolMaterial
 
     public ToolMaterial vanillaMaterial() {return this.vanillaMaterial;}
 
-    private AerialHellItemProperties applyCommonProperties(AerialHellItemProperties properties)
+    private AerialHellItem.Properties applyCommonProperties(AerialHellItem.Properties properties)
     {
-        return (AerialHellItemProperties) properties.durability(this.vanillaMaterial.durability()).repairable(this.vanillaMaterial.repairItems()).enchantable(this.vanillaMaterial.enchantmentValue());
+        return (AerialHellItem.Properties) properties.durability(this.vanillaMaterial.durability()).repairable(this.vanillaMaterial.repairItems()).enchantable(this.vanillaMaterial.enchantmentValue());
     }
 
-    public AerialHellItemProperties applyToolProperties(AerialHellItemProperties properties, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, float disableBlockingSeconds)
+    public AerialHellItem.Properties applyToolProperties(AerialHellItem.Properties properties, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, float disableBlockingSeconds)
     {
         HolderGetter<Block> registrationLookup = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
-        return (AerialHellItemProperties) this.applyCommonProperties(properties)
+        return (AerialHellItem.Properties) this.applyCommonProperties(properties)
                 .component(DataComponents.TOOL, new Tool(this.getToolRules(registrationLookup, minesEfficiently), 1.0F, 1, true))
                 .attributes(this.createAttributes(attackDamage, attackSpeed, movementSpeed, maxHealth))
                 .component(DataComponents.WEAPON, new Weapon(2, disableBlockingSeconds));
@@ -64,10 +64,10 @@ public class AerialHellToolMaterial
         );
     }
 
-    public AerialHellItemProperties applySwordProperties(AerialHellItemProperties properties, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
+    public AerialHellItem.Properties applySwordProperties(AerialHellItem.Properties properties, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
     {
         HolderGetter<Block> registrationLookup = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
-        return (AerialHellItemProperties) this.applyCommonProperties(properties)
+        return (AerialHellItem.Properties) this.applyCommonProperties(properties)
                 .component(DataComponents.TOOL, new Tool(getSwordRules(registrationLookup),1.0F, 2, false))
                 .attributes(this.createAttributes(attackDamage, attackSpeed, movementSpeed, maxHealth))
                 .component(DataComponents.WEAPON, new Weapon(1));

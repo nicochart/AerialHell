@@ -1,9 +1,9 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
-import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.server.level.ServerLevel;
@@ -27,13 +27,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class BerserkAxeItem extends AerialHellToolItem
+public class BerserkAxeItem extends AerialHellItem
 {
 	private int weight_ticks;
 	
-	public BerserkAxeItem(Properties properties, List<UseInteractionToolType> interactionToolTypes)
+	public BerserkAxeItem(Properties properties)
 	{
-		super(properties, interactionToolTypes);
+		super(properties);
 		this.weight_ticks = 0;
 	}
 	

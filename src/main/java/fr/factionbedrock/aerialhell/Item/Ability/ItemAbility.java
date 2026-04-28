@@ -12,9 +12,6 @@ import java.util.List;
 
 public class ItemAbility
 {
-    //fallbackAbility is attempted if this ability's conditions are not met
-    @Nullable private ItemAbility fallbackAbility;
-
     private final ModuleList passiveModules;
     private final ModuleList onUseModules;
     private final ModuleList onHurtEnemyModules;
@@ -26,36 +23,30 @@ public class ItemAbility
         this.onHurtEnemyModules = onHurtEnemyModules;
     }
 
-    public boolean tryApplyPassiveModules(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot)
+    public boolean tryApplyModules(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot, AbilityUseSituation useSituation)
     {
-        if (this.tryApplyModules(entity, itemStack, equipmentSlot, this.passiveModules)) {return true;}
-        return this.fallbackAbility != null && this.fallbackAbility.tryApplyPassiveModules(entity, itemStack, equipmentSlot);
-    }
-
-    public boolean tryApplyOnUseModules(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot)
-    {
-        if (this.tryApplyModules(entity, itemStack, equipmentSlot, this.onUseModules)) {return true;}
-        return this.fallbackAbility != null && this.fallbackAbility.tryApplyOnUseModules(entity, itemStack, equipmentSlot);
-    }
-
-    public boolean tryApplyOnHurtEnemyModules(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot)
-    {
-        if (this.tryApplyModules(entity, itemStack, equipmentSlot, this.onHurtEnemyModules)) {return true;}
-        return this.fallbackAbility != null && this.fallbackAbility.tryApplyOnHurtEnemyModules(entity, itemStack, equipmentSlot);
+        @Nullable ModuleList moduleList = switch (useSituation)
+        {
+            case TICK -> this.passiveModules;
+            case ON_USE -> this.onUseModules;
+            case ON_HURT_ENEMY -> this.onHurtEnemyModules;
+        };
+        if (moduleList == null) {return false;}
+        return this.tryApplyModules(entity, itemStack, equipmentSlot, moduleList);
     }
 
     private boolean tryApplyModules(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot, ModuleList modules)
     {
         if (modules.conditions().conditionsMet(entity, itemStack, equipmentSlot))
         {
-            boolean didSomething = modules.actions().applyAll(entity, itemStack, equipmentSlot);
-            modules.sideEffects().applyAll(entity, itemStack, equipmentSlot);
-            return didSomething;
+            if (modules.actions().applyAll(entity, itemStack, equipmentSlot))
+            {
+                modules.sideEffects().applyAll(entity, itemStack, equipmentSlot);
+                return true;
+            }
         }
         return false;
     }
-
-    public ItemAbility setFallback(ItemAbility fallbackAbility) {this.fallbackAbility = fallbackAbility; return this;}
 
     public static Builder builder() {return new Builder();}
 

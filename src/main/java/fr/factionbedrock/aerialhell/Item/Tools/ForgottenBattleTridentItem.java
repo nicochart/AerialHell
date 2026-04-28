@@ -1,9 +1,9 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
-import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.MutableComponent;
@@ -19,7 +19,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 
-public class ForgottenBattleTridentItem extends AerialHellToolItem
+public class ForgottenBattleTridentItem extends AerialHellItem
 {	
 	public ForgottenBattleTridentItem(Properties properties) {super(properties);}
 	

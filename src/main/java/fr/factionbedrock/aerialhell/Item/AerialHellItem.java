@@ -1,27 +1,34 @@
-package fr.factionbedrock.aerialhell.Item.Tools;
+package fr.factionbedrock.aerialhell.Item;
 
 import com.mojang.datafixers.util.Pair;
-import fr.factionbedrock.aerialhell.Item.Ability.ItemAbility;
-import fr.factionbedrock.aerialhell.Item.WithInformationItem;
+import fr.factionbedrock.aerialhell.Item.Ability.AbilitySelector;
+import fr.factionbedrock.aerialhell.Item.Ability.AbilityUseSituation;
+import fr.factionbedrock.aerialhell.Item.Tools.AerialHellToolMaterial;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
@@ -29,34 +36,33 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.common.ItemAbilities;
 import org.jspecify.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-// Inspired of vanilla AxeItem, HoeItem and ShovelItem, but only takes Item.Properties as constructor parameter.
+// For Items with AerialHellToolMaterials : inspired of vanilla Item class, with custom AerialhellItem.Properties properties
+// For Tools : Inspired of vanilla AxeItem, HoeItem and ShovelItem, but only takes Item.Properties as constructor parameter.
 // AxeItem, HoeItem and ShovelItem interaction abilities are all managed.
-// Unlike vanilla, this class does not call properties.sword(...), properties.pickaxe(...), properties.axe(...), properties.hoe(...), properties.shovel(...) internally.
-// To behave like a tool, the properties must call one of them before passing the properties to the constructor.
-public class AerialHellToolItem extends WithInformationItem
+// To make the item behave like a tool, call properties.sword(...), properties.pickaxe(...), properties.axe(...), properties.hoe(...), properties.shovel(...) in properties before passing them to the constructor.
+// To manage AxeItem, HoeItem and ShovelItem interaction abilities, think about calling .useInteraction(...) if you want your tool to be able to strip, flatten or till.
+public class AerialHellItem extends WithInformationItem
 {
-	@Nullable public final ItemAbility itemAbility;
-	public final List<UseInteractionToolType> useInteractionToolTypes;
+	@Nullable public final AbilitySelector abilitySelector;
+	public final List<UseInteractionType> useInteractionToolTypes;
 
-	public AerialHellToolItem(Properties properties) {this(properties, null, List.of());}
-	public AerialHellToolItem(Properties properties, ItemAbility itemAbility) {this(properties, itemAbility, List.of());}
-	public AerialHellToolItem(Properties properties, List<UseInteractionToolType> useInteractionToolTypes) {this(properties, null, useInteractionToolTypes);}
-	public AerialHellToolItem(Properties properties, @Nullable ItemAbility itemAbility, List<UseInteractionToolType> useInteractionToolTypes)
+	public AerialHellItem(AerialHellItem.Properties properties)
 	{
 		super(properties);
-		this.itemAbility = itemAbility;
-		this.useInteractionToolTypes = useInteractionToolTypes;
+		this.abilitySelector = properties.abilitySelector;
+		this.useInteractionToolTypes = properties.useInteractionTypes;
 	}
 
 	//applying tick (passive) tool ability modules
 	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
 	{
-		if (this.itemAbility != null && entity instanceof LivingEntity livingEntity && entity.tickCount % 10 == 0) {this.itemAbility.tryApplyPassiveModules(livingEntity, stack, slot);}
+		if (this.abilitySelector != null && entity instanceof LivingEntity livingEntity && entity.tickCount % 10 == 0) {this.abilitySelector.tryUseAbility(livingEntity, stack, slot, AbilityUseSituation.TICK);}
 	}
 
 	//applying use tool ability modules
@@ -64,14 +70,14 @@ public class AerialHellToolItem extends WithInformationItem
 	{
 		ItemStack heldItemStack = player.getItemInHand(hand);
 		boolean used = false;
-		if (this.itemAbility != null) {used = this.itemAbility.tryApplyOnUseModules(player, heldItemStack, hand.asEquipmentSlot());}
+		if (this.abilitySelector != null) {used = this.abilitySelector.tryUseAbility(player, heldItemStack, hand.asEquipmentSlot(), AbilityUseSituation.ON_USE);}
 		return used ? InteractionResult.CONSUME : super.use(level, player, hand);
 	}
 
 	//applying hurtEnemy (semi-passive) tool ability modules
 	@Override public void hurtEnemy(ItemStack itemStack, LivingEntity target, LivingEntity attacker)
 	{
-		if (this.itemAbility != null) {this.itemAbility.tryApplyOnHurtEnemyModules(attacker, itemStack, null);}
+		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(attacker, itemStack, null, AbilityUseSituation.ON_HURT_ENEMY);}
 		super.hurtEnemy(itemStack, target, attacker);
 	}
 
@@ -79,19 +85,19 @@ public class AerialHellToolItem extends WithInformationItem
 	@Override public InteractionResult useOn(UseOnContext context)
 	{
 		InteractionResult result = InteractionResult.PASS;
-		if (this.useInteractionToolTypes.contains(UseInteractionToolType.AXE))
+		if (this.useInteractionToolTypes.contains(UseInteractionType.AXE))
 		{
 			result = this.useAxeOn(context);
 			if (result != InteractionResult.PASS) {return result;}
 		}
 
-		if (this.useInteractionToolTypes.contains(UseInteractionToolType.HOE))
+		if (this.useInteractionToolTypes.contains(UseInteractionType.HOE))
 		{
 			result = this.useHoeOn(context);
 			if (result != InteractionResult.PASS) {return result;}
 		}
 
-		if (this.useInteractionToolTypes.contains(UseInteractionToolType.SHOVEL))
+		if (this.useInteractionToolTypes.contains(UseInteractionType.SHOVEL))
 		{
 			result = this.useShovelOn(context);
 			if (result != InteractionResult.PASS) {return result;}
@@ -252,13 +258,64 @@ public class AerialHellToolItem extends WithInformationItem
 	//inspired of AxeItem, HoeItem and ShovelItem methods of same name
 	@Override public boolean canPerformAction(ItemInstance stack, net.neoforged.neoforge.common.ItemAbility itemAbility)
 	{
-		boolean canPerformAxeAction = this.useInteractionToolTypes.contains(UseInteractionToolType.AXE) && ItemAbilities.DEFAULT_AXE_ACTIONS.contains(itemAbility);
-		boolean canPerformHoeAction = this.useInteractionToolTypes.contains(UseInteractionToolType.HOE) && ItemAbilities.DEFAULT_HOE_ACTIONS.contains(itemAbility);
-		boolean canPerformShovelAction = this.useInteractionToolTypes.contains(UseInteractionToolType.SHOVEL) && ItemAbilities.DEFAULT_SHOVEL_ACTIONS.contains(itemAbility);
+		boolean canPerformAxeAction = this.useInteractionToolTypes.contains(UseInteractionType.AXE) && ItemAbilities.DEFAULT_AXE_ACTIONS.contains(itemAbility);
+		boolean canPerformHoeAction = this.useInteractionToolTypes.contains(UseInteractionType.HOE) && ItemAbilities.DEFAULT_HOE_ACTIONS.contains(itemAbility);
+		boolean canPerformShovelAction = this.useInteractionToolTypes.contains(UseInteractionType.SHOVEL) && ItemAbilities.DEFAULT_SHOVEL_ACTIONS.contains(itemAbility);
 
 		return canPerformAxeAction || canPerformHoeAction || canPerformShovelAction;
 	}
 
-	//tool types that can be used with right click
-	public enum UseInteractionToolType{AXE, HOE, SHOVEL}
+	public static class Properties extends Item.Properties
+	{
+		@Nullable private AbilitySelector abilitySelector;
+		private List<AerialHellItem.UseInteractionType> useInteractionTypes;
+		public Properties() {super(); this.useInteractionTypes = new ArrayList<>();}
+
+		public AerialHellItem.Properties tool(AerialHellToolMaterial material, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, float disableBlockingSeconds)
+		{
+			return material.applyToolProperties(this, minesEfficiently, attackDamage, attackSpeed, movementSpeed, maxHealth, disableBlockingSeconds);
+		}
+
+		public AerialHellItem.Properties pickaxe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
+		{
+			return this.tool(material, BlockTags.MINEABLE_WITH_PICKAXE, attackDamage, attackSpeed, movementSpeed, maxHealth, 0.0F);
+		}
+
+		public AerialHellItem.Properties axe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
+		{
+			return this.tool(material, BlockTags.MINEABLE_WITH_AXE, attackDamage, attackSpeed, movementSpeed, maxHealth, 5.0F);
+		}
+
+		public AerialHellItem.Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
+		{
+			return this.tool(material, BlockTags.MINEABLE_WITH_HOE, attackDamage, attackSpeed, movementSpeed, maxHealth, 0.0F);
+		}
+
+		public AerialHellItem.Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
+		{
+			return this.tool(material, BlockTags.MINEABLE_WITH_SHOVEL, attackDamage, attackSpeed, movementSpeed, maxHealth, 0.0F);
+		}
+
+		public AerialHellItem.Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
+		{
+			return material.applySwordProperties(this, attackDamage, attackSpeed, movementSpeed, maxHealth);
+		}
+
+		public AerialHellItem.Properties abilitySelector(AbilitySelector abilitySelector) {this.abilitySelector = abilitySelector; return this;}
+
+		public AerialHellItem.Properties useInteraction(AerialHellItem.UseInteractionType useInteractionType) {this.useInteractionTypes = new ArrayList<>(); this.useInteractionTypes.add(useInteractionType); return this;}
+
+		public AerialHellItem.Properties useInteractions(AerialHellItem.UseInteractionType... useInteractionTypes) {this.useInteractionTypes = new ArrayList<>(List.of(useInteractionTypes)); return this;}
+
+		@Override public AerialHellItem.Properties setId(ResourceKey<Item> id) {return (AerialHellItem.Properties) super.setId(id);}
+
+		@Override public AerialHellItem.Properties rarity(Rarity rarity) {return (AerialHellItem.Properties) super.rarity(rarity);}
+
+		@Override public AerialHellItem.Properties durability(int maxDamage) {return (AerialHellItem.Properties) super.durability(maxDamage);}
+
+		@Override public AerialHellItem.Properties fireResistant() {return (AerialHellItem.Properties) super.fireResistant();}
+	}
+
+	//"tool types" that can be used with right click
+	public enum UseInteractionType {AXE, HOE, SHOVEL}
 }

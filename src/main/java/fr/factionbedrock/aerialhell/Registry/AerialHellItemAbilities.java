@@ -194,20 +194,20 @@ public class AerialHellItemAbilities
                     .build())
             .build();
 
-    private static final ItemAbility.Builder HALF_VOLUCITE_POWER = ItemAbility.builder()
+    public static final ItemAbility HALF_VOLUCITE_POWER = ItemAbility.builder()
             .inheritsOf(VOLUCITE_POWER_COMMON)
             .addOnUseModules(ModuleList.builder()
                     .addActions(SLOW_FALLING_EFFECT.withDuration(80))
-                    .build());
+                    .build())
+            .build();
 
-    private static final ItemAbility.Builder FULL_VOLUCITE_POWER = ItemAbility.builder()
+    public static final ItemAbility FULL_VOLUCITE_POWER = ItemAbility.builder()
             .inheritsOf(VOLUCITE_POWER_COMMON)
             .addOnUseModules(ModuleList.builder()
                     .addActions(SLOW_FALLING_EFFECT.withDuration(120), HEAD_IN_THE_CLOUDS_EFFECT.with(100, 1))
                     .addConditions(HAS_FULL_VOLUCITE_STUFF)
-                    .build());
-
-    public static final ItemAbility VOLUCITE_POWER = FULL_VOLUCITE_POWER.build().setFallback(HALF_VOLUCITE_POWER.build());
+                    .build())
+            .build();
 
     private static final ItemAbility GLASS_CANNON_SWORD_COMMON = ItemAbility.builder()
             .addOnUseModules(ModuleList.builder()
@@ -216,23 +216,23 @@ public class AerialHellItemAbilities
                     .build())
             .build();
 
-    private static final ItemAbility.Builder GLASS_CANNON_LIFTOFF = ItemAbility.builder()
+    public static final ItemAbility GLASS_CANNON_LIFTOFF = ItemAbility.builder()
             .inheritsOf(GLASS_CANNON_SWORD_COMMON)
             .addOnUseModules(ModuleList.builder()
                     .addActions(LIFT_OFF, SLOW_FALLING_EFFECT.with(200, 2), GENERIC_EXPLODE_SOUND)
                     .addConditions(PLAYER_SHIFT_KEY_UP)
                     .addSideEffects(COOLDOWN.of(600))
-                    .build());
+                    .build())
+            .build();
 
-    private static final ItemAbility.Builder GLASS_CANNON_ARMORED_GLASS = ItemAbility.builder()
+    public static final ItemAbility GLASS_CANNON_ARMORED_GLASS = ItemAbility.builder()
             .inheritsOf(GLASS_CANNON_SWORD_COMMON)
             .addOnUseModules(ModuleList.builder()
                     .addActions(RESISTANCE_EFFECT.with(200, 1), SLOWNESS_EFFECT.with(100, 0), GLASS_BREAK_SOUND)
                     .addConditions(PLAYER_SHIFT_KEY_DOWN)
                     .addSideEffects(COOLDOWN.of(400))
-                    .build());
-
-    public static final ItemAbility GLASS_CANNON_SWORD = GLASS_CANNON_ARMORED_GLASS.build().setFallback(GLASS_CANNON_LIFTOFF.build());
+                    .build())
+            .build();
 
     public static final ItemAbility REAPER_WALK = ItemAbility.builder()
             .addOnUseModules(ModuleList.builder()
