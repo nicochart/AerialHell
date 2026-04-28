@@ -5,7 +5,6 @@ import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplateLis
 import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplateProvider;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Item.Ability.ModuleAction;
-import fr.factionbedrock.aerialhell.Item.Ability.ModuleUseSituation;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -20,71 +19,122 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class ActionModule extends AbilityModule
 {
     private final ModuleAction action;
 
-    public ActionModule(ModuleAction action, ModuleUseSituation useSituation)
+    private ActionModule(ModuleAction action)
     {
-        super(useSituation);
+        super();
         this.action = action;
     }
 
-    public static ActionModule passive(ModuleAction action) {return new ActionModule(action, ModuleUseSituation.PASSIVE);}
-    public static ActionModule onUse(ModuleAction action) {return new ActionModule(action, ModuleUseSituation.ON_USE);}
-    public static ActionModule onHurtEnemy(ModuleAction action) {return new ActionModule(action, ModuleUseSituation.ON_HURT_ENEMY);}
+    public static ActionModule create(ModuleAction action) {return new ActionModule(action);}
+    public static ActionModule fromEntity(Consumer<LivingEntity> action) {return new ActionModule((entity, stack, equipmentSlot) -> action.accept(entity));}
 
     public void apply(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot) {this.action.apply(entity, itemStack, equipmentSlot);}
 
     public static class MobEffect extends ActionModule
     {
-        private final List<MobEffectTemplateListProvider> mobEffectTemplateListProviders;
-
-        private MobEffect(ModuleUseSituation useSituation)
+        public MobEffect(MobEffectTemplate template)
         {
-            super((entity, stack, equipmentSlot) -> {}, useSituation); //action overriden below
-
-            this.mobEffectTemplateListProviders = new ArrayList<>();
+            super((entity, stack, equipmentSlot) ->
+            {
+                if (!entity.level().isClientSide())
+                {
+                    entity.addEffect(template.createNewInstance(entity));
+                }
+            });
         }
 
-        @Override public void apply(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot)
+        public static Builder builder(Holder<net.minecraft.world.effect.MobEffect> effect) {return builder(effect, 0);}
+        public static Builder builder(Holder<net.minecraft.world.effect.MobEffect> effect, int amplifier) {return new Builder(effect, amplifier);}
+
+        public static class Builder
         {
-            if (!entity.level().isClientSide())
+            private final Holder<net.minecraft.world.effect.MobEffect> effect;
+            private int duration;
+            private int amplifier;
+            private boolean ambient;
+            private boolean visible;
+            private boolean showIcon;
+
+            private Builder(Holder<net.minecraft.world.effect.MobEffect> effect, int amplifier)
             {
-                for (MobEffectTemplateListProvider templateList : this.mobEffectTemplateListProviders)
+                this.effect = effect;
+                this.duration = 1;
+                this.amplifier = amplifier;
+                this.ambient = false;
+                this.visible = true;
+                this.showIcon = true;
+            }
+
+            public MobEffect.Builder duration(int duration) {this.duration = duration; return this;}
+            public MobEffect.Builder amplifier(int amplifier) {this.amplifier = amplifier; return this;}
+            public MobEffect.Builder iconAlwaysVisible(boolean visible) {this.ambient = visible; return this;}
+            public MobEffect.Builder visible() {this.visible = false; this.showIcon = false; return this;}
+            public MobEffect.Builder invisible() {this.visible = true; this.showIcon = true; return this;}
+
+            public MobEffect build() {return new MobEffect(new MobEffectTemplate(this.effect, this.duration, this.amplifier, this.ambient, this.visible, this.showIcon));}
+            //override duration
+            public MobEffect withDuration(int duration) {return new MobEffect(new MobEffectTemplate(this.effect, duration, this.amplifier, this.ambient, this.visible, this.showIcon));}
+            //override duration and amplifier
+            public MobEffect with(int duration, int amplifier) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, this.ambient, this.visible, this.showIcon));}
+            //override duration and visibility. ambient = true to always display icon
+            public MobEffect passiveBuild() {return new MobEffect(new MobEffectTemplate(this.effect, 32, this.amplifier, true, true, true));}
+        }
+    }
+
+    public static class MobEffectList extends ActionModule
+    {
+        private MobEffectList(List<MobEffectTemplateListProvider> mobEffectTemplateListProviders)
+        {
+            super((entity, stack, equipmentSlot) ->
+            {
+                if (!entity.level().isClientSide())
                 {
-                    for (MobEffectTemplate template : templateList.get(entity))
+                    for (MobEffectTemplateListProvider templateList : mobEffectTemplateListProviders)
                     {
-                        entity.addEffect(template.createNewInstance(entity));
+                        for (MobEffectTemplate template : templateList.get(entity))
+                        {
+                            entity.addEffect(template.createNewInstance(entity));
+                        }
                     }
                 }
+            });
+        }
+
+        public static Builder builder() {return new Builder();}
+
+        public static class Builder
+        {
+            private final List<MobEffectTemplateListProvider> mobEffectTemplateListProviders;
+            public Builder() {this.mobEffectTemplateListProviders = new ArrayList<>();}
+
+            public MobEffectList.Builder addEffects(MobEffectTemplateListProvider templateList) {this.mobEffectTemplateListProviders.add(templateList); return this;}
+
+            public MobEffectList.Builder addEffects(MobEffectTemplate... templates)
+            {
+                for (MobEffectTemplate template : templates) {this.mobEffectTemplateListProviders.add(template.toListProvider());}
+                return this;
             }
+
+            public MobEffectList.Builder addEffects(MobEffectTemplateProvider... templates)
+            {
+                for (MobEffectTemplateProvider template : templates) {this.mobEffectTemplateListProviders.add(template.toListProvider());}
+                return this;
+            }
+
+            public MobEffectList build() {return new MobEffectList(this.mobEffectTemplateListProviders);}
         }
-
-        public MobEffect addEffects(MobEffectTemplateListProvider templateList) {this.mobEffectTemplateListProviders.add(templateList); return this;}
-
-        public MobEffect addEffects(MobEffectTemplate... templates)
-        {
-            for (MobEffectTemplate template : templates) {this.mobEffectTemplateListProviders.add(template.toListProvider());}
-            return this;
-        }
-
-        public MobEffect addEffects(MobEffectTemplateProvider... templates)
-        {
-            for (MobEffectTemplateProvider template : templates) {this.mobEffectTemplateListProviders.add(template.toListProvider());}
-            return this;
-        }
-
-        public static MobEffect passive() {return new MobEffect(ModuleUseSituation.PASSIVE);}
-        public static MobEffect onUse() {return new MobEffect(ModuleUseSituation.ON_USE);}
-        public static MobEffect onHurtEnemy() {return new MobEffect(ModuleUseSituation.ON_HURT_ENEMY);}
     }
 
     public static class ThrowProjectile extends ActionModule
     {
-        private ThrowProjectile(EntityType<? extends Projectile> type, float velocity, float inaccuracy, ModuleUseSituation useSituation)
+        public ThrowProjectile(EntityType<? extends Projectile> type, float velocity, float inaccuracy)
         {
             super((shooter, stack, equipmentSlot) ->
             {
@@ -100,60 +150,63 @@ public class ActionModule extends AbilityModule
                         level.addFreshEntity(projectile);
                     }
                 }
-            }, useSituation);
+            });
         }
-
-        public static ThrowProjectile passive(EntityType<? extends Projectile> type, float velocity, float inaccuracy) {return new ThrowProjectile(type, velocity, inaccuracy, ModuleUseSituation.PASSIVE);}
-        public static ThrowProjectile onUse(EntityType<? extends Projectile> type, float velocity, float inaccuracy) {return new ThrowProjectile(type, velocity, inaccuracy, ModuleUseSituation.ON_USE);}
-        public static ThrowProjectile onHurtEnemy(EntityType<? extends Projectile> type, float velocity, float inaccuracy) {return new ThrowProjectile(type, velocity, inaccuracy, ModuleUseSituation.ON_HURT_ENEMY);}
     }
 
     public static class RemoveMobEffect extends ActionModule
     {
-        public RemoveMobEffect(Holder<net.minecraft.world.effect.MobEffect> mobEffect, ModuleUseSituation useSituation)
+        public RemoveMobEffect(Holder<net.minecraft.world.effect.MobEffect>... mobEffects)
         {
             super((entity, stack, equipmentSlot) ->
             {
                 if (!entity.level().isClientSide())
                 {
-                    if (entity.hasEffect(mobEffect)) {entity.removeEffect(mobEffect);}
+                    for (Holder<net.minecraft.world.effect.MobEffect> mobEffect : mobEffects)
+                    {
+                        if (entity.hasEffect(mobEffect)) {entity.removeEffect(mobEffect);}
+                    }
                 }
-            }, useSituation);
+            });
         }
 
-        public static RemoveMobEffect passive(Holder<net.minecraft.world.effect.MobEffect> mobEffect) {return new RemoveMobEffect(mobEffect, ModuleUseSituation.PASSIVE);}
-        public static RemoveMobEffect onUse(Holder<net.minecraft.world.effect.MobEffect> mobEffect) {return new RemoveMobEffect(mobEffect, ModuleUseSituation.ON_USE);}
-        public static RemoveMobEffect onHurtEnemy(Holder<net.minecraft.world.effect.MobEffect> mobEffect) {return new RemoveMobEffect(mobEffect, ModuleUseSituation.ON_HURT_ENEMY);}
+        public static RemoveMobEffect.Builder builder() {return new RemoveMobEffect.Builder();}
+
+        public static class Builder
+        {
+            private Builder() {}
+
+            @SafeVarargs public final RemoveMobEffect effects(Holder<net.minecraft.world.effect.MobEffect>... mobEffects) {return new RemoveMobEffect(mobEffects);}
+        }
     }
 
     public static class Particle extends ActionModule
     {
-        private Particle(SimpleParticleType particleType, int count, ModuleUseSituation useSituation)
+        public Particle(SimpleParticleType particleType, int count)
         {
-            super((entity, stack, equipmentSlot) -> EntityHelper.addParticlesOnEntity(count, particleType, entity), useSituation);
+            super((entity, stack, equipmentSlot) -> EntityHelper.addParticlesOnEntity(count, particleType, entity));
         }
 
-        public static Particle passive(SimpleParticleType particleType) {return new Particle(particleType, 5, ModuleUseSituation.PASSIVE);}
-        public static Particle onUse(SimpleParticleType particleType) {return new Particle(particleType, 20, ModuleUseSituation.ON_USE);}
-        public static Particle onHurtEnemy(SimpleParticleType particleType) {return new Particle(particleType, 20, ModuleUseSituation.ON_HURT_ENEMY);}
+        public static Particle.Builder builder(SimpleParticleType type) {return new Builder(type);}
+
+        public static class Builder
+        {
+            private final SimpleParticleType type;
+            private Builder(SimpleParticleType particleType) {this.type = particleType;}
+
+            public ActionModule.Particle ofAmount(int count) {return new ActionModule.Particle(type, count);}
+        }
     }
 
     public static class Sound extends ActionModule
     {
-        private Sound(PlaySoundHelper playSoundHelper, ModuleUseSituation useSituation) {super((entity, stack, equipmentSlot) -> playSoundHelper.playSound(entity), useSituation);}
-        private Sound(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider, ModuleUseSituation useSituation)
+        public Sound(PlaySoundHelper playSoundHelper) {super((entity, stack, equipmentSlot) -> playSoundHelper.playSound(entity));}
+        public Sound(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider)
         {
             super((entity, stack, equipmentSlot) ->
             {
                 playSoundHelperProvider.apply(entity).playSound(entity);
-            }, useSituation);
+            });
         }
-
-        public static Sound passive(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider) {return new Sound(playSoundHelperProvider, ModuleUseSituation.PASSIVE);}
-        public static Sound onUse(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider) {return new Sound(playSoundHelperProvider, ModuleUseSituation.ON_USE);}
-        public static Sound onHurtEnemy(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider) {return new Sound(playSoundHelperProvider, ModuleUseSituation.ON_HURT_ENEMY);}
-        public static Sound passive(PlaySoundHelper playSoundHelper) {return new Sound(playSoundHelper, ModuleUseSituation.PASSIVE);}
-        public static Sound onUse(PlaySoundHelper playSoundHelper) {return new Sound(playSoundHelper, ModuleUseSituation.ON_USE);}
-        public static Sound onHurtEnemy(PlaySoundHelper playSoundHelper) {return new Sound(playSoundHelper, ModuleUseSituation.ON_HURT_ENEMY);}
     }
 }
