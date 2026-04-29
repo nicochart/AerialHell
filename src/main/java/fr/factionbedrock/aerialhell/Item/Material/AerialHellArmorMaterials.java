@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.Item.Material;
 
 import java.util.EnumMap;
 
-import fr.factionbedrock.aerialhell.Item.Armor.AerialHellArmorMaterial;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Util;

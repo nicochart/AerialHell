@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -11,9 +12,13 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Util;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class ItemHelper
@@ -43,7 +48,13 @@ public class ItemHelper
         return countItemStacksMatching(itemStackList, (itemStack) -> itemStack.is(AerialHellTags.Items.OBSIDIAN_STUFF) || itemStack.is(AerialHellTags.Items.ARSONIST_STUFF));
     }
 
-
+    public static List<AttributeEntry> toolAttributes(float movementSpeed, float maxHealth)
+    {
+        List<AttributeEntry> list = new ArrayList<>();
+        list.add(new AttributeEntry(Attributes.MOVEMENT_SPEED, movementSpeed, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+        list.add(new AttributeEntry(Attributes.MAX_HEALTH, maxHealth, AttributeModifier.Operation.ADD_VALUE));
+        return list;
+    }
 
     public static class SmithingTemplate
     {

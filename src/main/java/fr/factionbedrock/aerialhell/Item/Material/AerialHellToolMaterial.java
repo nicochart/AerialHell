@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Item.Tools;
+package fr.factionbedrock.aerialhell.Item.Material;
 
 import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import net.minecraft.core.Holder;
@@ -10,6 +10,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
@@ -22,37 +23,29 @@ import net.minecraft.world.level.block.Blocks;
 
 import java.util.List;
 
-public class AerialHellToolMaterial
+public class AerialHellToolMaterial extends ExtraAttributeModifiersMaterial
 {
-    public static final Identifier BASE_ATTACK_DAMAGE_ATTRIBUTE_MODIFIER_ID = Identifier.withDefaultNamespace("base_attack_damage");
-    public static final Identifier BASE_ATTACK_SPEED_ATTRIBUTE_MODIFIER_ID = Identifier.withDefaultNamespace("base_attack_speed");
-    public static final Identifier BASE_MOVEMENT_SPEED_ATTRIBUTE_MODIFIER_ID = Identifier.withDefaultNamespace("base_movement_speed");
-    public static final Identifier BASE_MAX_HEALTH_ATTRIBUTE_MODIFIER_ID = Identifier.withDefaultNamespace("base_movement_speed");
-
     private final ToolMaterial vanillaMaterial;
-    public final float movementSpeed;
-    public final float health;
 
-    public AerialHellToolMaterial(TagKey<Block> incorrectBlocksForDrops, int durability, float efficientMiningSpeed, float attackDamage, float movementSpeed, float health, int enchantmentValue, TagKey<Item> repairItems)
+    public AerialHellToolMaterial(TagKey<Block> incorrectBlocksForDrops, int durability, float efficientMiningSpeed, float attackDamage, int enchantmentValue, TagKey<Item> repairItems)
     {
+        super();
         this.vanillaMaterial = new ToolMaterial(incorrectBlocksForDrops, durability, efficientMiningSpeed, attackDamage, enchantmentValue, repairItems);
-        this.movementSpeed = movementSpeed;
-        this.health = health;
     }
 
-    public ToolMaterial vanillaMaterial() {return this.vanillaMaterial;}
+    @Override public AerialHellToolMaterial addAttributeModifier(Holder<Attribute> attribute, float value, AttributeModifier.Operation operation) {return (AerialHellToolMaterial) super.addAttributeModifier(attribute, value, operation);}
 
     private AerialHellItem.Properties applyCommonProperties(AerialHellItem.Properties properties)
     {
         return (AerialHellItem.Properties) properties.durability(this.vanillaMaterial.durability()).repairable(this.vanillaMaterial.repairItems()).enchantable(this.vanillaMaterial.enchantmentValue());
     }
 
-    public AerialHellItem.Properties applyToolProperties(AerialHellItem.Properties properties, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, float disableBlockingSeconds)
+    public AerialHellItem.Properties applyToolProperties(AerialHellItem.Properties properties, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, List<AttributeEntry> additionalAttributes, float disableBlockingSeconds)
     {
         HolderGetter<Block> registrationLookup = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
         return (AerialHellItem.Properties) this.applyCommonProperties(properties)
                 .component(DataComponents.TOOL, new Tool(this.getToolRules(registrationLookup, minesEfficiently), 1.0F, 1, true))
-                .attributes(this.createAttributes(attackDamage, attackSpeed, movementSpeed, maxHealth))
+                .attributes(this.createAttributes(attackDamage, attackSpeed, additionalAttributes))
                 .component(DataComponents.WEAPON, new Weapon(2, disableBlockingSeconds));
     }
 
@@ -64,12 +57,12 @@ public class AerialHellToolMaterial
         );
     }
 
-    public AerialHellItem.Properties applySwordProperties(AerialHellItem.Properties properties, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
+    public AerialHellItem.Properties applySwordProperties(AerialHellItem.Properties properties, float attackDamage, float attackSpeed, List<AttributeEntry> additionalAttributes)
     {
         HolderGetter<Block> registrationLookup = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
         return (AerialHellItem.Properties) this.applyCommonProperties(properties)
                 .component(DataComponents.TOOL, new Tool(getSwordRules(registrationLookup),1.0F, 2, false))
-                .attributes(this.createAttributes(attackDamage, attackSpeed, movementSpeed, maxHealth))
+                .attributes(this.createAttributes(attackDamage, attackSpeed, additionalAttributes))
                 .component(DataComponents.WEAPON, new Weapon(1));
     }
 
@@ -82,16 +75,17 @@ public class AerialHellToolMaterial
         );
     }
 
-    private ItemAttributeModifiers createAttributes(float attackDamage, float attackSpeed, float movementSpeed, float health)
+    private ItemAttributeModifiers createAttributes(float attackDamage, float attackSpeed, List<AttributeEntry> additionalAttributes)
     {
         float effectiveAttackDamage = attackDamage + this.vanillaMaterial.attackDamageBonus();
-        float effectiveMovementSpeed = movementSpeed + this.movementSpeed;
-        float effectiveHealth = health + this.health;
-        ItemAttributeModifiers.Builder attributeBuilder = ItemAttributeModifiers.builder();
-        if (effectiveAttackDamage != 0.0F) {attributeBuilder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ATTRIBUTE_MODIFIER_ID, effectiveAttackDamage, AttributeModifier.Operation.ADD_VALUE),EquipmentSlotGroup.MAINHAND);}
-        if (attackSpeed != 0.0F) {attributeBuilder.add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ATTRIBUTE_MODIFIER_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);}
-        if (effectiveMovementSpeed != 0.0F) {attributeBuilder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(BASE_MOVEMENT_SPEED_ATTRIBUTE_MODIFIER_ID, effectiveMovementSpeed, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.MAINHAND);}
-        if (effectiveHealth != 0.0F) {attributeBuilder.add(Attributes.MAX_HEALTH, new AttributeModifier(BASE_MAX_HEALTH_ATTRIBUTE_MODIFIER_ID, effectiveHealth, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);}
-        return attributeBuilder.build();
+        ItemAttributeModifiers.Builder modifiers = ItemAttributeModifiers.builder();
+        Identifier modifierId = this.getModifierId("tool");
+        if (effectiveAttackDamage != 0.0F) {modifiers.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(modifierId, effectiveAttackDamage, AttributeModifier.Operation.ADD_VALUE),EquipmentSlotGroup.MAINHAND);}
+        if (attackSpeed != 0.0F) {modifiers.add(Attributes.ATTACK_SPEED, new AttributeModifier(modifierId, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);}
+
+        //applying custom attributes
+        this.applyExtraAttributes(modifiers, additionalAttributes, EquipmentSlotGroup.MAINHAND, "tool_extra");
+
+        return modifiers.build();
     }
 }
