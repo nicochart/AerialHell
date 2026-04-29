@@ -25,6 +25,10 @@ import java.util.List;
 
 public class AerialHellToolMaterial extends ExtraAttributeModifiersMaterial
 {
+    //need to use these modifier ids so that the extra speed & damage modifier values stack with base vanilla ones
+    public static final Identifier BASE_ATTACK_SPEED_ATTRIBUTE_MODIFIER_ID = Identifier.withDefaultNamespace("base_attack_speed");
+    public static final Identifier BASE_ATTACK_DAMAGE_ATTRIBUTE_MODIFIER_ID = Identifier.withDefaultNamespace("base_attack_damage");
+
     private final ToolMaterial vanillaMaterial;
 
     public AerialHellToolMaterial(TagKey<Block> incorrectBlocksForDrops, int durability, float efficientMiningSpeed, float attackDamage, int enchantmentValue, TagKey<Item> repairItems)
@@ -40,7 +44,7 @@ public class AerialHellToolMaterial extends ExtraAttributeModifiersMaterial
         return (AerialHellItem.Properties) properties.durability(this.vanillaMaterial.durability()).repairable(this.vanillaMaterial.repairItems()).enchantable(this.vanillaMaterial.enchantmentValue());
     }
 
-    public AerialHellItem.Properties applyToolProperties(AerialHellItem.Properties properties, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, List<AttributeEntry> additionalAttributes, float disableBlockingSeconds)
+    public AerialHellItem.Properties applyToolProperties(AerialHellItem.Properties properties, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes, float disableBlockingSeconds)
     {
         HolderGetter<Block> registrationLookup = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
         return (AerialHellItem.Properties) this.applyCommonProperties(properties)
@@ -57,7 +61,7 @@ public class AerialHellToolMaterial extends ExtraAttributeModifiersMaterial
         );
     }
 
-    public AerialHellItem.Properties applySwordProperties(AerialHellItem.Properties properties, float attackDamage, float attackSpeed, List<AttributeEntry> additionalAttributes)
+    public AerialHellItem.Properties applySwordProperties(AerialHellItem.Properties properties, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
     {
         HolderGetter<Block> registrationLookup = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
         return (AerialHellItem.Properties) this.applyCommonProperties(properties)
@@ -75,16 +79,15 @@ public class AerialHellToolMaterial extends ExtraAttributeModifiersMaterial
         );
     }
 
-    private ItemAttributeModifiers createAttributes(float attackDamage, float attackSpeed, List<AttributeEntry> additionalAttributes)
+    private ItemAttributeModifiers createAttributes(float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
     {
         float effectiveAttackDamage = attackDamage + this.vanillaMaterial.attackDamageBonus();
         ItemAttributeModifiers.Builder modifiers = ItemAttributeModifiers.builder();
-        Identifier modifierId = this.getModifierId("tool");
-        if (effectiveAttackDamage != 0.0F) {modifiers.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(modifierId, effectiveAttackDamage, AttributeModifier.Operation.ADD_VALUE),EquipmentSlotGroup.MAINHAND);}
-        if (attackSpeed != 0.0F) {modifiers.add(Attributes.ATTACK_SPEED, new AttributeModifier(modifierId, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);}
+        if (effectiveAttackDamage != 0.0F) {modifiers.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ATTRIBUTE_MODIFIER_ID, effectiveAttackDamage, AttributeModifier.Operation.ADD_VALUE),EquipmentSlotGroup.MAINHAND);}
+        if (attackSpeed != 0.0F) {modifiers.add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ATTRIBUTE_MODIFIER_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);}
 
         //applying custom attributes
-        this.applyExtraAttributes(modifiers, additionalAttributes, EquipmentSlotGroup.MAINHAND, "tool_extra");
+        this.applyExtraAttributes(modifiers, additionalAttributes, EquipmentSlotGroup.MAINHAND, "tool");
 
         return modifiers.build();
     }

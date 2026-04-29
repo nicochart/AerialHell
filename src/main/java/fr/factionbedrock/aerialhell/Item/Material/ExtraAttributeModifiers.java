@@ -9,7 +9,6 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ExtraAttributeModifiers
@@ -18,9 +17,9 @@ public class ExtraAttributeModifiers
 
     public ExtraAttributeModifiers() {}
 
-    public ExtraAttributeModifiers addAttributeModifiers(List<AttributeEntry> attributeEntries)
+    public ExtraAttributeModifiers addAttributeModifiers(AttributeEntryList attributeEntries)
     {
-        for (AttributeEntry entry : attributeEntries) {this.addAttributeModifier(entry.attribute(), entry.value(), entry.operation());}
+        for (AttributeEntry entry : attributeEntries.get()) {this.addAttributeModifier(entry.attribute(), entry.value(), entry.operation());}
         return this;
     }
 

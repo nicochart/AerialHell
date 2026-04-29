@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Item.Material;
 
-import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -16,7 +15,6 @@ import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 
-import java.util.List;
 import java.util.Map;
 
 public class AerialHellArmorMaterial extends ExtraAttributeModifiersMaterial
@@ -37,7 +35,7 @@ public class AerialHellArmorMaterial extends ExtraAttributeModifiersMaterial
 
     @Override public AerialHellArmorMaterial addAttributeModifier(Holder<Attribute> attribute, float value, AttributeModifier.Operation operation) {return (AerialHellArmorMaterial) super.addAttributeModifier(attribute, value, operation);}
 
-    public ItemAttributeModifiers createAttributes(ArmorType type, List<AttributeEntry> additionalAttributes)
+    public ItemAttributeModifiers createAttributes(ArmorType type, AttributeEntryList additionalAttributes)
     {
         //vanilla copy
         int defense = this.vanillaMaterial.defense().getOrDefault(type, 0);

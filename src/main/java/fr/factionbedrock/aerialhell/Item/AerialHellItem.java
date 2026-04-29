@@ -6,10 +6,10 @@ import fr.factionbedrock.aerialhell.Item.Ability.AbilityUseSituation;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellToolMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
+import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -24,8 +24,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemInstance;
@@ -278,43 +276,49 @@ public class AerialHellItem extends WithInformationItem
 		private List<AerialHellItem.UseInteractionType> useInteractionTypes;
 		public Properties() {super(); this.useInteractionTypes = new ArrayList<>();}
 
-		public AerialHellItem.Properties humanoidArmor(AerialHellArmorMaterial material, ArmorType type) {return this.humanoidArmor(material, type, List.of());}
-		public AerialHellItem.Properties humanoidArmor(AerialHellArmorMaterial material, ArmorType type, List<AttributeEntry> additionalAttributes)
+		public AerialHellItem.Properties humanoidArmor(AerialHellArmorMaterial material, ArmorType type) {return this.humanoidArmor(material, type, new AttributeEntryList());}
+		public AerialHellItem.Properties humanoidArmor(AerialHellArmorMaterial material, ArmorType type, AttributeEntry attributeEntry) {return this.humanoidArmor(material, type, new AttributeEntryList().add(attributeEntry));}
+		public AerialHellItem.Properties humanoidArmor(AerialHellArmorMaterial material, ArmorType type, AttributeEntryList additionalAttributes)
 		{
 			return (AerialHellItem.Properties) this.durability(type.getDurability(material.durability())).attributes(material.createAttributes(type, additionalAttributes)).enchantable(material.enchantmentValue()).component(DataComponents.EQUIPPABLE, Equippable.builder(type.getSlot()).setEquipSound(material.equipSound()).setAsset(material.assetId()).build()).repairable(material.repairIngredient());
 		}
 
-		public AerialHellItem.Properties tool(AerialHellToolMaterial material, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, List<AttributeEntry> additionalAttributes, float disableBlockingSeconds)
+		public AerialHellItem.Properties tool(AerialHellToolMaterial material, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes, float disableBlockingSeconds)
 		{
 			return material.applyToolProperties(this, minesEfficiently, attackDamage, attackSpeed, additionalAttributes, disableBlockingSeconds);
 		}
 
-		public AerialHellItem.Properties pickaxe(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.pickaxe(material, attackDamage, attackSpeed, List.of());}
-		public AerialHellItem.Properties pickaxe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, List<AttributeEntry> additionalAttributes)
+		public AerialHellItem.Properties pickaxe(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.pickaxe(material, attackDamage, attackSpeed, new AttributeEntryList());}
+		public AerialHellItem.Properties pickaxe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.pickaxe(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
+		public AerialHellItem.Properties pickaxe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
 			return this.tool(material, BlockTags.MINEABLE_WITH_PICKAXE, attackDamage, attackSpeed, additionalAttributes, 0.0F);
 		}
 
-		public AerialHellItem.Properties axe(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.axe(material, attackDamage, attackSpeed, List.of());}
-		public AerialHellItem.Properties axe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, List<AttributeEntry> additionalAttributes)
+		public AerialHellItem.Properties axe(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.axe(material, attackDamage, attackSpeed, new AttributeEntryList());}
+		public AerialHellItem.Properties axe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.axe(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
+		public AerialHellItem.Properties axe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
 			return this.tool(material, BlockTags.MINEABLE_WITH_AXE, attackDamage, attackSpeed, additionalAttributes, 5.0F);
 		}
 
-		public AerialHellItem.Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.hoe(material, attackDamage, attackSpeed, List.of());}
-		public AerialHellItem.Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, List<AttributeEntry> additionalAttributes)
+		public AerialHellItem.Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.hoe(material, attackDamage, attackSpeed, new AttributeEntryList());}
+		public AerialHellItem.Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.hoe(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
+		public AerialHellItem.Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
 			return this.tool(material, BlockTags.MINEABLE_WITH_HOE, attackDamage, attackSpeed, additionalAttributes, 0.0F);
 		}
 
-		public AerialHellItem.Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.shovel(material, attackDamage, attackSpeed, List.of());}
-		public AerialHellItem.Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed, List<AttributeEntry> additionalAttributes)
+		public AerialHellItem.Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.shovel(material, attackDamage, attackSpeed, new AttributeEntryList());}
+		public AerialHellItem.Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.shovel(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
+		public AerialHellItem.Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
 			return this.tool(material, BlockTags.MINEABLE_WITH_SHOVEL, attackDamage, attackSpeed, additionalAttributes, 0.0F);
 		}
 
-		public AerialHellItem.Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.sword(material, attackDamage, attackSpeed, List.of());}
-		public AerialHellItem.Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed, List<AttributeEntry> additionalAttributes)
+		public AerialHellItem.Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.sword(material, attackDamage, attackSpeed, new AttributeEntryList());}
+		public AerialHellItem.Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.sword(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
+		public AerialHellItem.Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
 			return material.applySwordProperties(this, attackDamage, attackSpeed, additionalAttributes);
 		}
