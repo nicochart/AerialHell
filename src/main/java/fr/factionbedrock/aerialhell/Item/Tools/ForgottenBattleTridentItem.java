@@ -1,22 +1,16 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.Random;
-import java.util.function.Consumer;
 
 import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 
 public class ForgottenBattleTridentItem extends AerialHellItem
@@ -45,11 +39,4 @@ public class ForgottenBattleTridentItem extends AerialHellItem
 		heldItem.hurtAndBreak(1, player, hand);
 		return InteractionResult.CONSUME;
     }
-
-	@Override public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
-	{
-		tooltipAdder.accept(this.getDescription().withStyle(ChatFormatting.GRAY));
-	}
-
-	public MutableComponent getDescription() {return Component.translatable(this.getDescriptionId() + ".desc");}
 }
