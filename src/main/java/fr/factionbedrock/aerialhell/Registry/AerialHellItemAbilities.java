@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplate;
+import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Item.Ability.*;
 import fr.factionbedrock.aerialhell.Item.Ability.Module.ActionModule;
@@ -14,6 +15,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
@@ -30,6 +32,10 @@ public class AerialHellItemAbilities
     private static final ActionModule.MobEffect.Builder REGENERATION_EFFECT = ActionModule.MobEffect.builder(MobEffects.REGENERATION);
     private static final ActionModule.MobEffect.Builder FIRE_RESISTANCE_EFFECT = ActionModule.MobEffect.builder(MobEffects.FIRE_RESISTANCE);
     private static final ActionModule.MobEffect.Builder SATURATION_EFFECT = ActionModule.MobEffect.builder(MobEffects.SATURATION);
+    private static final ActionModule.MobEffect.Builder WEAKNESS_EFFECT = ActionModule.MobEffect.builder(MobEffects.WEAKNESS);
+    private static final ActionModule.MobEffect.Builder STRENGTH_EFFECT = ActionModule.MobEffect.builder(MobEffects.STRENGTH);
+    private static final ActionModule.MobEffect.Builder DOLPHINS_GRACE_EFFECT = ActionModule.MobEffect.builder(MobEffects.DOLPHINS_GRACE);
+    private static final ActionModule.MobEffect.Builder WATER_BREATHING_EFFECT = ActionModule.MobEffect.builder(MobEffects.WATER_BREATHING);
     private static final ActionModule.MobEffect.Builder HEAD_IN_THE_CLOUDS_EFFECT = ActionModule.MobEffect.builder(AerialHellMobEffects.HEAD_IN_THE_CLOUDS);
     private static final ActionModule.MobEffect.Builder SHADOW_IMMUNITY_EFFECT = ActionModule.MobEffect.builder(AerialHellMobEffects.SHADOW_IMMUNITY);
 
@@ -52,8 +58,6 @@ public class AerialHellItemAbilities
 
     private static final SideEffectModule.Cooldown LIGHT_AXE_COOLDOWN = SideEffectModule.Cooldown.builder().of(((entity) -> EntityHelper.hasFullLunaticStuff(entity) ? 160 : 320));
     private static final SideEffectModule.Cooldown LIGHT_SWORD_COOLDOWN = SideEffectModule.Cooldown.builder().of(((entity) -> EntityHelper.hasFullLunaticStuff(entity) ? 80 : 160));
-    private static final ActionModule.MobEffectList LIGHT_AXE_WEAKNESS = ActionModule.MobEffectList.builder().addEffects((entity) -> List.of(new MobEffectTemplate(MobEffects.WEAKNESS, LIGHT_AXE_COOLDOWN.getCooldownDuration(entity) / 2, 2))).build();
-    private static final ActionModule.MobEffectList LIGHT_SWORD_WEAKNESS = ActionModule.MobEffectList.builder().addEffects((entity) -> List.of(new MobEffectTemplate(MobEffects.WEAKNESS, LIGHT_SWORD_COOLDOWN.getCooldownDuration(entity) / 2, 2))).build();
 
     private static final ActionModule.ThrowProjectile.Builder THROW_PROJECTILE = ActionModule.ThrowProjectile.builder();
 
@@ -73,6 +77,7 @@ public class AerialHellItemAbilities
     private static final SideEffectModule.Shrink SHRINK_ONE_ITEM = SideEffectModule.Shrink.builder().simple();
     private static final SideEffectModule.Shrink.Builder SHRINK = SideEffectModule.Shrink.builder();
     private static final ActionModule.Sound ILLUSIONER_CAST_SPELL_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.375F + 0.25F * entity.getRandom().nextFloat()));
+    private static final ActionModule.Sound CHAINED_GOD_ROAR_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(AerialHellSoundEvents.ENTITY_CHAINED_GOD_ROAR.get(), 1.0F, 1.375F + 0.25F * entity.getRandom().nextFloat()));
     private static final ActionModule.Sound ENCHANTMENT_TABLE_USE_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.ENCHANTMENT_TABLE_USE, 1.0F, 1.375F + 0.25F * entity.getRandom().nextFloat()));
     private static final ActionModule.Sound GENERIC_DRINK_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.GENERIC_DRINK.value(), 1.0F, 1.5F + 0.4F * entity.getRandom().nextFloat()));
     private static final ActionModule.Sound GENERIC_EAT_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.GENERIC_EAT.value(), 1.0F, 0.5F + entity.getRandom().nextFloat()));
@@ -82,14 +87,27 @@ public class AerialHellItemAbilities
     private static final ActionModule.Sound GLASS_BREAK_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.GLASS_BREAK, 1.0F, 0.25F + 0.5F * entity.getRandom().nextFloat()));
     private static final ActionModule.Sound PARROT_IMITATE_MAGMA_CUBE_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.PARROT_IMITATE_MAGMA_CUBE, 1.0F, 0.5F + entity.getRandom().nextFloat()));
     private static final ActionModule.Sound SHURIKEN_SHOOT_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(AerialHellSoundEvents.ENTITY_SHURIKEN_SHOOT.get(), 1.0F, 1.0F / (entity.getRandom().nextFloat() * 0.4F + 0.8F)));
+    private static final ActionModule.Sound FORGOTTEN_BATTLE_TRIDENT_USE_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(AerialHellSoundEvents.ITEM_FORGOTTEN_BATTLE_TRIDENT_USE.get(), 1.0F, 1.375F + 0.25F * entity.getRandom().nextFloat()));
 
     private static final ActionModule.Particle.Builder CLOUD_PARTICLES = ActionModule.Particle.builder(ParticleTypes.CLOUD);
+    private static final ActionModule.Particle.Builder SMOKE_PARTICLES = ActionModule.Particle.builder(ParticleTypes.SMOKE);
+    private static final ActionModule.Particle.Builder DRIPPING_WATER_PARTICLES = ActionModule.Particle.builder(ParticleTypes.DRIPPING_WATER);
     private static final ActionModule.Particle.Builder ENCHANT_PARTICLES = ActionModule.Particle.builder(ParticleTypes.ENCHANT);
     private static final ActionModule.Particle.Builder SPORE_BLOSSOM_AIR_PARTICLES = ActionModule.Particle.builder(ParticleTypes.SPORE_BLOSSOM_AIR);
     private static final ActionModule.Particle.Builder FLAME_PARTICLES = ActionModule.Particle.builder(ParticleTypes.FLAME);
     private static final ActionModule.Particle.Builder EXPLOSION_PARTICLES = ActionModule.Particle.builder(ParticleTypes.EXPLOSION);
     private static final ActionModule.Particle.Builder SHADOW_LIGHT_PARTICLES = ActionModule.Particle.builder(AerialHellParticleTypes.SHADOW_LIGHT.get());
     private static final ActionModule.Particle.Builder CRISMON_SPORE_PARTICLES = ActionModule.Particle.builder(ParticleTypes.CRIMSON_SPORE);
+
+    //little test about summoning creatures
+    private static final ActionModule INVOKE_CHAINED_GOD = ActionModule.create((entity, stack, equipment) -> {
+        ChainedGodEntity god = AerialHellEntities.CHAINED_GOD.get().create(entity.level(), EntitySpawnReason.TRIGGERED);
+        if (god != null)
+        {
+            god.setPos(entity.position());
+            entity.level().addFreshEntity(god);
+        }
+    });
 
 //    public static final ItemAbility YOUR_ABILITY_NAME = ItemAbility.builder()
 //            .inheritsOf(OTHER_ABILITY)
@@ -112,7 +130,7 @@ public class AerialHellItemAbilities
 
     private static final ItemAbility NINJA_SWORD_COMMON = ItemAbility.builder()
             .addOnUseModules(ModuleList.builder()
-                    .addActions(CLOUD_PARTICLES.ofAmount(20), ILLUSIONER_CAST_SPELL_SOUND)
+                    .addActions(CLOUD_PARTICLES.of(20), ILLUSIONER_CAST_SPELL_SOUND)
                     .addSideEffects(DAMAGE_ITEM)
                     .build())
             .build();
@@ -135,14 +153,14 @@ public class AerialHellItemAbilities
 
     public static final ItemAbility RANDOM_SWORD = ItemAbility.builder()
             .addOnUseModules(ModuleList.builder()
-                    .addActions(RANDOM_SWORD_RANDOM_EFFECT, ENCHANT_PARTICLES.ofAmount(20), ENCHANTMENT_TABLE_USE_SOUND)
+                    .addActions(RANDOM_SWORD_RANDOM_EFFECT, ENCHANT_PARTICLES.of(20), ENCHANTMENT_TABLE_USE_SOUND)
                     .addSideEffects(COOLDOWN.of(900), DAMAGE_ITEM)
                     .build())
             .build();
 
     public static final ItemAbility ANTIDOTE_SWORD = ItemAbility.builder()
             .addOnUseModules(ModuleList.builder()
-                    .addActions(REMOVE_EFFECT.effects(MobEffects.POISON, MobEffects.WITHER), SPORE_BLOSSOM_AIR_PARTICLES.ofAmount(20), GENERIC_DRINK_SOUND)
+                    .addActions(REMOVE_EFFECT.effects(MobEffects.POISON, MobEffects.WITHER), SPORE_BLOSSOM_AIR_PARTICLES.of(20), GENERIC_DRINK_SOUND)
                     .addConditions(HAS_POISON_OR_WITHER)
                     .addSideEffects(COOLDOWN.of(900), DAMAGE_ITEM)
                     .build())
@@ -158,7 +176,7 @@ public class AerialHellItemAbilities
 
     public static final ItemAbility NETHERIAN_KING_SWORD = ItemAbility.builder()
             .addOnUseModules(ModuleList.builder()
-                    .addActions(FIRE_RESISTANCE_EFFECT.withDuration(280), FLAME_PARTICLES.ofAmount(20), GENERIC_EXTINGUISH_FIRE_SOUND)
+                    .addActions(FIRE_RESISTANCE_EFFECT.withDuration(280), FLAME_PARTICLES.of(20), GENERIC_EXTINGUISH_FIRE_SOUND)
                     .addConditions(NOT_IN_WATER_OR_RAIN)
                     .addSideEffects(NETHERIAN_KING_SWORD_COOLDOWN, DAMAGE_ITEM)
                     .build())
@@ -175,7 +193,7 @@ public class AerialHellItemAbilities
     public static final ItemAbility AXE_OF_LIGHT = ItemAbility.builder()
             .inheritsOf(LIGHT_WEAPON_COMMON)
             .addOnUseModules(ModuleList.builder()
-                    .addActions(LIGHT_AXE_WEAKNESS)
+                    .addActions(WEAKNESS_EFFECT.with((entity) -> LIGHT_AXE_COOLDOWN.getCooldownDuration(entity) / 2, (entity) -> 2))
                     .addSideEffects(LIGHT_AXE_COOLDOWN)
                     .build())
             .build();
@@ -183,14 +201,14 @@ public class AerialHellItemAbilities
     public static final ItemAbility SWORD_OF_LIGHT = ItemAbility.builder()
             .inheritsOf(LIGHT_WEAPON_COMMON)
             .addOnUseModules(ModuleList.builder()
-                    .addActions(LIGHT_SWORD_WEAKNESS)
+                    .addActions(WEAKNESS_EFFECT.with((entity) -> LIGHT_SWORD_COOLDOWN.getCooldownDuration(entity) / 2, (entity) -> 2))
                     .addSideEffects(LIGHT_SWORD_COOLDOWN)
                     .build())
             .build();
 
     private static final ItemAbility VOLUCITE_POWER_COMMON = ItemAbility.builder()
             .addOnUseModules(ModuleList.builder()
-                    .addActions(CLOUD_PARTICLES.ofAmount(20), ILLUSIONER_CAST_SPELL_SOUND)
+                    .addActions(CLOUD_PARTICLES.of(20), ILLUSIONER_CAST_SPELL_SOUND)
                     .addConditions(HAS_NO_HEAVY_STUFF)
                     .addSideEffects(COOLDOWN.of(250), DAMAGE_ITEM)
                     .build())
@@ -213,7 +231,7 @@ public class AerialHellItemAbilities
 
     private static final ItemAbility GLASS_CANNON_SWORD_COMMON = ItemAbility.builder()
             .addOnUseModules(ModuleList.builder()
-                    .addActions(EXPLOSION_PARTICLES.ofAmount(20))
+                    .addActions(EXPLOSION_PARTICLES.of(20))
                     .addSideEffects(DAMAGE_ITEM)
                     .build())
             .build();
@@ -238,7 +256,7 @@ public class AerialHellItemAbilities
 
     public static final ItemAbility REAPER_WALK = ItemAbility.builder()
             .addOnUseModules(ModuleList.builder()
-                    .addActions(INVISIBILITY_EFFECT.withDuration(200), SPEED_EFFECT.withDuration(120), SHADOW_IMMUNITY_EFFECT.withDuration(120), SHADOW_LIGHT_PARTICLES.ofAmount(20), ILLUSIONER_CAST_SPELL_SOUND)
+                    .addActions(INVISIBILITY_EFFECT.withDuration(200), SPEED_EFFECT.withDuration(120), SHADOW_IMMUNITY_EFFECT.withDuration(120), SHADOW_LIGHT_PARTICLES.of(20), ILLUSIONER_CAST_SPELL_SOUND)
                     .addConditions(HAS_NO_LUNATIC_STUFF)
                     .addSideEffects(COOLDOWN.of(600), DAMAGE_ITEM)
                     .build())
@@ -250,8 +268,15 @@ public class AerialHellItemAbilities
                     .addConditions(STACK_IN_MAIN_OR_OFF_HAND_PASSIVE)
                     .build())
             .addOnUseModules(ModuleList.builder()
-                    .addActions(JUMP_BOOST_EFFECT.with(100, 2), CRISMON_SPORE_PARTICLES.ofAmount(20), PARROT_IMITATE_MAGMA_CUBE_SOUND)
+                    .addActions(JUMP_BOOST_EFFECT.with(100, 2), CRISMON_SPORE_PARTICLES.of(20), PARROT_IMITATE_MAGMA_CUBE_SOUND)
                     .addSideEffects(COOLDOWN.of(400), DAMAGE_ITEM)
+                    .build())
+            .build();
+
+    public static final ItemAbility FORGOTTEN_BATTLE_TRIDENT = ItemAbility.builder()
+            .addOnUseModules(ModuleList.builder()
+                    .addActions(WATER_BREATHING_EFFECT.withDuration(120), DOLPHINS_GRACE_EFFECT.withDuration(120), SPEED_EFFECT.withDuration(120), STRENGTH_EFFECT.withDuration(300), DRIPPING_WATER_PARTICLES.of(20), FORGOTTEN_BATTLE_TRIDENT_USE_SOUND)
+                    .addSideEffects(COOLDOWN.of(540), DAMAGE_ITEM)
                     .build())
             .build();
 

@@ -5,9 +5,9 @@ import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplateLis
 import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplateProvider;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Item.Ability.ModuleAction;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.ToIntFunction;
 
 public class ActionModule extends AbilityModule
 {
@@ -81,8 +82,10 @@ public class ActionModule extends AbilityModule
             public MobEffect build() {return new MobEffect(new MobEffectTemplate(this.effect, this.duration, this.amplifier, this.ambient, this.visible, this.showIcon));}
             //override duration
             public MobEffect withDuration(int duration) {return new MobEffect(new MobEffectTemplate(this.effect, duration, this.amplifier, this.ambient, this.visible, this.showIcon));}
+            public MobEffect withDuration(ToIntFunction<LivingEntity> duration) {return new MobEffect(new MobEffectTemplate(this.effect, duration, (entity) -> this.amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon));}
             //override duration and amplifier
             public MobEffect with(int duration, int amplifier) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, this.ambient, this.visible, this.showIcon));}
+            public MobEffect with(ToIntFunction<LivingEntity> duration, ToIntFunction<LivingEntity> amplifier) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon));}
             //override duration and visibility. ambient = true to always display icon
             public MobEffect passiveBuild() {return new MobEffect(new MobEffectTemplate(this.effect, 32, this.amplifier, true, true, true));}
         }
@@ -191,9 +194,15 @@ public class ActionModule extends AbilityModule
 
     public static class Particle extends ActionModule
     {
-        public Particle(SimpleParticleType particleType, int count)
+        public Particle(SimpleParticleType particleType, int count, float speed)
         {
-            super((entity, stack, equipmentSlot) -> EntityHelper.addParticlesOnEntity(count, particleType, entity));
+            super((entity, stack, equipmentSlot) ->
+            {
+                if (entity.level() instanceof ServerLevel serverLevel)
+                {
+                    serverLevel.sendParticles(particleType, entity.getX(), entity.getY(0.5), entity.getZ(), count, 0.5F, 0.5F, 0.5F, speed);
+                }
+            });
         }
 
         public static Particle.Builder builder(SimpleParticleType type) {return new Builder(type);}
@@ -203,7 +212,8 @@ public class ActionModule extends AbilityModule
             private final SimpleParticleType type;
             private Builder(SimpleParticleType particleType) {this.type = particleType;}
 
-            public ActionModule.Particle ofAmount(int count) {return new ActionModule.Particle(type, count);}
+            public ActionModule.Particle of(int count) {return new ActionModule.Particle(type, count, 0.5F);}
+            public ActionModule.Particle of(int count, float speed) {return new ActionModule.Particle(type, count, speed);}
         }
     }
 
