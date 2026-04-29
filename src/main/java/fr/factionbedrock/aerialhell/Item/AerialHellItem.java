@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Item;
 import com.mojang.datafixers.util.Pair;
 import fr.factionbedrock.aerialhell.Item.Ability.AbilitySelector;
 import fr.factionbedrock.aerialhell.Item.Ability.AbilityUseSituation;
+import fr.factionbedrock.aerialhell.Item.Armor.AerialHellArmorMaterial;
 import fr.factionbedrock.aerialhell.Item.Tools.AerialHellToolMaterial;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -27,6 +28,9 @@ import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
@@ -270,6 +274,11 @@ public class AerialHellItem extends WithInformationItem
 		@Nullable private AbilitySelector abilitySelector;
 		private List<AerialHellItem.UseInteractionType> useInteractionTypes;
 		public Properties() {super(); this.useInteractionTypes = new ArrayList<>();}
+
+		public AerialHellItem.Properties humanoidArmor(AerialHellArmorMaterial material, ArmorType type)
+		{
+			return (AerialHellItem.Properties) this.durability(type.getDurability(material.durability())).attributes(material.createAttributes(type)).enchantable(material.enchantmentValue()).component(DataComponents.EQUIPPABLE, Equippable.builder(type.getSlot()).setEquipSound(material.equipSound()).setAsset(material.assetId()).build()).repairable(material.repairIngredient());
+		}
 
 		public AerialHellItem.Properties tool(AerialHellToolMaterial material, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth, float disableBlockingSeconds)
 		{
