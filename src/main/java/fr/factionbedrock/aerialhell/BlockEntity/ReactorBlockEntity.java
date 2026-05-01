@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
+import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.ReactorBlock;
 import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
@@ -12,6 +13,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -22,6 +25,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class ReactorBlockEntity extends BaseContainerBlockEntity implements BiomeShifter
@@ -34,6 +38,23 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
     private ShiftType shiftType;
     @Nullable private final Supplier<Block> shiftedOrBrokenVariant;
 
+    protected final ContainerData containerData = new ContainerData()
+    {
+        @Override public int get(int index)
+        {
+            return (int) ((float) ReactorBlockEntity.this.activeTimer / (float) ReactorBlockEntity.MAX_ACTIVE_TIMER * 100.0F);
+        }
+
+        @Override public void set(int index, int value)
+        {
+
+        }
+
+        @Override public int getCount() {return 1;}
+    };
+
+    public ContainerData getContainerData() {return this.containerData;}
+
     public ReactorBlockEntity(BlockPos pos, BlockState blockState, int fieldSize, ShiftType shiftType, @Nullable Supplier<Block> shiftedOrBrokenVariant)
     {
         super(AerialHellBlockEntities.REACTOR.get(), pos, blockState);
@@ -43,10 +64,10 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
         this.activeTimer = 0;
     }
 
-    @Override public int getFieldSize() {return this.activeTimer > 0 ? this.fieldSize : (int) (0.25F * this.fieldSize);}
-    @Override public ShiftType getShiftType() {return this.shiftType;}
-    @Override @Nullable public Supplier<Block> getShiftedOrBrokenVariant() {return this.shiftedOrBrokenVariant;}
-    public int getActiveTimer() {return activeTimer;}
+    @Override public int getFieldSize() { return this.activeTimer > 0 ? this.fieldSize : (int)(0.25F * this.fieldSize); }
+    @Override public ShiftType getShiftType() { return this.shiftType; }
+    @Override @Nullable public Supplier<Block> getShiftedOrBrokenVariant() { return this.shiftedOrBrokenVariant; }
+    public int getActiveTimer() { return activeTimer; }
 
     @Override @NotNull protected Component getDefaultName()
     {
@@ -54,7 +75,7 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
         return Component.translatable("container." + AerialHell.MODID + "." + type + "_reactor");
     }
 
-    @Override protected AbstractContainerMenu createMenu(int id, @NotNull Inventory inv) {return new ReactorMenu(id, inv, this);}
+    @Override protected AbstractContainerMenu createMenu(int id, @NotNull Inventory inv) {return new ReactorMenu(id, inv, this, this.containerData);}
 
     public static void tick(Level level, BlockPos pos, BlockState state, ReactorBlockEntity blockEntity)
     {
@@ -71,7 +92,7 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
         boolean isActive = this.activeTimer > 0;
         if (isActive) {this.activeTimer--;}
 
-        if (!this.items.isEmpty())
+        if (!this.items.isEmpty() && this.activeTimer < MAX_ACTIVE_TIMER)
         {
             ItemStack stack = this.items.get(0);
 
@@ -79,31 +100,21 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
             {
                 if (OscillatorBlockEntity.getOscillatingMap().containsKey(stack.getItem()))
                 {
-                    int activeTimerIncrement = active_factor * OscillatorBlockEntity.getOscillatingMap().get(stack.getItem());
-                    if (this.activeTimer + activeTimerIncrement <= MAX_ACTIVE_TIMER)
-                    {
-                        this.activeTimer += activeTimerIncrement;
-                        stack.shrink(1);
-                        isActive = true;
-                    }
+                    this.activeTimer += active_factor * OscillatorBlockEntity.getOscillatingMap().get(stack.getItem());
+                    stack.shrink(1);
+                    isActive = true;
                 }
             }
             else
             {
-                int activeTimerIncrement = 0;
-                if (stack.is(AerialHellItems.SHADOW_CRYSTAL)) {activeTimerIncrement = 400 * active_factor;}
-                else if (stack.is(AerialHellItems.SHADOW_SHARD)) {activeTimerIncrement = 1000 * active_factor;}
-                else if (stack.is(AerialHellItems.CURSED_CRYSAL)) {activeTimerIncrement = 2000 * active_factor;}
-                else if (stack.is(AerialHellItems.CURSED_CRYSAL_BLOCK)) {activeTimerIncrement = 18000 * active_factor;}
-                if (activeTimerIncrement > 0 && this.activeTimer + activeTimerIncrement <= MAX_ACTIVE_TIMER)
+                if (ReactorBlockEntity.getCorruptingMap().containsKey(stack.getItem()))
                 {
-                    this.activeTimer += activeTimerIncrement;
+                    this.activeTimer += active_factor * ReactorBlockEntity.getCorruptingMap().get(stack.getItem());
                     stack.shrink(1);
                     isActive = true;
                 }
             }
         }
-
         return isActive;
     }
 
@@ -113,8 +124,7 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
         ContainerHelper.saveAllItems(valueOutput, this.items);
         valueOutput.putInt("field_size", fieldSize);
         valueOutput.putInt("active_timer", activeTimer);
-        boolean isShadow = this.shiftType == ShiftType.CORRUPT;
-        valueOutput.putBoolean("is_shadow", isShadow);
+        valueOutput.putBoolean("is_shadow", this.shiftType == ShiftType.CORRUPT);
     }
 
     @Override protected void loadAdditional(ValueInput valueInput)
@@ -122,13 +132,22 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
         super.loadAdditional(valueInput);
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(valueInput, this.items);
-        this.fieldSize = valueInput.getInt("field_size").get();
+        this.fieldSize  = valueInput.getInt("field_size").get();
         this.activeTimer = valueInput.getInt("active_timer").get();
-        boolean isShadow = valueInput.getBooleanOr("is_shadow", false);
-        this.shiftType = isShadow ? ShiftType.CORRUPT : ShiftType.UNCORRUPT;
+        this.shiftType  = valueInput.getBooleanOr("is_shadow", false) ? ShiftType.CORRUPT : ShiftType.UNCORRUPT;
     }
 
     @Override public NonNullList<ItemStack> getItems() {return this.items;}
     @Override protected void setItems(NonNullList<ItemStack> items) {this.items = items;}
     @Override public int getContainerSize() {return this.items.size();}
+
+    public static Map<Item, Integer> getCorruptingMap()
+    {
+        Map<Item, Integer> map = Maps.newLinkedHashMap();
+        map.put(AerialHellItems.SHADOW_CRYSTAL.get(), 400);
+        map.put(AerialHellItems.SHADOW_SHARD.get(), 1000);
+        map.put(AerialHellItems.CURSED_CRYSAL.get(), 2000);
+        map.put(AerialHellItems.CURSED_CRYSAL_BLOCK.get(), 18000);
+        return map;
+    }
 }
