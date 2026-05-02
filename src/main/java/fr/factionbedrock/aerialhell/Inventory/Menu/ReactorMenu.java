@@ -41,7 +41,7 @@ public class ReactorMenu extends AbstractContainerMenu
             @Override public boolean mayPlace(ItemStack stack)
             {
                 return stack.is(AerialHellItems.FLUORITE.get()) || stack.is(AerialHellItems.FLUORITE_BLOCK.get())
-                        || stack.is(AerialHellItems.SHADOW_CRYSTAL.get()) || stack.is(AerialHellItems.SHADOW_SHARD.get()) || stack.is(AerialHellItems.CURSED_CRYSTAL.get()) || stack.is(AerialHellItems.CURSED_CRYSAL_BLOCK.get());
+                        || stack.is(AerialHellItems.SHADOW_CRYSTAL.get()) || stack.is(AerialHellItems.SHADOW_CRYSTAL_BLOCK.get()) || stack.is(AerialHellItems.SHADOW_SHARD.get()) || stack.is(AerialHellItems.CURSED_CRYSTAL.get()) || stack.is(AerialHellItems.CURSED_CRYSAL_BLOCK.get());
             }
         });
     }
