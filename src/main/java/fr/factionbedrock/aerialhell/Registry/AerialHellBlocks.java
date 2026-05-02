@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Registry;
 
 import com.google.common.collect.ImmutableMap;
+import com.mojang.datafixers.util.Pair;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Block.*;
 import fr.factionbedrock.aerialhell.Block.CollisionCondition.*;
@@ -39,6 +40,9 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.HoeItem;
+import net.minecraft.world.item.ShovelItem;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
@@ -81,6 +85,9 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 
 public class AerialHellBlocks
@@ -105,6 +112,30 @@ public class AerialHellBlocks
                 .put(GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM, STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM)
                 .put(GIANT_VERDIGRIS_AGARIC_STEM, STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM)
                 .put(GIANT_VERDIGRIS_AGARIC_BARK_STEM, STRIPPED_GIANT_VERDIGRIS_AGARIC_BARK_STEM)
+                .build();
+    }
+
+    public static void registerShovelFlattenableBlocks()
+    {
+        ShovelItem.FLATTENABLES = ImmutableMap.<Block, BlockState>builder()
+                .putAll(ShovelItem.FLATTENABLES)
+                .put(STELLAR_DIRT, STELLAR_DIRT_PATH.defaultBlockState())
+                .put(STELLAR_COARSE_DIRT, STELLAR_DIRT_PATH.defaultBlockState())
+                .put(STELLAR_GRASS_BLOCK, STELLAR_DIRT_PATH.defaultBlockState())
+                .put(CHISELED_STELLAR_DIRT, STELLAR_DIRT_PATH.defaultBlockState())
+                .put(CHISELED_STELLAR_GRASS_BLOCK, STELLAR_DIRT_PATH.defaultBlockState())
+                .build();
+    }
+
+    public static void registerHoeTillableBlocks()
+    {
+        HoeItem.TILLABLES = ImmutableMap.<Block, Pair<Predicate<UseOnContext>, Consumer<UseOnContext>>>builder()
+                .putAll(HoeItem.TILLABLES)
+                .put(STELLAR_DIRT, Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState())))
+                .put(STELLAR_COARSE_DIRT, Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState())))
+                .put(STELLAR_GRASS_BLOCK, Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState())))
+                .put(CHISELED_STELLAR_DIRT, Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState())))
+                .put(CHISELED_STELLAR_GRASS_BLOCK, Pair.of(HoeItem::onlyIfAirAbove,HoeItem. changeIntoState(STELLAR_FARMLAND.defaultBlockState())))
                 .build();
     }
     

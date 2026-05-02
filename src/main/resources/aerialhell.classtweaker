@@ -1,8 +1,12 @@
 classTweaker v1 official
 
-#AxeItem strippable
+# Aerial Hell Item tool interactions
 accessible field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
 mutable field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
+accessible field net/minecraft/world/item/HoeItem TILLABLES Ljava/util/Map;
+mutable field net/minecraft/world/item/HoeItem TILLABLES Ljava/util/Map;
+accessible field net/minecraft/world/item/ShovelItem FLATTENABLES Ljava/util/Map;
+mutable field net/minecraft/world/item/ShovelItem FLATTENABLES Ljava/util/Map;
 
 #NetherPortal
 accessible method net/minecraft/world/level/portal/PortalShape <init> (Lnet/minecraft/core/Direction$Axis;ILnet/minecraft/core/Direction;Lnet/minecraft/core/BlockPos;II)V
@@ -52,10 +56,6 @@ extendable method net/minecraft/client/model/Model renderToBuffer (Lcom/mojang/b
 #Used to handle projectile impact in mixins
 accessible method net/minecraft/world/entity/projectile/Projectile canHitEntity (Lnet/minecraft/world/entity/Entity;)Z
 accessible method net/minecraft/world/entity/projectile/arrow/AbstractArrow findHitEntity (Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/EntityHitResult;
-
-# Aerial Hell Item tool interactions
-accessible field net/minecraft/world/item/HoeItem TILLABLES Ljava/util/Map;
-accessible field net/minecraft/world/item/ShovelItem FLATTENABLES Ljava/util/Map;
 
 # Netherite Upgrade
 accessible method net/minecraft/world/item/SmithingTemplateItem createNetheriteUpgradeIconList ()Ljava/util/List;
