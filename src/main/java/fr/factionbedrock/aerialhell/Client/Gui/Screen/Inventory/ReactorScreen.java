@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.BlockEntity.ReactorBlockEntity;
 import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -16,6 +15,7 @@ public class ReactorScreen extends AbstractContainerScreen<ReactorMenu>
     private static final Identifier LIGHT_PROGRESS = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/sprites/container/reactor/light_progress.png");
     private static final Identifier SHADOW_PROGRESS = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/sprites/container/reactor/shadow_progress.png");
 
+    //progress zone
     private static final int CENTER_X = 88;
     private static final int CENTER_Y = 45;
     private static final int WIDTH = 140;

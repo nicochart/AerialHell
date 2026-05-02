@@ -42,7 +42,7 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
         {
             return switch (index)
             {
-                case 0 -> (int) ((float) ReactorBlockEntity.this.activeTimer / (float) ReactorBlockEntity.MAX_ACTIVE_TIMER * 100.0F);
+                case 0 -> (int) (ReactorBlockEntity.this.getActiveTimerProportion() * 100.0F);
                 case 1 -> (ReactorBlockEntity.this.shiftType == ShiftType.UNCORRUPT) ? 0 : 1;
                 default -> 0;
             };
@@ -67,10 +67,11 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
         this.activeTimer = 0;
     }
 
-    @Override public int getFieldSize() { return this.activeTimer > 0 ? this.fieldSize : (int)(0.25F * this.fieldSize); }
-    @Override public ShiftType getShiftType() { return this.shiftType; }
-    @Override @Nullable public Supplier<Block> getShiftedOrBrokenVariant() { return this.shiftedOrBrokenVariant; }
-    public int getActiveTimer() { return activeTimer; }
+    @Override public int getFieldSize() {return (int) (Math.clamp(this.getActiveTimerProportion() + 0.25F, 0.25F, 1.0F) * this.fieldSize);}
+    @Override public ShiftType getShiftType() {return this.shiftType;}
+    @Override @Nullable public Supplier<Block> getShiftedOrBrokenVariant() {return this.shiftedOrBrokenVariant;}
+    public int getActiveTimer() {return activeTimer;}
+    public float getActiveTimerProportion() {return (float) this.activeTimer / (float) MAX_ACTIVE_TIMER;}
 
     @Override @NotNull protected Component getDefaultName()
     {
