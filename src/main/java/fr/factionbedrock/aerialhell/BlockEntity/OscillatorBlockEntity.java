@@ -2,17 +2,15 @@ package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Inventory.Menu.OscillatorMenu;
-import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
-import com.google.common.collect.Maps;
-import java.util.Map;
+
+import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -34,20 +32,9 @@ public class OscillatorBlockEntity extends AbstractFurnaceBlockEntity
 
 	@Override protected AbstractContainerMenu createMenu(int id, Inventory inv) {return new OscillatorMenu(id, inv, this, this.dataAccess);}
 
-	public static Map<Item, Integer> getOscillatingMap()
+	@Override protected int getBurnDuration(FuelValues fuelValues, ItemStack fuel)
 	{
-		Map<Item, Integer> map = Maps.newLinkedHashMap();
-		map.put(AerialHellItems.FLUORITE, 1200);
-		map.put(AerialHellItems.FLUORITE_BLOCK, 10800);
-		map.put(AerialHellItems.CRYSTAL, 300);
-		map.put(AerialHellItems.CRYSTAL_BLOCK, 1200);
-		return map;
-	}
-
-	@Override
-	protected int getBurnDuration(FuelValues fuelRegistry, ItemStack fuel)
-	{
-		if (fuel.isEmpty() || !getOscillatingMap().containsKey(fuel.getItem())) {return 0;}
-		else {return getOscillatingMap().get(fuel.getItem());}
+		if (fuel.isEmpty() || !ItemHelper.getOscillatingMap().containsKey(fuel.getItem())) {return 0;}
+		else {return ItemHelper.getOscillatingMap().get(fuel.getItem());}
 	}
 }

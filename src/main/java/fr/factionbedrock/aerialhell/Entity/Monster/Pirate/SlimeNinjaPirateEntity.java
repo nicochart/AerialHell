@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.ShootProjectileFlurryGoal;
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractHumanoidMonster;
-import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.RubyShurikenEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.ShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -69,14 +69,17 @@ public class SlimeNinjaPirateEntity extends AbstractSlimePirateEntity implements
 
         @Override public SlimeNinjaPirateEntity getParentEntity() {return (SlimeNinjaPirateEntity) super.getParentEntity();}
 
-        @Override public Projectile createProjectile(Level world, LivingEntity shooter, double accX, double accY, double accZ)
+        @Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ)
         {
-            RandomSource rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
-            return new RubyShurikenEntity(world, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f, AerialHellItems.RUBY_SHURIKEN.getDefaultInstance());
+            ShurikenEntity shuriken = new ShurikenEntity(AerialHellEntities.RUBY_SHURIKEN, level, 9.0F);
+            shuriken.setOwner(shuriken);
+            shuriken.shoot(accX, accY, accZ, 1.3F, 2.0F);
+            return shuriken;
         }
 
         @Override protected void resetTask() {super.resetTask(); this.getParentEntity().resetNextFurryShurikenNumber();}
 
+        @Override public double getProjectileTargetYBoundingBoxProgress() {return 1.0D;}
         @Override public int getShootTimeInterval() {return 20;}
         @Override public int getShootDelay() {return 0;}
         @Override public boolean doesShootTimeDecreaseWhenTargetOutOfSight() {return false;}

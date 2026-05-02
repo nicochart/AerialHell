@@ -53,8 +53,9 @@ extendable method net/minecraft/client/model/Model renderToBuffer (Lcom/mojang/b
 accessible method net/minecraft/world/entity/projectile/Projectile canHitEntity (Lnet/minecraft/world/entity/Entity;)Z
 accessible method net/minecraft/world/entity/projectile/arrow/AbstractArrow findHitEntity (Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/EntityHitResult;
 
-# Item Properties
-accessible method net/minecraft/world/item/Item$Properties finalizeInitializer (Lnet/minecraft/network/chat/Component;Lnet/minecraft/resources/Identifier;)Lnet/minecraft/core/component/DataComponentInitializers$Initializer;
+# Aerial Hell Item tool interactions
+accessible field net/minecraft/world/item/HoeItem TILLABLES Ljava/util/Map;
+accessible field net/minecraft/world/item/ShovelItem FLATTENABLES Ljava/util/Map;
 
 # Netherite Upgrade
 accessible method net/minecraft/world/item/SmithingTemplateItem createNetheriteUpgradeIconList ()Ljava/util/List;

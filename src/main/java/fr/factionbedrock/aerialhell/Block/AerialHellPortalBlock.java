@@ -57,7 +57,7 @@ public class AerialHellPortalBlock extends Block implements Portal
         this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Direction.Axis.X));
     }
 
-    @Override protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context)
+    @Override protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
     {
         switch(state.getValue(AXIS))
         {
@@ -69,43 +69,43 @@ public class AerialHellPortalBlock extends Block implements Portal
         }
     }
 
-    public boolean trySpawnPortal(LevelAccessor world, BlockPos pos)
+    public boolean trySpawnPortal(LevelAccessor level, BlockPos pos)
     {
-        AerialHellPortalBlock.AerialHellPortalShape size = this.isPortal(world, pos);
+        AerialHellPortalBlock.AerialHellPortalShape size = this.isPortal(level, pos);
         if (size != null)
         {
-            size.createPortalBlocks(world);
+            size.createPortalBlocks(level);
             return true;
         }
         else {return false;}
     }
 
-    @Nullable public AerialHellPortalBlock.AerialHellPortalShape isPortal(LevelAccessor world, BlockPos pos)
+    @Nullable public AerialHellPortalBlock.AerialHellPortalShape isPortal(LevelAccessor level, BlockPos pos)
     {
-        AerialHellPortalBlock.AerialHellPortalShape portalShape = new AerialHellPortalShape(world, pos, Direction.Axis.X);
+        AerialHellPortalBlock.AerialHellPortalShape portalShape = new AerialHellPortalShape(level, pos, Direction.Axis.X);
         if (portalShape.isValid() && portalShape.numPortalBlocks == 0) {return portalShape;}
         else
         {
-            AerialHellPortalBlock.AerialHellPortalShape portalShape2 = new AerialHellPortalShape(world, pos, Direction.Axis.Z);
+            AerialHellPortalBlock.AerialHellPortalShape portalShape2 = new AerialHellPortalShape(level, pos, Direction.Axis.Z);
             return portalShape2.isValid() && portalShape2.numPortalBlocks == 0 ? portalShape2 : null;
         }
     }
 
-    @Override public BlockState updateShape(BlockState stateIn, LevelReader world, ScheduledTickAccess tickView, BlockPos currentPos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource rand)
+    @Override public BlockState updateShape(BlockState stateIn, LevelReader level, ScheduledTickAccess tickView, BlockPos currentPos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource rand)
     {
         Direction.Axis direction$axis = facing.getAxis();
         Direction.Axis direction$axis1 = stateIn.getValue(AXIS);
         boolean flag = direction$axis1 != direction$axis && direction$axis.isHorizontal();
-        return !flag && facingState.getBlock() != this && !(new AerialHellPortalShape(world, currentPos, direction$axis1)).isComplete() ? Blocks.AIR.defaultBlockState() : super.updateShape(stateIn, world, tickView, currentPos, facing, facingPos, facingState, rand);
+        return !flag && facingState.getBlock() != this && !(new AerialHellPortalShape(level, currentPos, direction$axis1)).isComplete() ? Blocks.AIR.defaultBlockState() : super.updateShape(stateIn, level, tickView, currentPos, facing, facingPos, facingState, rand);
     }
 
-    @Override protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier handler, boolean intersects)
+    @Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean intersects)
     {
         if(entity.canUsePortal(false))
         {
             if (entity instanceof LivingEntity livingEntity && EntityHelper.isLivingEntityOnPortalCooldown(livingEntity))
             {
-                EntityHelper.setAfterTeleportationEffect((LivingEntity)entity, !EntityHelper.isCreativePlayer(entity) ? 110 : 20);
+                EntityHelper.setAfterTeleportationEffect(livingEntity, !EntityHelper.isCreativePlayer(entity) ? 110 : 20);
             }
             else if (entity.isOnPortalCooldown()) {entity.setPortalCooldown();}
             else
@@ -135,45 +135,55 @@ public class AerialHellPortalBlock extends Block implements Portal
                 }
                 else
                 {
-                    EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, this, pos);
+                    @org.jetbrains.annotations.Nullable LivingEntity firstPassenger = entity.getFirstPassenger() instanceof LivingEntity livingEntity ? livingEntity : null;
+                    if (firstPassenger != null && EntityHelper.isLivingEntityOnPortalCooldown(firstPassenger))
+                    {
+                        EntityHelper.setAfterTeleportationEffect(firstPassenger, !EntityHelper.isCreativePlayer(entity) ? 110 : 20);
+                    }
+                    else
+                    {
+                        EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, this, pos);
+                        entity.setPortalCooldown();
+                        if (firstPassenger != null) {EntityHelper.setAfterTeleportationEffect(firstPassenger, !EntityHelper.isCreativePlayer(entity) ? 110 : 20);}
+                    }
                 }
             }
         }
     }
 
     @Nullable @Override
-    public TeleportTransition getPortalDestination(ServerLevel world, Entity entity, BlockPos pos)
+    public TeleportTransition getPortalDestination(ServerLevel level, Entity entity, BlockPos pos)
     {
-        ResourceKey<Level> resourcekey = world.dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION ? Level.OVERWORLD : AerialHellDimensions.AERIAL_HELL_DIMENSION;
-        ServerLevel serverWorld = world.getServer().getLevel(resourcekey);
+        ResourceKey<Level> resourcekey = level.dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION ? Level.OVERWORLD : AerialHellDimensions.AERIAL_HELL_DIMENSION;
+        ServerLevel serverWorld = level.getServer().getLevel(resourcekey);
         if (serverWorld == null) {return null;}
         else
         {
             boolean flag = serverWorld.dimension() == AerialHellDimensions.AERIAL_HELL_DIMENSION;
             WorldBorder worldborder = serverWorld.getWorldBorder();
-            double d0 = DimensionType.getTeleportationScale(world.dimensionType(), serverWorld.dimensionType());
+            double d0 = DimensionType.getTeleportationScale(level.dimensionType(), serverWorld.dimensionType());
             BlockPos blockpos = worldborder.clampToBounds(entity.getX() * d0, entity.getY(), entity.getZ() * d0);
             return this.getOrCreateExitPortalTarget(serverWorld, entity, pos, blockpos, flag, worldborder);
         }
     }
 
-    @Nullable private TeleportTransition getOrCreateExitPortalTarget(ServerLevel world, Entity entity, BlockPos pos, BlockPos exitPos, boolean isNether, WorldBorder worldBorder)
+    @Nullable private TeleportTransition getOrCreateExitPortalTarget(ServerLevel level, Entity entity, BlockPos pos, BlockPos exitPos, boolean isNether, WorldBorder worldBorder)
     {
-        AerialHellTeleporter portalForcer = new AerialHellTeleporter(world);
+        AerialHellTeleporter portalForcer = new AerialHellTeleporter(level);
         Optional<BlockPos> optional = portalForcer.findClosestPortalPosition(exitPos, isNether, worldBorder);
         BlockUtil.FoundRectangle blockutil$foundrectangle;
         TeleportTransition.PostTeleportTransition postTransition;
         if (optional.isPresent())
         {
             BlockPos blockpos = optional.get();
-            BlockState blockstate = world.getBlockState(blockpos);
+            BlockState blockstate = level.getBlockState(blockpos);
             blockutil$foundrectangle = BlockUtil.getLargestRectangleAround(
                     blockpos,
                     blockstate.getValue(BlockStateProperties.HORIZONTAL_AXIS),
                     21,
                     Direction.Axis.Y,
                     21,
-                    p_351970_ -> world.getBlockState(p_351970_) == blockstate
+                    p_351970_ -> level.getBlockState(p_351970_) == blockstate
             );
             postTransition = TeleportTransition.PLAY_PORTAL_SOUND.then(entityx -> entityx.placePortalTicket(blockpos));
         }
@@ -191,10 +201,10 @@ public class AerialHellPortalBlock extends Block implements Portal
             postTransition = TeleportTransition.PLAY_PORTAL_SOUND.then(TeleportTransition.PLACE_PORTAL_TICKET);
         }
 
-        return getExitPortalTarget(entity, pos, blockutil$foundrectangle, world, postTransition);
+        return getExitPortalTarget(entity, pos, blockutil$foundrectangle, level, postTransition);
     }
 
-    private static TeleportTransition getExitPortalTarget(Entity entity, BlockPos pos, BlockUtil.FoundRectangle rectangle, ServerLevel world, TeleportTransition.PostTeleportTransition postTeleportTarget)
+    private static TeleportTransition getExitPortalTarget(Entity entity, BlockPos pos, BlockUtil.FoundRectangle rectangle, ServerLevel level, TeleportTransition.PostTeleportTransition postTeleportTarget)
     {
         BlockState blockstate = entity.level().getBlockState(pos);
         Direction.Axis direction$axis;
@@ -213,7 +223,7 @@ public class AerialHellPortalBlock extends Block implements Portal
             vec3d = new Vec3(0.5, 0.0, 0.0);
         }
 
-        return createTeleportTarget(world, rectangle, direction$axis, vec3d, entity, postTeleportTarget);
+        return createTeleportTarget(level, rectangle, direction$axis, vec3d, entity, postTeleportTarget);
     }
 
     private static TeleportTransition createTeleportTarget(ServerLevel level, BlockUtil.FoundRectangle exitPortalRectangle, Direction.Axis axis, Vec3 offset, Entity entity, TeleportTransition.PostTeleportTransition postTeleportTarget)
@@ -236,11 +246,11 @@ public class AerialHellPortalBlock extends Block implements Portal
         return new TeleportTransition(level, vec32, vec3, entity.getVisualRotationYInDegrees() + (float)i, entity.getXRot(), postTeleportTarget);
     }
 
-    @Override public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random)
+    @Override public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random)
     {
         if (random.nextInt(100) == 0)
         {
-            world.playLocalSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, AerialHellSoundEvents.BLOCK_AERIAL_HELL_PORTAL_AMBIENT, SoundSource.BLOCKS, 0.6F, 0.9F + random.nextFloat() * 0.2F, false);
+            level.playLocalSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, AerialHellSoundEvents.BLOCK_AERIAL_HELL_PORTAL_AMBIENT, SoundSource.BLOCKS, 0.6F, 0.9F + random.nextFloat() * 0.2F, false);
         }
 
         for(int i = 0; i < 4; ++i)
@@ -252,7 +262,7 @@ public class AerialHellPortalBlock extends Block implements Portal
             double ySpeed = ((double)random.nextFloat() - 0.5D) * 0.5D;
             double zSpeed = ((double)random.nextFloat() - 0.5D) * 0.5D;
             int j = random.nextInt(2) * 2 - 1;
-            if (!world.getBlockState(pos.west()).is(this) && !world.getBlockState(pos.east()).is(this))
+            if (!level.getBlockState(pos.west()).is(this) && !level.getBlockState(pos.east()).is(this))
             {
                 x = (double)pos.getX() + 0.5D + 0.25D * (double)j;
                 xSpeed = random.nextFloat() * 2.0F * (float)j;
@@ -263,11 +273,11 @@ public class AerialHellPortalBlock extends Block implements Portal
                 zSpeed = random.nextFloat() * 2.0F * (float)j;
             }
 
-            world.addParticle(AerialHellParticleTypes.AERIAL_HELL_PORTAL, x, y, z, xSpeed, ySpeed, zSpeed);
+            level.addParticle(AerialHellParticleTypes.AERIAL_HELL_PORTAL, x, y, z, xSpeed, ySpeed, zSpeed);
         }
     }
 
-    @Override protected ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state, boolean includeData) {return ItemStack.EMPTY;}
+    @Override protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {return ItemStack.EMPTY;}
 
     @Override protected BlockState rotate(BlockState state, Rotation rotation)
     {
@@ -400,10 +410,10 @@ public class AerialHellPortalBlock extends Block implements Portal
         private static boolean isEmpty(BlockState state) {return state.isAir() || state.is(AerialHellBlocks.AERIAL_HELL_PORTAL);}
         public boolean isValid() {return this.bottomLeft != null && this.width >= MIN_WIDTH && this.width <= MAX_WIDTH && this.height >= MIN_HEIGHT && this.height <= MAX_HEIGHT;}
 
-        public void createPortalBlocks(LevelAccessor world)
+        public void createPortalBlocks(LevelAccessor level)
         {
             BlockState blockstate = AerialHellBlocks.AERIAL_HELL_PORTAL.defaultBlockState().setValue(NetherPortalBlock.AXIS, this.axis);
-            BlockPos.betweenClosed(this.bottomLeft, this.bottomLeft.relative(Direction.UP, this.height - 1).relative(this.rightDir, this.width - 1)).forEach(pos -> world.setBlock(pos, blockstate, 18));
+            BlockPos.betweenClosed(this.bottomLeft, this.bottomLeft.relative(Direction.UP, this.height - 1).relative(this.rightDir, this.width - 1)).forEach(pos -> level.setBlock(pos, blockstate, 18));
         }
 
         public boolean isComplete() {return this.isValid() && this.numPortalBlocks == this.width * this.height;}

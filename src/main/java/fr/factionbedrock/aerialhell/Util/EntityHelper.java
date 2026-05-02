@@ -56,6 +56,8 @@ public class EntityHelper
 {
     public static boolean isCreativePlayer(Entity entity) {return entity instanceof Player player && player.isCreative();}
 
+    public static boolean isFlyingCreativePlayer(Entity entity) {return entity instanceof Player player && player.isCreative() && player.getAbilities().flying;}
+
     public static boolean isSpectatorPlayer(Entity entity) {return entity instanceof Player player && player.isSpectator();}
 
     public static boolean isCreaOrSpecPlayer(Entity entity) {return entity instanceof Player player && (player.isCreative() || player.isSpectator());}
@@ -205,7 +207,7 @@ public class EntityHelper
 
     public static boolean isLivingEntityMisleadingLunar(LivingEntity entity)
     {
-        return ItemHelper.getItemInTagCount(EntityHelper.getEquippedHumanoidArmorItemList(entity), AerialHellTags.Items.LUNATIC_STUFF) >= 4 && !isLivingEntityATraitor(entity);
+        return ItemHelper.countItemStacksInTag(EntityHelper.getEquippedHumanoidArmorItemList(entity), AerialHellTags.Items.LUNATIC_STUFF) >= 4 && !isLivingEntityATraitor(entity);
     }
 
     public static boolean isLivingEntityMisleadingShadow(LivingEntity entity)
@@ -237,6 +239,19 @@ public class EntityHelper
         }
         return list;
     }
+
+    public static int countLunaticStuff(LivingEntity livingEntity) {return ItemHelper.countLunaticStuff(getEquippedHumanoidArmorItemList(livingEntity));}
+    public static int countShadowStuff(LivingEntity livingEntity) {return ItemHelper.countShadowStuff(getEquippedHumanoidArmorItemList(livingEntity));}
+    public static int countArsonistStuff(LivingEntity livingEntity) {return ItemHelper.countArsonistStuff(getEquippedHumanoidArmorItemList(livingEntity));}
+    public static int countVoluciteStuff(LivingEntity livingEntity) {return ItemHelper.countVoluciteStuff(getEquippedHumanoidArmorItemList(livingEntity));}
+    public static int countHeavyStuff(LivingEntity livingEntity) {return ItemHelper.countHeavyStuff(getEquippedHumanoidArmorItemList(livingEntity));}
+
+    public static boolean hasFullLunaticStuff(LivingEntity livingEntity) {return countLunaticStuff(livingEntity) == 4;}
+    public static boolean hasFullVoluciteStuff(LivingEntity livingEntity) {return countVoluciteStuff(livingEntity) == 4;}
+    public static boolean hasFullArsonistStuff(LivingEntity livingEntity) {return countArsonistStuff(livingEntity) == 4;}
+    public static boolean hasNoLunaticStuff(LivingEntity livingEntity) {return countLunaticStuff(livingEntity) == 0;}
+    public static boolean hasNoShadowStuff(LivingEntity livingEntity) {return countShadowStuff(livingEntity) == 0;}
+    public static boolean hasNoHeavyStuff(LivingEntity livingEntity) {return countHeavyStuff(livingEntity) == 0;}
 
     //from in net.minecraft.server.world.ServerChunkLoadingManager sendChunkBiomePackets(..) method
     public static void refreshChunkColors(ServerPlayer player, ServerLevel world, int radius)

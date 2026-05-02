@@ -69,7 +69,7 @@ public class EffectTotemItem extends Item
 					}
 					else if (this == AerialHellItems.CURSED_TOTEM)
 					{
-						if (!(ItemHelper.getItemInTagCount(EntityHelper.getEquippedHumanoidArmorItemList(livingEntityIn), AerialHellTags.Items.SHADOW_ARMOR) >= 4))
+						if (!(ItemHelper.countItemStacksInTag(EntityHelper.getEquippedHumanoidArmorItemList(livingEntityIn), AerialHellTags.Items.SHADOW_ARMOR) >= 4))
 						{
 							livingEntityIn.addEffect(new MobEffectInstance(MobEffects.NAUSEA, 300, 0));
 							livingEntityIn.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 600, 0));
