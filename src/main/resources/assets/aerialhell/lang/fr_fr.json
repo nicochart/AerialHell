@@ -1167,6 +1167,11 @@
   "subtitles.aerialhell.item.forgotten_battle_trident.use": "Usage du Trident de Guerre Oublié",
   "subtitles.aerialhell.block.aerial_hell_portal.ambient": "Portail pour Aerial Hell",
 
+  "item.aerialhell.light_reactor_fuel.desc" : "Consommé dans le réacteur.",
+  "item.aerialhell.light_reactor_fuel.desc_2" : "Protège les environs contre les Ombres pendant ",
+  "item.aerialhell.shadow_reactor_fuel.desc" : "Consommé dans le réacteur.",
+  "item.aerialhell.shadow_reactor_fuel.desc_2" : "Répand les Ombres dans les environs pendant ",
+
   "item.aerialhell.block_updater" : "Block Updater",
   "item.aerialhell.block_updater.desc" : "Le Block Updater de nicochart (tenir dans la main principale)",
   "item.aerialhell.block_cracker" : "Block Cracker",

@@ -1,11 +1,10 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
-import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.ReactorBlock;
 import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
-import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -14,7 +13,6 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -25,13 +23,13 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public class ReactorBlockEntity extends BaseContainerBlockEntity implements BiomeShifter
 {
     protected NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
     public static int MAX_PROTECTION_DISTANCE = 100;
+    public static int FACTOR = 10;
     public static int MAX_ACTIVE_TIMER = 500000;
     private int activeTimer;
     private int fieldSize;
@@ -93,7 +91,6 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
 
     public boolean updateActiveTimer() //returns true if isActive, else false
     {
-        int active_factor = 10;
         boolean isActive = this.activeTimer > 0;
         if (isActive) {this.activeTimer--;}
 
@@ -103,18 +100,18 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
 
             if (this.shiftType == ShiftType.UNCORRUPT)
             {
-                if (OscillatorBlockEntity.getOscillatingMap().containsKey(stack.getItem()))
+                if (ItemHelper.getOscillatingMap().containsKey(stack.getItem()))
                 {
-                    this.activeTimer += active_factor * OscillatorBlockEntity.getOscillatingMap().get(stack.getItem());
+                    this.activeTimer += FACTOR * ItemHelper.getOscillatingMap().get(stack.getItem());
                     stack.shrink(1);
                     isActive = true;
                 }
             }
             else
             {
-                if (ReactorBlockEntity.getCorruptingMap().containsKey(stack.getItem()))
+                if (ItemHelper.getCorruptingMap().containsKey(stack.getItem()))
                 {
-                    this.activeTimer += active_factor * ReactorBlockEntity.getCorruptingMap().get(stack.getItem());
+                    this.activeTimer += FACTOR * ItemHelper.getCorruptingMap().get(stack.getItem());
                     stack.shrink(1);
                     isActive = true;
                 }
@@ -145,14 +142,4 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
     @Override public NonNullList<ItemStack> getItems() {return this.items;}
     @Override protected void setItems(NonNullList<ItemStack> items) {this.items = items;}
     @Override public int getContainerSize() {return this.items.size();}
-
-    public static Map<Item, Integer> getCorruptingMap()
-    {
-        Map<Item, Integer> map = Maps.newLinkedHashMap();
-        map.put(AerialHellItems.SHADOW_CRYSTAL.get(), 400);
-        map.put(AerialHellItems.SHADOW_SHARD.get(), 1000);
-        map.put(AerialHellItems.CURSED_CRYSAL.get(), 2000);
-        map.put(AerialHellItems.CURSED_CRYSAL_BLOCK.get(), 18000);
-        return map;
-    }
 }

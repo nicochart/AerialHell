@@ -1,13 +1,11 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
-import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
 
 import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -162,7 +160,7 @@ public class BerserkAxeItem extends AerialHellItem
 
 	@Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
 	{
-		this.getOptionalDescription(1).ifPresent(description -> tooltipAdder.accept(description.withStyle(ChatFormatting.GRAY)));
-		this.getOptionalDescription(2).ifPresent(description -> tooltipAdder.accept(description.append(Integer.toString(getStatus())).withStyle(ChatFormatting.GRAY)));
+		this.getOptionalItemDescription(1).ifPresent(description -> tooltipAdder.accept(description.withStyle(ChatFormatting.GRAY)));
+		this.getOptionalItemDescription(2).ifPresent(description -> tooltipAdder.accept(description.append(Integer.toString(getStatus())).withStyle(ChatFormatting.GRAY)));
 	}
 }

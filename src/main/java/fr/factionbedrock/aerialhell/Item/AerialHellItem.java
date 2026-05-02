@@ -32,6 +32,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.Equippable;
+import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
@@ -336,6 +337,8 @@ public class AerialHellItem extends WithInformationItem
 		@Override public AerialHellItem.Properties durability(int maxDamage) {return (AerialHellItem.Properties) super.durability(maxDamage);}
 
 		@Override public AerialHellItem.Properties fireResistant() {return (AerialHellItem.Properties) super.fireResistant();}
+
+		@Override public AerialHellItem.Properties trimMaterial(ResourceKey<TrimMaterial> material) {return (AerialHellItem.Properties) this.delayedHolderComponent(DataComponents.PROVIDES_TRIM_MATERIAL, material);}
 	}
 
 	//"tool types" that can be used with right click

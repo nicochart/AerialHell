@@ -1168,6 +1168,11 @@
   "subtitles.aerialhell.item.forgotten_battle_trident.use": "Elfeledett Harci Szigony döf",
   "subtitles.aerialhell.block.aerial_hell_portal.ambient": "Légi Pokol Portál zenél",
 
+  "item.aerialhell.light_reactor_fuel.desc" : "Consumed in the reactor.",
+  "item.aerialhell.light_reactor_fuel.desc_2" : "Protects surrounding area from shadows for ",
+  "item.aerialhell.shadow_reactor_fuel.desc" : "Consumed in the reactor.",
+  "item.aerialhell.shadow_reactor_fuel.desc_2" : "Spreads shadows in surrounding area for ",
+
   "item.aerialhell.block_updater": "Blokkfejlesztő",
   "item.aerialhell.block_updater.desc": "Nicochart Blokkfejlesztője (tartsd a Domináns kézben)",
   "item.aerialhell.block_cracker": "Blokktörő",

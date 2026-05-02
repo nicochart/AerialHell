@@ -10,7 +10,6 @@ import fr.factionbedrock.aerialhell.Item.Bucket.RubyWaterBucketItem;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterials;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellToolMaterials;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
-import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
 import fr.factionbedrock.aerialhell.Item.Tools.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellJukeboxSongs;
@@ -22,8 +21,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.Consumables;
@@ -251,17 +248,17 @@ public class AerialHellItems
     public static final DeferredItem<Item> SHADOW_STONE = ITEMS.register(Keys.SHADOW_STONE.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.SHADOW_STONE.get(), new Item.Properties().setId(Keys.SHADOW_STONE).useBlockDescriptionPrefix()));
 
     //crystal
-    public static final DeferredItem<Item> CRYSTAL_BLOCK = ITEMS.register(Keys.CRYSTAL_BLOCK.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.CRYSTAL_BLOCK.get(), new Item.Properties().setId(Keys.CRYSTAL_BLOCK).useBlockDescriptionPrefix()));
+    public static final DeferredItem<Item> CRYSTAL_BLOCK = ITEMS.register(Keys.CRYSTAL_BLOCK.identifier().getPath(), () -> new WithInformationBlockItem(AerialHellBlocks.CRYSTAL_BLOCK.get(), new Item.Properties().setId(Keys.CRYSTAL_BLOCK).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> CRYSTAL_BRICKS = ITEMS.register(Keys.CRYSTAL_BRICKS.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS.get(), new Item.Properties().setId(Keys.CRYSTAL_BRICKS).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> CRYSTAL_BRICKS_SLAB = ITEMS.register(Keys.CRYSTAL_BRICKS_SLAB.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS_SLAB.get(), new Item.Properties().setId(Keys.CRYSTAL_BRICKS_SLAB).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> CRYSTAL_BRICKS_STAIRS = ITEMS.register(Keys.CRYSTAL_BRICKS_STAIRS.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS_STAIRS.get(), new Item.Properties().setId(Keys.CRYSTAL_BRICKS_STAIRS).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> CRYSTAL_BRICKS_WALL = ITEMS.register(Keys.CRYSTAL_BRICKS_WALL.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS_WALL.get(), new Item.Properties().setId(Keys.CRYSTAL_BRICKS_WALL).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> STELLAR_STONE_CRYSTAL_BLOCK = ITEMS.register(Keys.STELLAR_STONE_CRYSTAL_BLOCK.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK.get(), new Item.Properties().setId(Keys.STELLAR_STONE_CRYSTAL_BLOCK).useBlockDescriptionPrefix()));
-    public static final DeferredItem<Item> SHADOW_CRYSTAL_BLOCK = ITEMS.register(Keys.SHADOW_CRYSTAL_BLOCK.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK.get(), new Item.Properties().setId(Keys.SHADOW_CRYSTAL_BLOCK).useBlockDescriptionPrefix().rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final DeferredItem<Item> SHADOW_CRYSTAL_BLOCK = ITEMS.register(Keys.SHADOW_CRYSTAL_BLOCK.identifier().getPath(), () -> new WithInformationBlockItem(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK.get(), new Item.Properties().setId(Keys.SHADOW_CRYSTAL_BLOCK).useBlockDescriptionPrefix().rarity(AerialHellRarities.CORRUPTED.getValue())));
     public static final DeferredItem<Item> CRYSTALLIZED_LEAVES = ITEMS.register(Keys.CRYSTALLIZED_LEAVES.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.CRYSTALLIZED_LEAVES.get(), new Item.Properties().setId(Keys.CRYSTALLIZED_LEAVES).useBlockDescriptionPrefix()));
-    public static final DeferredItem<Item> CRYSTAL = ITEMS.register(Keys.CRYSTAL.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.CRYSTAL)));
+    public static final DeferredItem<Item> CRYSTAL = ITEMS.register(Keys.CRYSTAL.identifier().getPath(), () -> new WithInformationItem(new Item.Properties().setId(Keys.CRYSTAL)));
     public static final DeferredItem<Item> STELLAR_STONE_CRYSTAL = ITEMS.register(Keys.STELLAR_STONE_CRYSTAL.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.STELLAR_STONE_CRYSTAL)));
-    public static final DeferredItem<Item> SHADOW_CRYSTAL = ITEMS.register(Keys.SHADOW_CRYSTAL.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.SHADOW_CRYSTAL).rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final DeferredItem<Item> SHADOW_CRYSTAL = ITEMS.register(Keys.SHADOW_CRYSTAL.identifier().getPath(), () -> new WithInformationItem(new Item.Properties().setId(Keys.SHADOW_CRYSTAL).rarity(AerialHellRarities.CORRUPTED.getValue())));
 
     //glass and glass pane
     public static final DeferredItem<Item> SLIPPERY_SAND_GLASS = ITEMS.register(Keys.SLIPPERY_SAND_GLASS.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.SLIPPERY_SAND_GLASS.get(), new Item.Properties().setId(Keys.SLIPPERY_SAND_GLASS).useBlockDescriptionPrefix()));
@@ -470,13 +467,13 @@ public class AerialHellItems
     public static final DeferredItem<Item> RAW_AZURITE = ITEMS.register(Keys.RAW_AZURITE.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.RAW_AZURITE)));
     public static final DeferredItem<Item> RAW_VOLUCITE = ITEMS.register(Keys.RAW_VOLUCITE.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.RAW_VOLUCITE)));
 
-    public static final DeferredItem<Item> FLUORITE_BLOCK = ITEMS.register(Keys.FLUORITE_BLOCK.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.FLUORITE_BLOCK.get(), new Item.Properties().setId(Keys.FLUORITE_BLOCK).useBlockDescriptionPrefix()));
+    public static final DeferredItem<Item> FLUORITE_BLOCK = ITEMS.register(Keys.FLUORITE_BLOCK.identifier().getPath(), () -> new WithInformationBlockItem(AerialHellBlocks.FLUORITE_BLOCK.get(), new Item.Properties().setId(Keys.FLUORITE_BLOCK).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> MAGMATIC_GEL_BLOCK = ITEMS.register(Keys.MAGMATIC_GEL_BLOCK.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.MAGMATIC_GEL_BLOCK.get(), new Item.Properties().setId(Keys.MAGMATIC_GEL_BLOCK).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> RUBY_BLOCK = ITEMS.register(Keys.RUBY_BLOCK.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.RUBY_BLOCK.get(), new Item.Properties().setId(Keys.RUBY_BLOCK).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> AZURITE_BLOCK = ITEMS.register(Keys.AZURITE_BLOCK.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.AZURITE_BLOCK.get(), new Item.Properties().setId(Keys.AZURITE_BLOCK).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> VOLUCITE_BLOCK = ITEMS.register(Keys.VOLUCITE_BLOCK.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.VOLUCITE_BLOCK.get(), new Item.Properties().setId(Keys.VOLUCITE_BLOCK).useBlockDescriptionPrefix()));
 
-    public static final DeferredItem<Item> FLUORITE = ITEMS.register(Keys.FLUORITE.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.FLUORITE).trimMaterial(AerialHellTrimMaterials.Keys.FLUORITE)));
+    public static final DeferredItem<Item> FLUORITE = ITEMS.register(Keys.FLUORITE.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.FLUORITE).trimMaterial(AerialHellTrimMaterials.Keys.FLUORITE)));
     public static final DeferredItem<Item> MAGMATIC_GEL = ITEMS.register(Keys.MAGMATIC_GEL.identifier().getPath(),() -> new Item(new Item.Properties().setId(Keys.MAGMATIC_GEL).trimMaterial(AerialHellTrimMaterials.Keys.MAGMATIC_GEL)));
     public static final DeferredItem<Item> RUBY = ITEMS.register(Keys.RUBY.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.RUBY).trimMaterial(AerialHellTrimMaterials.Keys.RUBY)));
     public static final DeferredItem<Item> AZURITE_CRYSTAL = ITEMS.register(Keys.AZURITE_CRYSTAL.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.AZURITE_CRYSTAL)));
@@ -489,11 +486,11 @@ public class AerialHellItems
     public static final DeferredItem<Item> ARSONIST_INGOT = ITEMS.register(Keys.ARSONIST_INGOT.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.ARSONIST_INGOT).trimMaterial(AerialHellTrimMaterials.Keys.ARSONIST_INGOT).rarity(AerialHellRarities.LEGENDARY.getValue()).fireResistant()));
     public static final DeferredItem<Item> LUNATIC_CRYSTAL = ITEMS.register(Keys.LUNATIC_CRYSTAL.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.LUNATIC_CRYSTAL).trimMaterial(AerialHellTrimMaterials.Keys.LUNATIC_CRYSTAL).rarity(AerialHellRarities.LEGENDARY.getValue())));
     public static final DeferredItem<Item> OBSIDIAN_SHARD = ITEMS.register(Keys.OBSIDIAN_SHARD.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.OBSIDIAN_SHARD).trimMaterial(AerialHellTrimMaterials.Keys.OBSIDIAN_SHARD).rarity(Rarity.EPIC)));
-    public static final DeferredItem<Item> CURSED_CRYSAL = ITEMS.register(Keys.CURSED_CRYSAL.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.CURSED_CRYSAL).trimMaterial(AerialHellTrimMaterials.Keys.CURSED_CRYSTAL).rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final DeferredItem<Item> CURSED_CRYSTAL = ITEMS.register(Keys.CURSED_CRYSAL.identifier().getPath(), () -> new WithInformationItem(new Item.Properties().setId(Keys.CURSED_CRYSAL).trimMaterial(AerialHellTrimMaterials.Keys.CURSED_CRYSTAL).rarity(AerialHellRarities.CORRUPTED.getValue())));
 
     public static final DeferredItem<Item> ARSONIST_BLOCK = ITEMS.register(Keys.ARSONIST_BLOCK.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.ARSONIST_BLOCK.get(), new Item.Properties().setId(Keys.ARSONIST_BLOCK).useBlockDescriptionPrefix().rarity(AerialHellRarities.LEGENDARY.getValue()).fireResistant()));
     public static final DeferredItem<Item> LUNATIC_CRYSTAL_BLOCK = ITEMS.register(Keys.LUNATIC_CRYSTAL_BLOCK.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.LUNATIC_CRYSTAL_BLOCK.get(), new Item.Properties().setId(Keys.LUNATIC_CRYSTAL_BLOCK).useBlockDescriptionPrefix().rarity(AerialHellRarities.LEGENDARY.getValue())));
-    public static final DeferredItem<Item> CURSED_CRYSAL_BLOCK = ITEMS.register(Keys.CURSED_CRYSAL_BLOCK.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.CURSED_CRYSAL_BLOCK.get(), new Item.Properties().setId(Keys.CURSED_CRYSAL_BLOCK).useBlockDescriptionPrefix().rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final DeferredItem<Item> CURSED_CRYSAL_BLOCK = ITEMS.register(Keys.CURSED_CRYSAL_BLOCK.identifier().getPath(), () -> new WithInformationBlockItem(AerialHellBlocks.CURSED_CRYSAL_BLOCK.get(), new Item.Properties().setId(Keys.CURSED_CRYSAL_BLOCK).useBlockDescriptionPrefix().rarity(AerialHellRarities.CORRUPTED.getValue())));
 
     //cactus
     public static final DeferredItem<Item> SKY_CACTUS = ITEMS.register(Keys.SKY_CACTUS.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.SKY_CACTUS.get(), new Item.Properties().setId(Keys.SKY_CACTUS).useBlockDescriptionPrefix()));
@@ -771,7 +768,7 @@ public class AerialHellItems
     //item for crafts
     public static final DeferredItem<Item> SKY_STICK = ITEMS.register(Keys.SKY_STICK.identifier().getPath(),() -> new BurnableItem(new Item.Properties().setId(Keys.SKY_STICK), 100));
     public static final DeferredItem<Item> SKY_BOWL = ITEMS.register(Keys.SKY_BOWL.identifier().getPath(),() -> new BurnableItem(new Item.Properties().setId(Keys.SKY_BOWL), 200));
-    public static final DeferredItem<Item> SHADOW_SHARD = ITEMS.register(Keys.SHADOW_SHARD.identifier().getPath(),() -> new Item(new Item.Properties().setId(Keys.SHADOW_SHARD).rarity(AerialHellRarities.CORRUPTED.getValue())));
+    public static final DeferredItem<Item> SHADOW_SHARD = ITEMS.register(Keys.SHADOW_SHARD.identifier().getPath(),() -> new WithInformationItem(new Item.Properties().setId(Keys.SHADOW_SHARD).rarity(AerialHellRarities.CORRUPTED.getValue())));
     public static final DeferredItem<Item> ROTTEN_LEATHER = ITEMS.register(Keys.ROTTEN_LEATHER.identifier().getPath(),() -> new Item(new Item.Properties().setId(Keys.ROTTEN_LEATHER)));
     public static final DeferredItem<Item> VENOMOUS_SNAKE_SKIN = ITEMS.register(Keys.VENOMOUS_SNAKE_SKIN.identifier().getPath(),() -> new Item(new Item.Properties().setId(Keys.VENOMOUS_SNAKE_SKIN)));
     public static final DeferredItem<Item> ARSONIST_UPGRADE_SMITHING_TEMPLATE = ITEMS.register(Keys.ARSONIST_UPGRADE_SMITHING_TEMPLATE.identifier().getPath(), () -> ItemHelper.SmithingTemplate.createUpgradeTemplate("arsonist", new Item.Properties().setId(Keys.ARSONIST_UPGRADE_SMITHING_TEMPLATE)));

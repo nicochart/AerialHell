@@ -834,7 +834,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellItems.ARSONIST_INGOT.get());
             itemsToAdd.add(AerialHellItems.LUNATIC_CRYSTAL.get());
             itemsToAdd.add(AerialHellItems.OBSIDIAN_SHARD.get());
-            itemsToAdd.add(AerialHellItems.CURSED_CRYSAL.get());
+            itemsToAdd.add(AerialHellItems.CURSED_CRYSTAL.get());
 
             itemsToAdd.add(AerialHellItems.ARSONIST_UPGRADE_SMITHING_TEMPLATE.get());
 

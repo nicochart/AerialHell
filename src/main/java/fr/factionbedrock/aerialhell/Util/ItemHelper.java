@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Util;
 
+import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class ItemHelper
@@ -84,5 +86,48 @@ public class ItemHelper
         {
             livingEntity.removeEffect(AerialHellMobEffects.VULNERABILITY);
         }
+    }
+
+    public static Map<Item, Integer> getOscillatingMap()
+    {
+        Map<Item, Integer> map = Maps.newLinkedHashMap();
+        map.put(AerialHellItems.FLUORITE.get(), 1200);
+        map.put(AerialHellItems.FLUORITE_BLOCK.get(), 10800);
+        map.put(AerialHellItems.CRYSTAL.get(), 300);
+        map.put(AerialHellItems.CRYSTAL_BLOCK.get(), 1200);
+        return map;
+    }
+
+    public static Map<Item, Integer> getCorruptingMap()
+    {
+        Map<Item, Integer> map = Maps.newLinkedHashMap();
+        map.put(AerialHellItems.SHADOW_CRYSTAL.get(), 400);
+        map.put(AerialHellItems.SHADOW_CRYSTAL_BLOCK.get(), 3600);
+        map.put(AerialHellItems.SHADOW_SHARD.get(), 1000);
+        map.put(AerialHellItems.CURSED_CRYSTAL.get(), 2000);
+        map.put(AerialHellItems.CURSED_CRYSAL_BLOCK.get(), 18000);
+        return map;
+    }
+
+    public static String getTimeStringFromTicks(int ticks)
+    {
+        int secondsToRegain = ticks / 20;
+        return getTimeStringFromSeconds(secondsToRegain);
+    }
+
+    public static String getTimeStringFromSeconds(int secs)
+    {
+        int days = secs / 86400;
+        int hours = (secs % 86400) / 3600;
+        int minutes = (secs % 3600) / 60;
+        int seconds = secs % 60;
+
+        StringBuilder sb = new StringBuilder();
+        if (days > 0) sb.append(days).append("d ");
+        if (hours > 0 || days > 0) sb.append(hours).append("h ");
+        if (minutes > 0 || hours > 0 || days > 0) sb.append(minutes).append("m ");
+        sb.append(seconds).append("s");
+
+        return sb.toString().trim();
     }
 }
