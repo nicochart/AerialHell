@@ -1,10 +1,13 @@
-package fr.factionbedrock.aerialhell.Integration.JEI;
+package fr.factionbedrock.aerialhell.Integration;
 
 import com.google.common.collect.ImmutableMap;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Recipe.FreezingRecipe;
 import fr.factionbedrock.aerialhell.Recipe.OscillatingRecipe;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import me.shedaniel.rei.api.common.entry.EntryIngredient;
+import me.shedaniel.rei.api.common.entry.EntryStack;
+import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -16,7 +19,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import java.util.List;
 import java.util.Map;
 
-public class JEIHelper
+public class IntegrationHelper
 {
     public static List<RecipeHolder<OscillatingRecipe>> createOscillatingRecipeHolderList()
     {
@@ -50,6 +53,11 @@ public class JEIHelper
     public static FreezingRecipe createFreezingRecipe(List<Item> ingredient, Item result)
     {
         return new FreezingRecipe("", null, Ingredient.of(ingredient.stream()), result.getDefaultInstance(), 0, 200);
+    }
+
+    public static EntryIngredient toReiIngredient(List<Item> items)
+    {
+        return EntryIngredient.of(items.stream().map(EntryStacks::of).toArray(EntryStack[]::new));
     }
 
     public static Map<List<Item>, Item> OSCILLATING_MAP = new ImmutableMap.Builder<List<Item>, Item>()

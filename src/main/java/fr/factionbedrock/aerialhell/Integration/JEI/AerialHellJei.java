@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Integration.JEI;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.FreezerScreen;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.OscillatorScreen;
+import fr.factionbedrock.aerialhell.Integration.IntegrationHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -31,8 +32,8 @@ public class AerialHellJei implements IModPlugin
         registration.getJeiHelpers().getGuiHelper().createDrawable(OscillatorScreen.OSCILLATOR_GUI_TEXTURES, 57, 36, 13, 13);
         registration.getJeiHelpers().getGuiHelper().createDrawable(FreezerScreen.FREEZER_GUI_TEXTURES, 57, 36, 13, 13);
 
-        registration.addRecipes(OscillatingRecipeCategory.OSCILLATING, JEIHelper.createOscillatingRecipeHolderList());
-        registration.addRecipes(FreezingRecipeCategory.FREEZING, JEIHelper.createFreezingRecipeHolderList());
+        registration.addRecipes(OscillatingRecipeCategory.OSCILLATING, IntegrationHelper.createOscillatingRecipeHolderList());
+        registration.addRecipes(FreezingRecipeCategory.FREEZING, IntegrationHelper.createFreezingRecipeHolderList());
     }
 
     @Override public void registerRecipeCatalysts(IRecipeCatalystRegistration registration)
