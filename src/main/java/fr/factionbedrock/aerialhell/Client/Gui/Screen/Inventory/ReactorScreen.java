@@ -13,9 +13,10 @@ import net.minecraft.world.entity.player.Inventory;
 public class ReactorScreen extends AbstractContainerScreen<ReactorMenu>
 {
     private static final Identifier REACTOR_BACKGROUND = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/reactor.png");
-    private static final Identifier LIGHT_PROGRESS = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/sprites/container/reactor/progress.png");
+    private static final Identifier LIGHT_PROGRESS = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/sprites/container/reactor/light_progress.png");
+    private static final Identifier SHADOW_PROGRESS = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/sprites/container/reactor/shadow_progress.png");
 
-    private static final int CENTER_X = 89;
+    private static final int CENTER_X = 88;
     private static final int CENTER_Y = 45;
     private static final int WIDTH = 140;
     private static final int HEIGHT = 50;
@@ -37,6 +38,7 @@ public class ReactorScreen extends AbstractContainerScreen<ReactorMenu>
         graphics.blit(RenderPipelines.GUI_TEXTURED, REACTOR_BACKGROUND, i, j, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
 
         float proportion = this.menu.getActivePercent() / 100.0F;
+        Identifier progressIdentifier = this.menu.isLightReactor() ? LIGHT_PROGRESS : SHADOW_PROGRESS;
 
         float displayedProportion;
 
@@ -53,7 +55,7 @@ public class ReactorScreen extends AbstractContainerScreen<ReactorMenu>
 
         if (fillX > 0 && fillY > 0)
         {
-            graphics.blit(RenderPipelines.GUI_TEXTURED, LIGHT_PROGRESS, i + CENTER_X - fillX, j + CENTER_Y - fillY, HALF_WIDTH - fillX, HALF_HEIGHT - fillY, fillX * 2, fillY * 2, 140, 50);
+            graphics.blit(RenderPipelines.GUI_TEXTURED, progressIdentifier, i + CENTER_X - fillX, j + CENTER_Y - fillY, HALF_WIDTH - fillX, HALF_HEIGHT - fillY, fillX * 2, fillY * 2, 140, 50);
         }
     }
 }

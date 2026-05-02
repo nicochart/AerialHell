@@ -32,6 +32,7 @@ public class ReactorMenu extends AbstractContainerMenu
     }
 
     public int getActivePercent() {return this.data.get(0);}
+    public boolean isLightReactor() {return this.data.get(1) == 0;}
 
     private void createBlockEntityInventory(Container container)
     {

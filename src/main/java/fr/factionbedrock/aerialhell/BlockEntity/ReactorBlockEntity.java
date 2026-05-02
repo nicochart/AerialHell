@@ -42,7 +42,12 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
     {
         @Override public int get(int index)
         {
-            return (int) ((float) ReactorBlockEntity.this.activeTimer / (float) ReactorBlockEntity.MAX_ACTIVE_TIMER * 100.0F);
+            return switch (index)
+            {
+                case 0 -> (int) ((float) ReactorBlockEntity.this.activeTimer / (float) ReactorBlockEntity.MAX_ACTIVE_TIMER * 100.0F);
+                case 1 -> (ReactorBlockEntity.this.shiftType == ShiftType.UNCORRUPT) ? 0 : 1;
+                default -> 0;
+            };
         }
 
         @Override public void set(int index, int value)
@@ -50,7 +55,7 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
 
         }
 
-        @Override public int getCount() {return 1;}
+        @Override public int getCount() {return 2;}
     };
 
     public ContainerData getContainerData() {return this.containerData;}
