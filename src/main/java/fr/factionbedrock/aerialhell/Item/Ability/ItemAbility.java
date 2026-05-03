@@ -12,16 +12,20 @@ import java.util.List;
 
 public class ItemAbility
 {
+    private String descId;
     private final ModuleList passiveModules;
     private final ModuleList onUseModules;
     private final ModuleList onHurtEnemyModules;
 
-    ItemAbility(ModuleList passiveModules, ModuleList onUseModules, ModuleList onHurtEnemyModules)
+    ItemAbility(String descId, ModuleList passiveModules, ModuleList onUseModules, ModuleList onHurtEnemyModules)
     {
+        this.descId = descId;
         this.passiveModules = passiveModules;
         this.onUseModules = onUseModules;
         this.onHurtEnemyModules = onHurtEnemyModules;
     }
+
+    public String getDescId() {return this.descId;}
 
     public boolean tryApplyModules(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot, AbilityUseSituation useSituation)
     {
@@ -106,6 +110,7 @@ public class ItemAbility
 
     public static class Builder
     {
+        private String descId;
         private final ModuleList.Builder passiveModules;
         private final ModuleList.Builder onUseModules;
         private final ModuleList.Builder onHurtEnemyModules;
@@ -116,7 +121,10 @@ public class ItemAbility
             this.passiveModules = passiveModules;
             this.onUseModules = onUseModules;
             this.onHurtEnemyModules = onHurtEnemyModules;
+            this.descId = "";
         }
+
+        public ItemAbility.Builder setDescId(String descId) {this.descId = descId; return this;}
 
         public ItemAbility.Builder addPassiveModules(ModuleList modules) {this.passiveModules.addAll(modules); return this;}
         public ItemAbility.Builder addOnUseModules(ModuleList modules) {this.onUseModules.addAll(modules); return this;}
@@ -137,7 +145,7 @@ public class ItemAbility
 
         public ItemAbility build()
         {
-            return new ItemAbility(this.passiveModules.build(), this.onUseModules.build(), this.onHurtEnemyModules.build());
+            return new ItemAbility(this.descId, this.passiveModules.build(), this.onUseModules.build(), this.onHurtEnemyModules.build());
         }
     }
 }

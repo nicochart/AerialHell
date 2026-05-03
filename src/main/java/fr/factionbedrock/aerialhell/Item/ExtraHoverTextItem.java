@@ -19,6 +19,20 @@ public interface ExtraHoverTextItem
 {
     Item getSelf();
 
+    default void appendOptionalDescriptionsHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder)
+    {
+        this.getOptionalItemDescription(1).ifPresent(description -> tooltipAdder.accept(description.withStyle(ChatFormatting.GRAY)));
+        this.getOptionalItemDescription(2).ifPresent(description -> tooltipAdder.accept(description.withStyle(ChatFormatting.GRAY)));
+        this.getOptionalItemDescription(3).ifPresent(description -> tooltipAdder.accept(description.withStyle(ChatFormatting.GRAY)));
+    }
+
+    default void appendOptionalDescriptionHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder, String key, ChatFormatting formatting)
+    {
+        this.getOptionalDescription(key).ifPresent(description -> tooltipAdder.accept(description.withStyle(formatting)));
+    }
+
+    default void appendAbilityDescriptionHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder) {}
+
     default void appendReactorMenuHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder)
     {
         Player player = context.player();

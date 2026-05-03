@@ -56,8 +56,7 @@ public class AerialHellItemAbilities
 
     private static final SideEffectModule.Cooldown NETHERIAN_KING_SWORD_COOLDOWN = SideEffectModule.Cooldown.builder().of(((entity) -> EntityHelper.hasFullArsonistStuff(entity) ? 300 : 600));
 
-    private static final SideEffectModule.Cooldown LIGHT_AXE_COOLDOWN = SideEffectModule.Cooldown.builder().of(((entity) -> EntityHelper.hasFullLunaticStuff(entity) ? 160 : 320));
-    private static final SideEffectModule.Cooldown LIGHT_SWORD_COOLDOWN = SideEffectModule.Cooldown.builder().of(((entity) -> EntityHelper.hasFullLunaticStuff(entity) ? 80 : 160));
+    private static final SideEffectModule.Cooldown LIGHT_WEAPON_COOLDOWN = SideEffectModule.Cooldown.builder().of(((entity) -> EntityHelper.hasFullLunaticStuff(entity) ? 80 : 160));
 
     private static final ActionModule.ThrowProjectile.Builder THROW_PROJECTILE = ActionModule.ThrowProjectile.builder();
 
@@ -136,6 +135,7 @@ public class AerialHellItemAbilities
             .build();
 
     public static final ItemAbility NINJA_SWORD = ItemAbility.builder()
+            .setDescId("ninja")
             .inheritsOf(NINJA_SWORD_COMMON)
             .addOnUseModules(ModuleList.builder()
                     .addActions(INVISIBILITY_EFFECT.withDuration(200), SPEED_EFFECT.withDuration(120))
@@ -144,6 +144,7 @@ public class AerialHellItemAbilities
             .build();
 
     public static final ItemAbility NINJA_MASTER_SWORD = ItemAbility.builder()
+            .setDescId("ninja_master")
             .inheritsOf(NINJA_SWORD_COMMON)
             .addOnUseModules(ModuleList.builder()
                     .addActions(INVISIBILITY_EFFECT.withDuration(220), SPEED_EFFECT.with(160, 1))
@@ -152,6 +153,7 @@ public class AerialHellItemAbilities
             .build();
 
     public static final ItemAbility RANDOM_SWORD = ItemAbility.builder()
+            .setDescId("random_sword")
             .addOnUseModules(ModuleList.builder()
                     .addActions(RANDOM_SWORD_RANDOM_EFFECT, ENCHANT_PARTICLES.of(20), ENCHANTMENT_TABLE_USE_SOUND)
                     .addSideEffects(COOLDOWN.of(900), DAMAGE_ITEM)
@@ -159,6 +161,7 @@ public class AerialHellItemAbilities
             .build();
 
     public static final ItemAbility ANTIDOTE_SWORD = ItemAbility.builder()
+            .setDescId("antidote_sword")
             .addOnUseModules(ModuleList.builder()
                     .addActions(REMOVE_EFFECT.effects(MobEffects.POISON, MobEffects.WITHER), SPORE_BLOSSOM_AIR_PARTICLES.of(20), GENERIC_DRINK_SOUND)
                     .addConditions(HAS_POISON_OR_WITHER)
@@ -167,6 +170,7 @@ public class AerialHellItemAbilities
             .build();
 
     public static final ItemAbility GLOUTON_SWORD = ItemAbility.builder()
+            .setDescId("glouton_sword")
             .addOnUseModules(ModuleList.builder()
                     .addActions(SATURATION_EFFECT.withDuration(1), REGENERATION_EFFECT.withDuration(40), GENERIC_EAT_SOUND)
                     .addConditions(PLAYER_CAN_EAT)
@@ -175,6 +179,7 @@ public class AerialHellItemAbilities
             .build();
 
     public static final ItemAbility NETHERIAN_KING_SWORD = ItemAbility.builder()
+            .setDescId("netherian_king")
             .addOnUseModules(ModuleList.builder()
                     .addActions(FIRE_RESISTANCE_EFFECT.withDuration(280), FLAME_PARTICLES.of(20), GENERIC_EXTINGUISH_FIRE_SOUND)
                     .addConditions(NOT_IN_WATER_OR_RAIN)
@@ -182,50 +187,21 @@ public class AerialHellItemAbilities
                     .build())
             .build();
 
-    private static final ItemAbility LIGHT_WEAPON_COMMON = ItemAbility.builder()
+    public static final ItemAbility SPREAD_LIGHT = ItemAbility.builder()
+            .setDescId("spread_light")
             .addOnUseModules(ModuleList.builder()
-                    .addActions(THROW_PROJECTILE.build(AerialHellEntities.LUNATIC_PROJECTILE.get(), 0.7f, 0))
+                    .addActions(THROW_PROJECTILE.build(AerialHellEntities.LUNATIC_PROJECTILE.get(), 0.7f, 0), WEAKNESS_EFFECT.with((entity) -> LIGHT_WEAPON_COOLDOWN.getCooldownDuration(entity) / 3, (entity) -> 2))
                     .addConditions(HAS_NO_SHADOW_STUFF)
-                    .addSideEffects(DAMAGE_ITEM)
+                    .addSideEffects(LIGHT_WEAPON_COOLDOWN, DAMAGE_ITEM)
                     .build())
             .build();
 
-    public static final ItemAbility AXE_OF_LIGHT = ItemAbility.builder()
-            .inheritsOf(LIGHT_WEAPON_COMMON)
+    public static final ItemAbility VOLUCITE_POWER = ItemAbility.builder()
+            .setDescId("volucite_power")
             .addOnUseModules(ModuleList.builder()
-                    .addActions(WEAKNESS_EFFECT.with((entity) -> LIGHT_AXE_COOLDOWN.getCooldownDuration(entity) / 2, (entity) -> 2))
-                    .addSideEffects(LIGHT_AXE_COOLDOWN)
-                    .build())
-            .build();
-
-    public static final ItemAbility SWORD_OF_LIGHT = ItemAbility.builder()
-            .inheritsOf(LIGHT_WEAPON_COMMON)
-            .addOnUseModules(ModuleList.builder()
-                    .addActions(WEAKNESS_EFFECT.with((entity) -> LIGHT_SWORD_COOLDOWN.getCooldownDuration(entity) / 2, (entity) -> 2))
-                    .addSideEffects(LIGHT_SWORD_COOLDOWN)
-                    .build())
-            .build();
-
-    private static final ItemAbility VOLUCITE_POWER_COMMON = ItemAbility.builder()
-            .addOnUseModules(ModuleList.builder()
-                    .addActions(CLOUD_PARTICLES.of(20), ILLUSIONER_CAST_SPELL_SOUND)
+                    .addActions(SLOW_FALLING_EFFECT.with((entity) -> EntityHelper.hasFullVoluciteStuff(entity) ? 120 : 80, (entity) -> 0), HEAD_IN_THE_CLOUDS_EFFECT.with((entity) -> EntityHelper.hasFullVoluciteStuff(entity) ? 100 : 0, (entity) -> 1), CLOUD_PARTICLES.of(20), ILLUSIONER_CAST_SPELL_SOUND)
                     .addConditions(HAS_NO_HEAVY_STUFF)
                     .addSideEffects(COOLDOWN.of(250), DAMAGE_ITEM)
-                    .build())
-            .build();
-
-    public static final ItemAbility HALF_VOLUCITE_POWER = ItemAbility.builder()
-            .inheritsOf(VOLUCITE_POWER_COMMON)
-            .addOnUseModules(ModuleList.builder()
-                    .addActions(SLOW_FALLING_EFFECT.withDuration(80))
-                    .build())
-            .build();
-
-    public static final ItemAbility FULL_VOLUCITE_POWER = ItemAbility.builder()
-            .inheritsOf(VOLUCITE_POWER_COMMON)
-            .addOnUseModules(ModuleList.builder()
-                    .addActions(SLOW_FALLING_EFFECT.withDuration(120), HEAD_IN_THE_CLOUDS_EFFECT.with(100, 1))
-                    .addConditions(HAS_FULL_VOLUCITE_STUFF)
                     .build())
             .build();
 
@@ -237,6 +213,7 @@ public class AerialHellItemAbilities
             .build();
 
     public static final ItemAbility GLASS_CANNON_LIFTOFF = ItemAbility.builder()
+            .setDescId("glass_cannon_liftoff")
             .inheritsOf(GLASS_CANNON_SWORD_COMMON)
             .addOnUseModules(ModuleList.builder()
                     .addActions(LIFT_OFF, SLOW_FALLING_EFFECT.with(200, 2), GENERIC_EXPLODE_SOUND)
@@ -246,6 +223,7 @@ public class AerialHellItemAbilities
             .build();
 
     public static final ItemAbility GLASS_CANNON_ARMORED_GLASS = ItemAbility.builder()
+            .setDescId("glass_cannon_armored_glass")
             .inheritsOf(GLASS_CANNON_SWORD_COMMON)
             .addOnUseModules(ModuleList.builder()
                     .addActions(RESISTANCE_EFFECT.with(200, 1), SLOWNESS_EFFECT.with(100, 0), GLASS_BREAK_SOUND)
@@ -255,6 +233,7 @@ public class AerialHellItemAbilities
             .build();
 
     public static final ItemAbility REAPER_WALK = ItemAbility.builder()
+            .setDescId("reaper_walk")
             .addOnUseModules(ModuleList.builder()
                     .addActions(INVISIBILITY_EFFECT.withDuration(200), SPEED_EFFECT.withDuration(120), SHADOW_IMMUNITY_EFFECT.withDuration(120), SHADOW_LIGHT_PARTICLES.of(20), ILLUSIONER_CAST_SPELL_SOUND)
                     .addConditions(HAS_NO_LUNATIC_STUFF)
@@ -263,6 +242,7 @@ public class AerialHellItemAbilities
             .build();
 
     public static final ItemAbility MAGMA_CUBE = ItemAbility.builder()
+            .setDescId("magma_cube")
             .addPassiveModules(ModuleList.builder()
                     .addActions(JUMP_BOOST_EFFECT.passiveBuild())
                     .addConditions(STACK_IN_MAIN_OR_OFF_HAND_PASSIVE)
@@ -274,6 +254,7 @@ public class AerialHellItemAbilities
             .build();
 
     public static final ItemAbility FORGOTTEN_BATTLE_TRIDENT = ItemAbility.builder()
+            .setDescId("forgotten_battle_trident")
             .addOnUseModules(ModuleList.builder()
                     .addActions(WATER_BREATHING_EFFECT.withDuration(120), DOLPHINS_GRACE_EFFECT.withDuration(120), SPEED_EFFECT.withDuration(120), STRENGTH_EFFECT.withDuration(300), DRIPPING_WATER_PARTICLES.of(20), FORGOTTEN_BATTLE_TRIDENT_USE_SOUND)
                     .addSideEffects(COOLDOWN.of(540), DAMAGE_ITEM)
@@ -281,6 +262,7 @@ public class AerialHellItemAbilities
             .build();
 
     public static final ItemAbility GOD = ItemAbility.builder()
+            .setDescId("god")
             .addPassiveModules(ModuleList.builder()
                     .addActions(GOD_EFFECT.passiveBuild())
                     .addConditions(STACK_IN_MAIN_OR_OFF_HAND_PASSIVE)
