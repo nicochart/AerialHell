@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Item.Ability.ModuleAction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -46,7 +47,8 @@ public class ActionModule extends AbilityModule
             {
                 if (!entity.level().isClientSide())
                 {
-                    entity.addEffect(template.createNewInstance(entity));
+                    @Nullable MobEffectInstance instance = template.createNewInstance(entity);
+                    if (instance != null) {entity.addEffect(instance);}
                 }
             });
         }
@@ -103,7 +105,9 @@ public class ActionModule extends AbilityModule
                     {
                         for (MobEffectTemplate template : templateList.get(entity))
                         {
-                            entity.addEffect(template.createNewInstance(entity));
+                            @Nullable MobEffectInstance instance = template.createNewInstance(entity);
+                            if (instance != null) {entity.addEffect(instance);}
+
                         }
                     }
                 }

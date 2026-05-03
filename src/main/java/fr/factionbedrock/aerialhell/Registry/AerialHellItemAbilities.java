@@ -199,7 +199,7 @@ public class AerialHellItemAbilities
     public static final ItemAbility VOLUCITE_POWER = ItemAbility.builder()
             .setDescId("volucite_power")
             .addOnUseModules(ModuleList.builder()
-                    .addActions(SLOW_FALLING_EFFECT.with((entity) -> EntityHelper.hasFullVoluciteStuff(entity) ? 120 : 80, (entity) -> 0), HEAD_IN_THE_CLOUDS_EFFECT.with((entity) -> EntityHelper.hasFullVoluciteStuff(entity) ? 100 : 0, (entity) -> 1), CLOUD_PARTICLES.of(20), ILLUSIONER_CAST_SPELL_SOUND)
+                    .addActions(SLOW_FALLING_EFFECT.with((entity) -> EntityHelper.hasFullVoluciteStuff(entity) ? 120 : 80, (entity) -> 0), HEAD_IN_THE_CLOUDS_EFFECT.with((entity) -> EntityHelper.hasFullVoluciteStuff(entity) ? 100 : -1, (entity) -> 1), CLOUD_PARTICLES.of(20), ILLUSIONER_CAST_SPELL_SOUND)
                     .addConditions(HAS_NO_HEAVY_STUFF)
                     .addSideEffects(COOLDOWN.of(250), DAMAGE_ITEM)
                     .build())

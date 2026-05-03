@@ -5,6 +5,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
@@ -32,9 +33,11 @@ public class MobEffectTemplate
         this.showIcon = showIcon;
     }
 
-    public MobEffectInstance createNewInstance(LivingEntity entity)
+    @Nullable public MobEffectInstance createNewInstance(LivingEntity entity)
     {
-        return new MobEffectInstance(this.effect, this.duration.applyAsInt(entity), this.amplifier.applyAsInt(entity), this.ambient.test(entity), this.visible.test(entity), this.showIcon.test(entity));
+        int duration = this.duration.applyAsInt(entity);
+        if (duration < 0) {return null;}
+        return new MobEffectInstance(this.effect, duration, this.amplifier.applyAsInt(entity), this.ambient.test(entity), this.visible.test(entity), this.showIcon.test(entity));
     }
 
     public MobEffectTemplateProvider toProvider() {return (entity) -> this;}
