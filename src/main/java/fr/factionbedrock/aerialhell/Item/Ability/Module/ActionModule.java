@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplate;
 import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplateListProvider;
 import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplateProvider;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
+import fr.factionbedrock.aerialhell.Item.Ability.AbilityUseSituation;
 import fr.factionbedrock.aerialhell.Item.Ability.ModuleAction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -11,10 +12,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,20 +34,20 @@ public class ActionModule extends AbilityModule
     }
 
     public static ActionModule create(ModuleAction action) {return new ActionModule(action);}
-    public static ActionModule fromEntity(Consumer<LivingEntity> action) {return new ActionModule((entity, stack, equipmentSlot) -> action.accept(entity));}
+    public static ActionModule fromEntity(Consumer<LivingEntity> action) {return new ActionModule((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) -> action.accept(itemOwner));}
 
-    public void apply(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot) {this.action.apply(entity, itemStack, equipmentSlot);}
+    public void apply(AbilityUseSituation useSituation) {this.action.apply(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.enemyEntity, useSituation.damageSource);}
 
     public static class MobEffect extends ActionModule
     {
         public MobEffect(MobEffectTemplate template)
         {
-            super((entity, stack, equipmentSlot) ->
+            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
             {
-                if (!entity.level().isClientSide())
+                if (!itemOwner.level().isClientSide())
                 {
-                    @Nullable MobEffectInstance instance = template.createNewInstance(entity);
-                    if (instance != null) {entity.addEffect(instance);}
+                    @Nullable MobEffectInstance instance = template.createNewInstance(itemOwner);
+                    if (instance != null) {itemOwner.addEffect(instance);}
                 }
             });
         }
@@ -97,16 +96,16 @@ public class ActionModule extends AbilityModule
     {
         private MobEffectList(List<MobEffectTemplateListProvider> mobEffectTemplateListProviders)
         {
-            super((entity, stack, equipmentSlot) ->
+            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
             {
-                if (!entity.level().isClientSide())
+                if (!itemOwner.level().isClientSide())
                 {
                     for (MobEffectTemplateListProvider templateList : mobEffectTemplateListProviders)
                     {
-                        for (MobEffectTemplate template : templateList.get(entity))
+                        for (MobEffectTemplate template : templateList.get(itemOwner))
                         {
-                            @Nullable MobEffectInstance instance = template.createNewInstance(entity);
-                            if (instance != null) {entity.addEffect(instance);}
+                            @Nullable MobEffectInstance instance = template.createNewInstance(itemOwner);
+                            if (instance != null) {itemOwner.addEffect(instance);}
 
                         }
                     }
@@ -143,17 +142,17 @@ public class ActionModule extends AbilityModule
     {
         public ThrowProjectile(EntityType<? extends Projectile> type, float velocity, float inaccuracy)
         {
-            super((shooter, stack, equipmentSlot) ->
+            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
             {
-                Level level = shooter.level();
+                Level level = itemOwner.level();
                 if (!level.isClientSide())
                 {
                     Projectile projectile = type.create(level, EntitySpawnReason.TRIGGERED);
                     if (projectile != null)
                     {
-                        projectile.setPos(shooter.getX(), shooter.getY(0.5D) + 0.5D, shooter.getZ());
-                        projectile.setOwner(shooter);
-                        projectile.shoot(shooter.getLookAngle().x, shooter.getLookAngle().y, shooter.getLookAngle().z, velocity, inaccuracy);
+                        projectile.setPos(itemOwner.getX(), itemOwner.getY(0.5D) + 0.5D, itemOwner.getZ());
+                        projectile.setOwner(itemOwner);
+                        projectile.shoot(itemOwner.getLookAngle().x, itemOwner.getLookAngle().y, itemOwner.getLookAngle().z, velocity, inaccuracy);
                         level.addFreshEntity(projectile);
                     }
                 }
@@ -174,13 +173,13 @@ public class ActionModule extends AbilityModule
     {
         public RemoveMobEffect(Holder<net.minecraft.world.effect.MobEffect>... mobEffects)
         {
-            super((entity, stack, equipmentSlot) ->
+            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
             {
-                if (!entity.level().isClientSide())
+                if (!itemOwner.level().isClientSide())
                 {
                     for (Holder<net.minecraft.world.effect.MobEffect> mobEffect : mobEffects)
                     {
-                        if (entity.hasEffect(mobEffect)) {entity.removeEffect(mobEffect);}
+                        if (itemOwner.hasEffect(mobEffect)) {itemOwner.removeEffect(mobEffect);}
                     }
                 }
             });
@@ -200,11 +199,11 @@ public class ActionModule extends AbilityModule
     {
         public Particle(SimpleParticleType particleType, int count, float speed)
         {
-            super((entity, stack, equipmentSlot) ->
+            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
             {
-                if (entity.level() instanceof ServerLevel serverLevel)
+                if (itemOwner.level() instanceof ServerLevel serverLevel)
                 {
-                    serverLevel.sendParticles(particleType, entity.getX(), entity.getY(0.5), entity.getZ(), count, 0.5F, 0.5F, 0.5F, speed);
+                    serverLevel.sendParticles(particleType, itemOwner.getX(), itemOwner.getY(0.5), itemOwner.getZ(), count, 0.5F, 0.5F, 0.5F, speed);
                 }
             });
         }
@@ -223,12 +222,12 @@ public class ActionModule extends AbilityModule
 
     public static class Sound extends ActionModule
     {
-        public Sound(PlaySoundHelper playSoundHelper) {super((entity, stack, equipmentSlot) -> playSoundHelper.playSound(entity));}
+        public Sound(PlaySoundHelper playSoundHelper) {super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) -> playSoundHelper.playSound(itemOwner));}
         public Sound(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider)
         {
-            super((entity, stack, equipmentSlot) ->
+            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
             {
-                playSoundHelperProvider.apply(entity).playSound(entity);
+                playSoundHelperProvider.apply(itemOwner).playSound(itemOwner);
             });
         }
     }

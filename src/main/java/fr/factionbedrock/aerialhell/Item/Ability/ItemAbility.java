@@ -3,9 +3,6 @@ package fr.factionbedrock.aerialhell.Item.Ability;
 import fr.factionbedrock.aerialhell.Item.Ability.Module.ActionModule;
 import fr.factionbedrock.aerialhell.Item.Ability.Module.ConditionModule;
 import fr.factionbedrock.aerialhell.Item.Ability.Module.SideEffectModule;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -16,36 +13,35 @@ public class ItemAbility
     private final ModuleList passiveModules;
     private final ModuleList onUseModules;
     private final ModuleList onHurtEnemyModules;
+    private final ModuleList onTakeDamageModules;
 
-    ItemAbility(String descId, ModuleList passiveModules, ModuleList onUseModules, ModuleList onHurtEnemyModules)
+    ItemAbility(String descId, ModuleList passiveModules, ModuleList onUseModules, ModuleList onHurtEnemyModules, ModuleList onTakeDamageModules)
     {
         this.descId = descId;
         this.passiveModules = passiveModules;
         this.onUseModules = onUseModules;
         this.onHurtEnemyModules = onHurtEnemyModules;
+        this.onTakeDamageModules = onTakeDamageModules;
     }
 
     public String getDescId() {return this.descId;}
 
-    public boolean tryApplyModules(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot, AbilityUseSituation useSituation)
+    public boolean tryApplyModules(AbilityUseSituation useSituation)
     {
-        @Nullable ModuleList moduleList = switch (useSituation)
+        @Nullable ModuleList moduleList = switch (useSituation.category)
         {
             case TICK -> this.passiveModules;
             case ON_USE -> this.onUseModules;
             case ON_HURT_ENEMY -> this.onHurtEnemyModules;
+            case ON_TAKE_DAMAGE -> this.onTakeDamageModules;
         };
         if (moduleList == null) {return false;}
-        return this.tryApplyModules(entity, itemStack, equipmentSlot, moduleList);
-    }
 
-    private boolean tryApplyModules(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot, ModuleList modules)
-    {
-        if (modules.conditions().conditionsMet(entity, itemStack, equipmentSlot))
+        if (moduleList.conditions().conditionsMet(useSituation))
         {
-            if (modules.actions().applyAll(entity, itemStack, equipmentSlot))
+            if (moduleList.actions().applyAll(useSituation))
             {
-                modules.sideEffects().applyAll(entity, itemStack, equipmentSlot);
+                moduleList.sideEffects().applyAll(useSituation);
                 return true;
             }
         }
@@ -68,9 +64,9 @@ public class ItemAbility
 
         List<ActionModule> getModules() {return this.actionModules;}
 
-        private boolean applyAll(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot)
+        private boolean applyAll(AbilityUseSituation useSituation)
         {
-            for(ActionModule module : this.actionModules) {module.apply(entity, itemStack, equipmentSlot);}
+            for(ActionModule module : this.actionModules) {module.apply(useSituation);}
             return !this.isEmpty();
         }
 
@@ -84,11 +80,11 @@ public class ItemAbility
 
         List<ConditionModule> getModules() {return this.conditionModules;}
 
-        private boolean conditionsMet(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot)
+        private boolean conditionsMet(AbilityUseSituation useSituation)
         {
             for(ConditionModule condition : this.conditionModules)
             {
-                if (!condition.conditionMet(entity, itemStack, equipmentSlot)) {return false;}
+                if (!condition.conditionMet(useSituation)) {return false;}
             }
             return true;
         }
@@ -102,9 +98,9 @@ public class ItemAbility
 
         List<SideEffectModule> getModules() {return this.sideEffectModules;}
 
-        private void applyAll(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot)
+        private void applyAll(AbilityUseSituation useSituation)
         {
-            for(SideEffectModule module : this.sideEffectModules) {module.apply(entity, itemStack, equipmentSlot);}
+            for(SideEffectModule module : this.sideEffectModules) {module.apply(useSituation);}
         }
     }
 
@@ -114,13 +110,15 @@ public class ItemAbility
         private final ModuleList.Builder passiveModules;
         private final ModuleList.Builder onUseModules;
         private final ModuleList.Builder onHurtEnemyModules;
+        private final ModuleList.Builder onTakeDamageModules;
 
-        private Builder() {this(ModuleList.builder(), ModuleList.builder(), ModuleList.builder());}
-        private Builder(ModuleList.Builder passiveModules, ModuleList.Builder onUseModules, ModuleList.Builder onHurtEnemyModules)
+        private Builder() {this(ModuleList.builder(), ModuleList.builder(), ModuleList.builder(), ModuleList.builder());}
+        private Builder(ModuleList.Builder passiveModules, ModuleList.Builder onUseModules, ModuleList.Builder onHurtEnemyModules, ModuleList.Builder onTakeDamageModules)
         {
             this.passiveModules = passiveModules;
             this.onUseModules = onUseModules;
             this.onHurtEnemyModules = onHurtEnemyModules;
+            this.onTakeDamageModules = onTakeDamageModules;
             this.descId = "";
         }
 
@@ -129,23 +127,25 @@ public class ItemAbility
         public ItemAbility.Builder addPassiveModules(ModuleList modules) {this.passiveModules.addAll(modules); return this;}
         public ItemAbility.Builder addOnUseModules(ModuleList modules) {this.onUseModules.addAll(modules); return this;}
         public ItemAbility.Builder addOnHurtEnemyModules(ModuleList modules) {this.onHurtEnemyModules.addAll(modules); return this;}
+        public ItemAbility.Builder addOnTakeDamageModules(ModuleList modules) {this.onTakeDamageModules.addAll(modules); return this;}
 
         public ItemAbility.Builder inheritsOf(ItemAbility ability)
         {
             this.addPassiveModules(ability.passiveModules);
             this.addOnUseModules(ability.onUseModules);
             this.addOnHurtEnemyModules(ability.onHurtEnemyModules);
+            this.addOnTakeDamageModules(ability.onTakeDamageModules);
             return this;
         }
 
         public ItemAbility.Builder copy()
         {
-            return new ItemAbility.Builder(this.passiveModules.copy(), this.onUseModules.copy(), this.onHurtEnemyModules.copy());
+            return new ItemAbility.Builder(this.passiveModules.copy(), this.onUseModules.copy(), this.onHurtEnemyModules.copy(), this.onTakeDamageModules.copy());
         }
 
         public ItemAbility build()
         {
-            return new ItemAbility(this.descId, this.passiveModules.build(), this.onUseModules.build(), this.onHurtEnemyModules.build());
+            return new ItemAbility(this.descId, this.passiveModules.build(), this.onUseModules.build(), this.onHurtEnemyModules.build(), this.onTakeDamageModules.build());
         }
     }
 }

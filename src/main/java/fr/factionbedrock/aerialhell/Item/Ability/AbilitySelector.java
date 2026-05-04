@@ -33,11 +33,11 @@ public class AbilitySelector
         return this;
     }
 
-    public boolean tryUseAbility(LivingEntity entity, ItemStack stack, @Nullable EquipmentSlot slot, AbilityUseSituation useSituation)
+    public boolean tryUseAbility(AbilityUseSituation useSituation)
     {
         for (ItemAbility ability : this.abilities)
         {
-            if (ability.tryApplyModules(entity, stack, slot, useSituation)) {return true;}
+            if (ability.tryApplyModules(useSituation)) {return true;}
         }
         return false;
     }

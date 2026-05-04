@@ -99,10 +99,10 @@ public class BerserkAxeItem extends AerialHellItem
         return InteractionResult.CONSUME;
 	}
 	
-	@Override public void hurtEnemy(ItemStack itemStack, LivingEntity target, LivingEntity attacker)
+	@Override public void hurtEnemy(ItemStack itemStack, LivingEntity target, LivingEntity itemOwner)
 	{
 		this.increaseWeight();
-		super.hurtEnemy(itemStack, target, attacker);
+		super.hurtEnemy(itemStack, target, itemOwner);
 	}
 
 	@Override public boolean canDestroyBlock(ItemStack stack, BlockState state, Level level, BlockPos pos, LivingEntity entity)

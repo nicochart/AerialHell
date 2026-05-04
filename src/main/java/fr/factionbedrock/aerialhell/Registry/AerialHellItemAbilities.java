@@ -41,7 +41,7 @@ public class AerialHellItemAbilities
 
     private static final ActionModule.RemoveMobEffect.Builder REMOVE_EFFECT = ActionModule.RemoveMobEffect.builder();
 
-    private static final ConditionModule STACK_IN_MAIN_OR_OFF_HAND_PASSIVE = new ConditionModule((entity, stack, equipmentSlot) -> stack.is(entity.getMainHandItem().getItem()) || stack.is(entity.getOffhandItem().getItem()));
+    private static final ConditionModule STACK_IN_MAIN_OR_OFF_HAND_PASSIVE = new ConditionModule((stack, itemOwner, equipmentSlot, enemyEntity, damageSourcet) -> stack.is(itemOwner.getMainHandItem().getItem()) || stack.is(itemOwner.getOffhandItem().getItem()));
 
     private static final ActionModule.MobEffectList RANDOM_SWORD_RANDOM_EFFECT = ActionModule.MobEffectList.builder().addEffects((entity) ->
     {
@@ -99,12 +99,12 @@ public class AerialHellItemAbilities
     private static final ActionModule.Particle.Builder CRISMON_SPORE_PARTICLES = ActionModule.Particle.builder(ParticleTypes.CRIMSON_SPORE);
 
     //little test about summoning creatures
-    private static final ActionModule INVOKE_CHAINED_GOD = ActionModule.create((entity, stack, equipment) -> {
-        ChainedGodEntity god = AerialHellEntities.CHAINED_GOD.get().create(entity.level(), EntitySpawnReason.TRIGGERED);
+    private static final ActionModule INVOKE_CHAINED_GOD = ActionModule.create((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) -> {
+        ChainedGodEntity god = AerialHellEntities.CHAINED_GOD.get().create(itemOwner.level(), EntitySpawnReason.TRIGGERED);
         if (god != null)
         {
-            god.setPos(entity.position());
-            entity.level().addFreshEntity(god);
+            god.setPos(itemOwner.position());
+            itemOwner.level().addFreshEntity(god);
         }
     });
 

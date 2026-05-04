@@ -1,13 +1,11 @@
 package fr.factionbedrock.aerialhell.Item.Ability.Module;
 
+import fr.factionbedrock.aerialhell.Item.Ability.AbilityUseSituation;
 import fr.factionbedrock.aerialhell.Item.Ability.ModuleAction;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.ToIntFunction;
 
@@ -17,9 +15,9 @@ public class SideEffectModule extends AbilityModule
 
     private SideEffectModule(ModuleAction sideEffect) {super();this.sideEffect = sideEffect;}
 
-    public void apply(LivingEntity entity, ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot)
+    public void apply(AbilityUseSituation useSituation)
     {
-        this.sideEffect.apply(entity, itemStack, equipmentSlot);
+        this.sideEffect.apply(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.enemyEntity, useSituation.damageSource);
     }
 
     //this module can be applied in on use modules on an ability. But it can also be put in :
@@ -31,9 +29,9 @@ public class SideEffectModule extends AbilityModule
     {
         private DamageItem(int amount)
         {
-            super((entity, stack, equipmentSlot) ->
+            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
             {
-                if (equipmentSlot != null) {stack.hurtAndBreak(amount, entity, equipmentSlot);}
+                if (equipmentSlot != null) {stack.hurtAndBreak(amount, itemOwner, equipmentSlot);}
             });
         }
 
@@ -45,11 +43,11 @@ public class SideEffectModule extends AbilityModule
     {
         private Shrink(int amount)
         {
-            super((entity, stack, equipmentSlot) ->
+            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
             {
                 if (equipmentSlot != null)
                 {
-                    if (!EntityHelper.isCreativePlayer(entity) && !EntityHelper.hasEnchantment(entity, Enchantments.INFINITY)) {stack.shrink(amount);}
+                    if (!EntityHelper.isCreativePlayer(itemOwner) && !EntityHelper.hasEnchantment(itemOwner, Enchantments.INFINITY)) {stack.shrink(amount);}
                 }
             });
         }
@@ -70,10 +68,10 @@ public class SideEffectModule extends AbilityModule
         private final ToIntFunction<LivingEntity> cooldownDuration;
         private Cooldown(ToIntFunction<LivingEntity> cooldownDuration)
         {
-            super((entity, stack, equipmentSlot) ->
+            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
             {
-                int cooldown = cooldownDuration.applyAsInt(entity);
-                if (entity instanceof Player player && cooldown != 0) {player.getCooldowns().addCooldown(stack, cooldown);}
+                int cooldown = cooldownDuration.applyAsInt(itemOwner);
+                if (itemOwner instanceof Player player && cooldown != 0) {player.getCooldowns().addCooldown(stack, cooldown);}
             });
 
             this.cooldownDuration = cooldownDuration;

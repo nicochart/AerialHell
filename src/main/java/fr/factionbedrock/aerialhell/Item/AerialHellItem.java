@@ -23,6 +23,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -70,7 +71,7 @@ public class AerialHellItem extends WithInformationItem
 	//applying tick (passive) tool ability modules
 	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
 	{
-		if (this.abilitySelector != null && entity instanceof LivingEntity livingEntity && entity.tickCount % 10 == 0) {this.abilitySelector.tryUseAbility(livingEntity, stack, slot, AbilityUseSituation.TICK);}
+		if (this.abilitySelector != null && entity instanceof LivingEntity itemOwner && entity.tickCount % 10 == 0) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.Tick(stack, itemOwner, slot));}
 	}
 
 	//applying use tool ability modules
@@ -78,15 +79,25 @@ public class AerialHellItem extends WithInformationItem
 	{
 		ItemStack heldItemStack = player.getItemInHand(hand);
 		boolean used = false;
-		if (this.abilitySelector != null) {used = this.abilitySelector.tryUseAbility(player, heldItemStack, hand.asEquipmentSlot(), AbilityUseSituation.ON_USE);}
+		if (this.abilitySelector != null) {used = this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnUse(heldItemStack, player, hand.asEquipmentSlot()));}
 		return used ? InteractionResult.CONSUME : super.use(level, player, hand);
 	}
 
 	//applying hurtEnemy (semi-passive) tool ability modules
-	@Override public void hurtEnemy(ItemStack itemStack, LivingEntity target, LivingEntity attacker)
+	//item owner is attacker
+	@Override public void hurtEnemy(ItemStack itemStack, LivingEntity target, LivingEntity itemOwner)
 	{
-		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(attacker, itemStack, null, AbilityUseSituation.ON_HURT_ENEMY);}
-		super.hurtEnemy(itemStack, target, attacker);
+		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnHurtEnemy(itemStack, itemOwner, EquipmentSlot.MAINHAND, target));}
+		super.hurtEnemy(itemStack, target, itemOwner);
+	}
+
+	//applying onTakeDamage (semi-passive) tool ability modules
+	//attacker is the one who is dealing damage to item owner
+	public void onTakeDamage(ItemStack itemStack, LivingEntity itemOwner, @Nullable LivingEntity attacker, @Nullable DamageSource damageSource, EquipmentSlot slot)
+	{
+		//comment gérer la damage source, et comment gérer le fait que les effets sont appliqués à l'attacker ?
+		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnTakeDamage(itemStack, itemOwner, slot, attacker, damageSource));}
+		super.hurtEnemy(itemStack, itemOwner, attacker);
 	}
 
 	@Override public void appendAbilityDescriptionHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder)
