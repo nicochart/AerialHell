@@ -9,7 +9,9 @@ import fr.factionbedrock.aerialhell.Item.Ability.ModuleAction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ToFloatFunction;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,20 +36,24 @@ public class ActionModule extends AbilityModule
     }
 
     public static ActionModule create(ModuleAction action) {return new ActionModule(action);}
-    public static ActionModule fromEntity(Consumer<LivingEntity> action) {return new ActionModule((stack, itemOwner, equipmentSlot, damageInfo) -> action.accept(itemOwner));}
+    public static ActionModule onItemOwner(Consumer<LivingEntity> action) {return new ActionModule((stack, itemOwner, equipmentSlot, damageInfo) -> action.accept(itemOwner));}
+    public static ActionModule onOther(Consumer<Entity> action) {return new ActionModule((stack, itemOwner, equipmentSlot, damageInfo) -> {
+        if (damageInfo != null && damageInfo.otherEntity() != null) {action.accept(damageInfo.otherEntity());}
+    });}
 
     public void apply(AbilityUseSituation useSituation) {this.action.apply(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.damageUseSituationInfo);}
 
     public static class MobEffect extends ActionModule
     {
-        public MobEffect(MobEffectTemplate template)
+        public MobEffect(MobEffectTemplate template, boolean toOwner)
         {
             super((stack, itemOwner, equipmentSlot, damageInfo) ->
             {
-                if (!itemOwner.level().isClientSide())
+                @Nullable LivingEntity target = toOwner ? itemOwner : damageInfo != null && damageInfo.otherEntity() instanceof LivingEntity otherLiving ? otherLiving : null;
+                if (target != null && !itemOwner.level().isClientSide())
                 {
-                    @Nullable MobEffectInstance instance = template.createNewInstance(itemOwner);
-                    if (instance != null) {itemOwner.addEffect(instance);}
+                    @Nullable MobEffectInstance instance = template.createNewInstance(target);
+                    if (instance != null) {target.addEffect(instance);}
                 }
             });
         }
@@ -80,32 +86,33 @@ public class ActionModule extends AbilityModule
             public MobEffect.Builder visible() {this.visible = false; this.showIcon = false; return this;}
             public MobEffect.Builder invisible() {this.visible = true; this.showIcon = true; return this;}
 
-            public MobEffect build() {return new MobEffect(new MobEffectTemplate(this.effect, this.duration, this.amplifier, this.ambient, this.visible, this.showIcon));}
+            public MobEffect build(EffectTarget effectTarget) {return new MobEffect(new MobEffectTemplate(this.effect, this.duration, this.amplifier, this.ambient, this.visible, this.showIcon), effectTarget == EffectTarget.SELF);}
             //override duration
-            public MobEffect withDuration(int duration) {return new MobEffect(new MobEffectTemplate(this.effect, duration, this.amplifier, this.ambient, this.visible, this.showIcon));}
-            public MobEffect withDuration(ToIntFunction<LivingEntity> duration) {return new MobEffect(new MobEffectTemplate(this.effect, duration, (entity) -> this.amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon));}
+            public MobEffect withDuration(int duration, EffectTarget effectTarget) {return new MobEffect(new MobEffectTemplate(this.effect, duration, this.amplifier, this.ambient, this.visible, this.showIcon), effectTarget == EffectTarget.SELF);}
+            public MobEffect withDuration(ToIntFunction<LivingEntity> duration, EffectTarget effectTarget) {return new MobEffect(new MobEffectTemplate(this.effect, duration, (entity) -> this.amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon), effectTarget == EffectTarget.SELF);}
             //override duration and amplifier
-            public MobEffect with(int duration, int amplifier) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, this.ambient, this.visible, this.showIcon));}
-            public MobEffect with(ToIntFunction<LivingEntity> duration, ToIntFunction<LivingEntity> amplifier) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon));}
+            public MobEffect with(int duration, int amplifier, EffectTarget effectTarget) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, this.ambient, this.visible, this.showIcon), effectTarget == EffectTarget.SELF);}
+            public MobEffect with(ToIntFunction<LivingEntity> duration, ToIntFunction<LivingEntity> amplifier, EffectTarget effectTarget) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon), effectTarget == EffectTarget.SELF);}
             //override duration and visibility. ambient = true to always display icon
-            public MobEffect passiveBuild() {return new MobEffect(new MobEffectTemplate(this.effect, 32, this.amplifier, true, true, true));}
+            public MobEffect passiveBuild() {return new MobEffect(new MobEffectTemplate(this.effect, 32, this.amplifier, true, true, true), true);}
         }
     }
 
     public static class MobEffectList extends ActionModule
     {
-        private MobEffectList(List<MobEffectTemplateListProvider> mobEffectTemplateListProviders)
+        private MobEffectList(List<MobEffectTemplateListProvider> mobEffectTemplateListProviders, boolean toOwner)
         {
             super((stack, itemOwner, equipmentSlot, damageInfo) ->
             {
-                if (!itemOwner.level().isClientSide())
+                @Nullable LivingEntity target = toOwner ? itemOwner : damageInfo != null && damageInfo.otherEntity() instanceof LivingEntity otherLiving ? otherLiving : null;
+                if (target != null && !itemOwner.level().isClientSide())
                 {
                     for (MobEffectTemplateListProvider templateList : mobEffectTemplateListProviders)
                     {
-                        for (MobEffectTemplate template : templateList.get(itemOwner))
+                        for (MobEffectTemplate template : templateList.get(target))
                         {
-                            @Nullable MobEffectInstance instance = template.createNewInstance(itemOwner);
-                            if (instance != null) {itemOwner.addEffect(instance);}
+                            @Nullable MobEffectInstance instance = template.createNewInstance(target);
+                            if (instance != null) {target.addEffect(instance);}
 
                         }
                     }
@@ -134,7 +141,8 @@ public class ActionModule extends AbilityModule
                 return this;
             }
 
-            public MobEffectList build() {return new MobEffectList(this.mobEffectTemplateListProviders);}
+            public MobEffectList toOwnerBuild() {return new MobEffectList(this.mobEffectTemplateListProviders, true);}
+            public MobEffectList toOtherBuild() {return new MobEffectList(this.mobEffectTemplateListProviders, false);}
         }
     }
 
@@ -234,12 +242,11 @@ public class ActionModule extends AbilityModule
 
     public static class MultiplyDamage extends ActionModule
     {
-        public MultiplyDamage(float multiplier) {super((stack, itemOwner, equipmentSlot, damageInfo) ->
+        public MultiplyDamage(ToFloatFunction<LivingEntity> multiplier, TestTarget testTarget) {super((stack, itemOwner, equipmentSlot, damageInfo) ->
         {
             if (damageInfo != null)
             {
-                System.out.println("executing. setting to "+multiplier);
-                damageInfo.damageAmountMultiplier().set(damageInfo.damageAmountMultiplier().get() * multiplier);
+                damageInfo.damageAmountMultiplier().set(damageInfo.damageAmountMultiplier().get() * (testTarget == TestTarget.ITEM_OWNER ? multiplier.applyAsFloat(itemOwner) : (damageInfo.otherEntity() instanceof LivingEntity livingOther ? multiplier.applyAsFloat(livingOther) : 1.0F)));
             }
         });}
 
@@ -249,7 +256,8 @@ public class ActionModule extends AbilityModule
         {
             private Builder() {}
 
-            public MultiplyDamage.MultiplyDamage by(float multiplier) {return new ActionModule.MultiplyDamage(multiplier);}
+            public MultiplyDamage.MultiplyDamage by(float multiplier) {return this.by((itemOwner) -> multiplier, TestTarget.ITEM_OWNER);}
+            public MultiplyDamage.MultiplyDamage by(ToFloatFunction<LivingEntity> multiplier, TestTarget testTarget) {return new ActionModule.MultiplyDamage(multiplier, testTarget);}
         }
     }
 }

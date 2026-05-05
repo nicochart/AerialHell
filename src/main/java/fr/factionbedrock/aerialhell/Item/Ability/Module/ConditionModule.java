@@ -16,7 +16,12 @@ public class ConditionModule extends AbilityModule
 
     public ConditionModule(ModuleCondition condition) {super(); this.condition = condition;}
 
-    public static ConditionModule entityCondition(Predicate<LivingEntity> entityPredicate) {return new ConditionModule((itemStack, itemOwner, equipmentSlot, damageInfo) -> entityPredicate.test(itemOwner));}
+    public static ConditionModule itemOwnerCondition(Predicate<LivingEntity> entityPredicate) {return new ConditionModule((itemStack, itemOwner, equipmentSlot, damageInfo) -> entityPredicate.test(itemOwner));}
+    public static ConditionModule otherEntityCondition(Predicate<LivingEntity> entityPredicate) {return new ConditionModule((itemStack, itemOwner, equipmentSlot, damageInfo) ->
+    {
+        if (damageInfo == null || !(damageInfo.otherEntity() instanceof LivingEntity livingOther)) {return true;}
+        else {return entityPredicate.test(livingOther);}
+    });}
 
     public ConditionModule opposite() {return new ConditionModule((itemStack, itemOwner, equipmentSlot, damageInfo) -> !this.conditionMet(itemStack, itemOwner, equipmentSlot, damageInfo));}
 
