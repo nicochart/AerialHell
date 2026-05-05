@@ -65,17 +65,19 @@ public class ToolsAndArmorEventListener
 				//attacker is the ah item owner, dealing damage to target (enemy)
 				ahItem.onDealDamage(equippedItemStack.stack(), attacker, equippedItemStack.slot(), new DamageUseSituationInfo(target, damageSource, new FieldAccessor<>(damageMultiplier::get, damageMultiplier::set)));
 			});
-
-			ItemHelper.forEachAerialHellItem(EntityHelper.getEquippepItemStackList(target), (ahItem, equippedItemStack) ->
-			{
-				//target is the ah item owner, receiving damage from attacker (enemy)
-				ahItem.onDealDamage(equippedItemStack.stack(), target, equippedItemStack.slot(), new DamageUseSituationInfo(attacker, damageSource, new FieldAccessor<>(damageMultiplier::get, damageMultiplier::set)));
-			});
 		}
+
+		ItemHelper.forEachAerialHellItem(EntityHelper.getEquippepItemStackList(target), (ahItem, equippedItemStack) ->
+		{
+			//target is the ah item owner, receiving damage from attacker (enemy)
+			ahItem.onTakeDamage(equippedItemStack.stack(), target, equippedItemStack.slot(), new DamageUseSituationInfo(sourceEntity, damageSource, new FieldAccessor<>(damageMultiplier::get, damageMultiplier::set)));
+		});
+
+		event.setAmount(event.getAmount() * damageMultiplier.get());
 
 		applyEffectsDueToPotionEffects(event, damageSource, target);
 
-		if (target instanceof Player) //*2 damage if target has glass cannon sword
+		/*if (target instanceof Player) //*2 damage if target has glass cannon sword
 		{
 			Item targetMainHandItem = ((Player) target).getMainHandItem().getItem();
 			applyEffectsBasedOnTargetHandEquippedItem(event, targetMainHandItem, target);
@@ -84,7 +86,7 @@ public class ToolsAndArmorEventListener
 			for (ItemStack handItemStack : handStuff) {
 				applyEffectsBasedOnTargetHandEquippedItem(event, handItemStack.getItem(), target);
 			}
-		}
+		}*/
 
 		if (sourceEntity instanceof LivingEntity) {
 			LivingEntity source = (LivingEntity) sourceEntity;

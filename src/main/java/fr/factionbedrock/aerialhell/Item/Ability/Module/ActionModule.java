@@ -34,15 +34,15 @@ public class ActionModule extends AbilityModule
     }
 
     public static ActionModule create(ModuleAction action) {return new ActionModule(action);}
-    public static ActionModule fromEntity(Consumer<LivingEntity> action) {return new ActionModule((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) -> action.accept(itemOwner));}
+    public static ActionModule fromEntity(Consumer<LivingEntity> action) {return new ActionModule((stack, itemOwner, equipmentSlot, damageInfo) -> action.accept(itemOwner));}
 
-    public void apply(AbilityUseSituation useSituation) {this.action.apply(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.enemyEntity, useSituation.damageSource);}
+    public void apply(AbilityUseSituation useSituation) {this.action.apply(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.damageUseSituationInfo);}
 
     public static class MobEffect extends ActionModule
     {
         public MobEffect(MobEffectTemplate template)
         {
-            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
+            super((stack, itemOwner, equipmentSlot, damageInfo) ->
             {
                 if (!itemOwner.level().isClientSide())
                 {
@@ -96,7 +96,7 @@ public class ActionModule extends AbilityModule
     {
         private MobEffectList(List<MobEffectTemplateListProvider> mobEffectTemplateListProviders)
         {
-            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
+            super((stack, itemOwner, equipmentSlot, damageInfo) ->
             {
                 if (!itemOwner.level().isClientSide())
                 {
@@ -142,7 +142,7 @@ public class ActionModule extends AbilityModule
     {
         public ThrowProjectile(EntityType<? extends Projectile> type, float velocity, float inaccuracy)
         {
-            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
+            super((stack, itemOwner, equipmentSlot, damageInfo) ->
             {
                 Level level = itemOwner.level();
                 if (!level.isClientSide())
@@ -173,7 +173,7 @@ public class ActionModule extends AbilityModule
     {
         public RemoveMobEffect(Holder<net.minecraft.world.effect.MobEffect>... mobEffects)
         {
-            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
+            super((stack, itemOwner, equipmentSlot, damageInfo) ->
             {
                 if (!itemOwner.level().isClientSide())
                 {
@@ -199,7 +199,7 @@ public class ActionModule extends AbilityModule
     {
         public Particle(SimpleParticleType particleType, int count, float speed)
         {
-            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
+            super((stack, itemOwner, equipmentSlot, damageInfo) ->
             {
                 if (itemOwner.level() instanceof ServerLevel serverLevel)
                 {
@@ -222,13 +222,34 @@ public class ActionModule extends AbilityModule
 
     public static class Sound extends ActionModule
     {
-        public Sound(PlaySoundHelper playSoundHelper) {super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) -> playSoundHelper.playSound(itemOwner));}
+        public Sound(PlaySoundHelper playSoundHelper) {super((stack, itemOwner, equipmentSlot, damageInfo) -> playSoundHelper.playSound(itemOwner));}
         public Sound(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider)
         {
-            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
+            super((stack, itemOwner, equipmentSlot, damageInfo) ->
             {
                 playSoundHelperProvider.apply(itemOwner).playSound(itemOwner);
             });
+        }
+    }
+
+    public static class MultiplyDamage extends ActionModule
+    {
+        public MultiplyDamage(float multiplier) {super((stack, itemOwner, equipmentSlot, damageInfo) ->
+        {
+            if (damageInfo != null)
+            {
+                System.out.println("executing. setting to "+multiplier);
+                damageInfo.damageAmountMultiplier().set(damageInfo.damageAmountMultiplier().get() * multiplier);
+            }
+        });}
+
+        public static MultiplyDamage.Builder builder() {return new MultiplyDamage.Builder();}
+
+        public static class Builder
+        {
+            private Builder() {}
+
+            public MultiplyDamage.MultiplyDamage by(float multiplier) {return new ActionModule.MultiplyDamage(multiplier);}
         }
     }
 }

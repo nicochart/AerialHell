@@ -9,5 +9,5 @@ import javax.annotation.Nullable;
 
 @FunctionalInterface public interface ModuleCondition
 {
-    boolean conditionMet(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable LivingEntity enemyEntity, @Nullable DamageSource damageSource);
+    boolean conditionMet(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable DamageUseSituationInfo damageInfo);
 }

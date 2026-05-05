@@ -17,7 +17,7 @@ public class SideEffectModule extends AbilityModule
 
     public void apply(AbilityUseSituation useSituation)
     {
-        this.sideEffect.apply(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.enemyEntity, useSituation.damageSource);
+        this.sideEffect.apply(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.damageUseSituationInfo);
     }
 
     //this module can be applied in on use modules on an ability. But it can also be put in :
@@ -29,7 +29,7 @@ public class SideEffectModule extends AbilityModule
     {
         private DamageItem(int amount)
         {
-            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
+            super((stack, itemOwner, equipmentSlot, damageInfo) ->
             {
                 if (equipmentSlot != null) {stack.hurtAndBreak(amount, itemOwner, equipmentSlot);}
             });
@@ -43,7 +43,7 @@ public class SideEffectModule extends AbilityModule
     {
         private Shrink(int amount)
         {
-            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
+            super((stack, itemOwner, equipmentSlot, damageInfo) ->
             {
                 if (equipmentSlot != null)
                 {
@@ -68,7 +68,7 @@ public class SideEffectModule extends AbilityModule
         private final ToIntFunction<LivingEntity> cooldownDuration;
         private Cooldown(ToIntFunction<LivingEntity> cooldownDuration)
         {
-            super((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) ->
+            super((stack, itemOwner, equipmentSlot, damageInfo) ->
             {
                 int cooldown = cooldownDuration.applyAsInt(itemOwner);
                 if (itemOwner instanceof Player player && cooldown != 0) {player.getCooldowns().addCooldown(stack, cooldown);}

@@ -39,54 +39,57 @@ public class AerialHellItemAbilities
     private static final ActionModule.MobEffect.Builder HEAD_IN_THE_CLOUDS_EFFECT = ActionModule.MobEffect.builder(AerialHellMobEffects.HEAD_IN_THE_CLOUDS);
     private static final ActionModule.MobEffect.Builder SHADOW_IMMUNITY_EFFECT = ActionModule.MobEffect.builder(AerialHellMobEffects.SHADOW_IMMUNITY);
 
+    private static final ActionModule.MultiplyDamage.Builder MULTIPLY_DAMAGE = ActionModule.MultiplyDamage.builder();
+
     private static final ActionModule.RemoveMobEffect.Builder REMOVE_EFFECT = ActionModule.RemoveMobEffect.builder();
 
-    private static final ConditionModule STACK_IN_MAIN_OR_OFF_HAND_PASSIVE = new ConditionModule((stack, itemOwner, equipmentSlot, enemyEntity, damageSourcet) -> stack.is(itemOwner.getMainHandItem().getItem()) || stack.is(itemOwner.getOffhandItem().getItem()));
+    private static final ConditionModule STACK_IN_MAIN_OR_OFF_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, damageInfo) -> stack.is(itemOwner.getMainHandItem().getItem()) || stack.is(itemOwner.getOffhandItem().getItem()));
+    private static final ConditionModule STACK_IN_MAIN_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, damageInfo) -> stack.is(itemOwner.getMainHandItem().getItem()));
 
-    private static final ActionModule.MobEffectList RANDOM_SWORD_RANDOM_EFFECT = ActionModule.MobEffectList.builder().addEffects((entity) ->
+    private static final ActionModule.MobEffectList RANDOM_SWORD_RANDOM_EFFECT = ActionModule.MobEffectList.builder().addEffects((itemOwner) ->
     {
-        RandomSource rand = entity.getRandom();
+        RandomSource rand = itemOwner.getRandom();
         if (rand.nextFloat() < 0.25F) {return List.of(new MobEffectTemplate(MobEffects.SPEED, 750, 0));}
         else if (rand.nextFloat() < 0.3333F) {return List.of(new MobEffectTemplate(MobEffects.JUMP_BOOST, 750, 0));}
         else if (rand.nextFloat() < 0.5F) {return List.of(new MobEffectTemplate(MobEffects.RESISTANCE, 750, 0));}
         else {return List.of(new MobEffectTemplate(MobEffects.UNLUCK, 750, 0), new MobEffectTemplate(MobEffects.POISON, 80, 1));}
     }).build();
 
-    private static final ActionModule LIFT_OFF = ActionModule.fromEntity((entity) -> entity.setDeltaMovement(entity.getDeltaMovement().add(0, 2.0F, 0)));
+    private static final ActionModule LIFT_OFF = ActionModule.fromEntity((itemOwner) -> itemOwner.setDeltaMovement(itemOwner.getDeltaMovement().add(0, 2.0F, 0)));
 
-    private static final SideEffectModule.Cooldown NETHERIAN_KING_SWORD_COOLDOWN = SideEffectModule.Cooldown.builder().of(((entity) -> EntityHelper.hasFullArsonistStuff(entity) ? 300 : 600));
+    private static final SideEffectModule.Cooldown NETHERIAN_KING_SWORD_COOLDOWN = SideEffectModule.Cooldown.builder().of(((itemOwner) -> EntityHelper.hasFullArsonistStuff(itemOwner) ? 300 : 600));
 
-    private static final SideEffectModule.Cooldown LIGHT_WEAPON_COOLDOWN = SideEffectModule.Cooldown.builder().of(((entity) -> EntityHelper.hasFullLunaticStuff(entity) ? 80 : 160));
+    private static final SideEffectModule.Cooldown LIGHT_WEAPON_COOLDOWN = SideEffectModule.Cooldown.builder().of(((itemOwner) -> EntityHelper.hasFullLunaticStuff(itemOwner) ? 80 : 160));
 
     private static final ActionModule.ThrowProjectile.Builder THROW_PROJECTILE = ActionModule.ThrowProjectile.builder();
 
     private static final SideEffectModule.Cooldown.Builder COOLDOWN = SideEffectModule.Cooldown.builder();
 
-    private static final ConditionModule HAS_POISON_OR_WITHER = ConditionModule.entityCondition((entity) -> entity.hasEffect(MobEffects.POISON) || entity.hasEffect(MobEffects.WITHER));
+    private static final ConditionModule HAS_POISON_OR_WITHER = ConditionModule.entityCondition((itemOwner) -> itemOwner.hasEffect(MobEffects.POISON) || itemOwner.hasEffect(MobEffects.WITHER));
 
     private static final ConditionModule HAS_NO_SHADOW_STUFF = ConditionModule.entityCondition(EntityHelper::hasNoShadowStuff);
     private static final ConditionModule HAS_NO_HEAVY_STUFF = ConditionModule.entityCondition(EntityHelper::hasNoHeavyStuff);
     private static final ConditionModule HAS_NO_LUNATIC_STUFF = ConditionModule.entityCondition(EntityHelper::hasNoLunaticStuff);
     private static final ConditionModule HAS_FULL_VOLUCITE_STUFF = ConditionModule.entityCondition(EntityHelper::hasFullVoluciteStuff);
-    private static final ConditionModule NOT_IN_WATER_OR_RAIN = ConditionModule.entityCondition(((entity) -> !entity.isInWaterOrRain()));
-    private static final ConditionModule PLAYER_CAN_EAT = ConditionModule.entityCondition((entity -> entity instanceof Player player && player.canEat(false)));
+    private static final ConditionModule NOT_IN_WATER_OR_RAIN = ConditionModule.entityCondition(((itemOwner) -> !itemOwner.isInWaterOrRain()));
+    private static final ConditionModule PLAYER_CAN_EAT = ConditionModule.entityCondition((itemOwner -> itemOwner instanceof Player playerOwner && playerOwner.canEat(false)));
     private static final ConditionModule PLAYER_SHIFT_KEY_DOWN = ConditionModule.entityCondition((Entity::isShiftKeyDown));
     private static final ConditionModule PLAYER_SHIFT_KEY_UP = PLAYER_SHIFT_KEY_DOWN.opposite();
     private static final SideEffectModule.DamageItem DAMAGE_ITEM = SideEffectModule.DamageItem.simple();
     private static final SideEffectModule.Shrink SHRINK_ONE_ITEM = SideEffectModule.Shrink.builder().simple();
     private static final SideEffectModule.Shrink.Builder SHRINK = SideEffectModule.Shrink.builder();
-    private static final ActionModule.Sound ILLUSIONER_CAST_SPELL_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.375F + 0.25F * entity.getRandom().nextFloat()));
-    private static final ActionModule.Sound CHAINED_GOD_ROAR_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(AerialHellSoundEvents.ENTITY_CHAINED_GOD_ROAR.get(), 1.0F, 1.375F + 0.25F * entity.getRandom().nextFloat()));
-    private static final ActionModule.Sound ENCHANTMENT_TABLE_USE_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.ENCHANTMENT_TABLE_USE, 1.0F, 1.375F + 0.25F * entity.getRandom().nextFloat()));
-    private static final ActionModule.Sound GENERIC_DRINK_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.GENERIC_DRINK.value(), 1.0F, 1.5F + 0.4F * entity.getRandom().nextFloat()));
-    private static final ActionModule.Sound GENERIC_EAT_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.GENERIC_EAT.value(), 1.0F, 0.5F + entity.getRandom().nextFloat()));
-    private static final ActionModule.Sound GENERIC_EXTINGUISH_FIRE_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.GENERIC_EXTINGUISH_FIRE, 1.0F, 0.5F + entity.getRandom().nextFloat()));
-    private static final ActionModule.Sound CREEPER_PRIMED_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.CREEPER_PRIMED, 1.0F, 0.2F + entity.getRandom().nextFloat()));
-    private static final ActionModule.Sound GENERIC_EXPLODE_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.GENERIC_EXPLODE.value(), 1.0F, 0.5F + entity.getRandom().nextFloat()));
-    private static final ActionModule.Sound GLASS_BREAK_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.GLASS_BREAK, 1.0F, 0.25F + 0.5F * entity.getRandom().nextFloat()));
-    private static final ActionModule.Sound PARROT_IMITATE_MAGMA_CUBE_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(SoundEvents.PARROT_IMITATE_MAGMA_CUBE, 1.0F, 0.5F + entity.getRandom().nextFloat()));
-    private static final ActionModule.Sound SHURIKEN_SHOOT_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(AerialHellSoundEvents.ENTITY_SHURIKEN_SHOOT.get(), 1.0F, 1.0F / (entity.getRandom().nextFloat() * 0.4F + 0.8F)));
-    private static final ActionModule.Sound FORGOTTEN_BATTLE_TRIDENT_USE_SOUND = new ActionModule.Sound((entity) -> new PlaySoundHelper(AerialHellSoundEvents.ITEM_FORGOTTEN_BATTLE_TRIDENT_USE.get(), 1.0F, 1.375F + 0.25F * entity.getRandom().nextFloat()));
+    private static final ActionModule.Sound ILLUSIONER_CAST_SPELL_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(SoundEvents.ILLUSIONER_CAST_SPELL, 1.0F, 1.375F + 0.25F * itemOwner.getRandom().nextFloat()));
+    private static final ActionModule.Sound CHAINED_GOD_ROAR_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(AerialHellSoundEvents.ENTITY_CHAINED_GOD_ROAR.get(), 1.0F, 1.375F + 0.25F * itemOwner.getRandom().nextFloat()));
+    private static final ActionModule.Sound ENCHANTMENT_TABLE_USE_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(SoundEvents.ENCHANTMENT_TABLE_USE, 1.0F, 1.375F + 0.25F * itemOwner.getRandom().nextFloat()));
+    private static final ActionModule.Sound GENERIC_DRINK_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(SoundEvents.GENERIC_DRINK.value(), 1.0F, 1.5F + 0.4F * itemOwner.getRandom().nextFloat()));
+    private static final ActionModule.Sound GENERIC_EAT_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(SoundEvents.GENERIC_EAT.value(), 1.0F, 0.5F + itemOwner.getRandom().nextFloat()));
+    private static final ActionModule.Sound GENERIC_EXTINGUISH_FIRE_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(SoundEvents.GENERIC_EXTINGUISH_FIRE, 1.0F, 0.5F + itemOwner.getRandom().nextFloat()));
+    private static final ActionModule.Sound CREEPER_PRIMED_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(SoundEvents.CREEPER_PRIMED, 1.0F, 0.2F + itemOwner.getRandom().nextFloat()));
+    private static final ActionModule.Sound GENERIC_EXPLODE_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(SoundEvents.GENERIC_EXPLODE.value(), 1.0F, 0.5F + itemOwner.getRandom().nextFloat()));
+    private static final ActionModule.Sound GLASS_BREAK_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(SoundEvents.GLASS_BREAK, 1.0F, 0.25F + 0.5F * itemOwner.getRandom().nextFloat()));
+    private static final ActionModule.Sound PARROT_IMITATE_MAGMA_CUBE_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(SoundEvents.PARROT_IMITATE_MAGMA_CUBE, 1.0F, 0.5F + itemOwner.getRandom().nextFloat()));
+    private static final ActionModule.Sound SHURIKEN_SHOOT_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(AerialHellSoundEvents.ENTITY_SHURIKEN_SHOOT.get(), 1.0F, 1.0F / (itemOwner.getRandom().nextFloat() * 0.4F + 0.8F)));
+    private static final ActionModule.Sound FORGOTTEN_BATTLE_TRIDENT_USE_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(AerialHellSoundEvents.ITEM_FORGOTTEN_BATTLE_TRIDENT_USE.get(), 1.0F, 1.375F + 0.25F * itemOwner.getRandom().nextFloat()));
 
     private static final ActionModule.Particle.Builder CLOUD_PARTICLES = ActionModule.Particle.builder(ParticleTypes.CLOUD);
     private static final ActionModule.Particle.Builder SMOKE_PARTICLES = ActionModule.Particle.builder(ParticleTypes.SMOKE);
@@ -99,7 +102,7 @@ public class AerialHellItemAbilities
     private static final ActionModule.Particle.Builder CRISMON_SPORE_PARTICLES = ActionModule.Particle.builder(ParticleTypes.CRIMSON_SPORE);
 
     //little test about summoning creatures
-    private static final ActionModule INVOKE_CHAINED_GOD = ActionModule.create((stack, itemOwner, equipmentSlot, enemyEntity, damageSource) -> {
+    private static final ActionModule INVOKE_CHAINED_GOD = ActionModule.create((stack, itemOwner, equipmentSlot, damageInfo) -> {
         ChainedGodEntity god = AerialHellEntities.CHAINED_GOD.get().create(itemOwner.level(), EntitySpawnReason.TRIGGERED);
         if (god != null)
         {
@@ -195,7 +198,7 @@ public class AerialHellItemAbilities
     public static final ItemAbility SPREAD_LIGHT = ItemAbility.builder()
             .setDescId("spread_light")
             .addOnUseModules(ModuleList.builder()
-                    .addActions(THROW_PROJECTILE.build(AerialHellEntities.LUNATIC_PROJECTILE.get(), 0.7f, 0), WEAKNESS_EFFECT.with((entity) -> LIGHT_WEAPON_COOLDOWN.getCooldownDuration(entity) / 3, (entity) -> 2))
+                    .addActions(THROW_PROJECTILE.build(AerialHellEntities.LUNATIC_PROJECTILE.get(), 0.7f, 0), WEAKNESS_EFFECT.with((itemOwner) -> LIGHT_WEAPON_COOLDOWN.getCooldownDuration(itemOwner) / 3, (itemOwner) -> 2))
                     .addConditions(HAS_NO_SHADOW_STUFF)
                     .addSideEffects(LIGHT_WEAPON_COOLDOWN, DAMAGE_ITEM)
                     .build())
@@ -204,7 +207,7 @@ public class AerialHellItemAbilities
     public static final ItemAbility VOLUCITE_POWER = ItemAbility.builder()
             .setDescId("volucite_power")
             .addOnUseModules(ModuleList.builder()
-                    .addActions(SLOW_FALLING_EFFECT.with((entity) -> EntityHelper.hasFullVoluciteStuff(entity) ? 120 : 80, (entity) -> 0), HEAD_IN_THE_CLOUDS_EFFECT.with((entity) -> EntityHelper.hasFullVoluciteStuff(entity) ? 100 : -1, (entity) -> 1), CLOUD_PARTICLES.of(20), ILLUSIONER_CAST_SPELL_SOUND)
+                    .addActions(SLOW_FALLING_EFFECT.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? 120 : 80, (itemOwner) -> 0), HEAD_IN_THE_CLOUDS_EFFECT.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? 100 : -1, (itemOwner) -> 1), CLOUD_PARTICLES.of(20), ILLUSIONER_CAST_SPELL_SOUND)
                     .addConditions(HAS_NO_HEAVY_STUFF)
                     .addSideEffects(COOLDOWN.of(250), DAMAGE_ITEM)
                     .build())
@@ -214,6 +217,14 @@ public class AerialHellItemAbilities
             .addOnUseModules(ModuleList.builder()
                     .addActions(EXPLOSION_PARTICLES.of(20))
                     .addSideEffects(DAMAGE_ITEM)
+                    .build())
+            .addOnTakeDamageModules(ModuleList.builder()
+                    .addActions(MULTIPLY_DAMAGE.by(2.0F))
+                    .addConditions(STACK_IN_MAIN_HAND)
+                    .build())
+            .addOnDealDamageModules(ModuleList.builder()
+                    .addActions(MULTIPLY_DAMAGE.by(2.0F))
+                    .addConditions(STACK_IN_MAIN_HAND)
                     .build())
             .build();
 
@@ -250,7 +261,7 @@ public class AerialHellItemAbilities
             .setDescId("magma_cube")
             .addPassiveModules(ModuleList.builder()
                     .addActions(JUMP_BOOST_EFFECT.passiveBuild())
-                    .addConditions(STACK_IN_MAIN_OR_OFF_HAND_PASSIVE)
+                    .addConditions(STACK_IN_MAIN_OR_OFF_HAND)
                     .build())
             .addOnUseModules(ModuleList.builder()
                     .addActions(JUMP_BOOST_EFFECT.with(100, 2), CRISMON_SPORE_PARTICLES.of(20), PARROT_IMITATE_MAGMA_CUBE_SOUND)
@@ -270,7 +281,7 @@ public class AerialHellItemAbilities
             .setDescId("god")
             .addPassiveModules(ModuleList.builder()
                     .addActions(GOD_EFFECT.passiveBuild())
-                    .addConditions(STACK_IN_MAIN_OR_OFF_HAND_PASSIVE)
+                    .addConditions(STACK_IN_MAIN_OR_OFF_HAND)
                     .build()
             ).build();
 
