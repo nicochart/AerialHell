@@ -12,15 +12,15 @@ public class ItemAbility
     private String descId;
     private final ModuleList passiveModules;
     private final ModuleList onUseModules;
-    private final ModuleList onHurtEnemyModules;
+    private final ModuleList onDealDamageModules;
     private final ModuleList onTakeDamageModules;
 
-    ItemAbility(String descId, ModuleList passiveModules, ModuleList onUseModules, ModuleList onHurtEnemyModules, ModuleList onTakeDamageModules)
+    ItemAbility(String descId, ModuleList passiveModules, ModuleList onUseModules, ModuleList onDealDamageModules, ModuleList onTakeDamageModules)
     {
         this.descId = descId;
         this.passiveModules = passiveModules;
         this.onUseModules = onUseModules;
-        this.onHurtEnemyModules = onHurtEnemyModules;
+        this.onDealDamageModules = onDealDamageModules;
         this.onTakeDamageModules = onTakeDamageModules;
     }
 
@@ -32,7 +32,7 @@ public class ItemAbility
         {
             case TICK -> this.passiveModules;
             case ON_USE -> this.onUseModules;
-            case ON_HURT_ENEMY -> this.onHurtEnemyModules;
+            case ON_DEAL_DAMAGE -> this.onDealDamageModules;
             case ON_TAKE_DAMAGE -> this.onTakeDamageModules;
         };
         if (moduleList == null) {return false;}
@@ -109,15 +109,15 @@ public class ItemAbility
         private String descId;
         private final ModuleList.Builder passiveModules;
         private final ModuleList.Builder onUseModules;
-        private final ModuleList.Builder onHurtEnemyModules;
+        private final ModuleList.Builder onDealDamageModules;
         private final ModuleList.Builder onTakeDamageModules;
 
         private Builder() {this(ModuleList.builder(), ModuleList.builder(), ModuleList.builder(), ModuleList.builder());}
-        private Builder(ModuleList.Builder passiveModules, ModuleList.Builder onUseModules, ModuleList.Builder onHurtEnemyModules, ModuleList.Builder onTakeDamageModules)
+        private Builder(ModuleList.Builder passiveModules, ModuleList.Builder onUseModules, ModuleList.Builder onDealDamageModules, ModuleList.Builder onTakeDamageModules)
         {
             this.passiveModules = passiveModules;
             this.onUseModules = onUseModules;
-            this.onHurtEnemyModules = onHurtEnemyModules;
+            this.onDealDamageModules = onDealDamageModules;
             this.onTakeDamageModules = onTakeDamageModules;
             this.descId = "";
         }
@@ -126,26 +126,26 @@ public class ItemAbility
 
         public ItemAbility.Builder addPassiveModules(ModuleList modules) {this.passiveModules.addAll(modules); return this;}
         public ItemAbility.Builder addOnUseModules(ModuleList modules) {this.onUseModules.addAll(modules); return this;}
-        public ItemAbility.Builder addOnHurtEnemyModules(ModuleList modules) {this.onHurtEnemyModules.addAll(modules); return this;}
+        public ItemAbility.Builder addOnDealDamageModules(ModuleList modules) {this.onDealDamageModules.addAll(modules); return this;}
         public ItemAbility.Builder addOnTakeDamageModules(ModuleList modules) {this.onTakeDamageModules.addAll(modules); return this;}
 
         public ItemAbility.Builder inheritsOf(ItemAbility ability)
         {
             this.addPassiveModules(ability.passiveModules);
             this.addOnUseModules(ability.onUseModules);
-            this.addOnHurtEnemyModules(ability.onHurtEnemyModules);
+            this.addOnDealDamageModules(ability.onDealDamageModules);
             this.addOnTakeDamageModules(ability.onTakeDamageModules);
             return this;
         }
 
         public ItemAbility.Builder copy()
         {
-            return new ItemAbility.Builder(this.passiveModules.copy(), this.onUseModules.copy(), this.onHurtEnemyModules.copy(), this.onTakeDamageModules.copy());
+            return new ItemAbility.Builder(this.passiveModules.copy(), this.onUseModules.copy(), this.onDealDamageModules.copy(), this.onTakeDamageModules.copy());
         }
 
         public ItemAbility build()
         {
-            return new ItemAbility(this.descId, this.passiveModules.build(), this.onUseModules.build(), this.onHurtEnemyModules.build(), this.onTakeDamageModules.build());
+            return new ItemAbility(this.descId, this.passiveModules.build(), this.onUseModules.build(), this.onDealDamageModules.build(), this.onTakeDamageModules.build());
         }
     }
 }

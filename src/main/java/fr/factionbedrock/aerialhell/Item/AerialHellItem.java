@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Item;
 import com.mojang.datafixers.util.Pair;
 import fr.factionbedrock.aerialhell.Item.Ability.AbilitySelector;
 import fr.factionbedrock.aerialhell.Item.Ability.AbilityUseSituation;
+import fr.factionbedrock.aerialhell.Item.Ability.DamageUseSituationInfo;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellToolMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
@@ -23,7 +24,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -83,21 +83,18 @@ public class AerialHellItem extends WithInformationItem
 		return used ? InteractionResult.CONSUME : super.use(level, player, hand);
 	}
 
-	//applying hurtEnemy (semi-passive) tool ability modules
-	//item owner is attacker
-	@Override public void hurtEnemy(ItemStack itemStack, LivingEntity target, LivingEntity itemOwner)
+	//applying onDealDamage (semi-passive) tool ability modules
+	//enemy entity (stored in damageInfo) is taking damage from item owner
+	public void onDealDamage(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot slot, DamageUseSituationInfo damageInfo)
 	{
-		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnHurtEnemy(itemStack, itemOwner, EquipmentSlot.MAINHAND, target));}
-		super.hurtEnemy(itemStack, target, itemOwner);
+		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnDealDamage(itemStack, itemOwner, slot, damageInfo));}
 	}
 
 	//applying onTakeDamage (semi-passive) tool ability modules
-	//attacker is the one who is dealing damage to item owner
-	public void onTakeDamage(ItemStack itemStack, LivingEntity itemOwner, @Nullable LivingEntity attacker, @Nullable DamageSource damageSource, EquipmentSlot slot)
+	//item owner is taking damage from enemy attacker (stored in damageInfo)
+	public void onTakeDamage(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot slot, DamageUseSituationInfo damageInfo)
 	{
-		//comment gérer la damage source, et comment gérer le fait que les effets sont appliqués à l'attacker ?
-		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnTakeDamage(itemStack, itemOwner, slot, attacker, damageSource));}
-		super.hurtEnemy(itemStack, itemOwner, attacker);
+		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnTakeDamage(itemStack, itemOwner, slot, damageInfo));}
 	}
 
 	@Override public void appendAbilityDescriptionHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder)

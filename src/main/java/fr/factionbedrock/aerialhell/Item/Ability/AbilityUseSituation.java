@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Item.Ability;
 
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -12,17 +11,15 @@ public class AbilityUseSituation
     public final ItemStack itemStack;
     public final LivingEntity itemOwner;
     public final @Nullable EquipmentSlot equipmentSlot;
-    public final @Nullable LivingEntity enemyEntity;
-    public final @Nullable DamageSource damageSource;
+    public final @Nullable DamageUseSituationInfo damageUseSituationInfo;
     public final AbilityUseSituation.Category category;
 
-    private AbilityUseSituation(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable LivingEntity enemyEntity, @Nullable DamageSource damageSource, AbilityUseSituation.Category useSituation)
+    private AbilityUseSituation(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable DamageUseSituationInfo damageUseSituationInfo, AbilityUseSituation.Category useSituation)
     {
         this.itemStack = itemStack;
         this.itemOwner = itemOwner;
         this.equipmentSlot = equipmentSlot;
-        this.enemyEntity = enemyEntity;
-        this.damageSource = damageSource;
+        this.damageUseSituationInfo = damageUseSituationInfo;
         this.category = useSituation;
     }
 
@@ -30,7 +27,7 @@ public class AbilityUseSituation
     {
         public Tick(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot)
         {
-            super(itemStack, itemOwner, equipmentSlot, null, null, Category.TICK);
+            super(itemStack, itemOwner, equipmentSlot, null, Category.TICK);
         }
     }
 
@@ -38,25 +35,25 @@ public class AbilityUseSituation
     {
         public OnUse(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot)
         {
-            super(itemStack, itemOwner, equipmentSlot, null, null, Category.ON_USE);
+            super(itemStack, itemOwner, equipmentSlot, null, Category.ON_USE);
         }
     }
 
-    public static class OnHurtEnemy extends AbilityUseSituation
+    public static class OnDealDamage extends AbilityUseSituation
     {
-        public OnHurtEnemy(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable LivingEntity enemyEntity)
+        public OnDealDamage(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, DamageUseSituationInfo damageInfo)
         {
-            super(itemStack, itemOwner, equipmentSlot, enemyEntity, null, Category.ON_HURT_ENEMY);
+            super(itemStack, itemOwner, equipmentSlot, damageInfo, Category.ON_DEAL_DAMAGE);
         }
     }
 
     public static class OnTakeDamage extends AbilityUseSituation
     {
-        public OnTakeDamage(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable LivingEntity enemyEntity, @Nullable DamageSource damageSource)
+        public OnTakeDamage(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, DamageUseSituationInfo damageInfo)
         {
-            super(itemStack, itemOwner, equipmentSlot, enemyEntity, damageSource, Category.ON_TAKE_DAMAGE);
+            super(itemStack, itemOwner, equipmentSlot, damageInfo, Category.ON_TAKE_DAMAGE);
         }
     }
 
-    public enum Category {TICK, ON_USE, ON_HURT_ENEMY, ON_TAKE_DAMAGE}
+    public enum Category {TICK, ON_USE, ON_DEAL_DAMAGE, ON_TAKE_DAMAGE}
 }
