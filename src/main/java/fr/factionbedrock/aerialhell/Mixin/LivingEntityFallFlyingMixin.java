@@ -1,8 +1,10 @@
 package fr.factionbedrock.aerialhell.Mixin;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,6 +19,15 @@ public class LivingEntityFallFlyingMixin
     {
         LivingEntity entity = (LivingEntity) (Object) this;
         if (entity.isInLiquid() || EntityHelper.isSpectatorPlayer(entity) || EntityHelper.isFlyingCreativePlayer(entity)) {return;}
+        if (entity instanceof Player player && player.getInventory().contains(AerialHellItems.VOLUCITE_VIBRANT.toStack()))
+        {
+            if (player.getDeltaMovement().y < -0.2 && !player.isShiftKeyDown())
+            {
+                player.fallDistance = 0;
+                player.setDeltaMovement(player.getDeltaMovement().x, -0.2, player.getDeltaMovement().z);
+            }
+        }
+
         if (entity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS))
         {
             double x = entity.getDeltaMovement().x, y = entity.getDeltaMovement().y, z = entity.getDeltaMovement().z;

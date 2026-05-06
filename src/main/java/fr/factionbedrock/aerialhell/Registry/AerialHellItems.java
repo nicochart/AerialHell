@@ -478,7 +478,7 @@ public class AerialHellItems
     public static final DeferredItem<Item> MAGMATIC_GEL = ITEMS.register(Keys.MAGMATIC_GEL.identifier().getPath(),() -> new Item(new Item.Properties().setId(Keys.MAGMATIC_GEL).trimMaterial(AerialHellTrimMaterials.Keys.MAGMATIC_GEL)));
     public static final DeferredItem<Item> RUBY = ITEMS.register(Keys.RUBY.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.RUBY).trimMaterial(AerialHellTrimMaterials.Keys.RUBY)));
     public static final DeferredItem<Item> AZURITE_CRYSTAL = ITEMS.register(Keys.AZURITE_CRYSTAL.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.AZURITE_CRYSTAL)));
-    public static final DeferredItem<Item> VOLUCITE_VIBRANT = ITEMS.register(Keys.VOLUCITE_VIBRANT.identifier().getPath(), () -> new VoluciteVibrantItem(new Item.Properties().setId(Keys.VOLUCITE_VIBRANT).trimMaterial(AerialHellTrimMaterials.Keys.VOLUCITE_VIBRANT).rarity(AerialHellRarities.VIBRANT.getValue())));
+    public static final DeferredItem<Item> VOLUCITE_VIBRANT = ITEMS.register(Keys.VOLUCITE_VIBRANT.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.VOLUCITE_VIBRANT).trimMaterial(AerialHellTrimMaterials.Keys.VOLUCITE_VIBRANT).rarity(AerialHellRarities.VIBRANT.getValue())));
 
     public static final DeferredItem<Item> OVERHEATED_RUBY = ITEMS.register(Keys.OVERHEATED_RUBY.identifier().getPath(), () -> new WithInformationItem(new Item.Properties().setId(Keys.OVERHEATED_RUBY)));
     public static final DeferredItem<Item> OVERHEATED_VOLUCITE = ITEMS.register(Keys.OVERHEATED_VOLUCITE.identifier().getPath(), () -> new WithInformationItem(new Item.Properties().setId(Keys.OVERHEATED_VOLUCITE)));
