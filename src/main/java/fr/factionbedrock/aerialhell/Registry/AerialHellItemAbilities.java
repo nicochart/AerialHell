@@ -9,6 +9,7 @@ import fr.factionbedrock.aerialhell.Item.Ability.Module.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -79,6 +80,19 @@ public class AerialHellItemAbilities
         livingOther.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 40, otherIsLight ? 1 : 0));
     });
 
+    private static final ActionModule SLOW_DOWN_NEARBY_ENTITIES = ActionModule.create((stack, itemOwner, equipmentSlot, damageInfo) ->
+    {
+        List<LivingEntity> nearbyEntities = EntityHelper.getTargetableLivingEntitiesInInflatedBoundingBox(itemOwner, 6, (entity) -> !EntityHelper.isCreaOrSpecPlayer(entity));
+        for (LivingEntity nearbyEntity : nearbyEntities)
+        {
+            nearbyEntity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 120, 3));
+            if (itemOwner.level() instanceof ServerLevel serverLevel)
+            {
+                serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, nearbyEntity.getX(), nearbyEntity.getY(0.5), nearbyEntity.getZ(), 10, 0.5F, 0.5F, 0.5F, 0.4F);
+            }
+        }
+    });
+
     private static final ActionModule LIFT_OFF = ActionModule.onItemOwner((itemOwner) -> itemOwner.setDeltaMovement(itemOwner.getDeltaMovement().add(0, 2.0F, 0)));
 
     private static final ActionModule IGNITE_OTHER = ActionModule.onOther((otherEntity) -> otherEntity.igniteForSeconds(5));
@@ -124,16 +138,20 @@ public class AerialHellItemAbilities
     private static final ActionModule.Sound PARROT_IMITATE_MAGMA_CUBE_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(SoundEvents.PARROT_IMITATE_MAGMA_CUBE, 1.0F, 0.5F + itemOwner.getRandom().nextFloat()));
     private static final ActionModule.Sound SHURIKEN_SHOOT_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(AerialHellSoundEvents.ENTITY_SHURIKEN_SHOOT.get(), 1.0F, 1.0F / (itemOwner.getRandom().nextFloat() * 0.4F + 0.8F)));
     private static final ActionModule.Sound FORGOTTEN_BATTLE_TRIDENT_USE_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(AerialHellSoundEvents.ITEM_FORGOTTEN_BATTLE_TRIDENT_USE.get(), 1.0F, 1.375F + 0.25F * itemOwner.getRandom().nextFloat()));
+    private static final ActionModule.Sound ICE_SPIRIT_DEATH_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(AerialHellSoundEvents.ENTITY_ICE_SPIRIT_DEATH.get(), 1.0F, 0.875F + 0.25F * itemOwner.getRandom().nextFloat()));
 
-    private static final ActionModule.Particle.Builder CLOUD_PARTICLES = ActionModule.Particle.builder(ParticleTypes.CLOUD);
-    private static final ActionModule.Particle.Builder SMOKE_PARTICLES = ActionModule.Particle.builder(ParticleTypes.SMOKE);
-    private static final ActionModule.Particle.Builder DRIPPING_WATER_PARTICLES = ActionModule.Particle.builder(ParticleTypes.DRIPPING_WATER);
-    private static final ActionModule.Particle.Builder ENCHANT_PARTICLES = ActionModule.Particle.builder(ParticleTypes.ENCHANT);
-    private static final ActionModule.Particle.Builder SPORE_BLOSSOM_AIR_PARTICLES = ActionModule.Particle.builder(ParticleTypes.SPORE_BLOSSOM_AIR);
-    private static final ActionModule.Particle.Builder FLAME_PARTICLES = ActionModule.Particle.builder(ParticleTypes.FLAME);
-    private static final ActionModule.Particle.Builder EXPLOSION_PARTICLES = ActionModule.Particle.builder(ParticleTypes.EXPLOSION);
-    private static final ActionModule.Particle.Builder SHADOW_LIGHT_PARTICLES = ActionModule.Particle.builder(AerialHellParticleTypes.SHADOW_LIGHT.get());
-    private static final ActionModule.Particle.Builder CRISMON_SPORE_PARTICLES = ActionModule.Particle.builder(ParticleTypes.CRIMSON_SPORE);
+    private static final ActionModule.Particle.Builder CLOUD_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.CLOUD);
+    private static final ActionModule.Particle.Builder SMOKE_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.SMOKE);
+    private static final ActionModule.Particle.Builder SNOWFLAKE_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.SNOWFLAKE);
+    private static final ActionModule.Particle.Builder DRIPPING_WATER_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.DRIPPING_WATER);
+    private static final ActionModule.Particle.Builder ENCHANT_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.ENCHANT);
+    private static final ActionModule.Particle.Builder SPORE_BLOSSOM_AIR_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.SPORE_BLOSSOM_AIR);
+    private static final ActionModule.Particle.Builder FLAME_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.FLAME);
+    private static final ActionModule.Particle.Builder EXPLOSION_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.EXPLOSION);
+    private static final ActionModule.Particle.Builder SHADOW_LIGHT_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(AerialHellParticleTypes.SHADOW_LIGHT.get());
+    private static final ActionModule.Particle.Builder CRISMON_SPORE_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.CRIMSON_SPORE);
+
+    private static final ActionModule.Particle.Builder SNOWFLAKE_PARTICLES_ON_OTHER = ActionModule.Particle.onOtherBuilder(ParticleTypes.SNOWFLAKE);
 
     //little test about summoning creatures
     private static final ActionModule INVOKE_CHAINED_GOD = ActionModule.create((stack, itemOwner, equipmentSlot, damageInfo) -> {
@@ -172,7 +190,7 @@ public class AerialHellItemAbilities
     private static final ItemAbility NINJA_SWORD_COMMON = ItemAbility.builder()
             .addOnUseModules(ModuleList.builder()
                     .addActions(
-                            CLOUD_PARTICLES.of(20),
+                            CLOUD_PARTICLES_ON_SELF.of(20),
                             ILLUSIONER_CAST_SPELL_SOUND)
                     .addSideEffects(DAMAGE_ITEM)
                     .build())
@@ -205,7 +223,7 @@ public class AerialHellItemAbilities
             .addOnUseModules(ModuleList.builder()
                     .addActions(
                             RANDOM_SWORD_RANDOM_EFFECT,
-                            ENCHANT_PARTICLES.of(20),
+                            ENCHANT_PARTICLES_ON_SELF.of(20),
                             ENCHANTMENT_TABLE_USE_SOUND)
                     .addSideEffects(COOLDOWN.of(900), DAMAGE_ITEM)
                     .build())
@@ -216,7 +234,7 @@ public class AerialHellItemAbilities
             .addOnUseModules(ModuleList.builder()
                     .addActions(
                             REMOVE_EFFECT.effects(MobEffects.POISON, MobEffects.WITHER),
-                            SPORE_BLOSSOM_AIR_PARTICLES.of(20),
+                            SPORE_BLOSSOM_AIR_PARTICLES_ON_SELF.of(20),
                             GENERIC_DRINK_SOUND)
                     .addConditions(HAS_POISON_OR_WITHER)
                     .addSideEffects(COOLDOWN.of(900), DAMAGE_ITEM)
@@ -239,7 +257,7 @@ public class AerialHellItemAbilities
             .addOnUseModules(ModuleList.builder()
                     .addActions(
                             FIRE_RESISTANCE_TO_SELF.withDuration(280),
-                            FLAME_PARTICLES.of(20), GENERIC_EXTINGUISH_FIRE_SOUND)
+                            FLAME_PARTICLES_ON_SELF.of(20), GENERIC_EXTINGUISH_FIRE_SOUND)
                     .addConditions(NOT_IN_WATER_OR_RAIN)
                     .addSideEffects(NETHERIAN_KING_SWORD_COOLDOWN, DAMAGE_ITEM)
                     .build())
@@ -258,15 +276,15 @@ public class AerialHellItemAbilities
                     .addSideEffects(LIGHT_WEAPON_COOLDOWN, DAMAGE_ITEM)
                     .build())
             .addOnDealDamageModules(ModuleList.builder()
-                    .addActions(MULTIPLY_DAMAGE.by((otherEntity) -> (EntityHelper.isShadowEntity(otherEntity) || EntityHelper.hasFullLunaticStuff(otherEntity)) ? 1.8F : 1.0F, TestTarget.OTHER))
+                    .addActions(MULTIPLY_DAMAGE.by((otherEntity) -> (EntityHelper.isShadowEntity(otherEntity) || EntityHelper.hasFullShadowStuff(otherEntity)) ? 1.8F : 1.0F, TestTarget.OTHER))
                     .addConditions(HAS_NO_SHADOW_STUFF)
                     .build())
             .build();
 
-    public static final ItemAbility LUNAR_WEAPON = ItemAbility.builder()
-            .setDescId("lunar_weapon")
+    public static final ItemAbility LUNAR_TOOL = ItemAbility.builder()
+            .setDescId("lunar_tool")
             .addOnDealDamageModules(ModuleList.builder()
-                    .addActions(MULTIPLY_DAMAGE.by((otherEntity) -> (EntityHelper.isShadowEntity(otherEntity) || EntityHelper.hasFullLunaticStuff(otherEntity)) ? 1.4F : 1.0F, TestTarget.OTHER))
+                    .addActions(MULTIPLY_DAMAGE.by((otherEntity) -> (EntityHelper.isShadowEntity(otherEntity) || EntityHelper.hasFullShadowStuff(otherEntity)) ? 1.4F : 1.0F, TestTarget.OTHER))
                     .addConditions(HAS_NO_SHADOW_STUFF)
                     .build())
             .build();
@@ -277,7 +295,7 @@ public class AerialHellItemAbilities
                     .addActions(
                             SLOW_FALLING_TO_SELF.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? 120 : 80, (itemOwner) -> 0, TestTarget.ITEM_OWNER),
                             HEAD_IN_THE_CLOUDS_TO_SELF.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? 100 : -1, (itemOwner) -> 1, TestTarget.ITEM_OWNER),
-                            CLOUD_PARTICLES.of(20),
+                            CLOUD_PARTICLES_ON_SELF.of(20),
                             ILLUSIONER_CAST_SPELL_SOUND)
                     .addConditions(HAS_NO_HEAVY_STUFF)
                     .addSideEffects(COOLDOWN.of(250), DAMAGE_ITEM)
@@ -286,7 +304,7 @@ public class AerialHellItemAbilities
 
     private static final ItemAbility GLASS_CANNON_SWORD_COMMON = ItemAbility.builder()
             .addOnUseModules(ModuleList.builder()
-                    .addActions(EXPLOSION_PARTICLES.of(20))
+                    .addActions(EXPLOSION_PARTICLES_ON_SELF.of(20))
                     .addSideEffects(DAMAGE_ITEM)
                     .build())
             .addOnTakeDamageModules(ModuleList.builder()
@@ -329,7 +347,7 @@ public class AerialHellItemAbilities
                             INVISIBILITY_TO_SELF.withDuration(200),
                             SPEED_TO_SELF.withDuration(120),
                             SHADOW_IMMUNITY_TO_SELF.withDuration(120),
-                            SHADOW_LIGHT_PARTICLES.of(20),
+                            SHADOW_LIGHT_PARTICLES_ON_SELF.of(20),
                             ILLUSIONER_CAST_SPELL_SOUND)
                     .addConditions(HAS_NO_LUNATIC_STUFF)
                     .addSideEffects(COOLDOWN.of(600), DAMAGE_ITEM)
@@ -357,7 +375,7 @@ public class AerialHellItemAbilities
             .addOnUseModules(ModuleList.builder()
                     .addActions(
                             JUMP_BOOST_TO_SELF.with(100, 2),
-                            CRISMON_SPORE_PARTICLES.of(20),
+                            CRISMON_SPORE_PARTICLES_ON_SELF.of(20),
                             PARROT_IMITATE_MAGMA_CUBE_SOUND)
                     .addSideEffects(COOLDOWN.of(400), DAMAGE_ITEM)
                     .build())
@@ -371,7 +389,7 @@ public class AerialHellItemAbilities
                             DOLPHINS_GRACE_TO_SELF.withDuration(120),
                             SPEED_TO_SELF.withDuration(120),
                             STRENGTH_TO_SELF.withDuration(300),
-                            DRIPPING_WATER_PARTICLES.of(20),
+                            DRIPPING_WATER_PARTICLES_ON_SELF.of(20),
                             FORGOTTEN_BATTLE_TRIDENT_USE_SOUND)
                     .addSideEffects(COOLDOWN.of(540), DAMAGE_ITEM)
                     .build())
@@ -388,24 +406,34 @@ public class AerialHellItemAbilities
                     .build()
             ).build();
 
-    public static final ItemAbility MAGMATIC_GEL_TOOLS = ItemAbility.builder()
-            .setDescId("magmatic_gel_tools")
+    public static final ItemAbility MAGMATIC_GEL_TOOL = ItemAbility.builder()
+            .setDescId("magmatic_gel_tool")
             .addOnDealDamageModules(ModuleList.builder()
-                    .addActions(SLOWNESS_TO_OTHER.with((itemOwner) -> 120, (itemOwner) -> EntityHelper.hasFullMagmaticGelStuff(itemOwner) ? 1 : 0, TestTarget.ITEM_OWNER))
+                    .addActions(
+                            SLOWNESS_TO_OTHER.with((itemOwner) -> 120, (itemOwner) -> EntityHelper.hasFullMagmaticGelStuff(itemOwner) ? 1 : 0, TestTarget.ITEM_OWNER),
+                            SNOWFLAKE_PARTICLES_ON_OTHER.of(5))
                     .build()
             ).build();
 
     public static final ItemAbility ABSOLUTE_ZERO = ItemAbility.builder()
             .setDescId("absolute_zero")
             .addOnDealDamageModules(ModuleList.builder()
-                    .addActions(SLOWNESS_TO_OTHER.with(100, 2))
+                    .addActions(
+                            SLOWNESS_TO_OTHER.with(100, 2),
+                            SNOWFLAKE_PARTICLES_ON_OTHER.of(5))
+                    .build())
+            .addOnUseModules(ModuleList.builder()
+                    .addActions(SLOW_DOWN_NEARBY_ENTITIES, SNOWFLAKE_PARTICLES_ON_SELF.of(20), ICE_SPIRIT_DEATH_SOUND)
+                    .addSideEffects(COOLDOWN.of(300), DAMAGE_ITEM)
                     .build()
             ).build();
 
     public static final ItemAbility MAGMATIC_GEL_ARMOR = ItemAbility.builder()
             .setDescId("magmatic_gel_armor")
             .addOnTakeDamageModules(ModuleList.builder()
-                    .addActions(SLOWNESS_TO_OTHER.with(120, 1))
+                    .addActions(
+                            SLOWNESS_TO_OTHER.with(120, 1),
+                            SNOWFLAKE_PARTICLES_ON_OTHER.of(5))
                     .addConditions(OTHER_IS_NOT_CREATIVE_PLAYER, IN_RIGHT_SLOT)
                     .build()
             ).build();
@@ -418,16 +446,16 @@ public class AerialHellItemAbilities
                     .build()
             ).build();
 
-    public static final ItemAbility ARSONIST_TOOLS = ItemAbility.builder()
-            .setDescId("arsonist_tools")
+    public static final ItemAbility ARSONIST_TOOL = ItemAbility.builder()
+            .setDescId("arsonist_tool")
             .addOnDealDamageModules(ModuleList.builder()
                     .addActions(IGNITE_OTHER, MULTIPLY_DAMAGE.by(itemOwner -> itemOwner.getRemainingFireTicks() > 0 ? 1.5F : 1.0F, TestTarget.ITEM_OWNER))
                     .build()
             ).build();
 
-    public static final ItemAbility DISLOYAL_SWORD = ItemAbility.builder()
-            .setDescId("disloyal_sword")
-            .addOnTakeDamageModules(ModuleList.builder()
+    public static final ItemAbility DISADVANTAGE_OPPONENT = ItemAbility.builder()
+            .setDescId("disadvantage_opponent")
+            .addOnDealDamageModules(ModuleList.builder()
                     .addActions(
                             SLOWNESS_TO_OTHER.with(100, 0),
                             WEAKNESS_TO_OTHER.with(100, 0),

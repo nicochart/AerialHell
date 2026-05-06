@@ -262,6 +262,7 @@ public class EntityHelper
 
     public static boolean hasFullMagmaticGelStuff(LivingEntity livingEntity) {return countMagmaticGelStuff(livingEntity) == 4;}
     public static boolean hasFullLunaticStuff(LivingEntity livingEntity) {return countLunaticStuff(livingEntity) == 4;}
+    public static boolean hasFullShadowStuff(LivingEntity livingEntity) {return countShadowStuff(livingEntity) == 4;}
     public static boolean hasFullVoluciteStuff(LivingEntity livingEntity) {return countVoluciteStuff(livingEntity) == 4;}
     public static boolean hasFullArsonistStuff(LivingEntity livingEntity) {return countArsonistStuff(livingEntity) == 4;}
     public static boolean hasNoLunaticStuff(LivingEntity livingEntity) {return countLunaticStuff(livingEntity) == 0;}

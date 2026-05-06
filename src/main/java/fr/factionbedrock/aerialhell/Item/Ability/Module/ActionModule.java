@@ -104,9 +104,6 @@ public class ActionModule extends AbilityModule
             //override duration and visibility. ambient = true to always display icon
             public MobEffect passiveBuild() {return new MobEffect(new MobEffectTemplate(this.effect, 32, this.amplifier, true, true, true), this.effectTarget, this.defaultTestTarget);}
         }
-
-        //SELF == Item Owner
-        public enum EffectTarget {SELF, OTHER}
     }
 
     public static class MobEffectList extends ActionModule
@@ -216,26 +213,30 @@ public class ActionModule extends AbilityModule
 
     public static class Particle extends ActionModule
     {
-        public Particle(SimpleParticleType particleType, int count, float speed)
+        public Particle(SimpleParticleType particleType, int count, float speed, EffectTarget effectTarget)
         {
             super((stack, itemOwner, equipmentSlot, damageInfo) ->
             {
-                if (itemOwner.level() instanceof ServerLevel serverLevel)
+                @Nullable LivingEntity targetEntity = effectTarget == EffectTarget.SELF ? itemOwner : damageInfo != null && damageInfo.otherEntity() instanceof LivingEntity otherLiving ? otherLiving : null;
+                if (targetEntity != null && itemOwner.level() instanceof ServerLevel serverLevel)
                 {
-                    serverLevel.sendParticles(particleType, itemOwner.getX(), itemOwner.getY(0.5), itemOwner.getZ(), count, 0.5F, 0.5F, 0.5F, speed);
+                    serverLevel.sendParticles(particleType, targetEntity.getX(), targetEntity.getY(0.5), targetEntity.getZ(), count, 0.5F, 0.5F, 0.5F, speed);
                 }
             });
         }
 
-        public static Particle.Builder builder(SimpleParticleType type) {return new Builder(type);}
+        public static Particle.Builder onOwnerBuilder(SimpleParticleType type) {return new Builder(type, EffectTarget.SELF);}
+        public static Particle.Builder onOtherBuilder(SimpleParticleType type) {return new Builder(type, EffectTarget.OTHER);}
+        public static Particle.Builder builder(SimpleParticleType type, EffectTarget effectTarget) {return new Builder(type, effectTarget);}
 
         public static class Builder
         {
             private final SimpleParticleType type;
-            private Builder(SimpleParticleType particleType) {this.type = particleType;}
+            private final EffectTarget effectTarget;
+            private Builder(SimpleParticleType particleType, EffectTarget effectTarget) {this.type = particleType; this.effectTarget = effectTarget;}
 
-            public ActionModule.Particle of(int count) {return new ActionModule.Particle(type, count, 0.5F);}
-            public ActionModule.Particle of(int count, float speed) {return new ActionModule.Particle(type, count, speed);}
+            public ActionModule.Particle of(int count) {return new ActionModule.Particle(type, count, 0.5F, effectTarget);}
+            public ActionModule.Particle of(int count, float speed) {return new ActionModule.Particle(type, count, speed, effectTarget);}
         }
     }
 
@@ -271,4 +272,7 @@ public class ActionModule extends AbilityModule
             public MultiplyDamage.MultiplyDamage by(ToFloatFunction<LivingEntity> multiplier, TestTarget testTarget) {return new ActionModule.MultiplyDamage(multiplier, testTarget);}
         }
     }
+
+    //SELF == Item Owner
+    public enum EffectTarget {SELF, OTHER}
 }
