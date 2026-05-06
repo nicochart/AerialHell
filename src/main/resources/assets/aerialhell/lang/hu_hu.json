@@ -1231,5 +1231,9 @@
   "ability.aerialhell.forgotten_battle_trident.desc_2" : "Dolphin's Grace, Speed and Strength for a short while",
   "ability.aerialhell.forgotten_battle_trident.cooldown.desc" : "Cooldown: 27s",
   "ability.aerialhell.god.desc" : "Passive képesség: Grants you the Gods effect",
-  "ability.aerialhell.god.desc_2" : "On hit : Ignites target"
+  "ability.aerialhell.god.desc_2" : "On hit: Ignites target",
+  "ability.aerialhell.cursed_totem.desc" : "Passive képesség: Biome-based effect",
+  "ability.aerialhell.cursed_totem.desc_2" : "Shadow Biome: Resistance",
+  "ability.aerialhell.cursed_totem.desc_3" : "Crystal Biome: Wither and Nausea",
+  "ability.aerialhell.cursed_totem.desc_4" : "Other Biome: Weakness and Slowness, unless you equip a full Shadow armor"
 }

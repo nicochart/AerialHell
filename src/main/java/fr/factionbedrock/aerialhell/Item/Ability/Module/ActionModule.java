@@ -104,6 +104,7 @@ public class ActionModule extends AbilityModule
             public MobEffect with(ToIntFunction<LivingEntity> duration, ToIntFunction<LivingEntity> amplifier, TestTarget testTarget) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon), this.effectTarget, testTarget);}
             //override duration and visibility. ambient = true to always display icon
             public MobEffect passiveBuild() {return new MobEffect(new MobEffectTemplate(this.effect, 32, this.amplifier, true, true, true), this.effectTarget, this.defaultTestTarget);}
+            public MobEffect passiveBuild(int amplifier) {return new MobEffect(new MobEffectTemplate(this.effect, 32, amplifier, true, true, true), this.effectTarget, this.defaultTestTarget);}
         }
     }
 

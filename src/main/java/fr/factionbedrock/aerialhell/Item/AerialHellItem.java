@@ -13,6 +13,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -373,6 +374,10 @@ public class AerialHellItem extends WithInformationItem
 		@Override public AerialHellItem.Properties fireResistant() {return (AerialHellItem.Properties) super.fireResistant();}
 
 		@Override public AerialHellItem.Properties trimMaterial(ResourceKey<TrimMaterial> material) {return (AerialHellItem.Properties) this.delayedHolderComponent(DataComponents.PROVIDES_TRIM_MATERIAL, material);}
+
+		@Override public AerialHellItem.Properties stacksTo(int max) {return (AerialHellItem.Properties) super.stacksTo(max);}
+
+		@Override public <T> AerialHellItem.Properties component(DataComponentType<T> type, T value) {return (AerialHellItem.Properties) super.component(type, value);}
 	}
 
 	//"tool types" that can be used with right click

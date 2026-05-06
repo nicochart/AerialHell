@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Item.Ability.*;
 import fr.factionbedrock.aerialhell.Item.Ability.Module.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -35,12 +36,14 @@ public class AerialHellItemAbilities
     private static final ActionModule.MobEffect.Builder SLOW_FALLING_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.SLOW_FALLING);
     private static final ActionModule.MobEffect.Builder REGENERATION_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.REGENERATION);
     private static final ActionModule.MobEffect.Builder FIRE_RESISTANCE_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.FIRE_RESISTANCE);
+    private static final ActionModule.MobEffect.Builder NIGHT_VISION_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.NIGHT_VISION);
     private static final ActionModule.MobEffect.Builder SATURATION_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.SATURATION);
     private static final ActionModule.MobEffect.Builder BLINDNESS_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.BLINDNESS);
     private static final ActionModule.MobEffect.Builder WEAKNESS_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.WEAKNESS);
     private static final ActionModule.MobEffect.Builder MINING_FATIGUE_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.MINING_FATIGUE);
     private static final ActionModule.MobEffect.Builder STRENGTH_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.STRENGTH);
     private static final ActionModule.MobEffect.Builder DOLPHINS_GRACE_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.DOLPHINS_GRACE);
+    private static final ActionModule.MobEffect.Builder HERO_OF_THE_VILLAGE_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.HERO_OF_THE_VILLAGE);
     private static final ActionModule.MobEffect.Builder WATER_BREATHING_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.WATER_BREATHING);
     private static final ActionModule.MobEffect.Builder HEAD_IN_THE_CLOUDS_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(AerialHellMobEffects.HEAD_IN_THE_CLOUDS);
     private static final ActionModule.MobEffect.Builder SHADOW_IMMUNITY_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(AerialHellMobEffects.SHADOW_IMMUNITY);
@@ -74,11 +77,32 @@ public class AerialHellItemAbilities
 
     private static final ActionModule CURSED_TOOL_INTERACTION = ActionModule.create((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
     {
-        if (damageInfo == null || !(damageInfo.otherEntity() instanceof LivingEntity livingOther)) {return;}
+        if (itemOwner.level().isClientSide() || damageInfo == null || !(damageInfo.otherEntity() instanceof LivingEntity livingOther)) {return;}
         boolean otherIsLight = EntityHelper.isLightEntity(livingOther) || EntityHelper.hasFullLunaticStuff(livingOther);
         float amount = EntityHelper.isLivingEntityShadowImmune(livingOther) ? 6.0F : !otherIsLight ? 2.0F : 0.0F;
         if (amount != 0.0F) {itemOwner.hurt(AerialHellDamageTypes.getDamageSource(itemOwner.level(), AerialHellDamageTypes.CURSED_TOOL), amount);}
         livingOther.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 40, otherIsLight ? 1 : 0));
+    });
+
+    private static final ActionModule CURSED_TOTEM_EFFECT = ActionModule.create((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
+    {
+        if (!itemOwner.level().isClientSide())
+        {
+            if (itemOwner.level().getBiome(itemOwner.blockPosition()).is(AerialHellTags.Biomes.IS_SHADOW))
+            {
+                itemOwner.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 32, 0, true, true, true));
+            }
+            else if (itemOwner.level().getBiome(itemOwner.blockPosition()).is(AerialHellTags.Biomes.IS_CRYSTAL))
+            {
+                itemOwner.addEffect(new MobEffectInstance(MobEffects.WITHER, 32, 0, true, true, true));
+                itemOwner.addEffect(new MobEffectInstance(MobEffects.NAUSEA, 120, 0, true, true, true));
+            }
+            else if (!EntityHelper.hasFullShadowStuff(itemOwner))
+            {
+                itemOwner.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 32, 0, true, true, true));
+                itemOwner.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 32, 0, true, true, true));
+            }
+        }
     });
 
     private static final ActionModule SLOW_DOWN_NEARBY_ENTITIES = ActionModule.create((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
@@ -498,4 +522,16 @@ public class AerialHellItemAbilities
     public static final ItemAbility THROW_LUNATIC_CRYSTAL_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get(), 1.8F, 0.0F)).addSideEffects(COOLDOWN.of(8), SHRINK_ONE_ITEM).build()).build();
     public static final ItemAbility THROW_ARSONIST_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.ARSONIST_SHURIKEN.get(), 1.7F, 1.0F)).addSideEffects(COOLDOWN.of(9), SHRINK_ONE_ITEM).build()).build();
     public static final ItemAbility THROW_LIGHTNING_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.LIGHTNING_SHURIKEN.get(), 1.7F, 1.0F)).addSideEffects(COOLDOWN.of(8), SHRINK_ONE_ITEM).build()).build();
+
+
+    public static final ItemAbility REGENERATION_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(REGENERATION_TO_SELF.passiveBuild()).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
+    public static final ItemAbility SPEED_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(SPEED_TO_SELF.passiveBuild()).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
+    public static final ItemAbility SPEED_II_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(SPEED_TO_SELF.passiveBuild(1)).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
+    public static final ItemAbility NIGHT_VISION_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(NIGHT_VISION_TO_SELF.passiveBuild()).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
+    public static final ItemAbility AGILITY_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(SPEED_TO_SELF.passiveBuild(), JUMP_BOOST_TO_SELF.passiveBuild()).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
+    public static final ItemAbility HERO_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(HERO_OF_THE_VILLAGE_TO_SELF.passiveBuild()).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
+    public static final ItemAbility HEAD_IN_THE_CLOUDS_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(HEAD_IN_THE_CLOUDS_TO_SELF.passiveBuild()).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
+    public static final ItemAbility GOD_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(GOD_EFFECT_TO_SELF.passiveBuild()).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
+    public static final ItemAbility CURSED_TOTEM = ItemAbility.builder().setDescId("cursed_totem").addPassiveModules(ModuleList.builder().addActions(CURSED_TOTEM_EFFECT).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
+    public static final ItemAbility SHADOW_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(SHADOW_IMMUNITY_TO_SELF.passiveBuild()).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
 }

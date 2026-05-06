@@ -1230,5 +1230,9 @@
   "ability.aerialhell.forgotten_battle_trident.desc_2" : "Grâce du Dauphin, Vitesse et Force pendant un court instant",
   "ability.aerialhell.forgotten_battle_trident.cooldown.desc" : "Cooldown: 27s",
   "ability.aerialhell.god.desc" : "Compétence passive: Vous donne l'effet des Dieux",
-  "ability.aerialhell.god.desc_2" : "Lorsque vous frappez : Met le feu à votre cible"
+  "ability.aerialhell.god.desc_2" : "Lorsque vous frappez: Met le feu à votre cible",
+  "ability.aerialhell.cursed_totem.desc" : "Compétence passive: Effet lié au biome",
+  "ability.aerialhell.cursed_totem.desc_2" : "Biome des Ombres: Resistance",
+  "ability.aerialhell.cursed_totem.desc_3" : "Biome Crystal: Wither et Nausée",
+  "ability.aerialhell.cursed_totem.desc_4" : "Autre Biome: Faiblesse et Lenteur, sauf si vous équipez une Armure des Ombres complète"
 }
