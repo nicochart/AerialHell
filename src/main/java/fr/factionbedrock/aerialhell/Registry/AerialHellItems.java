@@ -10,6 +10,7 @@ import fr.factionbedrock.aerialhell.Item.Bucket.RubyWaterBucketItem;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterials;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellToolMaterials;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
+import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
 import fr.factionbedrock.aerialhell.Item.Tools.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellJukeboxSongs;
@@ -909,7 +910,7 @@ public class AerialHellItems
     public static final DeferredItem<Item> LUNATIC_HOE = ITEMS.register(Keys.LUNATIC_HOE.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.LUNATIC_HOE).hoe(AerialHellToolMaterials.LUNATIC, 0.0F, -1.0F).rarity(AerialHellRarities.LEGENDARY.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.LUNAR_WEAPON)).useInteraction(AerialHellItem.UseInteractionType.HOE)));
     public static final DeferredItem<Item> ARSONIST_HOE = ITEMS.register(Keys.ARSONIST_HOE.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.ARSONIST_HOE).hoe(AerialHellToolMaterials.ARSONIST, 0.0F, -1.0F).fireResistant().rarity(AerialHellRarities.MYTHICAL.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.ARSONIST_TOOLS)).useInteraction(AerialHellItem.UseInteractionType.HOE)));
 
-    public static final DeferredItem<Item> REAPER_SCYTHE = ITEMS.register(Keys.REAPER_SCYTHE.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.REAPER_SCYTHE).hoe(AerialHellToolMaterials.SHADOW, 1.5F, 4.0F).rarity(AerialHellRarities.MYTHICAL.getValue()).abilitySelector(AerialHellItemAbilities.REAPER_SCYTHE).useInteraction(AerialHellItem.UseInteractionType.HOE)));
+    public static final DeferredItem<Item> REAPER_SCYTHE = ITEMS.register(Keys.REAPER_SCYTHE.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.REAPER_SCYTHE).hoe(AerialHellToolMaterials.SHADOW, 1.5F, 4.0F, AttributeEntry.entityInteractionRange(2.0F)).rarity(AerialHellRarities.MYTHICAL.getValue()).abilitySelector(AerialHellItemAbilities.REAPER_SCYTHE).useInteraction(AerialHellItem.UseInteractionType.HOE)));
 
     //weapons
     public static final DeferredItem<Item> SKY_WOOD_SWORD = ITEMS.register(Keys.SKY_WOOD_SWORD.identifier().getPath(), () -> new Item(new AerialHellItem.Properties().setId(Keys.SKY_WOOD_SWORD).sword(AerialHellToolMaterials.SKY_WOOD, 3, -2.4F)));
@@ -938,7 +939,7 @@ public class AerialHellItems
     public static final DeferredItem<Item> GLASS_CANON_SWORD = ITEMS.register(Keys.GLASS_CANON_SWORD.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.GLASS_CANON_SWORD).sword(AerialHellToolMaterials.ARSONIST, 7, -1.6F).fireResistant().rarity(AerialHellRarities.MYTHICAL.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.GLASS_CANNON_ARMORED_GLASS).nextAbility(AerialHellItemAbilities.GLASS_CANNON_LIFTOFF))));
     public static final DeferredItem<Item> GOD_SWORD = ITEMS.register(Keys.GOD_SWORD.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.GOD_SWORD).sword(AerialHellToolMaterials.ARSONIST, 3, -2.4F).fireResistant().rarity(AerialHellRarities.MYTHICAL.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.GOD))));
 
-    public static final DeferredItem<Item> FORGOTTEN_BATTLE_TRIDENT = ITEMS.register(Keys.FORGOTTEN_BATTLE_TRIDENT.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.FORGOTTEN_BATTLE_TRIDENT).sword(AerialHellToolMaterials.VOLUCITE, 3, -2.9F, AttributeEntry.movementSpeed(0.2F)).durability(1000).rarity(AerialHellRarities.LEGENDARY.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.FORGOTTEN_BATTLE_TRIDENT))));
+    public static final DeferredItem<Item> FORGOTTEN_BATTLE_TRIDENT = ITEMS.register(Keys.FORGOTTEN_BATTLE_TRIDENT.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.FORGOTTEN_BATTLE_TRIDENT).sword(AerialHellToolMaterials.VOLUCITE, 3, -2.9F, new AttributeEntryList().add(AttributeEntry.movementSpeed(0.2F)).add(AttributeEntry.entityInteractionRange(2.0F))).durability(1000).rarity(AerialHellRarities.LEGENDARY.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.FORGOTTEN_BATTLE_TRIDENT))));
 
     //armor
     public static final DeferredItem<Item> RUBY_HELMET = ITEMS.register(Keys.RUBY_HELMET.identifier().getPath(), () -> new Item(new AerialHellItem.Properties().setId(Keys.RUBY_HELMET).humanoidArmor(AerialHellArmorMaterials.RUBY, ArmorType.HELMET)));
