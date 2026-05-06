@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.datafixers.util.Pair;
 import fr.factionbedrock.aerialhell.Item.Ability.AbilitySelector;
 import fr.factionbedrock.aerialhell.Item.Ability.AbilityUseSituation;
@@ -11,10 +12,12 @@ import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -46,6 +49,7 @@ import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.common.ItemAbilities;
 import org.jspecify.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,8 +111,29 @@ public class AerialHellItem extends WithInformationItem
 
 	@Override public void appendAbilityDescriptionHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder)
 	{
-		if (this.abilitySelector == null) {return;}
-		for (String descId : this.abilitySelector.getAbilitiesDescIds())
+		if (!context.player().level().isClientSide() || this.abilitySelector == null) {return;}
+
+		//context.player().isShiftKeyDown() do not work here because there is a screen open
+		boolean shiftDown = InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) || InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), GLFW.GLFW_KEY_RIGHT_SHIFT);
+		List<String> descIds = this.abilitySelector.getAbilitiesDescIds();
+
+		boolean hasAbilityDetail = false;
+		for (String descId : descIds)
+		{
+			if (Language.getInstance().has("ability.aerialhell."+descId+".desc"))
+			{
+				hasAbilityDetail = true;
+				break;
+			}
+		}
+
+		if (!shiftDown)
+		{
+			if (hasAbilityDetail) {tooltipAdder.accept(Component.translatable("ability.aerialhell.shift_key_up").withStyle(ChatFormatting.DARK_GRAY));}
+			return;
+		}
+
+		for (String descId : descIds)
 		{
 			if (descId.isEmpty()) {continue;}
 			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".desc", ChatFormatting.GRAY);

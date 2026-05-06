@@ -1148,6 +1148,8 @@
   "item.aerialhell.structure_void_placer.desc" : "Placeur de Structure Void de nicochart",
   "item.aerialhell.structure_void_placer.radius" : "Rayon : ",
 
+  "ability.aerialhell.shift_key_up" : "Appuyez sur §7§nSHIFT§r pour voir le détail des Compétences",
+
   "ability.aerialhell.ninja.desc" : "Compétence: Fureur du Ninja",
   "ability.aerialhell.ninja.desc_2" : "Vous donne les effets invisibilité et vitesse pendant un court instant",
   "ability.aerialhell.ninja.cooldown.desc" : "Cooldown: 20s",
@@ -1213,7 +1215,7 @@
   "ability.aerialhell.arsonist_armor.desc_2" : "Passif: Vous subissez 7 % de dégâts en moins par pièce équipée lorsque vous êtes en feu",
   "ability.aerialhell.arsonist_armor.desc_3" : "Avec une armure complète, la réduction totale est de 25 %",
   "ability.aerialhell.arsonist_armor.desc_4" : "Lorsqu'une créature vous frappe, elle est enflammée",
-  "ability.aerialhell.disadvantage_opponent.desc" : "Compétence: Désavantage de l'adversaire",
+  "ability.aerialhell.disadvantage_opponent.desc" : "Compétence: Désavantage l'adversaire",
   "ability.aerialhell.disadvantage_opponent.desc_2" : "À l'impact: Inflige Lenteur, Faiblesse et Fatigue minière à la cible",
   "ability.aerialhell.cursed_tool.desc" : "Compétence: Outil Maudit",
   "ability.aerialhell.cursed_tool.desc_2" : "Lorsque vous frappez une...",

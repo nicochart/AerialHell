@@ -1149,6 +1149,8 @@
   "item.aerialhell.structure_void_placer.desc" : "Nicochart Strukturális Ürességlehelyezője",
   "item.aerialhell.structure_void_placer.radius" : "Sugár: ",
 
+  "ability.aerialhell.shift_key_up" : "Press §7§nSHIFT§r to view Abilities detail",
+
   "ability.aerialhell.ninja.desc" : "Képesség: Ninja Haragja",
   "ability.aerialhell.ninja.desc_2" : "Grants you the Invisibility and Speed effects for a short while",
   "ability.aerialhell.ninja.cooldown.desc" : "Cooldown : 20s",

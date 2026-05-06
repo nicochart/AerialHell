@@ -1147,6 +1147,8 @@
   "item.aerialhell.structure_void_placer.desc" : "nicochart's Structure Void Placer",
   "item.aerialhell.structure_void_placer.radius" : "Radius : ",
 
+  "ability.aerialhell.shift_key_up" : "Press §7§nSHIFT§r to view Abilities detail",
+
   "ability.aerialhell.ninja.desc" : "能力：Ninja Fury",
   "ability.aerialhell.ninja.desc_2" : "Grants you the Invisibility and Speed effects for a short while",
   "ability.aerialhell.ninja.cooldown.desc" : "Cooldown : 20s",
