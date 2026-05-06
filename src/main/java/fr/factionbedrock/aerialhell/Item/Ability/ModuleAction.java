@@ -8,5 +8,5 @@ import javax.annotation.Nullable;
 
 @FunctionalInterface public interface ModuleAction
 {
-    void apply(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable DamageUseSituationInfo damageInfo);
+    void apply(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable DamageUseSituationInfo damageInfo, @Nullable MiningUseSituationInfo miningInfo);
 }

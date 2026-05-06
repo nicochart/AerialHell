@@ -744,7 +744,6 @@
 
   "item.aerialhell.magma_cube_pickaxe" : "Magma Cube Pickaxe",
   "item.aerialhell.stellar_stone_breaker" : "Stellar Stone Breaker",
-  "item.aerialhell.stellar_stone_breaker.desc" : "Mine Stellar Stone quickly",
 
   "item.aerialhell.magma_cube_shovel" : "Magma Cube Shovel",
 
@@ -1206,8 +1205,10 @@
   "ability.aerialhell.absolute_zero.desc_2" : "Passive: Inflicts Slowness III on hit",
   "ability.aerialhell.absolute_zero.desc_3" : "Active: Inflicts Slowness IV to all nearby creatures (Cooldown: 15s)",
   "ability.aerialhell.arsonist_tool.desc" : "Ability: Arsonist Tool",
-  "ability.aerialhell.arsonist_tool.desc_2" : "Passive: +50% damage when you are on fire",
-  "ability.aerialhell.arsonist_tool.desc_3" : "On hit: Ignites target",
+  "ability.aerialhell.arsonist_tool.desc_2" : "Passive when you are on fire:",
+  "ability.aerialhell.arsonist_tool.desc_3" : "- You deal +50% damage",
+  "ability.aerialhell.arsonist_tool.desc_4" : "- You mine twice faster",
+  "ability.aerialhell.arsonist_tool.desc_5" : "On hit: Ignites target",
   "ability.aerialhell.arsonist_armor.desc" : "Ability: Arsonist Armor",
   "ability.aerialhell.arsonist_armor.desc_2" : "Passive: you take -7% (per piece equipped) damage when you are on fire",
   "ability.aerialhell.arsonist_armor.desc_3" : "If you equip full Arsonist armor, the total reduction is -25%.",
@@ -1223,6 +1224,8 @@
   "ability.aerialhell.magma_cube.desc_2" : "Passive: When you have it in your hand, it grants the Jump Boost effect",
   "ability.aerialhell.magma_cube.desc_3" : "Active: Grants Jump Boost III",
   "ability.aerialhell.magma_cube.cooldown.desc" : "Cooldown: 20s",
+  "ability.aerialhell.mine_stone_fast.desc" : "Ability: Mine Stone Fast",
+  "ability.aerialhell.mine_stone_fast.desc_2" : "You mine twice faster Stellar Stone, Stellar Cobblestone, Shadow Stone",
   "ability.aerialhell.forgotten_battle_trident.desc" : "Ability: Dolphin's Rage. Grants you Water Breathing,",
   "ability.aerialhell.forgotten_battle_trident.desc_2" : "Dolphin's Grace, Speed and Strength for a short while",
   "ability.aerialhell.forgotten_battle_trident.cooldown.desc" : "Cooldown: 27s",

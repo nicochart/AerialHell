@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import fr.factionbedrock.aerialhell.Item.Ability.AbilitySelector;
 import fr.factionbedrock.aerialhell.Item.Ability.AbilityUseSituation;
 import fr.factionbedrock.aerialhell.Item.Ability.DamageUseSituationInfo;
+import fr.factionbedrock.aerialhell.Item.Ability.MiningUseSituationInfo;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellToolMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
@@ -95,6 +96,12 @@ public class AerialHellItem extends WithInformationItem
 	public void onTakeDamage(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot slot, DamageUseSituationInfo damageInfo)
 	{
 		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnTakeDamage(itemStack, itemOwner, slot, damageInfo));}
+	}
+
+	//applying onMining (semi-passive) tool ability modules
+	public void onMining(ItemStack itemStack, LivingEntity itemOwner, MiningUseSituationInfo miningInfo)
+	{
+		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnMining(itemStack, itemOwner, miningInfo));}
 	}
 
 	@Override public void appendAbilityDescriptionHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder)

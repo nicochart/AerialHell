@@ -55,12 +55,13 @@ public class AerialHellItemAbilities
     private static final ActionModule.MobEffect.Builder VULNERABILITY_TO_OTHER = ActionModule.MobEffect.toOtherBuilder(AerialHellMobEffects.VULNERABILITY);
     
     private static final ActionModule.MultiplyDamage.Builder MULTIPLY_DAMAGE = ActionModule.MultiplyDamage.builder();
+    private static final ActionModule.MultiplyMiningSpeed.Builder MULTIPLY_MINING_SPEED = ActionModule.MultiplyMiningSpeed.builder();
 
     private static final ActionModule.RemoveMobEffect.Builder REMOVE_EFFECT = ActionModule.RemoveMobEffect.builder();
 
-    private static final ConditionModule IN_MAIN_OR_OFF_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, damageInfo) -> stack.is(itemOwner.getMainHandItem().getItem()) || stack.is(itemOwner.getOffhandItem().getItem()));
-    private static final ConditionModule IN_MAIN_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, damageInfo) -> stack.is(itemOwner.getMainHandItem().getItem()));
-    private static final ConditionModule IN_RIGHT_SLOT = new ConditionModule((stack, itemOwner, equipmentSlot, damageInfo) -> equipmentSlot == itemOwner.getEquipmentSlotForItem(stack));
+    private static final ConditionModule IN_MAIN_OR_OFF_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) -> stack.is(itemOwner.getMainHandItem().getItem()) || stack.is(itemOwner.getOffhandItem().getItem()));
+    private static final ConditionModule IN_MAIN_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) -> stack.is(itemOwner.getMainHandItem().getItem()));
+    private static final ConditionModule IN_RIGHT_SLOT = new ConditionModule((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) -> equipmentSlot == itemOwner.getEquipmentSlotForItem(stack));
 
     private static final ActionModule.MobEffectList RANDOM_SWORD_RANDOM_EFFECT = ActionModule.MobEffectList.builder().addEffects((itemOwner) ->
     {
@@ -71,7 +72,7 @@ public class AerialHellItemAbilities
         else {return List.of(new MobEffectTemplate(MobEffects.UNLUCK, 750, 0), new MobEffectTemplate(MobEffects.POISON, 80, 1));}
     }).toOwnerBuild();
 
-    private static final ActionModule CURSED_TOOL_INTERACTION = ActionModule.create((stack, itemOwner, equipmentSlot, damageInfo) ->
+    private static final ActionModule CURSED_TOOL_INTERACTION = ActionModule.create((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
     {
         if (damageInfo == null || !(damageInfo.otherEntity() instanceof LivingEntity livingOther)) {return;}
         boolean otherIsLight = EntityHelper.isLightEntity(livingOther) || EntityHelper.hasFullLunaticStuff(livingOther);
@@ -80,7 +81,7 @@ public class AerialHellItemAbilities
         livingOther.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 40, otherIsLight ? 1 : 0));
     });
 
-    private static final ActionModule SLOW_DOWN_NEARBY_ENTITIES = ActionModule.create((stack, itemOwner, equipmentSlot, damageInfo) ->
+    private static final ActionModule SLOW_DOWN_NEARBY_ENTITIES = ActionModule.create((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
     {
         List<LivingEntity> nearbyEntities = EntityHelper.getTargetableLivingEntitiesInInflatedBoundingBox(itemOwner, 6, (entity) -> !EntityHelper.isCreaOrSpecPlayer(entity));
         for (LivingEntity nearbyEntity : nearbyEntities)
@@ -154,7 +155,7 @@ public class AerialHellItemAbilities
     private static final ActionModule.Particle.Builder SNOWFLAKE_PARTICLES_ON_OTHER = ActionModule.Particle.onOtherBuilder(ParticleTypes.SNOWFLAKE);
 
     //little test about summoning creatures
-    private static final ActionModule INVOKE_CHAINED_GOD = ActionModule.create((stack, itemOwner, equipmentSlot, damageInfo) -> {
+    private static final ActionModule INVOKE_CHAINED_GOD = ActionModule.create((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) -> {
         ChainedGodEntity god = AerialHellEntities.CHAINED_GOD.get().create(itemOwner.level(), EntitySpawnReason.TRIGGERED);
         if (god != null)
         {
@@ -181,6 +182,11 @@ public class AerialHellItemAbilities
 //                    .addSideEffects()
 //                    .build())
 //            .addOnTakeDamageModules(ModuleList.builder()
+//                    .addActions()
+//                    .addConditions()
+//                    .addSideEffects()
+//                    .build())
+//            .addOnMiningModules(ModuleList.builder()
 //                    .addActions()
 //                    .addConditions()
 //                    .addSideEffects()
@@ -450,6 +456,16 @@ public class AerialHellItemAbilities
             .setDescId("arsonist_tool")
             .addOnDealDamageModules(ModuleList.builder()
                     .addActions(IGNITE_OTHER, MULTIPLY_DAMAGE.by(itemOwner -> itemOwner.getRemainingFireTicks() > 0 ? 1.5F : 1.0F, TestTarget.ITEM_OWNER))
+                    .build())
+            .addOnMiningModules(ModuleList.builder()
+                    .addActions(MULTIPLY_MINING_SPEED.by((itemOwner, state) -> itemOwner.getRemainingFireTicks() > 0 ? 2.0F : 1.0F))
+                    .build()
+            ).build();
+
+    public static final ItemAbility MINE_STONE_FAST = ItemAbility.builder()
+            .setDescId("mine_stone_fast")
+            .addOnMiningModules(ModuleList.builder()
+                    .addActions(MULTIPLY_MINING_SPEED.by((itemOwner,  state) -> state.getBlock() == AerialHellBlocks.STELLAR_STONE.get() || state.getBlock() == AerialHellBlocks.STELLAR_COBBLESTONE.get() || state.getBlock() == AerialHellBlocks.SHADOW_STONE.get() ? 2.0F : 1.0F))
                     .build()
             ).build();
 

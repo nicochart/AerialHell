@@ -744,7 +744,6 @@
 
   "item.aerialhell.magma_cube_pickaxe" : "Pioche de Cube de Magma",
   "item.aerialhell.stellar_stone_breaker" : "Destructeur de Roche Stellaire",
-  "item.aerialhell.stellar_stone_breaker.desc" : "Mine la Roche Stellaire très vite",
 
   "item.aerialhell.magma_cube_shovel" : "Pelle de Cube de Magma",
 
@@ -1205,10 +1204,12 @@
   "ability.aerialhell.absolute_zero.desc" : "Compétence: Zéro Absolu",
   "ability.aerialhell.absolute_zero.desc_2" : "Passif: Inflige Lenteur III à l'impact",
   "ability.aerialhell.absolute_zero.desc_3" : "Actif: Inflige Lenteur IV à toutes les créatures à proximité (Cooldown: 15s)",
-  "ability.aerialhell.arsonist_tool.desc" : "Compétence: Outil Pyromane",
-  "ability.aerialhell.arsonist_tool.desc_2" : "Passif: +50 % de dégâts lorsque vous êtes en feu",
-  "ability.aerialhell.arsonist_tool.desc_3" : "À l'impact: Enflamme la cible",
-  "ability.aerialhell.arsonist_armor.desc" : "Compétence: Armure Pyromane",
+  "ability.aerialhell.arsonist_tool.desc" : "Compétence: Outil Incendière",
+  "ability.aerialhell.arsonist_tool.desc_2" : "Passif lorsque vous êtes en feu:",
+  "ability.aerialhell.arsonist_tool.desc_3" : "- Vous infligez +50 % de dégâts",
+  "ability.aerialhell.arsonist_tool.desc_4" : "- Vous minez deux fois plus vite",
+  "ability.aerialhell.arsonist_tool.desc_5" : "On hit: Ignites target",
+  "ability.aerialhell.arsonist_armor.desc" : "Compétence: Armure Incendière",
   "ability.aerialhell.arsonist_armor.desc_2" : "Passif: Vous subissez 7 % de dégâts en moins par pièce équipée lorsque vous êtes en feu",
   "ability.aerialhell.arsonist_armor.desc_3" : "Avec une armure complète, la réduction totale est de 25 %",
   "ability.aerialhell.arsonist_armor.desc_4" : "Lorsqu'une créature vous frappe, elle est enflammée",
@@ -1223,6 +1224,8 @@
   "ability.aerialhell.magma_cube.desc_2" : "Passive: Lorsque vous l'avez dans la main, donne l'effet Sauts Améliorés",
   "ability.aerialhell.magma_cube.desc_3" : "Active: Donne l'effet Sauts Améliorés III",
   "ability.aerialhell.magma_cube.cooldown.desc" : "Cooldown: 20s",
+  "ability.aerialhell.mine_stone_fast.desc" : "Compétence: Miner la Roche Rapidement",
+  "ability.aerialhell.mine_stone_fast.desc_2" : "Vous minez deux fois plus vite la Roche Stellaire, les Pierres Stellaires et la Roche des Ombres",
   "ability.aerialhell.forgotten_battle_trident.desc" : "Compétence: Rage du Dauphin. Vous donne les effets Respiration Aquatique,",
   "ability.aerialhell.forgotten_battle_trident.desc_2" : "Grâce du Dauphin, Vitesse et Force pendant un court instant",
   "ability.aerialhell.forgotten_battle_trident.cooldown.desc" : "Cooldown: 27s",

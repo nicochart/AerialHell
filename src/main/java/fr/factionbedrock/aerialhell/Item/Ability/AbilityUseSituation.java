@@ -12,14 +12,16 @@ public class AbilityUseSituation
     public final LivingEntity itemOwner;
     public final @Nullable EquipmentSlot equipmentSlot;
     public final @Nullable DamageUseSituationInfo damageUseSituationInfo;
+    public final @Nullable MiningUseSituationInfo miningUseSituationInfo;
     public final AbilityUseSituation.Category category;
 
-    private AbilityUseSituation(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable DamageUseSituationInfo damageUseSituationInfo, AbilityUseSituation.Category useSituation)
+    private AbilityUseSituation(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable DamageUseSituationInfo damageUseSituationInfo, @Nullable MiningUseSituationInfo miningUseSituationInfo, AbilityUseSituation.Category useSituation)
     {
         this.itemStack = itemStack;
         this.itemOwner = itemOwner;
         this.equipmentSlot = equipmentSlot;
         this.damageUseSituationInfo = damageUseSituationInfo;
+        this.miningUseSituationInfo = miningUseSituationInfo;
         this.category = useSituation;
     }
 
@@ -27,7 +29,7 @@ public class AbilityUseSituation
     {
         public Tick(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot)
         {
-            super(itemStack, itemOwner, equipmentSlot, null, Category.TICK);
+            super(itemStack, itemOwner, equipmentSlot, null, null, Category.TICK);
         }
     }
 
@@ -35,7 +37,7 @@ public class AbilityUseSituation
     {
         public OnUse(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot)
         {
-            super(itemStack, itemOwner, equipmentSlot, null, Category.ON_USE);
+            super(itemStack, itemOwner, equipmentSlot, null, null, Category.ON_USE);
         }
     }
 
@@ -43,7 +45,7 @@ public class AbilityUseSituation
     {
         public OnDealDamage(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, DamageUseSituationInfo damageInfo)
         {
-            super(itemStack, itemOwner, equipmentSlot, damageInfo, Category.ON_DEAL_DAMAGE);
+            super(itemStack, itemOwner, equipmentSlot, damageInfo, null, Category.ON_DEAL_DAMAGE);
         }
     }
 
@@ -51,9 +53,17 @@ public class AbilityUseSituation
     {
         public OnTakeDamage(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, DamageUseSituationInfo damageInfo)
         {
-            super(itemStack, itemOwner, equipmentSlot, damageInfo, Category.ON_TAKE_DAMAGE);
+            super(itemStack, itemOwner, equipmentSlot, damageInfo, null, Category.ON_TAKE_DAMAGE);
         }
     }
 
-    public enum Category {TICK, ON_USE, ON_DEAL_DAMAGE, ON_TAKE_DAMAGE}
+    public static class OnMining extends AbilityUseSituation
+    {
+        public OnMining(ItemStack itemStack, LivingEntity itemOwner, MiningUseSituationInfo miningUseSituationInfo)
+        {
+            super(itemStack, itemOwner, EquipmentSlot.MAINHAND, null, miningUseSituationInfo, Category.ON_MINING);
+        }
+    }
+
+    public enum Category {TICK, ON_USE, ON_DEAL_DAMAGE, ON_TAKE_DAMAGE, ON_MINING}
 }

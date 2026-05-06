@@ -4,8 +4,9 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowAutomatonEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Item.Ability.DamageUseSituationInfo;
+import fr.factionbedrock.aerialhell.Item.Ability.MiningUseSituationInfo;
+import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.*;
@@ -77,42 +78,41 @@ public class ToolsAndArmorEventListener
 
     public static void onPlayerHarvest(PlayerEvent.BreakSpeed event)
     {
-		Player player = event.getEntity();
-		ItemStack selectedItemStack = player.getInventory().getSelectedItem();
+		Player itemOwner = event.getEntity();
+		ItemStack miningItemStack = itemOwner.getInventory().getSelectedItem();
 		BlockState state = event.getState();
 		float speed = event.getOriginalSpeed();
 
-		//player on fire and mining with any arsonist item
-		if (state != null && selectedItemStack.is(AerialHellTags.Items.ARSONIST) && player.getRemainingFireTicks() > 0) {
-			event.setNewSpeed(speed * 2.0F);
+		MutableFloat miningSpeedMultiplier = new MutableFloat(1.0F);
+		if (miningItemStack.getItem() instanceof AerialHellItem ahItem)
+		{
+			ahItem.onMining(miningItemStack, itemOwner, new MiningUseSituationInfo(state, new FieldAccessor<>(miningSpeedMultiplier::get, miningSpeedMultiplier::set)));
 		}
 
-		//player mining stellar stone with stellar stone breaker
-		else if (selectedItemStack.getItem() == AerialHellItems.STELLAR_STONE_BREAKER.get() && state.getBlock() == AerialHellBlocks.STELLAR_STONE.get()) {
-			event.setNewSpeed(speed * 2.0F);
-		}
+		//mining speed multiplier value is changed internally in item abilities (onMining)
+		event.setNewSpeed(speed * miningSpeedMultiplier.get());
 
 		//player mining a block that needs lunar tool
 		if (state != null && state.is(AerialHellTags.Blocks.NEEDS_LUNAR_TOOL))
 		{
-			if (!BlockHelper.isItemCorrectForHarvesting(state, selectedItemStack.getItem()))
+			if (!BlockHelper.isItemCorrectForHarvesting(state, miningItemStack.getItem()))
 			{
-				if (state.is(AerialHellBlocks.VOLUCITE_ORE) && !player.level().isClientSide())
+				if (state.is(AerialHellBlocks.VOLUCITE_ORE) && !itemOwner.level().isClientSide())
 				{
-					player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40, 0));
+					itemOwner.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40, 0));
 				}
 			}
 		}
 
-		if (state != null && state.is(AerialHellBlocks.EYE_SHADOW_PINE_LOG.get()) && !EntityHelper.isLivingEntityShadowImmune(player) && !player.isCreative())
+		if (state != null && state.is(AerialHellBlocks.EYE_SHADOW_PINE_LOG.get()) && !EntityHelper.isLivingEntityShadowImmune(itemOwner) && !itemOwner.isCreative())
 		{
-			player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 30, 0));
-			player.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 30, 0));
+			itemOwner.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 30, 0));
+			itemOwner.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 30, 0));
 		}
 
 		if (state != null && state.is(AerialHellTags.Blocks.GHOST_BLOCK))
 		{
-			if (EntityHelper.isImmuneToGhostBlockCollision(player)) {event.setNewSpeed(Math.min(speed, 0.1F));}
+			if (EntityHelper.isImmuneToGhostBlockCollision(itemOwner)) {event.setNewSpeed(Math.min(speed, 0.1F));}
 		}
     }
 
