@@ -69,7 +69,7 @@ public class ToolsAndArmorEventListener
 			ahItem.onTakeDamage(equippedItemStack.stack(), target, equippedItemStack.slot(), new DamageUseSituationInfo(sourceEntity, damageSource, new FieldAccessor<>(damageMultiplier::get, damageMultiplier::set)));
 		});
 
-		DebugHelper.sendDebugMessage(target.level(), "multiplier = "+damageMultiplier.get());
+		//damage multiplier value is changed internally in item abilities (onDealDamage / onTakeDamage)
 		event.setAmount(event.getAmount() * damageMultiplier.get());
 
 		applyEffectsDueToPotionEffects(event, damageSource, target);

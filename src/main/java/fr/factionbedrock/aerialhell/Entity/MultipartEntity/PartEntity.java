@@ -38,7 +38,7 @@ public interface PartEntity extends BaseMobEntityInterface
             this.incrementTicksInInvalidSituation();
             if (this.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION)
             {
-                DebugHelper.sendDebugMessage(this.getLevel(), "Child Part "+this.getSelf().getName().getString().replace("entity.aerialhell.", "")+": invalid situation with "+(master == null ? "null" : master.getSelf().isDeadOrDying() ? "dying" : master.getSelf().isRemoved() ? "removed" : "unrecognizing")+" master part"); //temporary debug TODO remove
+                DebugHelper.sendDebugMessage(this.getLevel(), "Child Part "+this.getSelf().getName().getString().replace("entity.aerialhell.", "")+": invalid situation with "+(master == null ? "null" : master.getSelf().isDeadOrDying() ? "dying" : master.getSelf().isRemoved() ? "removed" : "unrecognizing")+" master part", true); //temporary debug TODO remove
                 this.reactToInvalidSituationWithMaster();
             }
             this.tryToFindBackMaster();

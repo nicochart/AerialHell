@@ -6,10 +6,10 @@ import net.minecraft.world.level.Level;
 
 public class DebugHelper
 {
-    public static void sendDebugMessage(Level level, String message)
+    public static void sendDebugMessage(Level level, String message, boolean includeDefaultInfo)
     {
         long time = level.getGameTime();
-        String chatMessage = "[DEBUG - "+(level.isClientSide() ? "Client" : "Server")+" side - "+time+"] " + message;
+        String chatMessage = includeDefaultInfo ? "[DEBUG - "+(level.isClientSide() ? "Client" : "Server")+" side - "+time+"] " + message : "[DEBUG] " + message;
 
         if (level.isClientSide())
         {
