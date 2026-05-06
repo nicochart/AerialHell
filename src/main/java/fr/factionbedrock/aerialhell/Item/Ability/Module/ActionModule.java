@@ -45,34 +45,42 @@ public class ActionModule extends AbilityModule
 
     public static class MobEffect extends ActionModule
     {
-        public MobEffect(MobEffectTemplate template, boolean toOwner)
+        //Effect Target is the one who will get the effect (item owner or other)
+        //Test Target is the one who is used by template for mob effect instance creation, i.e. if you do some tests for duration or amplifier, the tests are done on the testTarget.
+        public MobEffect(MobEffectTemplate template, EffectTarget effectTarget, TestTarget testTarget)
         {
             super((stack, itemOwner, equipmentSlot, damageInfo) ->
             {
-                @Nullable LivingEntity target = toOwner ? itemOwner : damageInfo != null && damageInfo.otherEntity() instanceof LivingEntity otherLiving ? otherLiving : null;
-                if (target != null && !itemOwner.level().isClientSide())
+                @Nullable LivingEntity targetEntity = effectTarget == EffectTarget.SELF ? itemOwner : damageInfo != null && damageInfo.otherEntity() instanceof LivingEntity otherLiving ? otherLiving : null;
+                @Nullable LivingEntity testEntity = testTarget == TestTarget.ITEM_OWNER ? itemOwner : damageInfo != null && damageInfo.otherEntity() instanceof LivingEntity otherLiving ? otherLiving : null;
+                if (targetEntity != null && testEntity != null && !itemOwner.level().isClientSide())
                 {
-                    @Nullable MobEffectInstance instance = template.createNewInstance(target);
-                    if (instance != null) {target.addEffect(instance);}
+                    @Nullable MobEffectInstance instance = template.createNewInstance(testEntity);
+                    if (instance != null) {targetEntity.addEffect(instance);}
                 }
             });
         }
 
-        public static Builder builder(Holder<net.minecraft.world.effect.MobEffect> effect) {return builder(effect, 0);}
-        public static Builder builder(Holder<net.minecraft.world.effect.MobEffect> effect, int amplifier) {return new Builder(effect, amplifier);}
+        public static Builder toOwnerBuilder(Holder<net.minecraft.world.effect.MobEffect> effect) {return builder(effect, 0, EffectTarget.SELF);}
+        public static Builder toOtherBuilder(Holder<net.minecraft.world.effect.MobEffect> effect) {return builder(effect, 0, EffectTarget.OTHER);}
+        public static Builder builder(Holder<net.minecraft.world.effect.MobEffect> effect, int amplifier, EffectTarget effectTarget) {return new Builder(effect, amplifier, effectTarget);}
 
         public static class Builder
         {
             private final Holder<net.minecraft.world.effect.MobEffect> effect;
+            private final EffectTarget effectTarget;
+            private final TestTarget defaultTestTarget;
             private int duration;
             private int amplifier;
             private boolean ambient;
             private boolean visible;
             private boolean showIcon;
 
-            private Builder(Holder<net.minecraft.world.effect.MobEffect> effect, int amplifier)
+            private Builder(Holder<net.minecraft.world.effect.MobEffect> effect, int amplifier, EffectTarget effectTarget)
             {
                 this.effect = effect;
+                this.effectTarget = effectTarget;
+                this.defaultTestTarget = effectTarget == EffectTarget.SELF ? TestTarget.ITEM_OWNER : TestTarget.OTHER;
                 this.duration = 1;
                 this.amplifier = amplifier;
                 this.ambient = false;
@@ -86,16 +94,19 @@ public class ActionModule extends AbilityModule
             public MobEffect.Builder visible() {this.visible = false; this.showIcon = false; return this;}
             public MobEffect.Builder invisible() {this.visible = true; this.showIcon = true; return this;}
 
-            public MobEffect build(EffectTarget effectTarget) {return new MobEffect(new MobEffectTemplate(this.effect, this.duration, this.amplifier, this.ambient, this.visible, this.showIcon), effectTarget == EffectTarget.SELF);}
+            public MobEffect build() {return new MobEffect(new MobEffectTemplate(this.effect, this.duration, this.amplifier, this.ambient, this.visible, this.showIcon), this.effectTarget, this.defaultTestTarget);}
             //override duration
-            public MobEffect withDuration(int duration, EffectTarget effectTarget) {return new MobEffect(new MobEffectTemplate(this.effect, duration, this.amplifier, this.ambient, this.visible, this.showIcon), effectTarget == EffectTarget.SELF);}
-            public MobEffect withDuration(ToIntFunction<LivingEntity> duration, EffectTarget effectTarget) {return new MobEffect(new MobEffectTemplate(this.effect, duration, (entity) -> this.amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon), effectTarget == EffectTarget.SELF);}
+            public MobEffect withDuration(int duration) {return new MobEffect(new MobEffectTemplate(this.effect, duration, this.amplifier, this.ambient, this.visible, this.showIcon), this.effectTarget, this.defaultTestTarget);}
+            public MobEffect withDuration(ToIntFunction<LivingEntity> duration, TestTarget testTarget) {return new MobEffect(new MobEffectTemplate(this.effect, duration, (entity) -> this.amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon), this.effectTarget, testTarget);}
             //override duration and amplifier
-            public MobEffect with(int duration, int amplifier, EffectTarget effectTarget) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, this.ambient, this.visible, this.showIcon), effectTarget == EffectTarget.SELF);}
-            public MobEffect with(ToIntFunction<LivingEntity> duration, ToIntFunction<LivingEntity> amplifier, EffectTarget effectTarget) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon), effectTarget == EffectTarget.SELF);}
+            public MobEffect with(int duration, int amplifier) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, this.ambient, this.visible, this.showIcon), this.effectTarget, this.defaultTestTarget);}
+            public MobEffect with(ToIntFunction<LivingEntity> duration, ToIntFunction<LivingEntity> amplifier, TestTarget testTarget) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon), this.effectTarget, testTarget);}
             //override duration and visibility. ambient = true to always display icon
-            public MobEffect passiveBuild() {return new MobEffect(new MobEffectTemplate(this.effect, 32, this.amplifier, true, true, true), true);}
+            public MobEffect passiveBuild() {return new MobEffect(new MobEffectTemplate(this.effect, 32, this.amplifier, true, true, true), this.effectTarget, this.defaultTestTarget);}
         }
+
+        //SELF == Item Owner
+        public enum EffectTarget {SELF, OTHER}
     }
 
     public static class MobEffectList extends ActionModule

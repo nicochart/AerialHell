@@ -23,28 +23,36 @@ import java.util.List;
 
 public class AerialHellItemAbilities
 {
-    private static final ActionModule.MobEffect.Builder GOD_EFFECT = ActionModule.MobEffect.builder(AerialHellMobEffects.GOD);
-    private static final ActionModule.MobEffect.Builder JUMP_BOOST_EFFECT = ActionModule.MobEffect.builder(MobEffects.JUMP_BOOST);
-    private static final ActionModule.MobEffect.Builder INVISIBILITY_EFFECT = ActionModule.MobEffect.builder(MobEffects.INVISIBILITY);
-    private static final ActionModule.MobEffect.Builder RESISTANCE_EFFECT = ActionModule.MobEffect.builder(MobEffects.RESISTANCE);
-    private static final ActionModule.MobEffect.Builder SLOWNESS_EFFECT = ActionModule.MobEffect.builder(MobEffects.SLOWNESS);
-    private static final ActionModule.MobEffect.Builder SPEED_EFFECT = ActionModule.MobEffect.builder(MobEffects.SPEED);
-    private static final ActionModule.MobEffect.Builder POISON_EFFECT = ActionModule.MobEffect.builder(MobEffects.POISON);
-    private static final ActionModule.MobEffect.Builder WITHER_EFFECT = ActionModule.MobEffect.builder(MobEffects.WITHER);
-    private static final ActionModule.MobEffect.Builder SLOW_FALLING_EFFECT = ActionModule.MobEffect.builder(MobEffects.SLOW_FALLING);
-    private static final ActionModule.MobEffect.Builder REGENERATION_EFFECT = ActionModule.MobEffect.builder(MobEffects.REGENERATION);
-    private static final ActionModule.MobEffect.Builder FIRE_RESISTANCE_EFFECT = ActionModule.MobEffect.builder(MobEffects.FIRE_RESISTANCE);
-    private static final ActionModule.MobEffect.Builder SATURATION_EFFECT = ActionModule.MobEffect.builder(MobEffects.SATURATION);
-    private static final ActionModule.MobEffect.Builder BLINDNESS_EFFECT = ActionModule.MobEffect.builder(MobEffects.BLINDNESS);
-    private static final ActionModule.MobEffect.Builder WEAKNESS_EFFECT = ActionModule.MobEffect.builder(MobEffects.WEAKNESS);
-    private static final ActionModule.MobEffect.Builder MINING_FATIGUE_EFFECT = ActionModule.MobEffect.builder(MobEffects.MINING_FATIGUE);
-    private static final ActionModule.MobEffect.Builder STRENGTH_EFFECT = ActionModule.MobEffect.builder(MobEffects.STRENGTH);
-    private static final ActionModule.MobEffect.Builder DOLPHINS_GRACE_EFFECT = ActionModule.MobEffect.builder(MobEffects.DOLPHINS_GRACE);
-    private static final ActionModule.MobEffect.Builder WATER_BREATHING_EFFECT = ActionModule.MobEffect.builder(MobEffects.WATER_BREATHING);
-    private static final ActionModule.MobEffect.Builder HEAD_IN_THE_CLOUDS_EFFECT = ActionModule.MobEffect.builder(AerialHellMobEffects.HEAD_IN_THE_CLOUDS);
-    private static final ActionModule.MobEffect.Builder SHADOW_IMMUNITY_EFFECT = ActionModule.MobEffect.builder(AerialHellMobEffects.SHADOW_IMMUNITY);
-    private static final ActionModule.MobEffect.Builder VULNERABILITY_EFFECT = ActionModule.MobEffect.builder(AerialHellMobEffects.VULNERABILITY);
+    private static final ActionModule.MobEffect.Builder GOD_EFFECT_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(AerialHellMobEffects.GOD);
+    private static final ActionModule.MobEffect.Builder JUMP_BOOST_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.JUMP_BOOST);
+    private static final ActionModule.MobEffect.Builder INVISIBILITY_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.INVISIBILITY);
+    private static final ActionModule.MobEffect.Builder RESISTANCE_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.RESISTANCE);
+    private static final ActionModule.MobEffect.Builder SLOWNESS_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.SLOWNESS);
+    private static final ActionModule.MobEffect.Builder SPEED_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.SPEED);
+    private static final ActionModule.MobEffect.Builder POISON_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.POISON);
+    private static final ActionModule.MobEffect.Builder WITHER_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.WITHER);
+    private static final ActionModule.MobEffect.Builder SLOW_FALLING_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.SLOW_FALLING);
+    private static final ActionModule.MobEffect.Builder REGENERATION_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.REGENERATION);
+    private static final ActionModule.MobEffect.Builder FIRE_RESISTANCE_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.FIRE_RESISTANCE);
+    private static final ActionModule.MobEffect.Builder SATURATION_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.SATURATION);
+    private static final ActionModule.MobEffect.Builder BLINDNESS_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.BLINDNESS);
+    private static final ActionModule.MobEffect.Builder WEAKNESS_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.WEAKNESS);
+    private static final ActionModule.MobEffect.Builder MINING_FATIGUE_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.MINING_FATIGUE);
+    private static final ActionModule.MobEffect.Builder STRENGTH_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.STRENGTH);
+    private static final ActionModule.MobEffect.Builder DOLPHINS_GRACE_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.DOLPHINS_GRACE);
+    private static final ActionModule.MobEffect.Builder WATER_BREATHING_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.WATER_BREATHING);
+    private static final ActionModule.MobEffect.Builder HEAD_IN_THE_CLOUDS_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(AerialHellMobEffects.HEAD_IN_THE_CLOUDS);
+    private static final ActionModule.MobEffect.Builder SHADOW_IMMUNITY_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(AerialHellMobEffects.SHADOW_IMMUNITY);
+    private static final ActionModule.MobEffect.Builder VULNERABILITY_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(AerialHellMobEffects.VULNERABILITY);
 
+    private static final ActionModule.MobEffect.Builder SLOWNESS_TO_OTHER = ActionModule.MobEffect.toOtherBuilder(MobEffects.SLOWNESS);
+    private static final ActionModule.MobEffect.Builder POISON_TO_OTHER = ActionModule.MobEffect.toOtherBuilder(MobEffects.POISON);
+    private static final ActionModule.MobEffect.Builder WITHER_TO_OTHER = ActionModule.MobEffect.toOtherBuilder(MobEffects.WITHER);
+    private static final ActionModule.MobEffect.Builder BLINDNESS_TO_OTHER = ActionModule.MobEffect.toOtherBuilder(MobEffects.BLINDNESS);
+    private static final ActionModule.MobEffect.Builder WEAKNESS_TO_OTHER = ActionModule.MobEffect.toOtherBuilder(MobEffects.WEAKNESS);
+    private static final ActionModule.MobEffect.Builder MINING_FATIGUE_TO_OTHER = ActionModule.MobEffect.toOtherBuilder(MobEffects.MINING_FATIGUE);
+    private static final ActionModule.MobEffect.Builder VULNERABILITY_TO_OTHER = ActionModule.MobEffect.toOtherBuilder(AerialHellMobEffects.VULNERABILITY);
+    
     private static final ActionModule.MultiplyDamage.Builder MULTIPLY_DAMAGE = ActionModule.MultiplyDamage.builder();
 
     private static final ActionModule.RemoveMobEffect.Builder REMOVE_EFFECT = ActionModule.RemoveMobEffect.builder();
@@ -175,8 +183,8 @@ public class AerialHellItemAbilities
             .inheritsOf(NINJA_SWORD_COMMON)
             .addOnUseModules(ModuleList.builder()
                     .addActions(
-                            INVISIBILITY_EFFECT.withDuration(200, EffectTarget.SELF),
-                            SPEED_EFFECT.withDuration(120, EffectTarget.SELF))
+                            INVISIBILITY_TO_SELF.withDuration(200),
+                            SPEED_TO_SELF.withDuration(120))
                     .addSideEffects(COOLDOWN.of(400))
                     .build())
             .build();
@@ -186,8 +194,8 @@ public class AerialHellItemAbilities
             .inheritsOf(NINJA_SWORD_COMMON)
             .addOnUseModules(ModuleList.builder()
                     .addActions(
-                            INVISIBILITY_EFFECT.withDuration(220, EffectTarget.SELF),
-                            SPEED_EFFECT.with(160, 1, EffectTarget.SELF))
+                            INVISIBILITY_TO_SELF.withDuration(220),
+                            SPEED_TO_SELF.with(160, 1))
                     .addSideEffects(COOLDOWN.of(340))
                     .build())
             .build();
@@ -219,8 +227,8 @@ public class AerialHellItemAbilities
             .setDescId("glouton_sword")
             .addOnUseModules(ModuleList.builder()
                     .addActions(
-                            SATURATION_EFFECT.withDuration(1, EffectTarget.SELF),
-                            REGENERATION_EFFECT.withDuration(40, EffectTarget.SELF), GENERIC_EAT_SOUND)
+                            SATURATION_TO_SELF.withDuration(1),
+                            REGENERATION_TO_SELF.withDuration(40), GENERIC_EAT_SOUND)
                     .addConditions(PLAYER_CAN_EAT)
                     .addSideEffects(COOLDOWN.of(20), DAMAGE_ITEM)
                     .build())
@@ -230,7 +238,7 @@ public class AerialHellItemAbilities
             .setDescId("netherian_king")
             .addOnUseModules(ModuleList.builder()
                     .addActions(
-                            FIRE_RESISTANCE_EFFECT.withDuration(280, EffectTarget.SELF),
+                            FIRE_RESISTANCE_TO_SELF.withDuration(280),
                             FLAME_PARTICLES.of(20), GENERIC_EXTINGUISH_FIRE_SOUND)
                     .addConditions(NOT_IN_WATER_OR_RAIN)
                     .addSideEffects(NETHERIAN_KING_SWORD_COOLDOWN, DAMAGE_ITEM)
@@ -245,7 +253,7 @@ public class AerialHellItemAbilities
             .addOnUseModules(ModuleList.builder()
                     .addActions(
                             THROW_PROJECTILE.build(AerialHellEntities.LUNATIC_PROJECTILE.get(), 0.7f, 0),
-                            WEAKNESS_EFFECT.with((itemOwner) -> LIGHT_WEAPON_COOLDOWN.getCooldownDuration(itemOwner) / 3, (itemOwner) -> 2, EffectTarget.SELF))
+                            WEAKNESS_TO_SELF.with((itemOwner) -> LIGHT_WEAPON_COOLDOWN.getCooldownDuration(itemOwner) / 3, (itemOwner) -> 2, TestTarget.ITEM_OWNER))
                     .addConditions(HAS_NO_SHADOW_STUFF)
                     .addSideEffects(LIGHT_WEAPON_COOLDOWN, DAMAGE_ITEM)
                     .build())
@@ -267,8 +275,8 @@ public class AerialHellItemAbilities
             .setDescId("volucite_power")
             .addOnUseModules(ModuleList.builder()
                     .addActions(
-                            SLOW_FALLING_EFFECT.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? 120 : 80, (itemOwner) -> 0, EffectTarget.SELF),
-                            HEAD_IN_THE_CLOUDS_EFFECT.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? 100 : -1, (itemOwner) -> 1, EffectTarget.SELF),
+                            SLOW_FALLING_TO_SELF.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? 120 : 80, (itemOwner) -> 0, TestTarget.ITEM_OWNER),
+                            HEAD_IN_THE_CLOUDS_TO_SELF.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? 100 : -1, (itemOwner) -> 1, TestTarget.ITEM_OWNER),
                             CLOUD_PARTICLES.of(20),
                             ILLUSIONER_CAST_SPELL_SOUND)
                     .addConditions(HAS_NO_HEAVY_STUFF)
@@ -295,7 +303,7 @@ public class AerialHellItemAbilities
             .setDescId("glass_cannon_liftoff")
             .inheritsOf(GLASS_CANNON_SWORD_COMMON)
             .addOnUseModules(ModuleList.builder()
-                    .addActions(LIFT_OFF, SLOW_FALLING_EFFECT.with(200, 2, EffectTarget.SELF), GENERIC_EXPLODE_SOUND)
+                    .addActions(LIFT_OFF, SLOW_FALLING_TO_SELF.with(200, 2), GENERIC_EXPLODE_SOUND)
                     .addConditions(PLAYER_SHIFT_KEY_UP)
                     .addSideEffects(COOLDOWN.of(600))
                     .build())
@@ -306,61 +314,49 @@ public class AerialHellItemAbilities
             .inheritsOf(GLASS_CANNON_SWORD_COMMON)
             .addOnUseModules(ModuleList.builder()
                     .addActions(
-                            RESISTANCE_EFFECT.with(200, 1, EffectTarget.SELF),
-                            SLOWNESS_EFFECT.with(100, 0, EffectTarget.SELF),
+                            RESISTANCE_TO_SELF.with(200, 1),
+                            SLOWNESS_TO_SELF.with(100, 0),
                             GLASS_BREAK_SOUND)
                     .addConditions(PLAYER_SHIFT_KEY_DOWN)
                     .addSideEffects(COOLDOWN.of(400))
                     .build())
             .build();
 
-    public static final ItemAbility REAPER_WALK = ItemAbility.builder()
-            .setDescId("reaper_walk")
+    public static final ItemAbility REAPER_SCYTHE = ItemAbility.builder()
+            .setDescId("reaper_scythe")
             .addOnUseModules(ModuleList.builder()
-                    .addActions(INVISIBILITY_EFFECT.withDuration(200, EffectTarget.SELF),
-                            SPEED_EFFECT.withDuration(120, EffectTarget.SELF),
-                            SHADOW_IMMUNITY_EFFECT.withDuration(120, EffectTarget.SELF),
+                    .addActions(
+                            INVISIBILITY_TO_SELF.withDuration(200),
+                            SPEED_TO_SELF.withDuration(120),
+                            SHADOW_IMMUNITY_TO_SELF.withDuration(120),
                             SHADOW_LIGHT_PARTICLES.of(20),
                             ILLUSIONER_CAST_SPELL_SOUND)
                     .addConditions(HAS_NO_LUNATIC_STUFF)
                     .addSideEffects(COOLDOWN.of(600), DAMAGE_ITEM)
                     .build())
-            .build();
-
-    public static final ItemAbility REAPER_TORN_NON_SHADOW_SOUL = ItemAbility.builder()
-            .setDescId("reaper_torn_non_shadow_soul")
             .addOnDealDamageModules(ModuleList.builder()
                     .addActions(
-                            BLINDNESS_EFFECT.with(100, 0, EffectTarget.ENEMY),
-                            WEAKNESS_EFFECT.with(100, 1, EffectTarget.ENEMY),
-                            SLOWNESS_EFFECT.with(100, 1, EffectTarget.ENEMY),
-                            VULNERABILITY_EFFECT.with(70, 0, EffectTarget.ENEMY),
-                            VULNERABILITY_EFFECT.with(60, 0, EffectTarget.SELF))
-                    .addConditions(OTHER_IS_NOT_SHADOW_IMMUNE, ITEM_OWNER_IS_NOT_VULNERABLE)
+                            VULNERABILITY_TO_SELF.with(60, 0),
+                            //if other (hit target) is not shadow entity nor shadow immune
+                            BLINDNESS_TO_OTHER.with((other) -> !EntityHelper.isShadowEntity(other) && !EntityHelper.isLivingEntityShadowImmune(other) ? 100 : -1, (other) -> 0, TestTarget.OTHER),
+                            WEAKNESS_TO_OTHER.with((other) -> !EntityHelper.isShadowEntity(other) && !EntityHelper.isLivingEntityShadowImmune(other) ? 100 : -1, (other) -> 1, TestTarget.OTHER),
+                            SLOWNESS_TO_OTHER.with((other) -> !EntityHelper.isShadowEntity(other) && !EntityHelper.isLivingEntityShadowImmune(other) ? 100 : -1, (other) -> 1, TestTarget.OTHER),
+                            VULNERABILITY_TO_OTHER.with((other) -> !EntityHelper.isShadowEntity(other) && !EntityHelper.isLivingEntityShadowImmune(other) ? 70 : -1, (other) -> 0, TestTarget.OTHER),
+                            //if other (hit target) is shadow entity or shadow immune
+                            WITHER_TO_SELF.with((other) -> EntityHelper.isShadowEntity(other) || EntityHelper.isLivingEntityShadowImmune(other) ? 80 : -1, (other) -> 3, TestTarget.OTHER))
+                    .addConditions(ITEM_OWNER_IS_NOT_VULNERABLE)
                     .build())
             .build();
-
-    public static final ItemAbility REAPER_TORN_SHADOW_SOUL = ItemAbility.builder()
-            .setDescId("reaper_torn_shadow_soul")
-            .addOnDealDamageModules(ModuleList.builder()
-                    .addActions(
-                            WITHER_EFFECT.with(80, 3, EffectTarget.SELF),
-                            VULNERABILITY_EFFECT.with(60, 0, EffectTarget.SELF))
-                    .addConditions(OTHER_IS_SHADOW_IMMUNE, ITEM_OWNER_IS_NOT_VULNERABLE)
-                    .build())
-            .build();
-
-    public static final AbilitySelector REAPER_SCYTHE = AbilitySelector.of(REAPER_WALK).nextAbility(REAPER_TORN_NON_SHADOW_SOUL).nextAbility(REAPER_TORN_SHADOW_SOUL);
 
     public static final ItemAbility MAGMA_CUBE = ItemAbility.builder()
             .setDescId("magma_cube")
             .addPassiveModules(ModuleList.builder()
-                    .addActions(JUMP_BOOST_EFFECT.passiveBuild())
+                    .addActions(JUMP_BOOST_TO_SELF.passiveBuild())
                     .addConditions(IN_MAIN_OR_OFF_HAND)
                     .build())
             .addOnUseModules(ModuleList.builder()
                     .addActions(
-                            JUMP_BOOST_EFFECT.with(100, 2, EffectTarget.SELF),
+                            JUMP_BOOST_TO_SELF.with(100, 2),
                             CRISMON_SPORE_PARTICLES.of(20),
                             PARROT_IMITATE_MAGMA_CUBE_SOUND)
                     .addSideEffects(COOLDOWN.of(400), DAMAGE_ITEM)
@@ -371,10 +367,10 @@ public class AerialHellItemAbilities
             .setDescId("forgotten_battle_trident")
             .addOnUseModules(ModuleList.builder()
                     .addActions(
-                            WATER_BREATHING_EFFECT.withDuration(120, EffectTarget.SELF),
-                            DOLPHINS_GRACE_EFFECT.withDuration(120, EffectTarget.SELF),
-                            SPEED_EFFECT.withDuration(120, EffectTarget.SELF),
-                            STRENGTH_EFFECT.withDuration(300, EffectTarget.SELF),
+                            WATER_BREATHING_TO_SELF.withDuration(120),
+                            DOLPHINS_GRACE_TO_SELF.withDuration(120),
+                            SPEED_TO_SELF.withDuration(120),
+                            STRENGTH_TO_SELF.withDuration(300),
                             DRIPPING_WATER_PARTICLES.of(20),
                             FORGOTTEN_BATTLE_TRIDENT_USE_SOUND)
                     .addSideEffects(COOLDOWN.of(540), DAMAGE_ITEM)
@@ -384,7 +380,7 @@ public class AerialHellItemAbilities
     public static final ItemAbility GOD = ItemAbility.builder()
             .setDescId("god")
             .addPassiveModules(ModuleList.builder()
-                    .addActions(GOD_EFFECT.passiveBuild())
+                    .addActions(GOD_EFFECT_TO_SELF.passiveBuild())
                     .addConditions(IN_MAIN_OR_OFF_HAND)
                     .build())
             .addOnDealDamageModules(ModuleList.builder()
@@ -395,21 +391,21 @@ public class AerialHellItemAbilities
     public static final ItemAbility MAGMATIC_GEL_TOOLS = ItemAbility.builder()
             .setDescId("magmatic_gel_tools")
             .addOnDealDamageModules(ModuleList.builder()
-                    .addActions(SLOWNESS_EFFECT.with((itemOwner) -> 120, (itemOwner) -> EntityHelper.hasFullMagmaticGelStuff(itemOwner) ? 1 : 0, EffectTarget.ENEMY))
+                    .addActions(SLOWNESS_TO_OTHER.with((itemOwner) -> 120, (itemOwner) -> EntityHelper.hasFullMagmaticGelStuff(itemOwner) ? 1 : 0, TestTarget.ITEM_OWNER))
                     .build()
             ).build();
 
     public static final ItemAbility ABSOLUTE_ZERO = ItemAbility.builder()
             .setDescId("absolute_zero")
             .addOnDealDamageModules(ModuleList.builder()
-                    .addActions(SLOWNESS_EFFECT.with(100, 2, EffectTarget.ENEMY))
+                    .addActions(SLOWNESS_TO_OTHER.with(100, 2))
                     .build()
             ).build();
 
     public static final ItemAbility MAGMATIC_GEL_ARMOR = ItemAbility.builder()
             .setDescId("magmatic_gel_armor")
             .addOnTakeDamageModules(ModuleList.builder()
-                    .addActions(SLOWNESS_EFFECT.with(120, 1, EffectTarget.ENEMY))
+                    .addActions(SLOWNESS_TO_OTHER.with(120, 1))
                     .addConditions(OTHER_IS_NOT_CREATIVE_PLAYER, IN_RIGHT_SLOT)
                     .build()
             ).build();
@@ -433,9 +429,9 @@ public class AerialHellItemAbilities
             .setDescId("disloyal_sword")
             .addOnTakeDamageModules(ModuleList.builder()
                     .addActions(
-                            SLOWNESS_EFFECT.with(100, 0, EffectTarget.ENEMY),
-                            WEAKNESS_EFFECT.with(100, 0, EffectTarget.ENEMY),
-                            MINING_FATIGUE_EFFECT.with(100, 0, EffectTarget.ENEMY))
+                            SLOWNESS_TO_OTHER.with(100, 0),
+                            WEAKNESS_TO_OTHER.with(100, 0),
+                            MINING_FATIGUE_TO_OTHER.with(100, 0))
                     .build()
             ).build();
 
