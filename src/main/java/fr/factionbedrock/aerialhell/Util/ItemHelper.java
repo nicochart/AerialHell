@@ -1,107 +1,61 @@
 package fr.factionbedrock.aerialhell.Util;
 
+import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.HolderGetter;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Util;
-import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraft.world.item.component.Tool;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Predicate;
 
 public class ItemHelper
 {
-    public static int getItemInTagCount(Iterable<ItemStack> stuff, TagKey<Item> tag)
+    public static void forEachAerialHellItem(List<EquippedItemStack> items, BiConsumer<AerialHellItem, EquippedItemStack> action)
+    {
+        for (EquippedItemStack e : items)
+        {
+            ItemStack stack = e.stack();
+            if (stack.getItem() instanceof AerialHellItem item) {action.accept(item, e);}
+        }
+    }
+
+    public static int countItemStacksMatching(Iterable<ItemStack> itemStackList, Predicate<ItemStack> condition)
     {
         int count = 0;
-        for (ItemStack item : stuff)
+        for (ItemStack itemStack : itemStackList)
         {
-            if (item.is(tag)) {count++;}
+            if (condition.test(itemStack)) {count++;}
         }
         return count;
     }
 
-    public static final Identifier BASE_ATTACK_DAMAGE_ID = Identifier.withDefaultNamespace("base_attack_damage");
-    public static final Identifier BASE_ATTACK_SPEED_ID = Identifier.withDefaultNamespace("base_attack_speed");
-    public static final Identifier BASE_MOVEMENT_SPEED_ID = Identifier.withDefaultNamespace("base_movement_speed");
-    public static final Identifier BASE_MAX_HEALTH_ID = Identifier.withDefaultNamespace("base_movement_speed");
-
-
-    public static Item.Properties applySwordProperties(Item.Properties properties, ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
+    public static int countItemStacksInTag(Iterable<ItemStack> itemStackList, TagKey<Item> tag)
     {
-        return applyToolProperties(properties, toolMaterial, null, attackDamage, attackSpeed, movementSpeed, maxHealth);
+        return countItemStacksMatching(itemStackList, (itemStack) -> itemStack.is(tag));
     }
 
-    //copy of ToolMaterial applyToolProperties / applySwordProperties method, with the ToolMaterial as additional parameter
-    //if mineableBlocks == null, the tool is a sword
-    public static Item.Properties applyToolProperties(Item.Properties properties, ToolMaterial toolMaterial, @Nullable TagKey<Block> mineableBlocks, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
-    {
-        boolean canDestroyBlocksInCreative = mineableBlocks != null;
-        HolderGetter<Block> holdergetter = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
-        return applyCommonProperties(properties, toolMaterial)
-                .component(
-                        DataComponents.TOOL,
-                        new Tool(getRules(holdergetter, toolMaterial, mineableBlocks), 1.0F, 1, canDestroyBlocksInCreative)
-                )
-                .attributes(createAerialHellToolOrWeaponAttributes(toolMaterial, attackDamage, attackSpeed, movementSpeed, maxHealth));
-    }
+    public static int countMagmaticGelStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.MAGMATIC_GEL);}
+    public static int countLunaticStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.LUNATIC_STUFF);}
+    public static int countShadowStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.SHADOW_STUFF);}
+    public static int countArsonistStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.ARSONIST_STUFF);}
+    public static int countVoluciteStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.VOLUCITE_STUFF);}
 
-    private static List<Tool.Rule> getRules(HolderGetter<Block> bootstrapRegistrationLookup, ToolMaterial toolMaterial, @Nullable TagKey<Block> mineableBlocks)
+    public static int countHeavyStuff(Iterable<ItemStack> itemStackList)
     {
-        if (mineableBlocks == null) {return getSwordRules(bootstrapRegistrationLookup);}
-        else {return getToolRules(bootstrapRegistrationLookup, toolMaterial, mineableBlocks);}
-    }
-
-    //copy of applyToolProperties(..) rules list
-    private static List<Tool.Rule> getToolRules(HolderGetter<Block> bootstrapRegistrationLookup, ToolMaterial toolMaterial, TagKey<Block> mineableBlocks)
-    {
-        return List.of(
-            Tool.Rule.deniesDrops(bootstrapRegistrationLookup.getOrThrow(toolMaterial.incorrectBlocksForDrops())),
-            Tool.Rule.minesAndDrops(bootstrapRegistrationLookup.getOrThrow(mineableBlocks), toolMaterial.speed())
-        );
-    }
-
-    //copy of applySwordProperties(..) rules list
-    private static List<Tool.Rule> getSwordRules(HolderGetter<Block> bootstrapRegistrationLookup)
-    {
-        return List.of(
-            Tool.Rule.minesAndDrops(HolderSet.direct(Blocks.COBWEB.builtInRegistryHolder()), 15.0F),
-            Tool.Rule.overrideSpeed(bootstrapRegistrationLookup.getOrThrow(BlockTags.SWORD_EFFICIENT), 1.5F)
-        );
-    }
-
-    //copy of ToolMaterial method
-    private static Item.Properties applyCommonProperties(Item.Properties properties, ToolMaterial material)
-    {
-        return properties.durability(material.durability()).repairable(material.repairItems()).enchantable(material.enchantmentValue());
-    }
-
-    public static ItemAttributeModifiers createAerialHellToolOrWeaponAttributes(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float movementSpeed, float maxHealth)
-    {
-        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-        builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, attackDamage + toolMaterial.attackDamageBonus(), AttributeModifier.Operation.ADD_VALUE),EquipmentSlotGroup.MAINHAND);
-        builder.add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-        if (movementSpeed != 0) {builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(BASE_MOVEMENT_SPEED_ID, movementSpeed, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.MAINHAND);}
-        if (maxHealth != 0) {builder.add(Attributes.MAX_HEALTH, new AttributeModifier(BASE_MAX_HEALTH_ID, maxHealth, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);}
-        return builder.build();
+        return countItemStacksMatching(itemStackList, (itemStack) -> itemStack.is(AerialHellTags.Items.OBSIDIAN_STUFF) || itemStack.is(AerialHellTags.Items.ARSONIST_STUFF));
     }
 
     public static class SmithingTemplate
@@ -145,5 +99,48 @@ public class ItemHelper
         {
             livingEntity.removeEffect(AerialHellMobEffects.VULNERABILITY);
         }
+    }
+
+    public static Map<Item, Integer> getOscillatingMap()
+    {
+        Map<Item, Integer> map = Maps.newLinkedHashMap();
+        map.put(AerialHellItems.FLUORITE.get(), 1200);
+        map.put(AerialHellItems.FLUORITE_BLOCK.get(), 10800);
+        map.put(AerialHellItems.CRYSTAL.get(), 300);
+        map.put(AerialHellItems.CRYSTAL_BLOCK.get(), 1200);
+        return map;
+    }
+
+    public static Map<Item, Integer> getCorruptingMap()
+    {
+        Map<Item, Integer> map = Maps.newLinkedHashMap();
+        map.put(AerialHellItems.SHADOW_CRYSTAL.get(), 400);
+        map.put(AerialHellItems.SHADOW_CRYSTAL_BLOCK.get(), 3600);
+        map.put(AerialHellItems.SHADOW_SHARD.get(), 1000);
+        map.put(AerialHellItems.CURSED_CRYSTAL.get(), 2000);
+        map.put(AerialHellItems.CURSED_CRYSAL_BLOCK.get(), 18000);
+        return map;
+    }
+
+    public static String getTimeStringFromTicks(int ticks)
+    {
+        int secondsToRegain = ticks / 20;
+        return getTimeStringFromSeconds(secondsToRegain);
+    }
+
+    public static String getTimeStringFromSeconds(int secs)
+    {
+        int days = secs / 86400;
+        int hours = (secs % 86400) / 3600;
+        int minutes = (secs % 3600) / 60;
+        int seconds = secs % 60;
+
+        StringBuilder sb = new StringBuilder();
+        if (days > 0) sb.append(days).append("d ");
+        if (hours > 0 || days > 0) sb.append(hours).append("h ");
+        if (minutes > 0 || hours > 0 || days > 0) sb.append(minutes).append("m ");
+        sb.append(seconds).append("s");
+
+        return sb.toString().trim();
     }
 }

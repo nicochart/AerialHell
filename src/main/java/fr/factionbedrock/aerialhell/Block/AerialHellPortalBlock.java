@@ -133,9 +133,9 @@ public class AerialHellPortalBlock extends Block implements Portal
 		{
 			if (entity instanceof LivingEntity livingEntity && EntityHelper.isLivingEntityOnPortalCooldown(livingEntity))
 			{
-				EntityHelper.setAfterTeleportationEffect((LivingEntity)entity, !EntityHelper.isCreativePlayer(entity) ? 110 : 20);
+				EntityHelper.setAfterTeleportationEffect(livingEntity, !EntityHelper.isCreativePlayer(entity) ? 110 : 20);
 			}
-			else if(entity.isOnPortalCooldown()) {entity.setPortalCooldown();}
+			else if (entity.isOnPortalCooldown()) {entity.setPortalCooldown();}
 			else
 			{
 				if (entity instanceof LivingEntity livingEntity)
@@ -163,7 +163,17 @@ public class AerialHellPortalBlock extends Block implements Portal
 				}
 				else
 				{
-					EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, this, pos);
+					@org.jetbrains.annotations.Nullable LivingEntity firstPassenger = entity.getFirstPassenger() instanceof LivingEntity livingEntity ? livingEntity : null;
+					if (firstPassenger != null && EntityHelper.isLivingEntityOnPortalCooldown(firstPassenger))
+					{
+						EntityHelper.setAfterTeleportationEffect(firstPassenger, !EntityHelper.isCreativePlayer(entity) ? 110 : 20);
+					}
+					else
+					{
+						EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, this, pos);
+						entity.setPortalCooldown();
+						if (firstPassenger != null) {EntityHelper.setAfterTeleportationEffect(firstPassenger, !EntityHelper.isCreativePlayer(entity) ? 110 : 20);}
+					}
 				}
 			}
 		}

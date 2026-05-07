@@ -46,7 +46,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
                 partInfo.incrementTicksInInvalidSituation();
                 if (partInfo.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION)  //should not happen if part is not removed or if the uuid changed (if the entity is loaded from a structure nbt for example)
                 {
-                    DebugHelper.sendDebugMessage(this.getLevel(), "Master Part : invalid situation with child part "+partInfo.getName()); //temporary debug TODO remove
+                    DebugHelper.sendDebugMessage(this.getLevel(), "Master Part : invalid situation with child part "+partInfo.getName(), true); //temporary debug TODO remove
                     boolean shouldBreak = this.reactToInvalidSituationWithPart(partInfo);
                     if (shouldBreak) {break;}
                 }
