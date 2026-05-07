@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Util;
 
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -16,11 +17,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SmithingTemplateItem;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 public class ItemHelper
 {
+    public static void forEachAerialHellItem(List<EquippedItemStack> items, BiConsumer<AerialHellItem, EquippedItemStack> action)
+    {
+        for (EquippedItemStack e : items)
+        {
+            ItemStack stack = e.stack();
+            if (stack.getItem() instanceof AerialHellItem item) {action.accept(item, e);}
+        }
+    }
+
     public static Map<Item, Integer> burnTimeMap = Maps.<Item, Integer>newLinkedHashMap();
 
     public static int countItemStacksMatching(Iterable<ItemStack> itemStackList, Predicate<ItemStack> condition)
@@ -38,6 +50,7 @@ public class ItemHelper
         return countItemStacksMatching(itemStackList, (itemStack) -> itemStack.is(tag));
     }
 
+    public static int countMagmaticGelStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.MAGMATIC_GEL);}
     public static int countLunaticStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.LUNATIC_STUFF);}
     public static int countShadowStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.SHADOW_STUFF);}
     public static int countArsonistStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.ARSONIST_STUFF);}

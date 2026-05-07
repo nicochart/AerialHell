@@ -7,5 +7,5 @@ import org.jetbrains.annotations.Nullable;
 
 @FunctionalInterface public interface ModuleAction
 {
-    void apply(LivingEntity entity, ItemStack stack, @Nullable EquipmentSlot slot);
+    void apply(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable DamageUseSituationInfo damageInfo, @Nullable MiningUseSituationInfo miningInfo);
 }

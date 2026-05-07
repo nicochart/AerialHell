@@ -1,17 +1,25 @@
 package fr.factionbedrock.aerialhell.Item;
 
 import com.google.common.collect.BiMap;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.datafixers.util.Pair;
 import fr.factionbedrock.aerialhell.Item.Ability.AbilitySelector;
 import fr.factionbedrock.aerialhell.Item.Ability.AbilityUseSituation;
+import fr.factionbedrock.aerialhell.Item.Ability.DamageUseSituationInfo;
+import fr.factionbedrock.aerialhell.Item.Ability.MiningUseSituationInfo;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellToolMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
+import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.locale.Language;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -37,6 +45,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jspecify.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +73,7 @@ public class AerialHellItem extends WithInformationItem
 	//applying tick (passive) tool ability modules
 	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
 	{
-		if (this.abilitySelector != null && entity instanceof LivingEntity livingEntity && entity.tickCount % 10 == 0) {this.abilitySelector.tryUseAbility(livingEntity, stack, slot, AbilityUseSituation.TICK);}
+		if (this.abilitySelector != null && entity instanceof LivingEntity itemOwner && entity.tickCount % 10 == 0) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.Tick(stack, itemOwner, slot));}
 	}
 
 	//applying use tool ability modules
@@ -72,15 +81,66 @@ public class AerialHellItem extends WithInformationItem
 	{
 		ItemStack heldItemStack = player.getItemInHand(hand);
 		boolean used = false;
-		if (this.abilitySelector != null) {used = this.abilitySelector.tryUseAbility(player, heldItemStack, hand.asEquipmentSlot(), AbilityUseSituation.ON_USE);}
+		if (this.abilitySelector != null) {used = this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnUse(heldItemStack, player, hand.asEquipmentSlot()));}
 		return used ? InteractionResult.CONSUME : super.use(level, player, hand);
 	}
 
-	//applying hurtEnemy (semi-passive) tool ability modules
-	@Override public void hurtEnemy(ItemStack itemStack, LivingEntity target, LivingEntity attacker)
+	//applying onDealDamage (semi-passive) tool ability modules
+	//enemy entity (stored in damageInfo) is taking damage from item owner
+	public void onDealDamage(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot slot, DamageUseSituationInfo damageInfo)
 	{
-		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(attacker, itemStack, null, AbilityUseSituation.ON_HURT_ENEMY);}
-		super.hurtEnemy(itemStack, target, attacker);
+		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnDealDamage(itemStack, itemOwner, slot, damageInfo));}
+	}
+
+	//applying onTakeDamage (semi-passive) tool ability modules
+	//item owner is taking damage from enemy attacker (stored in damageInfo)
+	public void onTakeDamage(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot slot, DamageUseSituationInfo damageInfo)
+	{
+		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnTakeDamage(itemStack, itemOwner, slot, damageInfo));}
+	}
+
+	//applying onMining (semi-passive) tool ability modules
+	public void onMining(ItemStack itemStack, LivingEntity itemOwner, MiningUseSituationInfo miningInfo)
+	{
+		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnMining(itemStack, itemOwner, miningInfo));}
+	}
+
+	@Override public void appendAbilityDescriptionHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder)
+	{
+		//should only be called client side
+		if (this.abilitySelector == null) {return;}
+
+		boolean shiftDown = InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) || InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), GLFW.GLFW_KEY_RIGHT_SHIFT);
+		List<String> descIds = this.abilitySelector.getAbilitiesDescIds();
+
+		boolean hasAbilityDetail = false;
+		for (String descId : descIds)
+		{
+			if (Language.getInstance().has("ability.aerialhell."+descId+".desc"))
+			{
+				hasAbilityDetail = true;
+				break;
+			}
+		}
+
+		if (!shiftDown)
+		{
+			if (hasAbilityDetail) {tooltipAdder.accept(Component.translatable("ability.aerialhell.shift_key_up").withStyle(ChatFormatting.DARK_GRAY));}
+			return;
+		}
+
+		for (String descId : descIds)
+		{
+			if (descId.isEmpty()) {continue;}
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".desc", ChatFormatting.GRAY);
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".desc_2", ChatFormatting.GRAY);
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".desc_3", ChatFormatting.GRAY);
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".desc_4", ChatFormatting.GRAY);
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".desc_5", ChatFormatting.GRAY);
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".desc_6", ChatFormatting.GRAY);
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".condition.desc", ChatFormatting.GRAY);
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".cooldown.desc", ChatFormatting.GRAY);
+		}
 	}
 
 	//inspired of vanilla ShovelItem, AxeItem and HoeItem
@@ -324,6 +384,10 @@ public class AerialHellItem extends WithInformationItem
 		@Override public Properties fireResistant() {return (Properties) super.fireResistant();}
 
 		@Override public Properties trimMaterial(ResourceKey<TrimMaterial> material) {return (Properties) this.delayedHolderComponent(DataComponents.PROVIDES_TRIM_MATERIAL, material);}
+
+		@Override public AerialHellItem.Properties stacksTo(int max) {return (AerialHellItem.Properties) super.stacksTo(max);}
+
+		@Override public <T> AerialHellItem.Properties component(DataComponentType<T> type, T value) {return (AerialHellItem.Properties) super.component(type, value);}
 	}
 
 	//"tool types" that can be used with right click

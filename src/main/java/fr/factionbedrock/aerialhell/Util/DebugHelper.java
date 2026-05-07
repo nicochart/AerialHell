@@ -6,18 +6,18 @@ import net.minecraft.world.level.Level;
 
 public class DebugHelper
 {
-    public static void sendDebugMessage(Level world, String message)
+    public static void sendDebugMessage(Level level, String message, boolean includeDefaultInfo)
     {
-        long time = world.getGameTime();
-        String chatMessage = "[DEBUG - "+(world.isClientSide() ? "Client" : "Server")+" side - "+time+"] " + message;
+        long time = level.getGameTime();
+        String chatMessage = includeDefaultInfo ? "[DEBUG - "+(level.isClientSide() ? "Client" : "Server")+" side - "+time+"] " + message : "[DEBUG] " + message;
 
-        if (world.isClientSide())
+        if (level.isClientSide())
         {
             Minecraft.getInstance().player.sendSystemMessage(Component.literal(chatMessage));
         }
-        else if (world.getServer() != null)
+        else if (level.getServer() != null)
         {
-            world.getServer().getPlayerList().broadcastSystemMessage(Component.literal(chatMessage), false);
+            level.getServer().getPlayerList().broadcastSystemMessage(Component.literal(chatMessage), false);
         }
     }
 }

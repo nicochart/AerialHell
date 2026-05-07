@@ -16,4 +16,9 @@ public record AttributeEntry(Holder<Attribute> attribute, float value, Attribute
     {
         return new AttributeEntry(Attributes.MAX_HEALTH, maxHealth, AttributeModifier.Operation.ADD_VALUE);
     }
+
+    public static AttributeEntry entityInteractionRange(float value)
+    {
+        return new AttributeEntry(Attributes.ENTITY_INTERACTION_RANGE, value, AttributeModifier.Operation.ADD_VALUE);
+    }
 }

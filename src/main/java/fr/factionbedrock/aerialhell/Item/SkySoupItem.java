@@ -11,14 +11,17 @@ import net.minecraft.world.level.Level;
 public class SkySoupItem extends Item //copy of net.minecraft.item.SoupItem but with sky bowl
 {
 	public SkySoupItem(Item.Properties settings) {super(settings);}
-	
-	@Override public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity entityLiving)
+
+	@Override public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity)
 	{
-		if (stack.is(AerialHellItems.SHADOW_FRUIT_STEW) && !world.isClientSide())
+		if (stack.is(AerialHellItems.SHADOW_FRUIT_STEW) && !level.isClientSide())
 		{
-			ItemHelper.removeEffectCuredBy(entityLiving, stack);
+			ItemHelper.removeEffectCuredBy(entity, stack);
 		}
-		ItemStack itemstack = super.finishUsingItem(stack, world, entityLiving);
-		return entityLiving instanceof Player player && (player.getAbilities().instabuild) ? itemstack : new ItemStack(AerialHellItems.SKY_BOWL);
+		if (entity instanceof Player player && !player.getAbilities().instabuild)
+		{
+			if (!player.getInventory().add(new ItemStack(AerialHellItems.SKY_BOWL, 1))) {player.drop(new ItemStack(AerialHellItems.SKY_BOWL, 1), false);}
+		}
+		return super.finishUsingItem(stack, level, entity);
 	}
 }
