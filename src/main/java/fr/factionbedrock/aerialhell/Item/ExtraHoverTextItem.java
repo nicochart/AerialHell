@@ -51,9 +51,8 @@ public interface ExtraHoverTextItem
         }
     }
 
-    default void appendOptionalItemHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder, String suffix, Predicate<AbstractContainerMenu> condition)
+    default void appendOptionalItemHoverText(Player player, Item.TooltipContext context, Consumer<Component> tooltipAdder, String suffix, Predicate<AbstractContainerMenu> condition)
     {
-        Player player = Minecraft.getInstance().player;
         if (player != null && condition.test(player.containerMenu))
         {
             this.getOptionalItemDescription(suffix).ifPresent(description -> tooltipAdder.accept(description.withStyle(ChatFormatting.GOLD)));
