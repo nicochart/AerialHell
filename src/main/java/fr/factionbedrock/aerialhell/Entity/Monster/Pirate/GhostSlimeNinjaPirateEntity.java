@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.GhostPirateWaterAvoidingRandomStrollGoal;
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.MisleadableEntity;
-import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.AzuriteShurikenEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.ShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
@@ -90,10 +90,12 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implemen
 
         @Override public GhostSlimeNinjaPirateEntity getParentEntity() {return (GhostSlimeNinjaPirateEntity) super.getParentEntity();}
 
-        @Override public Projectile createProjectile(Level world, LivingEntity shooter, double accX, double accY, double accZ)
+        @Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ)
         {
-            RandomSource rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
-            return new AzuriteShurikenEntity(world, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f, AerialHellItems.AZURITE_SHURIKEN.getDefaultInstance());
+            ShurikenEntity shuriken = new ShurikenEntity(AerialHellEntities.AZURITE_SHURIKEN, level, 9.0F);
+            shuriken.setOwner(shuriken);
+            shuriken.shoot(accX, accY, accZ, 1.3F, 2.0F);
+            return shuriken;
         }
     }
 }

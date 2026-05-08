@@ -32,6 +32,8 @@ public class AerialHellSetup
         BuildContentsEvent.buildContents();
         AerialHellItems.registerCompostableItems();
         AerialHellBlocks.registerAxeStrippingBlocks();
+        AerialHellBlocks.registerShovelFlattenableBlocks();
+        AerialHellBlocks.registerHoeTillableBlocks();
         AerialHellEntities.registerEntitySpawnPlacements();
         AerialHellDimensions.makePortal();
     }

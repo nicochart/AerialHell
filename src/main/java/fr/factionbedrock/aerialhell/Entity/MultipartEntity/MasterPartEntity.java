@@ -93,30 +93,6 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         }
     }
 
-    default void setPartsPitch(float pitch) //call in setPitch(xRot)
-    {
-        //do not try to set rotation of another entity on client side. Let server side do.
-        //null getAllParts happens on entity creation (when constructor is called)
-        if (this.getLevel().isClientSide() || this.getPartInfoMap() == null) {return;}
-        for (PartInfo partInfo : this.getPartInfoMap().values())
-        {
-            PartEntity part = partInfo.getPart();
-            if (part != null) {part.setPitch(pitch);}
-        }
-    }
-
-    default void setPartsYaw(float yaw) //call in setYaw(yRot)
-    {
-        //do not try to set rotation of another entity on client side. Let server side do.
-        //null getAllParts happens on entity creation (when constructor is called)
-        if (this.getLevel().isClientSide() || this.getPartInfoMap() == null) {return;}
-        for (PartInfo partInfo : this.getPartInfoMap().values())
-        {
-            PartEntity part = partInfo.getPart();
-            if (part != null) {part.setYaw(yaw);}
-        }
-    }
-
     default void partWriteCustomData(ValueOutput view) //call in addAdditionalSaveData(valueOutput)
     {
         view.putFloat("master_body_rot", this.getSelf().yBodyRot);

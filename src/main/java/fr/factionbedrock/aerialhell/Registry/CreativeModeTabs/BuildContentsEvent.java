@@ -836,7 +836,7 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.ARSONIST_INGOT);
             entries.accept(AerialHellItems.LUNATIC_CRYSTAL);
             entries.accept(AerialHellItems.OBSIDIAN_SHARD);
-            entries.accept(AerialHellItems.CURSED_CRYSAL);
+            entries.accept(AerialHellItems.CURSED_CRYSTAL);
 
             entries.accept(AerialHellItems.ARSONIST_UPGRADE_SMITHING_TEMPLATE);
 

@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import java.util.function.Consumer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
@@ -10,12 +9,16 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
 
-public class WithInformationBlockItem extends BlockItem
+public class WithInformationBlockItem extends BlockItem implements ExtraHoverTextItem
 {
-	public WithInformationBlockItem(Block block, Item.Properties settings) {super(block, settings);}
+	public WithInformationBlockItem(Block block, Properties prop) {super(block, prop);}
 
-	@Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type)
+	@Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
 	{
-		ItemHelper.appendItemTooltip(this.getDescriptionId(), textConsumer);
+		this.appendOptionalDescriptionsHoverText(context, tooltipAdder);
+		this.appendAbilityDescriptionHoverText(context, tooltipAdder);
+		this.appendReactorMenuHoverText(context, tooltipAdder);
 	}
+
+	@Override public Item getSelf() {return this;}
 }

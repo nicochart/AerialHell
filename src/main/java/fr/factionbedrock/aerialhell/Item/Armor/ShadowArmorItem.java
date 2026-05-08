@@ -26,11 +26,11 @@ public class ShadowArmorItem extends Item
 {
     public ShadowArmorItem(Item.Properties settings) {super(settings);}
 
-    @Override public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, @Nullable EquipmentSlot slot)
+    @Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
     {
         if (entity instanceof Player playerEntity && slot == EquipmentSlot.CHEST)
         {
-            if (ItemHelper.getItemInTagCount(EntityHelper.getEquippedHumanoidArmorItemList(playerEntity), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !world.isClientSide())
+            if (ItemHelper.countItemStacksInTag(EntityHelper.getEquippedHumanoidArmorItemList(playerEntity), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !level.isClientSide())
             {
                 playerEntity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 220, 0, false, false));
 
