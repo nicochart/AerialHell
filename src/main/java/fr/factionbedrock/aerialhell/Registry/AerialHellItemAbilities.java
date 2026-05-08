@@ -475,7 +475,7 @@ public class AerialHellItemAbilities
     public static final ItemAbility ARSONIST_ARMOR = ItemAbility.builder()
             .setDescId("arsonist_armor")
             .addOnTakeDamageModules(ModuleList.builder()
-                    .addActions(IGNITE_OTHER, MULTIPLY_DAMAGE.by(itemOwner -> itemOwner.getRemainingFireTicks() > 0 ? 0.93F : 1.0F, TestTarget.ITEM_OWNER))
+                    .addActions(IGNITE_OTHER, MULTIPLY_DAMAGE.by(itemOwner -> itemOwner.isOnFire() ? 0.93F : 1.0F, TestTarget.ITEM_OWNER))
                     .addConditions(OTHER_IS_NOT_CREATIVE_PLAYER, IN_RIGHT_SLOT)
                     .build()
             ).build();
@@ -483,10 +483,10 @@ public class AerialHellItemAbilities
     public static final ItemAbility ARSONIST_TOOL = ItemAbility.builder()
             .setDescId("arsonist_tool")
             .addOnDealDamageModules(ModuleList.builder()
-                    .addActions(IGNITE_OTHER, MULTIPLY_DAMAGE.by(itemOwner -> itemOwner.getRemainingFireTicks() > 0 ? 1.5F : 1.0F, TestTarget.ITEM_OWNER))
+                    .addActions(IGNITE_OTHER, MULTIPLY_DAMAGE.by(itemOwner -> itemOwner.isOnFire() ? 1.5F : 1.0F, TestTarget.ITEM_OWNER))
                     .build())
             .addOnMiningModules(ModuleList.builder()
-                    .addActions(MULTIPLY_MINING_SPEED.by((itemOwner, state) -> itemOwner.getRemainingFireTicks() > 0 ? 2.0F : 1.0F))
+                    .addActions(MULTIPLY_MINING_SPEED.by((itemOwner, state) -> itemOwner.isOnFire() ? 2.0F : 1.0F))
                     .build()
             ).build();
 

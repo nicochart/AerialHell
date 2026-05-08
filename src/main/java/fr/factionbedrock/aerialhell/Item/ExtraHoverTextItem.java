@@ -4,7 +4,6 @@ import fr.factionbedrock.aerialhell.BlockEntity.ReactorBlockEntity;
 import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -34,9 +33,8 @@ public interface ExtraHoverTextItem
 
     default void appendAbilityDescriptionHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder) {}
 
-    default void appendReactorMenuHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder)
+    default void appendReactorMenuHoverText(Player player, Item.TooltipContext context, Consumer<Component> tooltipAdder)
     {
-        Player player = Minecraft.getInstance().player;
         if (player != null && player.containerMenu instanceof ReactorMenu reactorMenu)
         {
             if (reactorMenu.isLightReactor() && ItemHelper.getOscillatingMap().containsKey(this.getSelf()))
@@ -52,9 +50,8 @@ public interface ExtraHoverTextItem
         }
     }
 
-    default void appendOptionalItemHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder, String suffix, Predicate<AbstractContainerMenu> condition)
+    default void appendOptionalItemHoverText(Player player, Item.TooltipContext context, Consumer<Component> tooltipAdder, String suffix, Predicate<AbstractContainerMenu> condition)
     {
-        Player player = Minecraft.getInstance().player;
         if (player != null && condition.test(player.containerMenu))
         {
             this.getOptionalItemDescription(suffix).ifPresent(description -> tooltipAdder.accept(description.withStyle(ChatFormatting.GOLD)));

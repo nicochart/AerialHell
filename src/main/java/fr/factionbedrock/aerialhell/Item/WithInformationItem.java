@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Item;
 
 import java.util.function.Consumer;
 
+import fr.factionbedrock.aerialhell.Client.Util.ClientHelper;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +17,7 @@ public class WithInformationItem extends Item implements ExtraHoverTextItem
 	{
 		this.appendOptionalDescriptionsHoverText(context, tooltipAdder);
 		this.appendAbilityDescriptionHoverText(context, tooltipAdder);
-		this.appendReactorMenuHoverText(context, tooltipAdder);
+		this.appendReactorMenuHoverText(ClientHelper.getLocalPlayer(), context, tooltipAdder);
 	}
 
 	@Override public Item getSelf() {return this;}
