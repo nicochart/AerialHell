@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.Mixin;
 import fr.factionbedrock.aerialhell.Item.Ability.MiningUseSituationInfo;
 import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.*;
 import net.minecraft.world.effect.MobEffectInstance;

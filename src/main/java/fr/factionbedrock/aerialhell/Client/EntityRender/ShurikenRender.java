@@ -89,7 +89,7 @@ public class ShurikenRender<T extends ShurikenEntity> extends EntityRenderer<T, 
 
 	public Item getItem(T entity)
 	{
-		if (entity.is(AerialHellEntities.IRON_SHURIKEN)) {return AerialHellItems.RUBY_SHURIKEN;}
+		if (entity.is(AerialHellEntities.IRON_SHURIKEN)) {return AerialHellItems.IRON_SHURIKEN;}
 		else if (entity.is(AerialHellEntities.GOLD_SHURIKEN)) {return AerialHellItems.GOLD_SHURIKEN;}
 		else if (entity.is(AerialHellEntities.VOLUCITE_SHURIKEN)) {return AerialHellItems.VOLUCITE_SHURIKEN;}
 		else if (entity.is(AerialHellEntities.OBSIDIAN_SHURIKEN)) {return AerialHellItems.OBSIDIAN_SHURIKEN;}
