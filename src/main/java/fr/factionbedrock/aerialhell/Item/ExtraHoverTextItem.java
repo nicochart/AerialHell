@@ -34,9 +34,8 @@ public interface ExtraHoverTextItem
 
     default void appendAbilityDescriptionHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder) {}
 
-    default void appendReactorMenuHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder)
+    default void appendReactorMenuHoverText(Player player, Item.TooltipContext context, Consumer<Component> tooltipAdder)
     {
-        Player player = Minecraft.getInstance().player;
         if (player != null && player.containerMenu instanceof ReactorMenu reactorMenu)
         {
             if (reactorMenu.isLightReactor() && ItemHelper.getOscillatingMap().containsKey(this.getSelf()))

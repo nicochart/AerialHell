@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -18,7 +19,7 @@ public class WithInformationBlockItem extends BlockItem implements ExtraHoverTex
 	{
 		this.appendOptionalDescriptionsHoverText(context, tooltipAdder);
 		this.appendAbilityDescriptionHoverText(context, tooltipAdder);
-		this.appendReactorMenuHoverText(context, tooltipAdder);
+		this.appendReactorMenuHoverText(Minecraft.getInstance().player, context, tooltipAdder);
 	}
 
 	@Override public Item getSelf() {return this;}
