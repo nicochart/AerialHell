@@ -1,7 +1,5 @@
 package fr.factionbedrock.aerialhell.Registry;
 
-import com.google.common.collect.ImmutableMap;
-import com.mojang.datafixers.util.Pair;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Block.*;
 import fr.factionbedrock.aerialhell.Block.CollisionCondition.*;
@@ -32,17 +30,17 @@ import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellTreeGrowers;
+import net.fabricmc.fabric.api.registry.FlattenableBlockRegistry;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
+import net.fabricmc.fabric.api.registry.TillableBlockRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.ShovelItem;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
@@ -86,57 +84,47 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 
 public class AerialHellBlocks
 {
     public static void registerAxeStrippingBlocks()
     {
-        AxeItem.STRIPPABLES = ImmutableMap.<Block, Block>builder()
-                .putAll(AxeItem.STRIPPABLES)
-                .put(AERIAL_TREE_LOG, STRIPPED_AERIAL_TREE_LOG)
-                .put(AERIAL_TREE_WOOD, STRIPPED_AERIAL_TREE_WOOD)
-                .put(GOLDEN_BEECH_LOG, STRIPPED_GOLDEN_BEECH_LOG)
-                .put(GOLDEN_BEECH_WOOD, STRIPPED_GOLDEN_BEECH_WOOD)
-                .put(COPPER_PINE_LOG, STRIPPED_COPPER_PINE_LOG)
-                .put(COPPER_PINE_WOOD, STRIPPED_COPPER_PINE_WOOD)
-                .put(LAPIS_ROBINIA_LOG, STRIPPED_LAPIS_ROBINIA_LOG)
-                .put(LAPIS_ROBINIA_WOOD, STRIPPED_LAPIS_ROBINIA_WOOD)
-                .put(SHADOW_PINE_LOG, STRIPPED_SHADOW_PINE_LOG)
-                .put(SHADOW_PINE_WOOD, STRIPPED_SHADOW_PINE_WOOD)
-                .put(STELLAR_JUNGLE_TREE_LOG, STRIPPED_STELLAR_JUNGLE_TREE_LOG)
-                .put(STELLAR_JUNGLE_TREE_WOOD, STRIPPED_STELLAR_JUNGLE_TREE_WOOD)
-                .put(GIANT_CORTINARIUS_VIOLACEUS_STEM, STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM)
-                .put(GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM, STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM)
-                .put(GIANT_VERDIGRIS_AGARIC_STEM, STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM)
-                .put(GIANT_VERDIGRIS_AGARIC_BARK_STEM, STRIPPED_GIANT_VERDIGRIS_AGARIC_BARK_STEM)
-                .build();
+        StrippableBlockRegistry.register(AERIAL_TREE_LOG, STRIPPED_AERIAL_TREE_LOG);
+        StrippableBlockRegistry.register(AERIAL_TREE_WOOD, STRIPPED_AERIAL_TREE_WOOD);
+        StrippableBlockRegistry.register(GOLDEN_BEECH_LOG, STRIPPED_GOLDEN_BEECH_LOG);
+        StrippableBlockRegistry.register(GOLDEN_BEECH_WOOD, STRIPPED_GOLDEN_BEECH_WOOD);
+        StrippableBlockRegistry.register(COPPER_PINE_LOG, STRIPPED_COPPER_PINE_LOG);
+        StrippableBlockRegistry.register(COPPER_PINE_WOOD, STRIPPED_COPPER_PINE_WOOD);
+        StrippableBlockRegistry.register(LAPIS_ROBINIA_LOG, STRIPPED_LAPIS_ROBINIA_LOG);
+        StrippableBlockRegistry.register(LAPIS_ROBINIA_WOOD, STRIPPED_LAPIS_ROBINIA_WOOD);
+        StrippableBlockRegistry.register(SHADOW_PINE_LOG, STRIPPED_SHADOW_PINE_LOG);
+        StrippableBlockRegistry.register(SHADOW_PINE_WOOD, STRIPPED_SHADOW_PINE_WOOD);
+        StrippableBlockRegistry.register(STELLAR_JUNGLE_TREE_LOG, STRIPPED_STELLAR_JUNGLE_TREE_LOG);
+        StrippableBlockRegistry.register(STELLAR_JUNGLE_TREE_WOOD, STRIPPED_STELLAR_JUNGLE_TREE_WOOD);
+        StrippableBlockRegistry.register(GIANT_CORTINARIUS_VIOLACEUS_STEM, STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM);
+        StrippableBlockRegistry.register(GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM, STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM);
+        StrippableBlockRegistry.register(GIANT_VERDIGRIS_AGARIC_STEM, STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM);
+        StrippableBlockRegistry.register(GIANT_VERDIGRIS_AGARIC_BARK_STEM, STRIPPED_GIANT_VERDIGRIS_AGARIC_BARK_STEM);
     }
 
     public static void registerShovelFlattenableBlocks()
     {
-        ShovelItem.FLATTENABLES = ImmutableMap.<Block, BlockState>builder()
-                .putAll(ShovelItem.FLATTENABLES)
-                .put(STELLAR_DIRT, STELLAR_DIRT_PATH.defaultBlockState())
-                .put(STELLAR_COARSE_DIRT, STELLAR_DIRT_PATH.defaultBlockState())
-                .put(STELLAR_GRASS_BLOCK, STELLAR_DIRT_PATH.defaultBlockState())
-                .put(CHISELED_STELLAR_DIRT, STELLAR_DIRT_PATH.defaultBlockState())
-                .put(CHISELED_STELLAR_GRASS_BLOCK, STELLAR_DIRT_PATH.defaultBlockState())
-                .build();
+        FlattenableBlockRegistry.register(STELLAR_DIRT, STELLAR_DIRT_PATH.defaultBlockState());
+        FlattenableBlockRegistry.register(STELLAR_DIRT, STELLAR_DIRT_PATH.defaultBlockState());
+        FlattenableBlockRegistry.register(STELLAR_COARSE_DIRT, STELLAR_DIRT_PATH.defaultBlockState());
+        FlattenableBlockRegistry.register(STELLAR_GRASS_BLOCK, STELLAR_DIRT_PATH.defaultBlockState());
+        FlattenableBlockRegistry.register(CHISELED_STELLAR_DIRT, STELLAR_DIRT_PATH.defaultBlockState());
+        FlattenableBlockRegistry.register(CHISELED_STELLAR_GRASS_BLOCK, STELLAR_DIRT_PATH.defaultBlockState());
     }
 
     public static void registerHoeTillableBlocks()
     {
-        HoeItem.TILLABLES = ImmutableMap.<Block, Pair<Predicate<UseOnContext>, Consumer<UseOnContext>>>builder()
-                .putAll(HoeItem.TILLABLES)
-                .put(STELLAR_DIRT, Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState())))
-                .put(STELLAR_COARSE_DIRT, Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState())))
-                .put(STELLAR_GRASS_BLOCK, Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState())))
-                .put(CHISELED_STELLAR_DIRT, Pair.of(HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState())))
-                .put(CHISELED_STELLAR_GRASS_BLOCK, Pair.of(HoeItem::onlyIfAirAbove,HoeItem. changeIntoState(STELLAR_FARMLAND.defaultBlockState())))
-                .build();
+        TillableBlockRegistry.register(STELLAR_DIRT, HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
+        TillableBlockRegistry.register(STELLAR_COARSE_DIRT, HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
+        TillableBlockRegistry.register(STELLAR_GRASS_BLOCK, HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
+        TillableBlockRegistry.register(CHISELED_STELLAR_DIRT, HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
+        TillableBlockRegistry.register(CHISELED_STELLAR_GRASS_BLOCK, HoeItem::onlyIfAirAbove,HoeItem. changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
     }
     
     //materials
