@@ -6,6 +6,7 @@
   "itemGroup.aerialhell_foodstuffs" : "Aerial Hell : Foodstuffs",
   "itemGroup.aerialhell_miscellaneous" : "Aerial Hell : Miscellaneous",
   "itemGroup.aerialhell_spawn_eggs" : "Aerial Hell : Spawn Eggs",
+  "item.aerialhell.aerial_hell_guide_book" : "Aerial Hell Guide Book",
   "block.aerialhell.stellar_portal_frame_ore" : "Stellar Debris",
   "block.aerialhell.deepslate_stellar_portal_frame_ore" : "Stellar Debris",
   "block.aerialhell.stellar_portal_frame_block" : "Stellar Portal Frame",
@@ -1165,8 +1166,9 @@
   "ability.aerialhell.glouton_sword.condition.desc" : "Condition: be hungry",
   "ability.aerialhell.glouton_sword.cooldown.desc" : "Cooldown: 1s",
   "ability.aerialhell.netherian_king.desc" : "Passive ability: You deal twice as much damage in the Nether",
-  "ability.aerialhell.netherian_king.desc_2" : "Active ability: Grants you Fire Resistance effect",
-  "ability.aerialhell.netherian_king.condition.desc" : "Condition: Not being in water or rain",
+  "ability.aerialhell.netherian_king.desc_2" : "On hit: Ignites target",
+  "ability.aerialhell.netherian_king.desc_3" : "Active ability: Grants you Fire Resistance effect",
+  "ability.aerialhell.netherian_king.condition.desc" : "Condition for active ability usage: Not being in water or rain",
   "ability.aerialhell.netherian_king.cooldown.desc" : "Cooldown: 30s (15s if you equip a full Arsonist Armor)",
   "ability.aerialhell.spread_light.desc" : "Ability: Spread light",
   "ability.aerialhell.spread_light.desc_2" : "On use : Shoots a Lunar Projectile,",
@@ -1226,6 +1228,9 @@
   "ability.aerialhell.magma_cube.desc_2" : "Passive: When you have it in your hand, it grants the Jump Boost effect",
   "ability.aerialhell.magma_cube.desc_3" : "Active: Grants Jump Boost III",
   "ability.aerialhell.magma_cube.cooldown.desc" : "Cooldown: 20s",
+  "ability.aerialhell.passive_health_boost.desc" : "Ability: Passive Health Boost",
+  "ability.aerialhell.passive_health_boost.desc_2" : "You gain +2 Hearts",
+  "ability.aerialhell.passive_health_boost.condition.desc" : "Condition: Must be in your hotbar or hands",
   "ability.aerialhell.mine_stone_fast.desc" : "Ability: Mine Stone Fast",
   "ability.aerialhell.mine_stone_fast.desc_2" : "You mine twice faster Stellar Stone, Stellar Cobblestone, Shadow Stone",
   "ability.aerialhell.forgotten_battle_trident.desc" : "Ability: Dolphin's Rage. Grants you Water Breathing,",
@@ -1236,5 +1241,18 @@
   "ability.aerialhell.cursed_totem.desc" : "Passive ability: Biome-based effect",
   "ability.aerialhell.cursed_totem.desc_2" : "Shadow Biome: Resistance",
   "ability.aerialhell.cursed_totem.desc_3" : "Crystal Biome: Wither and Nausea",
-  "ability.aerialhell.cursed_totem.desc_4" : "Other Biome: Weakness and Slowness, unless you equip a full Shadow armor"
+  "ability.aerialhell.cursed_totem.desc_4" : "Other Biome: Weakness and Slowness, unless you equip a full Shadow armor",
+
+  "aerialhell.guide_book.tab.mobs" : "Mobs",
+  "aerialhell.guide_book.tab.bosses" : "Bosses",
+  "aerialhell.guide_book.tab.items" : "Items",
+  "aerialhell.guide_book.tab.armors" : "Armors",
+  "aerialhell.guide_book.tab.tools" : "Tools",
+  "aerialhell.guide_book.tab.utilities" : "Utilities",
+
+  "aerialhell.guide_book.summary.title": "- Welcome -",
+  "aerialhell.guide_book.summary.welcome_text": "This guide is still WIP. Coming soon !",
+
+  "aerialhell.guide_book.utilities_5.title": "EASTER EGG",
+  "aerialhell.guide_book.utilities_5.content_1": "What you are seeing now is an easter egg. If you are seeing that, send a screenshot to nicochart on Discord !"
 }

@@ -1,9 +1,10 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
-import java.util.EnumSet;
-
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -21,9 +22,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -33,9 +31,10 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
+import java.util.EnumSet;
 
 //copy of net.minecraft.world.entity.monster.Slime but without size system
-public class CrystalSlimeEntity extends Mob
+public class CrystalSlimeEntity extends Mob implements LunarMisleadableEntity
 {
 	public float targetSquish;
 	public float squish;
@@ -48,13 +47,32 @@ public class CrystalSlimeEntity extends Mob
 		this.moveControl = new CrystalSlimeMoveControl(this);
 	}
 
+	/* ------- MisleadableEntity : Interface method implementation ------- */
+	@Override public Mob getSelf() {return this;}
+	/* ------------------------------------------------------------------- */
+
+	/* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
+	@Override public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
+	{
+		return this.misleadableHurtServer(serverLevel, source, amount, super::hurtServer);
+	}
+
+	@Override public void die(DamageSource damageSource)
+	{
+		this.misleadableDie(damageSource);
+		super.die(damageSource);
+	}
+
+	@Override public boolean canAttack(LivingEntity target) {return this.misleadableCanAttack(target, super::canAttack);}
+	/* ------------------------------------------------------------------------------------------ */
+
 	@Override protected void registerGoals()
 	{
-		this.goalSelector.addGoal(1, new CrystalSlimeEntity.CrystalSlimeFloatGoal(this));
-		this.goalSelector.addGoal(2, new CrystalSlimeEntity.CrystalSlimeAttackGoal(this));
-		this.goalSelector.addGoal(3, new CrystalSlimeEntity.CrystalSlimeRandomDirectionGoal(this));
-		this.goalSelector.addGoal(5, new CrystalSlimeEntity.CrystalSlimeKeepOnJumpingGoal(this));
-		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (entity, serverLevel) -> Math.abs(entity.getY() - this.getY()) <= 4.0));
+		this.goalSelector.addGoal(1, new CrystalSlimeFloatGoal(this));
+		this.goalSelector.addGoal(2, new CrystalSlimeAttackGoal(this));
+		this.goalSelector.addGoal(3, new CrystalSlimeRandomDirectionGoal(this));
+		this.goalSelector.addGoal(5, new CrystalSlimeKeepOnJumpingGoal(this));
+		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (potentialTarget, serverLevel) -> Math.abs(potentialTarget.getY() - this.getY()) <= 4.0 && !this.isMisleadedBy(potentialTarget)));
 		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
 	}
 
@@ -171,10 +189,10 @@ public class CrystalSlimeEntity extends Mob
         return randomIn.nextInt(10) == 0 && worldIn.getLevel().isBrightOutside();
     }
 
-	@Override public void remove(@Nonnull Entity.RemovalReason reason) //copied from Entity class
+	@Override public void remove(@Nonnull RemovalReason reason) //copied from Entity class
 	{
 		this.setRemoved(reason);
-		if (reason == Entity.RemovalReason.KILLED) {this.gameEvent(GameEvent.ENTITY_DIE);}
+		if (reason == RemovalReason.KILLED) {this.gameEvent(GameEvent.ENTITY_DIE);}
 		//this.invalidateCaps();
 	}
 
@@ -186,7 +204,7 @@ public class CrystalSlimeEntity extends Mob
 		public CrystalSlimeAttackGoal(CrystalSlimeEntity entity)
 		{
 			this.slime = entity;
-			this.setFlags(EnumSet.of(Goal.Flag.LOOK));
+			this.setFlags(EnumSet.of(Flag.LOOK));
 		}
 
 		@Override public boolean canUse()
@@ -195,7 +213,7 @@ public class CrystalSlimeEntity extends Mob
 			if (livingentity == null) {
 				return false;
 			} else {
-				return !this.slime.canAttack(livingentity) ? false : this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl;
+				return !this.slime.canAttack(livingentity) ? false : this.slime.getMoveControl() instanceof CrystalSlimeMoveControl;
 			}
 		}
 
@@ -224,7 +242,7 @@ public class CrystalSlimeEntity extends Mob
 				this.slime.lookAt(livingentity, 10.0F, 10.0F);
 			}
 
-			if (this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl movecontrol) {movecontrol.setDirection(this.slime.getYRot(), this.slime.isDealsDamage());}
+			if (this.slime.getMoveControl() instanceof CrystalSlimeMoveControl movecontrol) {movecontrol.setDirection(this.slime.getYRot(), this.slime.isDealsDamage());}
 		}
 	}
 
@@ -235,13 +253,13 @@ public class CrystalSlimeEntity extends Mob
 		public CrystalSlimeFloatGoal(CrystalSlimeEntity entity)
 		{
 			this.slime = entity;
-			this.setFlags(EnumSet.of(Goal.Flag.JUMP, Goal.Flag.MOVE));
+			this.setFlags(EnumSet.of(Flag.JUMP, Flag.MOVE));
 			entity.getNavigation().setCanFloat(true);
 		}
 
 		@Override public boolean canUse()
 		{
-			return (this.slime.isInWater() || this.slime.isInLava()) && this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl;
+			return (this.slime.isInWater() || this.slime.isInLava()) && this.slime.getMoveControl() instanceof CrystalSlimeMoveControl;
 		}
 
 		@Override public boolean requiresUpdateEveryTick() {return true;}
@@ -250,7 +268,7 @@ public class CrystalSlimeEntity extends Mob
 		{
 			if (this.slime.getRandom().nextFloat() < 0.8F) {this.slime.getJumpControl().jump();}
 
-			if (this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl movecontrol) {movecontrol.setWantedMovement(1.2);}
+			if (this.slime.getMoveControl() instanceof CrystalSlimeMoveControl movecontrol) {movecontrol.setWantedMovement(1.2);}
 		}
 	}
 
@@ -261,14 +279,14 @@ public class CrystalSlimeEntity extends Mob
 		public CrystalSlimeKeepOnJumpingGoal(CrystalSlimeEntity entity)
 		{
 			this.slime = entity;
-			this.setFlags(EnumSet.of(Goal.Flag.JUMP, Goal.Flag.MOVE));
+			this.setFlags(EnumSet.of(Flag.JUMP, Flag.MOVE));
 		}
 
 		@Override public boolean canUse() {return !this.slime.isPassenger();}
 
 		@Override public void tick()
 		{
-			if (this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl movecontrol) {movecontrol.setWantedMovement(1.0);}
+			if (this.slime.getMoveControl() instanceof CrystalSlimeMoveControl movecontrol) {movecontrol.setWantedMovement(1.0);}
 		}
 	}
 
@@ -295,7 +313,7 @@ public class CrystalSlimeEntity extends Mob
 		public void setWantedMovement(double speedModivierIn)
 		{
 			this.speedModifier = speedModivierIn;
-			this.operation = MoveControl.Operation.MOVE_TO;
+			this.operation = Operation.MOVE_TO;
 		}
 
 		@Override public void tick()
@@ -303,10 +321,10 @@ public class CrystalSlimeEntity extends Mob
 			this.mob.setYRot(this.rotlerp(this.mob.getYRot(), this.yRot, 90.0F));
 			this.mob.yHeadRot = this.mob.getYRot();
 			this.mob.yBodyRot = this.mob.getYRot();
-			if (this.operation != MoveControl.Operation.MOVE_TO) {this.mob.setZza(0.0F);}
+			if (this.operation != Operation.MOVE_TO) {this.mob.setZza(0.0F);}
 			else
 			{
-				this.operation = MoveControl.Operation.WAIT;
+				this.operation = Operation.WAIT;
 				if (this.mob.onGround())
 				{
 					this.mob.setSpeed((float)(this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED)));
@@ -339,12 +357,12 @@ public class CrystalSlimeEntity extends Mob
 		public CrystalSlimeRandomDirectionGoal(CrystalSlimeEntity entity)
 		{
 			this.slime = entity;
-			this.setFlags(EnumSet.of(Goal.Flag.LOOK));
+			this.setFlags(EnumSet.of(Flag.LOOK));
 		}
 
 		@Override public boolean canUse()
 		{
-			return this.slime.getTarget() == null && (this.slime.onGround() || this.slime.isInWater() || this.slime.isInLava() || this.slime.hasEffect(MobEffects.LEVITATION)) && this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl;
+			return this.slime.getTarget() == null && (this.slime.onGround() || this.slime.isInWater() || this.slime.isInLava() || this.slime.hasEffect(MobEffects.LEVITATION)) && this.slime.getMoveControl() instanceof CrystalSlimeMoveControl;
 		}
 
 		@Override public void tick()
@@ -355,7 +373,7 @@ public class CrystalSlimeEntity extends Mob
 				this.chosenDegrees = (float)this.slime.getRandom().nextInt(360);
 			}
 
-			if (this.slime.getMoveControl() instanceof CrystalSlimeEntity.CrystalSlimeMoveControl movecontrol) {movecontrol.setDirection(this.chosenDegrees, false);}
+			if (this.slime.getMoveControl() instanceof CrystalSlimeMoveControl movecontrol) {movecontrol.setDirection(this.chosenDegrees, false);}
 		}
 	}
 }

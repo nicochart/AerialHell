@@ -1,27 +1,21 @@
 package fr.factionbedrock.aerialhell.Event.Listeners;
 
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
-import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.CrystalGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowAutomatonEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Item.Ability.DamageUseSituationInfo;
 import fr.factionbedrock.aerialhell.Item.Ability.MiningUseSituationInfo;
 import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
-import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.*;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -63,14 +57,14 @@ public class ToolsAndArmorEventListener
 
 		if (sourceEntity instanceof LivingEntity attacker)
 		{
-			ItemHelper.forEachAerialHellItem(EntityHelper.getEquippepItemStackList(attacker), (ahItem, equippedItemStack) ->
+			ItemHelper.forEachAerialHellItem(EntityHelper.getEquippedItemStackList(attacker), (ahItem, equippedItemStack) ->
 			{
 				//attacker is the ah item owner, dealing damage to target (enemy)
 				ahItem.onDealDamage(equippedItemStack.stack(), attacker, equippedItemStack.slot(), new DamageUseSituationInfo(target, damageSource, new FieldAccessor<>(damageMultiplier::get, damageMultiplier::set)));
 			});
 		}
 
-		ItemHelper.forEachAerialHellItem(EntityHelper.getEquippepItemStackList(target), (ahItem, equippedItemStack) ->
+		ItemHelper.forEachAerialHellItem(EntityHelper.getEquippedItemStackList(target), (ahItem, equippedItemStack) ->
 		{
 			//target is the ah item owner, receiving damage from attacker (enemy)
 			ahItem.onTakeDamage(equippedItemStack.stack(), target, equippedItemStack.slot(), new DamageUseSituationInfo(sourceEntity, damageSource, new FieldAccessor<>(damageMultiplier::get, damageMultiplier::set)));

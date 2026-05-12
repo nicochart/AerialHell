@@ -23,6 +23,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class AerialHellItemAbilities
     private static final ActionModule.MobEffect.Builder BLINDNESS_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.BLINDNESS);
     private static final ActionModule.MobEffect.Builder WEAKNESS_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.WEAKNESS);
     private static final ActionModule.MobEffect.Builder MINING_FATIGUE_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.MINING_FATIGUE);
+    private static final ActionModule.MobEffect.Builder HEALTH_BOOST_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.HEALTH_BOOST);
     private static final ActionModule.MobEffect.Builder STRENGTH_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.STRENGTH);
     private static final ActionModule.MobEffect.Builder DOLPHINS_GRACE_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.DOLPHINS_GRACE);
     private static final ActionModule.MobEffect.Builder HERO_OF_THE_VILLAGE_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.HERO_OF_THE_VILLAGE);
@@ -66,8 +68,9 @@ public class AerialHellItemAbilities
 
     private static final ActionModule.RemoveMobEffect.Builder REMOVE_EFFECT = ActionModule.RemoveMobEffect.builder();
 
-    private static final ConditionModule IN_MAIN_OR_OFF_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) -> stack.is(itemOwner.getMainHandItem().getItem()) || stack.is(itemOwner.getOffhandItem().getItem()));
-    private static final ConditionModule IN_MAIN_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) -> stack.is(itemOwner.getMainHandItem().getItem()));
+    private static final ConditionModule IN_HOTBAR_OR_OFF_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) -> ItemStack.matches(stack, itemOwner.getMainHandItem()) || ItemStack.matches(stack, itemOwner.getOffhandItem()) || itemOwner instanceof Player player && EntityHelper.hasItemStackInHotbar(player, stack));
+    private static final ConditionModule IN_MAIN_OR_OFF_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) -> ItemStack.matches(stack, itemOwner.getMainHandItem()) || ItemStack.matches(stack, itemOwner.getOffhandItem()));
+    private static final ConditionModule IN_MAIN_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) -> ItemStack.matches(stack, itemOwner.getMainHandItem()));
     private static final ConditionModule IN_RIGHT_SLOT = new ConditionModule((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) -> equipmentSlot == itemOwner.getEquipmentSlotForItem(stack));
 
     private static final ActionModule.MobEffectList RANDOM_SWORD_RANDOM_EFFECT = ActionModule.MobEffectList.builder().addEffects((itemOwner) ->
@@ -397,6 +400,14 @@ public class AerialHellItemAbilities
                             //if other (hit target) is shadow entity or shadow immune
                             WITHER_TO_SELF.with((other) -> EntityHelper.isShadowEntity(other) || EntityHelper.isLivingEntityShadowImmune(other) ? 80 : -1, (other) -> 3, TestTarget.OTHER))
                     .addConditions(ITEM_OWNER_IS_NOT_VULNERABLE)
+                    .build())
+            .build();
+
+    public static final ItemAbility PASSIVE_HEALTH_BOOST = ItemAbility.builder()
+            .setDescId("passive_health_boost")
+            .addPassiveModules(ModuleList.builder()
+                    .addActions(HEALTH_BOOST_TO_SELF.notVisiblePassiveBuild())
+                    .addConditions(IN_HOTBAR_OR_OFF_HAND)
                     .build())
             .build();
 

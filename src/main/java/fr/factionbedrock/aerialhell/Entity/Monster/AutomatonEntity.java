@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
@@ -35,19 +36,19 @@ public class AutomatonEntity extends AerialHellHostileEntity
         return flag;
     }
 
-    @Override
-    public boolean hurtServer(ServerLevel level, DamageSource source, float amount)
+    @Override public boolean hurtServer(ServerLevel level, DamageSource source, float amount)
     {
         Entity immediateSourceEntity = source.getDirectEntity();
         Entity trueSourceEntity = source.getEntity();
         boolean flag = super.hurtServer(level, source, amount);
         if (flag)
         {
-            if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrow))
+            if (trueSourceEntity instanceof LivingEntity livingSource && !(immediateSourceEntity instanceof AbstractArrow))
             {
-                if (!(trueSourceEntity instanceof Player && ((Player)trueSourceEntity).isCreative()))
+                //need additional check because vanilla isn't validating target
+                if (!EntityHelper.isCreaOrSpecPlayer(livingSource) && this.canAttack(livingSource))
                 {
-                    this.setTarget((LivingEntity) trueSourceEntity);
+                    this.setTarget(livingSource);
                 }
             }
         }

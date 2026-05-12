@@ -5,10 +5,11 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -17,7 +18,7 @@ public abstract class AbstractActivableEntity extends Monster implements Activab
 {
 	/* -- ActivableEntity fields -- */
 	public static final EntityDataAccessor<Boolean> ACTIVE = SynchedEntityData.defineId(AbstractActivableEntity.class, EntityDataSerializers.BOOLEAN);
-	public final ActivableEntityInfo.ActivationMethod AERIAL_HELL_ACTIVABLE_ACTIVATION_METHOD = ActivableEntity.DEFAULT_ACTIVATION_METHOD.copy().activationThreshold(this.getTicksToActivate()).targetSearchDistance(this.getMinDistanceToActivate(), this.getMinDistanceToDeactivate());
+	public final ActivableEntityInfo.ActivationMethod AERIAL_HELL_ACTIVABLE_ACTIVATION_METHOD = ActivableEntity.DEFAULT_ACTIVATION_METHOD.copy().activationThreshold(this.getTicksToActivate()).targetSearchDistance(this.getMinDistanceToActivate(), this.getMinDistanceToDeactivate()).validTargetCondition((activableEntity, potentialTarget) -> potentialTarget instanceof Player);
 	public final ActivableEntityInfo ACTIVABLE_INFO = new ActivableEntityInfo(ACTIVE, AERIAL_HELL_ACTIVABLE_ACTIVATION_METHOD);
 	/* ---------------------------- */
 	public AbstractActivableEntity(EntityType<? extends Monster> type, Level world) {super(type, world);}

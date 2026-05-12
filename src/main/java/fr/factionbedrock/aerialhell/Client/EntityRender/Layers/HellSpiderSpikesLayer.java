@@ -46,8 +46,8 @@ public class HellSpiderSpikesLayer<S extends HellSpiderRenderState, M extends Sp
     public static <T extends Spider> Identifier getTextureLocation(T entity)
     {
         if (entity instanceof HellSpiderEntity) {return HELL_SPIDER_SPIKES;}
-        else if (entity instanceof ShadowSpiderEntity) {return CRYSTAL_SPIDER_SPIKES;}
-        else {return SHADOW_SPIDER_SPIKES;}
+        else if (entity instanceof ShadowSpiderEntity) {return SHADOW_SPIDER_SPIKES;}
+        else {return CRYSTAL_SPIDER_SPIKES;}
     }
 
     @Override public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, S renderState, float yRot, float xRot)

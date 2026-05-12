@@ -11,7 +11,10 @@ import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -40,10 +43,19 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implemen
     {
         return this.misleadableHurtServer(serverLevel, source, amount, super::hurtServer);
     }
+
+    @Override public void die(DamageSource damageSource)
+    {
+        this.misleadableDie(damageSource);
+        super.die(damageSource);
+    }
+
+    @Override public boolean canAttack(LivingEntity target) {return this.misleadableCanAttack(target, super::canAttack);}
     /* ------------------------------------------------------------------------------------------ */
 
     /* ------- MisleadableEntity : Interface methods Overridden for specific behavior ------- */
     @Override public boolean canMisleaderHurt() {return false;}
+    @Override public TraitorTrigger traitorTrigger(DamageSource damageSource) {return TraitorTrigger.NEVER;}
     /* -------------------------------------------------------------------------------------- */
 
     /* ------- GoalSimpleConditionEntity : Interface method implementation ------- */
@@ -81,7 +93,7 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implemen
 
     @Override public EntityType<? extends AbstractSlimePirateEntity> getType() {return AerialHellEntities.GHOST_SLIME_NINJA_PIRATE.get();}
 
-    public static class GhostShurikenAttackGoal extends SlimeNinjaPirateEntity.ShurikenAttackGoal
+    public static class GhostShurikenAttackGoal extends ShurikenAttackGoal
     {
         public GhostShurikenAttackGoal(GhostSlimeNinjaPirateEntity entity) {super(entity);}
 

@@ -136,6 +136,11 @@ public class EntityHelper
         return false;
     }
 
+    public static void applyTraitorEffectTo(LivingEntity livingEntity)
+    {
+        livingEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.TRAITOR.getDelegate(), 12000, 0));
+    }
+
     public static void multiplyDeltaMovement(Entity entity, double xzFactor, double yFactor)
     {
         entity.setDeltaMovement(entity.getDeltaMovement().multiply(xzFactor, yFactor, xzFactor));
@@ -210,7 +215,30 @@ public class EntityHelper
         return isLivingEntityShadowBind(entity) && !isLivingEntityATraitor(entity);
     }
 
-    public static List<EquippedItemStack> getEquippepItemStackList(LivingEntity livingEntity)
+    public static boolean hasItemStackInHotbar(Player player, ItemStack stackToSearch)
+    {
+        for (ItemStack stack : getHotbarItemStackList(player))
+        {
+            if (ItemStack.matches(stack, stackToSearch)) {return true;}
+        }
+        return false;
+    }
+
+    public static List<ItemStack> getHotbarItemStackList(Player player)
+    {
+        List<ItemStack> list = new ArrayList<>();
+        for (int i = 0; i < 9; i++)
+        {
+            ItemStack stack = player.getInventory().getItem(i);
+            if (!stack.isEmpty())
+            {
+                list.add(stack);
+            }
+        }
+        return list;
+    }
+
+    public static List<EquippedItemStack> getEquippedItemStackList(LivingEntity livingEntity)
     {
         List<EquippedItemStack> list = new ArrayList<>();
         addInHandsItemToList(list, livingEntity, EquippedItemStack::new);

@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Item.*;
 import fr.factionbedrock.aerialhell.Item.Ability.AbilitySelector;
+import fr.factionbedrock.aerialhell.Item.*;
 import fr.factionbedrock.aerialhell.Item.Armor.ShadowArmorItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.RubyBucketItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.RubyLiquidOfGodsBucketItem;
@@ -11,7 +11,7 @@ import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterials;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellToolMaterials;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
-import fr.factionbedrock.aerialhell.Item.Tools.*;
+import fr.factionbedrock.aerialhell.Item.Tools.BerserkAxeItem;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellJukeboxSongs;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
@@ -20,8 +20,8 @@ import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.Consumables;
@@ -70,6 +70,9 @@ public class AerialHellItems
     }
 
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
+
+    //guide book
+    public static final DeferredItem<Item> AERIAL_HELL_GUIDE_BOOK = ITEMS.register(Keys.AERIAL_HELL_GUIDE_BOOK.identifier().getPath(), () -> new AerialHellGuideBook(new Item.Properties().setId(Keys.AERIAL_HELL_GUIDE_BOOK).stacksTo(1)));
 
     //portal
     public static final DeferredItem<Item> STELLAR_PORTAL_FRAME_BLOCK = ITEMS.register(Keys.STELLAR_PORTAL_FRAME_BLOCK.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK.get(), new Item.Properties().setId(Keys.STELLAR_PORTAL_FRAME_BLOCK).useBlockDescriptionPrefix()));
@@ -925,7 +928,7 @@ public class AerialHellItems
 
     public static final DeferredItem<Item> HEAVY_SWORD = ITEMS.register(Keys.HEAVY_SWORD.identifier().getPath(), () -> new Item(new AerialHellItem.Properties().setId(Keys.HEAVY_SWORD).sword(AerialHellToolMaterials.HEAVY, 3, -2.7F).fireResistant().rarity(Rarity.EPIC)));
 
-    public static final DeferredItem<Item> HEALTH_BOOST_SWORD = ITEMS.register(Keys.HEALTH_BOOST_SWORD.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.HEALTH_BOOST_SWORD).sword(AerialHellToolMaterials.LUNATIC, 3, -2.4F, AttributeEntry.maxHealth(4.0F)).fireResistant().rarity(Rarity.EPIC)));
+    public static final DeferredItem<Item> HEALTH_BOOST_SWORD = ITEMS.register(Keys.HEALTH_BOOST_SWORD.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.HEALTH_BOOST_SWORD).sword(AerialHellToolMaterials.LUNATIC, 3, -2.4F).fireResistant().rarity(Rarity.EPIC).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.PASSIVE_HEALTH_BOOST))));
     public static final DeferredItem<Item> NINJA_SWORD = ITEMS.register(Keys.NINJA_SWORD.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.NINJA_SWORD).sword(AerialHellToolMaterials.OBSIDIAN, 2, -1.6F, AttributeEntry.movementSpeed(0.15F)).fireResistant().rarity(AerialHellRarities.LEGENDARY.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.NINJA_SWORD))));
     public static final DeferredItem<Item> NINJA_MASTER_SWORD = ITEMS.register(Keys.NINJA_MASTER_SWORD.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.NINJA_MASTER_SWORD).sword(AerialHellToolMaterials.OBSIDIAN, 4, -2.4F, AttributeEntry.movementSpeed(0.15F)).fireResistant().rarity(AerialHellRarities.MYTHICAL.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.NINJA_MASTER_SWORD))));
     public static final DeferredItem<Item> GLOUTON_SWORD = ITEMS.register(Keys.GLOUTON_SWORD.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.GLOUTON_SWORD).sword(AerialHellToolMaterials.RUBY, 3, -2.4F).fireResistant().rarity(AerialHellRarities.LEGENDARY.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.GLOUTON_SWORD))));
@@ -1045,6 +1048,9 @@ public class AerialHellItems
 
     public static class Keys
     {
+        //guide book
+        public static final ResourceKey<Item> AERIAL_HELL_GUIDE_BOOK = createKey("aerial_hell_guide_book");
+
         //portal
         public static final ResourceKey<Item> STELLAR_PORTAL_FRAME_BLOCK = createKey("stellar_portal_frame_block");
         public static final ResourceKey<Item> STELLAR_PORTAL_FRAME_ORE = createKey("stellar_portal_frame_ore");

@@ -109,7 +109,7 @@ public class AerialHellItem extends WithInformationItem
 		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnMining(itemStack, itemOwner, miningInfo));}
 	}
 
-	@Override public void appendAbilityDescriptionHoverText(TooltipContext context, Consumer<Component> tooltipAdder)
+	@Override public void appendAbilityDescriptionHoverText(Player player, TooltipContext context, Consumer<Component> tooltipAdder)
 	{
 		if (this.abilitySelector == null) {return;}
 

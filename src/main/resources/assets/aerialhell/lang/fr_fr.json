@@ -6,6 +6,7 @@
   "itemGroup.aerialhell_foodstuffs" : "Aerial Hell : Nourriture",
   "itemGroup.aerialhell_miscellaneous" : "Aerial Hell : Divers",
   "itemGroup.aerialhell_spawn_eggs" : "Aerial Hell : Oeufs d'Apparition",
+  "item.aerialhell.aerial_hell_guide_book" : "Guide de Aerial Hell",
   "block.aerialhell.stellar_portal_frame_ore" : "Débris Stellaire",
   "block.aerialhell.deepslate_stellar_portal_frame_ore" : "Débris Stellaire",
   "block.aerialhell.stellar_portal_frame_block" : "Cadre de Portail Stellaire",
@@ -1165,8 +1166,9 @@
   "ability.aerialhell.glouton_sword.condition.desc" : "Condition: Avoir faim",
   "ability.aerialhell.glouton_sword.cooldown.desc" : "Cooldown: 1s",
   "ability.aerialhell.netherian_king.desc" : "Compétence passive: vous infligez 2 fois plus de dégats dans le Nether",
-  "ability.aerialhell.netherian_king.desc_2" : "Compétence active: Vous donne l'effet Résistance au Feu",
-  "ability.aerialhell.netherian_king.condition.desc" : "Condition: Ne pas être dans l'eau ou la pluie",
+  "ability.aerialhell.netherian_king.desc_2" : "Lorsque vous frappez: Met le feu à votre cible",
+  "ability.aerialhell.netherian_king.desc_3" : "Compétence active: Vous donne l'effet Résistance au Feu",
+  "ability.aerialhell.netherian_king.condition.desc" : "Condition pour utiliser la compétence active: Ne pas être dans l'eau ou la pluie",
   "ability.aerialhell.netherian_king.cooldown.desc" : "Cooldown: 30s (15s si vous équipez une Armure Incendière complète)",
   "ability.aerialhell.spread_light.desc" : "Compétence: Diffuser la lumière",
   "ability.aerialhell.spread_light.desc_2" : "Active: Lance un projectile Lunatique,",
@@ -1226,6 +1228,9 @@
   "ability.aerialhell.magma_cube.desc_2" : "Passive: Lorsque vous l'avez dans la main, donne l'effet Sauts Améliorés",
   "ability.aerialhell.magma_cube.desc_3" : "Active: Donne l'effet Sauts Améliorés III",
   "ability.aerialhell.magma_cube.cooldown.desc" : "Cooldown: 20s",
+  "ability.aerialhell.passive_health_boost.desc" : "Compétence: Boost de vie Passive",
+  "ability.aerialhell.passive_health_boost.desc_2" : "Vous avez 2 coeurs de plus",
+  "ability.aerialhell.passive_health_boost.condition.desc" : "Condition: Doit être dans votre hotbar ou vos mains",
   "ability.aerialhell.mine_stone_fast.desc" : "Compétence: Miner la Roche Rapidement",
   "ability.aerialhell.mine_stone_fast.desc_2" : "Vous minez deux fois plus vite la Roche Stellaire, les Pierres Stellaires et la Roche des Ombres",
   "ability.aerialhell.forgotten_battle_trident.desc" : "Compétence: Rage du Dauphin. Vous donne les effets Respiration Aquatique,",
@@ -1236,5 +1241,18 @@
   "ability.aerialhell.cursed_totem.desc" : "Compétence passive: Effet lié au biome",
   "ability.aerialhell.cursed_totem.desc_2" : "Biome des Ombres: Resistance",
   "ability.aerialhell.cursed_totem.desc_3" : "Biome Crystal: Wither et Nausée",
-  "ability.aerialhell.cursed_totem.desc_4" : "Autre Biome: Faiblesse et Lenteur, sauf si vous équipez une Armure des Ombres complète"
+  "ability.aerialhell.cursed_totem.desc_4" : "Autre Biome: Faiblesse et Lenteur, sauf si vous équipez une Armure des Ombres complète",
+
+  "aerialhell.guide_book.tab.mobs" : "Mobs",
+  "aerialhell.guide_book.tab.bosses" : "Bosses",
+  "aerialhell.guide_book.tab.items" : "Items",
+  "aerialhell.guide_book.tab.armors" : "Armures",
+  "aerialhell.guide_book.tab.tools" : "Outils",
+  "aerialhell.guide_book.tab.utilities" : "Utilitaires",
+
+  "aerialhell.guide_book.summary.title": "- Bienvenue -",
+  "aerialhell.guide_book.summary.welcome_text": "Le livre est encore en cours de fabrication.",
+
+  "aerialhell.guide_book.utilities_5.title": "EASTER EGG",
+  "aerialhell.guide_book.utilities_5.content_1": "Ceci est un easter egg. Si vous voyez ceci, envoyez le en screen à nicochart sur discord."
 }
