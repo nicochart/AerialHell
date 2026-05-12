@@ -49,7 +49,7 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
 	public static final int BOTH_PHASES_GOALS = 0, PHASE_1_GOALS = 1, PHASE_2_GOALS = 2;
 	public int attackTimer;
 
-	public final ActivableEntityInfo.ActivationMethod PRIEST_ACTIVATION_METHOD = this.AERIAL_HELL_ACTIVABLE_ACTIVATION_METHOD.copy().validTargetCondition((activableEntity, potentialTarget) -> !((LunaticPriestEntity)activableEntity).isMisleadedBy(potentialTarget));
+	public final ActivableEntityInfo.ActivationMethod PRIEST_ACTIVATION_METHOD = this.AERIAL_HELL_ACTIVABLE_ACTIVATION_METHOD.copy().validTargetCondition((activableEntity, potentialTarget) -> potentialTarget instanceof Player && !((LunaticPriestEntity)activableEntity).isMisleadedBy(potentialTarget));
 	public final ActivableEntityInfo PRIEST_ACTIVABLE_INFO = new ActivableEntityInfo(ACTIVE, PRIEST_ACTIVATION_METHOD);
 
 	public LunaticPriestEntity(EntityType<? extends Monster> type, Level world)
