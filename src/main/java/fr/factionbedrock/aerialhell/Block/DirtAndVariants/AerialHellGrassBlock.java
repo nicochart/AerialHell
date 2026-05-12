@@ -4,9 +4,15 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
 import fr.factionbedrock.aerialhell.World.Features.Config.RandomPatchConfiguration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.placement.VegetationPlacements;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.Util;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -31,47 +37,53 @@ public abstract class AerialHellGrassBlock extends GrassBlock implements Bonemea
 		builder.add(AerialHellBooleanProperties.SHIFTED_RENDER);
 	}
 
-	@Override public void performBonemeal(ServerLevel world, RandomSource rand, BlockPos pos, BlockState state)
+	@Override public void performBonemeal(final ServerLevel level, final RandomSource random, final BlockPos pos, final BlockState state)
 	{
-		BlockPos blockpos = pos.above();
-		Optional<Holder.Reference<PlacedFeature>> optional = this.getBonemealFeature(world);
+		BlockPos above = pos.above();
+		BlockState grass = Blocks.SHORT_GRASS.defaultBlockState();
+		Optional<Holder.Reference<PlacedFeature>> grassFeature = level.registryAccess().lookupOrThrow(Registries.PLACED_FEATURE).get(this.getBonemealFeature());
 
-
-		label46:
-		for(int i = 0; i < 128; ++i)
+		label48:
+		for(int j = 0; j < 128; ++j)
 		{
-			BlockPos blockpos1 = blockpos;
+			BlockPos testPos = above;
 
-			for(int j = 0; j < i / 16; ++j)
+			for(int i = 0; i < j / 16; ++i)
 			{
-				blockpos1 = blockpos1.offset(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1);
-				if (!world.getBlockState(blockpos1.below()).is(this) || world.getBlockState(blockpos1).isCollisionShapeFullBlock(world, blockpos1)) {continue label46;}
+				testPos = testPos.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
+				if (!level.getBlockState(testPos.below()).is(this) || level.getBlockState(testPos).isCollisionShapeFullBlock(level, testPos))
+				{
+					continue label48;
+				}
 			}
 
-			BlockState blockstate2 = world.getBlockState(blockpos1);
-			if (blockstate2.is(this) && rand.nextInt(10) == 0)
+			BlockState testState = level.getBlockState(testPos);
+			if (testState.is(grass.getBlock()) && random.nextInt(10) == 0)
 			{
-				((BonemealableBlock)this.defaultBlockState().getBlock()).performBonemeal(world, rand, blockpos1, blockstate2);
+				BonemealableBlock bonemealableBlock = (BonemealableBlock)grass.getBlock();
+				if (bonemealableBlock.isValidBonemealTarget(level, testPos, testState))
+				{
+					bonemealableBlock.performBonemeal(level, random, testPos, testState);
+				}
 			}
 
-			if (blockstate2.isAir())
+			if (testState.isAir() && !level.isOutsideBuildHeight(testPos))
 			{
-				Holder registryEntry;
-				if (rand.nextInt(8) == 0)
+				if (random.nextInt(8) == 0)
 				{
-					List<ConfiguredFeature<?, ?>> list = world.getBiome(blockpos1).value().getGenerationSettings().getBoneMealFeatures();
-					if (list.isEmpty()) {continue;}
-					registryEntry = ((RandomPatchConfiguration)list.get(0).config()).feature();
-				}
-				else
+					List<ConfiguredFeature<?, ?>> features = ((Biome)level.getBiome(testPos).value()).getGenerationSettings().getBoneMealFeatures();
+					if (!features.isEmpty())
+					{
+						ConfiguredFeature<?, ?> placementFeature = (ConfiguredFeature) Util.getRandom(features, random);
+						placementFeature.place(level, level.getChunkSource().getGenerator(), random, testPos);
+					}
+				} else if (grassFeature.isPresent())
 				{
-					if (!optional.isPresent()) {continue;}
-					registryEntry = optional.get();
+					((PlacedFeature)((Holder.Reference)grassFeature.get()).value()).place(level, level.getChunkSource().getGenerator(), random, testPos);
 				}
-				((PlacedFeature)registryEntry.value()).place(world, world.getChunkSource().getGenerator(), rand, blockpos1);
 			}
 		}
 	}
 
-	protected abstract Optional<Holder.Reference<PlacedFeature>> getBonemealFeature(ServerLevel world);
+	protected abstract ResourceKey<PlacedFeature> getBonemealFeature();
 }

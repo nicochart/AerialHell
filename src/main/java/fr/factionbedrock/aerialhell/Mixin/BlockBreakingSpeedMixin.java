@@ -34,6 +34,12 @@ public class BlockBreakingSpeedMixin
         //mining speed multiplier value is changed internally in item abilities (onMining)
         speed = speed * miningSpeedMultiplier.get();
 
+        //player mining a lunar dungeon core as a lunar misleader OR mining a shadow dungeon core as a shadow misleader
+        if (blockstate != null && blockstate.is(AerialHellBlocks.LUNATIC_DUNGEON_CORE) && EntityHelper.isLivingEntityMisleadingLunar(itemOwner) || (blockstate.is(AerialHellBlocks.SHADOW_CATACOMBS_DUNGEON_CORE) && EntityHelper.isLivingEntityMisleadingShadow(itemOwner)))
+        {
+            EntityHelper.applyTraitorEffectTo(itemOwner);
+        }
+
         //player mining a block that needs lunar tool
         if (blockstate != null && blockstate.is(AerialHellTags.Blocks.NEEDS_LUNAR_TOOL))
         {

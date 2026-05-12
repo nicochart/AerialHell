@@ -9,8 +9,10 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.ShootProjectileGoal;
+import fr.factionbedrock.aerialhell.Entity.Monster.ShadowMisleadableEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ShadowProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.StagedActivableEntity;
+import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -72,7 +74,7 @@ import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
-public class LilithEntity extends AbstractBossEntity implements StagedActivableEntity
+public class LilithEntity extends AbstractBossEntity implements StagedActivableEntity, ShadowMisleadableEntity
 {
 	public int attackTimer;
 	private int transitionTicks;
@@ -85,7 +87,8 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 	private static final EntityDataAccessor<Boolean> TRANSFORMING = SynchedEntityData.defineId(LilithEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> TRANSFORMED = SynchedEntityData.defineId(LilithEntity.class, EntityDataSerializers.BOOLEAN);
 	StagedActivableEntityInfo.ActivatingPhaseParameters LILITH_TRANSFORMING_PARAMETERS = PLAY_ACTIVATING_PHASE_ONLY_ONCE.copy().activatingThreshold(160).activatingStartSoundHelper(new PlaySoundHelper(AerialHellSoundEvents.ENTITY_LILITH_TRANSFORMATION, 5.0F, 1.0F));
-	public final StagedActivableEntityInfo STAGED_ACTIVABLE_INFO = new StagedActivableEntityInfo(this.ACTIVABLE_INFO, TRANSFORMING, TRANSFORMED, LILITH_TRANSFORMING_PARAMETERS);
+	public final ActivableEntityInfo.ActivationMethod LILITH_ACTIVATION_METHOD = this.AERIAL_HELL_ACTIVABLE_ACTIVATION_METHOD.copy().validTargetCondition((activableEntity, potentialTarget) -> !((LilithEntity)activableEntity).isMisleadedBy(potentialTarget));
+	public final StagedActivableEntityInfo STAGED_ACTIVABLE_INFO = new StagedActivableEntityInfo(new ActivableEntityInfo(ACTIVE, LILITH_ACTIVATION_METHOD), TRANSFORMING, TRANSFORMED, LILITH_TRANSFORMING_PARAMETERS);
 	/* -------------------------------------- */
 	
 	public LilithEntity(EntityType<? extends Monster> type, Level world)
@@ -96,6 +99,23 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 		bossInfo.setColor(BossEvent.BossBarColor.PURPLE);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 	}
+
+	/* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
+	@Override public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
+	{
+		return this.misleadableHurtServer(serverLevel, source, amount, this::lilithHurtServer);
+	}
+
+	@Override public void die(DamageSource damageSource)
+	{
+		this.misleadableDie(damageSource);
+		super.die(damageSource);
+	}
+	/* ------------------------------------------------------------------------------------------ */
+
+	/* ------- MisleadableEntity : Interface methods Overridden for specific behavior ------- */
+	@Override public boolean canMisleaderHurt() {return false;}
+	/* -------------------------------------------------------------------------------------- */
 
 	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
 	{
@@ -136,7 +156,7 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 	{
 		this.SUMMON_FLYING_SKULL_GOAL = new LilithSummonShadowFlyingSkullGoal(this);
 		this.SHADOW_PROJECTILE_ATTACK_GOAL = new ShadowProjectileAttackGoal(this);
-		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
+		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true, (potentialTarget, serverLevel) -> !this.isMisleadedBy(potentialTarget))));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(3, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
 		this.goalSelector.addGoal(2, this.SUMMON_FLYING_SKULL_GOAL);
@@ -156,14 +176,14 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
 				.add(Attributes.ATTACK_DAMAGE, 20.0D);
     }
-	
-	@Override public boolean hurtServer(ServerLevel serverWorld, DamageSource source, float amount)
+
+	public boolean lilithHurtServer(ServerLevel level, DamageSource source, float amount)
 	{
 		Entity immediateSourceEntity = source.getDirectEntity();
 		Entity trueSourceEntity = source.getEntity();
 		if (this.isTransforming() && !source.isCreativePlayer() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
 		if (this.getMaxHealth() < 2.5 * this.getHealth() && immediateSourceEntity instanceof AbstractArrow) {return false;}
-		boolean flag = super.hurtServer(serverWorld, source, amount);
+		boolean flag = super.hurtServer(level, source, amount);
 		if (flag)
 		{
 			if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrow))

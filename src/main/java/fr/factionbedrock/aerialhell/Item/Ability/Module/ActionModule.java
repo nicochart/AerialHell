@@ -105,6 +105,8 @@ public class ActionModule extends AbilityModule
             //override duration and visibility. ambient = true to always display icon
             public MobEffect passiveBuild() {return new MobEffect(new MobEffectTemplate(this.effect, 32, this.amplifier, true, true, true), this.effectTarget, this.defaultTestTarget);}
             public MobEffect passiveBuild(int amplifier) {return new MobEffect(new MobEffectTemplate(this.effect, 32, amplifier, true, true, true), this.effectTarget, this.defaultTestTarget);}
+            public MobEffect notVisiblePassiveBuild() {return notVisiblePassiveBuild(0);}
+            public MobEffect notVisiblePassiveBuild(int amplifier) {return new MobEffect(new MobEffectTemplate(this.effect, 32, amplifier, false, false, false), this.effectTarget, this.defaultTestTarget);}
         }
     }
 

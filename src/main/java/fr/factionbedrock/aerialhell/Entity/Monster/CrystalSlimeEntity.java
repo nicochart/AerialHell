@@ -37,7 +37,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 
 //copy of net.minecraft.entity.mob.SlimeEntity but without size system
-public class CrystalSlimeEntity extends Mob
+public class CrystalSlimeEntity extends Mob implements LunarMisleadableEntity
 {
 	public float targetSquish;
 	public float squish;
@@ -50,13 +50,32 @@ public class CrystalSlimeEntity extends Mob
 		this.moveControl = new CrystalSlimeMoveControl(this);
 	}
 
+	/* ------- MisleadableEntity : Interface method implementation ------- */
+	@Override public Mob getSelf() {return this;}
+	/* ------------------------------------------------------------------- */
+
+	/* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
+	@Override public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
+	{
+		return this.misleadableHurtServer(serverLevel, source, amount, super::hurtServer);
+	}
+
+	@Override public void die(DamageSource damageSource)
+	{
+		this.misleadableDie(damageSource);
+		super.die(damageSource);
+	}
+
+	@Override public boolean canAttack(LivingEntity target) {return this.misleadableCanAttack(target, super::canAttack);}
+	/* ------------------------------------------------------------------------------------------ */
+
 	@Override protected void registerGoals()
 	{
 		this.goalSelector.addGoal(1, new CrystalSlimeEntity.CrystalSlimeSwimGoal(this));
 		this.goalSelector.addGoal(2, new CrystalSlimeEntity.CrystalSlimeAttackGoal(this));
 		this.goalSelector.addGoal(3, new CrystalSlimeEntity.CrystalSlimeRandomDirectionGoal(this));
 		this.goalSelector.addGoal(5, new CrystalSlimeEntity.CrystalSlimeKeepOnJumpingGoal(this));
-		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (entity, serverWorld) -> Math.abs(entity.getY() - this.getY()) <= 4.0));
+		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (potentialTarget, serverLevel) -> Math.abs(potentialTarget.getY() - this.getY()) <= 4.0 && !this.isMisleadedBy(potentialTarget)));
 		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
 	}
 

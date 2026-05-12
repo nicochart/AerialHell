@@ -42,12 +42,21 @@ public class GhostSlimePirateEntity extends AbstractSlimePirateEntity implements
     /* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
     @Override public boolean hurtServer(ServerLevel serverWorld, DamageSource source, float amount)
     {
-        return this.misleadableDamage(serverWorld, source, amount, super::hurtServer);
+        return this.misleadableHurtServer(serverWorld, source, amount, super::hurtServer);
     }
+
+    @Override public void die(DamageSource damageSource)
+    {
+        this.misleadableDie(damageSource);
+        super.die(damageSource);
+    }
+
+    @Override public boolean canAttack(LivingEntity target) {return this.misleadableCanAttack(target, super::canAttack);}
     /* ------------------------------------------------------------------------------------------ */
 
     /* ------- MisleadableEntity : Interface methods Overridden for specific behavior ------- */
-    @Override public boolean canMisleaderDamage() {return false;}
+    @Override public boolean canMisleaderHurt() {return false;}
+    @Override public TraitorTrigger traitorTrigger(DamageSource damageSource) {return TraitorTrigger.NEVER;}
     /* -------------------------------------------------------------------------------------- */
 
     /* ------- GoalSimpleConditionEntity : Interface method implementation ------- */

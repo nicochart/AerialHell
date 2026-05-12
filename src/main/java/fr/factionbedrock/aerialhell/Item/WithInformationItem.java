@@ -16,7 +16,7 @@ public class WithInformationItem extends Item implements ExtraHoverTextItem
 	@Override public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
 	{
 		this.appendOptionalDescriptionsHoverText(context, tooltipAdder);
-		this.appendAbilityDescriptionHoverText(context, tooltipAdder);
+		this.appendAbilityDescriptionHoverText(ClientHelper.getLocalPlayer(), context, tooltipAdder);
 		this.appendReactorMenuHoverText(ClientHelper.getLocalPlayer(), context, tooltipAdder);
 	}
 
