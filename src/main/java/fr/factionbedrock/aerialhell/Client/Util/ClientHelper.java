@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.Util;
 
+import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.GuideBookScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -12,6 +13,11 @@ import java.util.List;
 public class ClientHelper
 {
     public static Player getLocalPlayer() {return Minecraft.getInstance().player;}
+
+    public static void openAerialHellGuideBookScreen()
+    {
+        Minecraft.getInstance().setScreen(new GuideBookScreen());
+    }
 
     public static void renderText(Font font, GuiGraphics graphics, Component text, int x, int y, int color, float scale)
     {

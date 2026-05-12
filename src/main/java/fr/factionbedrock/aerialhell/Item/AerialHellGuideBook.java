@@ -1,7 +1,6 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.GuideBookScreen;
-import net.minecraft.client.Minecraft;
+import fr.factionbedrock.aerialhell.Client.Util.ClientHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -16,7 +15,7 @@ public class AerialHellGuideBook extends Item
     {
         if (level.isClientSide())
         {
-            Minecraft.getInstance().setScreen(new GuideBookScreen());
+            ClientHelper.openAerialHellGuideBookScreen();
         }
         return InteractionResult.SUCCESS;
     }
