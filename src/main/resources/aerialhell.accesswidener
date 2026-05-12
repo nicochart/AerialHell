@@ -2,11 +2,8 @@ accessWidener v2 named
 
 # Aerial Hell Item tool interactions
 accessible field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
-mutable field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
 accessible field net/minecraft/world/item/HoeItem TILLABLES Ljava/util/Map;
-mutable field net/minecraft/world/item/HoeItem TILLABLES Ljava/util/Map;
 accessible field net/minecraft/world/item/ShovelItem FLATTENABLES Ljava/util/Map;
-mutable field net/minecraft/world/item/ShovelItem FLATTENABLES Ljava/util/Map;
 
 #NetherPortal
 accessible method net/minecraft/world/level/portal/PortalShape <init> (Lnet/minecraft/core/Direction$Axis;ILnet/minecraft/core/Direction;Lnet/minecraft/core/BlockPos;II)V

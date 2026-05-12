@@ -31,7 +31,7 @@ public interface ExtraHoverTextItem
         this.getOptionalDescription(key).ifPresent(description -> tooltipAdder.accept(description.withStyle(formatting)));
     }
 
-    default void appendAbilityDescriptionHoverText(Item.TooltipContext context, Consumer<Component> tooltipAdder) {}
+    default void appendAbilityDescriptionHoverText(Player player, Item.TooltipContext context, Consumer<Component> tooltipAdder) {}
 
     default void appendReactorMenuHoverText(Player player, Item.TooltipContext context, Consumer<Component> tooltipAdder)
     {

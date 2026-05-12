@@ -6,8 +6,6 @@ import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
 import fr.factionbedrock.aerialhell.Entity.AerialHellGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import java.util.List;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -27,7 +25,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
-public class CrystalGolemEntity extends AerialHellGolemEntity implements MisleadableEntity, GoalConditionEntity.PhaseAwareGoalConditionEntity
+import java.util.List;
+
+public class CrystalGolemEntity extends AerialHellGolemEntity implements LunarMisleadableEntity, GoalConditionEntity.PhaseAwareGoalConditionEntity
 {
     public static final int ACTIVE_GOALS = 0, DISAPPEARING_GOALS = 1;
 	public static final EntityDataAccessor<Boolean> DISAPPEARING = SynchedEntityData.<Boolean>defineId(CrystalGolemEntity.class, EntityDataSerializers.BOOLEAN);
@@ -39,18 +39,19 @@ public class CrystalGolemEntity extends AerialHellGolemEntity implements Mislead
         this.xpReward = 6;
     }
 
-    /* ------- MisleadableEntity : Interface method implementation ------- */
-    @Override public boolean isMisleadedBy(LivingEntity livingEntity)
-    {
-        return EntityHelper.isLivingEntityMisleadingLunar(livingEntity);
-    }
-    /* ------------------------------------------------------------------- */
-
     /* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
     @Override public boolean hurtServer(ServerLevel serverWorld, DamageSource source, float amount)
     {
-        return this.misleadableDamage(serverWorld, source, amount, super::hurtServer);
+        return this.misleadableHurtServer(serverWorld, source, amount, super::hurtServer);
     }
+
+    @Override public void die(DamageSource damageSource)
+    {
+        this.misleadableDie(damageSource);
+        super.die(damageSource);
+    }
+
+    @Override public boolean canAttack(LivingEntity target) {return this.misleadableCanAttack(target, super::canAttack);}
     /* ------------------------------------------------------------------------------------------ */
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)

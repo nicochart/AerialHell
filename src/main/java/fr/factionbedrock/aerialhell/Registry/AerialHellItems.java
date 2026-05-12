@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Item.*;
 import fr.factionbedrock.aerialhell.Item.Ability.AbilitySelector;
+import fr.factionbedrock.aerialhell.Item.*;
 import fr.factionbedrock.aerialhell.Item.Armor.ShadowArmorItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.RubyBucketItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.RubyLiquidOfGodsBucketItem;
@@ -11,7 +11,7 @@ import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterials;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellToolMaterials;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
-import fr.factionbedrock.aerialhell.Item.Tools.*;
+import fr.factionbedrock.aerialhell.Item.Tools.BerserkAxeItem;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellJukeboxSongs;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
@@ -24,14 +24,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.food.Foods;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.HangingSignItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.SignItem;
-import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.item.StandingAndWallBlockItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.ComposterBlock;
@@ -862,7 +855,6 @@ public class AerialHellItems
     public static final Item MUSIC_DISC_RETRO_EXPLORATION_TOMMAUP = register(Keys.MUSIC_DISC_RETRO_EXPLORATION_TOMMAUP.identifier().getPath(), new Item(new Item.Properties().setId(Keys.MUSIC_DISC_RETRO_EXPLORATION_TOMMAUP).stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(AerialHellJukeboxSongs.RETRO_EXPLORATION_TOMMAUP)));
 
     //tools
-    //tools
     public static final Item SKY_WOOD_PICKAXE = register(Keys.SKY_WOOD_PICKAXE.identifier().getPath(), new Item(new AerialHellItem.Properties().setId(Keys.SKY_WOOD_PICKAXE).pickaxe(AerialHellToolMaterials.SKY_WOOD, 1.0F, -2.8F)));
     public static final Item STELLAR_STONE_PICKAXE = register(Keys.STELLAR_STONE_PICKAXE.identifier().getPath(), new Item(new AerialHellItem.Properties().setId(Keys.STELLAR_STONE_PICKAXE).pickaxe(AerialHellToolMaterials.STELLAR_STONE, 1.0F, -2.8F)));
     public static final Item RUBY_PICKAXE = register(Keys.RUBY_PICKAXE.identifier().getPath(), new Item(new AerialHellItem.Properties().setId(Keys.RUBY_PICKAXE).pickaxe(AerialHellToolMaterials.RUBY, 1.0F, -2.8F)));
@@ -928,7 +920,7 @@ public class AerialHellItems
 
     public static final Item HEAVY_SWORD = register(Keys.HEAVY_SWORD.identifier().getPath(), new Item(new AerialHellItem.Properties().setId(Keys.HEAVY_SWORD).sword(AerialHellToolMaterials.HEAVY, 3, -2.7F).fireResistant().rarity(Rarity.EPIC)));
 
-    public static final Item HEALTH_BOOST_SWORD = register(Keys.HEALTH_BOOST_SWORD.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.HEALTH_BOOST_SWORD).sword(AerialHellToolMaterials.LUNATIC, 3, -2.4F, AttributeEntry.maxHealth(4.0F)).fireResistant().rarity(Rarity.EPIC)));
+    public static final Item HEALTH_BOOST_SWORD = register(Keys.HEALTH_BOOST_SWORD.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.HEALTH_BOOST_SWORD).sword(AerialHellToolMaterials.LUNATIC, 3, -2.4F).fireResistant().rarity(Rarity.EPIC).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.PASSIVE_HEALTH_BOOST))));
     public static final Item NINJA_SWORD = register(Keys.NINJA_SWORD.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.NINJA_SWORD).sword(AerialHellToolMaterials.OBSIDIAN, 2, -1.6F, AttributeEntry.movementSpeed(0.15F)).fireResistant().rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.NINJA_SWORD))));
     public static final Item NINJA_MASTER_SWORD = register(Keys.NINJA_MASTER_SWORD.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.NINJA_MASTER_SWORD).sword(AerialHellToolMaterials.OBSIDIAN, 4, -2.4F, AttributeEntry.movementSpeed(0.15F)).fireResistant().rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.NINJA_MASTER_SWORD))));
     public static final Item GLOUTON_SWORD = register(Keys.GLOUTON_SWORD.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.GLOUTON_SWORD).sword(AerialHellToolMaterials.RUBY, 3, -2.4F).fireResistant().rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.GLOUTON_SWORD))));

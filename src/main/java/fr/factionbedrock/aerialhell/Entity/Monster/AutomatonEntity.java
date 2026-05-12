@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -15,41 +16,38 @@ public class AutomatonEntity extends AerialHellHostileEntity
     public int attackTimer;
     public AutomatonEntity(EntityType<? extends Monster> type, Level world) {super(type, world); this.attackTimer = 0;}
 
-    @Override
-    public void aiStep()
+    @Override public void aiStep()
     {
         if (this.attackTimer > 0) {this.attackTimer--;}
         super.aiStep();
     }
 
-    @Override
-    public void handleEntityEvent(byte id)
+    @Override public void handleEntityEvent(byte id)
     {
         if (id == 4) {this.attackTimer = 10;}
         else {super.handleEntityEvent(id);}
     }
 
-    @Override
-    public boolean doHurtTarget(ServerLevel serverWorld, Entity entityIn)
+    @Override public boolean doHurtTarget(ServerLevel serverWorld, Entity entityIn)
     {
         boolean flag = super.doHurtTarget(serverWorld, entityIn);
         this.level().broadcastEntityEvent(this, (byte)4);
         return flag;
     }
 
-    @Override
-    public boolean hurtServer(ServerLevel serverWorld, DamageSource source, float amount)
+    @Override public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount)
     {
         Entity immediateSourceEntity = source.getDirectEntity();
         Entity trueSourceEntity = source.getEntity();
-        boolean flag = super.hurtServer(serverWorld, source, amount);
+        boolean flag = super.hurtServer(serverLevel, source, amount);
         if (flag)
         {
-            if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrow))
+            if (trueSourceEntity instanceof LivingEntity livingSource && !(immediateSourceEntity instanceof AbstractArrow))
             {
-                if (!(trueSourceEntity instanceof Player && ((Player)trueSourceEntity).isCreative()))
+                //need additional check because vanilla isn't validating target
+                if (!EntityHelper.isCreaOrSpecPlayer(livingSource) && this.canAttack(livingSource))
                 {
-                    this.setTarget((LivingEntity) trueSourceEntity);
+                    this.setTarget(livingSource);
                 }
             }
         }

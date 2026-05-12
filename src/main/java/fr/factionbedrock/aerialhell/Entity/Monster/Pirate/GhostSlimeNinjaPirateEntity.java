@@ -41,12 +41,21 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implemen
     /* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
     @Override public boolean hurtServer(ServerLevel serverWorld, DamageSource source, float amount)
     {
-        return this.misleadableDamage(serverWorld, source, amount, super::hurtServer);
+        return this.misleadableHurtServer(serverWorld, source, amount, super::hurtServer);
     }
+
+    @Override public void die(DamageSource damageSource)
+    {
+        this.misleadableDie(damageSource);
+        super.die(damageSource);
+    }
+
+    @Override public boolean canAttack(LivingEntity target) {return this.misleadableCanAttack(target, super::canAttack);}
     /* ------------------------------------------------------------------------------------------ */
 
     /* ------- MisleadableEntity : Interface methods Overridden for specific behavior ------- */
-    @Override public boolean canMisleaderDamage() {return false;}
+    @Override public boolean canMisleaderHurt() {return false;}
+    @Override public TraitorTrigger traitorTrigger(DamageSource damageSource) {return TraitorTrigger.NEVER;}
     /* -------------------------------------------------------------------------------------- */
 
     /* ------- GoalSimpleConditionEntity : Interface method implementation ------- */
@@ -84,7 +93,7 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implemen
 
     @Override public EntityType<? extends AbstractSlimePirateEntity> getType() {return AerialHellEntities.GHOST_SLIME_NINJA_PIRATE;}
 
-    public static class GhostShurikenAttackGoal extends SlimeNinjaPirateEntity.ShurikenAttackGoal
+    public static class GhostShurikenAttackGoal extends ShurikenAttackGoal
     {
         public GhostShurikenAttackGoal(GhostSlimeNinjaPirateEntity entity) {super(entity);}
 

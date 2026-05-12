@@ -105,10 +105,10 @@ public class AerialHellItem extends WithInformationItem
 		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnMining(itemStack, itemOwner, miningInfo));}
 	}
 
-	@Override public void appendAbilityDescriptionHoverText(TooltipContext context, Consumer<Component> tooltipAdder)
+	@Override public void appendAbilityDescriptionHoverText(Player player, TooltipContext context, Consumer<Component> tooltipAdder)
 	{
 		//should only be called client side
-		if (this.abilitySelector == null) {return;}
+		if (!player.level().isClientSide() || this.abilitySelector == null) {return;}
 
 		boolean shiftDown = InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) || InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), GLFW.GLFW_KEY_RIGHT_SHIFT);
 		List<String> descIds = this.abilitySelector.getAbilitiesDescIds();
