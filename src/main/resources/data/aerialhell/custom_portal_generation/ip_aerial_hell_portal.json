@@ -1,0 +1,6 @@
+{
+  "schema_version": "imm_ptl:v1",
+  "from": ["minecraft:overworld"],"to": "aerialhell:aerial_hell",
+  "form": {"type": "imm_ptl:convert_conventional_portal","portal_block": "aerialhell:aerial_hell_portal"},
+  "trigger": {"type": "imm_ptl:conventional_dimension_change"}
+}
