@@ -9,6 +9,9 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+
+import java.util.List;
 
 //vanilla copy : net.minecraft.world.item.crafting.SmeltingRecipe
 public class OscillatingRecipe extends AbstractCookingRecipe

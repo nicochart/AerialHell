@@ -1,17 +1,22 @@
 package fr.factionbedrock.aerialhell.Integration.JEI;
 
+import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.FreezerScreen;
 import fr.factionbedrock.aerialhell.Recipe.FreezingRecipe;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.recipe.types.IRecipeHolderType;
+import mezz.jei.api.recipe.types.IRecipeType;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
 
 public class FreezingRecipeCategory extends AbstractCookingCategory<FreezingRecipe>
 {
-    public static final IRecipeHolderType<FreezingRecipe> FREEZING = IRecipeHolderType.create(AerialHellRecipes.RecipeTypes.FREEZING.getId());
+    public static final IRecipeType<FreezingRecipe> FREEZING = IRecipeType.create(AerialHell.MODID, "freezing", FreezingRecipe.class);
 
-	public FreezingRecipeCategory(IGuiHelper guiHelper)
+    public FreezingRecipeCategory(IGuiHelper guiHelper)
     {
-        super(guiHelper, FREEZING, AerialHellBlocks.FREEZER.get(), "block.aerialhell.freezer", false);
+        super(FREEZING, guiHelper, AerialHellBlocks.FREEZER.get(), "block.aerialhell.freezer", FreezerScreen.FREEZER_GUI_TEXTURES, AerialHellItems.FLUORITE.get());
     }
+
+    @Override protected RecipeDisplay getDisplay(FreezingRecipe recipe) {return recipe.display().getFirst();}
 }
