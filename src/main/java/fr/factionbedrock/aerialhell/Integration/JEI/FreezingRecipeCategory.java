@@ -15,7 +15,7 @@ public class FreezingRecipeCategory extends AbstractCookingCategory<FreezingReci
 
     public FreezingRecipeCategory(IGuiHelper guiHelper)
     {
-        super(FREEZING, guiHelper, AerialHellBlocks.FREEZER.get(), "block.aerialhell.freezer", FreezerScreen.FREEZER_GUI_TEXTURES, AerialHellItems.FLUORITE.get());
+        super(FREEZING, guiHelper, AerialHellBlocks.FREEZER.get(), "block.aerialhell.freezer", FreezerScreen.FREEZER_GUI_TEXTURES, AerialHellItems.MAGMATIC_GEL.get());
     }
 
     @Override protected RecipeDisplay getDisplay(FreezingRecipe recipe) {return recipe.display().getFirst();}
