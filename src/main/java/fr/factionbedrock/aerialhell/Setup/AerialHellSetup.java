@@ -36,6 +36,7 @@ public class AerialHellSetup
         AerialHellBlocks.registerAxeStrippingBlocks();
         AerialHellBlocks.registerShovelFlattenableBlocks();
         AerialHellBlocks.registerHoeTillableBlocks();
+        AerialHellRecipes.PropertySet.registerRecipeProperty();
         AerialHellEntities.registerEntitySpawnPlacements();
         AerialHellDimensions.makePortal();
     }

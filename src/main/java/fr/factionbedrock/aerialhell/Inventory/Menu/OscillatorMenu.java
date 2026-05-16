@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Inventory.Menu;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.world.Container;
@@ -13,15 +14,21 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellMenuTypes;
 
 public class OscillatorMenu extends AbstractFurnaceMenu
 {
+	private final RecipePropertySet oscillatingInputs;
+
 	public OscillatorMenu(int windowId, Inventory playerInventory)
 	{
 		super(AerialHellMenuTypes.OSCILLATOR, RecipeTypes.OSCILLATING, RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory);
+		this.oscillatingInputs = this.level.recipeAccess().propertySet(AerialHellRecipes.PropertySet.OSCILLATOR_INPUT);
 	}
 
 	public OscillatorMenu(int windowId, Inventory playerInventory, Container oscillatingInventory, ContainerData data)
 	{
 		super(AerialHellMenuTypes.OSCILLATOR, RecipeTypes.OSCILLATING, RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory, oscillatingInventory, data);
+		this.oscillatingInputs = this.level.recipeAccess().propertySet(AerialHellRecipes.PropertySet.OSCILLATOR_INPUT);
 	}
 
 	@Override public boolean isFuel(ItemStack stack) {return ItemHelper.getOscillatingMap().containsKey(stack.getItem());}
+
+	@Override protected boolean canSmelt(ItemStack itemStack) {return this.oscillatingInputs.test(itemStack);}
 }

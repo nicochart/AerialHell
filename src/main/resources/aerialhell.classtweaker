@@ -5,6 +5,10 @@ accessible field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
 accessible field net/minecraft/world/item/HoeItem TILLABLES Ljava/util/Map;
 accessible field net/minecraft/world/item/ShovelItem FLATTENABLES Ljava/util/Map;
 
+#Aerial Hell Recipes PropertySet
+accessible field net/minecraft/world/item/crafting/RecipeManager RECIPE_PROPERTY_SETS Ljava/util/Map;
+mutable field net/minecraft/world/item/crafting/RecipeManager RECIPE_PROPERTY_SETS Ljava/util/Map;
+
 #NetherPortal
 accessible method net/minecraft/world/level/portal/PortalShape <init> (Lnet/minecraft/core/Direction$Axis;ILnet/minecraft/core/Direction;Lnet/minecraft/core/BlockPos;II)V
 
