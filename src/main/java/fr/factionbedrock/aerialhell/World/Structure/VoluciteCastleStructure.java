@@ -38,5 +38,5 @@ public class VoluciteCastleStructure extends AbstractAerialHellStructure
         return getTerrainHeight(context) < MIN_GEN_HEIGHT + MAX_GEN_HEIGHT / 2;
     }
 
-    @Override public StructureType<?> type() {return AerialHellStructures.GOLDEN_NETHER_PRISON_STRUCTURE.get();}
+    @Override public StructureType<?> type() {return AerialHellStructures.VOLUCITE_CASTLE.get();}
 }
