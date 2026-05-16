@@ -4,13 +4,16 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.FreezerScreen;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory.OscillatorScreen;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 public class AerialHellJei implements IModPlugin
 {
@@ -29,8 +32,8 @@ public class AerialHellJei implements IModPlugin
         registration.getJeiHelpers().getGuiHelper().createDrawable(OscillatorScreen.OSCILLATOR_GUI_TEXTURES, 57, 36, 13, 13);
         registration.getJeiHelpers().getGuiHelper().createDrawable(FreezerScreen.FREEZER_GUI_TEXTURES, 57, 36, 13, 13);
 
-        registration.addRecipes(OscillatingRecipeCategory.OSCILLATING, JEIHelper.createOscillatingRecipeEntryList());
-        registration.addRecipes(FreezingRecipeCategory.FREEZING, JEIHelper.createFreezingRecipeEntryList());
+        registration.addRecipes(OscillatingRecipeCategory.OSCILLATING, Minecraft.getInstance().level.recipeAccess().getSynchronizedRecipes().getAllOfType(AerialHellRecipes.RecipeTypes.OSCILLATING).stream().map(RecipeHolder::value).toList());
+        registration.addRecipes(FreezingRecipeCategory.FREEZING, Minecraft.getInstance().level.recipeAccess().getSynchronizedRecipes().getAllOfType(AerialHellRecipes.RecipeTypes.FREEZING).stream().map(RecipeHolder::value).toList());
     }
 
     @Override public void registerRecipeCatalysts(IRecipeCatalystRegistration registration)
@@ -39,5 +42,5 @@ public class AerialHellJei implements IModPlugin
         registration.addCraftingStation(FreezingRecipeCategory.FREEZING, AerialHellItems.FREEZER);
     }
 
-    @Override public Identifier getPluginUid() {return AerialHell.id("jei");}
+    @Override public Identifier getPluginUid() {return Identifier.fromNamespaceAndPath(AerialHell.MODID, "jei");}
 }

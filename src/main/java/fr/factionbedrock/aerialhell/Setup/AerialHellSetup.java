@@ -12,11 +12,13 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTrimMaterials;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.*;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.recipe.v1.sync.RecipeSynchronization;
 
 public class AerialHellSetup
 {
     public static void init()
     {
+        syncRecipeTypes();
         AerialHellConfigLoader.loadAndStoreConfigParams();
         registration();
         additionalRegistration();
@@ -62,6 +64,14 @@ public class AerialHellSetup
         AerialHellFeatures.load();
         //AerialHellConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
         //AerialHellPlacedFeatures.PLACED_FEATURES.register(bus);
+    }
+
+    public static void syncRecipeTypes()
+    {
+        //Fabric : recipe (serializes) sync done here
+        //NeoForge : done in fr.factionbedrock.aerialhell.Client.Event.Listeners.DatapackSyncHandler
+        RecipeSynchronization.synchronizeRecipeSerializer(AerialHellRecipes.OSCILLATING_SERIALIZER);
+        RecipeSynchronization.synchronizeRecipeSerializer(AerialHellRecipes.FREEZING_SERIALIZER);
     }
 
     //public static void listen(IEventBus bus)
