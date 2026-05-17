@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.Registry.Worldgen;
 import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.World.Structure.*;
-import java.util.function.Supplier;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -21,6 +20,7 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 public class AerialHellStructures
 {
 	public static final StructureType<?> OVERWORLD_ABANDONNED_PORTAL_STRUCTURE = register("overworld_abandonned_portal", OverworldAbandonnedPortalStructure.CODEC);
+	public static final StructureType<?> AERIAL_HELL_ABANDONNED_PORTAL_STRUCTURE = register("aerial_hell_abandonned_portal", AerialHellAbandonnedPortalStructure.CODEC);
 	public static final StructureType<?> MUD_DUNGEON_STRUCTURE = register("mud_dungeon", MudDungeonStructure.CODEC);
 	public static final StructureType<?> LUNATIC_TEMPLE_STRUCTURE = register("lunatic_temple", LunaticTempleStructure.CODEC);
 	public static final StructureType<?> SHADOW_CATACOMBS_STRUCTURE = register("shadow_catacombs", ShadowCatacombsStructure.CODEC);
@@ -36,6 +36,7 @@ public class AerialHellStructures
 	public static class Sets
 	{
 		public static final ResourceKey<StructureSet> OVERWORLD_ABANDONNED_PORTAL_STRUCTURE = register("overworld_abandonned_portal");
+		public static final ResourceKey<StructureSet> AERIAL_HELL_ABANDONNED_PORTAL_STRUCTURE = register("aerial_hell_abandonned_portal");
 		public static final ResourceKey<StructureSet> MUD_DUNGEON_STRUCTURE = register("mud_dungeon");
 		public static final ResourceKey<StructureSet> LUNATIC_TEMPLE_STRUCTURE = register("lunatic_temple");
 		public static final ResourceKey<StructureSet> SHADOW_CATACOMBS_STRUCTURE = register("shadow_catacombs");
