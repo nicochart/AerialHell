@@ -7,11 +7,9 @@ import net.minecraft.util.RandomSource;
 
 public class FallingCrystallizedLeavesParticle extends FallingLeavesParticle
 {
-	private final SpriteSet spriteProvider;
 	public FallingCrystallizedLeavesParticle(ClientLevel world, double x, double y, double z, SpriteSet spriteProvider, float gravity, float windBig, boolean swirl, boolean flowAway, float size, float initialYVelocity)
 	{
 		super(world, x, y, z, spriteProvider.first(), gravity, windBig, swirl, flowAway, size, initialYVelocity);
-		this.spriteProvider = spriteProvider;
 	}
 
 	public static class Factory implements ParticleProvider<SimpleParticleType>
@@ -27,10 +25,4 @@ public class FallingCrystallizedLeavesParticle extends FallingLeavesParticle
 	}
 
 	@Override public Layer getLayer() {return Layer.TRANSLUCENT;}
-
-	@Override public void tick()
-	{
-		super.tick();
-		this.setSpriteFromAge(this.spriteProvider);
-	}
 }
