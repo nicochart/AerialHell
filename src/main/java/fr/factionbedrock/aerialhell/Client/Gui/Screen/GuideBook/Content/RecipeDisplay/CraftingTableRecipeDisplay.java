@@ -1,6 +1,9 @@
-package fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content;
+package fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.RecipeDisplay;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.Alignment;
+import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.Line;
+import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.PageElement;
 import fr.factionbedrock.aerialhell.Client.Util.TextureInfo;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -14,7 +17,7 @@ import java.util.function.Supplier;
 
 public record CraftingTableRecipeDisplay(int lineIndex, Alignment alignment, float scale, Ingredients ingredients, Supplier<Item> result, boolean displayTooltip) implements PageElement
 {
-    private static final TextureInfo CRAFTING_GRID_TEXTURE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/crafting_grid.png"), 100, 54);
+    private static final TextureInfo CRAFTING_GRID_TEXTURE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/recipe/crafting_grid_display.png"), 100, 54);
 
     @Override public void render(Font font, GuiGraphicsExtractor graphics, float scale, List<Line> lines, int bookLeft, int bookTop, int mouseX, int mouseY)
     {
@@ -42,7 +45,7 @@ public record CraftingTableRecipeDisplay(int lineIndex, Alignment alignment, flo
         graphics.pose().translate(startX, startY);
         graphics.pose().scale(this.scale(), this.scale());
 
-        graphics.blit(RenderPipelines.GUI_TEXTURED, CRAFTING_GRID_TEXTURE.texture(), 0, 0, 0f, 0f, CRAFTING_GRID_TEXTURE.width(), CRAFTING_GRID_TEXTURE.height(), CRAFTING_GRID_TEXTURE.width(), CRAFTING_GRID_TEXTURE.height());
+        graphics.blit(RenderPipelines.GUI_TEXTURED, CRAFTING_GRID_TEXTURE.texture(), 0, 0, CRAFTING_GRID_TEXTURE.u(), CRAFTING_GRID_TEXTURE.v(), CRAFTING_GRID_TEXTURE.width(), CRAFTING_GRID_TEXTURE.height(), CRAFTING_GRID_TEXTURE.textureWidth(), CRAFTING_GRID_TEXTURE.textureHeight());
 
         graphics.pose().popMatrix();
 

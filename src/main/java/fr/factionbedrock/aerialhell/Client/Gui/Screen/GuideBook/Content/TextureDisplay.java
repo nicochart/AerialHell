@@ -28,7 +28,7 @@ public record TextureDisplay(int lineIndex, Alignment alignment, float scale, Te
         graphics.pose().translate(startX, line.startY());
         graphics.pose().scale(this.scale(), this.scale());
 
-        graphics.blit(RenderPipelines.GUI_TEXTURED, this.textureInfo.texture(), 0, 0, 0f, 0f, this.textureInfo.width(), this.textureInfo.height(), this.textureInfo.width(), this.textureInfo.height());
+        graphics.blit(RenderPipelines.GUI_TEXTURED, this.textureInfo.texture(), 0, 0, this.textureInfo.u(), this.textureInfo.v(), this.textureInfo.width(), this.textureInfo.height(), this.textureInfo.textureWidth(), this.textureInfo.textureHeight());
 
         graphics.pose().popMatrix();
     }

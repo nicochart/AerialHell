@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.*;
+import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.RecipeDisplay.CraftingTableRecipeDisplay;
 import fr.factionbedrock.aerialhell.Client.Util.TextureInfo;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.client.Minecraft;
@@ -81,14 +82,17 @@ public class GuideBookScreen extends Screen
                     ), AerialHellItems.RUBY_SWORD, true),
             new Page("items_2", BOOK_TEXTURE, 7)
                     .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
-                    .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_1"),
+                    .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_1")
+                    .addSmeltingRecipeDisplay(18, Alignment.CENTER, 1.5F, AerialHellItems.RAW_RUBY, AerialHellItems.OVERHEATED_RUBY, true),
             new Page("items_3", BOOK_TEXTURE, 8)
                     .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
                     .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_1")
-                    .addParagraph(16, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_2"),
+                    .addParagraph(16, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_2")
+                    .addFreezingRecipeDisplay(18, Alignment.CENTER, 1.5F, AerialHellItems.OVERHEATED_RUBY, AerialHellItems.RUBY, true),
             new Page("items_4", BOOK_TEXTURE, 9)
                     .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
-                    .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_1"),
+                    .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_1")
+                    .addOscillatingRecipeDisplay(18, Alignment.CENTER, 1.5F, AerialHellItems.RAW_RUBY, AerialHellItems.RUBY, true),
             new Page("items_5", BOOK_TEXTURE, 10)
                     .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
                     .addParagraph(19, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFFFF0000, "content_1"),
@@ -333,14 +337,14 @@ public class GuideBookScreen extends Screen
         if (this.currentPage != 0)
         {
             TextureInfo previousArrowTexture = this.isHoveringPrevArrow(mouseX, mouseY) ? NAVIGATION_ARROW_PREVIOUS_PAGE_HOVERED : NAVIGATION_ARROW_PREVIOUS_PAGE;
-            graphics.blit(RenderPipelines.GUI_TEXTURED, previousArrowTexture.texture(), this.leftNavigationArrowLeft, this.navigationArrowTop, 0f, 0f, previousArrowTexture.width(), previousArrowTexture.height(), previousArrowTexture.width(), previousArrowTexture.height());
+            graphics.blit(RenderPipelines.GUI_TEXTURED, previousArrowTexture.texture(), this.leftNavigationArrowLeft, this.navigationArrowTop, previousArrowTexture.u(), previousArrowTexture.v(), previousArrowTexture.width(), previousArrowTexture.height(), previousArrowTexture.textureWidth(), previousArrowTexture.textureHeight());
         }
 
         //next page arrow
         if (this.currentPage != ALL_PAGES.size() - 1)
         {
             TextureInfo nextArrowTexture = this.isHoveringNextArrow(mouseX, mouseY) ? NAVIGATION_ARROW_NEXT_PAGE_HOVERED : NAVIGATION_ARROW_NEXT_PAGE;
-            graphics.blit(RenderPipelines.GUI_TEXTURED, nextArrowTexture.texture(), this.rightNavigationArrowLeft, this.navigationArrowTop, 0f, 0f, nextArrowTexture.width(), nextArrowTexture.height(), nextArrowTexture.width(), nextArrowTexture.height());
+            graphics.blit(RenderPipelines.GUI_TEXTURED, nextArrowTexture.texture(), this.rightNavigationArrowLeft, this.navigationArrowTop, nextArrowTexture.u(), nextArrowTexture.v(), nextArrowTexture.width(), nextArrowTexture.height(), nextArrowTexture.textureWidth(), nextArrowTexture.textureHeight());
         }
     }
 

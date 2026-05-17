@@ -1,6 +1,10 @@
 package fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.RecipeDisplay.CraftingTableRecipeDisplay;
+import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.RecipeDisplay.FreezingRecipeDisplay;
+import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.RecipeDisplay.OscillatingRecipeDisplay;
+import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.RecipeDisplay.SmeltingRecipeDisplay;
 import fr.factionbedrock.aerialhell.Client.Util.TextureInfo;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -29,7 +33,7 @@ public class Page
 
     public void render(Font font, GuiGraphicsExtractor graphics, float scale, List<Line> lines, int bookLeft, int bookTop, int mouseX, int mouseY)
     {
-        graphics.blit(RenderPipelines.GUI_TEXTURED, this.backgroundTexture.texture(), bookLeft, bookTop, 0f, 0f, this.backgroundTexture.width(), this.backgroundTexture.height(), this.backgroundTexture.width(), this.backgroundTexture.height());
+        graphics.blit(RenderPipelines.GUI_TEXTURED, this.backgroundTexture.texture(), bookLeft, bookTop, this.backgroundTexture.u(), this.backgroundTexture.v(), this.backgroundTexture.width(), this.backgroundTexture.height(), this.backgroundTexture.textureWidth(), this.backgroundTexture.textureHeight());
 
         for (PageElement pageElement : this.pageElements)
         {
@@ -63,9 +67,33 @@ public class Page
         return this;
     }
 
+    public Page addTextureDisplay(int lineIndex, Alignment alignment, float scale, String path, float u, float v, int width, int height, int textureWidth, int textureHeight)
+    {
+        this.pageElements.add(new TextureDisplay(lineIndex, alignment, scale, new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/"+path+".png"), u, v, width, height, textureWidth, textureHeight)));
+        return this;
+    }
+
     public Page addCraftingTableRecipeDisplay(int lineIndex, Alignment alignment, float scale, CraftingTableRecipeDisplay.Ingredients ingredients, Supplier<Item> result, boolean displayTooltip)
     {
         this.pageElements.add(new CraftingTableRecipeDisplay(lineIndex, alignment, scale, ingredients, result, displayTooltip));
+        return this;
+    }
+
+    public Page addOscillatingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, boolean displayTooltip)
+    {
+        this.pageElements.add(new OscillatingRecipeDisplay(lineIndex, alignment, scale, ingredient, result, displayTooltip));
+        return this;
+    }
+
+    public Page addFreezingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, boolean displayTooltip)
+    {
+        this.pageElements.add(new FreezingRecipeDisplay(lineIndex, alignment, scale, ingredient, result, displayTooltip));
+        return this;
+    }
+
+    public Page addSmeltingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, boolean displayTooltip)
+    {
+        this.pageElements.add(new SmeltingRecipeDisplay(lineIndex, alignment, scale, ingredient, result, displayTooltip));
         return this;
     }
 }
