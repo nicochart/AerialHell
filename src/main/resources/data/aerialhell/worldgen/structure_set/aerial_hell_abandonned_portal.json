@@ -1,7 +1,11 @@
 {
   "structures": [
     {
-      "structure": "aerialhell:aerial_hell_abandonned_portal",
+      "structure": "aerialhell:ground_abandonned_portal",
+      "weight": 1
+    },
+    {
+      "structure": "aerialhell:cloud_abandonned_portal",
       "weight": 1
     }
   ],
