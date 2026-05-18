@@ -1,16 +1,14 @@
 package fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.RecipeDisplay.CraftingTableRecipeDisplay;
-import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.RecipeDisplay.FreezingRecipeDisplay;
-import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.RecipeDisplay.OscillatingRecipeDisplay;
-import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.RecipeDisplay.SmeltingRecipeDisplay;
+import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.RecipeDisplay.*;
 import fr.factionbedrock.aerialhell.Client.Util.TextureInfo;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +97,12 @@ public class Page
     public Page addSmeltingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, boolean displayTooltip)
     {
         this.pageElements.add(new SmeltingRecipeDisplay(lineIndex, alignment, scale, ingredient, result, displayTooltip));
+        return this;
+    }
+
+    public Page addBrewingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<ItemStack> basePotion, Supplier<Item> ingredient, Supplier<ItemStack> resultPotion, boolean displayTooltip)
+    {
+        this.pageElements.add(new BrewingRecipeDisplay(lineIndex, alignment, scale, basePotion, () -> ingredient.get().getDefaultInstance(), resultPotion, displayTooltip));
         return this;
     }
 }

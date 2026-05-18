@@ -15,6 +15,6 @@ public class FreezingRecipeDisplay extends SmeltingLikeRecipeDisplay
 
     public FreezingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, boolean displayTooltip)
     {
-        super(lineIndex, alignment, scale, ingredient, result, AerialHellItems.MAGMATIC_GEL, FREEZING_STATION_INFO, displayTooltip);
+        super(lineIndex, alignment, scale, () -> ingredient.get().getDefaultInstance(), () -> result.get().getDefaultInstance(), () -> AerialHellItems.MAGMATIC_GEL.get().getDefaultInstance(), FREEZING_STATION_INFO, displayTooltip);
     }
 }

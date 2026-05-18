@@ -10,7 +10,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -22,13 +22,13 @@ public class SmeltingLikeRecipeDisplay implements PageElement
     private final int lineIndex;
     private final Alignment alignment;
     private final float scale;
-    private final Supplier<Item> ingredient;
-    private final Supplier<Item> result;
-    private final Supplier<Item> fuel;
+    private final Supplier<ItemStack> ingredient;
+    private final Supplier<ItemStack> result;
+    private final Supplier<ItemStack> fuel;
     private final StationInfo stationInfo;
     private final boolean displayTooltip;
 
-    public SmeltingLikeRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, Supplier<Item> fuel, StationInfo stationInfo, boolean displayTooltip)
+    public SmeltingLikeRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<ItemStack> ingredient, Supplier<ItemStack> result, Supplier<ItemStack> fuel, StationInfo stationInfo, boolean displayTooltip)
     {
         this.lineIndex = lineIndex;
         this.alignment = alignment;
@@ -42,9 +42,9 @@ public class SmeltingLikeRecipeDisplay implements PageElement
 
     @Override public void render(Font font, GuiGraphicsExtractor graphics, float scale, List<Line> lines, int bookLeft, int bookTop, int mouseX, int mouseY)
     {
-        Item ingredientItem = this.ingredient.get();
-        Item resultItem = this.result.get();
-        Item fuelItem = this.fuel.get();
+        ItemStack ingredientItem = this.ingredient.get();
+        ItemStack resultItem = this.result.get();
+        ItemStack fuelItem = this.fuel.get();
 
         if (ingredientItem == null || resultItem == null) {return;}
 
@@ -98,19 +98,19 @@ public class SmeltingLikeRecipeDisplay implements PageElement
         }
 
         //ingredient
-        renderItem(graphics, font, ingredientItem, startX + (int)(2 * this.scale), startY + (int)(19 * this.scale), slotSize, mouseX, mouseY);
+        renderItemStack(graphics, font, ingredientItem, startX + (int)(2 * this.scale), startY + (int)(19 * this.scale), slotSize, mouseX, mouseY);
 
         //result
-        renderItem(graphics, font, resultItem, startX + (int)(48 * this.scale), startY + (int)(19 * this.scale), slotSize, mouseX, mouseY);
+        renderItemStack(graphics, font, resultItem, startX + (int)(48 * this.scale), startY + (int)(19 * this.scale), slotSize, mouseX, mouseY);
 
         //fuel
         if (fuelItem != null)
         {
-            renderItem(graphics, font, fuelItem, startX + (int)(25 * this.scale), startY + (int)(36 * this.scale), slotSize, mouseX, mouseY);
+            renderItemStack(graphics, font, fuelItem, startX + (int)(25 * this.scale), startY + (int)(36 * this.scale), slotSize, mouseX, mouseY);
         }
     }
 
-    private void renderItem(GuiGraphicsExtractor graphics, Font font, Item item, int x, int y, int slotSize, int mouseX, int mouseY)
+    private void renderItemStack(GuiGraphicsExtractor graphics, Font font, ItemStack itemStack, int x, int y, int slotSize, int mouseX, int mouseY)
     {
         boolean hovered = mouseX >= x && mouseX <= x + slotSize && mouseY >= y && mouseY <= y + slotSize;
 
@@ -119,11 +119,11 @@ public class SmeltingLikeRecipeDisplay implements PageElement
         graphics.pose().translate(x, y);
         graphics.pose().scale(this.scale, this.scale);
 
-        graphics.fakeItem(item.getDefaultInstance(), 0, 0);
+        graphics.fakeItem(itemStack, 0, 0);
 
         graphics.pose().popMatrix();
 
-        if (hovered && this.displayTooltip) {graphics.setTooltipForNextFrame(font, item.getDefaultInstance(), mouseX, mouseY);}
+        if (hovered && this.displayTooltip) {graphics.setTooltipForNextFrame(font, itemStack, mouseX, mouseY);}
     }
 
     public record StationInfo(TextureInfo texture, String tooltipKey) {}

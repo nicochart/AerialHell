@@ -15,6 +15,6 @@ public class OscillatingRecipeDisplay extends SmeltingLikeRecipeDisplay
 
     public OscillatingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, boolean displayTooltip)
     {
-        super(lineIndex, alignment, scale, ingredient, result, AerialHellItems.FLUORITE, OSCILLATING_STATION_INFO, displayTooltip);
+        super(lineIndex, alignment, scale, () -> ingredient.get().getDefaultInstance(), () -> result.get().getDefaultInstance(), () -> AerialHellItems.FLUORITE.get().getDefaultInstance(), OSCILLATING_STATION_INFO, displayTooltip);
     }
 }

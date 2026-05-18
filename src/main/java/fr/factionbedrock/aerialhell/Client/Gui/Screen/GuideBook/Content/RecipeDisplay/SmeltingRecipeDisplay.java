@@ -15,6 +15,6 @@ public class SmeltingRecipeDisplay extends SmeltingLikeRecipeDisplay
 
     public SmeltingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, boolean displayTooltip)
     {
-        super(lineIndex, alignment, scale, ingredient, result, () -> Items.CHARCOAL, STELLAR_FURNACE_STATION_INFO, displayTooltip);
+        super(lineIndex, alignment, scale, () -> ingredient.get().getDefaultInstance(), () -> result.get().getDefaultInstance(), Items.CHARCOAL::getDefaultInstance, STELLAR_FURNACE_STATION_INFO, displayTooltip);
     }
 }
