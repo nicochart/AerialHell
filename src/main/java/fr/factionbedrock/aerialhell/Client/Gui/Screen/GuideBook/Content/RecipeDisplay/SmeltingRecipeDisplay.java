@@ -11,10 +11,10 @@ import java.util.function.Supplier;
 
 public class SmeltingRecipeDisplay extends SmeltingLikeRecipeDisplay
 {
-    private static final TextureInfo SMELTING_PROGRESS = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/block/stellar_furnace_front_on.png"), 16, 16);
+    private static final SmeltingLikeRecipeDisplay.StationInfo STELLAR_FURNACE_STATION_INFO = new StationInfo(new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/block/stellar_furnace_front_on.png"), 16,16), "block.aerialhell.stellar_furnace");
 
     public SmeltingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, boolean displayTooltip)
     {
-        super(lineIndex, alignment, scale, ingredient, result, () -> Items.CHARCOAL, SMELTING_PROGRESS, displayTooltip);
+        super(lineIndex, alignment, scale, ingredient, result, () -> Items.CHARCOAL, STELLAR_FURNACE_STATION_INFO, displayTooltip);
     }
 }

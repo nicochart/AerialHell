@@ -59,7 +59,7 @@ public class GuideBookScreen extends Screen
             new Page("mobs_1", BOOK_TEXTURE, 1)
                     .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
                     .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.RIGHT, "content_1")
-                    .addTextureDisplay(18, Alignment.CENTER, 2.0F, "block/freezer_side_on", 16, 48),
+                    .addTextureDisplay(18, Alignment.CENTER, 2.0F, "block/freezer_side_on", 16, 48, "block.aerialhell.freezer"),
             new Page("mobs_2", BOOK_TEXTURE, 2)
                     .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
                     .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_1"),

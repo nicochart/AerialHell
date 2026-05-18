@@ -11,10 +11,10 @@ import java.util.function.Supplier;
 
 public class FreezingRecipeDisplay extends SmeltingLikeRecipeDisplay
 {
-    private static final TextureInfo FREEZING_PROGRESS = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/block/freezer_side_on.png"), 0.0F, 0.0F, 16, 16, 16,48);
+    private static final SmeltingLikeRecipeDisplay.StationInfo FREEZING_STATION_INFO = new StationInfo(new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/block/freezer_side_on.png"), 0.0F, 0.0F, 16, 16, 16,48), "block.aerialhell.freezer");
 
     public FreezingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, boolean displayTooltip)
     {
-        super(lineIndex, alignment, scale, ingredient, result, AerialHellItems.MAGMATIC_GEL, FREEZING_PROGRESS, displayTooltip);
+        super(lineIndex, alignment, scale, ingredient, result, AerialHellItems.MAGMATIC_GEL, FREEZING_STATION_INFO, displayTooltip);
     }
 }

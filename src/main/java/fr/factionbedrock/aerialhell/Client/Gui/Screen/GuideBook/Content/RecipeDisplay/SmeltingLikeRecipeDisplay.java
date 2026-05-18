@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Client.Util.TextureInfo;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 
@@ -24,10 +25,10 @@ public class SmeltingLikeRecipeDisplay implements PageElement
     private final Supplier<Item> ingredient;
     private final Supplier<Item> result;
     private final Supplier<Item> fuel;
-    private final TextureInfo stationTexture;
+    private final StationInfo stationInfo;
     private final boolean displayTooltip;
 
-    public SmeltingLikeRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, Supplier<Item> fuel, TextureInfo stationTexture, boolean displayTooltip)
+    public SmeltingLikeRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, Supplier<Item> fuel, StationInfo stationInfo, boolean displayTooltip)
     {
         this.lineIndex = lineIndex;
         this.alignment = alignment;
@@ -35,7 +36,7 @@ public class SmeltingLikeRecipeDisplay implements PageElement
         this.ingredient = ingredient;
         this.result = result;
         this.fuel = fuel;
-        this.stationTexture = stationTexture;
+        this.stationInfo = stationInfo;
         this.displayTooltip = displayTooltip;
     }
 
@@ -72,15 +73,29 @@ public class SmeltingLikeRecipeDisplay implements PageElement
         graphics.pose().popMatrix();
 
         //progress texture
+        TextureInfo stationTexture = stationInfo.texture;
+        int stationX = startX + (int)(25 * this.scale);
+        int stationY = startY + (int)(2 * this.scale);
+
+        int stationWidth = (int)(stationTexture.width() * this.scale);
+        int stationHeight = (int)(stationTexture.height() * this.scale);
+
         graphics.pose().pushMatrix();
 
-        graphics.pose().translate(startX + (int)(25 * this.scale), startY + (int)(2 * this.scale));
+        graphics.pose().translate(stationX, stationY);
 
         graphics.pose().scale(this.scale, this.scale);
 
-        graphics.blit(RenderPipelines.GUI_TEXTURED, this.stationTexture.texture(), 0, 0, this.stationTexture.u(), this.stationTexture.v(), this.stationTexture.width(), this.stationTexture.height(), this.stationTexture.textureWidth(), this.stationTexture.textureHeight());
+        graphics.blit(RenderPipelines.GUI_TEXTURED, stationTexture.texture(), 0, 0, stationTexture.u(), stationTexture.v(), stationTexture.width(), stationTexture.height(), stationTexture.textureWidth(), stationTexture.textureHeight());
 
         graphics.pose().popMatrix();
+
+        boolean isHovered = mouseX >= stationX && mouseX <= stationX + stationWidth && mouseY >= stationY && mouseY <= stationY + stationHeight;
+
+        if (isHovered && !this.stationInfo.tooltipKey.isEmpty())
+        {
+            graphics.setTooltipForNextFrame(font, Component.translatable(this.stationInfo.tooltipKey), mouseX, mouseY);
+        }
 
         //ingredient
         renderItem(graphics, font, ingredientItem, startX + (int)(2 * this.scale), startY + (int)(19 * this.scale), slotSize, mouseX, mouseY);
@@ -110,4 +125,6 @@ public class SmeltingLikeRecipeDisplay implements PageElement
 
         if (hovered && this.displayTooltip) {graphics.setTooltipForNextFrame(font, item.getDefaultInstance(), mouseX, mouseY);}
     }
+
+    public record StationInfo(TextureInfo texture, String tooltipKey) {}
 }

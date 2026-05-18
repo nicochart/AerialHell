@@ -11,10 +11,10 @@ import java.util.function.Supplier;
 
 public class OscillatingRecipeDisplay extends SmeltingLikeRecipeDisplay
 {
-    private static final TextureInfo OSCILLATING_PROGRESS = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/block/oscillator_side_on.png"), 0.0F, 0.0F, 16, 16, 16,48);
+    private static final SmeltingLikeRecipeDisplay.StationInfo OSCILLATING_STATION_INFO = new StationInfo(new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/block/oscillator_side_on.png"), 0.0F, 0.0F, 16, 16, 16,48), "block.aerialhell.oscillator");
 
     public OscillatingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, boolean displayTooltip)
     {
-        super(lineIndex, alignment, scale, ingredient, result, AerialHellItems.FLUORITE, OSCILLATING_PROGRESS, displayTooltip);
+        super(lineIndex, alignment, scale, ingredient, result, AerialHellItems.FLUORITE, OSCILLATING_STATION_INFO, displayTooltip);
     }
 }
