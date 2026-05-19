@@ -262,7 +262,7 @@ public class GuideBookScreen extends Screen
                 .add("materials", 6)
                 .add("effects", 6)
                 .add("enchanting", 6)
-                .add("exploration", 6);
+                .add("environment", 6);
 
         this.rightTabs = new TabList(false, () -> this.bookLeft, () -> this.bookTop)
                 .add("bestiary", 11)
