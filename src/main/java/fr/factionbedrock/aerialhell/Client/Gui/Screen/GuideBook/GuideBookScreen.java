@@ -11,12 +11,9 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.item.alchemy.Potions;
 
 import java.util.ArrayList;
@@ -28,8 +25,8 @@ public class GuideBookScreen extends Screen
     //book dimensions
     private static final int BOOK_TEXTURE_WIDTH = 384;
     private static final int BOOK_TEXTURE_HEIGHT = 192;
-    //navigation arrow dimension
-    private static final int NAVIGATION_ARROW_SIZE = 20;
+    //navigation button dimension
+    private static final int NAVIGATION_BUTTON_SIZE = 20;
 
     //tabs dimensions
     private static final int TAB_MARGIN = 4; //margin (gap) from top to first tab, or from last tab to bottom
@@ -47,10 +44,12 @@ public class GuideBookScreen extends Screen
     private static final int MAX_LINES_PER_TECHNICAL_PAGE = MAX_LINES_PER_VISUAL_PAGE * 2;
 
     private static final TextureInfo BOOK_TEXTURE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/guide_book_page.png"), BOOK_TEXTURE_WIDTH, BOOK_TEXTURE_HEIGHT);
-    private static final TextureInfo NAVIGATION_ARROW_PREVIOUS_PAGE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_previous_page.png"), NAVIGATION_ARROW_SIZE, NAVIGATION_ARROW_SIZE);
-    private static final TextureInfo NAVIGATION_ARROW_PREVIOUS_PAGE_HOVERED = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_previous_page_hovered.png"), NAVIGATION_ARROW_SIZE, NAVIGATION_ARROW_SIZE);
-    private static final TextureInfo NAVIGATION_ARROW_NEXT_PAGE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_next_page.png"), NAVIGATION_ARROW_SIZE, NAVIGATION_ARROW_SIZE);
-    private static final TextureInfo NAVIGATION_ARROW_NEXT_PAGE_HOVERED = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_next_page_hovered.png"), NAVIGATION_ARROW_SIZE, NAVIGATION_ARROW_SIZE);
+    private static final TextureInfo NAVIGATION_ARROW_PREVIOUS_PAGE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_previous_page.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
+    private static final TextureInfo NAVIGATION_ARROW_PREVIOUS_PAGE_HOVERED = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_previous_page_hovered.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
+    private static final TextureInfo NAVIGATION_ARROW_NEXT_PAGE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_next_page.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
+    private static final TextureInfo NAVIGATION_ARROW_NEXT_PAGE_HOVERED = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_next_page_hovered.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
+    private static final TextureInfo NAVIGATION_BUTTON_HOME_PAGE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_button_home_page.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
+    private static final TextureInfo NAVIGATION_BUTTON_HOME_PAGE_HOVERED = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_button_home_page_hovered.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
 
     private float textScale;
 
@@ -200,15 +199,24 @@ public class GuideBookScreen extends Screen
 
     private TabList leftTabs, rightTabs;
 
+    //timer for navigation button display
+    private boolean homeButtonVisible;
+    private float homeButtonAlpha;
+    private boolean navigationArrowsVisible;
+    private float navigationArrowsAlpha;
+    private int prevMouseX, prevMouseY;
+
     //book position
     private int bookLeft, bookRight, bookTop, bookBottom, leftPageLeft;
     //navigation arrows position
-    private int navigationArrowTop;
-    private int navigationArrowBottom;
+    private int navigationButtonTop;
+    private int navigationButtonBottom;
     private int leftNavigationArrowLeft;
     private int leftNavigationArrowRight;
     private int rightNavigationArrowLeft;
     private int rightNavigationArrowRight;
+    private int homePageNavigationButtonLeft;
+    private int homePageNavigationButtonRight;
 
     //page
     private int firstLineY;
@@ -225,6 +233,9 @@ public class GuideBookScreen extends Screen
     @Override protected void init()
     {
         super.init();
+        this.homeButtonVisible = false; this.navigationArrowsVisible = false;
+        this.homeButtonAlpha = 0.0F; this.navigationArrowsAlpha = 0.0F;
+        this.prevMouseX = 0; this.prevMouseY = 0;
         this.createTabs();
 
         this.textScale = Minecraft.getInstance().options.forceUnicodeFont().get() ? 1.0F : 0.8F;
@@ -233,12 +244,14 @@ public class GuideBookScreen extends Screen
         this.bookTop  = (this.height - BOOK_TEXTURE_HEIGHT) / 2;
         this.bookRight = this.bookLeft + BOOK_TEXTURE_WIDTH;
         this.bookBottom = this.bookTop + BOOK_TEXTURE_HEIGHT;
-        this.navigationArrowBottom = this.bookBottom - 5;
-        this.navigationArrowTop = this.navigationArrowBottom - NAVIGATION_ARROW_SIZE;
+        this.navigationButtonBottom = this.bookBottom + 18;
+        this.navigationButtonTop = this.navigationButtonBottom - NAVIGATION_BUTTON_SIZE;
         this.leftNavigationArrowLeft = this.bookLeft + 5;
-        this.leftNavigationArrowRight = this.leftNavigationArrowLeft + NAVIGATION_ARROW_SIZE;
+        this.leftNavigationArrowRight = this.leftNavigationArrowLeft + NAVIGATION_BUTTON_SIZE;
         this.rightNavigationArrowRight = this.bookRight - 5;
-        this.rightNavigationArrowLeft = this.rightNavigationArrowRight - NAVIGATION_ARROW_SIZE;
+        this.rightNavigationArrowLeft = this.rightNavigationArrowRight - NAVIGATION_BUTTON_SIZE;
+        this.homePageNavigationButtonLeft = this.bookLeft + (BOOK_TEXTURE_WIDTH / 2) - (NAVIGATION_BUTTON_SIZE / 2);
+        this.homePageNavigationButtonRight = this.homePageNavigationButtonLeft + NAVIGATION_BUTTON_SIZE;
 
         this.leftPageLeft = this.bookLeft + 206;
         this.firstLineY = this.bookTop + 9;
@@ -288,6 +301,12 @@ public class GuideBookScreen extends Screen
             return true;
         }
 
+        if (this.isHoveringHomeButton(event.x(), event.y()))
+        {
+            this.navigateToPage(ALL_PAGES.getFirst());
+            return true;
+        }
+
         //tabs
         for (Tab tab : leftTabs.getTabs())
         {
@@ -310,12 +329,17 @@ public class GuideBookScreen extends Screen
 
     private boolean isHoveringPrevArrow(double mouseX, double mouseY)
     {
-        return mouseX >= this.leftNavigationArrowLeft && mouseX <= this.leftNavigationArrowRight  && mouseY >= this.navigationArrowTop && mouseY <= this.navigationArrowBottom;
+        return mouseX >= this.leftNavigationArrowLeft && mouseX <= this.leftNavigationArrowRight  && mouseY >= this.navigationButtonTop && mouseY <= this.navigationButtonBottom;
     }
 
     private boolean isHoveringNextArrow(double mouseX, double mouseY)
     {
-        return mouseX >= this.rightNavigationArrowLeft && mouseX <= this.rightNavigationArrowRight && mouseY >= this.navigationArrowTop && mouseY <= this.navigationArrowBottom;
+        return mouseX >= this.rightNavigationArrowLeft && mouseX <= this.rightNavigationArrowRight && mouseY >= this.navigationButtonTop && mouseY <= this.navigationButtonBottom;
+    }
+
+    private boolean isHoveringHomeButton(double mouseX, double mouseY)
+    {
+        return mouseX >= this.homePageNavigationButtonLeft && mouseX <= this.homePageNavigationButtonRight && mouseY >= this.navigationButtonTop && mouseY <= this.navigationButtonBottom;
     }
 
     @Override public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick)
@@ -340,18 +364,24 @@ public class GuideBookScreen extends Screen
 
     private void renderNavigationButtons(GuiGraphicsExtractor graphics, int mouseX, int mouseY)
     {
+        this.tickHomeButton(mouseX, mouseY);
+        this.tickNavigationArrows(mouseX, mouseY);
+
         //previous page arrow
         if (this.currentPage != 0)
         {
             TextureInfo previousArrowTexture = this.isHoveringPrevArrow(mouseX, mouseY) ? NAVIGATION_ARROW_PREVIOUS_PAGE_HOVERED : NAVIGATION_ARROW_PREVIOUS_PAGE;
-            graphics.blit(RenderPipelines.GUI_TEXTURED, previousArrowTexture.texture(), this.leftNavigationArrowLeft, this.navigationArrowTop, previousArrowTexture.u(), previousArrowTexture.v(), previousArrowTexture.width(), previousArrowTexture.height(), previousArrowTexture.textureWidth(), previousArrowTexture.textureHeight());
+            graphics.blit(RenderPipelines.GUI_TEXTURED, previousArrowTexture.texture(), this.leftNavigationArrowLeft, this.navigationButtonTop, previousArrowTexture.u(), previousArrowTexture.v(), previousArrowTexture.width(), previousArrowTexture.height(), previousArrowTexture.width(), previousArrowTexture.height(), previousArrowTexture.textureWidth(), previousArrowTexture.textureHeight(), ARGB.white(this.getNavigationArrowsAlpha()));
+
+            TextureInfo homePageButtonTexture = this.isHoveringHomeButton(mouseX, mouseY) ? NAVIGATION_BUTTON_HOME_PAGE_HOVERED : NAVIGATION_BUTTON_HOME_PAGE;
+            graphics.blit(RenderPipelines.GUI_TEXTURED, homePageButtonTexture.texture(), this.homePageNavigationButtonLeft, this.navigationButtonTop, homePageButtonTexture.u(), homePageButtonTexture.v(), homePageButtonTexture.width(), homePageButtonTexture.height(), homePageButtonTexture.width(), homePageButtonTexture.height(), homePageButtonTexture.textureWidth(), homePageButtonTexture.textureHeight(), ARGB.white(this.getHomeButtonAlpha()));
         }
 
         //next page arrow
         if (this.currentPage != ALL_PAGES.size() - 1)
         {
             TextureInfo nextArrowTexture = this.isHoveringNextArrow(mouseX, mouseY) ? NAVIGATION_ARROW_NEXT_PAGE_HOVERED : NAVIGATION_ARROW_NEXT_PAGE;
-            graphics.blit(RenderPipelines.GUI_TEXTURED, nextArrowTexture.texture(), this.rightNavigationArrowLeft, this.navigationArrowTop, nextArrowTexture.u(), nextArrowTexture.v(), nextArrowTexture.width(), nextArrowTexture.height(), nextArrowTexture.textureWidth(), nextArrowTexture.textureHeight());
+            graphics.blit(RenderPipelines.GUI_TEXTURED, nextArrowTexture.texture(), this.rightNavigationArrowLeft, this.navigationButtonTop, nextArrowTexture.u(), nextArrowTexture.v(), nextArrowTexture.width(), nextArrowTexture.height(), nextArrowTexture.width(), nextArrowTexture.height(), nextArrowTexture.textureWidth(), nextArrowTexture.textureHeight(), ARGB.white(this.getNavigationArrowsAlpha()));
         }
     }
 
@@ -378,6 +408,50 @@ public class GuideBookScreen extends Screen
             if (ALL_PAGES.get(i).pageIndex() == this.currentPage) {return i;}
         }
         return -1;
+    }
+
+    private float getHomeButtonAlpha()
+    {
+        return Math.min(this.homeButtonAlpha, 1.0F);
+    }
+
+    private float getNavigationArrowsAlpha()
+    {
+        return Math.min(this.navigationArrowsAlpha, 1.0F);
+    }
+
+    private void tickHomeButton(int mouseX, int mouseY)
+    {
+        this.homeButtonVisible = this.isHoveringPrevArrow(mouseX, mouseY) || this.isHoveringHomeButton(mouseX, mouseY) || this.isHoveringNextArrow(mouseX, mouseY); //isHoveringAnyButton
+        float speed = this.homeButtonVisible && this.homeButtonAlpha > 1.0F ? 1.0F : 0.1F;
+        float target = this.homeButtonVisible ? 10.0F : 0.0F;
+
+        if (this.homeButtonAlpha < target)
+        {
+            this.homeButtonAlpha = Math.min(target, this.homeButtonAlpha + speed);
+        }
+        else if (this.homeButtonAlpha > target)
+        {
+            this.homeButtonAlpha = Math.max(target, this.homeButtonAlpha - speed);
+        }
+    }
+
+    private void tickNavigationArrows(int mouseX, int mouseY)
+    {
+        this.navigationArrowsVisible = mouseX != this.prevMouseX || mouseY != this.prevMouseY || this.isHoveringPrevArrow(mouseX, mouseY) || this.isHoveringNextArrow(mouseX, mouseY);
+        this.prevMouseX = mouseX; this.prevMouseY = mouseY;
+
+        float speed = this.navigationArrowsVisible ? (this.navigationArrowsAlpha > 1.0F ? 1.0F : 0.1F) : 0.05F;
+        float target = this.navigationArrowsVisible ? 10.0F : 0.0F;
+
+        if (this.navigationArrowsAlpha < target)
+        {
+            this.navigationArrowsAlpha = Math.min(target, this.navigationArrowsAlpha + speed);
+        }
+        else if (this.navigationArrowsAlpha > target)
+        {
+            this.navigationArrowsAlpha = Math.max(target, this.navigationArrowsAlpha - speed);
+        }
     }
 
     @Override public boolean isPauseScreen() {return false;}
