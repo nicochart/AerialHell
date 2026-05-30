@@ -11,8 +11,10 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.alchemy.Potions;
 
@@ -265,6 +267,14 @@ public class GuideBookScreen extends Screen
             boolean isLeftPageLine = lineIndex < MAX_LINES_PER_VISUAL_PAGE;
             this.lines.add(new Line(lineIndex, isLeftPageLine ? this.leftPageLineX : this.rightPageLineX, isLeftPageLine ? this.leftPageCenterX : this.rightPageCenterX, isLeftPageLine ? this.leftPageLineX + LINE_WIDTH_NO_MARGIN : this.rightPageLineX + LINE_WIDTH_NO_MARGIN, this.firstLineY + (lineIndex % MAX_LINES_PER_VISUAL_PAGE) * LINE_HEIGHT));
         }
+
+        this.playOpenSound();
+    }
+
+    @Override public void onClose()
+    {
+        this.playCloseSound();
+        super.onClose();
     }
 
     protected void createTabs()
@@ -385,9 +395,17 @@ public class GuideBookScreen extends Screen
         }
     }
 
-    private void navigateToTab(Tab tab) {this.currentPage = tab.pageIndex();}
+    private void navigateToTab(Tab tab)
+    {
+        this.currentPage = tab.pageIndex();
+        this.playPageTurnSound();
+    }
 
-    private void navigateToPage(Page page) {this.currentPage = page.pageIndex();}
+    private void navigateToPage(Page page)
+    {
+        this.currentPage = page.pageIndex();
+        this.playPageTurnSound();
+    }
 
     private void navigateToPreviousPage()
     {
@@ -455,4 +473,19 @@ public class GuideBookScreen extends Screen
     }
 
     @Override public boolean isPauseScreen() {return false;}
+
+    private void playOpenSound()
+    {
+        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.CHISELED_BOOKSHELF_INSERT, 1.0F));
+    }
+
+    private void playCloseSound()
+    {
+        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.CHISELED_BOOKSHELF_PICKUP, 1.0F));
+    }
+
+    private void playPageTurnSound()
+    {
+        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.BOOK_PAGE_TURN, 1.0F));
+    }
 }
