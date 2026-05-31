@@ -82,6 +82,12 @@ public class Page
         return this;
     }
 
+    public Page addSingleIngredientCraftingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<ItemStack> result, boolean displayTooltip)
+    {
+        this.pageElements.add(new SingleIngredientCraftingRecipeDisplay(lineIndex, alignment, scale, ingredient, result, displayTooltip));
+        return this;
+    }
+
     public Page addOscillatingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, boolean displayTooltip)
     {
         this.pageElements.add(new OscillatingRecipeDisplay(lineIndex, alignment, scale, ingredient, result, displayTooltip));
