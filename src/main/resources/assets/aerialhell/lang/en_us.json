@@ -1279,6 +1279,16 @@
   "aerialhell.guide_book.journey_3.make_materials_oscillate" : "First, oscillate your ores in Oscillator:",
   "aerialhell.guide_book.journey_3.craft_ruby_equipment" : "Then, you can craft Ruby and Azurite equipment.\nRuby is the equivalent of Iron.",
   "aerialhell.guide_book.journey_4.step_9_make_a_farm" : "- Step 9: Make a Farm\nYou will need more efficent food later. Take some time to make a farm.",
-  "aerialhell.guide_book.journey_4.breed_animals" : "You can also breed animals to get more meat. Check the Bestiary for more info about animals favorite food.",
-  "aerialhell.guide_book.journey_4.step_10_rush_mud_dungeon" : "- Step 10: Rush the Mud Dungeon"
+  "aerialhell.guide_book.journey_4.breed_animals" : "You can also breed animals to get more meat. Check the Bestiary section for more info about animals favorite food.",
+  "aerialhell.guide_book.journey_4.step_10_rush_mud_dungeon" : "- Step 10: Rush the Mud Dungeon",
+  "aerialhell.guide_book.journey_4.get_obsidian_material" : "To get some obsidian material.\nObsidian is the equivalent of diamond, but with more durability !",
+  "aerialhell.guide_book.journey_4.go_to_dungeon_section" : "Check the Dungeon section for more info about dungeons.",
+  "aerialhell.guide_book.journey_5.step_11_get_enchanting_table" : "- Step 11: Get an Enchanting Table\nFor this, you will need to craft obsidian:",
+  "aerialhell.guide_book.journey_5.get_leather" : "You will also need some leather:",
+  "aerialhell.guide_book.journey_5.get_paper" : "And some paper:",
+  "aerialhell.guide_book.journey_5.improve_enchanting_table" : "To craft bookshelves and improve your enchanting table.",
+  "aerialhell.guide_book.journey_6.step_12_enchant" : "- Step 12: Enchant your stuff\nBetter equipment is required before rushing the next dungeon.\n\nTo get Lapis Lazuli in Aerial Hell, find and cut down some Lapis Robinia trees.",
+  "aerialhell.guide_book.journey_6.step_13_ranged_weapon" : "- Step 13: Craft a Ranged Weapon.\nIt will soon be essential !",
+  "aerialhell.guide_book.journey_6.step_14_rush_lunar_temple" : "- Step 14: Rush the Lunar Temple",
+  "aerialhell.guide_book.journey_6.lunar_temple_material" : "Making your way to the Lunar Priest boss can be difficult, but it is worth it: you will find valuable loot.\nMore info in the Dungeons section."
 }

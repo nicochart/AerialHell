@@ -16,7 +16,7 @@ public record Paragraph(int startLineIndex, int lastLineIndex, int lineWidth, Al
         int currentLineIndex = this.startLineIndex;
 
         List<String> textLines = ClientHelper.wrapTextForBook(paragraphText, font, (int) (this.lineWidth / scale));
-        for (int i = 0; i < textLines.size() && currentLineIndex < this.lastLineIndex; i++)
+        for (int i = 0; i < textLines.size() && currentLineIndex < this.lastLineIndex + 1; i++)
         {
             int startX = switch (this.alignment())
             {

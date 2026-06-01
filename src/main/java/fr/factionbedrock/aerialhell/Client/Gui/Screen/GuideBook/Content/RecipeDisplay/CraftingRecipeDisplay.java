@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public record CraftingTableRecipeDisplay(int lineIndex, Alignment alignment, float scale, Ingredients ingredients, Supplier<ItemStack> result, boolean displayTooltip) implements PageElement
+public record CraftingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Ingredients ingredients, Supplier<ItemStack> result, boolean displayTooltip) implements PageElement
 {
-    private static final TextureInfo CRAFTING_TABLE_GRID_TEXTURE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/recipe/crafting_table_grid_display.png"), 100, 54);
+    private static final TextureInfo CRAFTING_GRID_TEXTURE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/recipe/crafting_grid_display.png"), 82, 37);
 
     @Override public void render(Font font, GuiGraphicsExtractor graphics, float scale, List<Line> lines, int bookLeft, int bookTop, int mouseX, int mouseY)
     {
@@ -27,9 +27,9 @@ public record CraftingTableRecipeDisplay(int lineIndex, Alignment alignment, flo
 
         Line line = lines.get(this.lineIndex());
 
-        int recipeWidth = (int)(CRAFTING_TABLE_GRID_TEXTURE.width() * this.scale());
+        int recipeWidth = (int)(CRAFTING_GRID_TEXTURE.width() * this.scale());
         int slotSize = (int)(16 * this.scale());
-        int slotSpacing = (int)(17 * this.scale()); //16 slot + 1 separator
+        int slotSpacing = (int)(17 * this.scale());
 
         int startX = switch (this.alignment())
         {
@@ -40,27 +40,26 @@ public record CraftingTableRecipeDisplay(int lineIndex, Alignment alignment, flo
 
         int startY = line.startY();
 
-        //render crafting grid background
+        //background (2x2 grid)
         graphics.pose().pushMatrix();
 
         graphics.pose().translate(startX, startY);
         graphics.pose().scale(this.scale(), this.scale());
 
-        graphics.blit(RenderPipelines.GUI_TEXTURED, CRAFTING_TABLE_GRID_TEXTURE.texture(), 0, 0, CRAFTING_TABLE_GRID_TEXTURE.u(), CRAFTING_TABLE_GRID_TEXTURE.v(), CRAFTING_TABLE_GRID_TEXTURE.width(), CRAFTING_TABLE_GRID_TEXTURE.height(), CRAFTING_TABLE_GRID_TEXTURE.textureWidth(), CRAFTING_TABLE_GRID_TEXTURE.textureHeight());
+        graphics.blit(RenderPipelines.GUI_TEXTURED, CRAFTING_GRID_TEXTURE.texture(), 0, 0, CRAFTING_GRID_TEXTURE.u(), CRAFTING_GRID_TEXTURE.v(), CRAFTING_GRID_TEXTURE.width(), CRAFTING_GRID_TEXTURE.height(), CRAFTING_GRID_TEXTURE.textureWidth(), CRAFTING_GRID_TEXTURE.textureHeight());
 
         graphics.pose().popMatrix();
 
-        //render ingredients
+        //ingredients
         for (int i = 0; i < ingredients.get().size(); i++)
         {
             Item item = ingredients.get().get(i).get();
 
             if (item == null) {continue;}
 
-            int row = i / 3;
-            int col = i % 3;
+            int row = i / 2;
+            int col = i % 2;
 
-            //1 px outer margin + 1 px separator before first slot
             int itemX = startX + (int)(2 * this.scale()) + col * slotSpacing;
             int itemY = startY + (int)(2 * this.scale()) + row * slotSpacing;
 
@@ -75,15 +74,12 @@ public record CraftingTableRecipeDisplay(int lineIndex, Alignment alignment, flo
 
             graphics.pose().popMatrix();
 
-            if (hovered && this.displayTooltip())
-            {
-                graphics.setTooltipForNextFrame(font, item.getDefaultInstance(), mouseX, mouseY);
-            }
+            if (hovered && this.displayTooltip()) {graphics.setTooltipForNextFrame(font, item.getDefaultInstance(), mouseX, mouseY);}
         }
 
-        //render result item
-        int resultX = startX + (int)(82 * this.scale());
-        int resultY = startY + (int)(19 * this.scale());
+        // result
+        int resultX = startX + (int)(64 * this.scale());
+        int resultY = startY + (int)(10 * this.scale());
 
         boolean hovered = mouseX >= resultX && mouseX <= resultX + slotSize && mouseY >= resultY && mouseY <= resultY + slotSize;
 
@@ -109,18 +105,13 @@ public record CraftingTableRecipeDisplay(int lineIndex, Alignment alignment, flo
     {
         public final ArrayList<Supplier<Item>> ingredientList;
 
-        public Ingredients(Supplier<Item> slot0, Supplier<Item> slot1, Supplier<Item> slot2, Supplier<Item> slot3, Supplier<Item> slot4, Supplier<Item> slot5, Supplier<Item> slot6, Supplier<Item> slot7, Supplier<Item> slot8)
+        public Ingredients(Supplier<Item> slot0, Supplier<Item> slot1, Supplier<Item> slot2, Supplier<Item> slot3)
         {
             ingredientList = new ArrayList<>();
             ingredientList.add(slot0);
             ingredientList.add(slot1);
             ingredientList.add(slot2);
             ingredientList.add(slot3);
-            ingredientList.add(slot4);
-            ingredientList.add(slot5);
-            ingredientList.add(slot6);
-            ingredientList.add(slot7);
-            ingredientList.add(slot8);
         }
 
         public ArrayList<Supplier<Item>> get() {return this.ingredientList;}

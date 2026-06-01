@@ -120,6 +120,12 @@ public class SmeltingLikeRecipeDisplay implements PageElement
         graphics.pose().scale(this.scale, this.scale);
 
         graphics.fakeItem(itemStack, 0, 0);
+        if (itemStack.getCount() > 1)
+        {
+            //copy of net.minecraft.client.gui.GuiGraphicsExtractor method itemCount(..)
+            String amount = String.valueOf(itemStack.getCount());
+            graphics.text(font, amount, 17 - font.width(amount), 9, 0xFF7A5C3A, false);
+        }
 
         graphics.pose().popMatrix();
 

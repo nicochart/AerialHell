@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.*;
+import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.RecipeDisplay.CraftingRecipeDisplay;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.RecipeDisplay.CraftingTableRecipeDisplay;
 import fr.factionbedrock.aerialhell.Client.Util.TextureInfo;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
@@ -90,7 +91,7 @@ public class GuideBookScreen extends Screen
                             AerialHellItems.STELLAR_COBBLESTONE, AerialHellItems.STELLAR_COBBLESTONE, AerialHellItems.STELLAR_COBBLESTONE,
                             AerialHellItems.STELLAR_COBBLESTONE, () -> null, AerialHellItems.STELLAR_COBBLESTONE,
                             AerialHellItems.STELLAR_COBBLESTONE, AerialHellItems.STELLAR_COBBLESTONE, AerialHellItems.STELLAR_COBBLESTONE
-                    ), AerialHellItems.STELLAR_FURNACE, true)
+                    ), () -> AerialHellItems.STELLAR_FURNACE.get().getDefaultInstance(), true)
                     .addParagraph(25, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "cook_food")
                     .addSmeltingRecipeDisplay(26, Alignment.CENTER, 0.9F, AerialHellItems.AERIAL_BERRY, AerialHellItems.ROASTED_AERIAL_BERRY, true)
                     .addParagraph(31, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "step_6_mine_more")
@@ -106,7 +107,7 @@ public class GuideBookScreen extends Screen
                             AerialHellItems.STELLAR_STONE, AerialHellItems.STELLAR_STONE, AerialHellItems.STELLAR_STONE,
                             AerialHellItems.STELLAR_STONE, AerialHellItems.FLUORITE, AerialHellItems.STELLAR_STONE,
                             AerialHellItems.STELLAR_STONE, AerialHellItems.STELLAR_STONE, AerialHellItems.STELLAR_STONE
-                    ), AerialHellItems.OSCILLATOR, true)
+                    ), () -> AerialHellItems.OSCILLATOR.get().getDefaultInstance(), true)
                     .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "step_8_craft_ruby_tier_equipment")
                     .addParagraph(19, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "make_materials_oscillate")
                     .addOscillatingRecipeDisplay(20, Alignment.LEFT, 1.0F, AerialHellItems.RAW_RUBY, AerialHellItems.RUBY, true)
@@ -132,18 +133,64 @@ public class GuideBookScreen extends Screen
                     .addTextureDisplay(12, Alignment.LEFT, 0.8F, "gui/guide_book/content/gliding_turtle", 70, 64, "entity.aerialhell.gliding_turtle")
                     .addItemTexture(13, Alignment.CENTER, 1.0F, AerialHellItems.AERIAL_BERRY, true)
                     .addItemTexture(14, Alignment.RIGHT, 1.0F, AerialHellItems.TURTLE_MEAT, true)
-                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "step_10_rush_mud_dungeon"),
-            new Page("bosses_2", BOOK_TEXTURE, 5)
-                    .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
-                    .addParagraph(4, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_1"),
-            new Page("items_1", BOOK_TEXTURE, 6)
-                    .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
-                    .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_1")
-                    .addCraftingTableRecipeDisplay(18, Alignment.CENTER, 1.5F, new CraftingTableRecipeDisplay.Ingredients(
-                            () -> null, AerialHellItems.RUBY, () -> null,
-                            () -> null, AerialHellItems.RUBY, () -> null,
-                            () -> null, AerialHellItems.SKY_STICK, () -> null
-                    ), AerialHellItems.RUBY_SWORD, true),
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "step_10_rush_mud_dungeon")
+                    .addTextureDisplay(19, Alignment.LEFT, 0.14F, "gui/guide_book/content/mud_dungeon", 1161, 599)
+                    .addItemTexture(27, Alignment.RIGHT, 0.85F, AerialHellItems.OBSIDIAN_SHARD, true)
+                    .addParagraph(28, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "get_obsidian_material")
+                    .addItemTexture(31, Alignment.LEFT, 0.8F, AerialHellItems.OBSIDIAN_HELMET, true)
+                    .addItemTexture(31, Alignment.CENTER, 0.8F, AerialHellItems.OBSIDIAN_BOOTS, true)
+                    .addItemTexture(30, Alignment.RIGHT, 0.8F, AerialHellItems.OBSIDIAN_SWORD, true)
+                    .addParagraph(32, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "go_to_dungeon_section"),
+            new Page("journey_5", BOOK_TEXTURE, 5)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "step_11_get_enchanting_table")
+                    .addCraftingRecipeDisplay(4, Alignment.CENTER, 1.0F, new CraftingRecipeDisplay.Ingredients(
+                            AerialHellItems.OBSIDIAN_SHARD, AerialHellItems.OBSIDIAN_SHARD,
+                            AerialHellItems.OBSIDIAN_SHARD, AerialHellItems.OBSIDIAN_SHARD
+                    ), Items.OBSIDIAN::getDefaultInstance, true)
+                    .addParagraph(9, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "get_leather")
+                    .addTextureDisplay(11, Alignment.LEFT, 0.8F, "gui/guide_book/content/evil_cow", 64, 73, "entity.aerialhell.evil_cow")
+                    .addItemTexture(12, Alignment.CENTER, 1.0F, AerialHellItems.ROTTEN_LEATHER, true)
+                    .addOscillatingRecipeDisplay(12, Alignment.RIGHT, 0.9F, AerialHellItems.ROTTEN_LEATHER, () -> Items.LEATHER, true)
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "get_paper")
+                    .addSingleIngredientCraftingRecipeDisplay(19, Alignment.LEFT, 0.9F, AerialHellItems.SKY_CACTUS, () -> new ItemStack(AerialHellItems.SKY_CACTUS_FIBER.get(), 4), true)
+                    .addCraftingTableRecipeDisplay(19, Alignment.RIGHT, 1.0F, new CraftingTableRecipeDisplay.Ingredients(
+                            () -> null, () -> null, () -> null,
+                            AerialHellItems.SKY_CACTUS_FIBER, AerialHellItems.SKY_CACTUS_FIBER, AerialHellItems.SKY_CACTUS_FIBER,
+                            () -> null, () -> null, () -> null
+                    ), () -> new ItemStack(Items.PAPER, 3), true)
+                    .addCraftingTableRecipeDisplay(24, Alignment.LEFT, 1.0F, new CraftingTableRecipeDisplay.Ingredients(
+                            () -> null, () -> null, () -> null,
+                            AerialHellItems.STELLAR_SUGAR_CANE, AerialHellItems.STELLAR_SUGAR_CANE, AerialHellItems.STELLAR_SUGAR_CANE,
+                            () -> null, () -> null, () -> null
+                    ), () -> new ItemStack(Items.PAPER, 3), true)
+                    .addTextureDisplay(26, Alignment.RIGHT, 0.8F, "block/stellar_sugar_cane", 16, 16, "block.aerialhell.stellar_sugar_cane")
+                    .addParagraph(30, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "improve_enchanting_table")
+                    .addTextureDisplay(32, Alignment.LEFT, 0.8F, "block/copper_pine_bookshelf", 16, 16, "block.aerialhell.copper_pine_bookshelf")
+                    .addTextureDisplay(32, Alignment.CENTER, 0.8F, "block/aerial_tree_bookshelf", 16, 16, "block.aerialhell.aerial_tree_bookshelf")
+                    .addTextureDisplay(32, Alignment.RIGHT, 0.8F, "block/mud_bookshelf", 16, 16, "block.aerialhell.mud_bookshelf"),
+            new Page("journey_6", BOOK_TEXTURE, 6)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "step_12_enchant")
+                    .addItemTexture(7, Alignment.LEFT, 1.0F, AerialHellItems.LAPIS_ROBINIA_LOG, true)
+                    .addItemTexture(7, Alignment.CENTER, 1.0F, AerialHellItems.LAPIS_ROBINIA_LEAVES, true)
+                    .addItemTexture(7, Alignment.RIGHT, 1.0F, () -> Items.LAPIS_LAZULI, true)
+                    .addParagraph(10, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "step_13_ranged_weapon")
+                    .addCraftingTableRecipeDisplay(12, Alignment.LEFT, 0.8F, new CraftingTableRecipeDisplay.Ingredients(
+                            () -> null, AerialHellItems.SKY_STICK, () -> null,
+                            () -> null, AerialHellItems.SKY_STICK, () -> null,
+                            () -> null, AerialHellItems.RUBY, () -> null
+                    ), () -> AerialHellItems.RUBY_BLOWPIPE.get().getDefaultInstance(), true)
+                    .addCraftingTableRecipeDisplay(12, Alignment.RIGHT, 0.8F, new CraftingTableRecipeDisplay.Ingredients(
+                            () -> null, AerialHellItems.WHITE_SOLID_ETHER_FRAGMENT, () -> null,
+                            () -> null, AerialHellItems.SKY_STICK, () -> null,
+                            () -> null, AerialHellItems.RUBY, () -> null
+                    ), () -> new ItemStack(AerialHellItems.RUBY_BLOWPIPE_ARROW.get(), 4), true)
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "step_14_rush_lunar_temple")
+                    .addTextureDisplay(19, Alignment.LEFT, 0.115F, "gui/guide_book/content/lunar_temple", 1199, 896)
+                    .addItemTexture(20, Alignment.RIGHT, 0.9F, AerialHellItems.LUNATIC_CRYSTAL, true)
+                    .addItemTexture(22, Alignment.RIGHT, 0.85F, AerialHellItems.LUNATIC_AXE, true)
+                    .addItemTexture(24, Alignment.RIGHT, 0.85F, AerialHellItems.SWORD_OF_LIGHT, true)
+                    .addItemTexture(26, Alignment.RIGHT, 0.85F, AerialHellItems.LUNATIC_CHESTPLATE, true)
+                    .addParagraph(30, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "lunar_temple_material"),
             new Page("items_2", BOOK_TEXTURE, 7)
                     .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
                     .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_1")

@@ -76,7 +76,13 @@ public class Page
         return this;
     }
 
-    public Page addCraftingTableRecipeDisplay(int lineIndex, Alignment alignment, float scale, CraftingTableRecipeDisplay.Ingredients ingredients, Supplier<Item> result, boolean displayTooltip)
+    public Page addCraftingRecipeDisplay(int lineIndex, Alignment alignment, float scale, CraftingRecipeDisplay.Ingredients ingredients, Supplier<ItemStack> result, boolean displayTooltip)
+    {
+        this.pageElements.add(new CraftingRecipeDisplay(lineIndex, alignment, scale, ingredients, result, displayTooltip));
+        return this;
+    }
+
+    public Page addCraftingTableRecipeDisplay(int lineIndex, Alignment alignment, float scale, CraftingTableRecipeDisplay.Ingredients ingredients, Supplier<ItemStack> result, boolean displayTooltip)
     {
         this.pageElements.add(new CraftingTableRecipeDisplay(lineIndex, alignment, scale, ingredients, result, displayTooltip));
         return this;
