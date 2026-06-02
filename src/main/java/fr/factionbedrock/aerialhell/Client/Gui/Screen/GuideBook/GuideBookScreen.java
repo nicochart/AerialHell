@@ -228,23 +228,79 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(25, Alignment.RIGHT, 0.85F, AerialHellItems.NETHERIAN_KING_SWORD, true)
                     .addItemTexture(27, Alignment.RIGHT, 0.85F, AerialHellItems.GODS_VOLUCITE_AERIAL_BERRY, true)
                     .addParagraph(29, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "golden_nether_prison_material"),
-            new Page("items_4", BOOK_TEXTURE, 9)
-                    .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
-                    .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_1")
-                    .addOscillatingRecipeDisplay(18, Alignment.CENTER, 1.5F, AerialHellItems.RAW_RUBY, AerialHellItems.RUBY, true),
-            new Page("items_5", BOOK_TEXTURE, 10)
-                    .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
-                    .addParagraph(19, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFFFF0000, "content_1")
-                    .addBrewingRecipeDisplay(5, Alignment.CENTER, 1.5F, () -> ItemHelper.createPotionItemStack(Potions.AWKWARD), AerialHellItems.SHADOW_SPIDER_EYE, () -> ItemHelper.createPotionItemStack(Potions.POISON), true),
-            new Page("armors_1", BOOK_TEXTURE, 11)
-                    .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
-                    .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_1"),
-            new Page("armors_2", BOOK_TEXTURE, 12)
-                    .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
-                    .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_1"),
-            new Page("armors_3", BOOK_TEXTURE, 13)
-                    .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
-                    .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "content_1"),
+            new Page("crafting_1", BOOK_TEXTURE, 9)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "crafting_section_title")
+                    .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "crafting_section_quote")
+                    .addParagraph(9, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "crafting_content_desc")
+                    .addItemTexture(14, Alignment.LEFT, 1.0F, AerialHellItems.STELLAR_FURNACE, true)
+                    .addItemTexture(14, Alignment.CENTER, 1.0F, AerialHellItems.OSCILLATOR, true)
+                    .addItemTexture(14, Alignment.RIGHT, 1.0F, AerialHellItems.FREEZER, true)
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "type_1_smelting_recipe")
+                    .addCraftingTableRecipeDisplay(21, Alignment.CENTER, 1.0F, new CraftingTableRecipeDisplay.Ingredients(
+                            AerialHellItems.STELLAR_COBBLESTONE, AerialHellItems.STELLAR_COBBLESTONE, AerialHellItems.STELLAR_COBBLESTONE,
+                            AerialHellItems.STELLAR_COBBLESTONE, () -> null, AerialHellItems.STELLAR_COBBLESTONE,
+                            AerialHellItems.STELLAR_COBBLESTONE, AerialHellItems.STELLAR_COBBLESTONE, AerialHellItems.STELLAR_COBBLESTONE
+                    ), () -> AerialHellItems.STELLAR_FURNACE.get().getDefaultInstance(), true)
+                    .addParagraph(27, MAX_LINES_PER_TECHNICAL_PAGE - 1, (int)(LINE_WIDTH_NO_MARGIN * 0.5F), (int)(LINE_WIDTH_NO_MARGIN * 0.5F), Alignment.LEFT, "get_smelting_fuel")
+                    .addSmeltingRecipeDisplay(28, Alignment.LEFT, 0.9F, AerialHellItems.AERIAL_TREE_LOG, () -> Items.CHARCOAL, AerialHellItems.AERIAL_TREE_PLANKS, true),
+            new Page("crafting_2", BOOK_TEXTURE, 10)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "smelting_food")
+                    .addSmeltingRecipeDisplay(3, Alignment.LEFT, 0.9F, AerialHellItems.AERIAL_BERRY, AerialHellItems.ROASTED_AERIAL_BERRY, true)
+                    .addSmeltingRecipeDisplay(3, Alignment.RIGHT, 0.9F, AerialHellItems.PHANTOM_MEAT, AerialHellItems.COOKED_PHANTOM_MEAT, true)
+                    .addSmeltingRecipeDisplay(9, Alignment.LEFT, 0.9F, AerialHellItems.TURTLE_MEAT, AerialHellItems.COOKED_TURTLE_MEAT, true)
+                    .addSmeltingRecipeDisplay(9, Alignment.RIGHT, 0.9F, () -> Items.CHICKEN, () -> Items.COOKED_CHICKEN, true)
+                    .addParagraph(14, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "better_than_smelting")
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "smelting_ores")
+                    .addSmeltingRecipeDisplay(20, Alignment.LEFT, 0.95F, AerialHellItems.RAW_RUBY, AerialHellItems.OVERHEATED_RUBY, true)
+                    .addSmeltingRecipeDisplay(20, Alignment.RIGHT, 0.95F, AerialHellItems.RAW_VOLUCITE, AerialHellItems.OVERHEATED_VOLUCITE, true)
+                    .addParagraph(26, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "transition_to_oscillating"),
+            new Page("crafting_3", BOOK_TEXTURE, 11)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "type_2_oscillating_recipe")
+                    .addCraftingTableRecipeDisplay(5, Alignment.CENTER, 1.0F, new CraftingTableRecipeDisplay.Ingredients(
+                            AerialHellItems.STELLAR_STONE, AerialHellItems.STELLAR_STONE, AerialHellItems.STELLAR_STONE,
+                            AerialHellItems.STELLAR_STONE, AerialHellItems.FLUORITE, AerialHellItems.STELLAR_STONE,
+                            AerialHellItems.STELLAR_STONE, AerialHellItems.STELLAR_STONE, AerialHellItems.STELLAR_STONE
+                    ), () -> AerialHellItems.OSCILLATOR.get().getDefaultInstance(), true)
+                    .addParagraph(11, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "oscillating_fuel")
+                    .addItemTexture(14, Alignment.LEFT, 1.0F, AerialHellItems.FLUORITE_BLOCK, true)
+                    .addItemTexture(14, Alignment.CENTER, 1.0F, AerialHellItems.CRYSTAL, true)
+                    .addItemTexture(14, Alignment.RIGHT, 1.0F, AerialHellItems.CRYSTAL_BLOCK, true)
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "oscillating_ores")
+                    .addOscillatingRecipeDisplay(20, Alignment.LEFT, 0.9F, AerialHellItems.STELLAR_STONE_CRYSTAL, AerialHellItems.CRYSTAL, true)
+                    .addOscillatingRecipeDisplay(20, Alignment.RIGHT, 0.9F, AerialHellItems.RAW_RUBY, AerialHellItems.RUBY, true)
+                    .addOscillatingRecipeDisplay(25, Alignment.LEFT, 0.9F, AerialHellItems.RAW_AZURITE, AerialHellItems.AZURITE_CRYSTAL, true)
+                    .addOscillatingRecipeDisplay(25, Alignment.RIGHT, 0.9F, AerialHellItems.RAW_VOLUCITE, AerialHellItems.VOLUCITE_VIBRANT, true)
+                    .addParagraph(31, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "oscillating_overheated_ores")
+                    .addOscillatingRecipeDisplay(30, Alignment.RIGHT, 0.9F, AerialHellItems.OVERHEATED_RUBY, AerialHellItems.RUBY, true),
+            new Page("crafting_4", BOOK_TEXTURE, 12)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "oscillating_food")
+                    .addOscillatingRecipeDisplay(3, Alignment.LEFT, 0.9F, AerialHellItems.AERIAL_BERRY, AerialHellItems.VIBRANT_AERIAL_BERRY, true)
+                    .addOscillatingRecipeDisplay(3, Alignment.RIGHT, 0.9F, AerialHellItems.GLOWING_STICK_FRUIT, AerialHellItems.VIBRANT_GLOWING_STICK_FRUIT, true)
+                    .addOscillatingRecipeDisplay(9, Alignment.LEFT, 0.9F, AerialHellItems.SOLID_ETHER_SOUP, AerialHellItems.VIBRANT_SOLID_ETHER_SOUP, true)
+                    .addOscillatingRecipeDisplay(9, Alignment.RIGHT, 0.9F, () -> Items.CHICKEN, AerialHellItems.VIBRANT_CHICKEN, true)
+                    .addParagraph(14, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "other_than_oscillating")
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "type_3_freezing_recipe")
+                    .addCraftingTableRecipeDisplay(20, Alignment.CENTER, 1.0F, new CraftingTableRecipeDisplay.Ingredients(
+                            AerialHellItems.STELLAR_STONE, AerialHellItems.STELLAR_STONE, AerialHellItems.STELLAR_STONE,
+                            AerialHellItems.STELLAR_STONE, AerialHellItems.MAGMATIC_GEL, AerialHellItems.STELLAR_STONE,
+                            AerialHellItems.STELLAR_STONE, AerialHellItems.STELLAR_STONE, AerialHellItems.STELLAR_STONE
+                    ), () -> AerialHellItems.FREEZER.get().getDefaultInstance(), true)
+                    .addItemTexture(26, Alignment.LEFT, 1.0F, AerialHellItems.MAGMATIC_GEL_BOOTS, true)
+                    .addItemTexture(26, Alignment.CENTER, 1.0F, AerialHellItems.MAGMATIC_GEL, true)
+                    .addItemTexture(26, Alignment.RIGHT, 1.0F, AerialHellItems.MAGMATIC_GEL_BLOCK, true)
+                    .addParagraph(28, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "freezing_description")
+                    .addFreezingRecipeDisplay(30, Alignment.LEFT, 0.87F, AerialHellItems.AZURITE_CRYSTAL, () -> Items.QUARTZ, true)
+                    .addFreezingRecipeDisplay(30, Alignment.RIGHT, 0.87F, () -> Items.ICE, () -> Items.PACKED_ICE, true),
+            new Page("crafting_5", BOOK_TEXTURE, 13)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "freezing_food")
+                    .addFreezingRecipeDisplay(3, Alignment.LEFT, 0.9F, AerialHellItems.AERIAL_BERRY, AerialHellItems.FROZEN_AERIAL_BERRY, true)
+                    .addFreezingRecipeDisplay(3, Alignment.RIGHT, 0.9F, AerialHellItems.TURTLE_MEAT, AerialHellItems.FROZEN_TURTLE_MEAT, true)
+                    .addFreezingRecipeDisplay(9, Alignment.LEFT, 0.9F, AerialHellItems.WHITE_SOLID_ETHER_FRAGMENT, AerialHellItems.BLUE_SOLID_ETHER_FRAGMENT, true)
+                    .addFreezingRecipeDisplay(9, Alignment.RIGHT, 0.9F, () -> Items.MUTTON, AerialHellItems.FROZEN_MUTTON, true)
+                    .addParagraph(14, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "frozen_food_particularity")
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "brewing_recipes")
+                    .addBrewingRecipeDisplay(21, Alignment.CENTER, 1.0F, () -> ItemHelper.createPotionItemStack(Potions.AWKWARD), AerialHellItems.SHADOW_SPIDER_EYE, () -> ItemHelper.createPotionItemStack(Potions.POISON), true)
+                    .addBrewingRecipeDisplay(28, Alignment.CENTER, 1.0F, () -> ItemHelper.createPotionItemStack(Potions.AWKWARD), AerialHellItems.VENOMOUS_SNAKE_SKIN, () -> ItemHelper.createPotionItemStack(Potions.HEALING), true),
             new Page("armors_4", BOOK_TEXTURE, 14)
                     .addParagraph(0, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
                     .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFFFF0000, "content_1"),
@@ -413,7 +469,7 @@ public class GuideBookScreen extends Screen
     {
         this.leftTabs = new TabList(true, () -> this.bookLeft, () -> this.bookTop)
                 .add("journey", 1)
-                .add("crafting", 4)
+                .add("crafting", 9)
                 .add("materials", 6)
                 .add("effects", 6)
                 .add("enchanting", 6)

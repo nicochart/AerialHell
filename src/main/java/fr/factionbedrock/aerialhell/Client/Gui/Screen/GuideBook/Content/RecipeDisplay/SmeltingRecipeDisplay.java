@@ -13,8 +13,8 @@ public class SmeltingRecipeDisplay extends SmeltingLikeRecipeDisplay
 {
     private static final SmeltingLikeRecipeDisplay.StationInfo STELLAR_FURNACE_STATION_INFO = new StationInfo(new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/block/stellar_furnace_front_on.png"), 16,16), "block.aerialhell.stellar_furnace");
 
-    public SmeltingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, boolean displayTooltip)
+    public SmeltingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, Supplier<Item> fuel, boolean displayTooltip)
     {
-        super(lineIndex, alignment, scale, () -> ingredient.get().getDefaultInstance(), () -> result.get().getDefaultInstance(), Items.CHARCOAL::getDefaultInstance, STELLAR_FURNACE_STATION_INFO, displayTooltip);
+        super(lineIndex, alignment, scale, () -> ingredient.get().getDefaultInstance(), () -> result.get().getDefaultInstance(), () -> fuel.get().getDefaultInstance(), STELLAR_FURNACE_STATION_INFO, displayTooltip);
     }
 }

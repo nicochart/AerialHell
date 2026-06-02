@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,15 +42,21 @@ public class Page
 
     public int pageIndex() {return this.pageIndex;}
 
+    public Page addParagraph(int startLineIndex, int lastLineIndex, int lineStartOffset, int lineWidth, Alignment alignment, String paragraphName)
+    {
+        this.pageElements.add(new Paragraph(startLineIndex, lastLineIndex, lineStartOffset, lineWidth, alignment, 0xFF7A5C3A, "aerialhell.guide_book."+ this.pageName +"."+paragraphName));
+        return this;
+    }
+
     public Page addParagraph(int startLineIndex, int lastLineIndex, int lineWidth, Alignment alignment, String paragraphName)
     {
-        this.pageElements.add(new Paragraph(startLineIndex, lastLineIndex, lineWidth, alignment, 0xFF7A5C3A, "aerialhell.guide_book."+ this.pageName +"."+paragraphName));
+        this.pageElements.add(new Paragraph(startLineIndex, lastLineIndex, 0, lineWidth, alignment, 0xFF7A5C3A, "aerialhell.guide_book."+ this.pageName +"."+paragraphName));
         return this;
     }
 
     public Page addParagraph(int startLineIndex, int lastLineIndex, int lineWidth, Alignment alignment, int color, String paragraphName)
     {
-        this.pageElements.add(new Paragraph(startLineIndex, lastLineIndex, lineWidth, alignment, color, "aerialhell.guide_book."+ this.pageName +"."+paragraphName));
+        this.pageElements.add(new Paragraph(startLineIndex, lastLineIndex, 0, lineWidth, alignment, color, "aerialhell.guide_book."+ this.pageName +"."+paragraphName));
         return this;
     }
 
@@ -108,7 +115,13 @@ public class Page
 
     public Page addSmeltingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, boolean displayTooltip)
     {
-        this.pageElements.add(new SmeltingRecipeDisplay(lineIndex, alignment, scale, ingredient, result, displayTooltip));
+        this.pageElements.add(new SmeltingRecipeDisplay(lineIndex, alignment, scale, ingredient, result, () -> Items.CHARCOAL, displayTooltip));
+        return this;
+    }
+
+    public Page addSmeltingRecipeDisplay(int lineIndex, Alignment alignment, float scale, Supplier<Item> ingredient, Supplier<Item> result, Supplier<Item> fuel, boolean displayTooltip)
+    {
+        this.pageElements.add(new SmeltingRecipeDisplay(lineIndex, alignment, scale, ingredient, result, fuel, displayTooltip));
         return this;
     }
 
