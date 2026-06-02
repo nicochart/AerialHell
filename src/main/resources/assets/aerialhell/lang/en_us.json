@@ -1262,8 +1262,9 @@
   "aerialhell.guide_book.summary.table_of_content" : "Journey\nCrafting\nMaterials\nEffects\nEnchanting\nEnvironment\nBestiary\nBosses\nStructures\nDungeons\nShadow And Light\nItems",
   "aerialhell.guide_book.summary.table_of_content_pages" : "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12",
 
-  "aerialhell.guide_book.journey_1.title" : "- Journey -",
-  "aerialhell.guide_book.journey_1.journey_content_desc" : "This section acts like a todo-list for your progression in Aerial Hell.",
+  "aerialhell.guide_book.journey_1.journey_section_title" : "- Journey -",
+  "aerialhell.guide_book.journey_1.journey_section_quote" : "§oIn Aerial Hell, every island\n§ocan lead your journey forward.\n§oThe challenge is finding the right path.",
+  "aerialhell.guide_book.journey_1.journey_content_desc" : "This section acts like a simplified todo list for your progression in Aerial Hell.\n\nIt guides you through the main points of interest, but it will be up to you to discover the side objectives.",
   "aerialhell.guide_book.journey_1.step_1_enter_dimension" : "- Step 1: Enter the Dimension",
   "aerialhell.guide_book.journey_1.light_the_portal" : "You can find a broken abandonned portal up in the sky (on a cloud) in the overworld.\nRepair it by moving the corners frame blocks to the holes, and light it with the Stellar Lighter.",
   "aerialhell.guide_book.journey_2.step_2_collect_resources" : "- Step 2: Collect basic resources\nYou can collect some wood from trees, mine some Stellar Stone and craft Stellar Cobblestone tools.",
@@ -1290,5 +1291,13 @@
   "aerialhell.guide_book.journey_6.step_12_enchant" : "- Step 12: Enchant your stuff\nBetter equipment is required before rushing the next dungeon.\n\nTo get Lapis Lazuli in Aerial Hell, find and cut down some Lapis Robinia trees.",
   "aerialhell.guide_book.journey_6.step_13_ranged_weapon" : "- Step 13: Craft a Ranged Weapon.\nIt will soon be essential !",
   "aerialhell.guide_book.journey_6.step_14_rush_lunar_temple" : "- Step 14: Rush the Lunar Temple",
-  "aerialhell.guide_book.journey_6.lunar_temple_material" : "Making your way to the Lunar Priest boss can be difficult, but it is worth it: you will find valuable loot.\nMore info in the Dungeons section."
+  "aerialhell.guide_book.journey_6.lunar_temple_material" : "Making your way to the Lunar Priest boss can be difficult, but it is worth it: you will find valuable loot.\nMore info in the Dungeons section.",
+  "aerialhell.guide_book.journey_7.step_15_prepare_for_shadows" : "- Step 15: Prepare for Shadows\nTo explore the Shadow Biome with peace of mind, it is recommended to have the following items:",
+  "aerialhell.guide_book.journey_7.recommended_shadow_items_tips" : "Weapons of Light and Night Vision totem can be found in previous dungeons. \nShadow Fruits are looted by Shadow Pine Leaves.\n When consumed, Shadow Fruit Stew grants Shadow Immunity.",
+  "aerialhell.guide_book.journey_7.step_16_rush_shadow_catacombs" : "- Step 16: Rush the Shadow Catacombs",
+  "aerialhell.guide_book.journey_7.shadow_catacombs_material" : "The catacombs are like a giant, multi-level maze, but it's well worth the effort.\nRead the Shadow and Light section for more detailed info.",
+  "aerialhell.guide_book.journey_8.step_17_get_volucite_equipment" : "- Step 17: Get Volucite equipment\nNow you have a Lunar Pickaxe, you can mine Volucite ore.",
+  "aerialhell.guide_book.journey_8.volucite_equipment_info" : "You can also get Volucite by looting other Lunar Temples.\nVolucite equipment is very powerful to explore and to fight what comes next.",
+  "aerialhell.guide_book.journey_8.step_18_rush_golden_nether_prison" : "- Step 18: Rush Golden Nether Prison",
+  "aerialhell.guide_book.journey_8.golden_nether_prison_material" : "You will need to be well prepared to beat this dungeon. Prepare a lot of healing, an enchanted armor, and both ranged and melee weapons. Good luck !"
 }
