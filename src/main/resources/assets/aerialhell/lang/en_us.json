@@ -1320,5 +1320,13 @@
   "aerialhell.guide_book.crafting_4.freezing_description" : "The fuel for freezing is Magmatic gel.\nThere is some interesting recipes:",
   "aerialhell.guide_book.crafting_5.freezing_food" : "Freezing also can enhance food.",
   "aerialhell.guide_book.crafting_5.frozen_food_particularity" : "The special feature of frozen food is that it grants the Resistance effect.",
-  "aerialhell.guide_book.crafting_5.brewing_recipes" : "Some Aerial Hell items also can be used as brewing ingredients:"
+  "aerialhell.guide_book.crafting_5.brewing_recipes" : "Some Aerial Hell items also can be used as brewing ingredients:",
+  "aerialhell.guide_book.materials_1.materials_section_title" : "- Materials -",
+  "aerialhell.guide_book.materials_1.materials_section_quote" : "§oKnowledge of materials\n§ois the foundation of\n§oevery skilled blacksmith.",
+  "aerialhell.guide_book.materials_1.materials_content_desc" : "This section contains a classification of Aerial Hell's materials, along with information about their unique properties.",
+  "aerialhell.guide_book.materials_1.materials_content_desc" : "Only the materials that can be used as fuel, or used to craft tools and armors will be presented in this section.",
+  "aerialhell.guide_book.materials_1.fluorite_material" : "- Fluorite",
+  "aerialhell.guide_book.materials_1.fluorite_description" : "Commonly found as ore\n\nFuel for Oscillator\n\nUsed in many crafts",
+  "aerialhell.guide_book.materials_2.ruby_material" : "- Ruby",
+  "aerialhell.guide_book.materials_2.ruby_description" : "Commonly found as ore\n\nSometimes found in Structures\n\nMust be put in Oscillation\n\nUsed in many crafts"
 }
