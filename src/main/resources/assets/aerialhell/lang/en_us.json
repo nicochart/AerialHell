@@ -1327,7 +1327,7 @@
   "aerialhell.guide_book.materials_1.materials_content_desc" : "Only the materials that can be used as fuel, or used to craft tools and armors will be presented in this section.",
   "aerialhell.guide_book.materials_1.materials_tier_list" : "Materials tier list:\n\nSky Wood\n(equivalent of overworld loot)\nFluorite (equivalent of coal)\nStellar Stone (equivalent of Stone)\nRuby (Equivalent of Iron)\nMagmatic Gel\nAzurite (equivalent of Gold)\nObsidian (equivalent of Diamond)\nLunar Crystal\n(equivalent of Netherite)\nCursed Crystal\nVolucite\nArsonist",
   "aerialhell.guide_book.materials_2.fluorite_material" : "- Fluorite",
-  "aerialhell.guide_book.materials_2.fluorite_description" : "Commonly found as ore\n\nFuel for Oscillator\n\nUsed in many crafts",
+  "aerialhell.guide_book.materials_2.fluorite_description" : "Commonly found as ore\n\nFuel for Oscillator\n\nFuel for\nLight Reactors\n\nUsed in many crafts",
   "aerialhell.guide_book.materials_2.ruby_material" : "- Ruby",
   "aerialhell.guide_book.materials_2.ruby_description" : "Commonly found as ore\n\nSometimes found in Structures\n\nMust be put in Oscillation\n\nUsed in many crafts",
   "aerialhell.guide_book.materials_3.magmatic_gel_material" : "- Magmatic Gel",
@@ -1354,6 +1354,8 @@
   "aerialhell.guide_book.materials_7.smoky_quartz_desc" : "Found as ore in Shadow biomes.\nCan be used to replace Nether Quartz in crafting recipes, or for decoration.",
   "aerialhell.guide_book.materials_7.crystal" : "Crystal",
   "aerialhell.guide_book.materials_7.crystal_desc" : "Found as Crystal Blocks in Crystal Biomes.\nCan be used as fuel in Oscillator.",
+  "aerialhell.guide_book.materials_7.shadow_shard" : "Shadow Shard",
+  "aerialhell.guide_book.materials_7.shadow_shard_desc" : "Looted by some shadow creatures and in Shadow Catacombs chests.\nCan be used as fuel in Shadow Reactors.",
 
   "aerialhell.guide_book.effects_1.title" : "- Effects -",
   "aerialhell.guide_book.effects_1.effects_content_desc" : "This page is a list of the new potion effects available in the mod.",
