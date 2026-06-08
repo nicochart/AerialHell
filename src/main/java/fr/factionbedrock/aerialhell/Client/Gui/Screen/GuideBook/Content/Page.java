@@ -60,13 +60,13 @@ public class Page
         return this;
     }
 
-    public Page addItemTexture(int lineIndex, int xOffset, float scale, Supplier<Item> item, boolean displayTooltip) {return this.addItemTexture(lineIndex, Alignment.LEFT, xOffset, false, scale, item, displayTooltip);}
-    public Page addItemTexture(int lineIndex, Alignment alignment, float scale, Supplier<Item> item, boolean displayTooltip) {return this.addItemTexture(lineIndex, alignment, 0, false, scale, item, displayTooltip);}
-    public Page addItemTexture(int lineIndex, Alignment alignment, boolean centerVerticallyOnLine, float scale, Supplier<Item> item, boolean displayTooltip) {return this.addItemTexture(lineIndex, alignment, 0, centerVerticallyOnLine, scale, item, displayTooltip);}
-    public Page addItemTexture(int lineIndex, Alignment alignment, int xOffset, float scale, Supplier<Item> item, boolean displayTooltip) {return this.addItemTexture(lineIndex, alignment, xOffset, false, scale, item, displayTooltip);}
-    public Page addItemTexture(int lineIndex, Alignment alignment, int xOffset, boolean centerVerticallyOnLine, float scale, Supplier<Item> item, boolean displayTooltip)
+    public Page addItemTexture(int lineIndex, int xOffset, float scale, Supplier<Item> item, boolean displayTooltip) {return this.addItemTexture(lineIndex, Alignment.LEFT, xOffset, false, scale, () -> item.get().getDefaultInstance(), displayTooltip);}
+    public Page addItemTexture(int lineIndex, Alignment alignment, float scale, Supplier<Item> item, boolean displayTooltip) {return this.addItemTexture(lineIndex, alignment, 0, false, scale, () -> item.get().getDefaultInstance(), displayTooltip);}
+    public Page addItemTexture(int lineIndex, Alignment alignment, boolean centerVerticallyOnLine, float scale, Supplier<Item> item, boolean displayTooltip) {return this.addItemTexture(lineIndex, alignment, 0, centerVerticallyOnLine, scale, () -> item.get().getDefaultInstance(), displayTooltip);}
+    public Page addItemTexture(int lineIndex, Alignment alignment, int xOffset, float scale, Supplier<Item> item, boolean displayTooltip) {return this.addItemTexture(lineIndex, alignment, xOffset, false, scale, () -> item.get().getDefaultInstance(), displayTooltip);}
+    public Page addItemTexture(int lineIndex, Alignment alignment, int xOffset, boolean centerVerticallyOnLine, float scale, Supplier<ItemStack> itemstack, boolean displayTooltip)
     {
-        this.pageElements.add(new ItemDisplay(lineIndex, alignment, xOffset, centerVerticallyOnLine, scale, item, displayTooltip));
+        this.pageElements.add(new ItemDisplay(lineIndex, alignment, xOffset, centerVerticallyOnLine, scale, itemstack, displayTooltip));
         return this;
     }
 

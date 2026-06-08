@@ -2,17 +2,17 @@ package fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-public record ItemDisplay(int lineIndex, Alignment alignment, int xOffset, boolean centerVerticallyOnLine, float scale, Supplier<Item> item, boolean displayTooltip) implements PageElement
+public record ItemDisplay(int lineIndex, Alignment alignment, int xOffset, boolean centerVerticallyOnLine, float scale, Supplier<ItemStack> itemStack, boolean displayTooltip) implements PageElement
 {
     @Override public void render(Font font, GuiGraphicsExtractor graphics, float scale, List<Line> lines, int bookLeft, int bookTop, int mouseX, int mouseY)
     {
-        Item item = this.item.get();
-        if (item == null) {return;}
+        ItemStack itemStack = this.itemStack.get();
+        if (itemStack == null) {return;}
 
         Line line = lines.get(this.lineIndex());
 
@@ -41,10 +41,10 @@ public record ItemDisplay(int lineIndex, Alignment alignment, int xOffset, boole
         graphics.pose().translate(startX, startY);
         graphics.pose().scale(this.scale(), this.scale());
 
-        graphics.fakeItem(item.getDefaultInstance(), 0, 0);
+        graphics.fakeItem(itemStack, 0, 0);
 
         graphics.pose().popMatrix();
 
-        if (hovered && this.displayTooltip()) {graphics.setTooltipForNextFrame(font, item.getDefaultInstance(), mouseX, mouseY);}
+        if (hovered && this.displayTooltip()) {graphics.setTooltipForNextFrame(font, itemStack, mouseX, mouseY);}
     }
 }
