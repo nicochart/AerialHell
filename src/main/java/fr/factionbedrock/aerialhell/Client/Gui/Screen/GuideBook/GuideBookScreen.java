@@ -598,7 +598,47 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(5, Alignment.LEFT, true, 1.0F, AerialHellItems.SHADOW_CATACOMBS_BRICKS, false)
                     .addItemTexture(8, Alignment.LEFT, true, 1.0F, AerialHellItems.CURSED_SWORD, false)
                     .addParagraph(11,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "vulnerability_aspect_additional_info")
-                    .addParagraph(18,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "light_entities_additional_info")
+                    .addParagraph(18,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "light_entities_additional_info"),
+            new Page("environment_1", BOOK_TEXTURE,27)
+                    .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "environment_section_title")
+                    .addParagraph(2,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "environment_section_quote")
+                    .addParagraph(6,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_classic")
+                    .addParagraph(8,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_plains")
+                    .addParagraph(18,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_lapis_robania_savana")
+                    .addParagraph(26,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_slippery_sand_ocean"),
+            new Page("environment_2", BOOK_TEXTURE,28)
+                    .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_forests")
+                    .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_tree_forest")
+                    .addParagraph(11,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_copper_pine_forest")
+                    .addParagraph(18,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_copper_pine_highland_forest")
+                    .addParagraph(26,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_stellar_jungle"),
+            new Page("environment_3", BOOK_TEXTURE,29)
+                    .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_shroomy")
+                    .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_cortinarius_violaceus_forest")
+                    .addParagraph(11,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_verdigris_agaric_forest")
+                    .addParagraph(18,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_giant_red_mushroom_forest"),
+            new Page("environment_4", BOOK_TEXTURE,30)
+                    .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_crystal")
+                    .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_crystal_plains")
+                    .addParagraph(11,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_crystal_forest")
+                    .addParagraph(18,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_shadow")
+                    .addParagraph(19,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_shadow_plains")
+                    .addParagraph(27,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "environment_shadow_forest"),
+            new Page("bestiary_1", BOOK_TEXTURE,31)
+                    .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "bestiary_section_title")
+                    .addParagraph(2,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "bestiary_section_quote")
+                    .addParagraph(5,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "bestiary_friendly")
+                    .addParagraph(6,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "bestiary_friendly_list")
+                    .addParagraph(11,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "bestiary_neutral")
+                    .addParagraph(12,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "bestiary_neutral_list")
+                    .addParagraph(18,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "bestiary_aggressive")
+                    .addParagraph(19,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "bestiary_aggressive_list")
+                    .addParagraph(19, MAX_LINES_PER_TECHNICAL_PAGE - 1, (int)(LINE_WIDTH_NO_MARGIN * 0.5F), (int)(LINE_WIDTH_NO_MARGIN * 0.5F), Alignment.LEFT, "bestiary_aggressive_list2"),
+            new Page("bestiary_1", BOOK_TEXTURE,32)
+                    .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "bestiary_friendly")
+                    .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "bestiary_candy_sheep")
+                    .addItemTexture(3, Alignment.RIGHT,-16, true, 1.0F, Items.MUTTON::getDefaultInstance, true)
+                    .addItemTexture(5, Alignment.RIGHT,-16, true, 1.0F, Items.YELLOW_WOOL::getDefaultInstance, true)
     );
 
     //The guide book is designed to contain 6 tabs on each side.
@@ -738,10 +778,10 @@ public class GuideBookScreen extends Screen
                 .add("materials", 14)
                 .add("effects", 21)
                 .add("enchanting", 24)
-                .add("environment", 6);
+                .add("environment", 27);
 
         this.rightTabs = new TabList(false, () -> this.bookLeft, () -> this.bookTop)
-                .add("bestiary", 11)
+                .add("bestiary", 31)
                 .add("bosses", 15)
                 .add("structures", 20)
                 .add("dungeons", 20)
