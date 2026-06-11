@@ -72,18 +72,20 @@ public class Page
 
     public Page addTextureDisplay(int lineIndex, Alignment alignment, float scale, String path, int width, int height)
     {
-        return this.addTextureDisplay(lineIndex, alignment, scale, path, width, height, "");
+        return this.addTextureDisplay(lineIndex, alignment, 0, scale, path, width, height, "");
     }
 
-    public Page addTextureDisplay(int lineIndex, Alignment alignment, float scale, String path, int width, int height, String tooltipKey)
+    public Page addTextureDisplay(int lineIndex, Alignment alignment, float scale, String path, int width, int height, String tooltipKey) {return this.addTextureDisplay(lineIndex, alignment, 0, scale, path, width, height, tooltipKey);}
+    public Page addTextureDisplay(int lineIndex, Alignment alignment, int xOffset, float scale, String path, int width, int height, String tooltipKey)
     {
-        this.pageElements.add(new TextureDisplay(lineIndex, alignment, scale, new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/"+path+".png"), width, height), tooltipKey));
+        this.pageElements.add(new TextureDisplay(lineIndex, alignment, xOffset, scale, new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/"+path+".png"), width, height), tooltipKey));
         return this;
     }
 
-    public Page addTextureDisplay(int lineIndex, Alignment alignment, float scale, String path, float u, float v, int width, int height, int textureWidth, int textureHeight, String tooltipKey)
+    public Page addTextureDisplay(int lineIndex, Alignment alignment, float scale, String path, float u, float v, int width, int height, int textureWidth, int textureHeight, String tooltipKey) {return this.addTextureDisplay(lineIndex, alignment, 0, scale, path, u, v, width, height, textureWidth, textureHeight, tooltipKey);}
+    public Page addTextureDisplay(int lineIndex, Alignment alignment, int xOffset, float scale, String path, float u, float v, int width, int height, int textureWidth, int textureHeight, String tooltipKey)
     {
-        this.pageElements.add(new TextureDisplay(lineIndex, alignment, scale, new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/"+path+".png"), u, v, width, height, textureWidth, textureHeight), tooltipKey));
+        this.pageElements.add(new TextureDisplay(lineIndex, alignment, xOffset, scale, new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/"+path+".png"), u, v, width, height, textureWidth, textureHeight), tooltipKey));
         return this;
     }
 

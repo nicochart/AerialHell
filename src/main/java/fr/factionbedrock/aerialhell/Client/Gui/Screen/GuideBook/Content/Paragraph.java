@@ -14,7 +14,7 @@ public record Paragraph(int startLineIndex, int lastLineIndex, int lineStartOffs
     {
         String paragraphText = Language.getInstance().getOrDefault(this.key);
         int currentLineIndex = this.startLineIndex;
-        int xOffset = (int)(this.lineStartOffset * scale);
+        int xOffset = this.lineStartOffset;
 
         List<String> textLines = ClientHelper.wrapTextForBook(paragraphText, font, (int) (this.lineWidth / scale));
         for (int i = 0; i < textLines.size() && currentLineIndex < this.lastLineIndex + 1; i++)

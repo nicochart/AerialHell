@@ -5,11 +5,10 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 
 import java.util.List;
 
-public record TextureDisplay(int lineIndex, Alignment alignment, float scale, TextureInfo textureInfo, String key) implements PageElement
+public record TextureDisplay(int lineIndex, Alignment alignment,  int xOffset, float scale, TextureInfo textureInfo, String key) implements PageElement
 {
     @Override public void render(Font font, GuiGraphicsExtractor graphics, float scale, List<Line> lines, int bookLeft, int bookTop, int mouseX, int mouseY)
     {
@@ -20,9 +19,9 @@ public record TextureDisplay(int lineIndex, Alignment alignment, float scale, Te
 
         int startX = switch (this.alignment())
         {
-            case LEFT -> line.startX();
-            case CENTER -> line.centerX() - scaledWidth / 2;
-            case RIGHT -> line.rightX() - scaledWidth;
+            case LEFT -> line.startX() + xOffset;
+            case CENTER -> line.centerX() - scaledWidth / 2 + xOffset;
+            case RIGHT -> line.rightX() - scaledWidth + xOffset;
         };
 
         int startY = line.startY();
