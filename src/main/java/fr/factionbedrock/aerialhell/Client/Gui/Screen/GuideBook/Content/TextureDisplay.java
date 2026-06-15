@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
-public record TextureDisplay(int lineIndex, Alignment alignment,  int xOffset, float scale, TextureInfo textureInfo, String key) implements PageElement
+public record TextureDisplay(int lineIndex, Alignment alignment, int xOffset, boolean centerVerticallyOnLine, float scale, TextureInfo textureInfo, String key) implements PageElement
 {
     @Override public void render(Font font, GuiGraphicsExtractor graphics, float scale, List<Line> lines, int bookLeft, int bookTop, int mouseX, int mouseY)
     {
@@ -24,7 +24,7 @@ public record TextureDisplay(int lineIndex, Alignment alignment,  int xOffset, f
             case RIGHT -> line.rightX() - scaledWidth + xOffset;
         };
 
-        int startY = line.startY();
+        int startY = centerVerticallyOnLine ? line.startY() + 5 + scaledHeight / 2 : line.startY();
 
         graphics.pose().pushMatrix();
 
