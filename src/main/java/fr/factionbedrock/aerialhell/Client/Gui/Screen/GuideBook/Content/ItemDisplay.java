@@ -7,32 +7,26 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 import java.util.function.Supplier;
 
-public record ItemDisplay(int lineIndex, Alignment alignment, int xOffset, boolean centerVerticallyOnLine, float scale, Supplier<ItemStack> itemStack, boolean displayTooltip) implements PageElement
+public record ItemDisplay(ElementPositionInfo positionInfo, float scale, Supplier<ItemStack> itemStack, boolean displayTooltip) implements PageElement
 {
     @Override public void render(Font font, GuiGraphicsExtractor graphics, float scale, List<Line> lines, int bookLeft, int bookTop, int mouseX, int mouseY)
     {
         ItemStack itemStack = this.itemStack.get();
         if (itemStack == null) {return;}
 
-        Line line = lines.get(this.lineIndex());
+        Line line = lines.get(this.positionInfo.lineIndex());
 
         int itemSize = (int)(16 * this.scale());
 
-        int startX = switch (this.alignment())
+        int startX = switch (this.positionInfo.alignment())
         {
-            case LEFT -> line.startX() + this.xOffset;
-            case CENTER -> line.centerX() - itemSize / 2 + this.xOffset;
-            case RIGHT -> line.rightX() - itemSize + this.xOffset;
+            case LEFT -> line.startX() + this.positionInfo.horizontalOffset();
+            case CENTER -> line.centerX() - itemSize / 2 + this.positionInfo.horizontalOffset();
+            case RIGHT -> line.rightX() - itemSize + this.positionInfo.horizontalOffset();
         };
 
-        int startY = line.startY() - (this.centerVerticallyOnLine ? itemSize / 3 : 0);
-
-        if (this.centerVerticallyOnLine)
-        {
-            int lineHeight = 16;
-            //startY = line.startY() + (int)((lineHeight - itemSize) / 2.0f);
-            //startY+=20;
-        }
+        int lineHeight = line.lineHeight();
+        int startY = line.startY() + this.positionInfo.verticalOffset() + (this.positionInfo.centerVerticallyOnLine() ? - 1 + (lineHeight - itemSize) / 2 : 0);
 
         boolean hovered = mouseX >= startX && mouseX <= startX + itemSize && mouseY >= startY && mouseY <= startY + itemSize;
 

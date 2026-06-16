@@ -60,40 +60,20 @@ public class Page
         return this;
     }
 
-    public Page addItemTexture(int lineIndex, int xOffset, float scale, Supplier<Item> item, boolean displayTooltip) {return this.addItemTexture(lineIndex, Alignment.LEFT, xOffset, false, scale, () -> item.get().getDefaultInstance(), displayTooltip);}
-    public Page addItemTexture(int lineIndex, Alignment alignment, float scale, Supplier<Item> item, boolean displayTooltip) {return this.addItemTexture(lineIndex, alignment, 0, false, scale, () -> item.get().getDefaultInstance(), displayTooltip);}
-    public Page addItemTexture(int lineIndex, Alignment alignment, boolean centerVerticallyOnLine, float scale, Supplier<Item> item, boolean displayTooltip) {return this.addItemTexture(lineIndex, alignment, 0, centerVerticallyOnLine, scale, () -> item.get().getDefaultInstance(), displayTooltip);}
-    public Page addItemTexture(int lineIndex, Alignment alignment, int xOffset, float scale, Supplier<Item> item, boolean displayTooltip) {return this.addItemTexture(lineIndex, alignment, xOffset, false, scale, () -> item.get().getDefaultInstance(), displayTooltip);}
-    public Page addItemTexture(int lineIndex, Alignment alignment, int xOffset, boolean centerVerticallyOnLine, float scale, Supplier<ItemStack> itemstack, boolean displayTooltip)
+    public Page addItemTexture(ElementPositionInfo positionInfo, float scale, Supplier<Item> item, boolean displayTooltip) {return this.addItemStackTexture(positionInfo, scale, () -> item.get().getDefaultInstance(), displayTooltip);}
+    public Page addItemStackTexture(ElementPositionInfo positionInfo, float scale, Supplier<ItemStack> itemstack, boolean displayTooltip)
     {
-        this.pageElements.add(new ItemDisplay(lineIndex, alignment, xOffset, centerVerticallyOnLine, scale, itemstack, displayTooltip));
+        this.pageElements.add(new ItemDisplay(positionInfo, scale, itemstack, displayTooltip));
         return this;
     }
 
-    public Page addTextureDisplay(int lineIndex, Alignment alignment, float scale, String path, int width, int height)
+    public Page addTextureDisplay(ElementPositionInfo positionInfo, float scale, String path, float u, float v, int width, int height, int textureWidth, int textureHeight, String tooltipKey) {return this.addTextureDisplay(positionInfo, scale, new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, path), u, v, width, height, textureWidth, textureHeight), tooltipKey);}
+    public Page addTextureDisplay(ElementPositionInfo positionInfo, float scale, String path, int width, int height) {return this.addTextureDisplay(positionInfo, scale, path, width, height, "");}
+    public Page addTextureDisplay(ElementPositionInfo positionInfo, float scale, String path, int width, int height, String tooltipKey) {return this.addTextureDisplay(positionInfo, scale, new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/"+path+".png"), width, height), tooltipKey);}
+    public Page addTextureDisplay(ElementPositionInfo positionInfo, float scale, TextureInfo textureInfo) {return this.addTextureDisplay(positionInfo, scale, textureInfo, "");}
+    public Page addTextureDisplay(ElementPositionInfo positionInfo, float scale, TextureInfo textureInfo, String tooltipKey)
     {
-        return this.addTextureDisplay(lineIndex, alignment, 0, false, scale, path, width, height, "");
-    }
-
-    public Page addTextureDisplay(int lineIndex, Alignment alignment, float scale, String path, int width, int height, String tooltipKey) {return this.addTextureDisplay(lineIndex, alignment, 0, false, scale, path, width, height, tooltipKey);}
-    public Page addTextureDisplay(int lineIndex, Alignment alignment, int xOffset, float scale, String path, int width, int height, String tooltipKey) {return this.addTextureDisplay(lineIndex, alignment, xOffset, false, scale, path, width, height, tooltipKey);}
-    public Page addTextureDisplay(int lineIndex, Alignment alignment, int xOffset, boolean centerVerticallyOnLine, float scale, String path, int width, int height, String tooltipKey)
-    {
-        this.pageElements.add(new TextureDisplay(lineIndex, alignment, xOffset, centerVerticallyOnLine, scale, new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/"+path+".png"), width, height), tooltipKey));
-        return this;
-    }
-
-    public Page addTextureDisplay(int lineIndex, Alignment alignment, int xOffset, float scale, TextureInfo textureInfo) {return this.addTextureDisplay(lineIndex, alignment, xOffset, false, scale, textureInfo);}
-    public Page addTextureDisplay(int lineIndex, Alignment alignment, int xOffset, boolean centerVerticallyOnLine, float scale, TextureInfo textureInfo)
-    {
-        this.pageElements.add(new TextureDisplay(lineIndex, alignment, xOffset, centerVerticallyOnLine, scale, textureInfo, ""));
-        return this;
-    }
-
-    public Page addTextureDisplay(int lineIndex, Alignment alignment, float scale, String path, float u, float v, int width, int height, int textureWidth, int textureHeight, String tooltipKey) {return this.addTextureDisplay(lineIndex, alignment, 0, false, scale, path, u, v, width, height, textureWidth, textureHeight, tooltipKey);}
-    public Page addTextureDisplay(int lineIndex, Alignment alignment, int xOffset, boolean centerVerticallyOnLine, float scale, String path, float u, float v, int width, int height, int textureWidth, int textureHeight, String tooltipKey)
-    {
-        this.pageElements.add(new TextureDisplay(lineIndex, alignment, xOffset, centerVerticallyOnLine, scale, new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/"+path+".png"), u, v, width, height, textureWidth, textureHeight), tooltipKey));
+        this.pageElements.add(new TextureDisplay(positionInfo, scale, textureInfo, tooltipKey));
         return this;
     }
 

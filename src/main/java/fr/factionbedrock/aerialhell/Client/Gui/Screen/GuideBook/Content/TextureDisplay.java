@@ -8,23 +8,24 @@ import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
-public record TextureDisplay(int lineIndex, Alignment alignment, int xOffset, boolean centerVerticallyOnLine, float scale, TextureInfo textureInfo, String key) implements PageElement
+public record TextureDisplay(ElementPositionInfo positionInfo, float scale, TextureInfo textureInfo, String key) implements PageElement
 {
     @Override public void render(Font font, GuiGraphicsExtractor graphics, float scale, List<Line> lines, int bookLeft, int bookTop, int mouseX, int mouseY)
     {
-        Line line = lines.get(this.lineIndex());
+        Line line = lines.get(this.positionInfo.lineIndex());
 
         int scaledWidth = (int)(this.textureInfo.width() * this.scale());
         int scaledHeight = (int)(this.textureInfo.height() * this.scale());
 
-        int startX = switch (this.alignment())
+        int startX = switch (this.positionInfo.alignment())
         {
-            case LEFT -> line.startX() + xOffset;
-            case CENTER -> line.centerX() - scaledWidth / 2 + xOffset;
-            case RIGHT -> line.rightX() - scaledWidth + xOffset;
+            case LEFT -> line.startX() + this.positionInfo.horizontalOffset();
+            case CENTER -> line.centerX() - scaledWidth / 2 + this.positionInfo.horizontalOffset();
+            case RIGHT -> line.rightX() - scaledWidth + this.positionInfo.horizontalOffset();
         };
 
-        int startY = centerVerticallyOnLine ? line.startY() + 5 + scaledHeight / 2 : line.startY();
+        int lineHeight = line.lineHeight();
+        int startY = line.startY() + this.positionInfo.verticalOffset() + (this.positionInfo.centerVerticallyOnLine() ? (lineHeight - scaledHeight) / 2 : 0);
 
         graphics.pose().pushMatrix();
 

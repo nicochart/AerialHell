@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content;
 
 import net.minecraft.client.gui.Font;
 
-public record Line(int index, int startX, int centerX, int rightX, int startY)
+public record Line(int index, int lineHeight, int startX, int centerX, int rightX, int startY)
 {
     public int centerX(String textToCenter, Font font, float textScale) {return this.centerX - (int) (font.width(textToCenter) * textScale / 2.0F);}
 
