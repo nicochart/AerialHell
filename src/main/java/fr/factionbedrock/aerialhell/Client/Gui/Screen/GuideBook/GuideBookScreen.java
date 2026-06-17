@@ -677,18 +677,15 @@ public class GuideBookScreen extends Screen
                     .addTextureDisplay(alignedToLeft(30).build(), 1.0F, "gui/guide_book/content/entities/shadow_automaton", 16, 28, "entity.aerialhell.shadow_automaton")
                     .addTextureDisplay(alignedToRight(28).build(), 0.9F, "gui/guide_book/content/entities/shadow_troll", 39, 64, "entity.aerialhell.shadow_troll"),
             new Page("bestiary_1", PAGE_TEXTURE,31)
-                    .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "bestiary_section_title")
-                    .addParagraph(2,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "bestiary_section_quote")
-                    .addParagraph(5,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "bestiary_friendly")
-                    .addParagraph(6,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "bestiary_friendly_list")
-                    .addParagraph(11,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "bestiary_neutral")
-                    .addParagraph(12,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "bestiary_neutral_list")
-                    .addParagraph(18,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "bestiary_aggressive")
-                    .addParagraph(19,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "bestiary_aggressive_list")
-                    .addParagraph(19, MAX_LINES_PER_TECHNICAL_PAGE - 1, (int)(LINE_WIDTH_NO_MARGIN * 0.5F), (int)(LINE_WIDTH_NO_MARGIN * 0.5F), Alignment.LEFT, "bestiary_aggressive_list2"),
+                    .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "bestiary_section_title")
+                    .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "bestiary_section_quote")
+                    .addParagraph(7,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "bestiary_content_desc")
+                    .addTextureDisplay(alignedToLeft(12).horizontalOffset(15).build(), 1.0F, "gui/guide_book/content/entities/gliding_turtle", 32, 28, "entity.aerialhell.gliding_turtle")
+                    .addTextureDisplay(alignedToLeft(12).horizontalOffset(60).build(), 1.1F, "gui/guide_book/content/entities/stellar_boar", 22, 15, "entity.aerialhell.stellar_boar")
+                    .addTextureDisplay(alignedToLeft(12).horizontalOffset(105).build(), 0.9F, "gui/guide_book/content/entities/evil_cow", 30, 30, "entity.aerialhell.evil_cow")
+                    .addParagraph(18,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "bestiary_sort_desc"),
             new Page("bestiary_2", PAGE_TEXTURE,32)
                     .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "friendly")
-                    .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "friendly_desc")
                     .addTextureDisplay(centered(8).horizontalOffset(1).build(), 1.0F, VERTICAL_SEPARATOR_9)
                     //left
                     .addTextureDisplay(alignedToLeft(8).horizontalOffset(25).build(), 1.0F, "gui/guide_book/content/entities/gliding_turtle", 32, 28, "entity.aerialhell.gliding_turtle")
@@ -710,7 +707,7 @@ public class GuideBookScreen extends Screen
                     //right page
                     .addTextureDisplay(centered(17).horizontalOffset(1).build(), 1.0F, VERTICAL_SEPARATOR_8)
                     //left
-                    .addTextureDisplay(alignedToLeft(17).horizontalOffset(25).build(), 1.3F, "gui/guide_book/content/entities/stellar_chicken", 10, 12, "entity.aerialhell.stellar_chicken")
+                    .addTextureDisplay(alignedToLeft(17).horizontalOffset(25).verticalOffset(3).build(), 1.3F, "gui/guide_book/content/entities/stellar_chicken", 10, 12, "entity.aerialhell.stellar_chicken")
                     .addParagraph(20,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "stellar_chicken")
                     .addParagraph(21,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "stellar_chicken_desc")
                     .addItemTexture(alignedToLeft(21).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.STELLAR_GRASS_BLOCK, false)
@@ -727,7 +724,7 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(23).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.AERIAL_BERRY, true)
                     .addItemTexture(alignedToLeft(24).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, () -> Items.YELLOW_WOOL, false)
 
-                    .addParagraph(26,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "friendly_desc2")
+                    .addParagraph(26,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "friendly_additional_desc")
                     .addParagraph(29,MAX_LINES_PER_TECHNICAL_PAGE - 1, (int)(LINE_WIDTH_NO_MARGIN * 0.2F), (int)(LINE_WIDTH_NO_MARGIN * 0.8F), Alignment.LEFT, "kodama")
                     .addTextureDisplay(alignedToLeft(29).build(), 1.3F, "gui/guide_book/content/entities/kodama", 14, 22, "entity.aerialhell.kodama")
                     .addItemTexture(alignedToLeft(30).horizontalOffset(20).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.STELLAR_JUNGLE_TREE_LEAVES, false)
@@ -735,7 +732,6 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(33).horizontalOffset(20).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.AERIAL_BERRY, true),
             new Page("bestiary_3", PAGE_TEXTURE,33)
                     .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "neutral")
-                    .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "neutral_desc")
 
                     .addTextureDisplay(centered(7).horizontalOffset(1).build(), 1.0F, VERTICAL_SEPARATOR_9)
                     //left
@@ -755,126 +751,209 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(15).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, () -> Items.SUNFLOWER, true)
 
                     //- right page
-                    //upper left
-                    .addTextureDisplay(alignedToLeft(17).horizontalOffset(25).build(), 1.0F, "gui/guide_book/content/entities/cortinarius_cow", 26, 26, "entity.aerialhell.cortinarius_cow")
-                    .addParagraph(20,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "cortinarius_cow")
-                    .addParagraph(21,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "cortinarius_cow_desc")
-                    .addItemTexture(alignedToLeft(21).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.MOSSY_STELLAR_COBBLESTONE, false)
-                    .addItemTexture(alignedToLeft(22).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.ROTTEN_LEATHER, false)
-
                     .addParagraph(18,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "hostile")
-                    .addParagraph(20,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "hostile_desc"),
+
+                    .addTextureDisplay(centered(23).horizontalOffset(1).build(), 1.0F, "textures/gui/guide_book/vertical_separator_9.png", 0, 0, 10, 60, 10, 92, "")
+                    .addTextureDisplay(centered(29).verticalOffset(-3).horizontalOffset(1).build(), 1.0F, "textures/gui/guide_book/vertical_separator_9.png", 0, 45, 10, 47, 10, 92, "")
+                    .addTextureDisplay(alignedToLeft(27).verticalOffset(3).build(), 1.0F, HORIZONTAL_SEPARATOR)
+                    .addTextureDisplay(centered(27).horizontalOffset(1).verticalOffset(-6).build(), 1.0F, CROSSING_POINT)
+
+                    //top left
+                    .addTextureDisplay(alignedToLeft(23).horizontalOffset(25).build(), 0.8F, "gui/guide_book/content/entities/worm", 28, 28, "entity.aerialhell.worm")
+                    .addParagraph(25,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "worm")
+                    .addParagraph(26,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "worm_desc")
+                    .addItemTexture(alignedToLeft(26).build(), 0.7F, AerialHellItems.SKY_WOOD_SWORD, false)
+
+                    //top right
+                    .addTextureDisplay(alignedToRight(23).build(), 1.0F, "gui/guide_book/content/entities/stellar_ent", 19, 21, "entity.aerialhell.stellar_ent")
+                    .addParagraph(24,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "stellar_ent")
+                    .addParagraph(25,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "stellar_ent_desc")
+                    .addItemTexture(alignedToLeft(25).horizontalOffset(88).build(), 0.7F, AerialHellItems.AERIAL_TREE_LEAVES, false)
+
+                    //bottom left
+                    .addTextureDisplay(alignedToLeft(28).horizontalOffset(25).build(), 0.9F, "gui/guide_book/content/entities/evil_cow", 30, 30, "entity.aerialhell.evil_cow")
+                    .addParagraph(31,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "evil_cow")
+                    .addParagraph(32,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "evil_cow_desc")
+                    .addItemTexture(alignedToLeft(32).build(), 0.7F, AerialHellItems.ROTTEN_LEATHER, false)
+
+                    //bottom right
+                    .addTextureDisplay(alignedToRight(28).build(), 0.8F, "gui/guide_book/content/entities/flying_jellyfish", 28, 30, "entity.aerialhell.flying_jellyfish")
+                    .addParagraph(28,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "flying_jellyfish")
+                    .addParagraph(30,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "flying_jellyfish_desc")
+                    .addItemTexture(alignedToLeft(30).horizontalOffset(88).build(), 0.7F, AerialHellItems.STELLAR_JUNGLE_TREE_LEAVES, false)
+                    .addTextureDisplay(alignedToLeft(32).horizontalOffset(88).build(), 0.7F, "entity/projectile/poisonball", 16, 16, "entity.aerialhell.poisonball"),
             new Page("bestiary_4", PAGE_TEXTURE,34)
+                    //- left page
                     .addTextureDisplay(centered(0).horizontalOffset(1).build(), 1.0F, VERTICAL_SEPARATOR_16)
                     .addTextureDisplay(alignedToLeft(8).verticalOffset(3).build(), 1.0F, HORIZONTAL_SEPARATOR)
                     .addTextureDisplay(centered(8).horizontalOffset(1).verticalOffset(-6).build(), 1.0F, CROSSING_POINT)
+                    //top left
+                    .addTextureDisplay(alignedToLeft(0).horizontalOffset(25).build(), 1.0F, "gui/guide_book/content/entities/cortinarius_cow", 26, 26, "entity.aerialhell.cortinarius_cow")
+                    .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "cortinarius_cow")
+                    .addParagraph(4,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "cortinarius_cow_desc")
+                    .addItemTexture(alignedToLeft(4).build(), 0.7F, AerialHellItems.GIANT_VERDIGRIS_AGARIC_CAP_BLOCK, false)
+                    .addItemTexture(alignedToLeft(6).build(), 0.7F, AerialHellItems.ROTTEN_LEATHER, false)
+
+                    //top right
+                    .addTextureDisplay(alignedToRight(0).horizontalOffset(-30).build(), 0.9F, "gui/guide_book/content/entities/verdigris_zombie", 20, 31, "entity.aerialhell.verdigris_zombie")
+                    .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "verdigris_zombie")
+                    .addParagraph(4,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "verdigris_zombie_desc")
+                    .addItemTexture(alignedToLeft(4).horizontalOffset(88).build(), 0.7F, AerialHellItems.GIANT_VERDIGRIS_AGARIC_CAP_BLOCK, false)
+
+                    //bottom left
+                    .addTextureDisplay(alignedToLeft(9).horizontalOffset(25).build(), 1.0F, "gui/guide_book/content/entities/shroomboom", 18, 27, "entity.aerialhell.shroomboom")
+                    .addParagraph(12,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "shroomboom")
+                    .addParagraph(13,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "shroomboom_desc")
+                    .addItemTexture(alignedToLeft(13).build(), 0.7F, AerialHellItems.GIANT_VERDIGRIS_AGARIC_CAP_BLOCK, false)
+                    .addItemTexture(alignedToLeft(15).build(), 0.7F, () -> Items.GUNPOWDER, false)
+
+                    //bottom right
+                    .addTextureDisplay(alignedToRight(9).horizontalOffset(-30).build(), 0.95F, "gui/guide_book/content/entities/crystal_slime", 30, 30, "entity.aerialhell.crystal_slime")
+                    .addParagraph(12,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "crystal_slime")
+                    .addParagraph(13,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "crystal_slime_desc")
+                    .addItemTexture(alignedToLeft(13).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.CRYSTAL_BLOCK, false)
+
+                    //- right page
                     .addTextureDisplay(centered(17).horizontalOffset(1).build(), 1.0F, VERTICAL_SEPARATOR_16)
                     .addTextureDisplay(alignedToLeft(25).verticalOffset(3).build(), 1.0F, HORIZONTAL_SEPARATOR)
                     .addTextureDisplay(centered(25).horizontalOffset(1).verticalOffset(-6).build(), 1.0F, CROSSING_POINT)
-
-                    //- left page
                     //upper left
-                    .addTextureDisplay(alignedToLeft(0).horizontalOffset(25).build(), 1.0F, "gui/guide_book/content/entities/gliding_turtle", 32, 28, "entity.aerialhell.gliding_turtle")
-                    .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "gliding_turtle")
-                    .addParagraph(4,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "gliding_turtle_desc")
-                    .addItemTexture(alignedToLeft(4).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.STELLAR_GRASS_BLOCK, false)
-                    .addItemTexture(alignedToLeft(5).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.TURTLE_MEAT, false)
+                    .addTextureDisplay(alignedToLeft(17).horizontalOffset(25).build(), 0.7F, "gui/guide_book/content/entities/crystal_golem", 34, 54, "entity.aerialhell.crystal_golem")
+                    .addParagraph(21,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "crystal_golem")
+                    .addParagraph(22,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "crystal_golem_desc")
+                    .addItemTexture(alignedToLeft(22).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.LUNATIC_STONE, false)
 
                     //upper right
-                    .addTextureDisplay(alignedToRight(0).horizontalOffset(-40).build(), 1.2F, "gui/guide_book/content/entities/sandy_sheep", 20, 18, "entity.aerialhell.sandy_sheep")
-                    .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "sandy_sheep")
-                    .addParagraph(4,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "sandy_sheep_desc")
-                    .addItemTexture(alignedToLeft(4).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.STELLAR_GRASS_BLOCK, false)
-                    .addItemTexture(alignedToLeft(5).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, () -> Items.MUTTON, false)
+                    .addTextureDisplay(alignedToRight(17).horizontalOffset(-30).build(), 1.0F, "gui/guide_book/content/entities/crystal_caterpillar", 26, 22, "entity.aerialhell.crystal_caterpillar")
+                    .addParagraph(20,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "crystal_caterpillar")
+                    .addParagraph(22,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "crystal_caterpillar_desc")
+                    .addItemTexture(alignedToLeft(22).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.CRYSTAL_BLOCK, false)
 
                     //bottom left
-                    .addTextureDisplay(alignedToLeft(9).horizontalOffset(25).build(), 1.1F, "gui/guide_book/content/entities/stellar_boar", 22, 15, "entity.aerialhell.stellar_boar")
-                    .addParagraph(12,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "stellar_boar")
-                    .addParagraph(13,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "stellar_boar_desc")
-                    .addItemTexture(alignedToLeft(13).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.STELLAR_GRASS_BLOCK, false)
-                    .addItemTexture(alignedToLeft(14).centerVerticallyOnLine().build(), 0.7F, () -> Items.PORKCHOP, false)
+                    .addTextureDisplay(alignedToLeft(26).horizontalOffset(25).build(), 1.0F, "gui/guide_book/content/entities/crystal_spider", 30, 28, "entity.aerialhell.crystal_spider")
+                    .addParagraph(29,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "crystal_spider")
+                    .addParagraph(30,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "crystal_spider_desc")
+                    .addItemTexture(alignedToLeft(30).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.CRYSTAL_BLOCK, false)
 
                     //bottom right
-                    .addTextureDisplay(alignedToRight(9).horizontalOffset(-40).build(), 1.3F, "gui/guide_book/content/entities/stellar_chicken", 10, 12, "entity.aerialhell.stellar_chicken")
-                    .addParagraph(12,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "stellar_chicken")
-                    .addParagraph(13,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "stellar_chicken_desc")
-                    .addItemTexture(alignedToLeft(13).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.STELLAR_GRASS_BLOCK, false)
-                    .addItemTexture(alignedToLeft(14).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, () -> Items.CHICKEN, false)
-                    .addItemTexture(alignedToLeft(15).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.STELLAR_EGG, false)
+                    .addTextureDisplay(alignedToRight(26).horizontalOffset(-30).build(), 1.0F, "gui/guide_book/content/entities/hell_spider", 32, 24, "entity.aerialhell.hell_spider")
+                    .addParagraph(29,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "hell_spider")
+                    .addParagraph(30,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "hell_spider_desc")
+                    .addItemTexture(alignedToLeft(30).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.SLIPPERY_SAND, false),
+            new Page("bestiary_5", PAGE_TEXTURE, 35)
+                    //- left page
+                    .addTextureDisplay(centered(0).horizontalOffset(1).build(), 1.0F, VERTICAL_SEPARATOR_16)
+                    .addTextureDisplay(alignedToLeft(8).verticalOffset(3).build(), 1.0F, HORIZONTAL_SEPARATOR)
+                    .addTextureDisplay(centered(8).horizontalOffset(1).verticalOffset(-6).build(), 1.0F, CROSSING_POINT)
+                    //top left
+                    .addTextureDisplay(alignedToLeft(0).horizontalOffset(25).build(), 1.0F, "gui/guide_book/content/entities/venomous_snake", 22, 24, "entity.aerialhell.venomous_snake")
+                    .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "venomous_snake")
+                    .addParagraph(4,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "venomous_snake_desc")
+                    .addItemTexture(alignedToLeft(4).build(), 0.7F, AerialHellItems.SLIPPERY_SAND, false)
+                    .addItemStackTexture(alignedToLeft(6).build(), 0.7F, () -> ItemHelper.createPotionItemStack(Potions.POISON), false)
+
+                    //top right
+                    .addTextureDisplay(alignedToRight(0).horizontalOffset(-30).build(), 1.1F, "gui/guide_book/content/entities/mummy", 18, 23, "entity.aerialhell.mummy")
+                    .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "mummy")
+                    .addParagraph(4,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "mummy_desc")
+                    .addItemTexture(alignedToLeft(4).horizontalOffset(88).build(), 0.7F, AerialHellItems.SLIPPERY_SAND, false)
+
+                    //bottom left
+                    .addTextureDisplay(alignedToLeft(9).horizontalOffset(25).build(), 0.5F, "gui/guide_book/content/entities/aerial_tree_mimic", 32, 50, "entity.aerialhell.aerial_tree_mimic")
+                    .addParagraph(12,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "chest_mimic")
+                    .addParagraph(13,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "chest_mimic_desc")
+                    .addItemTexture(alignedToLeft(13).build(), 0.7F, AerialHellItems.MUD_BRICKS, false)
+                    .addItemTexture(alignedToLeft(15).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.AERIAL_TREE_CHEST_MIMIC, true)
+                    .addItemTexture(alignedToLeft(15).centerVerticallyOnLine().horizontalOffset(18).build(), 0.7F, AerialHellItems.COPPER_PINE_CHEST_MIMIC, true)
+                    .addItemTexture(alignedToLeft(15).centerVerticallyOnLine().horizontalOffset(36).build(), 0.7F, AerialHellItems.GOLDEN_BEECH_CHEST_MIMIC, true)
+                    .addItemTexture(alignedToLeft(15).centerVerticallyOnLine().horizontalOffset(54).build(), 0.7F, AerialHellItems.SKY_CACTUS_FIBER_CHEST_MIMIC, true)
+
+                    //bottom right
+                    .addTextureDisplay(alignedToRight(9).horizontalOffset(-30).build(), 1.0F, "gui/guide_book/content/entities/shadow_pine_mimic", 32, 20, "entity.aerialhell.shadow_pine_mimic")
+                    .addParagraph(12,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "barrel_mimic")
+                    .addParagraph(13,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "barrel_mimic_desc")
+                    .addItemTexture(alignedToLeft(13).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.SHADOW_CATACOMBS_BRICKS, false)
+                    .addItemTexture(alignedToLeft(15).horizontalOffset(124).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.SHADOW_PINE_BARREL_MIMIC, false)
 
                     //- right page
+                    .addTextureDisplay(centered(17).horizontalOffset(1).build(), 1.0F, VERTICAL_SEPARATOR_16)
+                    .addTextureDisplay(alignedToLeft(25).verticalOffset(3).build(), 1.0F, HORIZONTAL_SEPARATOR)
+                    .addTextureDisplay(centered(25).horizontalOffset(1).verticalOffset(-6).build(), 1.0F, CROSSING_POINT)
                     //upper left
-                    .addTextureDisplay(alignedToLeft(17).horizontalOffset(25).build(), 1.0F, "gui/guide_book/content/entities/cortinarius_cow", 26, 26, "entity.aerialhell.cortinarius_cow")
-                    .addParagraph(20,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "cortinarius_cow")
-                    .addParagraph(21,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "cortinarius_cow_desc")
-                    .addItemTexture(alignedToLeft(21).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.MOSSY_STELLAR_COBBLESTONE, false)
-                    .addItemTexture(alignedToLeft(22).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.ROTTEN_LEATHER, false)
+                    .addTextureDisplay(alignedToLeft(17).horizontalOffset(30).build(), 1.0F, "gui/guide_book/content/entities/shadow_automaton", 16, 28, "entity.aerialhell.shadow_automaton")
+                    .addParagraph(20,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "shadow_automaton")
+                    .addParagraph(21,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "shadow_automaton_desc")
+                    .addItemTexture(alignedToLeft(21).build(), 0.7F, AerialHellItems.SHADOW_GRASS_BLOCK, false)
+                    .addItemTexture(alignedToLeft(23).build(), 0.7F, AerialHellItems.SHADOW_SHARD, true)
 
                     //upper right
-                    .addTextureDisplay(alignedToRight(17).horizontalOffset(-40).build(), 1.0F, "gui/guide_book/content/entities/evil_cow", 30, 30, "entity.aerialhell.evil_cow")
-                    .addParagraph(20,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "evil_cow")
-                    .addParagraph(21,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "evil_cow_desc")
-                    .addItemTexture(alignedToLeft(21).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.MOSSY_STELLAR_COBBLESTONE, false)
-                    .addItemTexture(alignedToLeft(22).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.ROTTEN_LEATHER, false)
+                    .addTextureDisplay(alignedToRight(17).horizontalOffset(1).build(), 0.7F, "gui/guide_book/content/entities/shadow_troll", 39, 64, "entity.aerialhell.shadow_troll")
+                    .addParagraph(18,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "shadow_troll")
+                    .addParagraph(20,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "shadow_troll_desc")
+                    .addItemTexture(alignedToLeft(20).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.SHADOW_CATACOMBS_BRICKS, false)
+                    .addTextureDisplay(alignedToLeft(23).horizontalOffset(88).build(), 0.448F, "mob_effect/vulnerability", 25, 25, "effect.aerialhell.vulnerability")
 
                     //bottom left
-                    .addTextureDisplay(alignedToLeft(26).horizontalOffset(25).build(), 1.1F, "gui/guide_book/content/entities/stellar_ent", 19, 21, "entity.aerialhell.stellar_ent")
-                    .addParagraph(29,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "stellar_ent")
-                    .addParagraph(30,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "stellar_ent_desc")
-                    .addItemTexture(alignedToLeft(30).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.MOSSY_STELLAR_COBBLESTONE, false)
-                    .addItemTexture(alignedToLeft(31).horizontalOffset(88).build(), 0.7F, AerialHellItems.AERIAL_TREE_LEAVES, false)
-                    .addItemTexture(alignedToLeft(33).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.SKY_BOWL, false)
+                    .addTextureDisplay(alignedToLeft(26).horizontalOffset(25).build(), 1.1F, "gui/guide_book/content/entities/mud_soldier", 18, 27, "entity.aerialhell.mud_soldier")
+                    .addParagraph(29,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "mud_soldier")
+                    .addParagraph(30,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "mud_soldier_desc")
+                    .addItemTexture(alignedToLeft(30).build(), 0.7F, AerialHellItems.MUD_BRICKS, false)
+                    .addItemTexture(alignedToLeft(32).build(), 0.7F, AerialHellItems.MUD_BONE, true)
 
                     //bottom right
-                    .addTextureDisplay(alignedToRight(26).horizontalOffset(-40).build(), 0.9F, "gui/guide_book/content/entities/verdigris_zombie", 20, 31, "entity.aerialhell.verdigris_zombie")
-                    .addParagraph(29,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "verdigris_zombie")
-                    .addParagraph(30,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "verdigris_zombie_desc")
-                    .addItemTexture(alignedToLeft(30).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.MOSSY_STELLAR_COBBLESTONE, false)
-                    .addItemTexture(alignedToLeft(32).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.GIANT_VERDIGRIS_AGARIC_CAP_BLOCK, false),
-            new Page("bestiary_4", PAGE_TEXTURE,35)
-                    .addTextureDisplay(alignedToLeft(1).build(), 2.0F, "entity/automaton/shadow_automaton", 8, 8, 8, 8, 64, 32, "entity.aerialhell.shadow_automaton")
-                    .addTextureDisplay(alignedToRight(1).build(), 2.0F, "entity/automaton/stellar_stone_automaton", 8, 8, 8, 8, 64, 32, "entity.aerialhell.stellar_stone_automaton")
-                    .addTextureDisplay(alignedToLeft(3).build(), 1.0F, "item/aerial_tree_chest_mimic", 16, 16, "entity.aerialhell.aerial_tree_mimic")
-                    .addTextureDisplay(centered(3).build(), 1.0F, "item/copper_pine_chest_mimic", 16, 16, "entity.aerialhell.copper_pine_mimic")
-                    .addTextureDisplay(alignedToRight(3).build(), 1.0F, "item/golden_beech_chest_mimic", 16, 16, "entity.aerialhell.golden_beech_mimic")
-                    .addTextureDisplay(alignedToLeft(5).build(), 1.0F, "item/sky_cactus_fiber_chest_mimic",  16, 16, "entity.aerialhell.sky_cactus_fiber_mimic")
-                    .addTextureDisplay(alignedToRight(5).build(), 1.0F, "item/shadow_pine_barrel_mimic", 16, 16, "entity.aerialhell.shadow_pine_mimic")
-                    .addTextureDisplay(alignedToLeft(9).build(), 0.8F, "gui/guide_book/content/entities/crystal_golem", 34, 54, "entity.aerialhell.crystal_golem")
-                    .addTextureDisplay(centered(9).build(), 1.0F, "gui/guide_book/content/entities/crystal_slime", 30, 30, "entity.aerialhell.crystal_slime")
-                    .addTextureDisplay(alignedToRight(9).build(), 1.0F, "gui/guide_book/content/entities/fat_phantom", 32, 28, "entity.aerialhell.fat_phantom")
-                    .addTextureDisplay(alignedToLeft(14).build(), 0.95F, "gui/guide_book/content/entities/worm", 28, 28, "entity.aerialhell.worm")
-                    .addTextureDisplay(centered(14).build(), 1.0F, "gui/guide_book/content/entities/venomous_snake", 22, 24, "entity.aerialhell.venomous_snake")
-                    .addTextureDisplay(alignedToRight(13).build(), 0.7F, "gui/guide_book/content/entities/aerial_tree_mimic", 32, 50, "entity.aerialhell.aerial_tree_mimic")
-                    .addTextureDisplay(alignedToLeft(18).build(), 1.0F, "gui/guide_book/content/entities/cortinarius_cow", 26, 26, "entity.aerialhell.cortinarius_cow")
-                    .addTextureDisplay(centered(18).build(), 1.0F, "gui/guide_book/content/entities/evil_cow", 30, 30, "entity.aerialhell.evil_cow")
-                    .addTextureDisplay(alignedToRight(18).build(), 1.0F, "gui/guide_book/content/entities/crystal_spider", 30, 28, "entity.aerialhell.crystal_spider")
-                    .addTextureDisplay(alignedToLeft(21).build(), 1.0F, "gui/guide_book/content/entities/forest_caterpillar", 26, 22, "entity.aerialhell.forest_caterpillar")
-                    .addTextureDisplay(centered(21).build(), 1.0F, "gui/guide_book/content/entities/crystal_caterpillar", 26, 22, "entity.aerialhell.crystal_caterpillar")
-                    .addTextureDisplay(alignedToRight(21).build(), 1.0F, "gui/guide_book/content/entities/hell_spider", 32, 24, "entity.aerialhell.hell_spider")
-                    .addTextureDisplay(alignedToLeft(24).build(), 1.0F, "gui/guide_book/content/entities/shadow_pine_mimic", 32, 20, "entity.aerialhell.shadow_pine_mimic")
-                    .addTextureDisplay(centered(24).build(), 1.2F, "gui/guide_book/content/entities/sandy_sheep", 20, 18, "entity.aerialhell.sandy_sheep")
-                    .addTextureDisplay(alignedToRight(24).build(), 1.0F, "gui/guide_book/content/entities/torn_spirit", 24, 32, "entity.aerialhell.torn_spirit")
-                    .addTextureDisplay(alignedToLeft(27).build(), 1.0F, "gui/guide_book/content/entities/flying_jellyfish", 28, 30, "entity.aerialhell.flying_jellyfish")
-                    .addTextureDisplay(centered(27).build(), 1.1F, "gui/guide_book/content/entities/slime_pirate", 20, 24, "entity.aerialhell.slime_pirate")
-                    .addTextureDisplay(alignedToRight(27).build(), 1.0F, "gui/guide_book/content/entities/ghost_slime_pirate", 23, 28, "entity.aerialhell.ghost_slime_pirate")
-                    .addTextureDisplay(alignedToLeft(31).build(), 1.0F, "gui/guide_book/content/entities/fire_spirit", 18, 24, "entity.aerialhell.fire_spirit")
-                    .addTextureDisplay(centered(30).build(), 1.0F, "gui/guide_book/content/entities/ice_spirit", 20, 30, "entity.aerialhell.ice_spirit")
-                    .addTextureDisplay(alignedToRight(30).build(), 1.0F, "gui/guide_book/content/entities/electro_spirit", 18, 22, "entity.aerialhell.electro_spirit"),
-            new Page("bestiary_5", PAGE_TEXTURE,36)
-                    .addTextureDisplay(alignedToLeft(1).build(), 1.3F, "gui/guide_book/content/entities/kodama", 14, 22, "entity.aerialhell.kodama")
-                    .addTextureDisplay(centered(1).build(), 1.1F, "gui/guide_book/content/entities/mud_skeletron", 18, 27, "entity.aerialhell.mud_skeletron")
-                    .addTextureDisplay(alignedToRight(1).build(), 1.1F, "gui/guide_book/content/entities/mummy", 18, 23, "entity.aerialhell.mummy")
-                    .addTextureDisplay(alignedToLeft(4).build(), 1.0F, "gui/guide_book/content/entities/verdigris_zombie", 20, 31, "entity.aerialhell.verdigris_zombie")
-                    .addTextureDisplay(centered(4).build(), 1.0F, "gui/guide_book/content/entities/mud_golem", 27, 33, "entity.aerialhell.mud_golem")
-                    .addTextureDisplay(alignedToRight(4).build(), 1.0F, "gui/guide_book/content/entities/shroomboom", 18, 27, "entity.aerialhell.shroomboom")
-                    .addTextureDisplay(alignedToLeft(8).build(), 1.1F, "gui/guide_book/content/entities/stellar_ent", 19, 21, "entity.aerialhell.stellar_ent")
-                    .addTextureDisplay(centered(8).build(), 1.1F, "gui/guide_book/content/entities/stellar_boar", 22, 15, "entity.aerialhell.stellar_boar")
-                    .addTextureDisplay(alignedToRight(7).build(), 1.3F, "gui/guide_book/content/entities/stellar_chicken", 10, 12, "entity.aerialhell.stellar_chicken")
-                    .addTextureDisplay(alignedToLeft(11).build(), 1.0F, "gui/guide_book/content/entities/volucite_golem", 26, 36, "entity.aerialhell.volucite_golem")
-                    .addTextureDisplay(centered(10).build(), 1.0F, "gui/guide_book/content/entities/shadow_flying_skull", 30, 12, "entity.aerialhell.shadow_flying_skull")
-                    .addTextureDisplay(alignedToRight(10).build(), 1.0F, "gui/guide_book/content/entities/shadow_troll", 39, 64, "entity.aerialhell.shadow_troll")
-                    .addTextureDisplay(centered(13).build(), 1.0F, "gui/guide_book/content/entities/shadow_automaton", 16, 28, "entity.aerialhell.shadow_automaton"),
+                    .addTextureDisplay(alignedToRight(26).verticalOffset(-1).horizontalOffset(-35).build(), 0.9F, "gui/guide_book/content/entities/mud_golem", 27, 33, "entity.aerialhell.mud_golem")
+                    .addParagraph(29,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "mud_golem")
+                    .addParagraph(30,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "mud_golem_desc")
+                    .addItemTexture(alignedToLeft(30).horizontalOffset(88).build(), 0.7F, AerialHellItems.LIGHT_MUD_BRICKS, false),
+
+            new Page("bestiary_6", PAGE_TEXTURE, 36)
+                    //- left page
+                    .addTextureDisplay(alignedToLeft(1).build(), 1.0F, "gui/guide_book/content/entities/shadow_flying_skull", 30, 12, "entity.aerialhell.shadow_flying_skull")
+                    .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, (int)(LINE_WIDTH_NO_MARGIN * 0.2F), (int)(LINE_WIDTH_NO_MARGIN * 0.8F), Alignment.LEFT, "shadow_flying_skull")
+                    .addParagraph(2,MAX_LINES_PER_TECHNICAL_PAGE - 1, (int)(LINE_WIDTH_NO_MARGIN * 0.3F), (int)(LINE_WIDTH_NO_MARGIN * 0.7F), Alignment.LEFT, "shadow_flying_skull_desc")
+                    .addItemTexture(alignedToLeft(2).horizontalOffset(32).build(), 0.7F, AerialHellItems.LIGHT_SHADOW_CATACOMBS_BRICKS, false)
+
+                    .addTextureDisplay(alignedToLeft(4).verticalOffset(3).build(), 1.0F, HORIZONTAL_SEPARATOR)
+
+                    .addParagraph(5,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "elemental_spirit")
+                    .addTextureDisplay(alignedToLeft(9).build(), 1.0F, "gui/guide_book/content/entities/fire_spirit", 18, 24, "entity.aerialhell.fire_spirit")
+                    .addTextureDisplay(alignedToLeft(12).horizontalOffset(-1).build(), 0.9F, "gui/guide_book/content/entities/ice_spirit", 20, 30, "entity.aerialhell.ice_spirit")
+                    .addTextureDisplay(alignedToLeft(15).build(), 1.0F, "gui/guide_book/content/entities/electro_spirit", 18, 22, "entity.aerialhell.electro_spirit")
+                    .addParagraph(10,MAX_LINES_PER_TECHNICAL_PAGE - 1, (int)(LINE_WIDTH_NO_MARGIN * 0.15F), (int)(LINE_WIDTH_NO_MARGIN * 0.85F), Alignment.LEFT, "elemental_spirit_desc")
+
+                    //- right page
+                    .addTextureDisplay(centered(17).horizontalOffset(1).build(), 1.0F, VERTICAL_SEPARATOR_16)
+                    .addTextureDisplay(alignedToLeft(25).verticalOffset(3).build(), 1.0F, HORIZONTAL_SEPARATOR)
+                    .addTextureDisplay(centered(25).horizontalOffset(1).verticalOffset(-6).build(), 1.0F, CROSSING_POINT)
+                    //upper left
+                    .addTextureDisplay(alignedToLeft(17).horizontalOffset(30).build(), 1.0F, "gui/guide_book/content/entities/torn_spirit", 24, 32, "entity.aerialhell.torn_spirit")
+                    .addParagraph(20,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "torn_spirit")
+                    .addParagraph(21,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "torn_spirit_desc")
+                    .addItemTexture(alignedToLeft(21).build(), 0.7F, AerialHellItems.LIGHT_GOLDEN_NETHER_BRICKS, false)
+                    .addItemTexture(alignedToLeft(24).centerVerticallyOnLine().build(), 0.7F, () -> Items.FIRE_CHARGE, true)
+
+                    //upper right
+                    .addTextureDisplay(alignedToRight(17).horizontalOffset(-30).build(), 1.0F, "gui/guide_book/content/entities/volucite_golem", 26, 36, "entity.aerialhell.volucite_golem")
+                    .addParagraph(21,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "volucite_golem")
+                    .addParagraph(22,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "volucite_golem_desc")
+                    .addItemTexture(alignedToLeft(22).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.VOLUCITE_STONE, false)
+
+                    //bottom left
+                    .addTextureDisplay(alignedToLeft(26).horizontalOffset(25).build(), 1.1F, "gui/guide_book/content/entities/slime_pirate", 20, 24, "entity.aerialhell.slime_pirate")
+                    .addParagraph(29,MAX_LINES_PER_TECHNICAL_PAGE - 1, 0, 80, Alignment.LEFT, "slime_pirate")
+                    .addParagraph(30,MAX_LINES_PER_TECHNICAL_PAGE - 1, 20, 60, Alignment.LEFT, "slime_pirate_desc")
+                    .addItemTexture(alignedToLeft(30).build(), 0.7F, AerialHellItems.AERIAL_TREE_PLANKS, false)
+                    .addItemTexture(alignedToLeft(32).build(), 0.7F, AerialHellItems.RUBY_SHURIKEN, false)
+
+                    //bottom right
+                    .addTextureDisplay(alignedToRight(26).horizontalOffset(-35).build(), 1.0F, "gui/guide_book/content/entities/ghost_slime_pirate", 23, 28, "entity.aerialhell.ghost_slime_pirate")
+                    .addParagraph(29,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "ghost_slime_pirate")
+                    .addParagraph(30,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "ghost_slime_pirate_desc")
+                    .addItemTexture(alignedToLeft(30).horizontalOffset(88).build(), 0.7F, AerialHellItems.GHOST_BOAT_PLANKS, false)
+                    .addItemTexture(alignedToLeft(32).horizontalOffset(88).build(), 0.7F, AerialHellItems.AZURITE_SHURIKEN, false),
             new Page("bosses_1", PAGE_TEXTURE,37)
+                    .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "bosses_section_title")
+                    .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "bosses_section_quote")
                     .addTextureDisplay(alignedToLeft(18).build(), 1.0F, "gui/guide_book/content/entities/chained_god", 42, 42, "entity.aerialhell.chained_god")
                     .addTextureDisplay(alignedToRight(18).build(), 1.0F, "gui/guide_book/content/entities/mud_cycle_mage", 30, 30, "entity.aerialhell.mud_cycle_mage")
                     .addTextureDisplay(centered(23).build(), 1.0F, "gui/guide_book/content/entities/lunar_priest", 32, 32, "entity.aerialhell.lunatic_priest")
@@ -1028,7 +1107,7 @@ public class GuideBookScreen extends Screen
 
         this.rightTabs = new TabList(false, () -> this.bookLeft, () -> this.bookTop)
                 .add("bestiary", 31)
-                .add("bosses", 15)
+                .add("bosses", 37)
                 .add("structures", 20)
                 .add("dungeons", 20)
                 .add("shadow_and_light", 20)
