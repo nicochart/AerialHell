@@ -1517,5 +1517,7 @@
   "aerialhell.guide_book.bosses_6.chained_god_second_phase" : "After reaching a certain amount of remaining health, he will enter its second phase with a powerful roar that will summon several Torn Spirits.",
   "aerialhell.guide_book.bosses_6.chained_god_second_phase_desc" : "During the second phase, the Chained God is immune to ranged damage, and uses a new ability.",
   "aerialhell.guide_book.bosses_6.chained_god_implode" : "He begins to \"implode\" regularly. When he does, he raises his arms, pulling you towards him.. and after a short time, it implodes, causing a lot of damage.",
-  "aerialhell.guide_book.bosses_6.drops" : "Drops:"
+  "aerialhell.guide_book.bosses_6.drops" : "Drops:",
+  "aerialhell.guide_book.structures_1.structures_section_title" : "- Structures -",
+  "aerialhell.guide_book.structures_1.structures_section_quote" : "§oEvery structure hides a secret.\n§oThe challenge is reaching it alive."
 }
