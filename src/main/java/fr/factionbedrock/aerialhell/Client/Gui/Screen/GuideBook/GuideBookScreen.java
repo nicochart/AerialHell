@@ -1033,13 +1033,46 @@ public class GuideBookScreen extends Screen
             new Page("structures_1", PAGE_TEXTURE,43)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "structures_section_title")
                     .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "structures_section_quote")
-                    .addTextureDisplay(centered(6).build(), 0.14F, "gui/guide_book/content/structures/floating_boat", 900, 629)
-                    .addTextureDisplay(centered(18).build(), 0.135F, "gui/guide_book/content/structures/ghost_floating_boat", 900, 794),
+                    .addParagraph(6, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "structures_content_desc")
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "abandonned_portal")
+                    .addTextureDisplay(centered(19).build(), 0.8F, "gui/guide_book/content/stellar_portal", 64, 80, "block.aerialhell.aerial_hell_portal")
+                    .addParagraph(26, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "abandonned_portal_desc"),
             new Page("structures_2", PAGE_TEXTURE,44)
-                    .addTextureDisplay(centered(1).build(), 0.13F, "gui/guide_book/content/structures/upside_down_pyramid", 961, 904)
-                    .addTextureDisplay(centered(18).build(), 0.14F, "gui/guide_book/content/structures/stellar_stone_bricks_tower", 654, 800),
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "floating_boat")
+                    .addTextureDisplay(centered(2).build(), 0.14F, "gui/guide_book/content/structures/floating_boat", 900, 629)
+                    .addItemTexture(alignedToRight(4).build(), 0.8F, AerialHellItems.RUBY, true)
+                    .addTextureDisplay(alignedToLeft(4).build(), 0.8F, "gui/guide_book/content/entities/slime_pirate", 20, 24, "entity.aerialhell.slime_pirate")
+                    .addParagraph(12, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "floating_boat_desc")
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "ghost_floating_boat_variant")
+                    .addTextureDisplay(centered(19).build(), 0.12F, "gui/guide_book/content/structures/ghost_floating_boat", 900, 794)
+                    .addItemTexture(alignedToRight(21).build(), 0.8F, AerialHellItems.AZURITE_CRYSTAL, true)
+                    .addTextureDisplay(alignedToLeft(21).build(), 0.7F, "gui/guide_book/content/entities/ghost_slime_pirate", 23, 28, "entity.aerialhell.ghost_slime_pirate")
+                    .addItemTexture(alignedToLeft(28).verticalOffset(-5).build(), 0.8F, AerialHellItems.MAGMATIC_GEL_BOOTS, true)
+                    .addTextureDisplay(alignedToLeft(28).verticalOffset(-7).horizontalOffset(16).build(), 0.6F, "mob_effect/head_in_the_clouds", 25, 25, "effect.aerialhell.head_in_the_clouds")
+                    .addParagraph(29, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "ghost_floating_boat_desc"),
             new Page("structures_3", PAGE_TEXTURE,45)
-                    .addTextureDisplay(centered(1).build(), 0.13F, "gui/guide_book/content/structures/shadow_pine_tower", 678, 900)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "stellar_stone_bricks_tower")
+                    .addTextureDisplay(centered(2).verticalOffset(-1).build(), 0.138F, "gui/guide_book/content/structures/stellar_stone_bricks_tower", 654, 800)
+                    .addItemTexture(alignedToRight(4).build(), 0.8F, AerialHellItems.RUBY, true)
+                    .addItemTexture(alignedToRight(6).verticalOffset(-5).build(), 0.8F, AerialHellItems.OSCILLATOR, true)
+                    .addItemTexture(alignedToRight(7).build(), 0.8F, AerialHellItems.SKY_CACTUS_FIBER, true)
+                    .addTextureDisplay(alignedToLeft(4).build(), 0.7F, "gui/guide_book/content/entities/evil_cow", 30, 30, "entity.aerialhell.evil_cow")
+                    .addTextureDisplay(alignedToLeft(7).build(), 0.8F, "gui/guide_book/content/entities/hell_spider", 32, 24, "entity.aerialhell.hell_spider")
+                    .addParagraph(13, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "stellar_stone_bricks_tower_desc")
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "upside_down_pyramid")
+                    .addTextureDisplay(centered(19).build(), 0.125F, "gui/guide_book/content/structures/upside_down_pyramid", 961, 904)
+                    .addItemTexture(alignedToRight(21).build(), 0.8F, AerialHellItems.RUBY, true)
+                    .addItemTexture(alignedToRight(23).verticalOffset(-5).build(), 0.8F, () -> Items.GOLD_INGOT, true)
+                    .addItemTexture(alignedToRight(24).build(), 0.8F, AerialHellItems.SKY_CACTUS_FIBER, true)
+                    .addTextureDisplay(alignedToLeft(21).build(), 0.85F, "gui/guide_book/content/entities/mummy", 18, 23, "entity.aerialhell.mummy")
+                    .addTextureDisplay(alignedToLeft(24).build(), 0.8F, "gui/guide_book/content/entities/venomous_snake", 22, 24, "entity.aerialhell.venomous_snake")
+                    .addParagraph(31, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "upside_down_pyramid_desc"),
+            new Page("structures_4", PAGE_TEXTURE,46)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "little_structures")
+                    .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "little_structures_desc")
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "little_structures_example")
+                    .addTextureDisplay(centered(21).build(), 0.12F, "gui/guide_book/content/structures/shadow_pine_tower", 678, 900)
+
     );
 
     private static ElementPositionInfo.Builder posBuilder() {return new ElementPositionInfo.Builder();}

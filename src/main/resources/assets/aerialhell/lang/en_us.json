@@ -1519,5 +1519,19 @@
   "aerialhell.guide_book.bosses_6.chained_god_implode" : "He begins to \"implode\" regularly. When he does, he raises his arms, pulling you towards him.. and after a short time, it implodes, causing a lot of damage.",
   "aerialhell.guide_book.bosses_6.drops" : "Drops:",
   "aerialhell.guide_book.structures_1.structures_section_title" : "- Structures -",
-  "aerialhell.guide_book.structures_1.structures_section_quote" : "§oEvery structure hides a secret.\n§oThe challenge is reaching it alive."
+  "aerialhell.guide_book.structures_1.structures_section_quote" : "§oEvery structure hides a secret.\n§oThe challenge is reaching it alive.",
+  "aerialhell.guide_book.structures_1.structures_content_desc" : "This section lists all the structures related to Aerial Hell.\nOnly the most essential ones are detailed and illustrated here.\n\nDungeons are covered separately in the \"Dungeons\" section.",
+  "aerialhell.guide_book.structures_1.abandonned_portal" : "- Abandonned Portal",
+  "aerialhell.guide_book.structures_1.abandonned_portal_desc" : "You can find broken portals both in Overworld and in Aerial Hell.\nIn Overworld, they will be generated on a cloud up in the sky.\nIn Aerial Hell, they can both generate on a cloud and on ground.",
+  "aerialhell.guide_book.structures_2.floating_boat" : "- Floating Boat",
+  "aerialhell.guide_book.structures_2.floating_boat_desc" : "Giant boats flying in the air. They are filled with Ruby treasure and Slime Pirates.\nExists in two classic variants: Aerial Tree and Lapis Robinia",
+  "aerialhell.guide_book.structures_2.ghost_floating_boat_variant" : "A Ghostly variant also exist:",
+  "aerialhell.guide_book.structures_2.ghost_floating_boat_desc" : "This variant is slightly different. To access it and interact with the Azurite treasures and Ghost Pirates, you will either need to wear Magmatic Gel boots or have the \"Head in the Clouds\" effect",
+  "aerialhell.guide_book.structures_3.stellar_stone_bricks_tower" : "- Stellar Stone Bricks Tower",
+  "aerialhell.guide_book.structures_3.stellar_stone_bricks_tower_desc" : "An abandonned tower you will frequently encounter during your journey.\nIt contains interesting treasures to get started, and a few creatures.",
+  "aerialhell.guide_book.structures_3.upside_down_pyramid" : "- Upside Down Pyramid",
+  "aerialhell.guide_book.structures_3.upside_down_pyramid_desc" : "Found in desert biomes, this Pyramid is teeming with treasures and hostile creatures.",
+  "aerialhell.guide_book.structures_4.little_structures" : "- Little structures",
+  "aerialhell.guide_book.structures_4.little_structures_desc" : "Aerial Hell also contains many smaller structures, including:\n\n- Copper pine cottage\n- Lapis Robinia hut\n- Shadow Pine Tower\n- Desert abandonned structure\n\nThese locations often contain useful loots, and can provide shelter during your journey.",
+  "aerialhell.guide_book.structures_4.little_structures_example" : "Here is an example of a small structure: the Shadow Pine Tower, found in Shadow biomes."
 }
