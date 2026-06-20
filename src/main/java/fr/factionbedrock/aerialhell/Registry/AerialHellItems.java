@@ -24,14 +24,11 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.food.Foods;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.HangingSignItem;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.StandingAndWallBlockItem;
@@ -483,7 +480,7 @@ public class AerialHellItems
     public static final Item MAGMATIC_GEL = register(Keys.MAGMATIC_GEL.identifier().getPath(),new Item(new Item.Properties().setId(Keys.MAGMATIC_GEL).trimMaterial(AerialHellTrimMaterials.MAGMATIC_GEL)));
     public static final Item RUBY = register(Keys.RUBY.identifier().getPath(), new Item(new Item.Properties().setId(Keys.RUBY).trimMaterial(AerialHellTrimMaterials.RUBY)));
     public static final Item AZURITE_CRYSTAL = register(Keys.AZURITE_CRYSTAL.identifier().getPath(), new Item(new Item.Properties().setId(Keys.AZURITE_CRYSTAL)));
-    public static final Item VOLUCITE_VIBRANT = register(Keys.VOLUCITE_VIBRANT.identifier().getPath(), new Item(new Item.Properties().setId(Keys.VOLUCITE_VIBRANT).trimMaterial(AerialHellTrimMaterials.VOLUCITE_VIBRANT).rarity(AerialHellRarities.VIBRANT)));
+    public static final Item VOLUCITE_VIBRANT = register(Keys.VOLUCITE_VIBRANT.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.VOLUCITE_VIBRANT).trimMaterial(AerialHellTrimMaterials.VOLUCITE_VIBRANT).rarity(AerialHellRarities.VIBRANT)));
 
     public static final Item OVERHEATED_RUBY = register(Keys.OVERHEATED_RUBY.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.OVERHEATED_RUBY)));
     public static final Item OVERHEATED_VOLUCITE = register(Keys.OVERHEATED_VOLUCITE.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.OVERHEATED_VOLUCITE)));
