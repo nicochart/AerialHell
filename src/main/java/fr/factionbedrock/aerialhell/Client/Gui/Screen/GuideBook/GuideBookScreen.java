@@ -1153,17 +1153,29 @@ public class GuideBookScreen extends Screen
             new Page("shadow_and_light_1", PAGE_TEXTURE, 52)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "shadow_and_light_section_title")
                     .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "shadow_and_light_section_quote")
-                    .addParagraph(7, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow_and_light_content_desc"),
+                    .addParagraph(7, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow_and_light_content_desc")
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow_and_light_war")
+                    .addTextureDisplay(centered(25).build(), 0.15F, "gui/guide_book/content/shadow_vs_light", 900, 549),
             new Page("shadow_and_light_2", PAGE_TEXTURE, 53)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "light")
-                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow"),
-            new Page("items_1", PAGE_TEXTURE, 54)
+                    .addParagraph(12, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "light_creatures")
+                    .addTextureDisplay(alignedToLeft(13).build(), 1.0F, "gui/guide_book/content/entities/crystal_caterpillar", 26, 22, "entity.aerialhell.crystal_caterpillar")
+                    .addTextureDisplay(centered(13).build(), 1.0F, "gui/guide_book/content/entities/crystal_slime", 30, 30, "entity.aerialhell.crystal_slime")
+                    .addTextureDisplay(alignedToRight(13).build(), 1.0F, "gui/guide_book/content/entities/crystal_spider", 30, 28, "entity.aerialhell.crystal_spider")
+                    .addTextureDisplay(alignedToLeft(17).build(), 0.65F, "gui/guide_book/content/entities/crystal_golem", 34, 54, "entity.aerialhell.crystal_golem")
+                    .addTextureDisplay(centered(17).build(), 0.6F, "gui/guide_book/content/entities/golden_beech_mimic", 32, 50, "entity.aerialhell.golden_beech_mimic")
+                    .addTextureDisplay(alignedToRight(17).build(), 1.0F, "gui/guide_book/content/entities/lunar_priest", 32, 32, "entity.aerialhell.lunatic_priest")
+                    .addParagraph(21, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "light_locations")
+                    .addTextureDisplay(centered(28).build(), 0.06F, "gui/guide_book/content/structures/lunar_temple", 1199, 896),
+            new Page("shadow_and_light_3", PAGE_TEXTURE, 54)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow"),
+            new Page("items_1", PAGE_TEXTURE, 55)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "items_section_title")
                     .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "items_section_quote")
                     .addParagraph(7, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "items_content_desc"),
-            new Page("items_2", PAGE_TEXTURE, 55)
+            new Page("items_2", PAGE_TEXTURE, 56)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "essential_items"),
-            new Page("book_end", PAGE_TEXTURE, 56)
+            new Page("book_end", PAGE_TEXTURE, 57)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
                     .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "text")
     );
