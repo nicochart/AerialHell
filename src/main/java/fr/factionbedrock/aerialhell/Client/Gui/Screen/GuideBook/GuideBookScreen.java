@@ -1035,8 +1035,8 @@ public class GuideBookScreen extends Screen
                     .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "structures_section_quote")
                     .addParagraph(6, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "structures_content_desc")
                     .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "abandonned_portal")
-                    .addTextureDisplay(centered(19).build(), 0.8F, "gui/guide_book/content/stellar_portal", 64, 80, "block.aerialhell.aerial_hell_portal")
-                    .addParagraph(26, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "abandonned_portal_desc"),
+                    .addTextureDisplay(centered(19).build(), 0.12F, "gui/guide_book/content/structures/abandoned_portal", 999, 652, "block.aerialhell.aerial_hell_portal")
+                    .addParagraph(27, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "abandonned_portal_desc"),
             new Page("structures_2", PAGE_TEXTURE,44)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "floating_boat")
                     .addTextureDisplay(centered(2).build(), 0.14F, "gui/guide_book/content/structures/floating_boat", 900, 629)

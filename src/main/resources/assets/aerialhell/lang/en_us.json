@@ -1522,7 +1522,7 @@
   "aerialhell.guide_book.structures_1.structures_section_quote" : "§oEvery structure hides a secret.\n§oThe challenge is reaching it alive.",
   "aerialhell.guide_book.structures_1.structures_content_desc" : "This section lists all the structures related to Aerial Hell.\nOnly the most essential ones are detailed and illustrated here.\n\nDungeons are covered separately in the \"Dungeons\" section.",
   "aerialhell.guide_book.structures_1.abandonned_portal" : "- Abandonned Portal",
-  "aerialhell.guide_book.structures_1.abandonned_portal_desc" : "You can find broken portals both in Overworld and in Aerial Hell.\nIn Overworld, they will be generated on a cloud up in the sky.\nIn Aerial Hell, they can both generate on a cloud and on ground.",
+  "aerialhell.guide_book.structures_1.abandonned_portal_desc" : "Broken portals can be found in both the Overworld and Aerial Hell.\nIn the Overworld, they appear on clouds high in the sky.\nIn Aerial Hell, they can appear either on clouds or on the ground.",
   "aerialhell.guide_book.structures_2.floating_boat" : "- Floating Boat",
   "aerialhell.guide_book.structures_2.floating_boat_desc" : "Giant boats flying in the air. They are filled with Ruby treasure and Slime Pirates.\nExists in two classic variants: Aerial Tree and Lapis Robinia",
   "aerialhell.guide_book.structures_2.ghost_floating_boat_variant" : "A Ghostly variant also exist:",
