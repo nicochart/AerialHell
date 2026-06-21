@@ -951,7 +951,7 @@ public class GuideBookScreen extends Screen
                     .addParagraph(30,MAX_LINES_PER_TECHNICAL_PAGE - 1, 108, 60, Alignment.LEFT, "ghost_slime_pirate_desc")
                     .addItemTexture(alignedToLeft(30).horizontalOffset(88).build(), 0.7F, AerialHellItems.GHOST_BOAT_PLANKS, false)
                     .addItemTexture(alignedToLeft(32).horizontalOffset(88).build(), 0.7F, AerialHellItems.AZURITE_SHURIKEN, false),
-            new Page("bosses_1", PAGE_TEXTURE,37)
+            new Page("bosses_1", PAGE_TEXTURE, 37)
                     .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "bosses_section_title")
                     .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "bosses_section_quote")
                     .addParagraph(7,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "bosses_content_description")
@@ -961,7 +961,7 @@ public class GuideBookScreen extends Screen
                     .addTextureDisplay(alignedToLeft(22).horizontalOffset(4).verticalOffset(2).build(), 1.0F, "gui/guide_book/content/entities/lunar_priest", 32, 32, "entity.aerialhell.lunatic_priest")
                     .addTextureDisplay(alignedToLeft(26).horizontalOffset(6).build(), 0.9F, "gui/guide_book/content/entities/lilith", 32, 32, "entity.aerialhell.lilith")
                     .addTextureDisplay(alignedToLeft(29).horizontalOffset(-5).verticalOffset(2).build(), 1.2F, "gui/guide_book/content/entities/chained_god", 42, 42, "entity.aerialhell.chained_god"),
-            new Page("bosses_2", PAGE_TEXTURE,38)
+            new Page("bosses_2", PAGE_TEXTURE, 38)
                     .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "mud_cycle_mage")
                     .addTextureDisplay(centered(2).build(), 2.0F, "gui/guide_book/content/entities/mud_cycle_mage", 30, 30, "entity.aerialhell.mud_cycle_mage")
                     .addItemTexture(alignedToLeft(4).centerVerticallyOnLine().build(), 1.0F, AerialHellItems.MUD_BRICKS, false)
@@ -977,7 +977,7 @@ public class GuideBookScreen extends Screen
                     .addParagraph(31,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "drops")
                     .addItemTexture(alignedToLeft(32).horizontalOffset(25).build(), 1.0F, AerialHellItems.OBSIDIAN_SHARD, true)
                     .addItemTexture(alignedToLeft(32).horizontalOffset(105).build(), 1.0F, AerialHellItems.MUD_CYCLE_MAGE_TROPHY, true),
-            new Page("bosses_3", PAGE_TEXTURE,39)
+            new Page("bosses_3", PAGE_TEXTURE, 39)
                     .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "lunar_priest")
                     .addTextureDisplay(centered(2).build(), 2.0F, "gui/guide_book/content/entities/lunar_priest", 32, 32, "entity.aerialhell.lunatic_priest")
                     .addItemTexture(alignedToLeft(4).centerVerticallyOnLine().build(), 1.0F, AerialHellItems.LUNATIC_STONE, false)
@@ -989,7 +989,7 @@ public class GuideBookScreen extends Screen
                     .addParagraph(31,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "drops")
                     .addItemTexture(alignedToLeft(32).horizontalOffset(25).build(), 1.0F, AerialHellItems.LUNATIC_CRYSTAL, true)
                     .addItemTexture(alignedToLeft(32).horizontalOffset(105).build(), 1.0F, AerialHellItems.LUNAR_PRIEST_TROPHY, true),
-            new Page("bosses_4", PAGE_TEXTURE,40)
+            new Page("bosses_4", PAGE_TEXTURE, 40)
                     .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "lilith")
                     .addTextureDisplay(centered(1).build(), 2.0F, "gui/guide_book/content/entities/lilith", 32, 32, "entity.aerialhell.lilith")
                     .addItemTexture(alignedToLeft(3).centerVerticallyOnLine().build(), 1.0F, AerialHellItems.SHADOW_CATACOMBS_BRICKS, false)
@@ -1002,7 +1002,7 @@ public class GuideBookScreen extends Screen
                     .addTextureDisplay(alignedToLeft(23).horizontalOffset(30).build(), 0.9F, "mob_effect/vulnerability", 25, 25, "effect.aerialhell.vulnerability")
                     .addTextureDisplay(alignedToRight(23).horizontalOffset(-30).build(), 0.9F, "mob_effect/shadow_immunity", 25, 25, "effect.aerialhell.shadow_immunity")
                     .addParagraph(26,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "lilith_ability_desc"),
-            new Page("bosses_5", PAGE_TEXTURE,41)
+            new Page("bosses_5", PAGE_TEXTURE, 41)
                     .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "lilith_summon_ability")
                     .addTextureDisplay(alignedToLeft(5).horizontalOffset(30).build(), 1.0F, "gui/guide_book/content/entities/shadow_flying_skull", 30, 12, "entity.aerialhell.shadow_flying_skull")
                     .addTextureDisplay(alignedToRight(5).horizontalOffset(-30).build(), 1.0F, "gui/guide_book/content/entities/shadow_flying_skull", 30, 12, "entity.aerialhell.shadow_flying_skull")
@@ -1017,7 +1017,7 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(21).centerVerticallyOnLine().build(), 1.0F, AerialHellItems.GOLDEN_NETHER_BRICKS, false)
                     .addItemTexture(alignedToRight(21).centerVerticallyOnLine().build(), 1.0F, AerialHellItems.LIGHT_GOLDEN_NETHER_BRICKS, false)
                     .addParagraph(26,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "chained_god_unchain"),
-            new Page("bosses_6", PAGE_TEXTURE,42)
+            new Page("bosses_6", PAGE_TEXTURE, 42)
                     .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "chained_god_base_attack")
                     .addItemTexture(centered(9).verticalOffset(-7).centerVerticallyOnLine().build(), 1.5F, () -> Items.FIRE_CHARGE, false)
                     .addParagraph(10,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "chained_god_second_phase")
@@ -1030,14 +1030,14 @@ public class GuideBookScreen extends Screen
                     .addParagraph(31,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "drops")
                     .addItemTexture(alignedToLeft(32).horizontalOffset(25).build(), 1.0F, AerialHellItems.ARSONIST_INGOT, true)
                     .addItemTexture(alignedToLeft(32).horizontalOffset(105).build(), 1.0F, AerialHellItems.CHAINED_GOD_TROPHY, true),
-            new Page("structures_1", PAGE_TEXTURE,43)
+            new Page("structures_1", PAGE_TEXTURE, 43)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "structures_section_title")
                     .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "structures_section_quote")
                     .addParagraph(6, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "structures_content_desc")
                     .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "abandonned_portal")
                     .addTextureDisplay(centered(19).build(), 0.12F, "gui/guide_book/content/structures/abandoned_portal", 999, 652, "block.aerialhell.aerial_hell_portal")
                     .addParagraph(27, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "abandonned_portal_desc"),
-            new Page("structures_2", PAGE_TEXTURE,44)
+            new Page("structures_2", PAGE_TEXTURE, 44)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "floating_boat")
                     .addTextureDisplay(centered(2).build(), 0.14F, "gui/guide_book/content/structures/floating_boat", 900, 629)
                     .addItemTexture(alignedToRight(4).build(), 0.8F, AerialHellItems.RUBY, true)
@@ -1050,7 +1050,7 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(28).verticalOffset(-5).build(), 0.8F, AerialHellItems.MAGMATIC_GEL_BOOTS, true)
                     .addTextureDisplay(alignedToLeft(28).verticalOffset(-7).horizontalOffset(16).build(), 0.6F, "mob_effect/head_in_the_clouds", 25, 25, "effect.aerialhell.head_in_the_clouds")
                     .addParagraph(29, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "ghost_floating_boat_desc"),
-            new Page("structures_3", PAGE_TEXTURE,45)
+            new Page("structures_3", PAGE_TEXTURE, 45)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "stellar_stone_bricks_tower")
                     .addTextureDisplay(centered(2).verticalOffset(-1).build(), 0.138F, "gui/guide_book/content/structures/stellar_stone_bricks_tower", 654, 800)
                     .addItemTexture(alignedToRight(4).build(), 0.8F, AerialHellItems.RUBY, true)
@@ -1072,7 +1072,7 @@ public class GuideBookScreen extends Screen
                     .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "little_structures_desc")
                     .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "little_structures_example")
                     .addTextureDisplay(centered(21).build(), 0.12F, "gui/guide_book/content/structures/shadow_pine_tower", 678, 900),
-            new Page("dungeons_1", PAGE_TEXTURE,47)
+            new Page("dungeons_1", PAGE_TEXTURE, 47)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "dungeons_section_title")
                     .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "dungeons_section_quote")
                     .addParagraph(6, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "dungeons_content_desc")
@@ -1088,7 +1088,7 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(centered(32).verticalOffset(8).horizontalOffset(-25).build(), 0.9F, AerialHellItems.LUNATIC_DUNGEON_CORE, true)
                     .addItemTexture(centered(32).verticalOffset(8).horizontalOffset(25).build(), 0.9F, AerialHellItems.SHADOW_CATACOMBS_DUNGEON_CORE, true)
                     .addItemTexture(alignedToRight(32).verticalOffset(8).build(), 0.9F, AerialHellItems.GOLDEN_NETHER_DUNGEON_CORE, true),
-            new Page("dungeons_2", PAGE_TEXTURE,48)
+            new Page("dungeons_2", PAGE_TEXTURE, 48)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "mud_dungeon")
                     .addTextureDisplay(alignedToLeft(2).build(), 0.135F, "gui/guide_book/content/structures/mud_dungeon", 1161, 599)
                     .addTextureDisplay(alignedToRight(8).horizontalOffset(-35).build(), 0.8F, "gui/guide_book/content/entities/mud_soldier", 18, 27, "entity.aerialhell.mud_soldier")
@@ -1103,7 +1103,7 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(32).build(), 1.0F, AerialHellItems.OBSIDIAN_SHARD, true)
                     .addItemTexture(alignedToRight(30).build(), 1.0F, AerialHellItems.NINJA_SWORD, true)
                     .addItemTexture(alignedToRight(32).build(), 1.0F, AerialHellItems.DISLOYAL_SWORD, true),
-            new Page("dungeons_3", PAGE_TEXTURE,49)
+            new Page("dungeons_3", PAGE_TEXTURE, 49)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "lunar_temple")
                     .addTextureDisplay(centered(2).build(), 0.11F, "gui/guide_book/content/structures/lunar_temple", 1199, 896)
                     .addTextureDisplay(alignedToLeft(4).build(), 0.75F, "gui/guide_book/content/entities/crystal_slime", 30, 30, "entity.aerialhell.crystal_slime")
@@ -1120,7 +1120,7 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(32).build(), 1.0F, AerialHellItems.LUNATIC_CRYSTAL, true)
                     .addItemTexture(alignedToRight(30).build(), 1.0F, AerialHellItems.SWORD_OF_LIGHT, true)
                     .addItemTexture(alignedToRight(32).build(), 1.0F, AerialHellItems.HEALTH_BOOST_SWORD, true),
-            new Page("dungeons_4", PAGE_TEXTURE,50)
+            new Page("dungeons_4", PAGE_TEXTURE, 50)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow_catacombs")
                     .addTextureDisplay(centered(2).build(), 0.125F, "gui/guide_book/content/structures/shadow_catacombs", 1124, 583)
                     .addTextureDisplay(alignedToRight(7).build(), 0.8F, "gui/guide_book/content/entities/shadow_automaton", 16, 28, "entity.aerialhell.shadow_automaton")
@@ -1135,7 +1135,7 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(32).build(), 1.0F, AerialHellItems.CURSED_CRYSTAL, true)
                     .addItemTexture(alignedToRight(30).build(), 1.0F, AerialHellItems.CURSED_AXE, true)
                     .addItemTexture(alignedToRight(32).build(), 1.0F, AerialHellItems.REAPER_SCYTHE, true),
-            new Page("dungeons_5", PAGE_TEXTURE,51)
+            new Page("dungeons_5", PAGE_TEXTURE, 51)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "golden_nether_prison")
                     .addTextureDisplay(centered(2).build(), 0.15F, "gui/guide_book/content/structures/golden_nether_prison", 807, 693)
                     .addTextureDisplay(alignedToLeft(4).build(), 0.8F, "gui/guide_book/content/entities/torn_spirit", 24, 32, "entity.aerialhell.torn_spirit")
@@ -1149,8 +1149,23 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(30).build(), 1.0F, AerialHellItems.GOLDEN_NETHER_CHEST, true)
                     .addItemTexture(alignedToLeft(32).build(), 1.0F, AerialHellItems.ARSONIST_INGOT, true)
                     .addItemTexture(alignedToRight(30).build(), 1.0F, AerialHellItems.GLASS_CANON_SWORD, true)
-                    .addItemTexture(alignedToRight(32).build(), 1.0F, AerialHellItems.BERSERK_AXE, true)
-
+                    .addItemTexture(alignedToRight(32).build(), 1.0F, AerialHellItems.BERSERK_AXE, true),
+            new Page("shadow_and_light_1", PAGE_TEXTURE, 52)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "shadow_and_light_section_title")
+                    .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "shadow_and_light_section_quote")
+                    .addParagraph(7, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow_and_light_content_desc"),
+            new Page("shadow_and_light_2", PAGE_TEXTURE, 53)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "light")
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow"),
+            new Page("items_1", PAGE_TEXTURE, 54)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "items_section_title")
+                    .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "items_section_quote")
+                    .addParagraph(7, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "items_content_desc"),
+            new Page("items_2", PAGE_TEXTURE, 55)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "essential_items"),
+            new Page("book_end", PAGE_TEXTURE, 56)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
+                    .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "text")
     );
 
     private static ElementPositionInfo.Builder posBuilder() {return new ElementPositionInfo.Builder();}
@@ -1189,7 +1204,7 @@ public class GuideBookScreen extends Screen
 
         public List<Tab> getTabs() {return this.tabs;}
 
-        private TabList add(String name, int pageIndex)
+        private TabList add(String name, int startPageIndex, int endPageIndex)
         {
             int currentTabYOffset = this.nextTabYOffsetFromBookTop;
             this.tabs.add(new Tab(
@@ -1202,7 +1217,8 @@ public class GuideBookScreen extends Screen
                     (isHovered) -> currentTabYOffset,
                     this.isLeft ? (isHovered) -> 0.0F : (isHovered) -> isHovered ? 0.0F : 4.0F, //blitU : left tab is offset by default (due to relativeXPos moving). right tab : offset when not hovered, to give the impression that we are "pulling the tab" when hovered, like left one
                     (isHovered) -> 0.0F, //blitY : always 0.0F, no matter if isHovered
-                    pageIndex
+                    startPageIndex,
+                    endPageIndex
             ));
             this.nextTabYOffsetFromBookTop += TAB_HEIGHT + TAB_GAP;
             return this;
@@ -1287,23 +1303,37 @@ public class GuideBookScreen extends Screen
         super.onClose();
     }
 
+    private static final int JOURNEY_SECTION_PAGE_INDEX = 1;
+    private static final int CRAFTING_SECTION_PAGE_INDEX = 9;
+    private static final int MATERIALS_SECTION_PAGE_INDEX = 14;
+    private static final int EFFECTS_SECTION_PAGE_INDEX = 21;
+    private static final int ENCHANTING_SECTION_PAGE_INDEX = 25;
+    private static final int ENVIRONMENT_SECTION_PAGE_INDEX = 27;
+    private static final int BESTIARY_SECTION_PAGE_INDEX = 31;
+    private static final int BOSSES_SECTION_PAGE_INDEX = 37;
+    private static final int STRUCTURES_SECTION_PAGE_INDEX = 43;
+    private static final int DUNGEONS_SECTION_PAGE_INDEX = 47;
+    private static final int SHADOW_AND_LIGHT_SECTION_PAGE_INDEX = 52;
+    private static final int ITEMS_SECTION_PAGE_INDEX = 54;
+    private static final int BOOK_END_PAGE_INDEX = 56;
+
     protected void createTabs()
     {
         this.leftTabs = new TabList(true, () -> this.bookLeft, () -> this.bookTop)
-                .add("journey", 1)
-                .add("crafting", 9)
-                .add("materials", 14)
-                .add("effects", 21)
-                .add("enchanting", 25)
-                .add("environment", 27);
+                .add("journey", JOURNEY_SECTION_PAGE_INDEX, CRAFTING_SECTION_PAGE_INDEX-1)
+                .add("crafting", CRAFTING_SECTION_PAGE_INDEX, MATERIALS_SECTION_PAGE_INDEX-1)
+                .add("materials", MATERIALS_SECTION_PAGE_INDEX, EFFECTS_SECTION_PAGE_INDEX-1)
+                .add("effects", EFFECTS_SECTION_PAGE_INDEX, ENCHANTING_SECTION_PAGE_INDEX-1)
+                .add("enchanting", ENCHANTING_SECTION_PAGE_INDEX, ENVIRONMENT_SECTION_PAGE_INDEX-1)
+                .add("environment", ENVIRONMENT_SECTION_PAGE_INDEX, BESTIARY_SECTION_PAGE_INDEX-1);
 
         this.rightTabs = new TabList(false, () -> this.bookLeft, () -> this.bookTop)
-                .add("bestiary", 31)
-                .add("bosses", 37)
-                .add("structures", 43)
-                .add("dungeons", 47)
-                .add("shadow_and_light", 20)
-                .add("items", 20);
+                .add("bestiary", BESTIARY_SECTION_PAGE_INDEX, BOSSES_SECTION_PAGE_INDEX-1)
+                .add("bosses", BOSSES_SECTION_PAGE_INDEX, STRUCTURES_SECTION_PAGE_INDEX-1)
+                .add("structures", STRUCTURES_SECTION_PAGE_INDEX, DUNGEONS_SECTION_PAGE_INDEX-1)
+                .add("dungeons", DUNGEONS_SECTION_PAGE_INDEX, SHADOW_AND_LIGHT_SECTION_PAGE_INDEX-1)
+                .add("shadow_and_light", SHADOW_AND_LIGHT_SECTION_PAGE_INDEX, ITEMS_SECTION_PAGE_INDEX-1)
+                .add("items", ITEMS_SECTION_PAGE_INDEX, BOOK_END_PAGE_INDEX-1);
     }
 
     @Override public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick)
@@ -1364,8 +1394,8 @@ public class GuideBookScreen extends Screen
 
     @Override public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick)
     {
-        for (Tab tab : leftTabs.getTabs()) {tab.render(graphics, this.font, mouseX, mouseY);}
-        for (Tab tab : rightTabs.getTabs()) {tab.render(graphics, this.font, mouseX, mouseY);}
+        for (Tab tab : leftTabs.getTabs()) {tab.render(graphics, this.font, mouseX, mouseY, this.currentPage);}
+        for (Tab tab : rightTabs.getTabs()) {tab.render(graphics, this.font, mouseX, mouseY, this.currentPage);}
 
         this.renderPageContent(graphics, mouseX, mouseY);
         this.renderNavigationButtons(graphics, mouseX, mouseY);
@@ -1407,7 +1437,7 @@ public class GuideBookScreen extends Screen
 
     private void navigateToTab(Tab tab)
     {
-        this.currentPage = tab.pageIndex();
+        this.currentPage = tab.startPageIndex();
         this.playPageTurnSound();
     }
 

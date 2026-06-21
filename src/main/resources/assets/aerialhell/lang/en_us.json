@@ -1555,5 +1555,16 @@
   "aerialhell.guide_book.dungeons_5.golden_nether_prison" : "- Golden Nether Prison",
   "aerialhell.guide_book.dungeons_5.golden_nether_prison_desc" : "This dungeon is hidden within an ellipsoidal floating island topped with a few small structures. It is located between the two layers of islands.",
   "aerialhell.guide_book.dungeons_5.golden_nether_prison_passage" : "You will need to explore the prison to find the entrance leading to the Chained God's chamber. The chamber contains some Liquid of Gods, which is dangerous, and spawners.",
-  "aerialhell.guide_book.dungeons_5.golden_nether_prison_core" : "Defeat the Chained God, then destroy the Core in the center of the room, in the ground, to be able to access the treasure chests and destroy the blocks."
+  "aerialhell.guide_book.dungeons_5.golden_nether_prison_core" : "Defeat the Chained God, then destroy the Core in the center of the room, in the ground, to be able to access the treasure chests and destroy the blocks.",
+  "aerialhell.guide_book.shadow_and_light_1.shadow_and_light_section_title" : "- Shadow And Light -",
+  "aerialhell.guide_book.shadow_and_light_1.shadow_and_light_section_quote" : "§oEvery soul harbors both\n§oShadow and Light.\n§oThe question is which one will prevail.",
+  "aerialhell.guide_book.shadow_and_light_1.shadow_and_light_content_desc" : "This section introduces the two factions of Aerial Hell.\n\nLocked in an ongoing war, each faction seeks to defeat the other.\nYou may choose to support either side.\n\nHere, you will learn how to earn a faction's trust and assist them in their struggle against their rival.",
+  "aerialhell.guide_book.shadow_and_light_2.light" : "- Light",
+  "aerialhell.guide_book.shadow_and_light_2.shadow" : "- Shadow",
+  "aerialhell.guide_book.items_1.items_section_title" : "- Items -",
+  "aerialhell.guide_book.items_1.items_section_quote" : "§oNo item is legendary by itself.\n§oOnly the actions it enables\n§ocan make it so.",
+  "aerialhell.guide_book.items_1.items_content_desc" : "This section is not an exhaustive list of items. It only presents the most essential ones, including those whose usefulness may not be immediately obvious.",
+  "aerialhell.guide_book.items_2.essential_items" : "- Essential Items",
+  "aerialhell.guide_book.book_end.title" : "- The End -",
+  "aerialhell.guide_book.book_end.text" : "Thank you for using the Aerial Hell Guide Book."
 }
