@@ -1155,27 +1155,94 @@ public class GuideBookScreen extends Screen
                     .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "shadow_and_light_section_quote")
                     .addParagraph(7, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow_and_light_content_desc")
                     .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow_and_light_war")
-                    .addTextureDisplay(centered(25).build(), 0.15F, "gui/guide_book/content/shadow_vs_light", 900, 549),
+                    .addTextureDisplay(centered(25).build(), 0.145F, "gui/guide_book/content/shadow_vs_light", 950, 637),
             new Page("shadow_and_light_2", PAGE_TEXTURE, 53)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "light")
                     .addParagraph(12, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "light_creatures")
                     .addTextureDisplay(alignedToLeft(13).build(), 1.0F, "gui/guide_book/content/entities/crystal_caterpillar", 26, 22, "entity.aerialhell.crystal_caterpillar")
                     .addTextureDisplay(centered(13).build(), 1.0F, "gui/guide_book/content/entities/crystal_slime", 30, 30, "entity.aerialhell.crystal_slime")
-                    .addTextureDisplay(alignedToRight(13).build(), 1.0F, "gui/guide_book/content/entities/crystal_spider", 30, 28, "entity.aerialhell.crystal_spider")
+                    .addTextureDisplay(alignedToRight(13).build(), 1.0F, "gui/guide_book/content/entities/shadow_pine_mimic", 32, 20, "entity.aerialhell.shadow_pine_mimic")
                     .addTextureDisplay(alignedToLeft(17).build(), 0.65F, "gui/guide_book/content/entities/crystal_golem", 34, 54, "entity.aerialhell.crystal_golem")
                     .addTextureDisplay(centered(17).build(), 0.6F, "gui/guide_book/content/entities/golden_beech_mimic", 32, 50, "entity.aerialhell.golden_beech_mimic")
                     .addTextureDisplay(alignedToRight(17).build(), 1.0F, "gui/guide_book/content/entities/lunar_priest", 32, 32, "entity.aerialhell.lunatic_priest")
                     .addParagraph(21, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "light_locations")
                     .addTextureDisplay(centered(28).build(), 0.06F, "gui/guide_book/content/structures/lunar_temple", 1199, 896),
             new Page("shadow_and_light_3", PAGE_TEXTURE, 54)
-                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow"),
-            new Page("items_1", PAGE_TEXTURE, 55)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow")
+                    .addParagraph(9, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow_creatures")
+                    .addTextureDisplay(alignedToLeft(13).build(), 1.0F, "gui/guide_book/content/entities/shadow_automaton", 16, 28, "entity.aerialhell.shadow_automaton")
+                    .addTextureDisplay(centered(13).build(), 0.65F, "gui/guide_book/content/entities/shadow_troll", 39, 64, "entity.aerialhell.shadow_troll")
+                    .addTextureDisplay(alignedToRight(14).build(), 1.0F, "gui/guide_book/content/entities/shadow_pine_mimic", 32, 20, "entity.aerialhell.shadow_pine_mimic")
+                    .addTextureDisplay(centered(18).horizontalOffset(-30).build(), 1.0F, "gui/guide_book/content/entities/shadow_flying_skull", 30, 12, "entity.aerialhell.shadow_flying_skull")
+                    .addTextureDisplay(centered(17).horizontalOffset(30).build(), 0.9F, "gui/guide_book/content/entities/lilith", 32, 32, "entity.aerialhell.lilith")
+                    .addParagraph(21, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow_locations")
+                    .addTextureDisplay(centered(29).build(), 0.08F, "gui/guide_book/content/structures/shadow_catacombs", 1124, 583),
+            new Page("shadow_and_light_4", PAGE_TEXTURE, 55)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "expansion_and_influence")
+                    .addParagraph(2, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "light")
+                    .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, (int)(LINE_WIDTH_NO_MARGIN * 0.1F), (int)(LINE_WIDTH_NO_MARGIN * 0.9F), Alignment.LEFT, "light_spread_properties")
+                    .addItemTexture(alignedToLeft(3).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.STELLAR_GRASS_BLOCK, true)
+                    .addItemTexture(alignedToLeft(4).build(), 0.7F, AerialHellItems.FLUORITE_BLOCK, true)
+                    .addTextureDisplay(alignedToLeft(6).centerVerticallyOnLine().build(), 0.8F, "entity/projectile/lunatic_projectile", 16, 16, "entity.aerialhell.lunatic_projectile")
+                    .addParagraph(8, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "light_reactor")
+                    .addCraftingTableRecipeDisplay(10, Alignment.LEFT, 0.72F, new CraftingTableRecipeDisplay.Ingredients(
+                            AerialHellItems.LUNATIC_STONE, AerialHellItems.FLUORITE, AerialHellItems.LUNATIC_STONE,
+                            AerialHellItems.LUNATIC_CRYSTAL, AerialHellItems.OSCILLATOR, AerialHellItems.LUNATIC_CRYSTAL,
+                            AerialHellItems.LUNATIC_STONE, AerialHellItems.LUNATIC_STONE, AerialHellItems.LUNATIC_STONE
+                    ), () -> AerialHellItems.WEAK_LIGHT_REACTOR.get().getDefaultInstance(), true)
+                    .addCraftingTableRecipeDisplay(10, Alignment.RIGHT, 0.72F, new CraftingTableRecipeDisplay.Ingredients(
+                            AerialHellItems.VOLUCITE_VIBRANT, AerialHellItems.VOLUCITE_VIBRANT, AerialHellItems.VOLUCITE_VIBRANT,
+                            AerialHellItems.VOLUCITE_VIBRANT, AerialHellItems.WEAK_LIGHT_REACTOR, AerialHellItems.VOLUCITE_VIBRANT,
+                            AerialHellItems.VOLUCITE_VIBRANT, AerialHellItems.VOLUCITE_VIBRANT, AerialHellItems.VOLUCITE_VIBRANT
+                    ), () -> AerialHellItems.HIGH_POWER_LIGHT_REACTOR.get().getDefaultInstance(), true)
+                    .addParagraph(15, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "fuel")
+                    .addItemTexture(alignedToLeft(16).build(), 0.8F, AerialHellItems.FLUORITE, true)
+                    .addItemTexture(alignedToLeft(16).horizontalOffset(LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 0.8F, AerialHellItems.FLUORITE_BLOCK, true)
+                    .addItemTexture(alignedToLeft(16).horizontalOffset(2 * LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 0.8F, AerialHellItems.CRYSTAL, true)
+                    .addItemTexture(alignedToRight(16).build(), 0.8F, AerialHellItems.CRYSTAL_BLOCK, true)
+                    .addParagraph(19, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow")
+                    .addParagraph(20, MAX_LINES_PER_TECHNICAL_PAGE - 1, (int)(LINE_WIDTH_NO_MARGIN * 0.1F), (int)(LINE_WIDTH_NO_MARGIN * 0.9F), Alignment.LEFT, "shadow_spread_properties")
+                    .addItemTexture(alignedToLeft(20).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.SHADOW_GRASS_BLOCK, true)
+                    .addItemTexture(alignedToLeft(21).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.STELLAR_CRYSTAL_PODZOL, true)
+                    .addTextureDisplay(alignedToLeft(22).centerVerticallyOnLine().build(), 0.8F, "entity/projectile/shadow_projectile", 16, 16, "entity.aerialhell.shadow_projectile")
+                    .addParagraph(24, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow_reactor")
+                    .addCraftingTableRecipeDisplay(27, Alignment.LEFT, 0.72F, new CraftingTableRecipeDisplay.Ingredients(
+                            AerialHellItems.SHADOW_CATACOMBS_BRICKS, AerialHellItems.CURSED_CRYSTAL, AerialHellItems.SHADOW_CATACOMBS_BRICKS,
+                            AerialHellItems.SHADOW_SHARD, AerialHellItems.OSCILLATOR, AerialHellItems.SHADOW_SHARD,
+                            AerialHellItems.SHADOW_CATACOMBS_BRICKS, AerialHellItems.SHADOW_CATACOMBS_BRICKS, AerialHellItems.SHADOW_CATACOMBS_BRICKS
+                    ), () -> AerialHellItems.WEAK_SHADOW_REACTOR.get().getDefaultInstance(), true)
+                    .addCraftingTableRecipeDisplay(27, Alignment.RIGHT, 0.72F, new CraftingTableRecipeDisplay.Ingredients(
+                            AerialHellItems.CURSED_CRYSTAL, AerialHellItems.CURSED_CRYSAL_BLOCK, AerialHellItems.CURSED_CRYSTAL,
+                            AerialHellItems.CURSED_CRYSTAL, AerialHellItems.WEAK_SHADOW_REACTOR, AerialHellItems.CURSED_CRYSTAL,
+                            AerialHellItems.SHADOW_SHARD, AerialHellItems.SHADOW_SHARD, AerialHellItems.SHADOW_SHARD
+                    ), () -> AerialHellItems.HIGH_POWER_SHADOW_REACTOR.get().getDefaultInstance(), true)
+                    .addParagraph(32, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "fuel")
+                    .addItemTexture(alignedToLeft(33).build(), 0.8F, AerialHellItems.SHADOW_CRYSTAL, true)
+                    .addItemTexture(alignedToLeft(33).horizontalOffset(LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 0.8F, AerialHellItems.SHADOW_CRYSTAL_BLOCK, true)
+                    .addItemTexture(centered(33).build(), 0.8F, AerialHellItems.SHADOW_SHARD, true)
+                    .addItemTexture(alignedToLeft(33).horizontalOffset(2 * LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 0.8F, AerialHellItems.CURSED_CRYSTAL, true)
+                    .addItemTexture(alignedToRight(33).build(), 0.8F, AerialHellItems.CURSED_CRYSAL_BLOCK, true),
+            new Page("shadow_and_light_5", PAGE_TEXTURE, 56)
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "choosing_a_side")
+                    .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "mislead_light")
+                    .addItemTexture(alignedToLeft(7).build(), 1.0F, AerialHellItems.LUNATIC_HELMET, true)
+                    .addItemTexture(alignedToLeft(7).horizontalOffset(LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 1.0F, AerialHellItems.LUNATIC_CHESTPLATE, true)
+                    .addItemTexture(alignedToLeft(7).horizontalOffset(2 * LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 1.0F, AerialHellItems.LUNATIC_LEGGINGS, true)
+                    .addItemTexture(alignedToRight(7).build(), 1.0F, AerialHellItems.LUNATIC_BOOTS, true)
+                    .addParagraph(10, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "faction_interaction")
+                    .addParagraph(20, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "mislead_shadow")
+                    .addItemTexture(alignedToLeft(24).build(), 1.0F, AerialHellItems.SHADOW_HELMET, true)
+                    .addItemTexture(alignedToLeft(24).horizontalOffset(LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 1.0F, AerialHellItems.SHADOW_CHESTPLATE, true)
+                    .addItemTexture(alignedToLeft(24).horizontalOffset(2 * LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 1.0F, AerialHellItems.SHADOW_LEGGINGS, true)
+                    .addItemTexture(alignedToRight(24).build(), 1.0F, AerialHellItems.SHADOW_BOOTS, true)
+                    .addParagraph(27, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow_perspective"),
+            new Page("items_1", PAGE_TEXTURE, 57)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "items_section_title")
                     .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "items_section_quote")
                     .addParagraph(7, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "items_content_desc"),
-            new Page("items_2", PAGE_TEXTURE, 56)
+            new Page("items_2", PAGE_TEXTURE, 58)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "essential_items"),
-            new Page("book_end", PAGE_TEXTURE, 57)
+            new Page("book_end", PAGE_TEXTURE, 59)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
                     .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "text")
     );
@@ -1326,8 +1393,8 @@ public class GuideBookScreen extends Screen
     private static final int STRUCTURES_SECTION_PAGE_INDEX = 43;
     private static final int DUNGEONS_SECTION_PAGE_INDEX = 47;
     private static final int SHADOW_AND_LIGHT_SECTION_PAGE_INDEX = 52;
-    private static final int ITEMS_SECTION_PAGE_INDEX = 54;
-    private static final int BOOK_END_PAGE_INDEX = 56;
+    private static final int ITEMS_SECTION_PAGE_INDEX = 57;
+    private static final int BOOK_END_PAGE_INDEX = 59;
 
     protected void createTabs()
     {
