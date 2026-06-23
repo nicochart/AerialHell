@@ -789,6 +789,7 @@
   "item.aerialhell.magmatic_gel_chestplate" : "Plastron en Gel Magmatique",
   "item.aerialhell.magmatic_gel_leggings" : "Jambières en Gel Magmatique",
   "item.aerialhell.magmatic_gel_boots" : "Bottes en Gel Magmatique",
+  "item.aerialhell.magmatic_gel_boots.desc" : "Permet de marcher sur des nuages ​​d'Ether Condensé et des Blocs Fantômatiques",
   "item.aerialhell.volucite_helmet" : "Casque en Volucite",
   "item.aerialhell.volucite_chestplate" : "Plastron en Volucite",
   "item.aerialhell.volucite_leggings" : "Jambières en Volucite",

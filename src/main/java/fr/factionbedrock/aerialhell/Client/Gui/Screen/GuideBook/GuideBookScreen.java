@@ -360,7 +360,7 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(26).centerVerticallyOnLine().build(), 1.0F, AerialHellItems.COPPER_PINE_CRAFTING_TABLE, false)
                     .addItemTexture(alignedToLeft(28).build(), 1.0F, AerialHellItems.RUBY_CHESTPLATE, true)
                     .addItemTexture(alignedToLeft(28).horizontalOffset(LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 1.0F, AerialHellItems.RUBY_SWORD, true)
-                    .addItemTexture(alignedToLeft(28).horizontalOffset(2 * LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 1.0F, AerialHellItems.RUBY_FLUORITE_LANTERN, true)
+                    .addItemTexture(alignedToLeft(28).horizontalOffset(2 * LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 1.0F, AerialHellItems.RUBY_AERIAL_BERRY, true)
                     .addItemTexture(alignedToRight(28).build(), 1.0F, AerialHellItems.RUBY_BLOCK, true)
                     .addItemTexture(alignedToLeft(30).horizontalOffset(LINE_WIDTH_NO_MARGIN / 4 - 8).build(), 1.0F, AerialHellItems.RUBY_BLOWPIPE, true)
                     .addItemTexture(alignedToRight(30).horizontalOffset(-LINE_WIDTH_NO_MARGIN / 4 + 8).build(), 1.0F, AerialHellItems.RUBY_BLOWPIPE_ARROW, true)
@@ -1239,12 +1239,29 @@ public class GuideBookScreen extends Screen
             new Page("items_1", PAGE_TEXTURE, 57)
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "items_section_title")
                     .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "items_section_quote")
-                    .addParagraph(7, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "items_content_desc"),
+                    .addParagraph(7, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "items_content_desc")
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "magmatic_gel_boots")
+                    .addItemTexture(alignedToRight(18).centerVerticallyOnLine().verticalOffset(-1).build(), 1.0F, AerialHellItems.MAGMATIC_GEL_BOOTS, true)
+                    .addTextureDisplay(alignedToLeft(23).verticalOffset(3).build(), 1.0F, HORIZONTAL_SEPARATOR)
+                    .addParagraph(25, MAX_LINES_PER_TECHNICAL_PAGE - 1, (int)(0.9F * LINE_WIDTH_NO_MARGIN), Alignment.LEFT, "ability_items")
+                    .addItemTexture(alignedToRight(25).centerVerticallyOnLine().verticalOffset(-1).build(), 1.0F, AerialHellItems.NINJA_SWORD, true)
+                    .addItemTexture(alignedToRight(27).centerVerticallyOnLine().verticalOffset(-1).build(), 1.0F, AerialHellItems.MAGMATIC_GEL_CHESTPLATE, true)
+                    .addItemTexture(alignedToRight(29).centerVerticallyOnLine().verticalOffset(-1).build(), 1.0F, AerialHellItems.HEALTH_BOOST_SWORD, true)
+                    .addItemTexture(alignedToRight(31).centerVerticallyOnLine().verticalOffset(-1).build(), 1.0F, AerialHellItems.ARSONIST_AXE, true),
             new Page("items_2", PAGE_TEXTURE, 58)
-                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "essential_items"),
-            new Page("book_end", PAGE_TEXTURE, 59)
-                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "title")
-                    .addParagraph(3, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "text")
+                    .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "volucite_torch")
+                    .addItemTexture(alignedToRight(1).centerVerticallyOnLine().verticalOffset(-1).build(), 1.0F, AerialHellItems.VOLUCITE_TORCH, true)
+                    .addTextureDisplay(alignedToLeft(5).verticalOffset(3).build(), 1.0F, HORIZONTAL_SEPARATOR)
+                    .addParagraph(7, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "ruby_aerial_berry")
+                    .addItemTexture(alignedToRight(7).centerVerticallyOnLine().verticalOffset(-1).build(), 1.0F, AerialHellItems.RUBY_AERIAL_BERRY, true)
+                    .addTextureDisplay(alignedToLeft(10).verticalOffset(3).build(), 1.0F, HORIZONTAL_SEPARATOR)
+                    .addParagraph(12, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "volucite_aerial_berry")
+                    .addItemTexture(alignedToRight(12).centerVerticallyOnLine().verticalOffset(-1).build(), 1.0F, AerialHellItems.VOLUCITE_AERIAL_BERRY, true)
+                    .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "azurite_copper_pine_cone")
+                    .addItemTexture(alignedToRight(18).centerVerticallyOnLine().verticalOffset(-1).build(), 1.0F, AerialHellItems.AZURITE_COPPER_PINE_CONE, true)
+                    .addTextureDisplay(alignedToLeft(21).verticalOffset(3).build(), 1.0F, HORIZONTAL_SEPARATOR)
+                    .addParagraph(23, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "gods_volucite_aerial_berry")
+                    .addItemTexture(alignedToRight(23).centerVerticallyOnLine().verticalOffset(-1).build(), 1.0F, AerialHellItems.GODS_VOLUCITE_AERIAL_BERRY, true)
     );
 
     private static ElementPositionInfo.Builder posBuilder() {return new ElementPositionInfo.Builder();}
@@ -1394,7 +1411,7 @@ public class GuideBookScreen extends Screen
     private static final int DUNGEONS_SECTION_PAGE_INDEX = 47;
     private static final int SHADOW_AND_LIGHT_SECTION_PAGE_INDEX = 52;
     private static final int ITEMS_SECTION_PAGE_INDEX = 57;
-    private static final int BOOK_END_PAGE_INDEX = 59;
+    private static final int ITEMS_SECTION_END_PAGE_INDEX = 58;
 
     protected void createTabs()
     {
@@ -1412,7 +1429,7 @@ public class GuideBookScreen extends Screen
                 .add("structures", STRUCTURES_SECTION_PAGE_INDEX, DUNGEONS_SECTION_PAGE_INDEX-1)
                 .add("dungeons", DUNGEONS_SECTION_PAGE_INDEX, SHADOW_AND_LIGHT_SECTION_PAGE_INDEX-1)
                 .add("shadow_and_light", SHADOW_AND_LIGHT_SECTION_PAGE_INDEX, ITEMS_SECTION_PAGE_INDEX-1)
-                .add("items", ITEMS_SECTION_PAGE_INDEX, BOOK_END_PAGE_INDEX-1);
+                .add("items", ITEMS_SECTION_PAGE_INDEX, ITEMS_SECTION_END_PAGE_INDEX);
     }
 
     @Override public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick)
