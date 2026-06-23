@@ -42,21 +42,27 @@ public class Page
 
     public int pageIndex() {return this.pageIndex;}
 
+    public Page addSimpleText(int startLineIndex, int lastLineIndex, int lineWidth, Alignment alignment, String text)
+    {
+        this.pageElements.add(new ParagraphFromSimpleText(startLineIndex, lastLineIndex, 0, lineWidth, alignment, 0xFF7A5C3A, text));
+        return this;
+    }
+
     public Page addParagraph(int startLineIndex, int lastLineIndex, int lineStartOffset, int lineWidth, Alignment alignment, String paragraphName)
     {
-        this.pageElements.add(new Paragraph(startLineIndex, lastLineIndex, lineStartOffset, lineWidth, alignment, 0xFF7A5C3A, "aerialhell.guide_book."+ this.pageName +"."+paragraphName));
+        this.pageElements.add(new ParagraphFromKey(startLineIndex, lastLineIndex, lineStartOffset, lineWidth, alignment, 0xFF7A5C3A, "aerialhell.guide_book."+ this.pageName +"."+paragraphName));
         return this;
     }
 
     public Page addParagraph(int startLineIndex, int lastLineIndex, int lineWidth, Alignment alignment, String paragraphName)
     {
-        this.pageElements.add(new Paragraph(startLineIndex, lastLineIndex, 0, lineWidth, alignment, 0xFF7A5C3A, "aerialhell.guide_book."+ this.pageName +"."+paragraphName));
+        this.pageElements.add(new ParagraphFromKey(startLineIndex, lastLineIndex, 0, lineWidth, alignment, 0xFF7A5C3A, "aerialhell.guide_book."+ this.pageName +"."+paragraphName));
         return this;
     }
 
     public Page addParagraph(int startLineIndex, int lastLineIndex, int lineWidth, Alignment alignment, int color, String paragraphName)
     {
-        this.pageElements.add(new Paragraph(startLineIndex, lastLineIndex, 0, lineWidth, alignment, color, "aerialhell.guide_book."+ this.pageName +"."+paragraphName));
+        this.pageElements.add(new ParagraphFromKey(startLineIndex, lastLineIndex, 0, lineWidth, alignment, color, "aerialhell.guide_book."+ this.pageName +"."+paragraphName));
         return this;
     }
 

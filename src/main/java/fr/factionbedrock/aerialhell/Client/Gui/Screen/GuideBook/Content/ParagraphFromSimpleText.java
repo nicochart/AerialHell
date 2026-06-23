@@ -3,20 +3,18 @@ package fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content;
 import fr.factionbedrock.aerialhell.Client.Util.ClientHelper;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
-public record Paragraph(int startLineIndex, int lastLineIndex, int lineStartOffset, int lineWidth, Alignment alignment, int color, String key) implements PageElement
+public record ParagraphFromSimpleText(int startLineIndex, int lastLineIndex, int lineStartOffset, int lineWidth, Alignment alignment, int color, String text) implements PageElement
 {
     @Override public void render(Font font, GuiGraphicsExtractor graphics, float scale, List<Line> lines, int bookLeft, int bookTop, int mouseX, int mouseY)
     {
-        String paragraphText = Language.getInstance().getOrDefault(this.key);
         int currentLineIndex = this.startLineIndex;
         int xOffset = this.lineStartOffset;
 
-        List<String> textLines = ClientHelper.wrapTextForBook(paragraphText, font, (int) (this.lineWidth / scale));
+        List<String> textLines = ClientHelper.wrapTextForBook(this.text, font, (int) (this.lineWidth / scale));
         for (int i = 0; i < textLines.size() && currentLineIndex < this.lastLineIndex + 1; i++)
         {
             int startX = switch (this.alignment())
