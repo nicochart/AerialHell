@@ -27,7 +27,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
@@ -46,6 +45,7 @@ public class CrystalSlimeEntity extends Mob implements LunarMisleadableEntity
 	{
 		super(type, worldIn);
 		this.moveControl = new CrystalSlimeMoveControl(this);
+		this.xpReward = 4;
 	}
 
 	/* ------- MisleadableEntity : Interface method implementation ------- */
@@ -189,13 +189,6 @@ public class CrystalSlimeEntity extends Mob implements LunarMisleadableEntity
     {
         return randomIn.nextInt(10) == 0 && worldIn.getLevel().isBrightOutside();
     }
-
-	@Override public void remove(@Nonnull Entity.RemovalReason reason) //copied from Entity class
-	{
-		this.setRemoved(reason);
-		if (reason == Entity.RemovalReason.KILLED) {this.gameEvent(GameEvent.ENTITY_DIE);}
-		//this.invalidateCaps();
-	}
 
 	public static class CrystalSlimeAttackGoal extends Goal
 	{

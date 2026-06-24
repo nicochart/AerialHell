@@ -1150,6 +1150,21 @@
   "item.aerialhell.structure_void_placer.desc" : "Placeur de Structure Void de nicochart",
   "item.aerialhell.structure_void_placer.radius" : "Rayon : ",
 
+  "biome.aerialhell.aerial_hell_plains": "Plaines de Aerial Hell",
+  "biome.aerialhell.aerial_tree_forest": "Forêt de Aerial Hell",
+  "biome.aerialhell.copper_pine_forest": "Forêt de Sapins Cuivrés",
+  "biome.aerialhell.copper_pine_highland_forest": "Forêt de Sapins Cuivré des Hautes Terres",
+  "biome.aerialhell.cortinarius_violaceus_forest": "Forêt de Cortinaire Violet",
+  "biome.aerialhell.crystal_forest": "Forêt de Crystal",
+  "biome.aerialhell.crystal_plains": "Plaines de Crystal",
+  "biome.aerialhell.giant_red_mushroom_forest": "Forêt de Champignon Rouge Géant",
+  "biome.aerialhell.lapis_robinia_savana": "Savane de Robinier de Lapis",
+  "biome.aerialhell.shadow_plain": "Plaines de l'Ombre",
+  "biome.aerialhell.shadow_forest": "Forêt de l'Ombre",
+  "biome.aerialhell.slippery_sand_ocean": "Océan de Sable Glissant",
+  "biome.aerialhell.stellar_jungle": "Jungle Stellaire",
+  "biome.aerialhell.verdigris_agaric_forest": "Forêt de Strophaire Vert-De-Gris",
+
   "ability.aerialhell.shift_key_up" : "Appuyez sur §7§nSHIFT§r pour voir le détail des Compétences",
 
   "ability.aerialhell.ninja.desc" : "Compétence: Fureur du Ninja",
