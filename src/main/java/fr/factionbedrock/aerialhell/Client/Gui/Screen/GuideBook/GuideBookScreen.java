@@ -219,14 +219,16 @@ public class GuideBookScreen extends Screen
             new Page("journey_7", PAGE_TEXTURE, 7)
                     .addSimpleText(33, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.RIGHT, "16")
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "step_15_prepare_for_shadows")
-                    .addItemTexture(alignedToLeft(5).build(), 0.85F, AerialHellItems.AXE_OF_LIGHT, true)
-                    .addItemTexture(centered(5).build(), 0.85F, AerialHellItems.SWORD_OF_LIGHT, true)
-                    .addItemTexture(alignedToRight(5).build(), 0.85F, AerialHellItems.NIGHT_VISION_TOTEM, true)
-                    .addCraftingRecipeDisplay(7, Alignment.CENTER, 0.8F, new CraftingRecipeDisplay.Ingredients(
+                    .addItemTexture(alignedToLeft(6).build(), 0.85F, AerialHellItems.AXE_OF_LIGHT, true)
+                    .addItemTexture(alignedToLeft(7).verticalOffset(4).build(), 0.85F, AerialHellItems.SWORD_OF_LIGHT, true)
+                    .addItemTexture(alignedToLeft(9).build(), 0.85F, AerialHellItems.NIGHT_VISION_TOTEM, true)
+                    .addParagraph(7, MAX_LINES_PER_TECHNICAL_PAGE - 1, (int)(LINE_WIDTH_NO_MARGIN * 0.15F), (int)(LINE_WIDTH_NO_MARGIN * 0.85F), Alignment.LEFT, "previous_dungeon_loot")
+                    .addParagraph(11, MAX_LINES_PER_TECHNICAL_PAGE - 1, (int)(LINE_WIDTH_NO_MARGIN * 0.4F), (int)(LINE_WIDTH_NO_MARGIN * 0.6F), Alignment.LEFT, "shadow_fruit_stew")
+                    .addCraftingRecipeDisplay(11, Alignment.LEFT, 0.8F, new CraftingRecipeDisplay.Ingredients(
                             AerialHellItems.DARK_SHADOW_FRUIT, AerialHellItems.PURPLE_SHADOW_FRUIT,
                             AerialHellItems.SHADOW_SPIDER_EYE, AerialHellItems.SKY_BOWL
                     ), () -> AerialHellItems.SHADOW_FRUIT_STEW.get().getDefaultInstance(), true)
-                    .addParagraph(11, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "recommended_shadow_items_tips")
+                    .addParagraph(15, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow_fruit_stew_consume")
                     .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "step_16_rush_shadow_catacombs")
                     .addTextureDisplay(alignedToLeft(20).build(), 0.13F, "gui/guide_book/content/structures/shadow_catacombs", 1124, 583)
                     .addItemTexture(alignedToRight(21).build(), 0.9F, AerialHellItems.CURSED_CRYSTAL, true)
@@ -235,7 +237,6 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToRight(27).build(), 0.85F, AerialHellItems.SHADOW_CHESTPLATE, true)
                     .addParagraph(29, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "shadow_catacombs_material"),
             new Page("journey_8", PAGE_TEXTURE, 8)
-                    .addSimpleText(16, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "17")
                     .addSimpleText(33, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.RIGHT, "18")
                     .addParagraph(1, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "step_17_get_volucite_equipment")
                     .addItemTexture(alignedToLeft(4).build(), 1.0F, AerialHellItems.LUNATIC_PICKAXE, true)
@@ -752,7 +753,7 @@ public class GuideBookScreen extends Screen
                     .addSimpleText(33, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.RIGHT, "64")
                     .addParagraph(1,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "bestiary_section_title")
                     .addParagraph(3,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, 0xFF5C3A1E, "bestiary_section_quote")
-                    .addParagraph(7,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.CENTER, "bestiary_content_desc")
+                    .addParagraph(7,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "bestiary_content_desc")
                     .addTextureDisplay(alignedToLeft(12).horizontalOffset(15).build(), 1.0F, "gui/guide_book/content/entities/gliding_turtle", 32, 28, "entity.aerialhell.gliding_turtle")
                     .addTextureDisplay(alignedToLeft(12).horizontalOffset(60).build(), 1.1F, "gui/guide_book/content/entities/stellar_boar", 22, 15, "entity.aerialhell.stellar_boar")
                     .addTextureDisplay(alignedToLeft(12).horizontalOffset(105).build(), 0.9F, "gui/guide_book/content/entities/evil_cow", 30, 30, "entity.aerialhell.evil_cow")
