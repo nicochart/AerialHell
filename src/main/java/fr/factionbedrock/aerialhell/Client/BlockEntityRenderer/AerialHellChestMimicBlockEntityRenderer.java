@@ -16,8 +16,8 @@ public class AerialHellChestMimicBlockEntityRenderer extends AerialHellChestBloc
 		Block block = blockEntity.getBlockState().getBlock();
 		if (block == AerialHellBlocks.AERIAL_TREE_CHEST_MIMIC) {return AerialHellChestVariants.AERIAL_TREE;}
 		else if (block == AerialHellBlocks.COPPER_PINE_CHEST_MIMIC) {return AerialHellChestVariants.COPPER_PINE;}
-		else if (block == AerialHellBlocks.GOLDEN_BEECH_CHEST_MIMIC) {return AerialHellChestVariants.LAPIS_ROBINIA;}
-		else if (block == AerialHellBlocks.SKY_CACTUS_FIBER_CHEST_MIMIC) {return AerialHellChestVariants.STELLAR_JUNGLE_TREE;}
+		else if (block == AerialHellBlocks.GOLDEN_BEECH_CHEST_MIMIC) {return AerialHellChestVariants.GOLDEN_BEECH;}
+		else if (block == AerialHellBlocks.SKY_CACTUS_FIBER_CHEST_MIMIC) {return AerialHellChestVariants.SKY_CACTUS_FIBER;}
 		else {return ChestRenderState.ChestMaterialType.REGULAR;} //default variant (should never happen)
 	}
 }
