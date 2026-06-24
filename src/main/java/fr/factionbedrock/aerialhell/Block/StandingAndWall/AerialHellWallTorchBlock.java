@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,10 +25,6 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.Level;
 
 /*Copy of net.minecraft.block.WallTorchBlock, removing smoke particles, and editing the way particles are added*/
 
@@ -42,19 +39,19 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 		this.registerDefaultState(this.stateDefinition.any().setValue(HORIZONTAL_FACING, Direction.NORTH));
 	}
 
-	@Override public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context)
+	@Override public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
 	{
 		return getShapeForState(state);
 	}
 
 	public static VoxelShape getShapeForState(BlockState state) {return SHAPES.get(state.getValue(HORIZONTAL_FACING));}
 
-	@Override public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos)
+	@Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
 	{
 		Direction direction = state.getValue(HORIZONTAL_FACING);
 		BlockPos blockpos = pos.relative(direction.getOpposite());
-		BlockState blockstate = worldIn.getBlockState(blockpos);
-		return blockstate.isFaceSturdy(worldIn, blockpos, direction);
+		BlockState blockstate = level.getBlockState(blockpos);
+		return blockstate.isFaceSturdy(level, blockpos, direction);
 	}
 
 	@Nullable
@@ -77,9 +74,8 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 		return null;
 	}
 
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos)
-	{
-		return facing.getOpposite() == stateIn.getValue(HORIZONTAL_FACING) && !stateIn.canSurvive(worldIn, currentPos) ? Blocks.AIR.defaultBlockState() : stateIn;
+	@Override protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour, BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
+		return directionToNeighbour.getOpposite() == state.getValue(HORIZONTAL_FACING) && !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : state;
 	}
 
 	@Override public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand)

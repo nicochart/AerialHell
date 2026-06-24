@@ -34,9 +34,9 @@ public class AerialHellTorchBlock extends Block
 		return direction == Direction.DOWN && !this.canSurvive(previousState, level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(previousState, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
 	}
 
-	@Override public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos)
+	@Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
    	{
-		return canSupportCenter(worldIn, pos.below(), Direction.UP);
+		return canSupportCenter(level, pos.below(), Direction.UP);
    	}
 
 	@Override public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand)
