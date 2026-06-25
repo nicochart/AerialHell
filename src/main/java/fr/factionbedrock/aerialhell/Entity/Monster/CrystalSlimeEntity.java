@@ -45,6 +45,7 @@ public class CrystalSlimeEntity extends Mob implements LunarMisleadableEntity
 	{
 		super(type, worldIn);
 		this.moveControl = new CrystalSlimeMoveControl(this);
+		this.xpReward = 4;
 	}
 
 	/* ------- MisleadableEntity : Interface method implementation ------- */

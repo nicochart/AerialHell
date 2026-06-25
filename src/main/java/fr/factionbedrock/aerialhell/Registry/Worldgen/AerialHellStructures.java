@@ -25,6 +25,7 @@ public class AerialHellStructures
 	public static final DeferredRegister<StructureType<?>> STRUCTURES = DeferredRegister.create(Registries.STRUCTURE_TYPE, MODID);
 
 	public static final DeferredHolder<StructureType<?>, StructureType<OverworldAbandonnedPortalStructure>> OVERWORLD_ABANDONNED_PORTAL_STRUCTURE = STRUCTURES.register("overworld_abandonned_portal", () -> () -> OverworldAbandonnedPortalStructure.CODEC);
+	public static final DeferredHolder<StructureType<?>, StructureType<AerialHellAbandonnedPortalStructure>> AERIAL_HELL_ABANDONNED_PORTAL_STRUCTURE = STRUCTURES.register("aerial_hell_abandonned_portal", () -> () -> AerialHellAbandonnedPortalStructure.CODEC);
 	public static final DeferredHolder<StructureType<?>, StructureType<MudDungeonStructure>> MUD_DUNGEON_STRUCTURE = STRUCTURES.register("mud_dungeon", () -> () -> MudDungeonStructure.CODEC);
 	public static final DeferredHolder<StructureType<?>, StructureType<LunaticTempleStructure>> LUNATIC_TEMPLE_STRUCTURE = STRUCTURES.register("lunatic_temple", () -> () -> LunaticTempleStructure.CODEC);
 	public static final DeferredHolder<StructureType<?>, StructureType<ShadowCatacombsStructure>> SHADOW_CATACOMBS_STRUCTURE = STRUCTURES.register("shadow_catacombs", () -> () -> ShadowCatacombsStructure.CODEC);
