@@ -21,7 +21,11 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 
 public class FlyingJellyfishEntity extends AbstractFlyingProjectileShooterMob
 {
-	public FlyingJellyfishEntity(EntityType<? extends FlyingJellyfishEntity> type, Level world) {super(type, world);}
+	public FlyingJellyfishEntity(EntityType<? extends FlyingJellyfishEntity> type, Level world)
+	{
+		super(type, world);
+		this.xpReward = 5;
+	}
 
 	public FlyingJellyfishEntity(Level world) {this(AerialHellEntities.FLYING_JELLYFISH, world);}
 

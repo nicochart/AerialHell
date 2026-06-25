@@ -66,6 +66,9 @@ public class AerialHellItems
         ComposterBlock.COMPOSTABLES.put(VIBRANT_SKY_CACTUS, 0.8F);
     }
 
+    //guide book
+    public static final Item AERIAL_HELL_GUIDE_BOOK = register(Keys.AERIAL_HELL_GUIDE_BOOK.identifier().getPath(), new AerialHellGuideBook(new Item.Properties().setId(Keys.AERIAL_HELL_GUIDE_BOOK).stacksTo(1)));
+
     //portal
     public static final Item STELLAR_PORTAL_FRAME_BLOCK = register(Keys.STELLAR_PORTAL_FRAME_BLOCK.identifier().getPath(), new BlockItem(AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK, new Item.Properties().setId(Keys.STELLAR_PORTAL_FRAME_BLOCK).useBlockDescriptionPrefix()));
     public static final Item STELLAR_PORTAL_FRAME_ORE = register(Keys.STELLAR_PORTAL_FRAME_ORE.identifier().getPath(), new BlockItem(AerialHellBlocks.STELLAR_PORTAL_FRAME_ORE, new Item.Properties().setId(Keys.STELLAR_PORTAL_FRAME_ORE).useBlockDescriptionPrefix()));
@@ -473,7 +476,7 @@ public class AerialHellItems
     public static final Item MAGMATIC_GEL = register(Keys.MAGMATIC_GEL.identifier().getPath(),new Item(new Item.Properties().setId(Keys.MAGMATIC_GEL).trimMaterial(AerialHellTrimMaterials.MAGMATIC_GEL)));
     public static final Item RUBY = register(Keys.RUBY.identifier().getPath(), new Item(new Item.Properties().setId(Keys.RUBY).trimMaterial(AerialHellTrimMaterials.RUBY)));
     public static final Item AZURITE_CRYSTAL = register(Keys.AZURITE_CRYSTAL.identifier().getPath(), new Item(new Item.Properties().setId(Keys.AZURITE_CRYSTAL)));
-    public static final Item VOLUCITE_VIBRANT = register(Keys.VOLUCITE_VIBRANT.identifier().getPath(), new Item(new Item.Properties().setId(Keys.VOLUCITE_VIBRANT).trimMaterial(AerialHellTrimMaterials.VOLUCITE_VIBRANT).rarity(AerialHellRarities.VIBRANT)));
+    public static final Item VOLUCITE_VIBRANT = register(Keys.VOLUCITE_VIBRANT.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.VOLUCITE_VIBRANT).trimMaterial(AerialHellTrimMaterials.VOLUCITE_VIBRANT).rarity(AerialHellRarities.VIBRANT)));
 
     public static final Item OVERHEATED_RUBY = register(Keys.OVERHEATED_RUBY.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.OVERHEATED_RUBY)));
     public static final Item OVERHEATED_VOLUCITE = register(Keys.OVERHEATED_VOLUCITE.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.OVERHEATED_VOLUCITE)));
@@ -1040,6 +1043,9 @@ public class AerialHellItems
 
     public static class Keys
     {
+        //guide book
+        public static final ResourceKey<Item> AERIAL_HELL_GUIDE_BOOK = createKey("aerial_hell_guide_book");
+
         //portal
         public static final ResourceKey<Item> STELLAR_PORTAL_FRAME_BLOCK = createKey("stellar_portal_frame_block");
         public static final ResourceKey<Item> STELLAR_PORTAL_FRAME_ORE = createKey("stellar_portal_frame_ore");

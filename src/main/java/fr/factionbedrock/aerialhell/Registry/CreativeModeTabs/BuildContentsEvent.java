@@ -10,6 +10,7 @@ public class BuildContentsEvent
     {
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries ->
         {
+            entries.accept(AerialHellItems.AERIAL_HELL_GUIDE_BOOK);
             entries.accept(AerialHellItems.STELLAR_PORTAL_FRAME_BLOCK);
             entries.accept(AerialHellItems.STELLAR_LIGHTER);
         });
@@ -807,6 +808,8 @@ public class BuildContentsEvent
 
         ItemGroupEvents.modifyEntriesEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)).register(entries ->
         {
+            entries.accept(AerialHellItems.AERIAL_HELL_GUIDE_BOOK);
+
             entries.accept(AerialHellItems.STELLAR_PORTAL_FRAME_BRICK);
             entries.accept(AerialHellItems.STELLAR_LIGHTER);
 
