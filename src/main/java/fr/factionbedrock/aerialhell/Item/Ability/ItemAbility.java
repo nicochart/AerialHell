@@ -12,15 +12,17 @@ public class ItemAbility
     private String descId;
     private final ModuleList passiveModules;
     private final ModuleList onUseModules;
+    private final ModuleList onReleaseUsingModules;
     private final ModuleList onDealDamageModules;
     private final ModuleList onTakeDamageModules;
     private final ModuleList onMiningModules;
 
-    ItemAbility(String descId, ModuleList passiveModules, ModuleList onUseModules, ModuleList onDealDamageModules, ModuleList onTakeDamageModules, ModuleList onMiningDamageModules)
+    ItemAbility(String descId, ModuleList passiveModules, ModuleList onUseModules, ModuleList onReleaseUsingModules, ModuleList onDealDamageModules, ModuleList onTakeDamageModules, ModuleList onMiningDamageModules)
     {
         this.descId = descId;
         this.passiveModules = passiveModules;
         this.onUseModules = onUseModules;
+        this.onReleaseUsingModules = onReleaseUsingModules;
         this.onDealDamageModules = onDealDamageModules;
         this.onTakeDamageModules = onTakeDamageModules;
         this.onMiningModules = onMiningDamageModules;
@@ -34,6 +36,7 @@ public class ItemAbility
         {
             case TICK -> this.passiveModules;
             case ON_USE -> this.onUseModules;
+            case ON_FINISH_USING -> this.onReleaseUsingModules;
             case ON_DEAL_DAMAGE -> this.onDealDamageModules;
             case ON_TAKE_DAMAGE -> this.onTakeDamageModules;
             case ON_MINING -> this.onMiningModules;
@@ -112,15 +115,17 @@ public class ItemAbility
         private String descId;
         private final ModuleList.Builder passiveModules;
         private final ModuleList.Builder onUseModules;
+        private final ModuleList.Builder onReleaseUsingModules;
         private final ModuleList.Builder onDealDamageModules;
         private final ModuleList.Builder onTakeDamageModules;
         private final ModuleList.Builder onMiningModules;
 
-        private Builder() {this(ModuleList.builder(), ModuleList.builder(), ModuleList.builder(), ModuleList.builder(), ModuleList.builder());}
-        private Builder(ModuleList.Builder passiveModules, ModuleList.Builder onUseModules, ModuleList.Builder onDealDamageModules, ModuleList.Builder onTakeDamageModules, ModuleList.Builder onMiningModules)
+        private Builder() {this(ModuleList.builder(), ModuleList.builder(), ModuleList.builder(), ModuleList.builder(), ModuleList.builder(), ModuleList.builder());}
+        private Builder(ModuleList.Builder passiveModules, ModuleList.Builder onUseModules, ModuleList.Builder onReleaseUsingModules, ModuleList.Builder onDealDamageModules, ModuleList.Builder onTakeDamageModules, ModuleList.Builder onMiningModules)
         {
             this.passiveModules = passiveModules;
             this.onUseModules = onUseModules;
+            this.onReleaseUsingModules = onReleaseUsingModules;
             this.onDealDamageModules = onDealDamageModules;
             this.onTakeDamageModules = onTakeDamageModules;
             this.onMiningModules = onMiningModules;
@@ -131,6 +136,7 @@ public class ItemAbility
 
         public ItemAbility.Builder addPassiveModules(ModuleList modules) {this.passiveModules.addAll(modules); return this;}
         public ItemAbility.Builder addOnUseModules(ModuleList modules) {this.onUseModules.addAll(modules); return this;}
+        public ItemAbility.Builder addOnReleaseUsingModules(ModuleList modules) {this.onReleaseUsingModules.addAll(modules); return this;}
         public ItemAbility.Builder addOnDealDamageModules(ModuleList modules) {this.onDealDamageModules.addAll(modules); return this;}
         public ItemAbility.Builder addOnTakeDamageModules(ModuleList modules) {this.onTakeDamageModules.addAll(modules); return this;}
         public ItemAbility.Builder addOnMiningModules(ModuleList modules) {this.onMiningModules.addAll(modules); return this;}
@@ -147,12 +153,12 @@ public class ItemAbility
 
         public ItemAbility.Builder copy()
         {
-            return new ItemAbility.Builder(this.passiveModules.copy(), this.onUseModules.copy(), this.onDealDamageModules.copy(), this.onTakeDamageModules.copy(), this.onMiningModules.copy());
+            return new ItemAbility.Builder(this.passiveModules.copy(), this.onUseModules.copy(), this.onReleaseUsingModules.copy(), this.onDealDamageModules.copy(), this.onTakeDamageModules.copy(), this.onMiningModules.copy());
         }
 
         public ItemAbility build()
         {
-            return new ItemAbility(this.descId, this.passiveModules.build(), this.onUseModules.build(), this.onDealDamageModules.build(), this.onTakeDamageModules.build(), this.onMiningModules.build());
+            return new ItemAbility(this.descId, this.passiveModules.build(), this.onUseModules.build(), this.onReleaseUsingModules.build(), this.onDealDamageModules.build(), this.onTakeDamageModules.build(), this.onMiningModules.build());
         }
     }
 }

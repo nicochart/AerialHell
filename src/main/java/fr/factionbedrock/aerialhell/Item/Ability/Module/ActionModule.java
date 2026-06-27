@@ -37,12 +37,12 @@ public class ActionModule extends AbilityModule
     }
 
     public static ActionModule create(ModuleAction action) {return new ActionModule(action);}
-    public static ActionModule onItemOwner(Consumer<LivingEntity> action) {return new ActionModule((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) -> action.accept(itemOwner));}
-    public static ActionModule onOther(Consumer<Entity> action) {return new ActionModule((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) -> {
+    public static ActionModule onItemOwner(Consumer<LivingEntity> action) {return new ActionModule((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) -> action.accept(itemOwner));}
+    public static ActionModule onOther(Consumer<Entity> action) {return new ActionModule((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) -> {
         if (damageInfo != null && damageInfo.otherEntity() != null) {action.accept(damageInfo.otherEntity());}
     });}
 
-    public void apply(AbilityUseSituation useSituation) {this.action.apply(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.damageUseSituationInfo, useSituation.miningUseSituationInfo);}
+    public void apply(AbilityUseSituation useSituation) {this.action.apply(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.releaseUsingUseSituationInfo, useSituation.damageUseSituationInfo, useSituation.miningUseSituationInfo);}
 
     public static class MobEffect extends ActionModule
     {
@@ -50,7 +50,7 @@ public class ActionModule extends AbilityModule
         //Test Target is the one who is used by template for mob effect instance creation, i.e. if you do some tests for duration or amplifier, the tests are done on the testTarget.
         public MobEffect(MobEffectTemplate template, EffectTarget effectTarget, TestTarget testTarget)
         {
-            super((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
+            super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
             {
                 @Nullable LivingEntity targetEntity = effectTarget == EffectTarget.SELF ? itemOwner : damageInfo != null && damageInfo.otherEntity() instanceof LivingEntity otherLiving ? otherLiving : null;
                 @Nullable LivingEntity testEntity = testTarget == TestTarget.ITEM_OWNER ? itemOwner : damageInfo != null && damageInfo.otherEntity() instanceof LivingEntity otherLiving ? otherLiving : null;
@@ -115,7 +115,7 @@ public class ActionModule extends AbilityModule
     {
         private MobEffectList(List<MobEffectTemplateListProvider> mobEffectTemplateListProviders, boolean toOwner)
         {
-            super((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
+            super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
             {
                 @Nullable LivingEntity target = toOwner ? itemOwner : damageInfo != null && damageInfo.otherEntity() instanceof LivingEntity otherLiving ? otherLiving : null;
                 if (target != null && !itemOwner.level().isClientSide())
@@ -161,9 +161,9 @@ public class ActionModule extends AbilityModule
 
     public static class ThrowProjectile extends ActionModule
     {
-        public ThrowProjectile(EntityType<? extends Projectile> type, float velocity, float inaccuracy)
+        public ThrowProjectile(EntityType<? extends Projectile> type, ToFloatFunction<Integer> velocityFromTicksUsed, float inaccuracy)
         {
-            super((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
+            super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
             {
                 Level level = itemOwner.level();
                 if (!level.isClientSide())
@@ -171,9 +171,10 @@ public class ActionModule extends AbilityModule
                     Projectile projectile = type.create(level, EntitySpawnReason.TRIGGERED);
                     if (projectile != null)
                     {
+                        int ticksUsed = releaseUsingInfo != null ? releaseUsingInfo.ticksUsed() : 0;
                         projectile.setPos(itemOwner.getX(), itemOwner.getY(0.5D) + 0.5D, itemOwner.getZ());
                         projectile.setOwner(itemOwner);
-                        projectile.shoot(itemOwner.getLookAngle().x, itemOwner.getLookAngle().y, itemOwner.getLookAngle().z, velocity, inaccuracy);
+                        projectile.shoot(itemOwner.getLookAngle().x, itemOwner.getLookAngle().y, itemOwner.getLookAngle().z, velocityFromTicksUsed.applyAsFloat(ticksUsed), inaccuracy);
                         level.addFreshEntity(projectile);
                     }
                 }
@@ -186,7 +187,8 @@ public class ActionModule extends AbilityModule
         {
             private Builder() {}
 
-            public final ThrowProjectile build(EntityType<? extends Projectile> type, float velocity, float inaccuracy) {return new ThrowProjectile(type, velocity, inaccuracy);}
+            public final ThrowProjectile build(EntityType<? extends Projectile> type, float velocity, float inaccuracy) {return this.build(type, (ticksUsed) -> velocity, inaccuracy);}
+            public final ThrowProjectile build(EntityType<? extends Projectile> type, ToFloatFunction<Integer> velocity, float inaccuracy) {return new ThrowProjectile(type, velocity, inaccuracy);}
         }
     }
 
@@ -194,7 +196,7 @@ public class ActionModule extends AbilityModule
     {
         public RemoveMobEffect(Holder<net.minecraft.world.effect.MobEffect>... mobEffects)
         {
-            super((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
+            super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
             {
                 if (!itemOwner.level().isClientSide())
                 {
@@ -220,7 +222,7 @@ public class ActionModule extends AbilityModule
     {
         public Particle(SimpleParticleType particleType, int count, float speed, EffectTarget effectTarget)
         {
-            super((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
+            super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
             {
                 @Nullable LivingEntity targetEntity = effectTarget == EffectTarget.SELF ? itemOwner : damageInfo != null && damageInfo.otherEntity() instanceof LivingEntity otherLiving ? otherLiving : null;
                 if (targetEntity != null && itemOwner.level() instanceof ServerLevel serverLevel)
@@ -247,10 +249,10 @@ public class ActionModule extends AbilityModule
 
     public static class Sound extends ActionModule
     {
-        public Sound(PlaySoundHelper playSoundHelper) {super((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) -> playSoundHelper.playSound(itemOwner));}
+        public Sound(PlaySoundHelper playSoundHelper) {super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) -> playSoundHelper.playSound(itemOwner));}
         public Sound(Function<LivingEntity, PlaySoundHelper> playSoundHelperProvider)
         {
-            super((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
+            super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
             {
                 playSoundHelperProvider.apply(itemOwner).playSound(itemOwner);
             });
@@ -259,7 +261,7 @@ public class ActionModule extends AbilityModule
 
     public static class MultiplyDamage extends ActionModule
     {
-        public MultiplyDamage(ToFloatFunction<LivingEntity> multiplier, TestTarget testTarget) {super((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
+        public MultiplyDamage(ToFloatFunction<LivingEntity> multiplier, TestTarget testTarget) {super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
         {
             if (damageInfo != null)
             {
@@ -280,7 +282,7 @@ public class ActionModule extends AbilityModule
 
     public static class MultiplyMiningSpeed extends ActionModule
     {
-        public MultiplyMiningSpeed(ConditionalMultiplier multiplier) {super((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
+        public MultiplyMiningSpeed(ConditionalMultiplier multiplier) {super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
         {
             if (miningInfo != null)
             {

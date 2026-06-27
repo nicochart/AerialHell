@@ -855,6 +855,8 @@ public class AerialHellItems
     public static final DeferredItem<Item> RUBY_BLOWPIPE = ITEMS.register(Keys.RUBY_BLOWPIPE.identifier().getPath(), () -> new BlowpipeItem(new Item.Properties().setId(Keys.RUBY_BLOWPIPE).stacksTo(1).durability(200), 1.7F));
     public static final DeferredItem<Item> VOLUCITE_BLOWPIPE = ITEMS.register(Keys.VOLUCITE_BLOWPIPE.identifier().getPath(), () -> new BlowpipeItem(new Item.Properties().setId(Keys.VOLUCITE_BLOWPIPE).rarity(AerialHellRarities.VIBRANT.getValue()).stacksTo(1).durability(400), 2.4F));
 
+    public static final DeferredItem<Item> RUBY_RESONATOR = ITEMS.register(Keys.RUBY_RESONATOR.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.RUBY_RESONATOR).stacksTo(1).durability(200).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.RUBY_RESONATOR)).maxUseDuration(72000).useAnimation(ItemUseAnimation.BOW)));
+
     //music discs
     public static final DeferredItem<Item> MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = ITEMS.register(Keys.MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP).stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(AerialHellJukeboxSongs.AERIAL_HELL_THEME_TOMMAUP)));
     public static final DeferredItem<Item> MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER = ITEMS.register(Keys.MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER).stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(AerialHellJukeboxSongs.SWEDEN_ANDREAS_ZOELLER)));
@@ -1831,6 +1833,8 @@ public class AerialHellItems
 
         public static final ResourceKey<Item> RUBY_BLOWPIPE = createKey("ruby_blowpipe");
         public static final ResourceKey<Item> VOLUCITE_BLOWPIPE = createKey("volucite_blowpipe");
+
+        public static final ResourceKey<Item> RUBY_RESONATOR = createKey("ruby_resonator");
 
         //music discs
         public static final ResourceKey<Item> MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = createKey("music_disc_aerial_hell_theme_tommaup");

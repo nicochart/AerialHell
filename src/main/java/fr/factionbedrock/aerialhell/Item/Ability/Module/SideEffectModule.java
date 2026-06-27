@@ -4,9 +4,14 @@ import fr.factionbedrock.aerialhell.Item.Ability.AbilityUseSituation;
 import fr.factionbedrock.aerialhell.Item.Ability.ModuleAction;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
 public class SideEffectModule extends AbilityModule
@@ -17,7 +22,7 @@ public class SideEffectModule extends AbilityModule
 
     public void apply(AbilityUseSituation useSituation)
     {
-        this.sideEffect.apply(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.damageUseSituationInfo, useSituation.miningUseSituationInfo);
+        this.sideEffect.apply(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.releaseUsingUseSituationInfo, useSituation.damageUseSituationInfo, useSituation.miningUseSituationInfo);
     }
 
     //this module can be applied in on use modules on an ability. But it can also be put in :
@@ -29,7 +34,7 @@ public class SideEffectModule extends AbilityModule
     {
         private DamageItem(int amount)
         {
-            super((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
+            super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
             {
                 if (equipmentSlot != null) {stack.hurtAndBreak(amount, itemOwner, equipmentSlot);}
             });
@@ -39,27 +44,94 @@ public class SideEffectModule extends AbilityModule
         public static DamageItem withAmount(int amount) {return new DamageItem(amount);}
     }
 
-    public static class Shrink extends SideEffectModule
+    public static class ShrinkUsedItem extends SideEffectModule
     {
-        private Shrink(int amount)
+        private ShrinkUsedItem(int amount, boolean unlessCreative)
         {
-            super((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
+            super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
             {
                 if (equipmentSlot != null)
                 {
-                    if (!EntityHelper.isCreativePlayer(itemOwner) && !EntityHelper.hasEnchantment(itemOwner, Enchantments.INFINITY)) {stack.shrink(amount);}
+                    if (!(unlessCreative && EntityHelper.isCreativePlayer(itemOwner)) && !EntityHelper.hasEnchantment(itemOwner, Enchantments.INFINITY)) {stack.shrink(amount);}
                 }
             });
         }
 
-        public static Shrink.Builder builder() {return new Shrink.Builder();}
+        public static ShrinkUsedItem.Builder builder() {return new ShrinkUsedItem.Builder();}
 
         public static class Builder
         {
             public Builder() {}
 
-            public Shrink simple() {return new Shrink(1);}
-            public Shrink withAmount(int amount) {return new Shrink(amount);}
+            public ShrinkUsedItem simple() {return new ShrinkUsedItem(1, true);}
+            public ShrinkUsedItem withAmount(int amount) {return this.withAmount(amount, true);}
+            public ShrinkUsedItem withAmount(int amount, boolean unlessCreative) {return new ShrinkUsedItem(amount, unlessCreative);}
+        }
+    }
+
+    public static class ShrinkItem extends SideEffectModule
+    {
+        private ShrinkItem(Predicate<Item> itemPredicate, int amount, boolean unlessCreative)
+        {
+            super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
+            {
+                shrinkItem(itemOwner, itemPredicate, amount);
+            });
+        }
+
+        private static void shrinkItem(LivingEntity itemOwner, Predicate<Item> itemPredicate, int amountToShrink)
+        {
+            int shrinkRemaining = amountToShrink;
+            if (itemOwner instanceof Player player)
+            {
+                Inventory inventory = player.getInventory();
+                for (int i = 0; i < inventory.getContainerSize(); i++)
+                {
+                    ItemStack stack = inventory.getItem(i);
+                    if (stack.isEmpty()) {continue;}
+                    else if (itemPredicate.test(stack.getItem()))
+                    {
+                        shrinkRemaining-= tryShrink(stack, amountToShrink);
+                        if (shrinkRemaining == 0) {return;}
+                    }
+                }
+            }
+            else
+            {
+                ItemStack mainHandStack = itemOwner.getMainHandItem();
+                ItemStack offHandStack = itemOwner.getOffhandItem();
+                if (!mainHandStack.isEmpty() && itemPredicate.test(mainHandStack.getItem()))
+                {
+                    shrinkRemaining-= tryShrink(mainHandStack, amountToShrink);
+                    if (shrinkRemaining == 0) {return;}
+                }
+                if (!offHandStack.isEmpty() && itemPredicate.test(offHandStack.getItem()))
+                {
+                    shrinkRemaining-= tryShrink(offHandStack, amountToShrink);
+                    if (shrinkRemaining == 0) {return;}
+                }
+            }
+        }
+
+        //returns the shrank number
+        private static int tryShrink(ItemStack stack, int amountToShrink)
+        {
+            if (stack.isEmpty()) {return 0;}
+
+            int willShrinkCount = Math.min(stack.count(), amountToShrink);
+            stack.shrink(willShrinkCount);
+            return willShrinkCount;
+        }
+
+        public static ShrinkItem.Builder builder() {return new ShrinkItem.Builder();}
+
+        public static class Builder
+        {
+            public Builder() {}
+
+            public ShrinkItem item(Supplier<Item> item) {return new ShrinkItem((testedItem) -> testedItem == item.get(), 1, true);}
+            public ShrinkItem item(Supplier<Item> item, int amount) {return this.of((testedItem) -> testedItem == item.get(), amount, true);}
+            public ShrinkItem of(Predicate<Item> itemPredicate, int amount, boolean unlessCreative) {return new ShrinkItem(itemPredicate, amount, unlessCreative);}
         }
     }
 
@@ -68,7 +140,7 @@ public class SideEffectModule extends AbilityModule
         private final ToIntFunction<LivingEntity> cooldownDuration;
         private Cooldown(ToIntFunction<LivingEntity> cooldownDuration)
         {
-            super((stack, itemOwner, equipmentSlot, damageInfo, miningInfo) ->
+            super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
             {
                 int cooldown = cooldownDuration.applyAsInt(itemOwner);
                 if (itemOwner instanceof Player player && cooldown != 0) {player.getCooldowns().addCooldown(stack, cooldown);}

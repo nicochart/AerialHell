@@ -2,10 +2,7 @@ package fr.factionbedrock.aerialhell.Item;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.datafixers.util.Pair;
-import fr.factionbedrock.aerialhell.Item.Ability.AbilitySelector;
-import fr.factionbedrock.aerialhell.Item.Ability.AbilityUseSituation;
-import fr.factionbedrock.aerialhell.Item.Ability.DamageUseSituationInfo;
-import fr.factionbedrock.aerialhell.Item.Ability.MiningUseSituationInfo;
+import fr.factionbedrock.aerialhell.Item.Ability.*;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellToolMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
@@ -33,10 +30,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemInstance;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.Equippable;
@@ -64,12 +58,16 @@ import java.util.function.Predicate;
 // To manage AxeItem, HoeItem and ShovelItem interaction abilities, think about calling .useInteraction(...) if you want your tool to be able to strip, flatten or till.
 public class AerialHellItem extends WithInformationItem
 {
+	public final int maxUseDuration;
+	public final ItemUseAnimation itemUseAnimation;
 	@Nullable public final AbilitySelector abilitySelector;
 	public final List<UseInteractionType> useInteractionToolTypes;
 
 	public AerialHellItem(AerialHellItem.Properties properties)
 	{
 		super(properties);
+		this.maxUseDuration = properties.maxUseDuration;
+		this.itemUseAnimation = properties.itemUseAnimation;
 		this.abilitySelector = properties.abilitySelector;
 		this.useInteractionToolTypes = properties.useInteractionTypes;
 	}
@@ -86,7 +84,29 @@ public class AerialHellItem extends WithInformationItem
 		ItemStack heldItemStack = player.getItemInHand(hand);
 		boolean used = false;
 		if (this.abilitySelector != null) {used = this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnUse(heldItemStack, player, hand.asEquipmentSlot()));}
+		if (used && this.maxUseDuration != 0) {player.startUsingItem(hand);}
 		return used ? InteractionResult.CONSUME : super.use(level, player, hand);
+	}
+
+	@Override public int getUseDuration(ItemStack itemStack, LivingEntity user)
+	{
+		int vanillaUseDuration = super.getUseDuration(itemStack, user);
+		return vanillaUseDuration > 0 ? vanillaUseDuration : this.maxUseDuration;
+	}
+
+	@Override public ItemUseAnimation getUseAnimation(ItemStack itemStack)
+	{
+		ItemUseAnimation vanillaUseAnimation = super.getUseAnimation(itemStack);
+		return vanillaUseAnimation != ItemUseAnimation.NONE ? vanillaUseAnimation : this.itemUseAnimation;
+	}
+
+	//applying releaseUsing tool ability modules
+	@Override public boolean releaseUsing(ItemStack itemStack, Level level, LivingEntity itemOwner, int remainingTime)
+	{
+		int ticksUsed = this.getUseDuration(itemStack, itemOwner) - remainingTime;
+		boolean used = false;
+		if (this.abilitySelector != null) {used = this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnReleaseUsing(itemStack, itemOwner, new ReleaseUsingUseSituationInfo(ticksUsed)));}
+		return used;
 	}
 
 	//applying onDealDamage (semi-passive) tool ability modules
@@ -333,9 +353,11 @@ public class AerialHellItem extends WithInformationItem
 
 	public static class Properties extends Item.Properties
 	{
+		private int maxUseDuration;
+		private ItemUseAnimation itemUseAnimation;
 		@Nullable private AbilitySelector abilitySelector;
 		private List<AerialHellItem.UseInteractionType> useInteractionTypes;
-		public Properties() {super(); this.useInteractionTypes = new ArrayList<>();}
+		public Properties() {super(); this.maxUseDuration = 0; this.itemUseAnimation = ItemUseAnimation.NONE; this.useInteractionTypes = new ArrayList<>();}
 
 		public AerialHellItem.Properties humanoidArmor(AerialHellArmorMaterial material, ArmorType type) {return this.humanoidArmor(material, type, new AttributeEntryList());}
 		public AerialHellItem.Properties humanoidArmor(AerialHellArmorMaterial material, ArmorType type, AttributeEntry attributeEntry) {return this.humanoidArmor(material, type, new AttributeEntryList().add(attributeEntry));}
@@ -383,6 +405,10 @@ public class AerialHellItem extends WithInformationItem
 		{
 			return material.applySwordProperties(this, attackDamage, attackSpeed, additionalAttributes);
 		}
+
+		public AerialHellItem.Properties maxUseDuration(int useDuration) {this.maxUseDuration = useDuration; return this;}
+
+		public AerialHellItem.Properties useAnimation(ItemUseAnimation itemUseAnimation) {this.itemUseAnimation = itemUseAnimation; return this;}
 
 		public AerialHellItem.Properties abilitySelector(AbilitySelector abilitySelector) {this.abilitySelector = abilitySelector; return this;}
 
