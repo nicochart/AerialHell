@@ -1,0 +1,6 @@
+{
+  "parent": "aerialhell:item/volucite_resonator",
+  "textures": {
+    "layer0": "aerialhell:item/volucite_resonator_charging_0"
+  }
+}

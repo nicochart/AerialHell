@@ -26,10 +26,9 @@ public class UseItemInHandRendererMixin
         ItemInHandRenderer itemInHandRenderer = (ItemInHandRenderer) (Object) this;
 
         int itemUseDuration = 20;
-        if (itemStack.is(AerialHellItems.RUBY_RESONATOR))
+        if (itemStack.is(AerialHellItems.RUBY_RESONATOR) || itemStack.is(AerialHellItems.VOLUCITE_BLOWPIPE))
         {
-            itemUseDuration = AerialHellItemAbilities.RUBY_RESONATOR_USE_TICKS;
-            System.out.println("is bow animation = "+(itemStack.getUseAnimation() == ItemUseAnimation.BOW));
+            itemUseDuration = AerialHellItemAbilities.RESONATOR_USE_TICKS;
         }
         else {return;} //if the item is none of the Aerial Hell ranged weapons, return (and execute vanilla code)
 

@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplatePro
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Item.Ability.AbilityUseSituation;
 import fr.factionbedrock.aerialhell.Item.Ability.ModuleAction;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
@@ -16,6 +17,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -171,6 +173,7 @@ public class ActionModule extends AbilityModule
                     Projectile projectile = type.create(level, EntitySpawnReason.TRIGGERED);
                     if (projectile != null)
                     {
+                        if (projectile instanceof AbstractArrow arrow){arrow.pickup = EntityHelper.isCreativePlayer(itemOwner) ? AbstractArrow.Pickup.CREATIVE_ONLY : AbstractArrow.Pickup.ALLOWED;}
                         int ticksUsed = usingItemInfo != null ? usingItemInfo.ticksUsed() : 0;
                         projectile.setPos(itemOwner.getX(), itemOwner.getY(0.5D) + 0.5D, itemOwner.getZ());
                         projectile.setOwner(itemOwner);

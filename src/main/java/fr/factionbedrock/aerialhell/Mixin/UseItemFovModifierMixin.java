@@ -22,9 +22,9 @@ public class UseItemFovModifierMixin
         AbstractClientPlayer player = (AbstractClientPlayer)(Object)this;
         if (player.isUsingItem())
         {
-            if (player.getUseItem().is(AerialHellItems.RUBY_RESONATOR))
+            if (player.getUseItem().is(AerialHellItems.RUBY_RESONATOR) || player.getUseItem().is(AerialHellItems.VOLUCITE_RESONATOR))
             {
-                float scale = Math.min((float)player.getTicksUsingItem() / AerialHellItemAbilities.RUBY_RESONATOR_USE_TICKS, 1.0F);
+                float scale = Math.min((float)player.getTicksUsingItem() / AerialHellItemAbilities.RESONATOR_USE_TICKS, 1.0F);
                 modifier *= 1.0F - Mth.square(scale) * 0.15F;
             }
             callbackInfoReturnable.setReturnValue(ClientHooks.getFieldOfViewModifier(player, modifier, effectScale));

@@ -31,17 +31,23 @@ public class VoluciteArrowEntity extends AbstractAerialArrowEntity
         super(type, level);
     }
 
-    @Override
-    public void tick()
+    @Override public void tick()
     {
         super.tick();
-        if (this.ticksLiving == 100)
+        if (this.ticksLiving >= 100)
         {
         	this.setNoGravity(false);
         }
-        if (this.ticksLiving > 50 && this.ticksLiving < 100)
+        else if (this.ticksLiving > 50)
         {
         	this.setDeltaMovement(this.getDeltaMovement().x,this.getDeltaMovement().y-0.01,this.getDeltaMovement().z);
+        }
+        else
+        {
+            if (!this.isNoGravity())
+            {
+                this.setNoGravity(true);
+            }
         }
         ++this.ticksLiving;
     }

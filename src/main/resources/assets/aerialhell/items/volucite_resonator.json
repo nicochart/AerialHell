@@ -3,7 +3,7 @@
     "type": "minecraft:condition",
     "on_false": {
       "type": "minecraft:model",
-      "model": "aerialhell:item/ruby_resonator"
+      "model": "aerialhell:item/volucite_resonator"
     },
     "on_true": {
       "type": "minecraft:range_dispatch",
@@ -11,21 +11,21 @@
         {
           "model": {
             "type": "minecraft:model",
-            "model": "aerialhell:item/ruby_resonator_charging_1"
+            "model": "aerialhell:item/volucite_resonator_charging_1"
           },
           "threshold": 0.65
         },
         {
           "model": {
             "type": "minecraft:model",
-            "model": "aerialhell:item/ruby_resonator_charging_2"
+            "model": "aerialhell:item/volucite_resonator_charging_2"
           },
           "threshold": 0.9
         }
       ],
       "fallback": {
         "type": "minecraft:model",
-        "model": "aerialhell:item/ruby_resonator_charging_0"
+        "model": "aerialhell:item/volucite_resonator_charging_0"
       },
       "property": "minecraft:use_duration",
       "scale": 0.025

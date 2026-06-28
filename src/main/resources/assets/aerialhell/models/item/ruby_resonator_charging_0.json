@@ -1,0 +1,6 @@
+{
+  "parent": "aerialhell:item/ruby_resonator",
+  "textures": {
+    "layer0": "aerialhell:item/ruby_resonator_charging_0"
+  }
+}

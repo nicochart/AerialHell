@@ -29,7 +29,7 @@ import java.util.List;
 
 public class AerialHellItemAbilities
 {
-    public static int RUBY_RESONATOR_USE_TICKS = 36;
+    public static int RESONATOR_USE_TICKS = 36;
 
     private static final ActionModule.MobEffect.Builder GOD_EFFECT_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(AerialHellMobEffects.GOD);
     private static final ActionModule.MobEffect.Builder JUMP_BOOST_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.JUMP_BOOST);
@@ -246,14 +246,33 @@ public class AerialHellItemAbilities
                     .build())
             .addOnReleaseUsingModules(ModuleList.builder()
                     .addActions(
-                            THROW_PROJECTILE.build(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), (ticksUsed) -> velocityFromTicksUsed(ticksUsed, RUBY_RESONATOR_USE_TICKS, 3.6F), 0),
+                            THROW_PROJECTILE.build(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), (ticksUsed) -> velocityFromTicksUsed(ticksUsed, RESONATOR_USE_TICKS, 3.6F), 0),
                             RUBY_RESONATOR_USE_SOUND)
-                    .addConditions(OWNER_HAS_ITEM.unlessCreative(AerialHellItems.RUBY_BLOWPIPE_ARROW, 1), TICKS_USED.min(RUBY_RESONATOR_USE_TICKS / 4))
+                    .addConditions(OWNER_HAS_ITEM.unlessCreative(AerialHellItems.RUBY_BLOWPIPE_ARROW, 1), TICKS_USED.min(RESONATOR_USE_TICKS / 4))
                     .addSideEffects(SHRINK.item(AerialHellItems.RUBY_BLOWPIPE_ARROW), DAMAGE_ITEM)
                     .build())
             .addPassiveModules(ModuleList.builder()
                     .addActions(OSCILLATOR_PARTICLES_ON_SELF.of(4))
-                    .addConditions(TICKS_USED.min(RUBY_RESONATOR_USE_TICKS / 2))
+                    .addConditions(TICKS_USED.min(RESONATOR_USE_TICKS / 2))
+                    .build())
+            .build();
+
+    public static final ItemAbility VOLUCITE_RESONATOR = ItemAbility.builder()
+            .setDescId("volucite_resonator")
+            .addOnUseModules(ModuleList.builder()
+                    .addActions(START_USING_ITEM)
+                    .addConditions(OWNER_HAS_ITEM.unlessCreative(AerialHellItems.VOLUCITE_BLOWPIPE_ARROW, 1))
+                    .build())
+            .addOnReleaseUsingModules(ModuleList.builder()
+                    .addActions(
+                            THROW_PROJECTILE.build(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW.get(), (ticksUsed) -> velocityFromTicksUsed(ticksUsed, RESONATOR_USE_TICKS, 3.6F), 0),
+                            RUBY_RESONATOR_USE_SOUND)
+                    .addConditions(OWNER_HAS_ITEM.unlessCreative(AerialHellItems.VOLUCITE_BLOWPIPE_ARROW, 1), TICKS_USED.min(RESONATOR_USE_TICKS / 4))
+                    .addSideEffects(SHRINK.item(AerialHellItems.VOLUCITE_BLOWPIPE_ARROW), DAMAGE_ITEM)
+                    .build())
+            .addPassiveModules(ModuleList.builder()
+                    .addActions(OSCILLATOR_PARTICLES_ON_SELF.of(4))
+                    .addConditions(TICKS_USED.min(RESONATOR_USE_TICKS / 2))
                     .build())
             .build();
 
