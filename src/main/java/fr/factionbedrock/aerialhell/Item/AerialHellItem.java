@@ -75,7 +75,11 @@ public class AerialHellItem extends WithInformationItem
 	//applying tick (passive) tool ability modules
 	@Override public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot)
 	{
-		if (this.abilitySelector != null && entity instanceof LivingEntity itemOwner && entity.tickCount % 10 == 0) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.Tick(stack, itemOwner, slot));}
+		if (this.abilitySelector != null && entity instanceof LivingEntity itemOwner && entity.tickCount % 10 == 0)
+		{
+			@Nullable UsingItemUseSituationInfo usingItemUseSituationInfo = new UsingItemUseSituationInfo(itemOwner instanceof Player player && player.isUsingItem() ? player.getTicksUsingItem() : 0);
+			this.abilitySelector.tryUseAbility(new AbilityUseSituation.Tick(stack, itemOwner, slot, usingItemUseSituationInfo));
+		}
 	}
 
 	//applying use tool ability modules
@@ -105,7 +109,7 @@ public class AerialHellItem extends WithInformationItem
 	{
 		int ticksUsed = this.getUseDuration(itemStack, itemOwner) - remainingTime;
 		boolean used = false;
-		if (this.abilitySelector != null) {used = this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnReleaseUsing(itemStack, itemOwner, new ReleaseUsingUseSituationInfo(ticksUsed)));}
+		if (this.abilitySelector != null) {used = this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnReleaseUsing(itemStack, itemOwner, new UsingItemUseSituationInfo(ticksUsed)));}
 		return used;
 	}
 

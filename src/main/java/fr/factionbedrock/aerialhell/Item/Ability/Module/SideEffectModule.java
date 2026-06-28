@@ -22,7 +22,7 @@ public class SideEffectModule extends AbilityModule
 
     public void apply(AbilityUseSituation useSituation)
     {
-        this.sideEffect.apply(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.releaseUsingUseSituationInfo, useSituation.damageUseSituationInfo, useSituation.miningUseSituationInfo);
+        this.sideEffect.apply(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.usingItemUseSituationInfo, useSituation.damageUseSituationInfo, useSituation.miningUseSituationInfo);
     }
 
     //this module can be applied in on use modules on an ability. But it can also be put in :
@@ -34,7 +34,7 @@ public class SideEffectModule extends AbilityModule
     {
         private DamageItem(int amount)
         {
-            super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
+            super((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) ->
             {
                 if (equipmentSlot != null) {stack.hurtAndBreak(amount, itemOwner, equipmentSlot);}
             });
@@ -48,7 +48,7 @@ public class SideEffectModule extends AbilityModule
     {
         private ShrinkUsedItem(int amount, boolean unlessCreative)
         {
-            super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
+            super((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) ->
             {
                 if (equipmentSlot != null)
                 {
@@ -73,14 +73,16 @@ public class SideEffectModule extends AbilityModule
     {
         private ShrinkItem(Predicate<Item> itemPredicate, int amount, boolean unlessCreative)
         {
-            super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
+            super((usedStack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) ->
             {
-                shrinkItem(itemOwner, itemPredicate, amount);
+                shrinkItem(usedStack, itemOwner, itemPredicate, amount, unlessCreative);
             });
         }
 
-        private static void shrinkItem(LivingEntity itemOwner, Predicate<Item> itemPredicate, int amountToShrink)
+        //the usedItem is the item (with the ability) that triggers the shrink
+        private static void shrinkItem(ItemStack usedStack, LivingEntity itemOwner, Predicate<Item> itemPredicate, int amountToShrink, boolean unlessCreative)
         {
+            if ((unlessCreative && EntityHelper.isCreativePlayer(itemOwner)) || EntityHelper.hasEnchantment(itemOwner, Enchantments.INFINITY)) {return;}
             int shrinkRemaining = amountToShrink;
             if (itemOwner instanceof Player player)
             {
@@ -140,7 +142,7 @@ public class SideEffectModule extends AbilityModule
         private final ToIntFunction<LivingEntity> cooldownDuration;
         private Cooldown(ToIntFunction<LivingEntity> cooldownDuration)
         {
-            super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
+            super((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) ->
             {
                 int cooldown = cooldownDuration.applyAsInt(itemOwner);
                 if (itemOwner instanceof Player player && cooldown != 0) {player.getCooldowns().addCooldown(stack, cooldown);}

@@ -29,6 +29,8 @@ import java.util.List;
 
 public class AerialHellItemAbilities
 {
+    public static int RUBY_RESONATOR_USE_TICKS = 36;
+
     private static final ActionModule.MobEffect.Builder GOD_EFFECT_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(AerialHellMobEffects.GOD);
     private static final ActionModule.MobEffect.Builder JUMP_BOOST_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.JUMP_BOOST);
     private static final ActionModule.MobEffect.Builder INVISIBILITY_TO_SELF = ActionModule.MobEffect.toOwnerBuilder(MobEffects.INVISIBILITY);
@@ -67,10 +69,10 @@ public class AerialHellItemAbilities
 
     private static final ActionModule.RemoveMobEffect.Builder REMOVE_EFFECT = ActionModule.RemoveMobEffect.builder();
 
-    private static final ConditionModule IN_HOTBAR_OR_OFF_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) -> ItemStack.matches(stack, itemOwner.getMainHandItem()) || ItemStack.matches(stack, itemOwner.getOffhandItem()) || itemOwner instanceof Player player && EntityHelper.hasItemStackInHotbar(player, stack));
-    private static final ConditionModule IN_MAIN_OR_OFF_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) -> ItemStack.matches(stack, itemOwner.getMainHandItem()) || ItemStack.matches(stack, itemOwner.getOffhandItem()));
-    private static final ConditionModule IN_MAIN_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) -> ItemStack.matches(stack, itemOwner.getMainHandItem()));
-    private static final ConditionModule IN_RIGHT_SLOT = new ConditionModule((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) -> equipmentSlot == itemOwner.getEquipmentSlotForItem(stack));
+    private static final ConditionModule IN_HOTBAR_OR_OFF_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> ItemStack.matches(stack, itemOwner.getMainHandItem()) || ItemStack.matches(stack, itemOwner.getOffhandItem()) || itemOwner instanceof Player player && EntityHelper.hasItemStackInHotbar(player, stack));
+    private static final ConditionModule IN_MAIN_OR_OFF_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> ItemStack.matches(stack, itemOwner.getMainHandItem()) || ItemStack.matches(stack, itemOwner.getOffhandItem()));
+    private static final ConditionModule IN_MAIN_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> ItemStack.matches(stack, itemOwner.getMainHandItem()));
+    private static final ConditionModule IN_RIGHT_SLOT = new ConditionModule((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> equipmentSlot == itemOwner.getEquipmentSlotForItem(stack));
 
     private static final ActionModule.MobEffectList RANDOM_SWORD_RANDOM_EFFECT = ActionModule.MobEffectList.builder().addEffects((itemOwner) ->
     {
@@ -81,7 +83,7 @@ public class AerialHellItemAbilities
         else {return List.of(new MobEffectTemplate(MobEffects.UNLUCK, 750, 0), new MobEffectTemplate(MobEffects.POISON, 80, 1));}
     }).toOwnerBuild();
 
-    private static final ActionModule CURSED_TOOL_INTERACTION = ActionModule.create((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
+    private static final ActionModule CURSED_TOOL_INTERACTION = ActionModule.create((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) ->
     {
         if (itemOwner.level().isClientSide() || damageInfo == null || !(damageInfo.otherEntity() instanceof LivingEntity livingOther)) {return;}
         boolean otherIsLight = EntityHelper.isLightEntity(livingOther) || EntityHelper.hasFullLunaticStuff(livingOther);
@@ -90,7 +92,7 @@ public class AerialHellItemAbilities
         livingOther.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY.getDelegate(), 40, otherIsLight ? 1 : 0));
     });
 
-    private static final ActionModule CURSED_TOTEM_EFFECT = ActionModule.create((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
+    private static final ActionModule CURSED_TOTEM_EFFECT = ActionModule.create((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) ->
     {
         if (!itemOwner.level().isClientSide())
         {
@@ -111,7 +113,7 @@ public class AerialHellItemAbilities
         }
     });
 
-    private static final ActionModule SLOW_DOWN_NEARBY_ENTITIES = ActionModule.create((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
+    private static final ActionModule SLOW_DOWN_NEARBY_ENTITIES = ActionModule.create((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) ->
     {
         List<LivingEntity> nearbyEntities = EntityHelper.getTargetableLivingEntitiesInInflatedBoundingBox(itemOwner, 6, (entity) -> !EntityHelper.isCreaOrSpecPlayer(entity));
         for (LivingEntity nearbyEntity : nearbyEntities)
@@ -124,7 +126,7 @@ public class AerialHellItemAbilities
         }
     });
 
-    private static final ActionModule START_USING_ITEM = ActionModule.create((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
+    private static final ActionModule START_USING_ITEM = ActionModule.create((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) ->
     {
         @Nullable InteractionHand hand = equipmentSlot == EquipmentSlot.MAINHAND ? InteractionHand.MAIN_HAND : equipmentSlot == EquipmentSlot.OFFHAND ? InteractionHand.OFF_HAND : null;
         if (itemOwner instanceof Player player && hand != null) {player.startUsingItem(hand);}
@@ -186,6 +188,7 @@ public class AerialHellItemAbilities
     private static final ActionModule.Particle.Builder CLOUD_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.CLOUD);
     private static final ActionModule.Particle.Builder SMOKE_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.SMOKE);
     private static final ActionModule.Particle.Builder SNOWFLAKE_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.SNOWFLAKE);
+    private static final ActionModule.Particle.Builder OSCILLATOR_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(AerialHellParticleTypes.OSCILLATOR.get());
     private static final ActionModule.Particle.Builder DRIPPING_WATER_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.DRIPPING_WATER);
     private static final ActionModule.Particle.Builder ENCHANT_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.ENCHANT);
     private static final ActionModule.Particle.Builder SPORE_BLOSSOM_AIR_PARTICLES_ON_SELF = ActionModule.Particle.onOwnerBuilder(ParticleTypes.SPORE_BLOSSOM_AIR);
@@ -197,7 +200,7 @@ public class AerialHellItemAbilities
     private static final ActionModule.Particle.Builder SNOWFLAKE_PARTICLES_ON_OTHER = ActionModule.Particle.onOtherBuilder(ParticleTypes.SNOWFLAKE);
 
     //little test about summoning creatures
-    private static final ActionModule INVOKE_CHAINED_GOD = ActionModule.create((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) -> {
+    private static final ActionModule INVOKE_CHAINED_GOD = ActionModule.create((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> {
         ChainedGodEntity god = AerialHellEntities.CHAINED_GOD.get().create(itemOwner.level(), EntitySpawnReason.TRIGGERED);
         if (god != null)
         {
@@ -243,10 +246,14 @@ public class AerialHellItemAbilities
                     .build())
             .addOnReleaseUsingModules(ModuleList.builder()
                     .addActions(
-                            THROW_PROJECTILE.build(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), (ticksUsed) -> velocityFromTicksUsed(ticksUsed, 20, 1.8F), 0),
+                            THROW_PROJECTILE.build(AerialHellEntities.RUBY_BLOWPIPE_ARROW.get(), (ticksUsed) -> velocityFromTicksUsed(ticksUsed, RUBY_RESONATOR_USE_TICKS, 3.6F), 0),
                             RUBY_RESONATOR_USE_SOUND)
-                    .addConditions(OWNER_HAS_ITEM.unlessCreative(AerialHellItems.RUBY_BLOWPIPE_ARROW, 1), TICKS_USED.min(5))
+                    .addConditions(OWNER_HAS_ITEM.unlessCreative(AerialHellItems.RUBY_BLOWPIPE_ARROW, 1), TICKS_USED.min(RUBY_RESONATOR_USE_TICKS / 4))
                     .addSideEffects(SHRINK.item(AerialHellItems.RUBY_BLOWPIPE_ARROW), DAMAGE_ITEM)
+                    .build())
+            .addPassiveModules(ModuleList.builder()
+                    .addActions(OSCILLATOR_PARTICLES_ON_SELF.of(4))
+                    .addConditions(TICKS_USED.min(RUBY_RESONATOR_USE_TICKS / 2))
                     .build())
             .build();
 

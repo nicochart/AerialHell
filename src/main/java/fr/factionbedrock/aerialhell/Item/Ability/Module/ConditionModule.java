@@ -20,22 +20,22 @@ public class ConditionModule extends AbilityModule
 
     public ConditionModule(ModuleCondition condition) {super(); this.condition = condition;}
 
-    public static ConditionModule itemOwnerCondition(Predicate<LivingEntity> entityPredicate) {return new ConditionModule((itemStack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) -> entityPredicate.test(itemOwner));}
-    public static ConditionModule otherEntityCondition(Predicate<LivingEntity> entityPredicate) {return new ConditionModule((itemStack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
+    public static ConditionModule itemOwnerCondition(Predicate<LivingEntity> entityPredicate) {return new ConditionModule((itemStack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> entityPredicate.test(itemOwner));}
+    public static ConditionModule otherEntityCondition(Predicate<LivingEntity> entityPredicate) {return new ConditionModule((itemStack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) ->
     {
         if (damageInfo == null || !(damageInfo.otherEntity() instanceof LivingEntity livingOther)) {return true;}
         else {return entityPredicate.test(livingOther);}
     });}
 
-    public ConditionModule opposite() {return new ConditionModule((itemStack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) -> !this.conditionMet(itemStack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo));}
+    public ConditionModule opposite() {return new ConditionModule((itemStack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> !this.conditionMet(itemStack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo));}
 
-    public boolean conditionMet(AbilityUseSituation useSituation) {return this.conditionMet(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.releaseUsingUseSituationInfo, useSituation.damageUseSituationInfo, useSituation.miningUseSituationInfo);}
+    public boolean conditionMet(AbilityUseSituation useSituation) {return this.conditionMet(useSituation.itemStack, useSituation.itemOwner, useSituation.equipmentSlot, useSituation.usingItemUseSituationInfo, useSituation.damageUseSituationInfo, useSituation.miningUseSituationInfo);}
 
-    private boolean conditionMet(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable ReleaseUsingUseSituationInfo releaseUsingInfo, @Nullable DamageUseSituationInfo damageInfo, @Nullable MiningUseSituationInfo miningInfo) {return condition.conditionMet(itemStack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo);}
+    private boolean conditionMet(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable UsingItemUseSituationInfo usingItemInfo, @Nullable DamageUseSituationInfo damageInfo, @Nullable MiningUseSituationInfo miningInfo) {return condition.conditionMet(itemStack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo);}
 
     public static class OwnerHasItemInInventory extends ConditionModule
     {
-        public OwnerHasItemInInventory(Predicate<Item> itemPredicate, int minCount, boolean ignoreCreative) {super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
+        public OwnerHasItemInInventory(Predicate<Item> itemPredicate, int minCount, boolean ignoreCreative) {super((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) ->
         {
             return (ignoreCreative && EntityHelper.isCreativePlayer(itemOwner)) || countItemInInventory(itemOwner, itemPredicate) >= minCount;
         });}
@@ -81,9 +81,9 @@ public class ConditionModule extends AbilityModule
 
     public static class TicksUsed extends ConditionModule
     {
-        public TicksUsed(int minTicksUsed) {super((stack, itemOwner, equipmentSlot, releaseUsingInfo, damageInfo, miningInfo) ->
+        public TicksUsed(int minTicksUsed) {super((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) ->
         {
-            return releaseUsingInfo != null && releaseUsingInfo.ticksUsed() >= minTicksUsed;
+            return usingItemInfo != null && usingItemInfo.ticksUsed() >= minTicksUsed;
         });}
 
         public static ConditionModule.TicksUsed.Builder builder() {return new ConditionModule.TicksUsed.Builder();}

@@ -11,17 +11,17 @@ public class AbilityUseSituation
     public final ItemStack itemStack;
     public final LivingEntity itemOwner;
     public final @Nullable EquipmentSlot equipmentSlot;
-    public final @Nullable ReleaseUsingUseSituationInfo releaseUsingUseSituationInfo;
+    public final @Nullable UsingItemUseSituationInfo usingItemUseSituationInfo;
     public final @Nullable DamageUseSituationInfo damageUseSituationInfo;
     public final @Nullable MiningUseSituationInfo miningUseSituationInfo;
     public final AbilityUseSituation.Category category;
 
-    private AbilityUseSituation(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable ReleaseUsingUseSituationInfo releaseUsingUseSituationInfo, @Nullable DamageUseSituationInfo damageUseSituationInfo, @Nullable MiningUseSituationInfo miningUseSituationInfo, AbilityUseSituation.Category useSituation)
+    private AbilityUseSituation(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable UsingItemUseSituationInfo usingItemUseSituationInfo, @Nullable DamageUseSituationInfo damageUseSituationInfo, @Nullable MiningUseSituationInfo miningUseSituationInfo, AbilityUseSituation.Category useSituation)
     {
         this.itemStack = itemStack;
         this.itemOwner = itemOwner;
         this.equipmentSlot = equipmentSlot;
-        this.releaseUsingUseSituationInfo = releaseUsingUseSituationInfo;
+        this.usingItemUseSituationInfo = usingItemUseSituationInfo;
         this.damageUseSituationInfo = damageUseSituationInfo;
         this.miningUseSituationInfo = miningUseSituationInfo;
         this.category = useSituation;
@@ -29,9 +29,9 @@ public class AbilityUseSituation
 
     public static class Tick extends AbilityUseSituation
     {
-        public Tick(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot)
+        public Tick(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot equipmentSlot, @Nullable UsingItemUseSituationInfo usingItemUseSituationInfo)
         {
-            super(itemStack, itemOwner, equipmentSlot, null, null, null, Category.TICK);
+            super(itemStack, itemOwner, equipmentSlot, usingItemUseSituationInfo, null, null, Category.TICK);
         }
     }
 
@@ -45,9 +45,9 @@ public class AbilityUseSituation
 
     public static class OnReleaseUsing extends AbilityUseSituation
     {
-        public OnReleaseUsing(ItemStack itemStack, LivingEntity itemOwner, ReleaseUsingUseSituationInfo releaseUsingUseSituationInfo)
+        public OnReleaseUsing(ItemStack itemStack, LivingEntity itemOwner, UsingItemUseSituationInfo usingItemUseSituationInfo)
         {
-            super(itemStack, itemOwner, EquipmentSlot.MAINHAND, releaseUsingUseSituationInfo, null, null, Category.ON_FINISH_USING);
+            super(itemStack, itemOwner, EquipmentSlot.MAINHAND, usingItemUseSituationInfo, null, null, Category.ON_FINISH_USING);
         }
     }
 
