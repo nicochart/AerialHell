@@ -433,6 +433,8 @@ public class AerialHellItem extends WithInformationItem
 		@Override public AerialHellItem.Properties stacksTo(int max) {return (AerialHellItem.Properties) super.stacksTo(max);}
 
 		@Override public <T> AerialHellItem.Properties component(DataComponentType<T> type, T value) {return (AerialHellItem.Properties) super.component(type, value);}
+
+		@Override public AerialHellItem.Properties enchantable(int value) {return (AerialHellItem.Properties) super.enchantable(value);}
 	}
 
 	//"tool types" that can be used with right click

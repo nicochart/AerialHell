@@ -18,6 +18,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -173,7 +175,14 @@ public class ActionModule extends AbilityModule
                     Projectile projectile = type.create(level, EntitySpawnReason.TRIGGERED);
                     if (projectile != null)
                     {
-                        if (projectile instanceof AbstractArrow arrow){arrow.pickup = EntityHelper.isCreativePlayer(itemOwner) ? AbstractArrow.Pickup.CREATIVE_ONLY : AbstractArrow.Pickup.ALLOWED;}
+                        projectile.setOwner(itemOwner);
+                        if (projectile instanceof AbstractArrow arrow)
+                        {
+                            arrow.pickup = EntityHelper.isCreativePlayer(itemOwner) || EntityHelper.hasEnchantment(itemOwner, stack, Enchantments.INFINITY) ? AbstractArrow.Pickup.CREATIVE_ONLY : AbstractArrow.Pickup.ALLOWED;
+                            arrow.firedFromWeapon = stack;
+                        }
+                        if (itemOwner.level() instanceof ServerLevel serverLevel) {EnchantmentHelper.onProjectileSpawned(serverLevel, stack, projectile, item -> {});}
+                        
                         int ticksUsed = usingItemInfo != null ? usingItemInfo.ticksUsed() : 0;
                         projectile.setPos(itemOwner.getX(), itemOwner.getY(0.5D) + 0.5D, itemOwner.getZ());
                         projectile.setOwner(itemOwner);
