@@ -113,7 +113,7 @@ public class AerialHellSoundEvents
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_FLYING_JELLYFISH_HURT = register("entity.flying_jellyfish.hurt");
 	
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_SHURIKEN_SHOOT = register("entity.shuriken.throw");
-	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_BLOWPIPE_SHOOT = register("entity.volucite_blowpipe.shoot");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_RESONATOR_SHOOT = register("entity.resonator.shoot");
 	
 	public static final DeferredHolder<SoundEvent, SoundEvent> ITEM_FORGOTTEN_BATTLE_TRIDENT_USE = register("item.forgotten_battle_trident.use");
 	

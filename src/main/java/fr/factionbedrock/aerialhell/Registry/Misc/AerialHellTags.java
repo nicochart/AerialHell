@@ -153,7 +153,7 @@ public class AerialHellTags
 
 		public static final TagKey<Item> CHESTS = tag("chests");
 
-		public static final TagKey<Item> BLOWPIPE_ARROWS = tag("blowpipe_arrows");
+		public static final TagKey<Item> RESONATOR_SHARDS = tag("resonator_shards");
 
 		public static final TagKey<Item> AERIALHELL_PLANKS = tag("aerialhell_planks");
 

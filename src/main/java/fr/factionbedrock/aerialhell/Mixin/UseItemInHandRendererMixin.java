@@ -26,7 +26,7 @@ public class UseItemInHandRendererMixin
         ItemInHandRenderer itemInHandRenderer = (ItemInHandRenderer) (Object) this;
 
         int itemUseDuration = 20;
-        if (itemStack.is(AerialHellItems.RUBY_RESONATOR) || itemStack.is(AerialHellItems.VOLUCITE_BLOWPIPE))
+        if (itemStack.is(AerialHellItems.RUBY_RESONATOR) || itemStack.is(AerialHellItems.VOLUCITE_RESONATOR))
         {
             itemUseDuration = AerialHellItemAbilities.RESONATOR_USE_TICKS;
         }

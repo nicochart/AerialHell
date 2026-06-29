@@ -1,15 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "S",
-    "S",
     "V"
   ],
   "key": {
-    "S": "aerialhell:sky_stick",
     "V": "aerialhell:volucite_vibrant"
   },
   "result": {
-    "id": "aerialhell:volucite_blowpipe"
+    "id": "aerialhell:volucite_shard",
+    "count": 4
   }
 }

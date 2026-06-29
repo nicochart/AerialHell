@@ -510,9 +510,9 @@
       "aerialhell:mob/flying_jellyfish/hurt2"
     ]
   },
-  "entity.volucite_blowpipe.shoot": {
-    "subtitle": "subtitles.aerialhell.entity.volucite_blowpipe.shoot",
-    "sounds": ["aerialhell:projectile/volucite_blowpipe/shoot"]
+  "entity.resonator.shoot": {
+    "subtitle": "subtitles.aerialhell.entity.resonator.shoot",
+    "sounds": ["aerialhell:projectile/resonator/shoot"]
   },
   "entity.shuriken.throw": {
     "subtitle": "subtitles.aerialhell.entity.shuriken.throw",

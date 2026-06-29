@@ -684,6 +684,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellItems.RUBY_BLOWPIPE.get());
             itemsToAdd.add(AerialHellItems.VOLUCITE_BLOWPIPE.get());
 
+            itemsToAdd.add(AerialHellItems.RUBY_SHARD.get());
+            itemsToAdd.add(AerialHellItems.VOLUCITE_SHARD.get());
             itemsToAdd.add(AerialHellItems.RUBY_RESONATOR.get());
             itemsToAdd.add(AerialHellItems.VOLUCITE_RESONATOR.get());
 

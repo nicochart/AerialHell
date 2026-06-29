@@ -849,11 +849,14 @@ public class AerialHellItems
     public static final DeferredItem<Item> RUBY_MILK_BUCKET = ITEMS.register(Keys.RUBY_MILK_BUCKET.identifier().getPath(), () -> new Item(new Item.Properties().setId(Keys.RUBY_MILK_BUCKET).craftRemainder(RUBY_BUCKET.get()).component(DataComponents.CONSUMABLE, Consumables.MILK_BUCKET).usingConvertsTo(RUBY_BUCKET.get()).stacksTo(1)));
 
     //arrows & bows
-    public static final DeferredItem<Item> RUBY_BLOWPIPE_ARROW = ITEMS.register(Keys.RUBY_BLOWPIPE_ARROW.identifier().getPath(), () -> new AerialArrowItem(new Item.Properties().setId(Keys.RUBY_BLOWPIPE_ARROW)));
-    public static final DeferredItem<Item> VOLUCITE_BLOWPIPE_ARROW = ITEMS.register(Keys.VOLUCITE_BLOWPIPE_ARROW.identifier().getPath(), () -> new AerialArrowItem(new Item.Properties().setId(Keys.VOLUCITE_BLOWPIPE_ARROW).rarity(AerialHellRarities.VIBRANT.getValue())));
+    public static final DeferredItem<Item> RUBY_BLOWPIPE_ARROW = ITEMS.register(Keys.RUBY_BLOWPIPE_ARROW.identifier().getPath(), () -> new WithInformationItem(new Item.Properties().setId(Keys.RUBY_BLOWPIPE_ARROW)));
+    public static final DeferredItem<Item> VOLUCITE_BLOWPIPE_ARROW = ITEMS.register(Keys.VOLUCITE_BLOWPIPE_ARROW.identifier().getPath(), () -> new WithInformationItem(new Item.Properties().setId(Keys.VOLUCITE_BLOWPIPE_ARROW).rarity(AerialHellRarities.VIBRANT.getValue())));
 
-    public static final DeferredItem<Item> RUBY_BLOWPIPE = ITEMS.register(Keys.RUBY_BLOWPIPE.identifier().getPath(), () -> new BlowpipeItem(new Item.Properties().setId(Keys.RUBY_BLOWPIPE).stacksTo(1).durability(200), 1.7F));
-    public static final DeferredItem<Item> VOLUCITE_BLOWPIPE = ITEMS.register(Keys.VOLUCITE_BLOWPIPE.identifier().getPath(), () -> new BlowpipeItem(new Item.Properties().setId(Keys.VOLUCITE_BLOWPIPE).rarity(AerialHellRarities.VIBRANT.getValue()).stacksTo(1).durability(400), 2.4F));
+    public static final DeferredItem<Item> RUBY_BLOWPIPE = ITEMS.register(Keys.RUBY_BLOWPIPE.identifier().getPath(), () -> new WithInformationItem(new Item.Properties().setId(Keys.RUBY_BLOWPIPE).stacksTo(1).durability(200)));
+    public static final DeferredItem<Item> VOLUCITE_BLOWPIPE = ITEMS.register(Keys.VOLUCITE_BLOWPIPE.identifier().getPath(), () -> new WithInformationItem(new Item.Properties().setId(Keys.VOLUCITE_BLOWPIPE).rarity(AerialHellRarities.VIBRANT.getValue()).stacksTo(1).durability(400)));
+
+    public static final DeferredItem<Item> RUBY_SHARD = ITEMS.register(Keys.RUBY_SHARD.identifier().getPath(), () -> new WithInformationItem(new Item.Properties().setId(Keys.RUBY_SHARD)));
+    public static final DeferredItem<Item> VOLUCITE_SHARD = ITEMS.register(Keys.VOLUCITE_SHARD.identifier().getPath(), () -> new WithInformationItem(new Item.Properties().setId(Keys.VOLUCITE_SHARD).rarity(AerialHellRarities.VIBRANT.getValue())));
 
     public static final DeferredItem<Item> RUBY_RESONATOR = ITEMS.register(Keys.RUBY_RESONATOR.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.RUBY_RESONATOR).stacksTo(1).durability(200).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.RUBY_RESONATOR)).maxUseDuration(72000).useAnimation(ItemUseAnimation.BOW)));
     public static final DeferredItem<Item> VOLUCITE_RESONATOR = ITEMS.register(Keys.VOLUCITE_RESONATOR.identifier().getPath(), () -> new AerialHellItem(new AerialHellItem.Properties().setId(Keys.VOLUCITE_RESONATOR).stacksTo(1).durability(200).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.VOLUCITE_RESONATOR)).maxUseDuration(72000).useAnimation(ItemUseAnimation.BOW)));
@@ -1834,6 +1837,9 @@ public class AerialHellItems
 
         public static final ResourceKey<Item> RUBY_BLOWPIPE = createKey("ruby_blowpipe");
         public static final ResourceKey<Item> VOLUCITE_BLOWPIPE = createKey("volucite_blowpipe");
+
+        public static final ResourceKey<Item> RUBY_SHARD = createKey("ruby_shard");
+        public static final ResourceKey<Item> VOLUCITE_SHARD = createKey("volucite_shard");
 
         public static final ResourceKey<Item> RUBY_RESONATOR = createKey("ruby_resonator");
         public static final ResourceKey<Item> VOLUCITE_RESONATOR = createKey("volucite_resonator");
