@@ -1270,7 +1270,7 @@ public class GuideBookScreen extends Screen
                     .addParagraph(12, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "light_creatures")
                     .addTextureDisplay(alignedToLeft(13).build(), 1.0F, "gui/guide_book/content/entities/crystal_caterpillar", 26, 22, "entity.aerialhell.crystal_caterpillar")
                     .addTextureDisplay(centered(13).build(), 1.0F, "gui/guide_book/content/entities/crystal_slime", 30, 30, "entity.aerialhell.crystal_slime")
-                    .addTextureDisplay(alignedToRight(13).build(), 1.0F, "gui/guide_book/content/entities/shadow_pine_mimic", 32, 20, "entity.aerialhell.shadow_pine_mimic")
+                    .addTextureDisplay(alignedToRight(13).build(), 1.0F, "gui/guide_book/content/entities/crystal_spider", 30, 28, "entity.aerialhell.crystal_spider")
                     .addTextureDisplay(alignedToLeft(17).build(), 0.65F, "gui/guide_book/content/entities/crystal_golem", 34, 54, "entity.aerialhell.crystal_golem")
                     .addTextureDisplay(centered(17).build(), 0.6F, "gui/guide_book/content/entities/golden_beech_mimic", 32, 50, "entity.aerialhell.golden_beech_mimic")
                     .addTextureDisplay(alignedToRight(17).build(), 1.0F, "gui/guide_book/content/entities/lunar_priest", 32, 32, "entity.aerialhell.lunatic_priest")

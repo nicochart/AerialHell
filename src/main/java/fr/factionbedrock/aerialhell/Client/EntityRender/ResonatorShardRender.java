@@ -26,7 +26,7 @@ public class ResonatorShardRender<T extends AbstractArrow> extends EntityRendere
     public ResonatorShardRender(EntityRendererProvider.Context context)
     {
         super(context);
-        this.model = new ResonatorShardModel(context.bakeLayer(AerialHellModelLayers.RESONATOR_AMMO));
+        this.model = new ResonatorShardModel(context.bakeLayer(AerialHellModelLayers.RESONATOR_SHARD));
     }
 
     @Override public void submit(ResonatorShardRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera)

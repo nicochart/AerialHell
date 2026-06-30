@@ -1354,7 +1354,7 @@
   "aerialhell.guide_book.materials_1.materials_section_quote" : "§oKnowledge of materials\n§ois the foundation of\n§oevery skilled blacksmith.",
   "aerialhell.guide_book.materials_1.materials_content_desc" : "This section contains a classification of Aerial Hell's materials, along with information about their unique properties.",
   "aerialhell.guide_book.materials_1.materials_content_desc" : "Only the materials that can be used as fuel, or used to craft tools and armors will be presented in this section.",
-  "aerialhell.guide_book.materials_1.materials_tier_list" : "Materials tier list:\n\nSky Wood\n(equivalent of overworld loot)\nFluorite (equivalent of coal)\nStellar Stone (equivalent of Stone)\nRuby (Equivalent of Iron)\nMagmatic Gel\nAzurite (equivalent of Gold)\nObsidian (equivalent of Diamond)\nLunar Crystal\n(equivalent of Netherite)\nCursed Crystal\nVolucite\nArsonist",
+  "aerialhell.guide_book.materials_1.materials_tier_list" : "Materials tier list:\n\nSky Wood\n(equivalent of overworld loot)\nFluorite (equivalent of coal)\nStellar Stone (equivalent of Stone)\nRuby (equivalent of Iron)\nMagmatic Gel\nAzurite (equivalent of Gold)\nObsidian (equivalent of Diamond)\nLunar Crystal\n(equivalent of Netherite)\nCursed Crystal\nVolucite\nArsonist",
   "aerialhell.guide_book.materials_2.fluorite_material" : "- Fluorite",
   "aerialhell.guide_book.materials_2.fluorite_description" : "Commonly found as ore\n\nFuel for Oscillator\n\nFuel for\nLight Reactors\n\nUsed in many crafts",
   "aerialhell.guide_book.materials_2.ruby_material" : "- Ruby",

@@ -151,7 +151,7 @@ public class RenderRegistrationListener
 
         event.registerLayerDefinition(AerialHellModelLayers.EMPTY, EmptyModel::createBodyLayer);
 
-        event.registerLayerDefinition(AerialHellModelLayers.RESONATOR_AMMO, ResonatorShardModel::createBodyLayer);
+        event.registerLayerDefinition(AerialHellModelLayers.RESONATOR_SHARD, ResonatorShardModel::createBodyLayer);
     }
 
     public static void onModelBake(ModelEvent.ModifyBakingResult event)
