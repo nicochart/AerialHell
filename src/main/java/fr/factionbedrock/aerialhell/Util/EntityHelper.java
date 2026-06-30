@@ -149,6 +149,17 @@ public class EntityHelper
         return false;
     }
 
+    public static boolean hasEnchantment(LivingEntity entity, ItemStack stack, ResourceKey<Enchantment> enchantmentKey)
+    {
+        Optional<Holder.Reference<Enchantment>> enchantment = entity.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).get(enchantmentKey);
+        if (enchantment.isPresent())
+        {
+            return EnchantmentHelper.getItemEnchantmentLevel(enchantment.get(), stack) > 0;
+
+        }
+        return false;
+    }
+
     public static void applyTraitorEffectTo(LivingEntity livingEntity)
     {
         livingEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.TRAITOR, 12000, 0));

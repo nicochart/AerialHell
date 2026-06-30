@@ -684,6 +684,11 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.RUBY_BLOWPIPE);
             entries.accept(AerialHellItems.VOLUCITE_BLOWPIPE);
 
+            entries.accept(AerialHellItems.RUBY_SHARD);
+            entries.accept(AerialHellItems.VOLUCITE_SHARD);
+            entries.accept(AerialHellItems.RUBY_RESONATOR);
+            entries.accept(AerialHellItems.VOLUCITE_RESONATOR);
+
             entries.accept(AerialHellItems.SKY_WOOD_SWORD);
             entries.accept(AerialHellItems.STELLAR_STONE_SWORD);
             entries.accept(AerialHellItems.RUBY_SWORD);

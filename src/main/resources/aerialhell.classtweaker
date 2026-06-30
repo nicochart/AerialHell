@@ -5,6 +5,9 @@ accessible field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
 accessible field net/minecraft/world/item/HoeItem TILLABLES Ljava/util/Map;
 accessible field net/minecraft/world/item/ShovelItem FLATTENABLES Ljava/util/Map;
 
+#Used in ActionModule ThrowProjectile to set firedFromWeapon
+accessible field net/minecraft/world/entity/projectile/arrow/AbstractArrow firedFromWeapon Lnet/minecraft/world/item/ItemStack;
+
 #Aerial Hell Recipes PropertySet
 accessible field net/minecraft/world/item/crafting/RecipeManager RECIPE_PROPERTY_SETS Ljava/util/Map;
 mutable field net/minecraft/world/item/crafting/RecipeManager RECIPE_PROPERTY_SETS Ljava/util/Map;

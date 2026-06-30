@@ -290,8 +290,8 @@ public class RenderRegistrationListener
         EntityRendererRegistry.register(AerialHellEntities.LIGHTNING_SHURIKEN, ShurikenRender::new);
         EntityRendererRegistry.register(AerialHellEntities.POISONBALL, FireballLikeProjectileRender::new);
         EntityRendererRegistry.register(AerialHellEntities.DIMENSION_SHATTERER_PROJECTILE, FireballLikeProjectileRender::new);
-        EntityRendererRegistry.register(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW, AerialArrowRenderer::new);
-        EntityRendererRegistry.register(AerialHellEntities.RUBY_BLOWPIPE_ARROW, AerialArrowRenderer::new);
+        EntityRendererRegistry.register(AerialHellEntities.VOLUCITE_SHARD, ResonatorShardRender::new);
+        EntityRendererRegistry.register(AerialHellEntities.RUBY_SHARD, ResonatorShardRender::new);
         EntityRendererRegistry.register(AerialHellEntities.LUNATIC_PROJECTILE, LightProjectileRender::new);
         EntityRendererRegistry.register(AerialHellEntities.SHADOW_PROJECTILE, LightProjectileRender::new);
         EntityRendererRegistry.register(AerialHellEntities.AERIAL_HELL_PAINTING, AerialHellPaintingRender::new);
@@ -337,6 +337,8 @@ public class RenderRegistrationListener
         ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CORTINARIUS_COW_SHROOM, CortinariusCowShroomModel::createBodyLayer);
         ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.CRYSTAL_GOLEM_CRYSTAL, CrystalGolemCrystalModel::createBodyLayer);
         ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SPIDER_SPIKE, HellSpiderSpikeModel::createBodyLayer);
+
+        ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.RESONATOR_SHARD, ResonatorShardModel::createBodyLayer);
 
         ModelLayerRegistry.registerModelLayer(AerialHellModelLayers.EMPTY, EmptyModel::createBodyLayer);
     }

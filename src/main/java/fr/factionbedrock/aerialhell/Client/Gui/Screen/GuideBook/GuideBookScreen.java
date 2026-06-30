@@ -200,15 +200,15 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToRight(7).build(), 1.0F, () -> Items.LAPIS_LAZULI, true)
                     .addParagraph(10, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "step_13_ranged_weapon")
                     .addCraftingTableRecipeDisplay(12, Alignment.LEFT, 0.7F, new CraftingTableRecipeDisplay.Ingredients(
-                            () -> null, () -> AerialHellItems.SKY_STICK, () -> null,
-                            () -> null, () -> AerialHellItems.SKY_STICK, () -> null,
-                            () -> null, () -> AerialHellItems.RUBY, () -> null
-                    ), AerialHellItems.RUBY_BLOWPIPE::getDefaultInstance, true)
+                            () -> AerialHellItems.SKY_STICK, () -> AerialHellItems.RUBY, () -> null,
+                            () -> AerialHellItems.RUBY, () -> AerialHellItems.FLUORITE, () -> null,
+                            () -> null, () -> null, () -> AerialHellItems.SKY_STICK
+                    ), () -> AerialHellItems.RUBY_RESONATOR.getDefaultInstance(), true)
                     .addCraftingTableRecipeDisplay(12, Alignment.RIGHT, 0.7F, new CraftingTableRecipeDisplay.Ingredients(
-                            () -> null, () -> AerialHellItems.WHITE_SOLID_ETHER_FRAGMENT, () -> null,
-                            () -> null, () -> AerialHellItems.SKY_STICK, () -> null,
-                            () -> null, () -> AerialHellItems.RUBY, () -> null
-                    ), () -> new ItemStack(AerialHellItems.RUBY_BLOWPIPE_ARROW, 4), true)
+                            () -> null, () -> null, () -> null,
+                            () -> null, () -> AerialHellItems.RUBY, () -> null,
+                            () -> null, () -> null, () -> null
+                    ), () -> new ItemStack(AerialHellItems.RUBY_SHARD, 4), true)
                     .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "step_14_rush_lunar_temple")
                     .addTextureDisplay(alignedToLeft(19).build(), 0.115F, "gui/guide_book/content/structures/lunar_temple", 1199, 896)
                     .addItemTexture(alignedToRight(20).build(), 0.9F, () -> AerialHellItems.LUNATIC_CRYSTAL, true)
@@ -392,8 +392,8 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(28).horizontalOffset(LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 1.0F, () -> AerialHellItems.RUBY_SWORD, true)
                     .addItemTexture(alignedToLeft(28).horizontalOffset(2 * LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 1.0F, () -> AerialHellItems.RUBY_AERIAL_BERRY, true)
                     .addItemTexture(alignedToRight(28).build(), 1.0F, () -> AerialHellItems.RUBY_BLOCK, true)
-                    .addItemTexture(alignedToLeft(30).horizontalOffset(LINE_WIDTH_NO_MARGIN / 4 - 8).build(), 1.0F, () -> AerialHellItems.RUBY_BLOWPIPE, true)
-                    .addItemTexture(alignedToRight(30).horizontalOffset(-LINE_WIDTH_NO_MARGIN / 4 + 8).build(), 1.0F, () -> AerialHellItems.RUBY_BLOWPIPE_ARROW, true)
+                    .addItemTexture(alignedToLeft(30).horizontalOffset(LINE_WIDTH_NO_MARGIN / 4 - 8).build(), 1.0F, () -> AerialHellItems.RUBY_RESONATOR, true)
+                    .addItemTexture(alignedToRight(30).horizontalOffset(-LINE_WIDTH_NO_MARGIN / 4 + 8).build(), 1.0F, () -> AerialHellItems.RUBY_SHARD, true)
                     .addItemTexture(alignedToLeft(32).horizontalOffset(10).build(), 1.0F, () -> AerialHellItems.RUBY_BUCKET, true)
                     .addItemTexture(alignedToLeft(32).horizontalOffset(LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 1.0F, () -> AerialHellItems.RUBY_BARS, true)
                     .addItemTexture(alignedToLeft(32).horizontalOffset(2 * LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 1.0F, () -> AerialHellItems.STELLAR_LIGHTER, true)
@@ -504,8 +504,8 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(14).horizontalOffset(LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 1.0F, () -> AerialHellItems.VOLUCITE_PICKAXE, true)
                     .addItemTexture(alignedToLeft(14).horizontalOffset(2 * LINE_WIDTH_NO_MARGIN / 3 - 8).build(), 1.0F, () -> AerialHellItems.VOLUCITE_AERIAL_BERRY, true)
                     .addItemTexture(alignedToRight(14).build(), 1.0F, () -> AerialHellItems.VOLUCITE_FLUORITE_LANTERN, true)
-                    .addItemTexture(alignedToLeft(16).horizontalOffset(LINE_WIDTH_NO_MARGIN / 4 - 8).centerVerticallyOnLine().build(), 1.0F, () -> AerialHellItems.VOLUCITE_BLOWPIPE, true)
-                    .addItemTexture(alignedToRight(16).horizontalOffset(-LINE_WIDTH_NO_MARGIN / 4 + 8).centerVerticallyOnLine().build(), 1.0F, () -> AerialHellItems.VOLUCITE_BLOWPIPE_ARROW, true)
+                    .addItemTexture(alignedToLeft(16).horizontalOffset(LINE_WIDTH_NO_MARGIN / 4 - 8).centerVerticallyOnLine().build(), 1.0F, () -> AerialHellItems.VOLUCITE_RESONATOR, true)
+                    .addItemTexture(alignedToRight(16).horizontalOffset(-LINE_WIDTH_NO_MARGIN / 4 + 8).centerVerticallyOnLine().build(), 1.0F, () -> AerialHellItems.VOLUCITE_SHARD, true)
                     .addParagraph(18, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "arsonist_material")
                     .addItemTexture(alignedToRight(18).centerVerticallyOnLine().build(), 1.0F, () -> AerialHellItems.ARSONIST_INGOT, true)
                     .addParagraph(20, MAX_LINES_PER_TECHNICAL_PAGE - 1, (int)(LINE_WIDTH_NO_MARGIN * 0.14F), (int)(LINE_WIDTH_NO_MARGIN * 0.86F), Alignment.LEFT, "arsonist_description")
@@ -1270,7 +1270,7 @@ public class GuideBookScreen extends Screen
                     .addParagraph(12, MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "light_creatures")
                     .addTextureDisplay(alignedToLeft(13).build(), 1.0F, "gui/guide_book/content/entities/crystal_caterpillar", 26, 22, "entity.aerialhell.crystal_caterpillar")
                     .addTextureDisplay(centered(13).build(), 1.0F, "gui/guide_book/content/entities/crystal_slime", 30, 30, "entity.aerialhell.crystal_slime")
-                    .addTextureDisplay(alignedToRight(13).build(), 1.0F, "gui/guide_book/content/entities/shadow_pine_mimic", 32, 20, "entity.aerialhell.shadow_pine_mimic")
+                    .addTextureDisplay(alignedToRight(13).build(), 1.0F, "gui/guide_book/content/entities/crystal_spider", 30, 28, "entity.aerialhell.crystal_spider")
                     .addTextureDisplay(alignedToLeft(17).build(), 0.65F, "gui/guide_book/content/entities/crystal_golem", 34, 54, "entity.aerialhell.crystal_golem")
                     .addTextureDisplay(centered(17).build(), 0.6F, "gui/guide_book/content/entities/golden_beech_mimic", 32, 50, "entity.aerialhell.golden_beech_mimic")
                     .addTextureDisplay(alignedToRight(17).build(), 1.0F, "gui/guide_book/content/entities/lunar_priest", 32, 32, "entity.aerialhell.lunatic_priest")
