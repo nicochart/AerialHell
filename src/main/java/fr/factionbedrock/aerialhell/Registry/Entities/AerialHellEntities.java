@@ -17,18 +17,15 @@ import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.*;
 import fr.factionbedrock.aerialhell.Entity.Neutral.*;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.*;
-import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.*;
+import fr.factionbedrock.aerialhell.Entity.Projectile.ResonatorShard.RubyShardEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.ResonatorShard.VoluciteShardEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.SpawnPlacementTypes;
-import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 public class AerialHellEntities
@@ -84,8 +81,8 @@ public class AerialHellEntities
 	public static final EntityType<ShurikenEntity> LUNATIC_CRYSTAL_SHURIKEN = register(Keys.LUNATIC_CRYSTAL_SHURIKEN, (entityType, level) -> new ShurikenEntity(entityType, level, 12.0F), 0.25F, 0.25F, MobCategory.MISC);
 	public static final EntityType<FlamingShurikenEntity> ARSONIST_SHURIKEN = register(Keys.ARSONIST_SHURIKEN, (entityType, level) -> new FlamingShurikenEntity(entityType, level, 14.0F), 0.25F, 0.25F, MobCategory.MISC);
 	public static final EntityType<LightningShurikenEntity> LIGHTNING_SHURIKEN = register(Keys.LIGHTNING_SHURIKEN, (entityType, level) -> new LightningShurikenEntity(entityType, level, 2.0F), 0.25F, 0.25F, MobCategory.MISC);
-	public static final EntityType<VoluciteArrowEntity> VOLUCITE_BLOWPIPE_ARROW = register(Keys.VOLUCITE_BLOWPIPE_ARROW, VoluciteArrowEntity::new, 0.5F, 0.5F, MobCategory.MISC);
-	public static final EntityType<RubyArrowEntity> RUBY_BLOWPIPE_ARROW = register(Keys.RUBY_BLOWPIPE_ARROW, RubyArrowEntity::new, 0.5F, 0.5F, MobCategory.MISC);
+	public static final EntityType<VoluciteShardEntity> VOLUCITE_SHARD = register(Keys.VOLUCITE_SHARD, VoluciteShardEntity::new, 0.5F, 0.5F, MobCategory.MISC);
+	public static final EntityType<RubyShardEntity> RUBY_SHARD = register(Keys.RUBY_SHARD, RubyShardEntity::new, 0.5F, 0.5F, MobCategory.MISC);
 	public static final EntityType<LunaticProjectileEntity> LUNATIC_PROJECTILE = register(Keys.LUNATIC_PROJECTILE, LunaticProjectileEntity::new, 1.1F, 1.1F, MobCategory.MISC);
 	public static final EntityType<ShadowProjectileEntity> SHADOW_PROJECTILE = register(Keys.SHADOW_PROJECTILE, ShadowProjectileEntity::new, 1.1F, 1.1F, MobCategory.MISC);
 	public static final EntityType<ShadowFlyingSkullEntity> SHADOW_FLYING_SKULL = register(Keys.SHADOW_FLYING_SKULL, ShadowFlyingSkullEntity::new, 0.8F, 0.8F, MobCategory.MONSTER);
@@ -188,8 +185,8 @@ public class AerialHellEntities
 		public static ResourceKey<EntityType<?>> LUNATIC_CRYSTAL_SHURIKEN = key("lunatic_crystal_shuriken");
 		public static ResourceKey<EntityType<?>> ARSONIST_SHURIKEN = key("arsonist_shuriken");
 		public static ResourceKey<EntityType<?>> LIGHTNING_SHURIKEN = key("lightning_shuriken");
-		public static ResourceKey<EntityType<?>> VOLUCITE_BLOWPIPE_ARROW = key("volucite_blowpipe_arrow");
-		public static ResourceKey<EntityType<?>> RUBY_BLOWPIPE_ARROW = key("ruby_blowpipe_arrow");
+		public static ResourceKey<EntityType<?>> VOLUCITE_SHARD = key("volucite_shard");
+		public static ResourceKey<EntityType<?>> RUBY_SHARD = key("ruby_shard");
 		public static ResourceKey<EntityType<?>> LUNATIC_PROJECTILE = key("lunatic_projectile");
 		public static ResourceKey<EntityType<?>> SHADOW_PROJECTILE = key("shadow_projectile");
 		public static ResourceKey<EntityType<?>> SHADOW_FLYING_SKULL = key("shadow_flying_skull");

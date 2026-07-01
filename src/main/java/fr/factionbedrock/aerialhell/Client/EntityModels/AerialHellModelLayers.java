@@ -40,6 +40,8 @@ public class AerialHellModelLayers
     public static final ModelLayerLocation CRYSTAL_GOLEM_CRYSTAL = createEntityModelLayer("crystal_golem_crystal", "crystals");
     public static final ModelLayerLocation SPIDER_SPIKE = createEntityModelLayer("spider_spike", "spikes");
 
+    public static final ModelLayerLocation RESONATOR_SHARD = createEntityModelLayer("resonator_shard");
+
     private static ModelLayerLocation createEntityModelLayer(String id) {return createEntityModelLayer(id, "main");}
 
     private static ModelLayerLocation createEntityModelLayer(String id, String layer)

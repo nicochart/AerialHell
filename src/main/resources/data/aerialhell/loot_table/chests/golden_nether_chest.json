@@ -93,7 +93,7 @@
         },
 	{
           "type": "item",
-          "name": "aerialhell:ruby_blowpipe_arrow",
+          "name": "aerialhell:ruby_shard",
           "weight": 1,
           "functions": [
             {
@@ -107,7 +107,7 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:volucite_blowpipe_arrow",
+          "name": "aerialhell:volucite_shard",
           "weight": 1,
           "functions": [
             {
@@ -177,7 +177,7 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:volucite_blowpipe",
+          "name": "aerialhell:volucite_resonator",
           "weight": 2
         },
         {

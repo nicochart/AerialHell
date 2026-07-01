@@ -289,8 +289,8 @@ public class RenderRegistrationListener
         EntityRendererRegistry.register(AerialHellEntities.LIGHTNING_SHURIKEN, ShurikenRender::new);
         EntityRendererRegistry.register(AerialHellEntities.POISONBALL, FireballLikeProjectileRender::new);
         EntityRendererRegistry.register(AerialHellEntities.DIMENSION_SHATTERER_PROJECTILE, FireballLikeProjectileRender::new);
-        EntityRendererRegistry.register(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW, AerialArrowRenderer::new);
-        EntityRendererRegistry.register(AerialHellEntities.RUBY_BLOWPIPE_ARROW, AerialArrowRenderer::new);
+        EntityRendererRegistry.register(AerialHellEntities.VOLUCITE_SHARD, ResonatorShardRender::new);
+        EntityRendererRegistry.register(AerialHellEntities.RUBY_SHARD, ResonatorShardRender::new);
         EntityRendererRegistry.register(AerialHellEntities.LUNATIC_PROJECTILE, LightProjectileRender::new);
         EntityRendererRegistry.register(AerialHellEntities.SHADOW_PROJECTILE, LightProjectileRender::new);
         EntityRendererRegistry.register(AerialHellEntities.AERIAL_HELL_PAINTING, AerialHellPaintingRender::new);
@@ -338,6 +338,8 @@ public class RenderRegistrationListener
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.SPIDER_SPIKE, HellSpiderSpikeModel::createBodyLayer);
 
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.EMPTY, EmptyModel::createBodyLayer);
+
+        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.RESONATOR_SHARD, ResonatorShardModel::createBodyLayer);
     }
 
     public static void registerShiftingBakedModels()

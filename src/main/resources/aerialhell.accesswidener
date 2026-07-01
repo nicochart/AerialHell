@@ -5,6 +5,9 @@ accessible field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
 accessible field net/minecraft/world/item/HoeItem TILLABLES Ljava/util/Map;
 accessible field net/minecraft/world/item/ShovelItem FLATTENABLES Ljava/util/Map;
 
+#Used in ActionModule ThrowProjectile to set firedFromWeapon
+accessible field net/minecraft/world/entity/projectile/arrow/AbstractArrow firedFromWeapon Lnet/minecraft/world/item/ItemStack;
+
 #NetherPortal
 accessible method net/minecraft/world/level/portal/PortalShape <init> (Lnet/minecraft/core/Direction$Axis;ILnet/minecraft/core/Direction;Lnet/minecraft/core/BlockPos;II)V
 
