@@ -20,12 +20,13 @@ import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.*;
 import fr.factionbedrock.aerialhell.Entity.Neutral.*;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.*;
-import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.*;
+import fr.factionbedrock.aerialhell.Entity.Projectile.ResonatorShard.RubyShardEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.ResonatorShard.VoluciteShardEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacementTypes;
@@ -221,11 +222,11 @@ public class AerialHellEntities
 	public static final DeferredHolder<EntityType<?>, EntityType<LightningShurikenEntity>> LIGHTNING_SHURIKEN = ENTITIES.register("lightning_shuriken", () -> EntityType.Builder.<LightningShurikenEntity>of((entityType, level) -> new LightningShurikenEntity(entityType, level, 2.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build(Keys.LIGHTNING_SHURIKEN));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteArrowEntity>> VOLUCITE_BLOWPIPE_ARROW = ENTITIES.register("volucite_blowpipe_arrow", () -> EntityType.Builder.<VoluciteArrowEntity>of(VoluciteArrowEntity::new, MobCategory.MISC)
-			.sized(0.5F, 0.5F).build(Keys.VOLUCITE_BLOWPIPE_ARROW));
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteShardEntity>> VOLUCITE_SHARD = ENTITIES.register("volucite_shard", () -> EntityType.Builder.<VoluciteShardEntity>of(VoluciteShardEntity::new, MobCategory.MISC)
+			.sized(0.5F, 0.5F).build(Keys.VOLUCITE_SHARD));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<RubyArrowEntity>> RUBY_BLOWPIPE_ARROW = ENTITIES.register("ruby_blowpipe_arrow", () -> EntityType.Builder.<RubyArrowEntity>of(RubyArrowEntity::new, MobCategory.MISC)
-			.sized(0.5F, 0.5F).build(Keys.RUBY_BLOWPIPE_ARROW));
+	public static final DeferredHolder<EntityType<?>, EntityType<RubyShardEntity>> RUBY_SHARD = ENTITIES.register("ruby_shard", () -> EntityType.Builder.<RubyShardEntity>of(RubyShardEntity::new, MobCategory.MISC)
+			.sized(0.5F, 0.5F).build(Keys.RUBY_SHARD));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<LunaticProjectileEntity>> LUNATIC_PROJECTILE = ENTITIES.register("lunatic_projectile", () -> EntityType.Builder.<LunaticProjectileEntity>of(LunaticProjectileEntity::new, MobCategory.MISC)
 			.sized(1.1F, 1.1F).build(Keys.LUNATIC_PROJECTILE));
@@ -341,8 +342,8 @@ public class AerialHellEntities
 		public static ResourceKey<EntityType<?>> LUNATIC_CRYSTAL_SHURIKEN = key("lunatic_crystal_shuriken");
 		public static ResourceKey<EntityType<?>> ARSONIST_SHURIKEN = key("arsonist_shuriken");
 		public static ResourceKey<EntityType<?>> LIGHTNING_SHURIKEN = key("lightning_shuriken");
-		public static ResourceKey<EntityType<?>> VOLUCITE_BLOWPIPE_ARROW = key("volucite_blowpipe_arrow");
-		public static ResourceKey<EntityType<?>> RUBY_BLOWPIPE_ARROW = key("ruby_blowpipe_arrow");
+		public static ResourceKey<EntityType<?>> VOLUCITE_SHARD = key("volucite_shard");
+		public static ResourceKey<EntityType<?>> RUBY_SHARD = key("ruby_shard");
 		public static ResourceKey<EntityType<?>> LUNATIC_PROJECTILE = key("lunatic_projectile");
 		public static ResourceKey<EntityType<?>> SHADOW_PROJECTILE = key("shadow_projectile");
 		public static ResourceKey<EntityType<?>> SHADOW_FLYING_SKULL = key("shadow_flying_skull");

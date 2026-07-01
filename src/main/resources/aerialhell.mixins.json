@@ -7,7 +7,9 @@
 		"LivingEntityGravityMixin",
 		"ServerPlayerGameModeMixin",
 		"ServerPlayerTickMixin",
-		"RenderSkyMixin"
+		"RenderSkyMixin",
+		"UseItemFovModifierMixin",
+		"UseItemInHandRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "R"
+  ],
+  "key": {
+    "R": "aerialhell:ruby"
+  },
+  "result": {
+    "id": "aerialhell:ruby_shard",
+    "count": 4
+  }
+}
