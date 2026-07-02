@@ -159,7 +159,7 @@ public class BlockEventListener
     {
         BlockPos pos = BlockPos.containing(player.getEyePosition());
         float brightness = Lightmap.getBrightness(player.level().dimensionType(), player.level().getMaxLocalRawBrightness(pos));
-        int color = ARGB.colorFromFloat(0.1F, brightness, brightness, brightness);
+        int color = ARGB.colorFromFloat(1.0F, brightness, brightness, brightness);
         float u0 = -player.getYRot() / 64.0F;
         float v0 = player.getXRot() / 64.0F;
         submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.blockScreenEffect(texture), (pose, builder) ->

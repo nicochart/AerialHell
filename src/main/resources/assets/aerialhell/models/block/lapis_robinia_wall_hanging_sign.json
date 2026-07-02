@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_wall_hanging_sign",
+  "textures": {
+    "all": "aerialhell:block/lapis_robinia_hanging_sign",
+    "particle": "aerialhell:block/stripped_lapis_robinia_log"
+  }
+}

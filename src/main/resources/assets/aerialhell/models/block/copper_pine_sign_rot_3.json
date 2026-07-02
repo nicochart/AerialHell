@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_sign_rot_3",
+  "textures": {
+    "all": "aerialhell:block/copper_pine_sign",
+    "particle": "aerialhell:block/copper_pine_planks"
+  }
+}

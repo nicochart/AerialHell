@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_hanging_sign_rot_0",
+  "textures": {
+    "all": "aerialhell:block/golden_beech_hanging_sign",
+    "particle": "aerialhell:block/stripped_golden_beech_log"
+  }
+}

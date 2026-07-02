@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_hanging_sign_rot_2",
+  "textures": {
+    "all": "aerialhell:block/stellar_jungle_tree_hanging_sign",
+    "particle": "aerialhell:block/stripped_stellar_jungle_tree_log"
+  }
+}

@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
-      "model": "aerialhell:block/shadow_pine_sign"
+    "facing=east": {
+      "model": "aerialhell:block/shadow_pine_wall_sign",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "aerialhell:block/shadow_pine_wall_sign",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "aerialhell:block/shadow_pine_wall_sign"
+    },
+    "facing=west": {
+      "model": "aerialhell:block/shadow_pine_wall_sign",
+      "y": 90
     }
   }
 }

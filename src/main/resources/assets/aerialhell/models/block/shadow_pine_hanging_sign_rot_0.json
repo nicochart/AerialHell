@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_hanging_sign_rot_0",
+  "textures": {
+    "all": "aerialhell:block/shadow_pine_hanging_sign",
+    "particle": "aerialhell:block/stripped_shadow_pine_log"
+  }
+}
