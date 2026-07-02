@@ -153,7 +153,7 @@ public class ItemHelper
         return sb.toString().trim();
     }
 
-    public static ItemStack createPotionItemStack(Holder.Reference<Potion> potion)
+    public static ItemStack createPotionItemStack(Holder<Potion> potion)
     {
         ItemStack stack = new ItemStack(Items.POTION);
         stack.set(DataComponents.POTION_CONTENTS, new PotionContents(potion));

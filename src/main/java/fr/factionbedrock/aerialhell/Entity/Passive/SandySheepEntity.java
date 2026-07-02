@@ -101,7 +101,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     	if (this.hasWool())
     	{
     		this.setWool(false);
-            if (!this.level().isClientSide()) {this.spawnAtLocation((ServerLevel) this.level(), new ItemStack(Items.YELLOW_WOOL));}
+            if (!this.level().isClientSide()) {this.spawnAtLocation((ServerLevel) this.level(), new ItemStack(Items.WOOL.yellow()));}
 
     		for (int i=0;i<10;i++)
             {

@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 
 public class StructureVoidPlacerItem extends WithInformationItem
 {
-    public static BlockState PLACED_BLOCKSTATE = Blocks.WHITE_STAINED_GLASS.defaultBlockState();
+    public static BlockState PLACED_BLOCKSTATE = Blocks.STAINED_GLASS.white().defaultBlockState();
 
     public StructureVoidPlacerItem(Properties properties) {super(properties);}
 

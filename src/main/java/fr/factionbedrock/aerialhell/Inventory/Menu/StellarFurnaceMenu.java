@@ -14,11 +14,11 @@ public class StellarFurnaceMenu extends AbstractFurnaceMenu
 {
 	public StellarFurnaceMenu(int windowId, Inventory playerInventory)
 	{
-		super(AerialHellMenuTypes.STELLAR_FURNACE.get(), RecipeType.SMELTING, RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory);
+		super(AerialHellMenuTypes.STELLAR_FURNACE.get(), RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory);
 	}
 
 	public StellarFurnaceMenu(int windowId, Inventory playerInventory, Container furnaceInventory, ContainerData data)
 	{
-		super(AerialHellMenuTypes.STELLAR_FURNACE.get(), RecipeType.SMELTING, RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory, furnaceInventory, data);
+		super(AerialHellMenuTypes.STELLAR_FURNACE.get(), RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory, furnaceInventory, data);
 	}
 }

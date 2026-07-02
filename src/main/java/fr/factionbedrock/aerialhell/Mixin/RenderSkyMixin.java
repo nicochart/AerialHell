@@ -3,11 +3,13 @@ package fr.factionbedrock.aerialhell.Mixin;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
 import com.mojang.blaze3d.framegraph.FramePass;
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSkyRenderer;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LevelTargetBundle;
@@ -42,9 +44,9 @@ public class RenderSkyMixin
     private void addSkyPass(FrameGraphBuilder frameGraphBuilder, CameraRenderState cameraState, GpuBufferSlice shaderFog, Matrix4fc modelViewMatrix, CallbackInfo callbackInfo)
     {
         LevelRenderer levelRenderer = (LevelRenderer) (Object) this;
-        ClientLevel world = levelRenderer.level;
+        ClientLevel level = Minecraft.getInstance().level;
         //Override only for Aerial Hell dimension
-        if (world == null || world.dimension() != AerialHellDimensions.AERIAL_HELL_DIMENSION) {return;}
+        if (level == null || level.dimension() != AerialHellDimensions.AERIAL_HELL_DIMENSION) {return;}
 
         FogType fogType = cameraState.fogType;
         if (fogType != FogType.POWDER_SNOW && fogType != FogType.LAVA && !cameraState.entityRenderState.doesMobEffectBlockSky)
@@ -57,7 +59,7 @@ public class RenderSkyMixin
                 framePass.executes(() ->
                 {
                     RenderSystem.setShaderFog(shaderFog);
-                    aerialHellRender(levelRenderState, skyRenderState);
+                    aerialHellRender(levelRenderState, skyRenderState, levelRenderer.gameRenderer.mainRenderTarget());
                 });
             }
         }
@@ -71,15 +73,12 @@ public class RenderSkyMixin
         else {return livingEntity.hasEffect(MobEffects.BLINDNESS) || livingEntity.hasEffect(MobEffects.DARKNESS);}
     }
 
-    private static void aerialHellRender(LevelRenderState levelRenderState, SkyRenderState skyRenderState)
+    private static void aerialHellRender(LevelRenderState levelRenderState, SkyRenderState skyRenderState, RenderTarget renderTarget)
     {
-        if (ahSkyRenderer == null) {ahSkyRenderer = new AerialHellDimensionSkyRenderer();}
+        if (ahSkyRenderer == null) {ahSkyRenderer = new AerialHellDimensionSkyRenderer(renderTarget);}
 
         PoseStack poseStack = new PoseStack();
-        float red = ARGB.redFloat(skyRenderState.skyColor);
-        float green = ARGB.greenFloat(skyRenderState.skyColor);
-        float blue = ARGB.blueFloat(skyRenderState.skyColor);
-        ahSkyRenderer.renderSkyDisc(red, green, blue);
+        ahSkyRenderer.renderSkyDisc(skyRenderState.skyColor);
         ahSkyRenderer.renderSunriseAndSunset(poseStack, skyRenderState.sunAngle, skyRenderState.sunriseAndSunsetColor);
 
         float moonAlpha = Math.min(skyRenderState.starBrightness * 2, 1.0F); //Moon brightness = 0.0F during the day, 1.0F during the night. Using / 0.5F and "min" because StarBrightness is never 1.0F (never above 0.6F) apparently

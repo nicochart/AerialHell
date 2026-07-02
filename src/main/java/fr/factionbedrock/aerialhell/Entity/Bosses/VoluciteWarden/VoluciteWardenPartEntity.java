@@ -78,7 +78,8 @@ public class VoluciteWardenPartEntity extends Monster implements PartEntity
     @Override public boolean isNoGravity() {return !this.isDeadOrDying();}
     @Override public boolean isSilent() {return true;}
     @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
-    @Override public void knockback(double strength, double x, double z) {}
+    @Override public void knockback(double strength, double x, double z, DamageSource damageSource, float damage) {}
+    @Override public void knockback(double strength, double x, double z, DamageSource damageSource, float damage, boolean comesFromEffect) {}
     /* --------------------------------------------------------------------------------------------- */
     /* --------------------------------------------------------------------------------------------- */
     /* --------------------------------------------------------------------------------------------- */

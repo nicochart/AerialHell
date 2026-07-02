@@ -13,7 +13,7 @@ public class LightningShurikenEntity extends ShurikenEntity
 	
 	@Override protected void applyEntityImpactEffect(HitResult result)
 	{
-		LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level(), EntitySpawnReason.TRIGGERED);
+		LightningBolt lightningBolt = EntityTypes.LIGHTNING_BOLT.create(this.level(), EntitySpawnReason.TRIGGERED);
 		lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
 		this.level().addFreshEntity(lightningBolt);
 	}

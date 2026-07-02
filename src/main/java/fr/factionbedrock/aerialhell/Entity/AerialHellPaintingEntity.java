@@ -18,6 +18,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Util;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.decoration.HangingEntity;
 import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 import net.minecraft.world.entity.player.Player;
@@ -119,7 +120,7 @@ public class AerialHellPaintingEntity extends HangingEntity
     }
 
     private static int variantArea(Holder<PaintingVariant> variant) {return variant.value().area();}
-    private AerialHellPaintingEntity(Level level, BlockPos pos) {super(EntityType.PAINTING, level, pos);}
+    private AerialHellPaintingEntity(Level level, BlockPos pos) {super(EntityTypes.PAINTING, level, pos);}
 
     public AerialHellPaintingEntity(Level level, BlockPos pos, Direction direction, Holder<PaintingVariant> variant)
     {

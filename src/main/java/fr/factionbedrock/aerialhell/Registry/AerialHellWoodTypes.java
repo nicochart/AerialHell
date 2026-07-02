@@ -42,7 +42,7 @@ public class AerialHellWoodTypes
     }
 
     public static void addWoodTypesToSheets(final FMLClientSetupEvent event) //Client side too
-    {
+    {   /*TODO is it still necessary ?
         event.enqueueWork(() -> {
             Sheets.addWoodType(AERIAL_TREE);
             Sheets.addWoodType(COPPER_PINE);
@@ -52,6 +52,6 @@ public class AerialHellWoodTypes
             Sheets.addWoodType(SHADOW_PINE);
             Sheets.addWoodType(SKY_CACTUS_FIBER);
             Sheets.addWoodType(GRAY_SHROOM);
-        });
+        });*/
     }
 }

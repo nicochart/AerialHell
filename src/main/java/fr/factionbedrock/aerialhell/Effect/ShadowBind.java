@@ -48,7 +48,7 @@ public class ShadowBind extends MobEffect
     	return true;
     }
 
-    @Override public boolean isInstantenous() {return false;}
+    @Override public boolean isInstantaneous() {return false;}
 
     //@Override public void fillEffectCures(Set<EffectCure> cures, MobEffectInstance effectInstance) {} TODO
 }

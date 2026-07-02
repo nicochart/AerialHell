@@ -6,7 +6,7 @@ import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHa
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ParticleStatus;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
@@ -22,7 +22,7 @@ public class LeavesWithAmbientParticlesBlock extends ShiftableLeavesBlock
 {
 	public LeavesWithAmbientParticlesBlock(BlockBehaviour.Properties properties, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
 	{
-		super(properties.isValidSpawn((state, reader, pos, entity) -> (entity == EntityType.OCELOT || entity == EntityType.PARROT)).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false), shiftedVariant, shiftType);
+		super(properties.isValidSpawn((state, reader, pos, entity) -> (entity == EntityTypes.OCELOT || entity == EntityTypes.PARROT)).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false), shiftedVariant, shiftType);
 	}
 
 	@Nullable protected SimpleParticleType getParticle()

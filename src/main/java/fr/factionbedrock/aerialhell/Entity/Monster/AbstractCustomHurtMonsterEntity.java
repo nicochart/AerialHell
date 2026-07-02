@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.Util.CustomHurtInfo;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -11,7 +11,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 public abstract class AbstractCustomHurtMonsterEntity extends Monster
@@ -62,7 +61,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
                     this.level().broadcastDamageEvent(this, source);
                     if (!source.is(DamageTypeTags.NO_IMPACT)) {this.markHurt();}
 
-                    if (info.applyKb()) {tryApplyingKnockback(source, info.kbStrength());}
+                    if (info.applyKb()) {tryApplyingKnockback(source, info.kbStrength(), amount);}
                 }
 
                 boolean died = false;
@@ -118,7 +117,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
         }
     }
 
-    public boolean tryApplyingKnockback(DamageSource damageSource, float strength)
+    public boolean tryApplyingKnockback(DamageSource damageSource, float strength, float damageAmount)
     {
         Entity sourceEntity = damageSource.getEntity();
         if (sourceEntity != null && !damageSource.is(DamageTypeTags.NO_KNOCKBACK))
@@ -127,7 +126,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
             double zKb;
             for(zKb = sourceEntity.getZ() - this.getZ(); xKb * xKb + zKb * zKb < 1.0E-4D; zKb = (Math.random() - Math.random()) * 0.01D) {xKb = (Math.random() - Math.random()) * 0.01D;}
 
-            this.knockback(strength, xKb, zKb);
+            this.knockback(strength, xKb, zKb, damageSource, damageAmount);
             this.indicateDamage(xKb, zKb);
             return true;
         }
