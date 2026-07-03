@@ -18,7 +18,6 @@ public class AerialHellClientSetup
     public static void init(IEventBus modEventBus)
     {
         AerialHellWoodTypes.registerWoodTypes();
-        modEventBus.addListener(AerialHellWoodTypes::addWoodTypesToSheets);
         modEventBus.addListener(BlocksAndItemsColorHandler::handleBlockColors);
         modEventBus.addListener(BlocksAndItemsColorHandler::handleItemColors);
         modEventBus.addListener(FluidRenderHandler::handleFluidRender);
