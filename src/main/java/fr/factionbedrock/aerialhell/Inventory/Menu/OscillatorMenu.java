@@ -18,13 +18,13 @@ public class OscillatorMenu extends AbstractFurnaceMenu
 
 	public OscillatorMenu(int windowId, Inventory playerInventory)
 	{
-		super(AerialHellMenuTypes.OSCILLATOR, RecipeTypes.OSCILLATING, RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory);
+		super(AerialHellMenuTypes.OSCILLATOR, RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory);
 		this.oscillatingInputs = this.level.recipeAccess().propertySet(AerialHellRecipes.PropertySet.OSCILLATOR_INPUT);
 	}
 
 	public OscillatorMenu(int windowId, Inventory playerInventory, Container oscillatingInventory, ContainerData data)
 	{
-		super(AerialHellMenuTypes.OSCILLATOR, RecipeTypes.OSCILLATING, RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory, oscillatingInventory, data);
+		super(AerialHellMenuTypes.OSCILLATOR, RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory, oscillatingInventory, data);
 		this.oscillatingInputs = this.level.recipeAccess().propertySet(AerialHellRecipes.PropertySet.OSCILLATOR_INPUT);
 	}
 

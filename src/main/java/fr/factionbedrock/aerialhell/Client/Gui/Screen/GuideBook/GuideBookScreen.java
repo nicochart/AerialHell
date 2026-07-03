@@ -797,7 +797,7 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(21).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, () -> AerialHellItems.STELLAR_GRASS_BLOCK, false)
                     .addItemTexture(alignedToLeft(22).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, () -> Items.MUTTON, false)
                     .addItemTexture(alignedToLeft(23).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, () -> AerialHellItems.AERIAL_BERRY, true)
-                    .addItemTexture(alignedToLeft(24).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, () -> Items.YELLOW_WOOL, false)
+                    .addItemTexture(alignedToLeft(24).horizontalOffset(88).centerVerticallyOnLine().build(), 0.7F, Items.WOOL::yellow, false)
 
                     .addParagraph(26,MAX_LINES_PER_TECHNICAL_PAGE - 1, LINE_WIDTH_NO_MARGIN, Alignment.LEFT, "friendly_additional_desc")
                     .addParagraph(29,MAX_LINES_PER_TECHNICAL_PAGE - 1, (int)(LINE_WIDTH_NO_MARGIN * 0.2F), (int)(LINE_WIDTH_NO_MARGIN * 0.8F), Alignment.LEFT, "kodama")

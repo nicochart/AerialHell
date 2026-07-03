@@ -5,8 +5,10 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
@@ -18,18 +20,18 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(Gui.class)
+@Mixin(Hud.class)
 public class RenderHudOverlayMixin
 {
     private static final Identifier VULNERABLE_OVERLAY = AerialHell.id("textures/misc/vulnerability_blur.png");
     private static final Identifier AERIAL_HELL_PORTAL_OVERLAY = AerialHell.id("textures/misc/aerial_hell_portal_overlay.png");
     private static final Identifier LIQUID_OF_THE_GODS_OVERLAY = AerialHell.id("textures/block/liquid_of_the_gods_overlay.png");
 
-    @Inject(method = "extractCameraOverlays", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "extractRenderState", at = @At("HEAD"), cancellable = true)
     private void renderMiscOverlays(GuiGraphicsExtractor graphics, DeltaTracker tickCounter, CallbackInfo callbackInfo)
     {
-        Gui hud = (Gui) (Object) this;
-        Player player = hud.minecraft.player;
+        Hud hud = (Hud) (Object) this;
+        Player player = Minecraft.getInstance().player;
 
         if (player == null) {return;}
 

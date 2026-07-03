@@ -32,6 +32,9 @@ accessible field net/minecraft/world/entity/monster/zombie/Zombie SPEED_MODIFIER
 #AbstractSkeleton getStepSound method (has no visibility in mojang code)
 accessible method net/minecraft/world/entity/monster/skeleton/AbstractSkeleton getStepSound ()Lnet/minecraft/sounds/SoundEvent;
 
+# RenderSkyMixin
+accessible field net/minecraft/client/renderer/LevelRenderer gameRenderer Lnet/minecraft/client/renderer/GameRenderer;
+
 #PhantomEntity
 accessible field net/minecraft/world/entity/monster/Phantom ID_SIZE Lnet/minecraft/network/syncher/EntityDataAccessor;
 

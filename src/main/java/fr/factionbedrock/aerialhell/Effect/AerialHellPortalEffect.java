@@ -23,5 +23,5 @@ public class AerialHellPortalEffect extends MobEffect
 
     @Override public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {return true;}
 
-    @Override public boolean isInstantenous() {return false;}
+    @Override public boolean isInstantaneous() {return false;}
 }

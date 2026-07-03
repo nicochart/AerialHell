@@ -16,7 +16,7 @@ public class ClientHelper
 
     public static void openAerialHellGuideBookScreen()
     {
-        Minecraft.getInstance().setScreen(new GuideBookScreen());
+        Minecraft.getInstance().setScreenAndShow(new GuideBookScreen());
     }
 
     public static void renderText(Font font, GuiGraphicsExtractor graphics, Component text, int x, int y, int color, float scale)

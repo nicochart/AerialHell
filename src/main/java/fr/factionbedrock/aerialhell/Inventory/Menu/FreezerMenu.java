@@ -18,13 +18,13 @@ public class FreezerMenu extends AbstractFurnaceMenu
 
 	public FreezerMenu(int windowId, Inventory playerInventory)
 	{
-		super(AerialHellMenuTypes.FREEZER, RecipeTypes.FREEZING, RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory);
+		super(AerialHellMenuTypes.FREEZER, RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory);
 		this.freezingInputs = this.level.recipeAccess().propertySet(AerialHellRecipes.PropertySet.FREEZER_INPUT);
 	}
 
 	public FreezerMenu(int windowId, Inventory playerInventory, Container freezingInventory, ContainerData data)
 	{
-		super(AerialHellMenuTypes.FREEZER, RecipeTypes.FREEZING, RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory, freezingInventory, data);
+		super(AerialHellMenuTypes.FREEZER, RecipePropertySet.FURNACE_INPUT, RecipeBookType.FURNACE, windowId, playerInventory, freezingInventory, data);
 		this.freezingInputs = this.level.recipeAccess().propertySet(AerialHellRecipes.PropertySet.FREEZER_INPUT);
 	}
 

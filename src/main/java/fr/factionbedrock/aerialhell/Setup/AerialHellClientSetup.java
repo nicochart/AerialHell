@@ -15,7 +15,6 @@ public class AerialHellClientSetup
         ClientPayloadHandler.handleDataOnMain();
 
         AerialHellWoodTypes.registerWoodTypes();
-        AerialHellWoodTypes.addWoodTypesToSheets();
         //modEventBus.addListener(BlocksAndItemsColorHandler::handleBlockColors);
         //modEventBus.addListener(BlocksAndItemsColorHandler::handleItemColors);
         RenderRegistrationListener.registerBlockRenderLayers();

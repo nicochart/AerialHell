@@ -11,5 +11,5 @@ public class AerialHellEffect extends MobEffect
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {return true;}
 
     @Override
-    public boolean isInstantenous() {return false;}
+    public boolean isInstantaneous() {return false;}
 }

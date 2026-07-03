@@ -83,7 +83,7 @@ public class ShroomBoomEntity extends Creeper
             {
             	if (kb > 0.0F && attackedEntity instanceof LivingEntity)
                 {
-            		((LivingEntity)attackedEntity).knockback(kb * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));
+            		((LivingEntity)attackedEntity).knockback(kb * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))), damagesource, damage);
                     EntityHelper.multiplyDeltaMovement(this, 0.6D, 1.0D);
                 }
                 EnchantmentHelper.doPostAttackEffects(serverWorld, attackedEntity, damagesource);

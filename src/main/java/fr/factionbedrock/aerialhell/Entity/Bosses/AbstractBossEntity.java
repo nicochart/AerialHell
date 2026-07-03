@@ -10,7 +10,7 @@ import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -99,7 +99,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity impleme
 				this.level().broadcastDamageEvent(this, source);
 				if (!source.is(DamageTypeTags.NO_IMPACT)) {this.markHurt();}
 
-				tryApplyingKnockback(source);
+				tryApplyingKnockback(source, amount);
 			}
 
 			boolean died = false;
@@ -200,7 +200,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity impleme
 		else {this.playHurtSound(damageSource);}
 	}
 
-	public boolean tryApplyingKnockback(DamageSource damageSource)
+	public boolean tryApplyingKnockback(DamageSource damageSource, float damageAmount)
 	{
 		Entity sourceEntity = damageSource.getEntity();
 		if (sourceEntity != null && !damageSource.is(DamageTypeTags.NO_KNOCKBACK))
@@ -212,7 +212,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity impleme
 				xKb = (Math.random() - Math.random()) * 0.01D;
 			}
 
-			this.knockback((double)0.4F, xKb, zKb);
+			this.knockback((double)0.4F, xKb, zKb, damageSource, damageAmount);
 			this.indicateDamage(xKb, zKb);
 			return true;
 		}

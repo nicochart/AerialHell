@@ -7,7 +7,6 @@ import com.mojang.math.Axis;
 //copy of net.minecraft.client.render.entity.PaintingEntityRenderer but for AerialHellPaintingEntity
 
 import fr.factionbedrock.aerialhell.Entity.AerialHellPaintingEntity;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -22,6 +21,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 import net.minecraft.world.level.Level;
@@ -53,39 +53,39 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
 
     @Override public PaintingRenderState createRenderState() {return new PaintingRenderState();}
 
-    @Override public void extractRenderState(AerialHellPaintingEntity paintingEntity, PaintingRenderState paintingEntityRenderState, float f)
+    @Override public void extractRenderState(AerialHellPaintingEntity entity, final PaintingRenderState state, final float partialTicks)
     {
-        super.extractRenderState(paintingEntity, paintingEntityRenderState, f);
-        Direction direction = paintingEntity.getDirection();
-        PaintingVariant paintingVariant = (PaintingVariant)paintingEntity.getVariant().value();
-        paintingEntityRenderState.direction = direction;
-        paintingEntityRenderState.variant = paintingVariant;
-        int i = paintingVariant.width();
-        int j = paintingVariant.height();
-        if (paintingEntityRenderState.lightCoordsPerBlock.length != i * j) {paintingEntityRenderState.lightCoordsPerBlock = new int[i * j];}
+        super.extractRenderState(entity, state, partialTicks);
+        Direction direction = entity.getDirection();
+        PaintingVariant variant = (PaintingVariant)entity.getVariant().value();
+        state.direction = direction;
+        state.variant = variant;
+        int width = variant.width();
+        int height = variant.height();
+        if (state.lightCoordsPerBlock.length != width * height) {state.lightCoordsPerBlock = new int[width * height];}
 
-        float g = (float)(-i) / 2.0F;
-        float h = (float)(-j) / 2.0F;
-        Level world = paintingEntity.level();
+        float offsetX = (float)(-width) / 2.0F;
+        float offsetY = (float)(-height) / 2.0F;
+        Level level = entity.level();
 
-        for(int k = 0; k < j; ++k)
+        for(int segmentY = 0; segmentY < height; ++segmentY)
         {
-            for(int l = 0; l < i; ++l)
+            for(int segmentX = 0; segmentX < width; ++segmentX)
             {
-                float m = (float)l + g + 0.5F;
-                float n = (float)k + h + 0.5F;
-                int o = paintingEntity.getBlockX();
-                int p = Mth.floor(paintingEntity.getY() + (double)n);
-                int q = paintingEntity.getBlockZ();
+                float segmentOffsetX = (float)segmentX + offsetX + 0.5F;
+                float segmentOffsetY = (float)segmentY + offsetY + 0.5F;
+                int x = entity.getBlockX();
+                int y = Mth.floor(entity.getY() + (double)segmentOffsetY);
+                int z = entity.getBlockZ();
                 switch (direction)
                 {
-                    case NORTH -> o = Mth.floor(paintingEntity.getX() + (double)m);
-                    case WEST -> q = Mth.floor(paintingEntity.getZ() - (double)m);
-                    case SOUTH -> o = Mth.floor(paintingEntity.getX() - (double)m);
-                    case EAST -> q = Mth.floor(paintingEntity.getZ() + (double)m);
+                    case NORTH -> x = Mth.floor(entity.getX() + (double)segmentOffsetX);
+                    case WEST -> z = Mth.floor(entity.getZ() - (double)segmentOffsetX);
+                    case SOUTH -> x = Mth.floor(entity.getX() - (double)segmentOffsetX);
+                    case EAST -> z = Mth.floor(entity.getZ() + (double)segmentOffsetX);
                 }
 
-                paintingEntityRenderState.lightCoordsPerBlock[l + k * i] = LevelRenderer.getLightCoords(world, new BlockPos(o, p, q));
+                state.lightCoordsPerBlock[segmentX + segmentY * width] = LightCoordsUtil.getLightCoords(level, new BlockPos(x, y, z));
             }
         }
     }

@@ -1,7 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
@@ -11,7 +9,6 @@ import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -24,6 +21,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Util;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.decoration.HangingEntity;
 import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 import net.minecraft.world.entity.player.Player;
@@ -116,7 +114,7 @@ public class AerialHellPaintingEntity extends HangingEntity
     }
 
     private static int variantArea(Holder<PaintingVariant> variant) {return variant.value().area();}
-    private AerialHellPaintingEntity(Level world, BlockPos pos) {super(EntityType.PAINTING, world, pos);}
+    private AerialHellPaintingEntity(Level world, BlockPos pos) {super(EntityTypes.PAINTING, world, pos);}
 
     public AerialHellPaintingEntity(Level world, BlockPos pos, Direction direction, Holder<PaintingVariant> variant)
     {
