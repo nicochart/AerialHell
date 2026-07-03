@@ -52,7 +52,6 @@ accessible method net/minecraft/world/level/block/state/properties/WoodType regi
 
 #used in RenderBlockOverlayMixin
 accessible field net/minecraft/client/renderer/ScreenEffectRenderer minecraft Lnet/minecraft/client/Minecraft;
-accessible field net/minecraft/client/renderer/ScreenEffectRenderer bufferSource Lnet/minecraft/client/renderer/MultiBufferSource;
 
 #ServerLevel
 accessible field net/minecraft/server/level/ServerLevel serverLevelData Lnet/minecraft/world/level/storage/ServerLevelData;
@@ -78,5 +77,4 @@ accessible method net/minecraft/world/entity/LivingEntity actuallyHurt (Lnet/min
 accessible field net/minecraft/client/gui/Gui minecraft Lnet/minecraft/client/Minecraft;
 
 #Used in RenderSkyMixin
-accessible field net/minecraft/client/renderer/LevelRenderer level Lnet/minecraft/client/multiplayer/ClientLevel;
 accessible field net/minecraft/client/renderer/LevelRenderer targets Lnet/minecraft/client/renderer/LevelTargetBundle;
