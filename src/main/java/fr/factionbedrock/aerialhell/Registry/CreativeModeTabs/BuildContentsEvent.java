@@ -679,11 +679,6 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.ARSONIST_SHURIKEN);
             entries.accept(AerialHellItems.LIGHTNING_SHURIKEN);
 
-            entries.accept(AerialHellItems.RUBY_BLOWPIPE_ARROW);
-            entries.accept(AerialHellItems.VOLUCITE_BLOWPIPE_ARROW);
-            entries.accept(AerialHellItems.RUBY_BLOWPIPE);
-            entries.accept(AerialHellItems.VOLUCITE_BLOWPIPE);
-
             entries.accept(AerialHellItems.RUBY_SHARD);
             entries.accept(AerialHellItems.VOLUCITE_SHARD);
             entries.accept(AerialHellItems.RUBY_RESONATOR);

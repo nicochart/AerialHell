@@ -844,12 +844,6 @@ public class AerialHellItems
     public static final Item RUBY_MILK_BUCKET = register(Keys.RUBY_MILK_BUCKET.identifier().getPath(), new Item(new Item.Properties().setId((Keys.RUBY_MILK_BUCKET)).craftRemainder(RUBY_BUCKET).component(DataComponents.CONSUMABLE, Consumables.MILK_BUCKET).usingConvertsTo(RUBY_BUCKET).stacksTo(1)));
 
     //arrows & bows
-    public static final Item RUBY_BLOWPIPE_ARROW = register(Keys.RUBY_BLOWPIPE_ARROW.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.RUBY_BLOWPIPE_ARROW)));
-    public static final Item VOLUCITE_BLOWPIPE_ARROW = register(Keys.VOLUCITE_BLOWPIPE_ARROW.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.VOLUCITE_BLOWPIPE_ARROW).rarity(AerialHellRarities.VIBRANT)));
-
-    public static final Item RUBY_BLOWPIPE = register(Keys.RUBY_BLOWPIPE.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.RUBY_BLOWPIPE).stacksTo(1).durability(200)));
-    public static final Item VOLUCITE_BLOWPIPE = register(Keys.VOLUCITE_BLOWPIPE.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.VOLUCITE_BLOWPIPE).rarity(AerialHellRarities.VIBRANT).stacksTo(1).durability(400)));
-
     public static final Item RUBY_SHARD = register(Keys.RUBY_SHARD.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.RUBY_SHARD)));
     public static final Item VOLUCITE_SHARD = register(Keys.VOLUCITE_SHARD.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.VOLUCITE_SHARD).rarity(AerialHellRarities.VIBRANT)));
 
@@ -1827,12 +1821,6 @@ public class AerialHellItems
         public static final ResourceKey<Item> RUBY_MILK_BUCKET = createKey("ruby_milk_bucket");
 
         //arrows & bows
-        public static final ResourceKey<Item> RUBY_BLOWPIPE_ARROW = createKey("ruby_blowpipe_arrow");
-        public static final ResourceKey<Item> VOLUCITE_BLOWPIPE_ARROW = createKey("volucite_blowpipe_arrow");
-
-        public static final ResourceKey<Item> RUBY_BLOWPIPE = createKey("ruby_blowpipe");
-        public static final ResourceKey<Item> VOLUCITE_BLOWPIPE = createKey("volucite_blowpipe");
-
         public static final ResourceKey<Item> RUBY_SHARD = createKey("ruby_shard");
         public static final ResourceKey<Item> VOLUCITE_SHARD = createKey("volucite_shard");
 
