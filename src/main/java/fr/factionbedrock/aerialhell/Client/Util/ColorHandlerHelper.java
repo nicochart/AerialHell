@@ -11,7 +11,6 @@ import net.minecraft.core.Cursor3D;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.ColorResolver;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.state.BlockState;
 
 import java.awt.*;
 import java.util.function.Function;
@@ -99,7 +98,7 @@ public class ColorHandlerHelper
     public static int getShiftedOrNotGrassColor(BlockPos pos) {return Minecraft.getInstance().level == null ? 0 : getShiftedOrNotGrassColor(Minecraft.getInstance().level.getBiome(pos), pos);}
     public static int getShiftedOrNotGrassColor(Holder<Biome> biome, BlockPos pos)
     {
-        boolean shifted = BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind();
+        boolean shifted = BlocksAndItemsColorHandler.isShadowBindEnabled();
         if (biome.is(AerialHellTags.Biomes.IS_SHADOW))
         {
             if (biome.is(AerialHellBiomes.SHADOW_PLAIN)) {return shifted ? AERIAL_TREE_FOREST_GRASS_COLOR : SHADOW_BLACK;}

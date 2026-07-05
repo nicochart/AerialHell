@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationLis
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSkyRenderer;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSpecialEffects;
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Event.Listeners.RenderListener;
 import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.BuildContentsEvent;
@@ -26,7 +27,10 @@ public class AerialHellClientSetup
         modEventBus.addListener(BlocksAndItemsColorHandler::handleItemColors);
         modEventBus.addListener(RenderRegistrationListener::onRegisterRenderers);
         modEventBus.addListener(RenderRegistrationListener::onRegisterLayerDefinitions);
-        modEventBus.addListener(RenderRegistrationListener::onModelBake);
+        //if (LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT) condition doesn't work properly because config isn't loaded yet
+        //{
+            modEventBus.addListener(RenderRegistrationListener::onModelBake);
+        //}
         modEventBus.addListener(AerialHellParticleTypes::registerParticleFactories);
         modEventBus.addListener(AerialHellClientSetup::registerDimensionRenderInfo);
         modEventBus.addListener(BuildContentsEvent::buildContents);

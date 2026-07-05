@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Effect;
 
 import fr.factionbedrock.aerialhell.Client.Packet.AerialHellData;
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
@@ -25,17 +26,17 @@ public class ShadowBind extends MobEffect
             {
                 livingEntity.removeEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate());
                 livingEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_BIND.getDelegate(), instance.getDuration(), 0));
-                if (livingEntity instanceof ServerPlayer serverPlayer) {PacketDistributor.sendToPlayer(serverPlayer, new AerialHellData("reloadTextures", 0));}
+                if (livingEntity instanceof ServerPlayer serverPlayer && LoadedConfigParams.ENABLE_SHADOW_BIND_RELOAD_TEXTURE) {PacketDistributor.sendToPlayer(serverPlayer, new AerialHellData("reloadTextures", 0));}
             }
             if (instance.getDuration() < 2)
             {
                 livingEntity.removeEffect(AerialHellMobEffects.SHADOW_BIND.getDelegate());
-                if (livingEntity instanceof ServerPlayer serverPlayer) {PacketDistributor.sendToPlayer(serverPlayer, new AerialHellData("reloadTextures", 0));}
+                if (livingEntity instanceof ServerPlayer serverPlayer && LoadedConfigParams.ENABLE_SHADOW_BIND_RELOAD_TEXTURE) {PacketDistributor.sendToPlayer(serverPlayer, new AerialHellData("reloadTextures", 0));}
             }
         }
 
         // Old dynamic chunk update around the player. Caused too much client lag (?).
-    	//if (livingEntity instanceof ServerPlayer serverPlayer && livingEntity.level() instanceof ServerLevel serverLevel)
+        //if (livingEntity instanceof ServerPlayer serverPlayer && livingEntity.level() instanceof ServerLevel serverLevel)
         //{
         //    EntityHelper.refreshChunkColors(serverPlayer, serverLevel, 100);
         //}

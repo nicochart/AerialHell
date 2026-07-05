@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Setup;
 
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.DataPacketPayloads;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Config.AerialHellConfigLoader;
 import fr.factionbedrock.aerialhell.Event.Listeners.BlockEventListener;
 import fr.factionbedrock.aerialhell.Event.Listeners.LivingEntityEventListener;
 import fr.factionbedrock.aerialhell.Event.Listeners.ToolsAndArmorEventListener;
@@ -30,6 +31,7 @@ public class AerialHellSetup
     {
         event.enqueueWork(() ->
         {
+            AerialHellConfigLoader.loadAndStoreConfigParams();
         	AerialHellBlocksAndItems.registerCompostableItems();
         	AerialHellBlocksAndItems.registerPots();
         	AerialHellBlocksAndItems.registerAxeStrippingBlocks();
@@ -47,6 +49,7 @@ public class AerialHellSetup
         AerialHellMobEffects.EFFECTS.register(bus);
         AerialHellPOI.POI.register(bus);
         AerialHellStructures.STRUCTURES.register(bus);
+        AerialHellStructurePlacements.STRUCTURE_PLACEMENTS.register(bus);
         AerialHellParticleTypes.PARTICLES.register(bus);
         AerialHellMenuTypes.MENUS.register(bus);
         AerialHellRecipes.RECIPE_SERIALIZERS.register(bus);

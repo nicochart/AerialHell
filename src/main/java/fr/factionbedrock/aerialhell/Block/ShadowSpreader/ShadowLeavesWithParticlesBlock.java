@@ -21,7 +21,7 @@ public class ShadowLeavesWithParticlesBlock extends ShadowLeavesBlock
 
     @Nullable protected SimpleParticleType getParticle()
     {
-        return BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() ? null : AerialHellParticleTypes.SHADOW_PARTICLE.get();
+        return BlocksAndItemsColorHandler.isShadowBindEnabled() ? null : AerialHellParticleTypes.SHADOW_PARTICLE.get();
     }
 
     protected int getParticleNumber() {return 1;}
