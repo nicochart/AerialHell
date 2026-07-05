@@ -259,7 +259,7 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.ARSONIST_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LUNATIC_CRYSTAL_BLOCK_ITEM.get());
-            itemsToAdd.add(AerialHellBlocksAndItems.CURSED_CRYSAL_BLOCK_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.CURSED_CRYSTAL_BLOCK_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_PLANKS_ITEM.get());
@@ -830,7 +830,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.ARSONIST_INGOT.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get());
             itemsToAdd.add(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get());
-            itemsToAdd.add(AerialHellBlocksAndItems.CURSED_CRYSAL.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.CURSED_CRYSTAL.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.ARSONIST_UPGRADE_SMITHING_TEMPLATE.get());
 
@@ -838,6 +838,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_SEEDS.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_WHEAT_SEEDS.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_WHEAT_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.BLUE_MEANIE_SPORES.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.BLUE_MEANIE_CAP.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_STICK.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_BOWL.get());

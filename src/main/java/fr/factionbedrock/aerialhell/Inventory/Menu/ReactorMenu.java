@@ -12,21 +12,27 @@ import net.minecraft.world.item.ItemStack;
 public class ReactorMenu extends AbstractContainerMenu
 {
 	private final Container container;
+	private final ContainerData data;
 
 	public ReactorMenu(int containerId, Inventory playerInventory)
 	{
-		this(containerId, playerInventory, new SimpleContainer(1));
+		this(containerId, playerInventory, new SimpleContainer(1), new SimpleContainerData(2));
 	}
 
-	public ReactorMenu(int containerId, Inventory playerInventory, Container container)
+	public ReactorMenu(int containerId, Inventory playerInventory, Container container, ContainerData data)
 	{
 		super(AerialHellMenuTypes.REACTOR.get(), containerId);
 		this.container = container;
+		this.data = data;
+		this.addDataSlots(data);
 
 		createPlayerHotbar(playerInventory);
 		createPlayerInventory(playerInventory);
 		createBlockEntityInventory(container);
 	}
+
+	public int getActivePercent() {return this.data.get(0);}
+	public boolean isLightReactor() {return this.data.get(1) == 0;}
 
 	private void createBlockEntityInventory(Container container)
 	{
@@ -35,7 +41,7 @@ public class ReactorMenu extends AbstractContainerMenu
 			@Override public boolean mayPlace(ItemStack stack)
 			{
 				return stack.is(AerialHellBlocksAndItems.FLUORITE.get()) || stack.is(AerialHellBlocksAndItems.FLUORITE_BLOCK_ITEM.get())
-					|| stack.is(AerialHellBlocksAndItems.SHADOW_CRYSTAL.get()) || stack.is(AerialHellBlocksAndItems.SHADOW_SHARD.get()) || stack.is(AerialHellBlocksAndItems.CURSED_CRYSAL.get()) || stack.is(AerialHellBlocksAndItems.CURSED_CRYSAL_BLOCK_ITEM.get());
+					|| stack.is(AerialHellBlocksAndItems.SHADOW_CRYSTAL.get()) || stack.is(AerialHellBlocksAndItems.SHADOW_SHARD.get()) || stack.is(AerialHellBlocksAndItems.CURSED_CRYSTAL.get()) || stack.is(AerialHellBlocksAndItems.CURSED_CRYSTAL_BLOCK_ITEM.get());
 			}
 		});
 	}

@@ -896,14 +896,14 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> ARSONIST_INGOT = ITEMS.register("arsonist_ingot", () -> new Item(new Item.Properties().rarity(AerialHellRarities.LEGENDARY.getValue()).fireResistant()));
 	public static final DeferredItem<Item> LUNATIC_CRYSTAL = ITEMS.register("lunatic_crystal", () -> new Item(new Item.Properties().rarity(AerialHellRarities.LEGENDARY.getValue())));
 	public static final DeferredItem<Item> OBSIDIAN_SHARD = ITEMS.register("obsidian_shard", () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
-	public static final DeferredItem<Item> CURSED_CRYSAL = ITEMS.register("cursed_crystal", () -> new Item(new Item.Properties().rarity(AerialHellRarities.CORRUPTED.getValue())));
+	public static final DeferredItem<Item> CURSED_CRYSTAL = ITEMS.register("cursed_crystal", () -> new Item(new Item.Properties().rarity(AerialHellRarities.CORRUPTED.getValue())));
 
 	public static final DeferredBlock<Block> ARSONIST_BLOCK = BLOCKS.register("arsonist_block", () -> new ArsonistBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHERITE_BLOCK).requiresCorrectToolForDrops().lightLevel((state) -> 9)));
 	public static final DeferredItem<Item> ARSONIST_BLOCK_ITEM = ITEMS.register("arsonist_block", () -> new BlockItem(ARSONIST_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.LEGENDARY.getValue()).fireResistant()));
 	public static final DeferredBlock<Block> LUNATIC_CRYSTAL_BLOCK = BLOCKS.register("lunatic_crystal_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHERITE_BLOCK).sound(SoundType.GLASS).requiresCorrectToolForDrops().lightLevel((state) -> 9)));
 	public static final DeferredItem<Item> LUNATIC_CRYSTAL_BLOCK_ITEM = ITEMS.register("lunatic_crystal_block", () -> new BlockItem(LUNATIC_CRYSTAL_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.LEGENDARY.getValue())));
 	public static final DeferredBlock<Block> CURSED_CRYSAL_BLOCK = BLOCKS.register("cursed_crystal_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHERITE_BLOCK).sound(SoundType.GLASS).requiresCorrectToolForDrops().lightLevel((state) -> 9)));
-	public static final DeferredItem<Item> CURSED_CRYSAL_BLOCK_ITEM = ITEMS.register("cursed_crystal_block", () -> new BlockItem(CURSED_CRYSAL_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED.getValue())));
+	public static final DeferredItem<Item> CURSED_CRYSTAL_BLOCK_ITEM = ITEMS.register("cursed_crystal_block", () -> new BlockItem(CURSED_CRYSAL_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED.getValue())));
 
 	//cactus
 	public static final DeferredBlock<SkyCactusBlock> SKY_CACTUS = BLOCKS.register("sky_cactus", () -> new SkyCactusBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN).strength(0.4F).sound(SoundType.WOOL).randomTicks()));
@@ -924,9 +924,12 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> VIBRANT_AERIAL_BERRY_SEEDS = ITEMS.register("vibrant_aerial_berry_seeds",() -> new ItemNameBlockItem(VIBRANT_AERIAL_BERRY_BUSH.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT.getValue())));
 
 	//crops
-	public static final DeferredBlock<Block> STELLAR_WHEAT = BLOCKS.register("stellar_wheat", () -> new StellarWheatBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
+	public static final DeferredBlock<Block> STELLAR_WHEAT = BLOCKS.register("stellar_wheat", () -> new StellarCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
 	public static final DeferredItem<Item> STELLAR_WHEAT_SEEDS = ITEMS.register("stellar_wheat_seeds",() -> new ItemNameBlockItem(STELLAR_WHEAT.get(), new Item.Properties()));
 	public static final DeferredItem<Item> STELLAR_WHEAT_ITEM = ITEMS.register("stellar_wheat",() -> new Item(new Item.Properties()));
+	public static final DeferredBlock<Block> BLUE_MEANIE_CROP = BLOCKS.register("blue_meanie_crop", () -> new StellarCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
+	public static final DeferredItem<Item> BLUE_MEANIE_SPORES = ITEMS.register("blue_meanie_spores", () -> new ItemNameBlockItem(BLUE_MEANIE_CROP.get(), new Item.Properties()));
+	public static final DeferredItem<Item> BLUE_MEANIE_CAP = ITEMS.register("blue_meanie_cap", () -> new Item(new Item.Properties()));
 
 	//Vertical growing plants
 	public static final DeferredBlock<VerticalGrowingPlantBlock> CLIMBING_VINE = BLOCKS.register("climbing_vine", () -> new VerticalGrowingPlantBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SUGAR_CANE), 4));

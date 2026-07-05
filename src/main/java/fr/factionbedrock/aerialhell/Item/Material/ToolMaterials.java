@@ -7,11 +7,9 @@ import com.google.common.base.Suppliers;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.level.block.Block;
 
 public class ToolMaterials
@@ -22,7 +20,7 @@ public class ToolMaterials
 	public static final Tier AZURITE = new ToolMaterial(BlockTags.INCORRECT_FOR_STONE_TOOL, 110, 12.0F, 0.0F, 22, () -> Ingredient.of(AerialHellBlocksAndItems.AZURITE_CRYSTAL.get()));
 	public static final Tier MAGMATIC_GEL = new ToolMaterial(BlockTags.INCORRECT_FOR_WOODEN_TOOL, 32, 12.0F, 0.0F, 22, () -> Ingredient.of(AerialHellBlocksAndItems.MAGMATIC_GEL.get()));
 	public static final Tier OBSIDIAN = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 2031, 8.0F, 3.0F, 10, () -> Ingredient.of(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()));
-	public static final Tier SHADOW = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 112, 8.0F, 3.0F, 15, () -> Ingredient.of(AerialHellBlocksAndItems.CURSED_CRYSAL.get()));
+	public static final Tier SHADOW = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 112, 8.0F, 3.0F, 15, () -> Ingredient.of(AerialHellBlocksAndItems.CURSED_CRYSTAL.get()));
 	public static final Tier VOLUCITE = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1620, 8.5F, 4.5F, 10, () -> Ingredient.of(AerialHellBlocksAndItems.VOLUCITE_VIBRANT.get()));
 	public static final Tier HEAVY = new ToolMaterial(BlockTags.INCORRECT_FOR_DIAMOND_TOOL, 1561, 8.0F, 6.0F, 10, () -> Ingredient.of(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()));
 	public static final Tier LUNATIC = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1712, 8.0F, 4.0F, 15, () -> Ingredient.of(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()));

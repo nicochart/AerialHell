@@ -25,7 +25,7 @@ public class AerialHellArmorMaterials
 	public final static Holder<ArmorMaterial> OBSIDIAN = register("obsidian", createProtectionMap(3, 6, 8, 3, 11), 10, SoundEvents.ARMOR_EQUIP_DIAMOND,2.0F,0.1F, () -> Ingredient.of(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get()));
 	public final static Holder<ArmorMaterial> VOLUCITE = register("volucite", createProtectionMap(4, 7, 9, 4, 12), 10, SoundEvents.ARMOR_EQUIP_DIAMOND,2.5F,0.05F, () -> Ingredient.of(AerialHellBlocksAndItems.VOLUCITE_VIBRANT.get()));
 	public final static Holder<ArmorMaterial> LUNATIC = register("lunatic", createProtectionMap(4, 7, 8, 3, 11), 15, SoundEvents.ARMOR_EQUIP_GOLD,1.5F,0.0F, () -> Ingredient.of(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get()));
-	public final static Holder<ArmorMaterial> SHADOW = register("shadow", createProtectionMap(4, 7, 7, 3, 11), 15, SoundEvents.ARMOR_EQUIP_LEATHER,1.0F,0.0F, () -> Ingredient.of(AerialHellBlocksAndItems.CURSED_CRYSAL.get()));
+	public final static Holder<ArmorMaterial> SHADOW = register("shadow", createProtectionMap(4, 7, 7, 3, 11), 15, SoundEvents.ARMOR_EQUIP_LEATHER,1.0F,0.0F, () -> Ingredient.of(AerialHellBlocksAndItems.CURSED_CRYSTAL.get()));
 	public final static Holder<ArmorMaterial> ARSONIST = register("arsonist", createProtectionMap(5, 8, 9, 4, 12), 15, SoundEvents.ARMOR_EQUIP_LEATHER,3.0F,0.1F, () -> Ingredient.of(AerialHellBlocksAndItems.ARSONIST_INGOT.get()));
 
 	//copy of ArmorMaterials "register" method

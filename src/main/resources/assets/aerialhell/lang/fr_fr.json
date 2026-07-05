@@ -608,6 +608,8 @@
   "item.aerialhell.vibrant_aerial_berry_seeds" : "Graines d'arbuste à Baies Aériennes Vibrantes",
   "item.aerialhell.stellar_wheat_seeds" : "Graines de Blé Stellaire",
   "item.aerialhell.stellar_wheat" : "Blé Stellaire",
+  "item.aerialhell.blue_meanie_spores" : "Spores de de Panéoles Bleuissant",
+  "item.aerialhell.blue_meanie_cap" : "Chapeau de Panéole Bleuissant",
   "item.aerialhell.frozen_aerial_berry" : "Baie Aérienne Gelée",
   "item.aerialhell.stellar_bread" : "Pain Stellaire",
   "item.aerialhell.frozen_mutton" : "Mouton Gelé",
@@ -965,6 +967,7 @@
   "death.attack.aerialhell.god_bless": "%1$s a reçu la bénédiction des dieux",
 
   "enchantment.aerialhell.solid_ether_walker": "Marcheur Éthéré",
+  "enchantment.aerialhell.vulnerability_aspect": "Aura Vulnérabilisante",
 
   "advancements.story.enter_aerial_hell.title": "Aerial Hell - l'Enfer Aérien",
   "advancements.story.enter_aerial_hell.desc": "Une nouvelle Aventure commence..",
@@ -1142,6 +1145,7 @@
   "subtitles.aerialhell.block.glyph_block.interact": "Interaction avec le Bloc de Glyphe",
   "subtitles.aerialhell.block.trapped_block.step": "Bloc piégé",
   "subtitles.aerialhell.block.bone_pile_block.step_break": "Tas d'os détruit",
+  "subtitles.aerialhell.block.reactor.ambient": "Reacteur Actif",
   "subtitles.aerialhell.item.forgotten_battle_trident.use": "Usage du Trident de Guerre Oublié",
   "subtitles.aerialhell.block.aerial_hell_portal.ambient": "Portail pour Aerial Hell",
 

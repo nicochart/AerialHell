@@ -608,6 +608,8 @@
   "item.aerialhell.vibrant_aerial_berry_seeds" : "Vibrant Aerial Berry Bush Seeds",
   "item.aerialhell.stellar_wheat_seeds" : "Stellar Wheat Seeds",
   "item.aerialhell.stellar_wheat" : "Stellar Wheat",
+  "item.aerialhell.blue_meanie_spores" : "Blue Meanie Spores",
+  "item.aerialhell.blue_meanie_cap" : "Blue Meanie Cap",
   "item.aerialhell.frozen_aerial_berry" : "Frozen Aerial Berry",
   "item.aerialhell.stellar_bread" : "Stellar Bread",
   "item.aerialhell.frozen_mutton" : "Frozen Mutton",
@@ -965,6 +967,7 @@
   "death.attack.aerialhell.god_bless": "%1$s received god's blessing",
 
   "enchantment.aerialhell.solid_ether_walker": "Solid Ether Walker",
+  "enchantment.aerialhell.vulnerability_aspect": "Vulnerability Aspect",
 
   "advancements.story.enter_aerial_hell.title": "Aerial Hell",
   "advancements.story.enter_aerial_hell.desc": "Another story begins..",
@@ -1142,6 +1145,7 @@
   "subtitles.aerialhell.block.glyph_block.interact": "Glyph Block interact",
   "subtitles.aerialhell.block.trapped_block.step": "Trapped Block step",
   "subtitles.aerialhell.block.bone_pile_block.step_break": "Bone pile block step-break",
+  "subtitles.aerialhell.block.reactor.ambient": "Reactor ambient",
   "subtitles.aerialhell.item.forgotten_battle_trident.use": "Forgotten Battle Trident use",
   "subtitles.aerialhell.block.aerial_hell_portal.ambient": "Aerial Hell Portal ambient",
 

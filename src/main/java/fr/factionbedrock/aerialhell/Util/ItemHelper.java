@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Util;
 
+import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
@@ -16,6 +18,7 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.block.Block;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 
 public class ItemHelper
 {
@@ -89,5 +92,26 @@ public class ItemHelper
                     SmithingTemplateItem.createNetheriteUpgradeIconList(),
                     SmithingTemplateItem.createNetheriteUpgradeMaterialList());
         }
+    }
+
+    public static Map<Item, Integer> getOscillatingMap()
+    {
+        Map<Item, Integer> map = Maps.newLinkedHashMap();
+        map.put(AerialHellBlocksAndItems.FLUORITE.get(), 1200);
+        map.put(AerialHellBlocksAndItems.FLUORITE_BLOCK_ITEM.get(), 10800);
+        map.put(AerialHellBlocksAndItems.CRYSTAL.get(), 300);
+        map.put(AerialHellBlocksAndItems.CRYSTAL_BLOCK_ITEM.get(), 1200);
+        return map;
+    }
+
+    public static Map<Item, Integer> getCorruptingMap()
+    {
+        Map<Item, Integer> map = Maps.newLinkedHashMap();
+        map.put(AerialHellBlocksAndItems.SHADOW_CRYSTAL.get(), 400);
+        map.put(AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK_ITEM.get(), 3600);
+        map.put(AerialHellBlocksAndItems.SHADOW_SHARD.get(), 1000);
+        map.put(AerialHellBlocksAndItems.CURSED_CRYSTAL.get(), 2000);
+        map.put(AerialHellBlocksAndItems.CURSED_CRYSTAL_BLOCK_ITEM.get(), 18000);
+        return map;
     }
 }

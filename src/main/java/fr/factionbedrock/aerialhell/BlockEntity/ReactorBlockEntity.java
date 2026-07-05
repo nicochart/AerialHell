@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.ReactorBlock;
 import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -14,6 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -28,11 +30,32 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
 {
     protected NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
     public static int MAX_PROTECTION_DISTANCE = 100;
+    public static int FACTOR = 10;
     public static int MAX_ACTIVE_TIMER = 500000;
     private int activeTimer;
     private int fieldSize;
     private ShiftType shiftType;
     @Nullable private final Supplier<Block> shiftedOrBrokenVariant;
+
+    protected final ContainerData containerData = new ContainerData()
+    {
+        @Override public int get(int index)
+        {
+            return switch (index)
+            {
+                case 0 -> (int) (ReactorBlockEntity.this.getActiveTimerProportion() * 100.0F);
+                case 1 -> (ReactorBlockEntity.this.shiftType == ShiftType.UNCORRUPT) ? 0 : 1;
+                default -> 0;
+            };
+        }
+
+        @Override public void set(int index, int value)
+        {
+
+        }
+
+        @Override public int getCount() {return 2;}
+    };
 
     public ReactorBlockEntity(BlockPos pos, BlockState blockState, int fieldSize, ShiftType shiftType, @Nullable Supplier<Block> shiftedOrBrokenVariant)
     {
@@ -43,10 +66,11 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
         this.activeTimer = 0;
     }
 
-    @Override public int getFieldSize() {return this.activeTimer > 0 ? this.fieldSize : (int) (0.25F * this.fieldSize);}
+    @Override public int getFieldSize() {return (int) (Math.clamp(this.getActiveTimerProportion() + 0.25F, 0.25F, 1.0F) * this.fieldSize);}
     @Override public ShiftType getShiftType() {return this.shiftType;}
     @Override @Nullable public Supplier<Block> getShiftedOrBrokenVariant() {return this.shiftedOrBrokenVariant;}
     public int getActiveTimer() {return activeTimer;}
+    public float getActiveTimerProportion() {return (float) this.activeTimer / (float) MAX_ACTIVE_TIMER;}
 
     @Override @NotNull protected Component getDefaultName()
     {
@@ -54,7 +78,7 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
         return Component.translatable("container." + AerialHell.MODID + "." + type + "_reactor");
     }
 
-    @Override protected AbstractContainerMenu createMenu(int id, @NotNull Inventory inv) {return new ReactorMenu(id, inv, this);}
+    @Override protected AbstractContainerMenu createMenu(int id, @NotNull Inventory inv) {return new ReactorMenu(id, inv, this, this.containerData);}
 
     public static void tick(Level level, BlockPos pos, BlockState state, ReactorBlockEntity blockEntity)
     {
@@ -67,43 +91,32 @@ public class ReactorBlockEntity extends BaseContainerBlockEntity implements Biom
 
     public boolean updateActiveTimer() //returns true if isActive, else false
     {
-        int active_factor = 10;
         boolean isActive = this.activeTimer > 0;
         if (isActive) {this.activeTimer--;}
 
-        if (!this.items.isEmpty())
+        if (!this.items.isEmpty() && this.activeTimer < MAX_ACTIVE_TIMER)
         {
             ItemStack stack = this.items.get(0);
 
             if (this.shiftType == ShiftType.UNCORRUPT)
             {
-                if (OscillatorBlockEntity.getOscillatingMap().containsKey(stack.getItem()))
+                if (ItemHelper.getOscillatingMap().containsKey(stack.getItem()))
                 {
-                    int activeTimerIncrement = active_factor * OscillatorBlockEntity.getOscillatingMap().get(stack.getItem());
-                    if (this.activeTimer + activeTimerIncrement <= MAX_ACTIVE_TIMER)
-                    {
-                        this.activeTimer += activeTimerIncrement;
-                        stack.shrink(1);
-                        isActive = true;
-                    }
+                    this.activeTimer += FACTOR * ItemHelper.getOscillatingMap().get(stack.getItem());
+                    stack.shrink(1);
+                    isActive = true;
                 }
             }
             else
             {
-                int activeTimerIncrement = 0;
-                if (stack.is(AerialHellBlocksAndItems.SHADOW_CRYSTAL)) {activeTimerIncrement = 400 * active_factor;}
-                else if (stack.is(AerialHellBlocksAndItems.SHADOW_SHARD)) {activeTimerIncrement = 1000 * active_factor;}
-                else if (stack.is(AerialHellBlocksAndItems.CURSED_CRYSAL)) {activeTimerIncrement = 2000 * active_factor;}
-                else if (stack.is(AerialHellBlocksAndItems.CURSED_CRYSAL_BLOCK_ITEM)) {activeTimerIncrement = 18000 * active_factor;}
-                if (activeTimerIncrement > 0 && this.activeTimer + activeTimerIncrement <= MAX_ACTIVE_TIMER)
+                if (ItemHelper.getCorruptingMap().containsKey(stack.getItem()))
                 {
-                    this.activeTimer += activeTimerIncrement;
+                    this.activeTimer += FACTOR * ItemHelper.getCorruptingMap().get(stack.getItem());
                     stack.shrink(1);
                     isActive = true;
                 }
             }
         }
-
         return isActive;
     }
 

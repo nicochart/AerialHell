@@ -11,13 +11,13 @@ import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class StellarWheatBlock extends CropBlock
+public class StellarCropBlock extends CropBlock
 {
-    public StellarWheatBlock(Properties prop) {super(prop);}
+    public StellarCropBlock(Properties prop) {super(prop);}
 
     @Override protected boolean mayPlaceOn(BlockState state, BlockGetter blockGetter, BlockPos pos) {return state.is(AerialHellBlocksAndItems.STELLAR_FARMLAND.get());}
 
-    @Override protected ItemLike getBaseSeedId() {return AerialHellBlocksAndItems.STELLAR_WHEAT_SEEDS.get();}
+    @Override protected ItemLike getBaseSeedId() {return this == AerialHellBlocksAndItems.STELLAR_WHEAT.get() ? AerialHellBlocksAndItems.STELLAR_WHEAT_SEEDS.get() : AerialHellBlocksAndItems.BLUE_MEANIE_SPORES;}
 
     @Override protected void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom)
     {
@@ -80,5 +80,4 @@ public class StellarWheatBlock extends CropBlock
 
         return moisture;
     }
-
 }
