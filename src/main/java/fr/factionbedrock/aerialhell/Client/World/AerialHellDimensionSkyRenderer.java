@@ -328,7 +328,8 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
 	public void renderSunriseAndSunset(PoseStack poseStack, float sunAngle, int sunriseAndSunsetColor)
 	{
 		float alpha = ARGB.alphaFloat(sunriseAndSunsetColor);
-		if (!(alpha <= 0.001F)) {
+		if (!(alpha <= 0.001F))
+		{
 			poseStack.pushPose();
 			poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
 			float angle = Mth.sin((double)sunAngle) < 0.0F ? 180.0F : 0.0F;
@@ -346,7 +347,7 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
 				renderPass.setPipeline(RenderPipelines.SUNRISE_SUNSET);
 				RenderSystem.bindDefaultUniforms(renderPass);
 				renderPass.setUniform("DynamicTransforms", dynamicTransforms);
-				renderPass.setVertexBuffer(0, this.sunVertexBuffer.slice());
+				renderPass.setVertexBuffer(0, this.sunRiseVertexBuffer.slice());
 				renderPass.draw(18, 1, 0, 0);
 			}
 
