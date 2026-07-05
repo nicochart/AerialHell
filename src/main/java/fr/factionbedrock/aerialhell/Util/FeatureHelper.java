@@ -1,12 +1,13 @@
 package fr.factionbedrock.aerialhell.Util;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.SectionPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
@@ -83,23 +84,32 @@ public class FeatureHelper
         });
     }
 
+    //edited copy of WorldGenRegion method of same name
+    public boolean isWithinWriteZone(FeaturePlaceContext<?> context, BlockPos pos)
+    {
+        ChunkPos featureCenter = getFeatureCenterChunk(context);
+        ChunkPos chunkPos = ChunkPos.containing(pos);
+        return isWithinWriteZone(featureCenter, chunkPos, 1);
+    }
+
+    //edited copy of WorldGenRegion method of same name
+    private static boolean isWithinWriteZone(ChunkPos centerPos, ChunkPos readOrWritePos, int writeRadius)
+    {
+        return Math.abs(centerPos.x() - readOrWritePos.x()) <= writeRadius && Math.abs(centerPos.z() - readOrWritePos.z()) <= writeRadius;
+    }
+
+    public static ChunkPos getFeatureCenterChunk(FeaturePlaceContext<?> context)
+    {
+        return ChunkPos.containing(context.origin());
+    }
+
     public static BlockPos getFeatureCenter(FeaturePlaceContext<?> context)
     {
-        BlockPos origin = context.origin();
-        int x = origin.getX(), y = origin.getY(), z = origin.getZ();
+        ChunkPos chunkPos = getFeatureCenterChunk(context);
 
-        if (origin.getX() < 0) {x++;}
-        if (origin.getZ() < 0) {z++;}
-
-        int chunkX = x / 16;
-        int chunkZ = z / 16;
-
-        if (origin.getX() < 0) {chunkX--;}
-        if (origin.getZ() < 0) {chunkZ--;}
-
-        int centerOfFeatureX = chunkX * 16 + 8;
-        int centerOfFeatureZ = chunkZ * 16 + 8;
-        return new BlockPos(centerOfFeatureX, y, centerOfFeatureZ);
+        int centerOfFeatureX = chunkPos.x() * 16 + 8;
+        int centerOfFeatureZ = chunkPos.z() * 16 + 8;
+        return new BlockPos(centerOfFeatureX, context.origin().getY(), centerOfFeatureZ);
     }
 
     public static BlockPos getRandomPosInFeatureRegion(BlockPos featureCenter, RandomSource rand, int MAX_XZ_DISTANCE_FROM_CENTER, int MAX_Y_DISTANCE_FROM_CENTER)
@@ -146,32 +156,5 @@ public class FeatureHelper
         Vector3f vector2 = new Vector3f(rand.nextInt(10), rand.nextInt(10), rand.nextInt(10));
         if (vector2.x / vector1.x == vector2.y / vector1.y) {vector2.x = - vector2.x / 2;} //quickly handle the case where vector1 and vector2 may be collinear
         return new Vector3f(vector1.y * vector2.z - vector1.z * vector2.y, vector1.z * vector2.x - vector1.x * vector2.z, vector1.x * vector2.y - vector1.y * vector2.x);
-    }
-
-    public static void generateDebug(FeaturePlaceContext<?> context)
-    {
-        WorldGenLevel reader = context.level();
-        BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
-        for (int i = -50; i <= 50; i++)
-        {
-            reader.setBlock(centerOfFeature.offset(i, 0, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
-            reader.setBlock(centerOfFeature.offset(0, i, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
-            reader.setBlock(centerOfFeature.offset(0, 0, i), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
-        }
-
-        //feature center
-        for (int x = -1; x <= 1; x++)
-        {
-            for (int y = -1; y <= 1; y++)
-            {
-                for (int z = -1; z <= 1; z++)
-                {
-                    reader.setBlock(centerOfFeature.offset(x, y, z), AerialHellBlocks.ARSONIST_BLOCK.get().defaultBlockState(), 0);
-                }
-            }
-        }
-
-        //feature origin
-        reader.setBlock(context.origin(), AerialHellBlocks.CRYSTAL_BRICKS.get().defaultBlockState(), 0);
     }
 }

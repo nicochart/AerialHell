@@ -1,8 +1,12 @@
 package fr.factionbedrock.aerialhell.Util;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 public class DebugHelper
 {
@@ -19,5 +23,35 @@ public class DebugHelper
         {
             level.getServer().getPlayerList().broadcastSystemMessage(Component.literal(chatMessage), false);
         }
+    }
+
+    public static void generateFeatureDebug(FeaturePlaceContext<?> context)
+    {
+        WorldGenLevel reader = context.level();
+        BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
+        for (int dy = -50; dy <= 50; dy++)
+        {
+            reader.setBlock(centerOfFeature.offset(0, dy, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+        }
+        for (int dxz = -24; dxz <= 24; dxz++)
+        {
+            reader.setBlock(centerOfFeature.offset(dxz, 0, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+            reader.setBlock(centerOfFeature.offset(0, 0, dxz), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+        }
+
+        //feature center
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                for (int z = -1; z <= 1; z++)
+                {
+                    reader.setBlock(centerOfFeature.offset(x, y, z), AerialHellBlocks.ARSONIST_BLOCK.get().defaultBlockState(), 0);
+                }
+            }
+        }
+
+        //feature origin
+        reader.setBlock(context.origin(), AerialHellBlocks.CRYSTAL_BRICKS.get().defaultBlockState(), 0);
     }
 }

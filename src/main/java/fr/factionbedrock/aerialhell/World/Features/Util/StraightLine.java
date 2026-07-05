@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.World.Features.Util;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.DebugHelper;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
@@ -93,7 +94,7 @@ public class StraightLine
 
     public void generateDebug()
     {
-        FeatureHelper.generateDebug(this.context);
+        DebugHelper.generateFeatureDebug(this.context);
         WorldGenLevel level = context.level();
         //start and end position
         level.setBlock(this.straightLineParams.getStart(), AerialHellBlocks.ARSONIST_BLOCK.get().defaultBlockState(), 0);
