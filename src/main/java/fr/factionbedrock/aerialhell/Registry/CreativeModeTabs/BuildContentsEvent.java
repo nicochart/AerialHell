@@ -10,6 +10,7 @@ public class BuildContentsEvent
     {
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries ->
         {
+            entries.accept(AerialHellItems.AERIAL_HELL_GUIDE_BOOK);
             entries.accept(AerialHellItems.STELLAR_PORTAL_FRAME_BLOCK);
             entries.accept(AerialHellItems.STELLAR_LIGHTER);
         });
@@ -683,6 +684,11 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.RUBY_BLOWPIPE);
             entries.accept(AerialHellItems.VOLUCITE_BLOWPIPE);
 
+            entries.accept(AerialHellItems.RUBY_SHARD);
+            entries.accept(AerialHellItems.VOLUCITE_SHARD);
+            entries.accept(AerialHellItems.RUBY_RESONATOR);
+            entries.accept(AerialHellItems.VOLUCITE_RESONATOR);
+
             entries.accept(AerialHellItems.SKY_WOOD_SWORD);
             entries.accept(AerialHellItems.STELLAR_STONE_SWORD);
             entries.accept(AerialHellItems.RUBY_SWORD);
@@ -807,6 +813,8 @@ public class BuildContentsEvent
 
         CreativeModeTabEvents.modifyOutputEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)).register(entries ->
         {
+            entries.accept(AerialHellItems.AERIAL_HELL_GUIDE_BOOK);
+
             entries.accept(AerialHellItems.STELLAR_PORTAL_FRAME_BRICK);
             entries.accept(AerialHellItems.STELLAR_LIGHTER);
 

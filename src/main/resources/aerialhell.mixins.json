@@ -27,7 +27,9 @@
 		"RenderSkyMixin"
 	],
 	"client" : [
-		"ChestVariantMixin"
+		"ChestVariantMixin",
+		"UseItemFovModifierMixin",
+		"UseItemInHandRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

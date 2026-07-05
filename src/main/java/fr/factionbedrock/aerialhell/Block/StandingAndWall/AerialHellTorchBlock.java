@@ -29,14 +29,14 @@ public class AerialHellTorchBlock extends Block
 
 	@Override protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {return SHAPE;}
 
-	@Override protected BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random)
+	@Override protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random)
 	{
-		return direction == Direction.DOWN && !this.canSurvive(state, world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, world, tickView, pos, direction, neighborPos, neighborState, random);
+		return direction == Direction.DOWN && !this.canSurvive(state, level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, level, tickView, pos, direction, neighborPos, neighborState, random);
 	}
 
-	@Override public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos)
+	@Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
    	{
-		return canSupportCenter(worldIn, pos.below(), Direction.UP);
+		return canSupportCenter(level, pos.below(), Direction.UP);
    	}
 
 	public void animateTick(BlockState stateIn, Level world, BlockPos pos, RandomSource rand)

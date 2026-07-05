@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SR ",
+    "RF ",
+    "  S"
+  ],
+  "key": {
+    "S": "aerialhell:sky_stick",
+    "R": "aerialhell:ruby",
+    "F": "aerialhell:fluorite"
+  },
+  "result": {
+    "id": "aerialhell:ruby_resonator"
+  }
+}

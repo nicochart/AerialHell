@@ -1,0 +1,19 @@
+{
+  "parent": "aerialhell:classic/collect_ruby",
+  "display": {
+    "icon": {"id": "aerialhell:ruby_shard"},
+    "title": {"translate": "advancements.classic.shoot_ruby_shard.title"},
+    "description": {"translate": "advancements.classic.shoot_ruby_shard.desc"},
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "shot_shard": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {"damage": {"type": {"is_projectile": true, "direct_entity": {"type": "aerialhell:ruby_shard"}}}}}
+  },
+  "requirements": [["shot_shard"]],
+  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+}

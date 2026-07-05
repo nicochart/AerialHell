@@ -24,14 +24,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.food.Foods;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.HangingSignItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.SignItem;
-import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.item.StandingAndWallBlockItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.ComposterBlock;
@@ -72,6 +65,9 @@ public class AerialHellItems
         ComposterBlock.COMPOSTABLES.put(VIBRANT_SKY_CACTUS_FIBER, 0.2F);
         ComposterBlock.COMPOSTABLES.put(VIBRANT_SKY_CACTUS, 0.8F);
     }
+
+    //guide book
+    public static final Item AERIAL_HELL_GUIDE_BOOK = register(Keys.AERIAL_HELL_GUIDE_BOOK.identifier().getPath(), new AerialHellGuideBook(new Item.Properties().setId(Keys.AERIAL_HELL_GUIDE_BOOK).stacksTo(1)));
 
     //portal
     public static final Item STELLAR_PORTAL_FRAME_BLOCK = register(Keys.STELLAR_PORTAL_FRAME_BLOCK.identifier().getPath(), new BlockItem(AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK, new Item.Properties().setId(Keys.STELLAR_PORTAL_FRAME_BLOCK).useBlockDescriptionPrefix()));
@@ -848,11 +844,17 @@ public class AerialHellItems
     public static final Item RUBY_MILK_BUCKET = register(Keys.RUBY_MILK_BUCKET.identifier().getPath(), new Item(new Item.Properties().setId((Keys.RUBY_MILK_BUCKET)).craftRemainder(RUBY_BUCKET).component(DataComponents.CONSUMABLE, Consumables.MILK_BUCKET).usingConvertsTo(RUBY_BUCKET).stacksTo(1)));
 
     //arrows & bows
-    public static final Item RUBY_BLOWPIPE_ARROW = register(Keys.RUBY_BLOWPIPE_ARROW.identifier().getPath(), new AerialArrowItem(new Item.Properties().setId(Keys.RUBY_BLOWPIPE_ARROW)));
-    public static final Item VOLUCITE_BLOWPIPE_ARROW = register(Keys.VOLUCITE_BLOWPIPE_ARROW.identifier().getPath(), new AerialArrowItem(new Item.Properties().setId(Keys.VOLUCITE_BLOWPIPE_ARROW).rarity(AerialHellRarities.VIBRANT)));
+    public static final Item RUBY_BLOWPIPE_ARROW = register(Keys.RUBY_BLOWPIPE_ARROW.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.RUBY_BLOWPIPE_ARROW)));
+    public static final Item VOLUCITE_BLOWPIPE_ARROW = register(Keys.VOLUCITE_BLOWPIPE_ARROW.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.VOLUCITE_BLOWPIPE_ARROW).rarity(AerialHellRarities.VIBRANT)));
 
-    public static final Item RUBY_BLOWPIPE = register(Keys.RUBY_BLOWPIPE.identifier().getPath(), new BlowpipeItem(new Item.Properties().setId(Keys.RUBY_BLOWPIPE).stacksTo(1).durability(200), 1.7F));
-    public static final Item VOLUCITE_BLOWPIPE = register(Keys.VOLUCITE_BLOWPIPE.identifier().getPath(), new BlowpipeItem(new Item.Properties().setId(Keys.VOLUCITE_BLOWPIPE).rarity(AerialHellRarities.VIBRANT).stacksTo(1).durability(400), 2.4F));
+    public static final Item RUBY_BLOWPIPE = register(Keys.RUBY_BLOWPIPE.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.RUBY_BLOWPIPE).stacksTo(1).durability(200)));
+    public static final Item VOLUCITE_BLOWPIPE = register(Keys.VOLUCITE_BLOWPIPE.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.VOLUCITE_BLOWPIPE).rarity(AerialHellRarities.VIBRANT).stacksTo(1).durability(400)));
+
+    public static final Item RUBY_SHARD = register(Keys.RUBY_SHARD.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.RUBY_SHARD)));
+    public static final Item VOLUCITE_SHARD = register(Keys.VOLUCITE_SHARD.identifier().getPath(), new WithInformationItem(new Item.Properties().setId(Keys.VOLUCITE_SHARD).rarity(AerialHellRarities.VIBRANT)));
+
+    public static final Item RUBY_RESONATOR = register(Keys.RUBY_RESONATOR.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.RUBY_RESONATOR).stacksTo(1).durability(200).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.RUBY_RESONATOR)).enchantable(10).maxUseDuration(72000).useAnimation(ItemUseAnimation.BOW)));
+    public static final Item VOLUCITE_RESONATOR = register(Keys.VOLUCITE_RESONATOR.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.VOLUCITE_RESONATOR).stacksTo(1).durability(200).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.VOLUCITE_RESONATOR)).enchantable(10).maxUseDuration(72000).useAnimation(ItemUseAnimation.BOW)));
 
     //music discs
     public static final Item MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = register(Keys.MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP.identifier().getPath(), new Item(new Item.Properties().setId(Keys.MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP).stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(AerialHellJukeboxSongs.AERIAL_HELL_THEME_TOMMAUP)));
@@ -1047,6 +1049,9 @@ public class AerialHellItems
 
     public static class Keys
     {
+        //guide book
+        public static final ResourceKey<Item> AERIAL_HELL_GUIDE_BOOK = createKey("aerial_hell_guide_book");
+
         //portal
         public static final ResourceKey<Item> STELLAR_PORTAL_FRAME_BLOCK = createKey("stellar_portal_frame_block");
         public static final ResourceKey<Item> STELLAR_PORTAL_FRAME_ORE = createKey("stellar_portal_frame_ore");
@@ -1827,6 +1832,12 @@ public class AerialHellItems
 
         public static final ResourceKey<Item> RUBY_BLOWPIPE = createKey("ruby_blowpipe");
         public static final ResourceKey<Item> VOLUCITE_BLOWPIPE = createKey("volucite_blowpipe");
+
+        public static final ResourceKey<Item> RUBY_SHARD = createKey("ruby_shard");
+        public static final ResourceKey<Item> VOLUCITE_SHARD = createKey("volucite_shard");
+
+        public static final ResourceKey<Item> RUBY_RESONATOR = createKey("ruby_resonator");
+        public static final ResourceKey<Item> VOLUCITE_RESONATOR = createKey("volucite_resonator");
 
         //music discs
         public static final ResourceKey<Item> MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = createKey("music_disc_aerial_hell_theme_tommaup");

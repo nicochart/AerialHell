@@ -1,8 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " #",
-    "S "
+    " # ",
+    "#S#",
+    " # "
   ],
   "key": {
     "#": "minecraft:iron_ingot",
@@ -10,6 +11,6 @@
   },
   "result": {
     "id": "aerialhell:iron_shuriken",
-    "count": 8
+    "count": 16
   }
 }
