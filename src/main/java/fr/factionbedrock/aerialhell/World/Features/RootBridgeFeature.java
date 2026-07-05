@@ -8,9 +8,6 @@ import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnots;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedStraightLine;
 import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
@@ -20,6 +17,9 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class RootBridgeFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
@@ -146,16 +146,20 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration> impleme
     private boolean isValidSupportForBridge(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_STONE) || state.getBlock() == AerialHellBlocks.STELLAR_DIRT;}
     private boolean thereIsAirAroundPosition(WorldGenLevel reader, BlockPos pos)
     {
-        for (int distance = 1; distance < 6; distance+=2)
-        {
-            if (thereIs3x3AirAreaAtPos(reader, pos.north(distance)) || thereIs3x3AirAreaAtPos(reader, pos.south(distance)) || thereIs3x3AirAreaAtPos(reader, pos.west(distance)) || thereIs3x3AirAreaAtPos(reader, pos.east(distance)) || thereIs3x3AirAreaAtPos(reader, pos.above(distance))) {return true;}
-        }
-        return false;
+        return isThereAirAroundPos(reader, 2, 0.40f, pos); //75% air in a 5x5 cube (centered on pos)
     }
 
-    private boolean thereIs3x3AirAreaAtPos(WorldGenLevel reader, BlockPos pos)
+    private boolean isThereAirAroundPos(WorldGenLevel reader, int testRadius, float minAirProportion, BlockPos pos)
     {
-        for (int x=-1; x<=1; x++) {for (int y=-1; y<=1; y++) {for (int z=-1; z<=1; z++) {if (!reader.getBlockState(pos.offset(x, y, z)).isAir()) {return false;}}}} return true;
+        int side = 2 * testRadius + 1;
+        int blocksNumber = side * side * side;
+        int maxNonAir = (int) (blocksNumber * (1.0F - minAirProportion));
+        int nonAirCount = 0;
+        for (int x=-testRadius; x<=testRadius; x++) {for (int y=-testRadius; y<=testRadius; y++) {for (int z=-testRadius; z<=testRadius; z++)
+        {
+            if (!reader.getBlockState(pos.offset(x, y, z)).isAir()) {nonAirCount++;}
+            if (nonAirCount > maxNonAir) {return false;}
+        }}} return true;
     }
 
     private static class StraightRootBridge extends StraightLine
