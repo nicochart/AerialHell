@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.DungeonSensitiveFeatureCheck;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
@@ -19,7 +18,7 @@ public abstract class AbstractGiantTreeFeature<FC extends FeatureConfiguration> 
 
     protected boolean canPlace(FeaturePlaceContext<FC> context)
     {
-        return isValidTreePos(context.level(), context.origin()) && !this.isDungeonSensitiveValid(context);
+        return isValidTreePos(context.level(), context.origin()) && this.isDungeonSensitiveValid(context);
     }
 
     protected boolean isValidTreePos(WorldGenLevel world, BlockPos pos) {return isValidTreeSupport(world.getBlockState(pos.below())) && (world.isEmptyBlock(pos) || world.getBlockState(pos).is(AerialHellTags.Blocks.AERIALHELL_SAPLINGS)) && thereIsAirAbovePosition(world, pos);}
