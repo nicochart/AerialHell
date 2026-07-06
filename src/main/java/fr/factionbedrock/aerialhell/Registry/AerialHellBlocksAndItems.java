@@ -165,6 +165,9 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> STELLAR_LIGHTER = ITEMS.register("stellar_lighter", () -> new StellarLighterItem(new Item.Properties().stacksTo(1).durability(4)));
 
 	//torch
+	public static final DeferredBlock<Block> CRYSTALLIZED_WALL_TORCH = BLOCKS.register("crystallized_wall_torch", () -> new AerialHellWallTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WALL_TORCH).lightLevel((state) -> {return 9;})));
+	public static final DeferredBlock<Block> CRYSTALLIZED_TORCH = BLOCKS.register("crystallized_torch", () -> new AerialHellTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TORCH).lightLevel((state) -> {return 9;})));
+	public static final DeferredItem<Item> CRYSTALLIZED_TORCH_ITEM = ITEMS.register("crystallized_torch", () -> new StandingAndWallBlockItem(CRYSTALLIZED_TORCH.get(), CRYSTALLIZED_WALL_TORCH.get(), new Item.Properties(), Direction.DOWN));
 	public static final DeferredBlock<Block> FLUORITE_WALL_TORCH = BLOCKS.register("fluorite_wall_torch", () -> new AerialHellWallTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WALL_TORCH)));
 	public static final DeferredBlock<Block> FLUORITE_TORCH = BLOCKS.register("fluorite_torch", () -> new AerialHellTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TORCH)));
 	public static final DeferredItem<Item> FLUORITE_TORCH_ITEM = ITEMS.register("fluorite_torch", () -> new StandingAndWallBlockItem(FLUORITE_TORCH.get(), FLUORITE_WALL_TORCH.get(), new Item.Properties(), Direction.DOWN));
@@ -176,17 +179,23 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> SHADOW_TORCH_ITEM = ITEMS.register("shadow_torch", () -> new StandingAndWallBlockItem(SHADOW_TORCH.get(), SHADOW_WALL_TORCH.get(), new Item.Properties(), Direction.DOWN));
 
 	//lanterns
+	public static final DeferredBlock<Block> CRYSTALLIZED_LANTERN = BLOCKS.register("crystallized_lantern", () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
 	public static final DeferredBlock<Block> FLUORITE_LANTERN = BLOCKS.register("fluorite_lantern", () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
 	public static final DeferredBlock<Block> RUBY_LANTERN = BLOCKS.register("ruby_lantern", () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
+	public static final DeferredBlock<Block> RUBY_CRYSTALLIZED_LANTERN = BLOCKS.register("ruby_crystallized_lantern", () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
 	public static final DeferredBlock<Block> RUBY_FLUORITE_LANTERN = BLOCKS.register("ruby_fluorite_lantern", () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
 	public static final DeferredBlock<Block> VOLUCITE_LANTERN = BLOCKS.register("volucite_lantern", () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
+	public static final DeferredBlock<Block> VOLUCITE_CRYSTALLIZED_LANTERN = BLOCKS.register("volucite_crystallized_lantern", () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
 	public static final DeferredBlock<Block> VOLUCITE_FLUORITE_LANTERN = BLOCKS.register("volucite_fluorite_lantern", () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
 	public static final DeferredBlock<Block> LUNATIC_LANTERN = BLOCKS.register("lunatic_lantern", () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
 	public static final DeferredBlock<Block> SHADOW_LANTERN = BLOCKS.register("shadow_lantern", () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SOUL_LANTERN)));
+	public static final DeferredItem<Item> CRYSTALLIZED_LANTERN_ITEM = ITEMS.register("crystallized_lantern", () -> new BlockItem(CRYSTALLIZED_LANTERN.get(), new Item.Properties()));
 	public static final DeferredItem<Item> FLUORITE_LANTERN_ITEM = ITEMS.register("fluorite_lantern", () -> new BlockItem(FLUORITE_LANTERN.get(), new Item.Properties()));
 	public static final DeferredItem<Item> RUBY_LANTERN_ITEM = ITEMS.register("ruby_lantern", () -> new BlockItem(RUBY_LANTERN.get(), new Item.Properties()));
+	public static final DeferredItem<Item> RUBY_CRYSTALLIZED_LANTERN_ITEM = ITEMS.register("ruby_crystallized_lantern", () -> new BlockItem(RUBY_CRYSTALLIZED_LANTERN.get(), new Item.Properties()));
 	public static final DeferredItem<Item> RUBY_FLUORITE_LANTERN_ITEM = ITEMS.register("ruby_fluorite_lantern", () -> new BlockItem(RUBY_FLUORITE_LANTERN.get(), new Item.Properties()));
 	public static final DeferredItem<Item> VOLUCITE_LANTERN_ITEM = ITEMS.register("volucite_lantern", () -> new BlockItem(VOLUCITE_LANTERN.get(), new Item.Properties()));
+	public static final DeferredItem<Item> VOLUCITE_CRYSTALLIZED_LANTERN_ITEM = ITEMS.register("volucite_crystallized_lantern", () -> new BlockItem(VOLUCITE_CRYSTALLIZED_LANTERN.get(), new Item.Properties()));
 	public static final DeferredItem<Item> VOLUCITE_FLUORITE_LANTERN_ITEM = ITEMS.register("volucite_fluorite_lantern", () -> new BlockItem(VOLUCITE_FLUORITE_LANTERN.get(), new Item.Properties()));
 	public static final DeferredItem<Item> LUNATIC_LANTERN_ITEM = ITEMS.register("lunatic_lantern", () -> new BlockItem(LUNATIC_LANTERN.get(), new Item.Properties()));
 	public static final DeferredItem<Item> SHADOW_LANTERN_ITEM = ITEMS.register("shadow_lantern", () -> new BlockItem(SHADOW_LANTERN.get(), new Item.Properties()));

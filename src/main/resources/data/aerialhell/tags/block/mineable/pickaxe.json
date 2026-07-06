@@ -116,8 +116,7 @@
     "aerialhell:raw_volucite_block",
 
     "#aerialhell:chains",
-    "#aerialhell:aerialhell_lantern",
-    "#aerialhell:overworld_lantern",
+    "#aerialhell:lantern",
 
     "aerialhell:oscillator",
     "aerialhell:freezer",

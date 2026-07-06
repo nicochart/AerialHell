@@ -25,13 +25,17 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_ORE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE_ITEM.get());
 
+            itemsToAdd.add(AerialHellBlocksAndItems.CRYSTALLIZED_TORCH_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.FLUORITE_TORCH_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VOLUCITE_TORCH_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_TORCH_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.CRYSTALLIZED_LANTERN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.FLUORITE_LANTERN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.RUBY_LANTERN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.RUBY_CRYSTALLIZED_LANTERN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.RUBY_FLUORITE_LANTERN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VOLUCITE_LANTERN_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.VOLUCITE_CRYSTALLIZED_LANTERN_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.VOLUCITE_FLUORITE_LANTERN_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.RUBY_CHAIN_ITEM.get());
