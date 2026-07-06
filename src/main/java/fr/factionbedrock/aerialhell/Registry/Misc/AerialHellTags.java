@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.*;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -175,6 +176,14 @@ public class AerialHellTags
 		{
 			return ItemTags.create(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
+	}
+
+	public static class Entities
+	{
+		public static final TagKey<EntityType<?>> LIGHT = tag("light");
+		public static final TagKey<EntityType<?>> SHADOW = tag("shadow");
+
+		private static TagKey<EntityType<?>> tag(String name) {return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));}
 	}
 
 	public static class Fluids

@@ -1,7 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
-import java.util.EnumSet;
-
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
@@ -9,26 +7,24 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.EnumSet;
 
 public class TornSpiritEntity extends Monster
 {
@@ -40,7 +36,7 @@ public class TornSpiritEntity extends Monster
 	@Override protected void registerGoals()
     {
 		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
-		this.goalSelector.addGoal(2, new TornSpiritEntity.FireballAttackGoal(this));
+		this.goalSelector.addGoal(2, new FireballAttackGoal(this));
 		this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.25D, false));
 		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.6D));
@@ -105,7 +101,7 @@ public class TornSpiritEntity extends Monster
 	    public FireballAttackGoal(TornSpiritEntity fireminionIn)
 	    {
 	    	this.tornspirit = fireminionIn;
-	        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+	        this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
 	    }
 
 	    public boolean canUse()

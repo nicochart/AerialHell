@@ -52,8 +52,6 @@ public class BoarEntity extends Pig
                 .add(Attributes.ATTACK_DAMAGE, 3.0D);
     }
 
-    @Override public boolean isSaddleable() {return false;}
-
     @Override @Nullable public Pig getBreedOffspring(ServerLevel level, AgeableMob mob) {return AerialHellEntities.STELLAR_BOAR.get().create(level);}
     @Override public boolean isFood(ItemStack stack) {return FOOD_ITEMS.test(stack);}
 

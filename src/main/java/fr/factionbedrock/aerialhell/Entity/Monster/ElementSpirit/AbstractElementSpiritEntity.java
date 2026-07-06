@@ -1,8 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit;
 
-import java.util.List;
-
 import fr.factionbedrock.aerialhell.Entity.Monster.AerialHellHostileEntity;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -15,8 +14,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.level.Level;
+
+import java.util.List;
 
 public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntity
 {
@@ -90,16 +90,16 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
         builder.define(ATTACKING, false);
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag compound)
+    @Override public void addAdditionalSaveData(CompoundTag valueOutput)
     {
-        super.addAdditionalSaveData(compound);
-        compound.putBoolean("Disappearing", this.isAttacking());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putBoolean("Disappearing", this.isAttacking());
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compound)
+    @Override public void readAdditionalSaveData(CompoundTag valueInput)
     {
-        super.readAdditionalSaveData(compound);
-        if (compound.getBoolean("Disappearing")) {this.setAttacking();}
+        super.readAdditionalSaveData(valueInput);
+        if (valueInput.contains("Disappearing") && valueInput.getBoolean("Disappearing")) {this.setAttacking();}
     }
 
     public boolean isAttacking() {return this.entityData.get(ATTACKING);}

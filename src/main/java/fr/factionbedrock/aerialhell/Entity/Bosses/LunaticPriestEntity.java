@@ -1,39 +1,54 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
-import fr.factionbedrock.aerialhell.Entity.AI.*;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.FlyMoveHelperController;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.FlyingLookAroundGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.RandomFlyGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.ShootProjectileGoal;
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.LunarMisleadableEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
+import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.BossEvent;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.BossEvent;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-public class LunaticPriestEntity extends AbstractBossEntity
+import javax.annotation.Nullable;
+
+public class LunaticPriestEntity extends AbstractBossEntity implements GoalConditionEntity.PhaseAwareGoalConditionEntity, LunarMisleadableEntity
 {
+	public static final int BOTH_PHASES_GOALS = 0, PHASE_1_GOALS = 1, PHASE_2_GOALS = 2;
 	public int attackTimer;
-	
+
+	public final ActivableEntityInfo.ActivationMethod PRIEST_ACTIVATION_METHOD = this.AERIAL_HELL_ACTIVABLE_ACTIVATION_METHOD.copy().validTargetCondition((activableEntity, potentialTarget) -> potentialTarget instanceof Player && !((LunaticPriestEntity)activableEntity).isMisleadedBy(potentialTarget));
+	public final ActivableEntityInfo PRIEST_ACTIVABLE_INFO = new ActivableEntityInfo(ACTIVE, PRIEST_ACTIVATION_METHOD);
+	/* ---------------------------- */
+
 	public LunaticPriestEntity(EntityType<? extends Monster> type, Level world)
 	{
 		super(type, world);
@@ -41,23 +56,72 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		bossInfo.setColor(BossEvent.BossBarColor.YELLOW);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 	}
+
+	/* ---------- ActivableEntity : Interface methods implementation ---------- */
+	@Override public ActivableEntityInfo getActivableInfo() {return this.PRIEST_ACTIVABLE_INFO;} //override for lunar mislead in activation condition
+	/* ------------------------------------------------------------------------ */
+
+	/* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
+	@Override public boolean hurt(DamageSource source, float amount)
+	{
+		if (this.level() instanceof ServerLevel serverLevel)
+		{
+			return this.misleadableHurtServer(serverLevel, source, amount, this::lunaticPriestHurtServer);
+		}
+		return false;
+	}
+
+	@Override public void die(DamageSource damageSource)
+	{
+		this.misleadableDie(damageSource);
+		super.die(damageSource);
+	}
+
+	@Override public boolean canAttack(LivingEntity target) {return this.misleadableCanAttack(target, super::canAttack);}
+	/* ------------------------------------------------------------------------------------------ */
+
+	/* ------- MisleadableEntity : Interface methods Overridden for specific behavior ------- */
+	@Override public boolean canMisleaderHurt() {return false;}
+	/* -------------------------------------------------------------------------------------- */
+
+	/* ----- GoalConditionEntity.PhaseAwareGoalConditionEntity : Interface method implementation ----- */
+	@Override public boolean checkGoalCondition(int conditionIndex) {return this.canUseGoalsAdditionalCondition(conditionIndex);} //need to override checkGoalCondition because priest implements both GoalSimpleConditionEntity and PhaseAwareGoalConditionEntity
+
+	@Override public boolean canUseGoalsAdditionalCondition(int goalIndex)
+	{
+		if (!super.canUseGoalsAdditionalCondition()) {return false;}
+		else
+		{
+			if (goalIndex == BOTH_PHASES_GOALS) {return true;}
+			else if (goalIndex == PHASE_1_GOALS)
+			{
+				return this.isInPhase1();
+			}
+			else if (goalIndex == PHASE_2_GOALS)
+			{
+				return this.isInPhase2();
+			}
+			return false;
+		}
+	}
+	/* ----------------------------------------------------------------------------------------------- */
 	
-	@Override
-    protected void registerGoals()
+	@Override protected void registerGoals()
     {
 		/*Phase 1 only*/
-		this.goalSelector.addGoal(5, new LunaticPriestEntity.PriestRandomFlyGoal(this));
-		this.goalSelector.addGoal(7, new GhastLikeGoals.LookAroundGoal(this));
-		this.goalSelector.addGoal(6, new PriestLookRandomlyGoal(this));
+		this.goalSelector.addGoal(5, new ConditionalGoal(this, PHASE_1_GOALS, new RandomFlyGoal(this)));
+		this.goalSelector.addGoal(7, new ConditionalGoal(this, PHASE_1_GOALS, new FlyingLookAroundGoal(this)));
 		/*Phase 2 only*/
-	    this.goalSelector.addGoal(4, new PriestWaterAvoidingRandomWalkingGoal(this, 1.0D));
-	    this.goalSelector.addGoal(5, new ActiveLookAtPlayerGoal(this, Player.class, 8.0F));
+		this.goalSelector.addGoal(6, new ConditionalGoal(this, PHASE_2_GOALS, new RandomLookAroundGoal(this)));
+	    this.goalSelector.addGoal(4, new ConditionalGoal(this, PHASE_2_GOALS, new WaterAvoidingRandomStrollGoal(this, 1.0D)));
 	    /*Both phases*/
-	    this.goalSelector.addGoal(2, new LunaticPriestEntity.LunaticProjectileAttackGoal(this));
-	    this.goalSelector.addGoal(3, new ActiveMeleeAttackGoal(this, 1.25D, false));
-	    this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-	    this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
-	    this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
+		this.goalSelector.addGoal(5, new ConditionalGoal(this, BOTH_PHASES_GOALS, new LookAtPlayerGoal(this, Player.class, 8.0F)));
+	    this.goalSelector.addGoal(2, new ConditionalGoal(this, BOTH_PHASES_GOALS, new LunaticProjectileAttackGoal(this)));
+	    this.goalSelector.addGoal(3, new ConditionalGoal(this, BOTH_PHASES_GOALS, new MeleeAttackGoal(this, 1.25D, false)));
+	    this.targetSelector.addGoal(2, new ConditionalGoal(this, BOTH_PHASES_GOALS, new NearestAttackableTargetGoal<>(this, Player.class, true, (potentialTarget) -> !this.isMisleadedBy(potentialTarget))));
+		/*Independant of phases*/
+		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+		this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }
 	
 	public float getMaxHealthForPhase2() {return this.getMaxHealth() / 2;}
@@ -87,7 +151,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	{
 		if (nextPhase == BossPhase.FIRST_PHASE)
 		{
-			this.moveControl = new GhastLikeGoals.MoveHelperController(this);
+			this.moveControl = new FlyMoveHelperController(this);
 			this.setDeltaMovement(this.getDeltaMovement().add(0,2,0));
 		}
 		else if (nextPhase == BossPhase.SECOND_PHASE)
@@ -105,7 +169,7 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		else {return false;}
 	}
 	
-	@Override public boolean hurt(DamageSource source, float amount)
+	public boolean lunaticPriestHurtServer(DamageSource source, float amount)
 	{
 		boolean flag = super.hurt(source, amount);
 		if (flag)
@@ -145,7 +209,10 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		if (flag)
 		{
 			attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().x, (double)0.4F, attackedEntity.getDeltaMovement().z);
-			if (level() instanceof ServerLevel serverLevel) {EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);}
+			if (this.level() instanceof ServerLevel serverLevel)
+			{
+				EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);
+			}
 		}
 
 		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
@@ -232,29 +299,13 @@ public class LunaticPriestEntity extends AbstractBossEntity
 	/*
 	 * Goals
 	 */
-
-	static class PriestRandomFlyGoal extends GhastLikeGoals.RandomFlyGoal
-	{
-		public PriestRandomFlyGoal(LunaticPriestEntity priestIn) {super(priestIn);}
-		
-		@Override public boolean canUse()
-		{
-			LunaticPriestEntity priest = (LunaticPriestEntity) this.getParentEntity();
-			if (!priest.isActive() || priest.isInPhase2()) {return false;}
-			else {return super.canUse();}
-		}
-	}
-
-	public static class LunaticProjectileAttackGoal extends GhastLikeGoals.ShootProjectileGoal
+	public static class LunaticProjectileAttackGoal extends ShootProjectileGoal
 	{
 		public LunaticProjectileAttackGoal(LunaticPriestEntity entity) {super(entity);}
 
-		@Override public boolean canUse()
+		@Override public boolean isValidTarget(@Nullable LivingEntity target)
 		{
-			LunaticPriestEntity priest = (LunaticPriestEntity)this.getParentEntity();
-			if (!priest.isActive()) {return false;}
-			LivingEntity target = priest.getTarget();
-			return super.canUse() && priest.hasLineOfSight(target) && target.isAlive() && priest.canAttack(target);
+			return super.isValidTarget(target) && this.getParentEntity().hasLineOfSight(target);
 		}
 
 		@Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ)
@@ -274,18 +325,6 @@ public class LunaticPriestEntity extends AbstractBossEntity
 		@Override public double getYProjectileOffset() {return 0.5D;}
 		@Override protected void setAttacking(boolean bool) {}
 		@Override public SoundEvent getShootSound() {return null;}
-	}
-	
-	public static class PriestLookRandomlyGoal extends ActiveRandomLookAroundGoal
-	{		
-		public PriestLookRandomlyGoal(LunaticPriestEntity priestIn) {super(priestIn);}
-		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((LunaticPriestEntity) this.activableGoalOwner).isInPhase2();}
-	}
-	
-	public static class PriestWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
-	{
-		public PriestWaterAvoidingRandomWalkingGoal(LunaticPriestEntity priestIn, double speedIn) {super(priestIn, speedIn);}
-		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((LunaticPriestEntity) this.getGoalOwner()).isInPhase2();}
 	}
 	
 	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_LUNATIC_PRIEST_AMBIENT.get();}

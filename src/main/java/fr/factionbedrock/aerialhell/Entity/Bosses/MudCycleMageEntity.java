@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
-import fr.factionbedrock.aerialhell.Entity.AI.*;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.SummonThreeEntitiesGoal;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralCycleMageEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
@@ -8,26 +9,25 @@ import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.FleeSunGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.goal.RestrictSunGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.Level;
 
 public class MudCycleMageEntity extends AbstractBossEntity
@@ -48,13 +48,13 @@ public class MudCycleMageEntity extends AbstractBossEntity
     {
 		this.goalSelector.addGoal(2, new RestrictSunGoal(this));
 	    this.goalSelector.addGoal(3, new FleeSunGoal(this, 1.0D));
-	    this.goalSelector.addGoal(3, new ActiveMeleeAttackGoal(this, 1.25D, false));
+	    this.goalSelector.addGoal(3, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
 	    this.goalSelector.addGoal(3, new SummonSpectralEntitiesGoal(this));
-	    this.goalSelector.addGoal(5, new ActiveWaterAvoidingRandomWalkingGoal(this, 1.0D));
-	    this.goalSelector.addGoal(6, new ActiveLookAtPlayerGoal(this, Player.class, 8.0F));
-	    this.goalSelector.addGoal(6, new ActiveRandomLookAroundGoal(this));
+	    this.goalSelector.addGoal(5, new ConditionalGoal(this, new WaterAvoidingRandomStrollGoal(this, 1.0D)));
+	    this.goalSelector.addGoal(6, new ConditionalGoal(this, new LookAtPlayerGoal(this, Player.class, 8.0F)));
+	    this.goalSelector.addGoal(6, new ConditionalGoal(this, new RandomLookAroundGoal(this)));
 	    this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-	    this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
+	    this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 	    this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, TornSpiritEntity.class, true));
 	    this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, ChainedGodEntity.class, 6.0F, 1.0D, 1.2D));
     }

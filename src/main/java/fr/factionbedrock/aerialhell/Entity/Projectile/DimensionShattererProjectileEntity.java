@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Block.CollisionCondition.IntangibleTemporary
 import fr.factionbedrock.aerialhell.BlockEntity.IntangibleTemporaryBlockEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -14,7 +15,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Fireball;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
@@ -47,7 +47,7 @@ public class DimensionShattererProjectileEntity extends Fireball
 
 	@Override public void tick()
 	{
-		if (this.level().isClientSide || (this.getOwner() == null || !this.getOwner().isRemoved()) && this.level().hasChunkAt(this.blockPosition()))
+		if (this.level().isClientSide() || (this.getOwner() == null || !this.getOwner().isRemoved()) && this.level().hasChunkAt(this.blockPosition()))
 		{
 			Vec3 vec3 = this.getDeltaMovement();
 			double d0 = this.getX() + vec3.x;
@@ -61,7 +61,7 @@ public class DimensionShattererProjectileEntity extends Fireball
 
 		if (this.tickCount < 100)
 		{
-			if (!this.level().isClientSide)
+			if (!this.level().isClientSide())
 			{
 				BlockPos pos;
 				for (int x=-2; x<=2; x++)
@@ -80,7 +80,7 @@ public class DimensionShattererProjectileEntity extends Fireball
 									{
 										IntangibleTemporaryBlock intangibleBlock = ((IntangibleTemporaryBlock) AerialHellBlocksAndItems.INTANGIBLE_TEMPORARY_BLOCK.get());
 										this.level().setBlock(pos, intangibleBlock.defaultBlockState(), 2);
-										setIntangibleTemporaryBlockEntityBeforeState(this.level(), pos, beforeState);
+										BlockHelper.setIntangibleTemporaryBlockEntityBeforeState(this.level(), pos, beforeState);
 									}
 									else
 									{
@@ -106,10 +106,4 @@ public class DimensionShattererProjectileEntity extends Fireball
 	}
 
 	@Nullable @Override protected ParticleOptions getTrailParticle() {return null;}
-
-	public static void setIntangibleTemporaryBlockEntityBeforeState(LevelAccessor level, BlockPos pos, @Nullable BlockState state)
-	{
-		BlockEntity blockentity = level.getBlockEntity(pos);
-		if (blockentity instanceof IntangibleTemporaryBlockEntity intangibleblockentity) {intangibleblockentity.setBeforeState(state);}
-	}
 }

@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
@@ -50,7 +49,7 @@ public abstract class AbstractHumanoidMonster extends Zombie
     @Override public void setBaby(boolean isBaby)
     {
         super.setBaby(isBaby);
-        if (!this.level().isClientSide)
+        if (!this.level().isClientSide())
         {
             AttributeInstance attributeinstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
             attributeinstance.removeModifier(SPEED_MODIFIER_BABY.id());

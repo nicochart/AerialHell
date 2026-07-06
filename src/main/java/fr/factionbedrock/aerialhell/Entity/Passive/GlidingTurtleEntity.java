@@ -2,23 +2,24 @@ package fr.factionbedrock.aerialhell.Entity.Passive;
 
 import fr.factionbedrock.aerialhell.Entity.AI.GlideGoal;
 import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
-import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.Nullable;
 
@@ -68,7 +69,7 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
 
     @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob mob)
     {
-        return AerialHellEntities.GLIDING_TURTLE.get().create(this.level());
+        return AerialHellEntities.GLIDING_TURTLE.get().create(world);
     }
     
     public boolean isGliding() {return !this.entityData.get(GLIDING);}
@@ -87,17 +88,18 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
         if (ambientSound != null) {this.playSound(ambientSound, this.ateTimer <= 0 ? this.getSoundVolume() : 0.0F, this.getVoicePitch());}
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag compound)
+    @Override public void addAdditionalSaveData(CompoundTag valueOutput)
     {
-        super.addAdditionalSaveData(compound);
-        compound.putBoolean("Glide", this.isGliding());
-        compound.putInt("AteTimer", this.ateTimer);
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putBoolean("Glide", this.isGliding());
+        valueOutput.putInt("AteTimer", this.ateTimer);
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compound)
+    @Override public void readAdditionalSaveData(CompoundTag valueInput)
     {
-        super.readAdditionalSaveData(compound);
-        this.setGliding(compound.getBoolean("Glide"));
-        this.ateTimer = compound.getInt("AteTimer");
+        super.readAdditionalSaveData(valueInput);
+        this.setGliding(valueInput.contains("Glide") ? valueInput.getBoolean("Glide") :  false);
+        if (valueInput.contains("AteTimer")) {this.ateTimer = valueInput.getInt("AteTimer");}
+
     }
 }

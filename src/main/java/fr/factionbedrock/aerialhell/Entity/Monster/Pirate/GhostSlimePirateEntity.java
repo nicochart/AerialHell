@@ -1,50 +1,88 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
-import fr.factionbedrock.aerialhell.Entity.AI.GhostGoals;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhostPirateWaterAvoidingRandomStrollGoal;
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.MisleadableEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 
-public class GhostSlimePirateEntity extends AbstractSlimePirateEntity
+public class GhostSlimePirateEntity extends AbstractSlimePirateEntity implements MisleadableEntity, GoalConditionEntity.GoalSimpleConditionEntity
 {
     public GhostSlimePirateEntity(EntityType<? extends GhostSlimePirateEntity> type, Level world) {super(type, world);}
+
+    /* ------- MisleadableEntity : Interface method implementation ------- */
+    @Override public boolean isMisleadedBy(LivingEntity livingEntity)
+    {
+        return EntityHelper.isImmuneToGhostBlockCollision(livingEntity);
+    }
+    /* ------------------------------------------------------------------- */
+
+    /* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
+    @Override public boolean hurt(DamageSource source, float amount)
+    {
+        if (this.level() instanceof ServerLevel serverLevel)
+        {
+            return this.misleadableHurtServer(serverLevel, source, amount, super::hurt);
+        }
+        return false;
+    }
+
+    @Override public void die(DamageSource damageSource)
+    {
+        this.misleadableDie(damageSource);
+        super.die(damageSource);
+    }
+
+    @Override public boolean canAttack(LivingEntity target) {return this.misleadableCanAttack(target, super::canAttack);}
+    /* ------------------------------------------------------------------------------------------ */
+
+    /* ------- MisleadableEntity : Interface methods Overridden for specific behavior ------- */
+    @Override public boolean canMisleaderHurt() {return false;}
+    @Override public TraitorTrigger traitorTrigger(DamageSource damageSource) {return TraitorTrigger.NEVER;}
+    /* -------------------------------------------------------------------------------------- */
+
+    /* ------- GoalSimpleConditionEntity : Interface method implementation ------- */
+    @Override public PathfinderMob getSelf() {return this;}
+
+    @Override public boolean canUseGoalsAdditionalCondition() {return !EntityHelper.isImmuneToGhostBlockCollision(this.getTarget());}
+    /* --------------------------------------------------------------------------- */
 
     @Override protected void registerBaseGoals()
     {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.goalSelector.addGoal(3, new GhostGoals.GhostPirateWaterAvoidingRandomStrollGoal(this, 0.6D));
+        this.goalSelector.addGoal(3, new GhostPirateWaterAvoidingRandomStrollGoal(this, 0.6D));
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
     }
 
     @Override protected void registerSpecificGoals()
     {
-        this.goalSelector.addGoal(2, new GhostGoals.GhostPirateMeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.addGoal(4, new GhostGoals.GhostPirateLookAtPlayerGoal(this, Player.class, 8.0F));
-        this.targetSelector.addGoal(2, new GhostGoals.GhostPirateNearestAttackableTargetGoal<>(this, Player.class, true));
+        this.goalSelector.addGoal(2, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.addGoal(4, new ConditionalGoal(this, new LookAtPlayerGoal(this, Player.class, 8.0F)));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, (potentialTarget) -> !this.isMisleadedBy(potentialTarget)));
     }
 
     @Override public EntityType<? extends AbstractSlimePirateEntity> getDieOffspringType() {return AerialHellEntities.GHOST_SLIME_PIRATE.get();}
 
     @Override public EntityType<? extends AbstractSlimePirateEntity> getType() {return AerialHellEntities.GHOST_SLIME_PIRATE.get();}
-
-    @Override public boolean hurt(DamageSource damageSource, float amount)
-    {
-        Entity sourceEntity = damageSource.getEntity();
-        if (EntityHelper.isImmuneToGhostBlockCollision(sourceEntity) && !EntityHelper.isCreaOrSpecPlayer(sourceEntity)) {return false;}
-        return super.hurt(damageSource, amount);
-    }
 
     @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand)
     {

@@ -5,18 +5,17 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LunaticPriestEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
-import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 public class LunaticProjectileEntity extends AbstractLightProjectileEntity

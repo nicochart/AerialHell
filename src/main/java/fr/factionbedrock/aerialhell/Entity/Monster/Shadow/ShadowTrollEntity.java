@@ -2,50 +2,75 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Shadow;
 
 import com.google.common.collect.ImmutableList;
 import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
+import fr.factionbedrock.aerialhell.Entity.Monster.ShadowMisleadableEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 
 import java.util.List;
 
-public class ShadowTrollEntity extends Monster
+public class ShadowTrollEntity extends Monster implements ShadowMisleadableEntity
 {
 	public static final EntityDataAccessor<Boolean> DISAPPEARING = SynchedEntityData.<Boolean>defineId(ShadowTrollEntity.class, EntityDataSerializers.BOOLEAN);
 	private int timeDisappearing;
-	
+
     public ShadowTrollEntity(EntityType<? extends ShadowTrollEntity> type, Level worldIn)
     {
         super(type, worldIn);
     }
-    
-    @Override
-    protected void registerGoals()
+
+    /* ------- MisleadableEntity : Interface method implementation ------- */
+    @Override public Mob getSelf() {return this;}
+    /* ------------------------------------------------------------------- */
+
+    /* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
+    @Override public boolean hurt(DamageSource source, float amount)
+    {
+        if (this.level() instanceof ServerLevel serverLevel)
+        {
+            return this.misleadableHurtServer(serverLevel, source, amount, super::hurt);
+        }
+        return false;
+    }
+
+    @Override public void die(DamageSource damageSource)
+    {
+        this.misleadableDie(damageSource);
+        super.die(damageSource);
+    }
+
+    @Override public boolean canAttack(LivingEntity target) {return this.misleadableCanAttack(target, super::canAttack);}
+    /* ------------------------------------------------------------------------------------------ */
+
+    @Override protected void registerGoals()
     {
         List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocksAndItems.VOLUCITE_TORCH.get(), AerialHellBlocksAndItems.VOLUCITE_WALL_TORCH.get());
         this.goalSelector.addGoal(1, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, (potentialTarget) -> !this.isMisleadedBy(potentialTarget)));
 		this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.25D, false));
 		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.6D));
@@ -136,16 +161,16 @@ public class ShadowTrollEntity extends Monster
         builder.define(DISAPPEARING, false);
     }
     
-    @Override public void addAdditionalSaveData(CompoundTag compound)
+    @Override public void addAdditionalSaveData(CompoundTag valueOutput)
     {
-        super.addAdditionalSaveData(compound);
-        compound.putBoolean("Disappearing", this.isDisappearing());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putBoolean("Disappearing", this.isDisappearing());
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compound)
+    @Override public void readAdditionalSaveData(CompoundTag valueInput)
     {
-        super.readAdditionalSaveData(compound);
-        this.setDisappearing(compound.getBoolean("Disappearing"));
+        super.readAdditionalSaveData(valueInput);
+        this.setDisappearing(valueInput.contains("Disappearing") ? valueInput.getBoolean("Disappearing") : false);
     }
     
     public boolean isDisappearing() {return this.entityData.get(DISAPPEARING);}

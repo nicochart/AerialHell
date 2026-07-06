@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Shuriken;
 
-import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.ShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.entity.player.Player;
@@ -32,7 +32,7 @@ public abstract class AbstractShurikenItem extends Item
 		
 		if (!worldIn.isClientSide())
 		{
-			AbstractShurikenEntity shuriken = this.getShurikenEntity(playerIn, worldIn);
+			ShurikenEntity shuriken = this.getShurikenEntity(playerIn, worldIn);
 			shuriken.shootFromRotation(playerIn, playerIn.getXRot(), playerIn.getYRot(), 0.0F, this.getVelocity(), this.getInaccuracy());
 			//shuriken.setShooter(playerIn); shooter is not detected
 			worldIn.addFreshEntity(shuriken);
@@ -44,5 +44,5 @@ public abstract class AbstractShurikenItem extends Item
 	abstract protected float getVelocity();
 	abstract protected float getInaccuracy();
 	abstract protected int getCooldown();
-	abstract protected AbstractShurikenEntity getShurikenEntity(Player playerIn, Level worldIn);
+	abstract protected ShurikenEntity getShurikenEntity(Player playerIn, Level worldIn);
 }

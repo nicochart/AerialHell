@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.Entity.Passive;
 import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -25,7 +24,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.*;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 
 import javax.annotation.Nullable;
@@ -64,16 +66,16 @@ public class StellarChickenEntity extends Chicken
         builder.define(COLOR, 0);
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag compound)
+    @Override public void addAdditionalSaveData(CompoundTag valueOutput)
     {
-        super.addAdditionalSaveData(compound);
-        compound.putInt("Color", this.getColor());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putInt("Color", this.getColor());
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compound)
+    @Override public void readAdditionalSaveData(CompoundTag valueInput)
     {
-        super.readAdditionalSaveData(compound);
-        this.setColor(compound.getInt("Color"));
+        super.readAdditionalSaveData(valueInput);
+        this.setColor(valueInput.contains("Color") ? valueInput.getInt("Color") : 0);
     }
 
     public int getColor() {return this.entityData.get(COLOR);}
@@ -108,10 +110,10 @@ public class StellarChickenEntity extends Chicken
                 .add(Attributes.MOVEMENT_SPEED, 0.3);
     }
 
-    @Nullable @Override public ItemEntity spawnAtLocation(ItemLike item)
+    @Nullable @Override public ItemEntity spawnAtLocation(ItemStack itemStack)
     {
-        if (item == Items.EGG) {return super.spawnAtLocation(AerialHellBlocksAndItems.STELLAR_EGG.get());}
-        else {return super.spawnAtLocation(item);}
+        if (itemStack.getItem() == Items.EGG) {return super.spawnAtLocation(AerialHellBlocksAndItems.STELLAR_EGG.toStack());}
+        else {return super.spawnAtLocation(itemStack);}
     }
 
     @Override public float getWalkTargetValue(BlockPos pos, LevelReader worldIn)

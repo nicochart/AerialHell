@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Spider;
 
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;

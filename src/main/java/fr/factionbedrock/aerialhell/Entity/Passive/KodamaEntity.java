@@ -82,7 +82,7 @@ public class KodamaEntity extends AerialHellAnimalEntity
 
     @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob mob)
     {
-        return AerialHellEntities.KODAMA.get().create(this.level());
+        return AerialHellEntities.KODAMA.get().create(world);
     }
 
     public int getFaceId() {return this.entityData.get(FACE_ID);}
@@ -141,21 +141,21 @@ public class KodamaEntity extends AerialHellAnimalEntity
         if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getVoicePitch());}
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag compound)
+    @Override public void addAdditionalSaveData(CompoundTag valueOutput)
     {
-        super.addAdditionalSaveData(compound);
-        compound.putInt("FaceId", this.getFaceId());
-        compound.putInt("SizeId", this.getSizeId());
-        compound.putBoolean("IsRattling", this.isRattling());
-        compound.putInt("TiltAngle", this.getRattlingTiltAngle());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putInt("FaceId", this.getFaceId());
+        valueOutput.putInt("SizeId", this.getSizeId());
+        valueOutput.putBoolean("IsRattling", this.isRattling());
+        valueOutput.putInt("TiltAngle", this.getRattlingTiltAngle());
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compound)
+    @Override public void readAdditionalSaveData(CompoundTag valueInput)
     {
-        super.readAdditionalSaveData(compound);
-        this.setFaceId(compound.getInt("FaceId"));
-        this.setSizeId(compound.getInt("SizeId"));
-        this.setRattling(compound.getBoolean("IsRattling"));
-        this.setRattlingTiltAngle(compound.getInt("TiltAngle"));
+        super.readAdditionalSaveData(valueInput);
+        if (valueInput.contains("FaceId")) {this.setFaceId(valueInput.getInt("FaceId"));}
+        if (valueInput.contains("SizeId")) {this.setSizeId(valueInput.getInt("SizeId"));}
+        this.setRattling(valueInput.contains("IsRattling") ? valueInput.getBoolean("IsRattling") : false);
+        if (valueInput.contains("TiltAngle")) {this.setRattlingTiltAngle(valueInput.getInt("TiltAngle"));}
     }
 }

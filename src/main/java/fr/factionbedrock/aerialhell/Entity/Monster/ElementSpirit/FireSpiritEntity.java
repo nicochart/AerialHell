@@ -1,18 +1,18 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit;
 
-import javax.annotation.Nullable;
-
-import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.Level;
+
+import javax.annotation.Nullable;
 
 public class FireSpiritEntity extends AbstractElementSpiritEntity
 {

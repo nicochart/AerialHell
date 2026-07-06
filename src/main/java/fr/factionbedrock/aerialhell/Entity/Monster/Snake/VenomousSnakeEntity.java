@@ -1,10 +1,14 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Snake;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.util.valueproviders.*;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.valueproviders.IntProvider;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;

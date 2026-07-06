@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Mud;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -46,7 +47,7 @@ public class MudSpectralCycleMageEntity extends Monster implements MudSpectralEn
     @Override public boolean hurt(DamageSource source, float amount)
     {
         boolean flag = super.hurt(source, amount);
-        if (flag && this.master.isAlive()) //damage master without showing
+        if (flag && this.master != null && this.master.isAlive()) //damage master without showing
         {
             if (!this.master.isInvulnerableTo(source) && this.master.getHealth() > 20.0F)
             {

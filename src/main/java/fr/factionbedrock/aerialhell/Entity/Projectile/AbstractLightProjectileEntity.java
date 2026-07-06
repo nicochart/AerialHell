@@ -4,18 +4,14 @@ import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
@@ -24,11 +20,12 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
     private int ticksInAir = 0;
     public AbstractLightProjectileEntity(EntityType<? extends AbstractLightProjectileEntity> type, Level world) {super(type, world);}
 
-    public AbstractLightProjectileEntity(EntityType<? extends AbstractLightProjectileEntity> type, LivingEntity shooter, Level world)
+    protected AbstractLightProjectileEntity(EntityType<? extends ThrowableProjectile> type, LivingEntity shooter, Level level)
     {
-        super(type, shooter, world);
+        super(type, shooter.getX(), shooter.getEyeY() - 0.1F, shooter.getZ(), level);
         this.setOwner(shooter);
     }
+
     @Override public void shoot(double x, double y, double z, float velocity, float inaccuracy)
     {
     	super.shoot(x, y, z, velocity, inaccuracy);
@@ -51,7 +48,6 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
         {
             transformBlocks(serverLevel, this, this.getShiftType());
         }
-
     }
 
     static void transformBlocks(ServerLevel level, AbstractLightProjectileEntity projectile, BiomeShifter.ShiftType shiftType)

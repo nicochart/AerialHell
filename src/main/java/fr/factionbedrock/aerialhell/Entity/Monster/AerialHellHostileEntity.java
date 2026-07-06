@@ -1,18 +1,16 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-
-import java.util.Random;
-
-import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.world.level.ServerLevelAccessor;
 
 public abstract class AerialHellHostileEntity extends Monster
