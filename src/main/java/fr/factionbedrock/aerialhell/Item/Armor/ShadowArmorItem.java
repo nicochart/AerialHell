@@ -1,11 +1,12 @@
 package fr.factionbedrock.aerialhell.Item.Armor;
 
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
+import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterial;
+import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -17,9 +18,9 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-public class ShadowArmorItem extends ArmorItem
+public class ShadowArmorItem extends AerialHellArmorItem
 {
-    public ShadowArmorItem(Holder<ArmorMaterial> pMaterial, Type pType, Properties pProperties) {super(pMaterial, pType, pProperties);}
+    public ShadowArmorItem(AerialHellArmorMaterial material, Type type, Properties properties) {super(material, type, new AttributeEntryList(), properties);}
 
     @Override public void inventoryTick(ItemStack stack, Level level, Entity entity, int itemSlot, boolean isSelected)
     {
