@@ -9,9 +9,10 @@ import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.*;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,11 +30,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.common.ItemAbilities;
 import org.jetbrains.annotations.Nullable;
@@ -53,6 +53,10 @@ import java.util.function.Predicate;
 public class AerialHellItem extends WithInformationItem
 {
 	public final int maxUseDuration;
+	public final int enchantmentValue;
+	public final boolean canDestroyBlocksInCreative;
+	public final boolean canDisableShield;
+	public final Ingredient repairIngredient;
 	public final UseAnim itemUseAnimation;
 	@Nullable public final AbilitySelector abilitySelector;
 	public final List<UseInteractionType> useInteractionToolTypes;
@@ -61,13 +65,16 @@ public class AerialHellItem extends WithInformationItem
 	{
 		super(properties);
 		this.maxUseDuration = properties.maxUseDuration;
+		this.enchantmentValue = properties.enchantmentValue;
+		this.canDestroyBlocksInCreative = properties.canDestroyBlocksInCreative;
+		this.canDisableShield = properties.canDisableShield;
+		this.repairIngredient = properties.repairIngredient;
 		this.itemUseAnimation = properties.itemUseAnimation;
 		this.abilitySelector = properties.abilitySelector;
 		this.useInteractionToolTypes = properties.useInteractionTypes;
 	}
 
 	//applying tick (passive) tool ability modules
-
 	@Override public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected)
 	{
 		if (level.isClientSide) {return;}
@@ -177,6 +184,14 @@ public class AerialHellItem extends WithInformationItem
 			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".cooldown.desc", ChatFormatting.GRAY);
 		}
 	}
+
+	@Override public int getEnchantmentValue() {return this.enchantmentValue;}
+
+	@Override public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {return this.canDestroyBlocksInCreative || !player.isCreative();}
+
+	@Override public boolean isValidRepairItem(ItemStack toRepair, ItemStack repairIngredient) {return this.repairIngredient.test(repairIngredient) || super.isValidRepairItem(toRepair, repairIngredient);}
+
+	@Override public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {return this.canDisableShield;}
 
 	//inspired of vanilla ShovelItem, AxeItem and HoeItem
 	@Override public InteractionResult useOn(UseOnContext context)
@@ -359,49 +374,58 @@ public class AerialHellItem extends WithInformationItem
 	public static class Properties extends Item.Properties
 	{
 		private int maxUseDuration;
+		private int enchantmentValue;
+		private boolean canDestroyBlocksInCreative;
+		private boolean canDisableShield;
+		private Ingredient repairIngredient;
 		private UseAnim itemUseAnimation;
 		@Nullable private AbilitySelector abilitySelector;
 		private List<UseInteractionType> useInteractionTypes;
-		public Properties() {super(); this.maxUseDuration = 0; this.itemUseAnimation = UseAnim.NONE; this.useInteractionTypes = new ArrayList<>();}
+		public Properties() {super(); this.maxUseDuration = 0; this.enchantmentValue = 0; this.canDestroyBlocksInCreative = true; this.canDisableShield = false; this.repairIngredient = Ingredient.of(); this.itemUseAnimation = UseAnim.NONE; this.useInteractionTypes = new ArrayList<>();}
 
-		public Properties tool(AerialHellToolMaterial material, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes, float disableBlockingSeconds)
+		public int maxUseDuration() {return this.maxUseDuration;}
+		@Nullable public AbilitySelector abilitySelector() {return this.abilitySelector;}
+
+		public Properties tool(AerialHellToolMaterial material, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
-			return new Properties();//material.applyToolProperties(this, minesEfficiently, attackDamage, attackSpeed, additionalAttributes, disableBlockingSeconds);
+			return material.applyToolProperties(this, minesEfficiently, attackDamage, attackSpeed, additionalAttributes);
 		}
 
 		public Properties pickaxe(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.pickaxe(material, attackDamage, attackSpeed, new AttributeEntryList());}
 		public Properties pickaxe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.pickaxe(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
 		public Properties pickaxe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
-			return this.tool(material, BlockTags.MINEABLE_WITH_PICKAXE, attackDamage, attackSpeed, additionalAttributes, 0.0F);
+			return this.tool(material, BlockTags.MINEABLE_WITH_PICKAXE, attackDamage, attackSpeed, additionalAttributes);
 		}
 
 		public Properties axe(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.axe(material, attackDamage, attackSpeed, new AttributeEntryList());}
 		public Properties axe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.axe(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
 		public Properties axe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
-			return this.tool(material, BlockTags.MINEABLE_WITH_AXE, attackDamage, attackSpeed, additionalAttributes, 5.0F);
+			this.canDisableShield = true;
+			return this.tool(material, BlockTags.MINEABLE_WITH_AXE, attackDamage, attackSpeed, additionalAttributes);
 		}
 
 		public Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.hoe(material, attackDamage, attackSpeed, new AttributeEntryList());}
 		public Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.hoe(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
 		public Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
-			return this.tool(material, BlockTags.MINEABLE_WITH_HOE, attackDamage, attackSpeed, additionalAttributes, 0.0F);
+			return this.tool(material, BlockTags.MINEABLE_WITH_HOE, attackDamage, attackSpeed, additionalAttributes);
 		}
 
 		public Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.shovel(material, attackDamage, attackSpeed, new AttributeEntryList());}
 		public Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.shovel(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
 		public Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
-			return this.tool(material, BlockTags.MINEABLE_WITH_SHOVEL, attackDamage, attackSpeed, additionalAttributes, 0.0F);
+			return this.tool(material, BlockTags.MINEABLE_WITH_SHOVEL, attackDamage, attackSpeed, additionalAttributes);
 		}
 
 		public Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.sword(material, attackDamage, attackSpeed, new AttributeEntryList());}
 		public Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.sword(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
 		public Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
-			return new Properties();//material.applySwordProperties(this, attackDamage, attackSpeed, additionalAttributes);
+			this.canDestroyBlocksInCreative = false;
+			return material.applySwordProperties(this, attackDamage, attackSpeed, additionalAttributes);
 		}
 
 		public Properties maxUseDuration(int useDuration) {this.maxUseDuration = useDuration; return this;}
@@ -423,6 +447,10 @@ public class AerialHellItem extends WithInformationItem
 		@Override public Properties stacksTo(int max) {return (Properties) super.stacksTo(max);}
 
 		@Override public <T> Properties component(DataComponentType<T> type, T value) {return (Properties) super.component(type, value);}
+
+		public Properties enchantable(int value) {this.enchantmentValue = value; return this;}
+
+		public Properties repairable(Ingredient ingredient) {this.repairIngredient = ingredient; return this;}
 	}
 
 	//"tool types" that can be used with right click

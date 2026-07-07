@@ -2,9 +2,11 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
+import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
@@ -26,13 +28,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public class BerserkAxeItem extends EffectAxeItem
+public class BerserkAxeItem extends AerialHellItem
 {
 	private int weight_ticks;
 	
-	public BerserkAxeItem(Tier tier, Properties builderIn)
+	public BerserkAxeItem(Properties properties)
 	{
-		super(tier, builderIn);
+		super(properties);
 		this.weight_ticks = 0;
 	}
 	
@@ -161,14 +163,9 @@ public class BerserkAxeItem extends EffectAxeItem
 		}
 	}
 
-	@Override
-	public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
+	@Override public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipAdder, TooltipFlag flag)
 	{
-		components.add(this.getDescription().append(Integer.toString(getStatus())).withStyle(ChatFormatting.GRAY));
-	}
-
-	public MutableComponent getDescription()
-	{
-		return Component.translatable(this.getDescriptionId() + ".desc");
+		this.getOptionalItemDescription(1).ifPresent(description -> tooltipAdder.add(description.withStyle(ChatFormatting.GRAY)));
+		this.getOptionalItemDescription(2).ifPresent(description -> tooltipAdder.add(description.append(Integer.toString(getStatus())).withStyle(ChatFormatting.GRAY)));
 	}
 }

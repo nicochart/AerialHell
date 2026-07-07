@@ -2,7 +2,10 @@ package fr.factionbedrock.aerialhell.Util;
 
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Item.AerialHellItem;
+import fr.factionbedrock.aerialhell.Item.Armor.AerialHellArmorItem;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
@@ -18,10 +21,31 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.block.Block;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Predicate;
 
 public class ItemHelper
 {
+    public static void forEachAerialHellItem(List<EquippedItemStack> items, BiConsumer<AerialHellItem, EquippedItemStack> action)
+    {
+        for (EquippedItemStack e : items)
+        {
+            ItemStack stack = e.stack();
+            if (stack.getItem() instanceof AerialHellItem item) {action.accept(item, e);}
+        }
+    }
+
+    public static void forEachAerialHellArmorItem(List<EquippedItemStack> items, BiConsumer<AerialHellArmorItem, EquippedItemStack> action)
+    {
+        for (EquippedItemStack e : items)
+        {
+            ItemStack stack = e.stack();
+            if (stack.getItem() instanceof AerialHellArmorItem item) {action.accept(item, e);}
+        }
+    }
+
     public static int getItemInTagCount(Iterable<ItemStack> stuff, TagKey<Item> tag)
     {
         int count = 0;
@@ -47,19 +71,30 @@ public class ItemHelper
         return 0;
     }
 
-    public static final ResourceLocation BASE_ATTACK_DAMAGE_ID = ResourceLocation.withDefaultNamespace("base_attack_damage");
-    public static final ResourceLocation BASE_ATTACK_SPEED_ID = ResourceLocation.withDefaultNamespace("base_attack_speed");
-    public static final ResourceLocation BASE_MOVEMENT_SPEED_ID = ResourceLocation.withDefaultNamespace("base_movement_speed");
-    public static final ResourceLocation BASE_MAX_HEALTH_ID = ResourceLocation.withDefaultNamespace("base_movement_speed");
-
-    public static ItemAttributeModifiers createAerialHellToolOrWeaponAttributes(Tier tier, float attackDamage, float attackSpeed, float movementSpeedIn, float maxHealthIn)
+    public static int countItemStacksMatching(Iterable<ItemStack> itemStackList, Predicate<ItemStack> condition)
     {
-        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-        builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, attackDamage + tier.getAttackDamageBonus(), AttributeModifier.Operation.ADD_VALUE),EquipmentSlotGroup.MAINHAND);
-        builder.add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-        if (movementSpeedIn != 0) {builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(BASE_MOVEMENT_SPEED_ID, movementSpeedIn, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.MAINHAND);}
-        if (maxHealthIn != 0) {builder.add(Attributes.MAX_HEALTH, new AttributeModifier(BASE_MAX_HEALTH_ID, maxHealthIn, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);}
-        return builder.build();
+        int count = 0;
+        for (ItemStack itemStack : itemStackList)
+        {
+            if (condition.test(itemStack)) {count++;}
+        }
+        return count;
+    }
+
+    public static int countItemStacksInTag(Iterable<ItemStack> itemStackList, TagKey<Item> tag)
+    {
+        return countItemStacksMatching(itemStackList, (itemStack) -> itemStack.is(tag));
+    }
+
+    public static int countMagmaticGelStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.MAGMATIC_GEL);}
+    public static int countLunaticStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.LUNATIC_STUFF);}
+    public static int countShadowStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.SHADOW_STUFF);}
+    public static int countArsonistStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.ARSONIST_STUFF);}
+    public static int countVoluciteStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.VOLUCITE_STUFF);}
+
+    public static int countHeavyStuff(Iterable<ItemStack> itemStackList)
+    {
+        return countItemStacksMatching(itemStackList, (itemStack) -> itemStack.is(AerialHellTags.Items.OBSIDIAN_STUFF) || itemStack.is(AerialHellTags.Items.ARSONIST_STUFF));
     }
 
     public static class SmithingTemplate

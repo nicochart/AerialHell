@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
 public class ActionModule extends AbilityModule
@@ -231,27 +232,28 @@ public class ActionModule extends AbilityModule
 
     public static class Particle extends ActionModule
     {
-        public Particle(SimpleParticleType particleType, int count, float speed, EffectTarget effectTarget)
+        public Particle(Supplier<SimpleParticleType> particleType, int count, float speed, EffectTarget effectTarget)
         {
             super((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) ->
             {
+                if (particleType.get() == null) {return;}
                 @Nullable LivingEntity targetEntity = effectTarget == EffectTarget.SELF ? itemOwner : damageInfo != null && damageInfo.otherEntity() instanceof LivingEntity otherLiving ? otherLiving : null;
                 if (targetEntity != null && itemOwner.level() instanceof ServerLevel serverLevel)
                 {
-                    serverLevel.sendParticles(particleType, targetEntity.getX(), targetEntity.getY(0.5), targetEntity.getZ(), count, 0.5F, 0.5F, 0.5F, speed);
+                    serverLevel.sendParticles(particleType.get(), targetEntity.getX(), targetEntity.getY(0.5), targetEntity.getZ(), count, 0.5F, 0.5F, 0.5F, speed);
                 }
             });
         }
 
-        public static Builder onOwnerBuilder(SimpleParticleType type) {return new Builder(type, EffectTarget.SELF);}
-        public static Builder onOtherBuilder(SimpleParticleType type) {return new Builder(type, EffectTarget.OTHER);}
-        public static Builder builder(SimpleParticleType type, EffectTarget effectTarget) {return new Builder(type, effectTarget);}
+        public static Builder onOwnerBuilder(Supplier<SimpleParticleType> type) {return new Builder(type, EffectTarget.SELF);}
+        public static Builder onOtherBuilder(Supplier<SimpleParticleType> type) {return new Builder(type, EffectTarget.OTHER);}
+        public static Builder builder(Supplier<SimpleParticleType> type, EffectTarget effectTarget) {return new Builder(type, effectTarget);}
 
         public static class Builder
         {
-            private final SimpleParticleType type;
+            private final Supplier<SimpleParticleType> type;
             private final EffectTarget effectTarget;
-            private Builder(SimpleParticleType particleType, EffectTarget effectTarget) {this.type = particleType; this.effectTarget = effectTarget;}
+            private Builder(Supplier<SimpleParticleType> particleType, EffectTarget effectTarget) {this.type = particleType; this.effectTarget = effectTarget;}
 
             public Particle of(int count) {return new Particle(type, count, 0.5F, effectTarget);}
             public Particle of(int count, float speed) {return new Particle(type, count, speed, effectTarget);}
