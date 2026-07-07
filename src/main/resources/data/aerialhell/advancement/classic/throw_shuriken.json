@@ -12,7 +12,7 @@
   "criteria": {
     "threw_shuriken": {
       "trigger": "minecraft:player_hurt_entity",
-      "conditions": {"damage": {"type": {"is_projectile": true, "direct_entity": {"type": "#aerialhell:shuriken"}}}}}
+      "conditions": {"damage": {"type": {"is_projectile": true, "direct_entity": {"minecraft:entity_type": "#aerialhell:shuriken"}}}}}
   },
   "requirements": [["threw_shuriken"]],
   "rewards": {"function": "aerialhell:advancement_classic_sound"}
