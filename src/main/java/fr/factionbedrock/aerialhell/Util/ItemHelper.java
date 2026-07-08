@@ -91,7 +91,6 @@ public class ItemHelper
             return new SmithingTemplateItem(
                     makeSmithingTemplateItemDescComponent(materialName, APPLIES_TO, DESCRIPTION_FORMAT),
                     makeSmithingTemplateItemDescComponent(materialName, INGREDIENTS, DESCRIPTION_FORMAT),
-                    //makeUpgradeTitleComponent(materialName), TODO work as expected ?
                     makeSmithingTemplateItemDescComponent(materialName, BASE_SLOT_DESCRIPTION, null),
                     makeSmithingTemplateItemDescComponent(materialName, ADDITIONS_SLOT_DESCRIPTION, null),
                     SmithingTemplateItem.createNetheriteUpgradeIconList(),

@@ -29,7 +29,7 @@ public class OverworldAbandonnedPortalStructure extends AbstractAerialHellStruct
     
     public OverworldAbandonnedPortalStructure(Structure.StructureSettings config, Holder<StructureTemplatePool> startPool, Optional<Identifier> startJigsawName, int size, HeightProvider startHeight, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter)
     {
-        super(config, startPool, startJigsawName, size, startHeight, projectStartToHeightmap, maxDistanceFromCenter, List.of()); //TODO : empty list ?
+        super(config, startPool, startJigsawName, size, startHeight, projectStartToHeightmap, maxDistanceFromCenter, List.of());
     }
 
     @Override protected boolean isStructureChunk(Structure.GenerationContext context)

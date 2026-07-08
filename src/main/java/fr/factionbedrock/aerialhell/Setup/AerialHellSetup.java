@@ -75,7 +75,6 @@ public class AerialHellSetup
         bus.addListener(ToolsAndArmorEventListener::onProjectileCollideWithEntity);
         bus.addListener(ToolsAndArmorEventListener::onLivingDamageEvent);
         bus.addListener(ToolsAndArmorEventListener::onPlayerHarvest);
-        //bus.addListener(ToolsAndArmorEventListener::addReach); TODO
         bus.addListener(CustomBrewingRecipe::addBrewingRecipes);
         bus.addListener(DatapackSyncHandler::onDatapackSync);
     }
