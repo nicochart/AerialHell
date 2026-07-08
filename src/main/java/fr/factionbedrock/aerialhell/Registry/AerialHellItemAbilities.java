@@ -184,7 +184,7 @@ public class AerialHellItemAbilities
     private static final ActionModule.Sound GLASS_BREAK_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(SoundEvents.GLASS_BREAK, 1.0F, 0.25F + 0.5F * itemOwner.getRandom().nextFloat()));
     private static final ActionModule.Sound PARROT_IMITATE_MAGMA_CUBE_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(SoundEvents.PARROT_IMITATE_MAGMA_CUBE, 1.0F, 0.5F + itemOwner.getRandom().nextFloat()));
     private static final ActionModule.Sound SHURIKEN_SHOOT_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(AerialHellSoundEvents.ENTITY_SHURIKEN_SHOOT.get(), 1.0F, 1.0F / (itemOwner.getRandom().nextFloat() * 0.4F + 0.8F)));
-//    private static final ActionModule.Sound RUBY_RESONATOR_USE_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(AerialHellSoundEvents.ENTITY_RESONATOR_SHOOT.get(), 1.0F, 0.875F + 0.25F * itemOwner.getRandom().nextFloat()));
+    private static final ActionModule.Sound RUBY_RESONATOR_USE_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(AerialHellSoundEvents.ENTITY_RESONATOR_SHOOT.get(), 1.0F, 0.875F + 0.25F * itemOwner.getRandom().nextFloat()));
     private static final ActionModule.Sound FORGOTTEN_BATTLE_TRIDENT_USE_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(AerialHellSoundEvents.ITEM_FORGOTTEN_BATTLE_TRIDENT_USE.get(), 1.0F, 1.375F + 0.25F * itemOwner.getRandom().nextFloat()));
     private static final ActionModule.Sound ICE_SPIRIT_DEATH_SOUND = new ActionModule.Sound((itemOwner) -> new PlaySoundHelper(AerialHellSoundEvents.ENTITY_ICE_SPIRIT_DEATH.get(), 1.0F, 0.875F + 0.25F * itemOwner.getRandom().nextFloat()));
 
@@ -241,43 +241,43 @@ public class AerialHellItemAbilities
 //                    .build())
 //            .build();
 
-//    public static final ItemAbility RUBY_RESONATOR = ItemAbility.builder()
-//            .setDescId("ruby_resonator")
-//            .addOnUseModules(ModuleList.builder()
-//                    .addActions(START_USING_ITEM)
-//                    .addConditions(OWNER_HAS_ITEM.unlessCreative(AerialHellBlocksAndItems.RUBY_SHARD, 1))
-//                    .build())
-//            .addOnReleaseUsingModules(ModuleList.builder()
-//                    .addActions(
-//                            THROW_PROJECTILE.build(AerialHellEntities.RUBY_SHARD.get(), (ticksUsed) -> velocityFromTicksUsed(ticksUsed, RESONATOR_USE_TICKS, 3.6F), 0),
-//                            RUBY_RESONATOR_USE_SOUND)
-//                    .addConditions(OWNER_HAS_ITEM.unlessCreative(AerialHellBlocksAndItems.RUBY_SHARD, 1), TICKS_USED.min(RESONATOR_USE_TICKS / 4))
-//                    .addSideEffects(SHRINK.item(AerialHellBlocksAndItems.RUBY_SHARD), DAMAGE_ITEM)
-//                    .build())
-//            .addPassiveModules(ModuleList.builder()
-//                    .addActions(OSCILLATOR_PARTICLES_ON_SELF.of(4))
-//                    .addConditions(TICKS_USED.min(RESONATOR_USE_TICKS / 2))
-//                    .build())
-//            .build();
-//
-//    public static final ItemAbility VOLUCITE_RESONATOR = ItemAbility.builder()
-//            .setDescId("volucite_resonator")
-//            .addOnUseModules(ModuleList.builder()
-//                    .addActions(START_USING_ITEM)
-//                    .addConditions(OWNER_HAS_ITEM.unlessCreative(AerialHellBlocksAndItems.VOLUCITE_SHARD, 1))
-//                    .build())
-//            .addOnReleaseUsingModules(ModuleList.builder()
-//                    .addActions(
-//                            THROW_PROJECTILE.build(AerialHellEntities.VOLUCITE_SHARD.get(), (ticksUsed) -> velocityFromTicksUsed(ticksUsed, RESONATOR_USE_TICKS, 3.6F), 0),
-//                            RUBY_RESONATOR_USE_SOUND)
-//                    .addConditions(OWNER_HAS_ITEM.unlessCreative(AerialHellBlocksAndItems.VOLUCITE_SHARD, 1), TICKS_USED.min(RESONATOR_USE_TICKS / 4))
-//                    .addSideEffects(SHRINK.item(AerialHellBlocksAndItems.VOLUCITE_SHARD), DAMAGE_ITEM)
-//                    .build())
-//            .addPassiveModules(ModuleList.builder()
-//                    .addActions(OSCILLATOR_PARTICLES_ON_SELF.of(4))
-//                    .addConditions(TICKS_USED.min(RESONATOR_USE_TICKS / 2))
-//                    .build())
-//            .build();
+    public static final ItemAbility RUBY_RESONATOR = ItemAbility.builder()
+            .setDescId("ruby_resonator")
+            .addOnUseModules(ModuleList.builder()
+                    .addActions(START_USING_ITEM)
+                    .addConditions(OWNER_HAS_ITEM.unlessCreative(AerialHellBlocksAndItems.RUBY_SHARD, 1))
+                    .build())
+            .addOnReleaseUsingModules(ModuleList.builder()
+                    .addActions(
+                            THROW_PROJECTILE.build(AerialHellEntities.RUBY_SHARD.get(), (ticksUsed) -> velocityFromTicksUsed(ticksUsed, RESONATOR_USE_TICKS, 3.6F), 0),
+                            RUBY_RESONATOR_USE_SOUND)
+                    .addConditions(OWNER_HAS_ITEM.unlessCreative(AerialHellBlocksAndItems.RUBY_SHARD, 1), TICKS_USED.min(RESONATOR_USE_TICKS / 4))
+                    .addSideEffects(SHRINK.item(AerialHellBlocksAndItems.RUBY_SHARD), DAMAGE_ITEM)
+                    .build())
+            .addPassiveModules(ModuleList.builder()
+                    .addActions(OSCILLATOR_PARTICLES_ON_SELF.of(4))
+                    .addConditions(TICKS_USED.min(RESONATOR_USE_TICKS / 2))
+                    .build())
+            .build();
+
+    public static final ItemAbility VOLUCITE_RESONATOR = ItemAbility.builder()
+            .setDescId("volucite_resonator")
+            .addOnUseModules(ModuleList.builder()
+                    .addActions(START_USING_ITEM)
+                    .addConditions(OWNER_HAS_ITEM.unlessCreative(AerialHellBlocksAndItems.VOLUCITE_SHARD, 1))
+                    .build())
+            .addOnReleaseUsingModules(ModuleList.builder()
+                    .addActions(
+                            THROW_PROJECTILE.build(AerialHellEntities.VOLUCITE_SHARD.get(), (ticksUsed) -> velocityFromTicksUsed(ticksUsed, RESONATOR_USE_TICKS, 3.6F), 0),
+                            RUBY_RESONATOR_USE_SOUND)
+                    .addConditions(OWNER_HAS_ITEM.unlessCreative(AerialHellBlocksAndItems.VOLUCITE_SHARD, 1), TICKS_USED.min(RESONATOR_USE_TICKS / 4))
+                    .addSideEffects(SHRINK.item(AerialHellBlocksAndItems.VOLUCITE_SHARD), DAMAGE_ITEM)
+                    .build())
+            .addPassiveModules(ModuleList.builder()
+                    .addActions(OSCILLATOR_PARTICLES_ON_SELF.of(4))
+                    .addConditions(TICKS_USED.min(RESONATOR_USE_TICKS / 2))
+                    .build())
+            .build();
 
     private static final ItemAbility NINJA_SWORD_COMMON = ItemAbility.builder()
             .addOnUseModules(ModuleList.builder()

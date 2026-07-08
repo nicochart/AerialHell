@@ -35,8 +35,10 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellTreeGrowers;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
@@ -1543,11 +1545,11 @@ public class AerialHellBlocksAndItems
 	public static final DeferredItem<Item> RUBY_MILK_BUCKET = ITEMS.register("ruby_milk_bucket", () -> new RubyMilkBucketItem(new Item.Properties().stacksTo(1)));
 
 	//arrows & bows
-	public static final DeferredItem<Item> RUBY_BLOWPIPE_ARROW = ITEMS.register("ruby_blowpipe_arrow", () -> new AerialArrowItem(new Item.Properties()));
-	public static final DeferredItem<Item> VOLUCITE_BLOWPIPE_ARROW = ITEMS.register("volucite_blowpipe_arrow", () -> new AerialArrowItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT.getValue())));
+	public static final DeferredItem<Item> RUBY_SHARD = ITEMS.register("ruby_shard", () -> new WithInformationItem(new Item.Properties()));
+	public static final DeferredItem<Item> VOLUCITE_SHARD = ITEMS.register("volucite_shard", () -> new WithInformationItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT.getValue())));
 
-	public static final DeferredItem<Item> RUBY_BLOWPIPE = ITEMS.register("ruby_blowpipe", () -> new BlowpipeItem(new Item.Properties().stacksTo(1).durability(200), 1.7F));
-	public static final DeferredItem<Item> VOLUCITE_BLOWPIPE = ITEMS.register("volucite_blowpipe", () -> new BlowpipeItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT.getValue()).stacksTo(1).durability(400), 2.4F));
+	public static final DeferredItem<Item> RUBY_RESONATOR = ITEMS.register("ruby_resonator", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).durability(200).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.RUBY_RESONATOR)).enchantable(10).maxUseDuration(72000).useAnimation(UseAnim.BOW)));
+	public static final DeferredItem<Item> VOLUCITE_RESONATOR = ITEMS.register("volucite_resonator", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).durability(200).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.VOLUCITE_RESONATOR)).enchantable(10).maxUseDuration(72000).useAnimation(UseAnim.BOW)));
 
 	//music discs
 	public static final DeferredItem<Item> MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = ITEMS.register("music_disc_aerial_hell_theme_tommaup", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(AerialHellJukeboxSongs.AERIAL_HELL_THEME_TOMMAUP)));
@@ -1741,4 +1743,42 @@ public class AerialHellBlocksAndItems
     //build items
     public static final DeferredItem<Item> BLOCK_UPDATER = ITEMS.register("block_updater", () -> new BlockUpdaterItem(new Item.Properties()));
     public static final DeferredItem<Item> BLOCK_CRACKER = ITEMS.register("block_cracker", () -> new BlockCrackerItem(new Item.Properties()));
+
+	public static void registerItemProperties()
+	{
+		System.out.println("registration");
+		ItemProperties.register(
+				RUBY_RESONATOR.get(),
+				ResourceLocation.fromNamespaceAndPath(MODID, "charge"),
+				(stack, level, entity, seed) ->
+				{
+					if (entity == null) return 0.0F;
+					return entity.getUseItem() != stack ? 0.0F : (stack.getUseDuration(entity) - entity.getUseItemRemainingTicks()) / AerialHellItemAbilities.RESONATOR_USE_TICKS;
+				});
+
+		ItemProperties.register(
+				RUBY_RESONATOR.get(),
+				ResourceLocation.fromNamespaceAndPath(MODID, "charging"),
+				(stack, level, entity, seed) ->
+				{
+					return entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F;
+				});
+
+		ItemProperties.register(
+				VOLUCITE_RESONATOR.get(),
+				ResourceLocation.fromNamespaceAndPath(MODID, "charge"),
+				(stack, level, entity, seed) ->
+				{
+					if (entity == null) return 0.0F;
+					return entity.getUseItem() != stack ? 0.0F : (stack.getUseDuration(entity) - entity.getUseItemRemainingTicks()) / AerialHellItemAbilities.RESONATOR_USE_TICKS;
+				});
+
+		ItemProperties.register(
+				VOLUCITE_RESONATOR.get(),
+				ResourceLocation.fromNamespaceAndPath(MODID, "charging"),
+				(stack, level, entity, seed) ->
+				{
+					return entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F;
+				});
+	}
 }

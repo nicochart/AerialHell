@@ -45,5 +45,5 @@ public class VoluciteShardEntity extends AbstractResonatorShardEntity
 
     @Override protected float getShardDamage() {return 7.5F;}
 
-    @Override protected ItemStack getDefaultPickupItem() {return new ItemStack(AerialHellBlocksAndItems.VOLUCITE_BLOWPIPE_ARROW.get());}
+    @Override protected ItemStack getDefaultPickupItem() {return new ItemStack(AerialHellBlocksAndItems.VOLUCITE_SHARD.get());}
 }

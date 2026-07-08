@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SV ",
+    "VF ",
+    "  S"
+  ],
+  "key": {
+    "S": {"item": "aerialhell:sky_stick"},
+    "V": {"item": "aerialhell:volucite_vibrant"},
+    "F": {"item": "aerialhell:fluorite"}
+  },
+  "result": {
+    "id": "aerialhell:volucite_resonator"
+  }
+}

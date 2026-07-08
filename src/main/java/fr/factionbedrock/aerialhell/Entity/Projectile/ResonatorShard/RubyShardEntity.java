@@ -12,5 +12,5 @@ public class RubyShardEntity extends AbstractResonatorShardEntity
 
     @Override protected float getShardDamage() {return 4.5F;}
 
-    @Override protected ItemStack getDefaultPickupItem() {return new ItemStack(AerialHellBlocksAndItems.RUBY_BLOWPIPE_ARROW.get());}
+    @Override protected ItemStack getDefaultPickupItem() {return new ItemStack(AerialHellBlocksAndItems.RUBY_SHARD.get());}
 }

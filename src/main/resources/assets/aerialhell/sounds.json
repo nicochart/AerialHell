@@ -244,9 +244,13 @@
       "aerialhell:mob/volucite_golem/ambient_mad"
     ]
   },
-  "entity.volucite_golem.shoot": {
-    "subtitle": "subtitles.aerialhell.entity.volucite_golem.shoot",
-    "sounds": ["aerialhell:mob/volucite_golem/shoot"]
+  "entity.volucite_golem.beam_start": {
+    "subtitle": "subtitles.aerialhell.entity.volucite_golem.beam",
+    "sounds": ["aerialhell:mob/volucite_golem/beam_start"]
+  },
+  "entity.volucite_golem.beam_loop": {
+    "subtitle": "subtitles.aerialhell.entity.volucite_golem.beam",
+    "sounds": ["aerialhell:mob/volucite_golem/beam_loop"]
   },
   "entity.keeper_of_volucite_keys.ambient": {
     "subtitle": "subtitles.aerialhell.entity.keeper_of_volucite_keys.ambient",
@@ -506,9 +510,9 @@
       "aerialhell:mob/flying_jellyfish/hurt2"
     ]
   },
-  "entity.volucite_blowpipe.shoot": {
-    "subtitle": "subtitles.aerialhell.entity.volucite_blowpipe.shoot",
-    "sounds": ["aerialhell:projectile/volucite_blowpipe/shoot"]
+  "entity.resonator.shoot": {
+    "subtitle": "subtitles.aerialhell.entity.resonator.shoot",
+    "sounds": ["aerialhell:projectile/resonator/shoot"]
   },
   "entity.shuriken.throw": {
     "subtitle": "subtitles.aerialhell.entity.shuriken.throw",

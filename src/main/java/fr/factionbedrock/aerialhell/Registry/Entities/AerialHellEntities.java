@@ -17,7 +17,8 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Spider.*;
 import fr.factionbedrock.aerialhell.Entity.Neutral.*;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.*;
-import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.*;
+import fr.factionbedrock.aerialhell.Entity.Projectile.ResonatorShard.RubyShardEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.ResonatorShard.VoluciteShardEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
@@ -179,11 +180,11 @@ public class AerialHellEntities
 	public static final DeferredHolder<EntityType<?>, EntityType<LightningShurikenEntity>> LIGHTNING_SHURIKEN = ENTITIES.register("lightning_shuriken", () -> EntityType.Builder.<LightningShurikenEntity>of((entityType, level) -> new LightningShurikenEntity(entityType, level, 2.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("lightning_shuriken"));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteArrowEntity>> VOLUCITE_BLOWPIPE_ARROW = ENTITIES.register("volucite_blowpipe_arrow", () -> EntityType.Builder.<VoluciteArrowEntity>of(VoluciteArrowEntity::new, MobCategory.MISC)
-			.sized(0.5F, 0.5F).build("volucite_blowpipe_arrow"));
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteShardEntity>> VOLUCITE_SHARD = ENTITIES.register("volucite_shard", () -> EntityType.Builder.<VoluciteShardEntity>of(VoluciteShardEntity::new, MobCategory.MISC)
+			.sized(0.5F, 0.5F).build("volucite_shard"));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<RubyArrowEntity>> RUBY_BLOWPIPE_ARROW = ENTITIES.register("ruby_blowpipe_arrow", () -> EntityType.Builder.<RubyArrowEntity>of(RubyArrowEntity::new, MobCategory.MISC)
-			.sized(0.5F, 0.5F).build("ruby_blowpipe_arrow"));
+	public static final DeferredHolder<EntityType<?>, EntityType<RubyShardEntity>> RUBY_SHARD = ENTITIES.register("ruby_shard", () -> EntityType.Builder.<RubyShardEntity>of(RubyShardEntity::new, MobCategory.MISC)
+			.sized(0.5F, 0.5F).build("ruby_shard"));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<LunaticProjectileEntity>> LUNATIC_PROJECTILE = ENTITIES.register("lunatic_projectile", () -> EntityType.Builder.<LunaticProjectileEntity>of(LunaticProjectileEntity::new, MobCategory.MISC)
 			.sized(1.1F, 1.1F).build("lunatic_projectile"));
