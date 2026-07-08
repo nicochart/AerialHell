@@ -15,6 +15,7 @@ public class BuildContentsEvent
 
         if(event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES)
         {
+            itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_HELL_GUIDE_BOOK.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_LIGHTER.get());
         }
@@ -805,6 +806,8 @@ public class BuildContentsEvent
         }
         if (event.getTabKey() == AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS.getKey())
         {
+            itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_HELL_GUIDE_BOOK.get());
+
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BRICK.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_LIGHTER.get());
 

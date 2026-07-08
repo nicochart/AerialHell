@@ -157,6 +157,9 @@ public class AerialHellBlocksAndItems
 	public static BlockBehaviour.Properties GOLDEN_NETHER_CHEST_MATERIAL = BlockBehaviour.Properties.of().mapColor(MapColor.NETHER).strength(50.0F, 1200.0F).sound(SoundType.BASALT).requiresCorrectToolForDrops().noOcclusion();
 	public static BlockBehaviour.Properties METAL_NOTSOLID_MATERIAL = BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(10.0F, 2.0F).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion();
 
+	//guide book
+	public static final DeferredItem<Item> AERIAL_HELL_GUIDE_BOOK = ITEMS.register("aerial_hell_guide_book", () -> new AerialHellGuideBook(new Item.Properties().stacksTo(1)));
+
 	//portal
 	public static final DeferredBlock<AerialHellPortalBlock> AERIAL_HELL_PORTAL = BLOCKS.register("aerial_hell_portal", () -> new AerialHellPortalBlock(BlockBehaviour.Properties.of().sound(SoundType.GLASS).strength(-1F).noCollission().lightLevel((state) -> 10).noLootTable()));
 	public static final DeferredBlock<Block> STELLAR_PORTAL_FRAME_BLOCK = BLOCKS.register("stellar_portal_frame_block", () -> new Block((BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(25.0F, 600.0F))));
