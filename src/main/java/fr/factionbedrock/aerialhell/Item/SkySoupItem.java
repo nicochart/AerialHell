@@ -20,20 +20,23 @@ public class SkySoupItem extends Item //copy of net.minecraft.item.SoupItem but 
 	
 	public SkySoupItem(int hungerIn, float saturationIn, Rarity rarity, Supplier<MobEffectInstance> effectIn1, Supplier<MobEffectInstance> effectIn2, Supplier<MobEffectInstance> effectIn3)
 	{
-		super(new Item.Properties().rarity(rarity).stacksTo(1)
+		super(new Item.Properties().rarity(rarity).stacksTo(16)
                 .food(new FoodProperties.Builder().alwaysEdible().nutrition(hungerIn).saturationModifier(saturationIn).effect(effectIn1.get(), 1.0F).effect(effectIn2.get(), 1.0F).effect(effectIn3.get(), 1.0F).build()));
 	}
 	
 	public SkySoupItem(int hungerIn, float saturationIn, Rarity rarity, Supplier<MobEffectInstance> effectIn1, Supplier<MobEffectInstance> effectIn2)
 	{
-		super(new Item.Properties().rarity(rarity).stacksTo(1)
+		super(new Item.Properties().rarity(rarity).stacksTo(16)
                 .food(new FoodProperties.Builder().alwaysEdible().nutrition(hungerIn).saturationModifier(saturationIn).effect(effectIn1.get(), 1.0F).effect(effectIn2.get(), 1.0F).build()));
 	}
 	
 	@Override public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entityLiving)
 	{
 		if (stack.is(AerialHellBlocksAndItems.SHADOW_FRUIT_STEW) && !level.isClientSide) {entityLiving.removeEffectsCuredBy(AerialHellMobEffects.Cures.SHADOW_FRUIT_STEW);}
-		ItemStack itemstack = super.finishUsingItem(stack, level, entityLiving);
-		return entityLiving instanceof Player && ((Player)entityLiving).getAbilities().instabuild ? itemstack : new ItemStack(AerialHellBlocksAndItems.SKY_BOWL.get());
+		if (entityLiving instanceof Player player && !player.getAbilities().instabuild)
+		{
+			if (!player.getInventory().add(AerialHellBlocksAndItems.SKY_BOWL.toStack())) {player.drop(AerialHellBlocksAndItems.SKY_BOWL.toStack(), false);}
+		}
+		return super.finishUsingItem(stack, level, entityLiving);
 	}
 }

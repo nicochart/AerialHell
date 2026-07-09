@@ -3,6 +3,8 @@
 	"package": "fr.factionbedrock.aerialhell.Mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+		"LivingEntityFallFlyingMixin",
+		"LivingEntityGravityMixin",
 		"UseItemFovModifierMixin",
 		"UseItemInHandRendererMixin"
 	],

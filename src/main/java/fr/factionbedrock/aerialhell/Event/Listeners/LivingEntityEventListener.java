@@ -16,10 +16,9 @@ public class LivingEntityEventListener
     	LivingEntity livingEntity = event.getEntity();
     	if (livingEntity.hasEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate()))
     	{
-    		int bonus = livingEntity.getEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate()).getAmplifier() + 1;
-    		livingEntity.heal(0.5F * bonus);
+    		float multiplier = 1.0F + 0.25F * (livingEntity.getEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.getDelegate()).getAmplifier() + 1);
     		Vec3 baseMotion = livingEntity.getDeltaMovement();
-    		livingEntity.setDeltaMovement(baseMotion.x, baseMotion.y + (0.4 * bonus), baseMotion.z);
+    		livingEntity.setDeltaMovement(baseMotion.x, baseMotion.y + 0.2F * multiplier, baseMotion.z);
     	}
     }
 

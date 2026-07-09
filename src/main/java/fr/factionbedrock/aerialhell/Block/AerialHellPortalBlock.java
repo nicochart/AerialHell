@@ -167,7 +167,17 @@ public class AerialHellPortalBlock extends Block implements Portal
 				}
 				else
 				{
-					EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, this, pos);
+					@Nullable LivingEntity firstPassenger = entity.getFirstPassenger() instanceof LivingEntity livingEntity ? livingEntity : null;
+					if (firstPassenger != null && EntityHelper.isLivingEntityOnPortalCooldown(firstPassenger))
+					{
+						EntityHelper.setAfterTeleportationEffect(firstPassenger, !EntityHelper.isCreativePlayer(entity) ? 110 : 20);
+					}
+					else
+					{
+						EntityHelper.tryTeleportEntityWithAerialHellPortal(entity, this, pos);
+						entity.setPortalCooldown();
+						if (firstPassenger != null) {EntityHelper.setAfterTeleportationEffect(firstPassenger, !EntityHelper.isCreativePlayer(entity) ? 110 : 20);}
+					}
 				}
 			}
 		}
