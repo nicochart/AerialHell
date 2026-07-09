@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.*;
 import fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content.RecipeDisplay.CraftingRecipeDisplay;
@@ -1629,8 +1630,8 @@ public class GuideBookScreen extends Screen
         this.tickHomeButton(mouseX, mouseY);
         this.tickNavigationArrows(mouseX, mouseY);
 
-        System.out.println("Home Button Alpha :"+this.getHomeButtonAlpha()+", Arrow Alpha : "+this.getNavigationArrowsAlpha());
-
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
         //previous page arrow
         if (this.currentPage != 0)
         {
@@ -1652,6 +1653,7 @@ public class GuideBookScreen extends Screen
             graphics.blit(nextArrowTexture.texture(), this.rightNavigationArrowLeft, this.navigationButtonTop, nextArrowTexture.width(), nextArrowTexture.height(), nextArrowTexture.u(), nextArrowTexture.v(), nextArrowTexture.width(), nextArrowTexture.height(), nextArrowTexture.textureWidth(), nextArrowTexture.textureHeight());
             graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
+        RenderSystem.disableBlend();
     }
 
     private void navigateToTab(Tab tab)

@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.Gui.Screen.GuideBook.Content;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import fr.factionbedrock.aerialhell.Client.Util.TextureInfo;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -31,7 +32,10 @@ public record TextureDisplay(ElementPositionInfo positionInfo, float scale, Text
         graphics.pose().translate(startX, startY, 0);
         graphics.pose().scale(this.scale(), this.scale(), 0);
 
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
         graphics.blit(this.textureInfo.texture(), 0, 0, this.textureInfo.u(), this.textureInfo.v(), this.textureInfo.width(), this.textureInfo.height(), this.textureInfo.textureWidth(), this.textureInfo.textureHeight());
+        RenderSystem.disableBlend();
 
         graphics.pose().popPose();
 
