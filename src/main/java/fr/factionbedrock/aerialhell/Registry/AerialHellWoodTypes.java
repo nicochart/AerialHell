@@ -1,15 +1,14 @@
 package fr.factionbedrock.aerialhell.Registry;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import net.minecraft.block.BlockSetType;
-import net.minecraft.block.WoodType;
-import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 
-import static net.minecraft.client.render.TexturedRenderLayers.*;
+import static net.minecraft.client.renderer.Sheets.*;
 
 public class AerialHellWoodTypes
 {
@@ -20,11 +19,11 @@ public class AerialHellWoodTypes
     public static WoodType STELLAR_JUNGLE_TREE = createDefault("stellar_jungle_tree");
     public static WoodType SHADOW_PINE = createDefault("shadow_pine");
     public static WoodType SKY_CACTUS_FIBER = createDefault("sky_cactus_fiber");
-    public static WoodType GRAY_SHROOM = createComplete("gray_shroom", BlockSetType.OAK, BlockSoundGroup.NETHER_WOOD, BlockSoundGroup.NETHER_WOOD_HANGING_SIGN, SoundEvents.BLOCK_NETHER_WOOD_FENCE_GATE_CLOSE, SoundEvents.BLOCK_NETHER_WOOD_FENCE_GATE_OPEN);
+    public static WoodType GRAY_SHROOM = createComplete("gray_shroom", BlockSetType.OAK, SoundType.NETHER_WOOD, SoundType.NETHER_WOOD_HANGING_SIGN, SoundEvents.NETHER_WOOD_FENCE_GATE_CLOSE, SoundEvents.NETHER_WOOD_FENCE_GATE_OPEN);
 
     private static WoodType createDefault(String name) {return new WoodType(name, BlockSetType.OAK);}
 
-    private static WoodType createComplete(String name, BlockSetType setType, BlockSoundGroup soundType, BlockSoundGroup hangingSignSoundType, SoundEvent fenceGateClose, SoundEvent fenceGateOpen)
+    private static WoodType createComplete(String name, BlockSetType setType, SoundType soundType, SoundType hangingSignSoundType, SoundEvent fenceGateClose, SoundEvent fenceGateOpen)
     {
         return new WoodType(name, setType, soundType, hangingSignSoundType, fenceGateClose, fenceGateOpen);
     }
@@ -55,11 +54,11 @@ public class AerialHellWoodTypes
 
     public static void addWoodTypeToSheets(WoodType woodType)
     {
-        SIGN_TYPE_TEXTURES.put(woodType, createSignTextureId(woodType));
-        HANGING_SIGN_TYPE_TEXTURES.put(woodType, createHangingSignTextureId(woodType));
+        SIGN_MATERIALS.put(woodType, createSignTextureId(woodType));
+        HANGING_SIGN_MATERIALS.put(woodType, createHangingSignTextureId(woodType));
     }
 
     //copies of methods of same name from net.minecraft.client.render.TexturedRenderLayers
-    private static SpriteIdentifier createSignTextureId(WoodType type) {return new SpriteIdentifier(SIGNS_ATLAS_TEXTURE, AerialHell.id("entity/signs/" + type.name()));}
-    private static SpriteIdentifier createHangingSignTextureId(WoodType type) {return new SpriteIdentifier(SIGNS_ATLAS_TEXTURE, AerialHell.id("entity/signs/hanging/" + type.name()));}
+    private static Material createSignTextureId(WoodType type) {return new Material(SIGN_SHEET, AerialHell.id("entity/signs/" + type.name()));}
+    private static Material createHangingSignTextureId(WoodType type) {return new Material(SIGN_SHEET, AerialHell.id("entity/signs/hanging/" + type.name()));}
 }

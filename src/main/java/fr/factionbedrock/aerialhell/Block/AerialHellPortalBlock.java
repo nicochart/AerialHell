@@ -3,22 +3,22 @@ package fr.factionbedrock.aerialhell.Block;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.kyrptonaught.customportalapi.CustomPortalBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class AerialHellPortalBlock extends CustomPortalBlock
 {
-    public AerialHellPortalBlock(Settings settings) {super(settings);}
+    public AerialHellPortalBlock(Properties settings) {super(settings);}
 
-    @Override public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random)
+    @Override public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random)
     {
         if (random.nextInt(100) == 0)
         {
             world.getProfiler().push("portal");
-            world.playSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, AerialHellSoundEvents.BLOCK_AERIAL_HELL_PORTAL_AMBIENT, SoundCategory.BLOCKS, 0.6F, 0.9F + random.nextFloat() * 0.2F, false);
+            world.playLocalSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, AerialHellSoundEvents.BLOCK_AERIAL_HELL_PORTAL_AMBIENT, SoundSource.BLOCKS, 0.6F, 0.9F + random.nextFloat() * 0.2F, false);
             world.getProfiler().pop();
         }
 
@@ -31,7 +31,7 @@ public class AerialHellPortalBlock extends CustomPortalBlock
             double ySpeed = ((double)random.nextFloat() - 0.5D) * 0.5D;
             double zSpeed = ((double)random.nextFloat() - 0.5D) * 0.5D;
             int j = random.nextInt(2) * 2 - 1;
-            if (!world.getBlockState(pos.west()).isOf(this) && !world.getBlockState(pos.east()).isOf(this))
+            if (!world.getBlockState(pos.west()).is(this) && !world.getBlockState(pos.east()).is(this))
             {
                 x = (double)pos.getX() + 0.5D + 0.25D * (double)j;
                 xSpeed = random.nextFloat() * 2.0F * (float)j;

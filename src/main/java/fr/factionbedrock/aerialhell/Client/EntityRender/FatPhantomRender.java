@@ -1,33 +1,34 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+
 /*Copy of net.minecraft.client.renderer.entity.PhantomRenderer*/
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Passive.FatPhantomEntity;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.PhantomEntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.client.model.PhantomModel;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.ResourceLocation;
 
-public class FatPhantomRender extends MobEntityRenderer<FatPhantomEntity, PhantomEntityModel<FatPhantomEntity>>
+public class FatPhantomRender extends MobRenderer<FatPhantomEntity, PhantomModel<FatPhantomEntity>>
 {
 	private static String name = "fat_phantom";
-	private static final Identifier FAT_PHANTOM_TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
+	private static final ResourceLocation FAT_PHANTOM_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
-	public FatPhantomRender(EntityRendererFactory.Context context)
+	public FatPhantomRender(EntityRendererProvider.Context context)
 	{
-		super(context, new PhantomEntityModel<>(context.getPart(EntityModelLayers.PHANTOM)), 1.1F);
+		super(context, new PhantomModel<>(context.bakeLayer(ModelLayers.PHANTOM)), 1.1F);
     }
 
-    public Identifier getTexture(FatPhantomEntity entity)
+    public ResourceLocation getTextureLocation(FatPhantomEntity entity)
     {
     	return FAT_PHANTOM_TEXTURE;
     }
 
-    @Override protected void scale(FatPhantomEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime)
+    @Override protected void scale(FatPhantomEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime)
     {
         int i = entitylivingbaseIn.getPhantomSize();
         float f = 1.0F + 0.15F * (float)i;
@@ -35,9 +36,9 @@ public class FatPhantomRender extends MobEntityRenderer<FatPhantomEntity, Phanto
         matrixStackIn.translate(0.0D, 1.3125D, 0.1875D);
     }
 
-    @Override protected void setupTransforms(FatPhantomEntity entity, MatrixStack poseStack, float animationProgress, float bodyYaw, float tickDelta, float scale)
+    @Override protected void setupRotations(FatPhantomEntity entity, PoseStack poseStack, float animationProgress, float bodyYaw, float tickDelta, float scale)
     {
-        super.setupTransforms(entity, poseStack, animationProgress, bodyYaw, tickDelta, scale);
-        poseStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.getPitch()));
+        super.setupRotations(entity, poseStack, animationProgress, bodyYaw, tickDelta, scale);
+        poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
     }
 }

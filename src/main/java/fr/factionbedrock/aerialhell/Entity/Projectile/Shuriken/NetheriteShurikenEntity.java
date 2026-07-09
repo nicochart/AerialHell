@@ -3,35 +3,35 @@ package fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken;
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 
 public class NetheriteShurikenEntity extends AbstractShurikenEntity
 {
-	public NetheriteShurikenEntity(EntityType<? extends NetheriteShurikenEntity> entityTypeIn, World world)
+	public NetheriteShurikenEntity(EntityType<? extends NetheriteShurikenEntity> entityTypeIn, Level world)
 	{
 		super(entityTypeIn, world);
 	}
 
-	public NetheriteShurikenEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+	public NetheriteShurikenEntity(Level world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
 	{
 		super(AerialHellEntities.NETHERITE_SHURIKEN, world, shooter, accelX, accelY, accelZ, velocity, inaccuracy);
 	}
 
-	public NetheriteShurikenEntity(double x, double y, double z, World world)
+	public NetheriteShurikenEntity(double x, double y, double z, Level world)
 	{
 		super(AerialHellEntities.NETHERITE_SHURIKEN, x, y, z, world);
 	}
 
-	public NetheriteShurikenEntity(LivingEntity shooter, World world)
+	public NetheriteShurikenEntity(LivingEntity shooter, Level world)
 	{
 		super(AerialHellEntities.NETHERITE_SHURIKEN, shooter, world);
 	}
 
-	public NetheriteShurikenEntity(World world)
+	public NetheriteShurikenEntity(Level world)
 	{
 		super(AerialHellEntities.NETHERITE_SHURIKEN, world);
 	}

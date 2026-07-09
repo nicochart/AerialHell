@@ -1,38 +1,37 @@
 package fr.factionbedrock.aerialhell.Item;
 
 import java.util.function.Supplier;
-
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.Level;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Rarity;
-import net.minecraft.world.World;
 
 public class SkySoupItem extends Item //copy of net.minecraft.item.SoupItem but with a constructor with custom Properties (food builder) and with sky bowl
 {
-	public SkySoupItem(Item.Settings settings) {super(settings);}
+	public SkySoupItem(Item.Properties settings) {super(settings);}
 	
-	public SkySoupItem(int hungerIn, float saturationIn, Rarity rarity, Supplier<StatusEffectInstance> effectIn1, Supplier<StatusEffectInstance> effectIn2, Supplier<StatusEffectInstance> effectIn3)
+	public SkySoupItem(int hungerIn, float saturationIn, Rarity rarity, Supplier<MobEffectInstance> effectIn1, Supplier<MobEffectInstance> effectIn2, Supplier<MobEffectInstance> effectIn3)
 	{
-		super(new Item.Settings().rarity(rarity).maxCount(1)
-                .food(new FoodComponent.Builder().alwaysEdible().nutrition(hungerIn).saturationModifier(saturationIn).statusEffect(effectIn1.get(), 1.0F).statusEffect(effectIn2.get(), 1.0F).statusEffect(effectIn3.get(), 1.0F).build()));
+		super(new Item.Properties().rarity(rarity).stacksTo(1)
+                .food(new FoodProperties.Builder().alwaysEdible().nutrition(hungerIn).saturationModifier(saturationIn).effect(effectIn1.get(), 1.0F).effect(effectIn2.get(), 1.0F).effect(effectIn3.get(), 1.0F).build()));
 	}
 	
-	public SkySoupItem(int hungerIn, float saturationIn, Rarity rarity, Supplier<StatusEffectInstance> effectIn1, Supplier<StatusEffectInstance> effectIn2)
+	public SkySoupItem(int hungerIn, float saturationIn, Rarity rarity, Supplier<MobEffectInstance> effectIn1, Supplier<MobEffectInstance> effectIn2)
 	{
-		super(new Item.Settings().rarity(rarity).maxCount(1)
-                .food(new FoodComponent.Builder().alwaysEdible().nutrition(hungerIn).saturationModifier(saturationIn).statusEffect(effectIn1.get(), 1.0F).statusEffect(effectIn2.get(), 1.0F).build()));
+		super(new Item.Properties().rarity(rarity).stacksTo(1)
+                .food(new FoodProperties.Builder().alwaysEdible().nutrition(hungerIn).saturationModifier(saturationIn).effect(effectIn1.get(), 1.0F).effect(effectIn2.get(), 1.0F).build()));
 	}
 	
-	@Override public ItemStack finishUsing(ItemStack stack, World world, LivingEntity entityLiving)
+	@Override public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity entityLiving)
 	{
 		ItemHelper.removeEffectCuredBy(entityLiving, stack);
-		ItemStack itemstack = super.finishUsing(stack, world, entityLiving);
-		return entityLiving instanceof PlayerEntity player && (player.getAbilities().creativeMode) ? itemstack : new ItemStack(AerialHellItems.SKY_BOWL);
+		ItemStack itemstack = super.finishUsingItem(stack, world, entityLiving);
+		return entityLiving instanceof Player player && (player.getAbilities().instabuild) ? itemstack : new ItemStack(AerialHellItems.SKY_BOWL);
 	}
 }

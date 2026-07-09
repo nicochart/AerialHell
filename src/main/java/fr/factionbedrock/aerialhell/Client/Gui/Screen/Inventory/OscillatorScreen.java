@@ -2,21 +2,20 @@ package fr.factionbedrock.aerialhell.Client.Gui.Screen.Inventory;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Inventory.Menu.OscillatorMenu;
-
-import net.minecraft.client.gui.screen.ingame.AbstractFurnaceScreen;
-import net.minecraft.client.gui.screen.recipebook.FurnaceRecipeBookScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen;
+import net.minecraft.client.gui.screens.recipebook.SmeltingRecipeBookComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 
 public class OscillatorScreen extends AbstractFurnaceScreen<OscillatorMenu>
 {
-	private static final Identifier OSCILLATOR_GUI_TEXTURES = AerialHell.id("textures/gui/container/oscillator.png");
-	private static final Identifier LIT_PROGRESS_SPRITE =  AerialHell.id("container/oscillator/oscillating_progress");
-	private static final Identifier OSCILLATING_PROGRESS_SPRITE =  AerialHell.id("container/oscillator/progress");
+	private static final ResourceLocation OSCILLATOR_GUI_TEXTURES = AerialHell.id("textures/gui/container/oscillator.png");
+	private static final ResourceLocation LIT_PROGRESS_SPRITE =  AerialHell.id("container/oscillator/oscillating_progress");
+	private static final ResourceLocation OSCILLATING_PROGRESS_SPRITE =  AerialHell.id("container/oscillator/progress");
 
-	public OscillatorScreen(OscillatorMenu container, PlayerInventory inventory, Text name)
+	public OscillatorScreen(OscillatorMenu container, Inventory inventory, Component name)
 	{
-		super(container, new FurnaceRecipeBookScreen(), inventory, name, OSCILLATOR_GUI_TEXTURES, LIT_PROGRESS_SPRITE, OSCILLATING_PROGRESS_SPRITE);
+		super(container, new SmeltingRecipeBookComponent(), inventory, name, OSCILLATOR_GUI_TEXTURES, LIT_PROGRESS_SPRITE, OSCILLATING_PROGRESS_SPRITE);
 	}
 }

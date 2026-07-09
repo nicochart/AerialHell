@@ -1,38 +1,37 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.Random;
-
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.level.Level;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.world.World;
 
 public class EffectAxeItem extends AerialHellAxeItem
 {
-	public EffectAxeItem(ToolMaterial toolMaterial, Item.Settings settings)
+	public EffectAxeItem(Tier toolMaterial, Item.Properties settings)
 	{
 		super(toolMaterial, settings);
 	}
 	
 	@Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand)
     {
-		ItemStack heldItem = player.getStackInHand(hand);
+		ItemStack heldItem = player.getItemInHand(hand);
 		Random rand = new Random();
 		
 		if (this == AerialHellItems.VOLUCITE_AXE)
 		{
-			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, world, player, hand, rand, true)) {return TypedActionResult.consume(heldItem);}
-			else {return TypedActionResult.pass(heldItem);}
+			if (EffectToolHelper.tryToApplyVolucitePower(this, heldItem, world, player, hand, rand, true)) {return InteractionResultHolder.consume(heldItem);}
+			else {return InteractionResultHolder.pass(heldItem);}
 		}
 		else if (this == AerialHellItems.AXE_OF_LIGHT)
 		{
 			EffectToolHelper.applyLunaticLight(this, heldItem, world, player, hand, rand, 320);
-		    return TypedActionResult.consume(heldItem);
+		    return InteractionResultHolder.consume(heldItem);
 		}
 		else
 		{

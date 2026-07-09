@@ -3,30 +3,29 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 import com.mojang.datafixers.util.Pair;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
-import net.minecraft.item.HoeItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.text.Text;
-
 import java.util.List;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.HoeItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
 
 public class AerialHellHoeItem extends HoeItem
 {
 	static
 	{
-		TILLING_ACTIONS.put(AerialHellBlocks.STELLAR_DIRT, Pair.of(HoeItem::canTillFarmland, createTillAction(AerialHellBlocks.STELLAR_FARMLAND.getDefaultState())));
-		TILLING_ACTIONS.put(AerialHellBlocks.STELLAR_COARSE_DIRT, Pair.of(HoeItem::canTillFarmland, createTillAction(AerialHellBlocks.STELLAR_FARMLAND.getDefaultState())));
-		TILLING_ACTIONS.put(AerialHellBlocks.STELLAR_GRASS_BLOCK, Pair.of(HoeItem::canTillFarmland, createTillAction(AerialHellBlocks.STELLAR_FARMLAND.getDefaultState())));
-		TILLING_ACTIONS.put(AerialHellBlocks.CHISELED_STELLAR_DIRT, Pair.of(HoeItem::canTillFarmland, createTillAction(AerialHellBlocks.STELLAR_FARMLAND.getDefaultState())));
-		TILLING_ACTIONS.put(AerialHellBlocks.CHISELED_STELLAR_GRASS_BLOCK, Pair.of(HoeItem::canTillFarmland, createTillAction(AerialHellBlocks.STELLAR_FARMLAND.getDefaultState())));
+		TILLABLES.put(AerialHellBlocks.STELLAR_DIRT, Pair.of(HoeItem::onlyIfAirAbove, changeIntoState(AerialHellBlocks.STELLAR_FARMLAND.defaultBlockState())));
+		TILLABLES.put(AerialHellBlocks.STELLAR_COARSE_DIRT, Pair.of(HoeItem::onlyIfAirAbove, changeIntoState(AerialHellBlocks.STELLAR_FARMLAND.defaultBlockState())));
+		TILLABLES.put(AerialHellBlocks.STELLAR_GRASS_BLOCK, Pair.of(HoeItem::onlyIfAirAbove, changeIntoState(AerialHellBlocks.STELLAR_FARMLAND.defaultBlockState())));
+		TILLABLES.put(AerialHellBlocks.CHISELED_STELLAR_DIRT, Pair.of(HoeItem::onlyIfAirAbove, changeIntoState(AerialHellBlocks.STELLAR_FARMLAND.defaultBlockState())));
+		TILLABLES.put(AerialHellBlocks.CHISELED_STELLAR_GRASS_BLOCK, Pair.of(HoeItem::onlyIfAirAbove, changeIntoState(AerialHellBlocks.STELLAR_FARMLAND.defaultBlockState())));
 	}
 
-	public AerialHellHoeItem(ToolMaterial toolMaterial, Item.Settings settings) {super(toolMaterial, settings);}
+	public AerialHellHoeItem(Tier toolMaterial, Item.Properties settings) {super(toolMaterial, settings);}
 
-	@Override public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type)
+	@Override public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag type)
 	{
-		ItemHelper.appendItemTooltip(this.getTranslationKey(), tooltip);
+		ItemHelper.appendItemTooltip(this.getDescriptionId(), tooltip);
 	}
 }

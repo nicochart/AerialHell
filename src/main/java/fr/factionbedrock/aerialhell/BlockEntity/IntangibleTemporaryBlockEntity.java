@@ -1,18 +1,17 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtHelper;
-import net.minecraft.registry.BuiltinRegistries;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class IntangibleTemporaryBlockEntity extends BlockEntity
@@ -27,13 +26,13 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
         this.tickCount = 0;
     }
 
-    public static void tick(World world, BlockPos pos, BlockState state, IntangibleTemporaryBlockEntity blockEntity)
+    public static void tick(Level world, BlockPos pos, BlockState state, IntangibleTemporaryBlockEntity blockEntity)
     {
         if (blockEntity.tickCount < 0) {blockEntity.tickCount = 0;}
         blockEntity.tickCount++;
         if (blockEntity.tickCount >= LIFETIME)
         {
-            world.setBlockState(pos, blockEntity.beforeState == null ? Blocks.AIR.getDefaultState() : blockEntity.beforeState, 2);
+            world.setBlock(pos, blockEntity.beforeState == null ? Blocks.AIR.defaultBlockState() : blockEntity.beforeState, 2);
         }
     }
 
@@ -42,18 +41,18 @@ public class IntangibleTemporaryBlockEntity extends BlockEntity
     public void resetTickCount() {this.tickCount = 0;}
     public int getTickCount() {return tickCount;}
 
-    @Override protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
+    @Override protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup)
     {
-        super.writeNbt(nbt, registryLookup);
-        nbt.put("beforeState", NbtHelper.fromBlockState(beforeState == null ? Blocks.AIR.getDefaultState() : beforeState));
+        super.saveAdditional(nbt, registryLookup);
+        nbt.put("beforeState", NbtUtils.writeBlockState(beforeState == null ? Blocks.AIR.defaultBlockState() : beforeState));
         nbt.putInt("tickCount", tickCount);
     }
 
-    @Override protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
+    @Override protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup)
     {
-        super.readNbt(nbt, registryLookup);
-        RegistryWrapper<Block> blockGetter = this.getWorld() != null ? this.getWorld().createCommandRegistryWrapper(RegistryKeys.BLOCK) : Registries.BLOCK.getReadOnlyWrapper();
-        this.beforeState = NbtHelper.toBlockState(blockGetter, nbt.getCompound("beforeState"));
+        super.loadAdditional(nbt, registryLookup);
+        HolderLookup<Block> blockGetter = this.getLevel() != null ? this.getLevel().holderLookup(Registries.BLOCK) : BuiltInRegistries.BLOCK.asLookup();
+        this.beforeState = NbtUtils.readBlockState(blockGetter, nbt.getCompound("beforeState"));
         this.tickCount = nbt.getInt("tickCount");
     }
 }

@@ -2,17 +2,17 @@ package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
-import net.minecraft.world.gen.feature.RandomPatchFeature;
-import net.minecraft.world.gen.feature.RandomPatchFeatureConfig;
-import net.minecraft.world.gen.feature.util.FeatureContext;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.RandomPatchFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 
 public class RandomPatchInDarkAreaFeature extends RandomPatchFeature
 {
-    public RandomPatchInDarkAreaFeature(Codec<RandomPatchFeatureConfig> config) {super(config);}
+    public RandomPatchInDarkAreaFeature(Codec<RandomPatchConfiguration> config) {super(config);}
 
-    @Override public boolean generate(FeatureContext<RandomPatchFeatureConfig> context)
+    @Override public boolean place(FeaturePlaceContext<RandomPatchConfiguration> context)
     {
-        if (!BlockHelper.hasAnySolidSurfaceAbove(context.getWorld(), context.getOrigin(), 3)) {return false;}
-        else {return super.generate(context);}
+        if (!BlockHelper.hasAnySolidSurfaceAbove(context.level(), context.origin(), 3)) {return false;}
+        else {return super.place(context);}
     }
 }

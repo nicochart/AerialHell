@@ -3,43 +3,43 @@ package fr.factionbedrock.aerialhell.Block.DungeonCores;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class DungeonCoreBlock extends Block
 {	
 	int coreProtectRange; //odd number is better
 	
-	public DungeonCoreBlock(AbstractBlock.Settings settings, int coreRangeIn)
+	public DungeonCoreBlock(BlockBehaviour.Properties settings, int coreRangeIn)
 	{
 		super(settings);
 		this.coreProtectRange = coreRangeIn;
 	}
 
-	public void onPlaced(World world, BlockPos pos, BlockState state, @org.jetbrains.annotations.Nullable LivingEntity placer, ItemStack itemStack)
+	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @org.jetbrains.annotations.Nullable LivingEntity placer, ItemStack itemStack)
 	{
 		//setAreaProtected(worldIn, pos, true);
 	}
 	
 	@Override
-	public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player)
+	public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player)
 	{
 		setAreaProtected(world, pos, false);
-		return super.onBreak(world, pos, state, player);
+		return super.playerWillDestroy(world, pos, state, player);
 	}
 
 	//triggered by onBreak (false) and by OnBlockPlacedMixin (true)
-	public void setAreaProtected(World world, BlockPos originPos, boolean protect)
+	public void setAreaProtected(Level world, BlockPos originPos, boolean protect)
 	{		
 		if (isMudCore(this))
 		{
@@ -63,7 +63,7 @@ public class DungeonCoreBlock extends Block
 		}
 	}
 	
-	private void setAreaProtected(World world, BlockPos originPos, TagKey<Block> tag, boolean protect)
+	private void setAreaProtected(Level world, BlockPos originPos, TagKey<Block> tag, boolean protect)
 	{
 		for(int x = originPos.getX() - (coreProtectRange - 1)/2; x <= originPos.getX() + (coreProtectRange - 1)/2; x++)
         {
@@ -73,7 +73,7 @@ public class DungeonCoreBlock extends Block
 		        {
 					BlockPos newPos = new BlockPos(x, y, z);
 					BlockState blockstate = world.getBlockState(newPos);
-					if (blockstate.isIn(tag))
+					if (blockstate.is(tag))
 					{
 						setBlockProtected(world, newPos, protect);
 					}
@@ -82,37 +82,37 @@ public class DungeonCoreBlock extends Block
         }
 	}
 	
-	private void setBlockProtected(World world, BlockPos pos, boolean protect)
+	private void setBlockProtected(Level world, BlockPos pos, boolean protect)
 	{
 		BlockState old_blockstate = world.getBlockState(pos);
 		Block block = old_blockstate.getBlock();
 		if (block instanceof CoreProtectedBlock)
 		{
-			world.setBlockState(pos, old_blockstate.with(CoreProtectedBlock.CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedRotatedPillarBlock)
 		{
-			world.setBlockState(pos, old_blockstate.with(CoreProtectedRotatedPillarBlock.CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedRotatedPillarBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedSlabBlock)
 		{
-			world.setBlockState(pos, old_blockstate.with(CoreProtectedSlabBlock.CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedSlabBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedStairsBlock)
 		{
-			world.setBlockState(pos, old_blockstate.with(CoreProtectedStairsBlock.CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedStairsBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedChestBlock)
 		{
-			world.setBlockState(pos, old_blockstate.with(CoreProtectedChestBlock.CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedChestBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedTrappedBlock)
 		{
-			world.setBlockState(pos, old_blockstate.with(CoreProtectedTrappedBlock.CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedTrappedBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedGlyphBlock)
 		{
-			world.setBlockState(pos, old_blockstate.with(CoreProtectedTrappedBlock.CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedTrappedBlock.CORE_PROTECTED, protect));
 		}
 		//else if (block instanceof CoreProtectedWallBlock)
 		//{
@@ -121,7 +121,7 @@ public class DungeonCoreBlock extends Block
 	}
 	
 	@Override
-	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rand)
 	{
 		float x = pos.getX() + 0.5F;
 		float y = pos.getY() + 0.5F;

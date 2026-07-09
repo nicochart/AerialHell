@@ -1,31 +1,31 @@
 package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class ArsonistBlock extends Block
 {
-	public ArsonistBlock(AbstractBlock.Settings settings)
+	public ArsonistBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);
 	}
 	
-	@Override public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity)
+	@Override public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity)
 	{
 		if (entity instanceof LivingEntity livingEntity)
 		{
-			if (!entity.isFireImmune() && !EntityHelper.hasEnchantment(livingEntity, Enchantments.FROST_WALKER))
+			if (!entity.fireImmune() && !EntityHelper.hasEnchantment(livingEntity, Enchantments.FROST_WALKER))
 			{
-				entity.damage(world.getDamageSources().hotFloor(), 1.0F);
+				entity.hurt(world.damageSources().hotFloor(), 1.0F);
 			}
-			entity.setOnFireFor(2);
+			entity.igniteForSeconds(2);
 		}
 	}
 }

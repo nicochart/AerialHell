@@ -6,9 +6,13 @@ import fr.factionbedrock.aerialhell.Block.ShadowSpreader.BasicShadowSpreaderBloc
 import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLeavesBlock;
 import fr.factionbedrock.aerialhell.Block.ShadowSpreader.ShadowLogBlock;
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
-import net.minecraft.block.*;
-import net.minecraft.util.math.Direction;
-
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.GrassBlock;
+import net.minecraft.world.level.block.GrowingPlantHeadBlock;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,28 +27,28 @@ public class ShiftedModelRenderHelper
 
             for (Boolean canSpread : booleanValues)
             {
-                BlockState state = block.getDefaultState().with(BasicShadowSpreaderBlock.CAN_SPREAD, canSpread).with(AerialHellGrassBlock.SHIFTED_RENDER, false);
+                BlockState state = block.defaultBlockState().setValue(BasicShadowSpreaderBlock.CAN_SPREAD, canSpread).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
                 RenderRegistrationListener.TO_BAKE_LIST.add(state);
             }
         }
         else
         {
-            RenderRegistrationListener.TO_BAKE_LIST.add(block.getDefaultState());
+            RenderRegistrationListener.TO_BAKE_LIST.add(block.defaultBlockState());
         }
     }
 
-    public static void addToBakeAbstractPlantStemBlock(AbstractPlantStemBlock block)
+    public static void addToBakeAbstractPlantStemBlock(GrowingPlantHeadBlock block)
     {
         for (int age = 0; age <= 25; age++)
         {
-            BlockState state = block.getDefaultState().with(AbstractPlantStemBlock.AGE, age).with(AerialHellGrassBlock.SHIFTED_RENDER, false);
+            BlockState state = block.defaultBlockState().setValue(GrowingPlantHeadBlock.AGE, age).setValue(AerialHellGrassBlock.SHIFTED_RENDER, false);
             RenderRegistrationListener.TO_BAKE_LIST.add(state);
         }
     }
 
     public static void addToBakeGrassBlock(GrassBlock block)
     {
-        RenderRegistrationListener.TO_BAKE_LIST.add(block.getDefaultState());
+        RenderRegistrationListener.TO_BAKE_LIST.add(block.defaultBlockState());
     }
 
     public static void addToBakeLeavesBlock(LeavesBlock block)
@@ -60,8 +64,8 @@ public class ShiftedModelRenderHelper
                 {
                     for (Boolean waterlogged : booleanValues)
                     {
-                        state = block.getDefaultState().with(LeavesBlock.DISTANCE, distance).with(LeavesBlock.PERSISTENT, persistent).with(ShiftableLeavesBlock.SHIFTED_RENDER, false).with(LeavesBlock.WATERLOGGED, waterlogged);
-                        if (block instanceof ShadowLeavesBlock) {state = state.with(ShadowLeavesBlock.CAN_SPREAD, can_spread);}
+                        state = block.defaultBlockState().setValue(LeavesBlock.DISTANCE, distance).setValue(LeavesBlock.PERSISTENT, persistent).setValue(ShiftableLeavesBlock.SHIFTED_RENDER, false).setValue(LeavesBlock.WATERLOGGED, waterlogged);
+                        if (block instanceof ShadowLeavesBlock) {state = state.setValue(ShadowLeavesBlock.CAN_SPREAD, can_spread);}
                         RenderRegistrationListener.TO_BAKE_LIST.add(state);
                     }
                 }
@@ -69,7 +73,7 @@ public class ShiftedModelRenderHelper
         }
     }
 
-    public static void addToBakeLogBlock(PillarBlock block)
+    public static void addToBakeLogBlock(RotatedPillarBlock block)
     {
         BlockState state;
         List<Boolean> booleanValues = new ArrayList<>();
@@ -78,8 +82,8 @@ public class ShiftedModelRenderHelper
         {
             for (Direction.Axis axis : Direction.Axis.VALUES)
             {
-                state = block.getDefaultState().with(PillarBlock.AXIS, axis);
-                if (block instanceof ShadowLogBlock) {state = state.with(ShadowLogBlock.CAN_SPREAD, can_spread);}
+                state = block.defaultBlockState().setValue(RotatedPillarBlock.AXIS, axis);
+                if (block instanceof ShadowLogBlock) {state = state.setValue(ShadowLogBlock.CAN_SPREAD, can_spread);}
                 RenderRegistrationListener.TO_BAKE_LIST.add(state);
             }
         }

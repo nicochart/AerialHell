@@ -2,32 +2,31 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 
 import java.util.List;
 import java.util.Random;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 public class BerserkAxeItem extends EffectAxeItem
 {
 	private int weight_ticks;
 	
-	public BerserkAxeItem(ToolMaterial toolMaterial, Item.Settings settings)
+	public BerserkAxeItem(Tier toolMaterial, Item.Properties settings)
 	{
 		super(toolMaterial, settings);
 		this.weight_ticks = 0;
@@ -70,9 +69,9 @@ public class BerserkAxeItem extends EffectAxeItem
 	}
 	
 	@Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand)
     {
-		ItemStack heldItem = player.getStackInHand(hand);
+		ItemStack heldItem = player.getItemInHand(hand);
 		Random rand = new Random();
 		int cooldown = Math.min(getStatus() + 1, 3) * 200;
 		
@@ -83,34 +82,34 @@ public class BerserkAxeItem extends EffectAxeItem
 		{
 			world.addParticle(ParticleTypes.SMOKE, player.getX() + 4*(rand.nextFloat() - 0.5F), player.getY() + 4*rand.nextFloat(), player.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
 		}
-		player.playSound(SoundEvents.ENTITY_RAVAGER_ROAR, 1.0F, 0.5F + rand.nextFloat());
-		if (world.isClient()) //TODO update this dirty code
+		player.playSound(SoundEvents.RAVAGER_ROAR, 1.0F, 0.5F + rand.nextFloat());
+		if (world.isClientSide()) //TODO update this dirty code
 		{
-			Vec3d forward = player.getRotationVecClient().multiply(1.7,1.3,1.7);
-			if (forward.y < 1) {forward = new Vec3d(forward.x, 1, forward.z);}
-			player.setVelocity(player.getVelocity().add(forward));
+			Vec3 forward = player.getForward().multiply(1.7,1.3,1.7);
+			if (forward.y < 1) {forward = new Vec3(forward.x, 1, forward.z);}
+			player.setDeltaMovement(player.getDeltaMovement().add(forward));
 		}
 
-		player.getItemCooldownManager().set(this, cooldown);
-		heldItem.damage(1, player, LivingEntity.getSlotForHand(hand));
-        return TypedActionResult.consume(heldItem);
+		player.getCooldowns().addCooldown(this, cooldown);
+		heldItem.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+        return InteractionResultHolder.consume(heldItem);
 	}
 	
 	@Override
-	public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker)
+	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker)
 	{
 		this.increaseWeight();
-		return super.postHit(stack, target, attacker);
+		return super.hurtEnemy(stack, target, attacker);
 	}
 	
 	@Override
-	public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity player)
+	public boolean canAttackBlock(BlockState state, Level world, BlockPos pos, Player player)
 	{
 		return !player.isCreative();
 	}
 	
 	@Override
-	public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
+	public void inventoryTick(ItemStack stack, Level world, Entity entity, int itemSlot, boolean isSelected)
 	{
 		if (this.weight_ticks > 800)
 		{
@@ -123,45 +122,45 @@ public class BerserkAxeItem extends EffectAxeItem
 		if (isSelected) {giveEntityEffect(world, entity);}
 	}
 	
-	private void giveEntityEffect(World world, Entity entityIn)
+	private void giveEntityEffect(Level world, Entity entityIn)
 	{
-		if (!world.isClient() && entityIn instanceof LivingEntity)
+		if (!world.isClientSide() && entityIn instanceof LivingEntity)
 		{
 			LivingEntity livingEntityIn = (LivingEntity) entityIn;
 			int weight = this.getStatus();
 			if (weight == 0)
 			{
-				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 22, 1, false, false));
-				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 22, 1, false, false));
-				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 22, 1, false, false));
 			}
 			else if (weight == 1)
 			{
-				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 22, 0, false, false));
-				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 22, 0, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 22, 0, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 22, 0, false, false));
 			}
 			else if (weight == 2)
 			{
-				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 22, 0, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 22, 0, false, false));
 			}
 			else if (weight == 3)
 			{
-				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 22, 0, false, false));
-				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 22, 0, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 22, 1, false, false));
 			}
 			else //(weight == 4)
 			{
-				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 22, 0, false, false));
-				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 22, 1, false, false));
-				livingEntityIn.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 22, 3, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 22, 0, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 22, 1, false, false));
+				livingEntityIn.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 22, 3, false, false));
 			}
 		}
 	}
 
-	@Override public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type)
+	@Override public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag type)
 	{
-		ItemHelper.appendBerserkAxeItemTooltip(this.getTranslationKey(), tooltip, Integer.toString(getStatus()));
+		ItemHelper.appendBerserkAxeItemTooltip(this.getDescriptionId(), tooltip, Integer.toString(getStatus()));
 	}
 
-	@Override public boolean canRepair(ItemStack stack, ItemStack ingredient) {return false;}
+	@Override public boolean isValidRepairItem(ItemStack stack, ItemStack ingredient) {return false;}
 }

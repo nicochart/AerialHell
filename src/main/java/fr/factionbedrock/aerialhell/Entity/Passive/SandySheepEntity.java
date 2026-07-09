@@ -4,69 +4,69 @@ import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.BlockStateParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class SandySheepEntity extends AerialHellAnimalEntity
 {
 	private int shearedTimer;
-    public static final TrackedData<Boolean> SHEARED = DataTracker.<Boolean>registerData(SandySheepEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> SHEARED = SynchedEntityData.<Boolean>defineId(SandySheepEntity.class, EntityDataSerializers.BOOLEAN);
 
-    public SandySheepEntity(EntityType<? extends SandySheepEntity> type, World world)
+    public SandySheepEntity(EntityType<? extends SandySheepEntity> type, Level world)
     {
         super(type, world);
         this.shearedTimer = 200;
     }
 
-    public SandySheepEntity(World world)
+    public SandySheepEntity(Level world)
     {
         this(AerialHellEntities.SANDY_SHEEP, world);
         this.shearedTimer = 200;
     }
 
-    @Override public boolean isBreedingItem(ItemStack stack) {return super.isBreedingItem(stack) || stack.getItem() == AerialHellItems.STELLAR_WHEAT;}
+    @Override public boolean isFood(ItemStack stack) {return super.isFood(stack) || stack.getItem() == AerialHellItems.STELLAR_WHEAT;}
 
-    @Override protected void initDataTracker(DataTracker.Builder builder)
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.initDataTracker(builder);
-        builder.add(SHEARED, false);
+        super.defineSynchedData(builder);
+        builder.define(SHEARED, false);
     }
 
-    public static DefaultAttributeContainer.Builder registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
         return AerialHellAnimalEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 12.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.26);
+                .add(Attributes.MAX_HEALTH, 12.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.26);
     }
 
-    @Nullable @Override public PassiveEntity createChild(ServerWorld serverWorld, PassiveEntity mob)
+    @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob mob)
     {
-        return AerialHellEntities.SANDY_SHEEP.create(this.getWorld());
+        return AerialHellEntities.SANDY_SHEEP.create(this.level());
     }
     
-    public boolean hasWool() {return !this.getDataTracker().get(SHEARED);}
-    public void setWool(boolean flag) {this.getDataTracker().set(SHEARED, !flag);}
+    public boolean hasWool() {return !this.getEntityData().get(SHEARED);}
+    public void setWool(boolean flag) {this.getEntityData().set(SHEARED, !flag);}
 
     @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_SANDY_SHEEP_AMBIENT;}
     @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return AerialHellSoundEvents.ENTITY_SANDY_SHEEP_HURT;}
@@ -74,27 +74,27 @@ public class SandySheepEntity extends AerialHellAnimalEntity
 
     @Override protected void playStepSound(BlockPos pos, BlockState par4)
     {
-        this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_SHEEP_STEP, SoundCategory.NEUTRAL, 0.15F, 1.0F);
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.SHEEP_STEP, SoundSource.NEUTRAL, 0.15F, 1.0F);
     }
 
-    @Override public void writeCustomDataToNbt(NbtCompound nbt)
+    @Override public void addAdditionalSaveData(CompoundTag nbt)
     {
-        super.writeCustomDataToNbt(nbt);
+        super.addAdditionalSaveData(nbt);
         nbt.putBoolean("Wool", this.hasWool());
     }
 
-    @Override public void readCustomDataFromNbt(NbtCompound nbt)
+    @Override public void readAdditionalSaveData(CompoundTag nbt)
     {
-        super.readCustomDataFromNbt(nbt);
+        super.readAdditionalSaveData(nbt);
         this.setWool(nbt.getBoolean("Wool"));
     }
 
-    @Override public boolean handleAttack(Entity entityIn)
+    @Override public boolean skipAttackInteraction(Entity entityIn)
     {
     	if (this.hasWool())
     	{
     		this.setWool(false);
-    		this.dropStack(new ItemStack(Items.YELLOW_WOOL));
+    		this.spawnAtLocation(new ItemStack(Items.YELLOW_WOOL));
     		for (int i=0;i<10;i++)
             {
     			double rand = random.nextFloat() * 2;
@@ -103,7 +103,7 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     			double z = getZ() + (random.nextFloat() - 0.5F) * rand;
     			double dx = (random.nextFloat() - 0.5F)/10;
     			double dz = (random.nextFloat() - 0.5F)/10;
-    			this.getWorld().addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, AerialHellBlocks.SLIPPERY_SAND.getDefaultState()), x, y, z, dx, -0.06D, dz);
+    			this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, AerialHellBlocks.SLIPPERY_SAND.defaultBlockState()), x, y, z, dx, -0.06D, dz);
             }
     	}
         return false;

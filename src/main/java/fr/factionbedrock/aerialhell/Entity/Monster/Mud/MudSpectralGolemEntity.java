@@ -1,24 +1,24 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Mud;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.Level;
 
 public class MudSpectralGolemEntity extends MudGolemEntity implements MudSpectralEntity
 {
-	public MudSpectralGolemEntity(EntityType<? extends HostileEntity> type, World world) {super(type, world);}
+	public MudSpectralGolemEntity(EntityType<? extends Monster> type, Level world) {super(type, world);}
 
-	public static DefaultAttributeContainer.Builder registerAttributes()
+	public static AttributeSupplier.Builder registerAttributes()
 	{
 		return MudSpectralEntity.createSpectralAttributes(15.0D, 3.0D, 5.0D, 0.25D, 24.0D);
 	}
 
 	@Override
-	public void handleStatus(byte id)
+	public void handleEntityEvent(byte id)
 	{
 		if (id == 5) {this.popDisappearingParticles(this, 17);}
-		else {super.handleStatus(id);}
+		else {super.handleEntityEvent(id);}
 	}
 
 	@Override public void tick()

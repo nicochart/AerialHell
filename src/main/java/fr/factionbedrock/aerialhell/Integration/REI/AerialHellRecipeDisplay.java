@@ -5,9 +5,8 @@ import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import net.minecraft.recipe.AbstractCookingRecipe;
-import net.minecraft.recipe.RecipeEntry;
-
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,9 +21,9 @@ public class AerialHellRecipeDisplay extends BasicDisplay
         this.categoryIdentifier = category;
     }
 
-    public AerialHellRecipeDisplay(RecipeEntry<? extends AbstractCookingRecipe> recipe, CategoryIdentifier<AerialHellRecipeDisplay> category)
+    public AerialHellRecipeDisplay(RecipeHolder<? extends AbstractCookingRecipe> recipe, CategoryIdentifier<AerialHellRecipeDisplay> category)
     {
-        super(getInputList(recipe.value()), List.of(EntryIngredient.of(EntryStacks.of(recipe.value().getResult(null)))));
+        super(getInputList(recipe.value()), List.of(EntryIngredient.of(EntryStacks.of(recipe.value().getResultItem(null)))));
         this.categoryIdentifier = category;
     }
 

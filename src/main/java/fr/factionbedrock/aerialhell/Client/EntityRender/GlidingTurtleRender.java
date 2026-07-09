@@ -4,22 +4,22 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.GlidingTurtleModel;
 import fr.factionbedrock.aerialhell.Entity.Passive.GlidingTurtleEntity;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.ResourceLocation;
 
-public class GlidingTurtleRender extends MobEntityRenderer<GlidingTurtleEntity, GlidingTurtleModel>
+public class GlidingTurtleRender extends MobRenderer<GlidingTurtleEntity, GlidingTurtleModel>
 {
 	private static String name = "gliding_turtle";
-    private static final Identifier TURTLE_TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/"+ name +"/" + name + ".png");
+    private static final ResourceLocation TURTLE_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/"+ name +"/" + name + ".png");
 
-    public GlidingTurtleRender(EntityRendererFactory.Context context)
+    public GlidingTurtleRender(EntityRendererProvider.Context context)
     {
-        super(context, new GlidingTurtleModel(context.getPart(AerialHellModelLayers.GLIDING_TURTLE)), 0.75F);
+        super(context, new GlidingTurtleModel(context.bakeLayer(AerialHellModelLayers.GLIDING_TURTLE)), 0.75F);
     }
 
     @Override
-    public Identifier getTexture(GlidingTurtleEntity entity)
+    public ResourceLocation getTextureLocation(GlidingTurtleEntity entity)
     {
         return TURTLE_TEXTURE;
     }

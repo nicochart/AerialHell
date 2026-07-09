@@ -1,18 +1,18 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.WallBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.BlockView;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class CoreProtectedWallBlock extends WallBlock
 {
 	//Problem with .isOpaque()
 	//public static final BooleanProperty CORE_PROTECTED = BooleanProperty.of("core_protected");
 	
-	public CoreProtectedWallBlock(AbstractBlock.Settings settings)
+	public CoreProtectedWallBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);
 		//this.setDefaultState(this.getDefaultState().with(CORE_PROTECTED, false));
@@ -43,17 +43,17 @@ public class CoreProtectedWallBlock extends WallBlock
 	}*/
 
 	@Override
-	public float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView world, net.minecraft.util.math.BlockPos pos)
+	public float getDestroyProgress(BlockState state, Player player, BlockGetter world, net.minecraft.core.BlockPos pos)
 	{
-		float f = state.getHardness(world, pos);
+		float f = state.getDestroySpeed(world, pos);
 		if (f == -1.0F /*|| isProtected(state)*/)
 		{
 			return 0.0F;
 		}
 		else
 		{
-			int i = player.canHarvest(state) ? 30 : 100;
-			return player.getBlockBreakingSpeed(state) / f / (float)i;
+			int i = player.hasCorrectToolForDrops(state) ? 30 : 100;
+			return player.getDestroySpeed(state) / f / (float)i;
 		}
 	}
 

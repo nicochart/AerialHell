@@ -1,22 +1,22 @@
 package fr.factionbedrock.aerialhell.Mixin;
 
 import fr.factionbedrock.aerialhell.Util.WorldHelper;
-import net.minecraft.block.Block;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.Block;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ServerWorld.class)
+@Mixin(ServerLevel.class)
 public class UpdateNeighborsExceptMixin
 {
-    @Inject(method = "updateNeighborsExcept", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "updateNeighborsAtExceptFromFacing", at = @At("HEAD"), cancellable = true)
     private void onNeighborsUpdate(BlockPos pos, Block sourceBlock, Direction direction, CallbackInfo callbackInfo)
     {
-        ServerWorld serverWorld = (ServerWorld) (Object) this;
+        ServerLevel serverWorld = (ServerLevel) (Object) this;
         WorldHelper.doAerialHellNeighborUpdate(serverWorld, pos);
     }
 }

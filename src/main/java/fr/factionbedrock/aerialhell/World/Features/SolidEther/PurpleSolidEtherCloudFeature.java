@@ -3,13 +3,13 @@ package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import net.minecraft.block.Block;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
-import net.minecraft.world.gen.feature.util.FeatureContext;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 public class PurpleSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 {
@@ -18,11 +18,11 @@ public class PurpleSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 	protected int getSmallMinSize() {return 2;} protected int getSmallMaxSize() {return 3;}
 	protected Block getEtherBlock() {return AerialHellBlocks.PURPLE_SOLID_ETHER;}
 
-	public PurpleSolidEtherCloudFeature(Codec<DefaultFeatureConfig> codec) {super(codec);}
+	public PurpleSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
-	@Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
+	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		BlockPos pos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom(); ChunkGenerator generator = context.getGenerator();
+		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
 		if (FeatureHelper.isFeatureGeneratingNextToDungeon(context)) {return false;}
     	
 		BlockPos generatePos = pos;

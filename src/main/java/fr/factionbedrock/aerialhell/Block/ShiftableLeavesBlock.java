@@ -2,14 +2,14 @@ package fr.factionbedrock.aerialhell.Block;
 
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 public class ShiftableLeavesBlock extends LeavesBlock
 {
@@ -17,17 +17,17 @@ public class ShiftableLeavesBlock extends LeavesBlock
     private final BiomeShifter.ShiftType shiftType;
     public static final BooleanProperty SHIFTED_RENDER = AerialHellBooleanProperties.SHIFTED_RENDER; //only used for render purposes
 
-    public ShiftableLeavesBlock(Settings settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
+    public ShiftableLeavesBlock(Properties settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
     {
         super(settings);
         this.shiftedVariant = shiftedVariant;
         this.shiftType = shiftType;
-        this.setDefaultState(this.getDefaultState().with(SHIFTED_RENDER, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(SHIFTED_RENDER, false));
     }
 
-    @Override protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
+    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
-        super.appendProperties(builder);
+        super.createBlockStateDefinition(builder);
         builder.add(SHIFTED_RENDER);
     }
 
@@ -40,9 +40,9 @@ public class ShiftableLeavesBlock extends LeavesBlock
         {
             if (beforeLeavesBlock.getShiftedVariant().get() instanceof ShiftableLeavesBlock nextLeavesBlock)
             {
-                return nextLeavesBlock.getDefaultState().with(DISTANCE, beforeState.get(DISTANCE)).with(PERSISTENT, beforeState.get(PERSISTENT)).with(WATERLOGGED, beforeState.get(WATERLOGGED));
+                return nextLeavesBlock.defaultBlockState().setValue(DISTANCE, beforeState.getValue(DISTANCE)).setValue(PERSISTENT, beforeState.getValue(PERSISTENT)).setValue(WATERLOGGED, beforeState.getValue(WATERLOGGED));
             }
-            return beforeLeavesBlock.getShiftedVariant().get().getDefaultState();
+            return beforeLeavesBlock.getShiftedVariant().get().defaultBlockState();
         }
         return null;
     }

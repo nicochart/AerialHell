@@ -3,45 +3,44 @@ package fr.factionbedrock.aerialhell.Item.Armor;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
-
 import java.util.List;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 
 public class ShadowArmorItem extends ArmorItem
 {
-    public ShadowArmorItem(RegistryEntry<ArmorMaterial> material, ArmorItem.Type type, Item.Settings settings) {super(material, type, settings);}
+    public ShadowArmorItem(Holder<ArmorMaterial> material, ArmorItem.Type type, Item.Properties settings) {super(material, type, settings);}
 
-    @Override public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
+    @Override public void inventoryTick(ItemStack stack, Level world, Entity entity, int itemSlot, boolean isSelected)
     {
-        if (entity instanceof PlayerEntity playerEntity && this.type == ArmorItem.Type.CHESTPLATE)
+        if (entity instanceof Player playerEntity && this.type == ArmorItem.Type.CHESTPLATE)
         {
-            if (ItemHelper.getItemInTagCount(playerEntity.getArmorItems(), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !world.isClient())
+            if (ItemHelper.getItemInTagCount(playerEntity.getArmorSlots(), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !world.isClientSide())
             {
-                playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 220, 0, false, false));
+                playerEntity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 220, 0, false, false));
 
-                int shadowBindAmplifier = playerEntity.hasStatusEffect(AerialHellMobEffects.SHADOW_BIND) ? 0 : 1;
-                playerEntity.addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.SHADOW_BIND, 200, shadowBindAmplifier, false, false));
+                int shadowBindAmplifier = playerEntity.hasEffect(AerialHellMobEffects.SHADOW_BIND) ? 0 : 1;
+                playerEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.SHADOW_BIND, 200, shadowBindAmplifier, false, false));
             }
         }
     }
 
-    @Override public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type)
+    @Override public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag type)
     {
-        tooltip.add(this.getDescription().formatted(Formatting.GRAY));
+        tooltip.add(this.getDescription().withStyle(ChatFormatting.GRAY));
     }
 
-    public MutableText getDescription() {return Text.translatable("item.aerialhell.shadow_armor.desc");}
+    public MutableComponent getDescription() {return Component.translatable("item.aerialhell.shadow_armor.desc");}
 }

@@ -1,42 +1,42 @@
 package fr.factionbedrock.aerialhell.Client.Particle;
 
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 
-public class ShadowParticle extends SpriteBillboardParticle
+public class ShadowParticle extends TextureSheetParticle
 {
-	protected ShadowParticle(ClientWorld world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
+	protected ShadowParticle(ClientLevel world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
 	{
 		super(world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 		
-		this.red = this.blue = this.green = 1.0F;
-		this.gravityStrength = -0.2F;
-		this.scale *= 1.5F;
-		this.maxAge =(int) (32.0F + 4.0F * Math.random());
+		this.rCol = this.bCol = this.gCol = 1.0F;
+		this.gravity = -0.2F;
+		this.quadSize *= 1.5F;
+		this.lifetime =(int) (32.0F + 4.0F * Math.random());
 	}
 
-	public static class Factory implements ParticleFactory<SimpleParticleType>
+	public static class Factory implements ParticleProvider<SimpleParticleType>
 	{
-		private final SpriteProvider spriteSet;
+		private final SpriteSet spriteSet;
 		
-		public Factory(SpriteProvider spriteSetIn)
+		public Factory(SpriteSet spriteSetIn)
 		{
 			this.spriteSet = spriteSetIn;
 		}
 		
 		@Override
-		public Particle createParticle(SimpleParticleType typeIn, ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
+		public Particle createParticle(SimpleParticleType typeIn, ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
 		{
 			 ShadowParticle shadowTrollParticle = new ShadowParticle(world, x, y, z, xSpeed, ySpeed, zSpeed);
-	         shadowTrollParticle.setSprite(this.spriteSet);
+	         shadowTrollParticle.pickSprite(this.spriteSet);
 	         return shadowTrollParticle;
 		}
 	}
 
 	@Override
-	public ParticleTextureSheet getType()
+	public ParticleRenderType getRenderType()
 	{
-		return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
+		return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
 	}
 }

@@ -1,10 +1,9 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
 import fr.factionbedrock.aerialhell.Entity.Monster.Snake.AbstractSnakeEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.player.PlayerEntity;
-
 import java.util.EnumSet;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.player.Player;
 
 public class SnakeGoals
 {
@@ -23,7 +22,7 @@ public class SnakeGoals
     public static class SnakeLookAtPlayerGoal extends AdditionalConditionLookAtPlayerGoal
     {
         protected AbstractSnakeEntity snakeGoalOwner;
-        public SnakeLookAtPlayerGoal(AbstractSnakeEntity entity) {super(entity, PlayerEntity.class, 8.0F); this.snakeGoalOwner = entity;}
+        public SnakeLookAtPlayerGoal(AbstractSnakeEntity entity) {super(entity, Player.class, 8.0F); this.snakeGoalOwner = entity;}
         @Override public boolean additionalConditionMet() {return this.snakeGoalOwner.isHead();}
     }
 
@@ -41,20 +40,20 @@ public class SnakeGoals
         public AlignSnakeBodyPartGoal(AbstractSnakeEntity entity)
         {
             this.snakeGoalOwner = entity;
-            this.setControls(EnumSet.of(Goal.Control.LOOK));
+            this.setFlags(EnumSet.of(Goal.Flag.LOOK));
         }
 
-        @Override public boolean canStart() {return !this.snakeGoalOwner.isHead();}
-        @Override public boolean shouldContinue() {return !this.snakeGoalOwner.isHead();}
+        @Override public boolean canUse() {return !this.snakeGoalOwner.isHead();}
+        @Override public boolean canContinueToUse() {return !this.snakeGoalOwner.isHead();}
 
         @Override public void tick()
         {
             if (this.snakeGoalOwner.getPreviousBodyPart() != null)
             {
-                this.snakeGoalOwner.lookAtEntity(this.snakeGoalOwner.getPreviousBodyPart(), 30.0F, 30.0F);
+                this.snakeGoalOwner.lookAt(this.snakeGoalOwner.getPreviousBodyPart(), 30.0F, 30.0F);
             }
         }
 
-        @Override public boolean shouldRunEveryTick() {return true;}
+        @Override public boolean requiresUpdateEveryTick() {return true;}
     }
 }

@@ -1,19 +1,19 @@
 package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import net.minecraft.block.MapColor;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
-import net.minecraft.world.gen.feature.util.FeatureContext;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.material.MapColor;
 import org.joml.Vector3f;
 
 public class FeatureHelper
 {
-    public static boolean isFeatureGeneratingNextToDungeon(FeatureContext<?> context)
+    public static boolean isFeatureGeneratingNextToDungeon(FeaturePlaceContext<?> context)
     {
         /* TODO (currently makes worldgen stops with no error in log, new chunks do not load, infinite loop)
         StructureWorldAccess level = context.getWorld();
@@ -37,17 +37,17 @@ public class FeatureHelper
         return false;//biome.getRegistryName() != null && (biome.getRegistryName().equals(shadowPlain) || biome.getRegistryName().equals(shadowForest)); //TODO
     }
 
-    public static boolean isReplaceableByLogOrLeavesFeature(WorldAccess level, BlockPos pos, boolean canReplacePlant)
+    public static boolean isReplaceableByLogOrLeavesFeature(LevelAccessor level, BlockPos pos, boolean canReplacePlant)
     {
-        return level.testBlockState(pos, (state) ->
+        return level.isStateAtPosition(pos, (state) ->
         {
-            return state.isReplaceable() || canReplacePlant && state.getMapColor(level, pos) == MapColor.GREEN; //TODO : it works ?
+            return state.canBeReplaced() || canReplacePlant && state.getMapColor(level, pos) == MapColor.COLOR_GREEN; //TODO : it works ?
         });
     }
 
-    public static BlockPos getFeatureCenter(FeatureContext<?> context)
+    public static BlockPos getFeatureCenter(FeaturePlaceContext<?> context)
     {
-        BlockPos origin = context.getOrigin();
+        BlockPos origin = context.origin();
         int x = origin.getX(), y = origin.getY(), z = origin.getZ();
 
         if (origin.getX() < 0) {x++;}
@@ -64,13 +64,13 @@ public class FeatureHelper
         return new BlockPos(centerOfFeatureX, y, centerOfFeatureZ);
     }
 
-    public static BlockPos getRandomPosInFeatureRegion(BlockPos featureCenter, Random rand, int MAX_XZ_DISTANCE_FROM_CENTER, int MAX_Y_DISTANCE_FROM_CENTER)
+    public static BlockPos getRandomPosInFeatureRegion(BlockPos featureCenter, RandomSource rand, int MAX_XZ_DISTANCE_FROM_CENTER, int MAX_Y_DISTANCE_FROM_CENTER)
     {
         //MAX_XZ_DISTANCE_FROM_CENTER must be <= 23
-        return featureCenter.add(rand.nextBetweenExclusive(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER), rand.nextBetweenExclusive(- MAX_Y_DISTANCE_FROM_CENTER, MAX_Y_DISTANCE_FROM_CENTER), rand.nextBetweenExclusive(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER));
+        return featureCenter.offset(rand.nextInt(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER), rand.nextInt(- MAX_Y_DISTANCE_FROM_CENTER, MAX_Y_DISTANCE_FROM_CENTER), rand.nextInt(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER));
     }
 
-    public static boolean isBlockPosInFeatureRegion(FeatureContext<DefaultFeatureConfig> context, BlockPos pos)
+    public static boolean isBlockPosInFeatureRegion(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos pos)
     {
         BlockPos featureCenter = getFeatureCenter(context);
         return isBlockPosInFeatureRegion(featureCenter, pos);
@@ -85,9 +85,9 @@ public class FeatureHelper
         //MAX_FEATURE_SIZE_HORIZONTAL/2 - 1 because we check from "feature center" blockpos, which is not really the center, since a chunk is 16x16.. the center is 2x2
     }
 
-    public static boolean isBelowMaxBuildHeight(FeatureContext<?> context, BlockPos pos)
+    public static boolean isBelowMaxBuildHeight(FeaturePlaceContext<?> context, BlockPos pos)
     {
-        return pos.getY() < context.getWorld().getHeight();
+        return pos.getY() < context.level().getHeight();
     }
 
     public static int getMaxAbsoluteXZOffset(BlockPos pos1, BlockPos pos2)
@@ -102,7 +102,7 @@ public class FeatureHelper
         return Math.max(Math.max(Math.abs(xOffset), Math.abs(yOffset)), Math.abs(zOffset));
     }
 
-    public static Vector3f getRandomOrthogonalVectorToLineDefinedWith2Points(BlockPos linePos1, BlockPos linePos2, Random rand)
+    public static Vector3f getRandomOrthogonalVectorToLineDefinedWith2Points(BlockPos linePos1, BlockPos linePos2, RandomSource rand)
     {
         Vector3f vector1 = new Vector3f(linePos2.getX() - linePos1.getX(), linePos2.getY() - linePos1.getY(), linePos2.getZ() - linePos1.getZ());
         Vector3f vector2 = new Vector3f(rand.nextInt(10), rand.nextInt(10), rand.nextInt(10));
@@ -110,15 +110,15 @@ public class FeatureHelper
         return new Vector3f(vector1.y * vector2.z - vector1.z * vector2.y, vector1.z * vector2.x - vector1.x * vector2.z, vector1.x * vector2.y - vector1.y * vector2.x);
     }
 
-    public static void generateDebug(FeatureContext<?> context)
+    public static void generateDebug(FeaturePlaceContext<?> context)
     {
-        StructureWorldAccess reader = context.getWorld();
+        WorldGenLevel reader = context.level();
         BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
         for (int i = -50; i <= 50; i++)
         {
-            reader.setBlockState(centerOfFeature.add(i, 0, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.getDefaultState(), 0);
-            reader.setBlockState(centerOfFeature.add(0, i, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.getDefaultState(), 0);
-            reader.setBlockState(centerOfFeature.add(0, 0, i), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.getDefaultState(), 0);
+            reader.setBlock(centerOfFeature.offset(i, 0, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.defaultBlockState(), 0);
+            reader.setBlock(centerOfFeature.offset(0, i, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.defaultBlockState(), 0);
+            reader.setBlock(centerOfFeature.offset(0, 0, i), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.defaultBlockState(), 0);
         }
 
         //feature center
@@ -128,12 +128,12 @@ public class FeatureHelper
             {
                 for (int z = -1; z <= 1; z++)
                 {
-                    reader.setBlockState(centerOfFeature.add(x, y, z), AerialHellBlocks.ARSONIST_BLOCK.getDefaultState(), 0);
+                    reader.setBlock(centerOfFeature.offset(x, y, z), AerialHellBlocks.ARSONIST_BLOCK.defaultBlockState(), 0);
                 }
             }
         }
 
         //feature origin
-        reader.setBlockState(context.getOrigin(), AerialHellBlocks.CRYSTAL_BRICKS.getDefaultState(), 0);
+        reader.setBlock(context.origin(), AerialHellBlocks.CRYSTAL_BRICKS.defaultBlockState(), 0);
     }
 }

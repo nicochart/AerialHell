@@ -4,34 +4,34 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.util.FeatureContext;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class GiantCrystalBlobFeature extends Feature<DefaultFeatureConfig>
+public class GiantCrystalBlobFeature extends Feature<NoneFeatureConfiguration>
 {
-	public GiantCrystalBlobFeature(Codec<DefaultFeatureConfig> codec) {super(codec);}
+	public GiantCrystalBlobFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
-	@Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
+	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		BlockPos pos = context.getOrigin(); StructureWorldAccess reader = context.getWorld(); Random rand = context.getRandom();
-		if (!reader.isAir(pos)) {return false;}
+		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random();
+		if (!reader.isEmptyBlock(pos)) {return false;}
 		else
 		{
-			BlockState blockstate = reader.getBlockState(pos.down());
-		    if (!blockstate.isIn(AerialHellTags.Blocks.STELLAR_DIRT))
+			BlockState blockstate = reader.getBlockState(pos.below());
+		    if (!blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT))
 		    {
 		    	return false;
 		    }
 		    else
 		    {
-		    	reader.setBlockState(pos, AerialHellBlocks.CRYSTAL_BLOCK.getDefaultState(), 2);
+		    	reader.setBlock(pos, AerialHellBlocks.CRYSTAL_BLOCK.defaultBlockState(), 2);
 		    	
 		    	BlockPos blockpos;
 		        for(int i = 0; i < 3000; ++i)
@@ -39,23 +39,23 @@ public class GiantCrystalBlobFeature extends Feature<DefaultFeatureConfig>
 		        	
 		        	if (i < 1000)
 		        	{
-		        		blockpos = pos.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(6), rand.nextInt(8) - rand.nextInt(8));
+		        		blockpos = pos.offset(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(6), rand.nextInt(8) - rand.nextInt(8));
 		        	}
 		        	else if (i < 1500)
 		        	{
-		        		blockpos = pos.add(rand.nextInt(7) - rand.nextInt(7), 6 + rand.nextInt(6), rand.nextInt(7) - rand.nextInt(7));
+		        		blockpos = pos.offset(rand.nextInt(7) - rand.nextInt(7), 6 + rand.nextInt(6), rand.nextInt(7) - rand.nextInt(7));
 		        	}
 		        	else
 		        	{
-		        		blockpos = pos.add(rand.nextInt(9) - rand.nextInt(9), rand.nextInt(4) - rand.nextInt(8), rand.nextInt(9) - rand.nextInt(9));
+		        		blockpos = pos.offset(rand.nextInt(9) - rand.nextInt(9), rand.nextInt(4) - rand.nextInt(8), rand.nextInt(9) - rand.nextInt(9));
 		        	}
-		            if (reader.getBlockState(blockpos).isOf(Blocks.AIR) || reader.getBlockState(blockpos).isIn(AerialHellTags.Blocks.STELLAR_DIRT) || reader.getBlockState(blockpos).isIn(AerialHellTags.Blocks.STELLAR_STONE))
+		            if (reader.getBlockState(blockpos).is(Blocks.AIR) || reader.getBlockState(blockpos).is(AerialHellTags.Blocks.STELLAR_DIRT) || reader.getBlockState(blockpos).is(AerialHellTags.Blocks.STELLAR_STONE))
 		            {
 			            int j = 0;
 	
 			            for(Direction direction : Direction.values())
 			            {
-				            if (reader.getBlockState(blockpos.offset(direction)).isOf(AerialHellBlocks.CRYSTAL_BLOCK))
+				            if (reader.getBlockState(blockpos.relative(direction)).is(AerialHellBlocks.CRYSTAL_BLOCK))
 				            {
 				            	++j;
 				            }
@@ -65,16 +65,16 @@ public class GiantCrystalBlobFeature extends Feature<DefaultFeatureConfig>
 	
 			            if (j == 1 || j == 2 && rand.nextInt(25) == 0)
 			            {
-			            	reader.setBlockState(blockpos, AerialHellBlocks.CRYSTAL_BLOCK.getDefaultState(), 2);
+			            	reader.setBlock(blockpos, AerialHellBlocks.CRYSTAL_BLOCK.defaultBlockState(), 2);
 			            }
 		            }
 		        }
 		        for(int i = 0; i < 100; ++i)
 		        {
-		        	blockpos = pos.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(12), rand.nextInt(8) - rand.nextInt(8));
-		        	if (reader.getBlockState(blockpos).isOf(Blocks.AIR) && (reader.getBlockState(blockpos.down()).isOf(AerialHellBlocks.CRYSTAL_BLOCK)))
+		        	blockpos = pos.offset(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(12), rand.nextInt(8) - rand.nextInt(8));
+		        	if (reader.getBlockState(blockpos).is(Blocks.AIR) && (reader.getBlockState(blockpos.below()).is(AerialHellBlocks.CRYSTAL_BLOCK)))
 		        	{
-		        		reader.setBlockState(blockpos, AerialHellBlocks.CRYSTALLIZED_FIRE.getDefaultState(), 2);
+		        		reader.setBlock(blockpos, AerialHellBlocks.CRYSTALLIZED_FIRE.defaultBlockState(), 2);
 		        	}
 		        }
 

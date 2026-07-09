@@ -4,45 +4,52 @@ import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.FollowParentGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 
-public class StellarChickenEntity extends ChickenEntity
+public class StellarChickenEntity extends Chicken
 {
-    private static final TrackedData<Integer> COLOR = DataTracker.<Integer>registerData(StellarChickenEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final Ingredient FOOD_ITEMS = Ingredient.ofItems(AerialHellItems.STELLAR_WHEAT_SEEDS, AerialHellItems.AERIAL_BERRY_SEEDS, AerialHellItems.VIBRANT_AERIAL_BERRY_SEEDS);
+    private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.<Integer>defineId(StellarChickenEntity.class, EntityDataSerializers.INT);
+    private static final Ingredient FOOD_ITEMS = Ingredient.of(AerialHellItems.STELLAR_WHEAT_SEEDS, AerialHellItems.AERIAL_BERRY_SEEDS, AerialHellItems.VIBRANT_AERIAL_BERRY_SEEDS);
 
-    public StellarChickenEntity(EntityType<? extends ChickenEntity> entityType, World world) {super(entityType, world);}
+    public StellarChickenEntity(EntityType<? extends Chicken> entityType, Level world) {super(entityType, world);}
 
-    @Override public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason mobSpawnType, @Nullable EntityData spawnGroupData)
+    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData)
     {
         this.setColor(getBlockPositionTint());
-        return super.initialize(world, difficulty, mobSpawnType, spawnGroupData);
+        return super.finalizeSpawn(world, difficulty, mobSpawnType, spawnGroupData);
     }
 
     @Override public void tick()
@@ -55,71 +62,71 @@ public class StellarChickenEntity extends ChickenEntity
         super.tick();
     }
 
-    private int getBlockPositionTint() {return this.getWorld().getColor(this.getBlockPos(), Biome::getGrassColorAt);}
+    private int getBlockPositionTint() {return this.level().getBlockTint(this.blockPosition(), Biome::getGrassColor);}
 
-    @Override protected void initDataTracker(DataTracker.Builder builder)
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.initDataTracker(builder);
-        builder.add(COLOR, 0);
+        super.defineSynchedData(builder);
+        builder.define(COLOR, 0);
     }
 
-    @Override public void writeCustomDataToNbt(NbtCompound nbt)
+    @Override public void addAdditionalSaveData(CompoundTag nbt)
     {
-        super.writeCustomDataToNbt(nbt);
+        super.addAdditionalSaveData(nbt);
         nbt.putInt("Color", this.getColor());
     }
 
-    @Override public void readCustomDataFromNbt(NbtCompound nbt)
+    @Override public void readAdditionalSaveData(CompoundTag nbt)
     {
-        super.readCustomDataFromNbt(nbt);
+        super.readAdditionalSaveData(nbt);
         this.setColor(nbt.getInt("Color"));
     }
 
-    public int getColor() {return this.getDataTracker().get(COLOR);}
-    public void setColor(int color) {this.getDataTracker().set(COLOR, color);}
+    public int getColor() {return this.getEntityData().get(COLOR);}
+    public void setColor(int color) {this.getEntityData().set(COLOR, color);}
 
-    protected void initGoals()
+    protected void registerGoals()
     {
-        this.goalSelector.add(0, new SwimGoal(this));
-        this.goalSelector.add(1, new EscapeDangerGoal(this, 1.5D));
-        this.goalSelector.add(2, new AnimalMateGoal(this, 1.0D));
-        this.goalSelector.add(3, new TemptGoal(this, 1.0D, FOOD_ITEMS, false));
-        this.goalSelector.add(4, new FollowParentGoal(this, 1.1D));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0D));
-        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 5.0F));
-        this.goalSelector.add(7, new LookAroundGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new PanicGoal(this, 1.5D));
+        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.0D, FOOD_ITEMS, false));
+        this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1D));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 5.0F));
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
     }
 
-    @Override public boolean isBreedingItem(ItemStack stack) {return FOOD_ITEMS.test(stack);}
+    @Override public boolean isFood(ItemStack stack) {return FOOD_ITEMS.test(stack);}
 
-    @Nullable @Override public ChickenEntity createChild(ServerWorld world, PassiveEntity mob)
+    @Nullable @Override public Chicken getBreedOffspring(ServerLevel world, AgeableMob mob)
     {
-        StellarChickenEntity baby = AerialHellEntities.STELLAR_CHICKEN.create(this.getWorld());
+        StellarChickenEntity baby = AerialHellEntities.STELLAR_CHICKEN.create(this.level());
         baby.setColor(this.getColor());
         return baby;
     }
 
-    public static DefaultAttributeContainer.Builder registerAttributes()
+    public static AttributeSupplier.Builder registerAttributes()
     {
         return AerialHellAnimalEntity.createLivingAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 6.0D)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3);
+                .add(Attributes.MAX_HEALTH, 6.0D)
+                .add(Attributes.FOLLOW_RANGE, 16.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.3);
     }
 
-    @Nullable @Override public ItemEntity dropItem(ItemConvertible item)
+    @Nullable @Override public ItemEntity spawnAtLocation(ItemLike item)
     {
-        if (item == Items.EGG) {return super.dropItem(AerialHellItems.STELLAR_EGG);}
-        else {return super.dropItem(item);}
+        if (item == Items.EGG) {return super.spawnAtLocation(AerialHellItems.STELLAR_EGG);}
+        else {return super.spawnAtLocation(item);}
     }
 
-    @Override public float getPathfindingFavor(BlockPos pos, WorldView world)
+    @Override public float getWalkTargetValue(BlockPos pos, LevelReader world)
     {
-        return world.getBlockState(pos.down()).isOf(AerialHellBlocks.STELLAR_GRASS_BLOCK) ? 10.0F : world.getPhototaxisFavor(pos) - 0.5F;
+        return world.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK) ? 10.0F : world.getPathfindingCostFromLightLevels(pos) - 0.5F;
     }
 
-    public static boolean canSpawn(EntityType<? extends ChickenEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random randomIn)
+    public static boolean canSpawn(EntityType<? extends Chicken> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
     {
-        return world.getBlockState(pos.down()).isOf(AerialHellBlocks.STELLAR_GRASS_BLOCK) && isLightLevelValidForNaturalSpawn(world, pos);
+        return world.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK) && isBrightEnoughToSpawn(world, pos);
     }
 }

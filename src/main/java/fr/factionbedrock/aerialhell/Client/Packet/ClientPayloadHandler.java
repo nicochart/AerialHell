@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.Packet;
 
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationListener;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 //https://wiki.fabricmc.net/tutorial:networking
 public class ClientPayloadHandler
@@ -14,7 +14,7 @@ public class ClientPayloadHandler
             if (payload.name().equals("reloadTextures"))
             {
                 RenderRegistrationListener.initialiseToBakeList(); //reinit ToBake BlockState list (shifting models), because models are reloaded with textures
-                MinecraftClient.getInstance().reloadResources();
+                Minecraft.getInstance().reloadResourcePacks();
             }
         });
     }

@@ -2,31 +2,30 @@ package fr.factionbedrock.aerialhell.Item.Tools;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.text.Text;
-
 import java.util.List;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
 
 public class AerialHellAxeItem extends AxeItem
 {
-	public AerialHellAxeItem(ToolMaterial toolMaterial, Item.Settings settings) {super(toolMaterial, settings);}
+	public AerialHellAxeItem(Tier toolMaterial, Item.Properties settings) {super(toolMaterial, settings);}
 
-	@Override public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type)
+	@Override public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag type)
 	{
-		ItemHelper.appendItemTooltip(this.getTranslationKey(), tooltip);
+		ItemHelper.appendItemTooltip(this.getDescriptionId(), tooltip);
 	}
 
-	@Override public boolean canRepair(ItemStack stack, ItemStack ingredient)
+	@Override public boolean isValidRepairItem(ItemStack stack, ItemStack ingredient)
 	{
 		return !(cantRepair(stack));
 	}
 
 	public boolean cantRepair(ItemStack stack) //TODO use item tag in cantRepair method
 	{
-		return stack.isOf(AerialHellItems.HEAVY_AXE);
+		return stack.is(AerialHellItems.HEAVY_AXE);
 	}
 }

@@ -1,37 +1,37 @@
 package fr.factionbedrock.aerialhell.Client.Particle;
 
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleFactory;
+import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.PortalParticle;
-import net.minecraft.client.particle.SpriteProvider;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.core.particles.SimpleParticleType;
 
 public class CopperPineLeavesParticle extends PortalParticle
 {
-    protected CopperPineLeavesParticle(ClientWorld world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
+    protected CopperPineLeavesParticle(ClientLevel world, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
     {
         super(world, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 
-        this.red = 0.86F;
-        this.green = 0.46F;
-        this.blue = 0.19F;
+        this.rCol = 0.86F;
+        this.gCol = 0.46F;
+        this.bCol = 0.19F;
     }
 
-    public static class Factory implements ParticleFactory<SimpleParticleType>
+    public static class Factory implements ParticleProvider<SimpleParticleType>
     {
-        private final SpriteProvider spriteSet;
+        private final SpriteSet spriteSet;
 
-        public Factory(SpriteProvider spriteSetIn)
+        public Factory(SpriteSet spriteSetIn)
         {
             this.spriteSet = spriteSetIn;
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType typeIn, ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
         {
             CopperPineLeavesParticle copperPineLeavesParticle = new CopperPineLeavesParticle(world, x, y, z, xSpeed, ySpeed, zSpeed);
-            copperPineLeavesParticle.setSprite(this.spriteSet);
+            copperPineLeavesParticle.pickSprite(this.spriteSet);
             return copperPineLeavesParticle;
         }
     }

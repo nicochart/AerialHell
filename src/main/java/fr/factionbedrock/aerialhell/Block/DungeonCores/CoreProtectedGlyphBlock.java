@@ -1,57 +1,57 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import fr.factionbedrock.aerialhell.Block.GlyphBlock;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class CoreProtectedGlyphBlock extends GlyphBlock
 {
-	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.of("core_protected");
+	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
 
-	public CoreProtectedGlyphBlock(AbstractBlock.Settings settings)
+	public CoreProtectedGlyphBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);
-		this.setDefaultState(this.getDefaultState().with(CORE_PROTECTED, false));
+		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
 	
 	public boolean isProtected(BlockState state)
 	{
-		return state.get(CORE_PROTECTED);
+		return state.getValue(CORE_PROTECTED);
 	}
 
-	@Override public ActionResult onUse(BlockState state, World world, net.minecraft.util.math.BlockPos pos, PlayerEntity player, BlockHitResult hit)
+	@Override public InteractionResult useWithoutItem(BlockState state, Level world, net.minecraft.core.BlockPos pos, Player player, BlockHitResult hit)
 	{
-		if (!player.isCreative() && this.isProtected(state)) {return ActionResult.PASS;}
-		else {return super.onUse(state, world, pos, player, hit);}
+		if (!player.isCreative() && this.isProtected(state)) {return InteractionResult.PASS;}
+		else {return super.useWithoutItem(state, world, pos, player, hit);}
 	}
 	
 	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(CORE_PROTECTED);
-		super.appendProperties(builder);
+		super.createBlockStateDefinition(builder);
 	}
 
 	@Override
-	public float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView world, net.minecraft.util.math.BlockPos pos)
+	public float getDestroyProgress(BlockState state, Player player, BlockGetter world, net.minecraft.core.BlockPos pos)
 	{
-		float f = state.getHardness(world, pos);
+		float f = state.getDestroySpeed(world, pos);
 		if (f == -1.0F || isProtected(state))
 		{
 			return 0.0F;
 		}
 		else
 		{
-			int i = player.canHarvest(state) ? 30 : 100;
-			return player.getBlockBreakingSpeed(state) / f / (float)i;
+			int i = player.hasCorrectToolForDrops(state) ? 30 : 100;
+			return player.getDestroySpeed(state) / f / (float)i;
 		}
 	}
 }

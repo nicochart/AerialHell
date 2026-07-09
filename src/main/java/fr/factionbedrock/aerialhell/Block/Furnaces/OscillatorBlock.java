@@ -4,50 +4,50 @@ import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.BlockEntity.OscillatorBlockEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.AbstractFurnaceBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AbstractFurnaceBlock;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
 
 public class OscillatorBlock extends AbstractAerialHellFurnaceBlock
 {
-	public static final MapCodec<OscillatorBlock> CODEC = createCodec(OscillatorBlock::new);
+	public static final MapCodec<OscillatorBlock> CODEC = simpleCodec(OscillatorBlock::new);
 
-	public OscillatorBlock(AbstractBlock.Settings settings)
+	public OscillatorBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);
 	}
 
-	@Override protected @NotNull MapCodec<? extends AbstractFurnaceBlock> getCodec() {return CODEC;}
+	@Override protected @NotNull MapCodec<? extends AbstractFurnaceBlock> codec() {return CODEC;}
 
-	@Override public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {return new OscillatorBlockEntity(pos, state);}
+	@Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new OscillatorBlockEntity(pos, state);}
 
-	@Override protected void openScreen(World world, BlockPos pos, PlayerEntity player)
+	@Override protected void openContainer(Level world, BlockPos pos, Player player)
 	{
 		BlockEntity blockentity = world.getBlockEntity(pos);
 		if (blockentity instanceof OscillatorBlockEntity oscillatorBlockEntity)
 		{
-			player.openHandledScreen(oscillatorBlockEntity);
+			player.openMenu(oscillatorBlockEntity);
 		}
 	}
 
 	@Override public BlockEntityType<? extends AbstractFurnaceBlockEntity> getTickerBlockEntity() {return AerialHellBlockEntities.OSCILLATOR;}
-	@Override public SoundEvent getLitSound() {return SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE;}
+	@Override public SoundEvent getLitSound() {return SoundEvents.FURNACE_FIRE_CRACKLE;}
 	@Override public Vector3d getParticlePos(BlockPos pos, Direction direction) {return new Vector3d(pos.getX() + 0.5D, pos.getY() + 1.01D, pos.getZ() + 0.5D);}
-	@Override public Vector3d getParticleRandomOffset(Random rand) {return new Vector3d(rand.nextDouble() - 0.5D, (rand.nextDouble() * 6.0D) / 16.0D, rand.nextDouble() - 0.5D);}
-	@Override public Vector3d getParticleRandomVelocity(Random rand) {return new Vector3d(0.0D, 0.0D, 0.0D);}
-	@Override public ParticleEffect getParticleType() {return AerialHellParticleTypes.OSCILLATOR;}
+	@Override public Vector3d getParticleRandomOffset(RandomSource rand) {return new Vector3d(rand.nextDouble() - 0.5D, (rand.nextDouble() * 6.0D) / 16.0D, rand.nextDouble() - 0.5D);}
+	@Override public Vector3d getParticleRandomVelocity(RandomSource rand) {return new Vector3d(0.0D, 0.0D, 0.0D);}
+	@Override public ParticleOptions getParticleType() {return AerialHellParticleTypes.OSCILLATOR;}
 	@Override public int getParticleCount() {return 1;}
 }

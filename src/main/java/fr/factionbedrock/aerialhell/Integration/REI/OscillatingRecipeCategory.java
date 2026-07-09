@@ -12,21 +12,20 @@ import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import java.util.LinkedList;
 import java.util.List;
 
 public class OscillatingRecipeCategory implements DisplayCategory<BasicDisplay>
 {
-	public final static Identifier TEXTURE = AerialHell.id("textures/gui/container/oscillator.png");
+	public final static ResourceLocation TEXTURE = AerialHell.id("textures/gui/container/oscillator.png");
 
     @Override public CategoryIdentifier<? extends BasicDisplay> getCategoryIdentifier() {return AerialHellRei.OSCILLATING;}
 
-    @Override public Text getTitle() {return Text.translatable("block.aerialhell.oscillator");}
+    @Override public Component getTitle() {return Component.translatable("block.aerialhell.oscillator");}
 
-    @Override public Renderer getIcon() {return EntryStacks.of(AerialHellBlocks.OSCILLATOR.asItem().getDefaultStack());}
+    @Override public Renderer getIcon() {return EntryStacks.of(AerialHellBlocks.OSCILLATOR.asItem().getDefaultInstance());}
 
     @Override public List<Widget> setupDisplay(BasicDisplay display, Rectangle bounds)
     {

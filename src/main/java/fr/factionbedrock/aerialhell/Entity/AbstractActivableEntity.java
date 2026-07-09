@@ -1,44 +1,44 @@
 package fr.factionbedrock.aerialhell.Entity;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.world.World;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.Level;
 
-public abstract class AbstractActivableEntity extends HostileEntity
+public abstract class AbstractActivableEntity extends Monster
 {
 	protected int timeClosePlayer;
 	protected int timeWithoutAnyTarget;
-	public static final TrackedData<Boolean> ACTIVE = DataTracker.registerData(AbstractActivableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> ACTIVE = SynchedEntityData.defineId(AbstractActivableEntity.class, EntityDataSerializers.BOOLEAN);
 
-	public AbstractActivableEntity(EntityType<? extends HostileEntity> type, World world)
+	public AbstractActivableEntity(EntityType<? extends Monster> type, Level world)
 	{
 		super(type, world);
 		this.timeWithoutAnyTarget = 0; this.timeClosePlayer = 0;
 	}
 
 	@Override
-	protected void initDataTracker(DataTracker.Builder builder)
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
 	{
-		super.initDataTracker(builder);
-		builder.add(ACTIVE, false);
+		super.defineSynchedData(builder);
+		builder.define(ACTIVE, false);
 	}
 
-    public void setActive(boolean isActive) {this.getDataTracker().set(ACTIVE, isActive);}
-	public boolean isActive() {return this.getDataTracker().get(ACTIVE);}
+    public void setActive(boolean isActive) {this.getEntityData().set(ACTIVE, isActive);}
+	public boolean isActive() {return this.getEntityData().get(ACTIVE);}
 
 	@Override
-	public boolean damage(DamageSource source, float amount)
+	public boolean hurt(DamageSource source, float amount)
 	{
-		boolean flag = super.damage(source, amount);
+		boolean flag = super.hurt(source, amount);
 		if (flag)
 		{
 			this.setActive(true);
-			this.playerHitTimer = 100;
+			this.lastHurtByPlayerTime = 100;
 			this.timeWithoutAnyTarget = 0;
 		}
 		return flag;
@@ -48,7 +48,7 @@ public abstract class AbstractActivableEntity extends HostileEntity
 	public void tick()
 	{
 		super.tick();
-		if (this.getWorld().getClosestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToActivate(), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR) != null)
+		if (this.level().getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToActivate(), EntitySelector.NO_CREATIVE_OR_SPECTATOR) != null)
 		{
 			if (!this.isActive() && this.timeClosePlayer >= this.getMinTimeToActivate())
 			{
@@ -59,10 +59,10 @@ public abstract class AbstractActivableEntity extends HostileEntity
 
 			if (this.isActive() && this.timeWithoutAnyTarget > 0) {this.timeWithoutAnyTarget--;}
 		}
-		else if (this.getWorld().getClosestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToDeactivate(), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR) == null)
+		else if (this.level().getNearestPlayer(this.getX(), this.getY(), this.getZ(), this.getMinDistanceToDeactivate(), EntitySelector.NO_CREATIVE_OR_SPECTATOR) == null)
 		{			
 			if (timeWithoutAnyTarget < 120) {timeWithoutAnyTarget++;}
-			else if (this.playerHitTimer <= 0 && timeWithoutAnyTarget == 120)
+			else if (this.lastHurtByPlayerTime <= 0 && timeWithoutAnyTarget == 120)
 			{
 				this.setActive(false);
 				this.timeClosePlayer = 0;

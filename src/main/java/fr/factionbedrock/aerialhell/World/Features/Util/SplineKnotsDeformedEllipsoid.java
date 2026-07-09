@@ -1,10 +1,9 @@
 package fr.factionbedrock.aerialhell.World.Features.Util;
 
-import net.minecraft.block.Block;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.gen.feature.util.FeatureContext;
-
 import java.util.function.Supplier;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 public class SplineKnotsDeformedEllipsoid extends Ellipsoid implements SplineKnots
 {
@@ -13,7 +12,7 @@ public class SplineKnotsDeformedEllipsoid extends Ellipsoid implements SplineKno
     private final BlockPos[] knots;
     private final boolean generateBothDeformedAndNonDeformed;
 
-    public SplineKnotsDeformedEllipsoid(FeatureContext<?> context, Supplier<Block> block, EllipsoidParameters ellipsoidParams, BlockPos centerPos, Ellipsoid.Types.EllipsoidType type, int knotsNumber, KnotsParameters knotsParams, boolean generateBothDeformedAndNonDeformed)
+    public SplineKnotsDeformedEllipsoid(FeaturePlaceContext<?> context, Supplier<Block> block, EllipsoidParameters ellipsoidParams, BlockPos centerPos, Ellipsoid.Types.EllipsoidType type, int knotsNumber, KnotsParameters knotsParams, boolean generateBothDeformedAndNonDeformed)
     {
         super(context, block, ellipsoidParams, centerPos, type);
         this.knotsNumber = knotsNumber;
@@ -28,15 +27,15 @@ public class SplineKnotsDeformedEllipsoid extends Ellipsoid implements SplineKno
 
     @Override public BlockPos getRandomKnotPos()
     {
-        int i=0, max_tries = 5, x = knotsParams.getRandomKnotDistance(context.getRandom()), y = knotsParams.getRandomKnotDistance(context.getRandom()), z = knotsParams.getRandomKnotDistance(context.getRandom());
+        int i=0, max_tries = 5, x = knotsParams.getRandomKnotDistance(context.random()), y = knotsParams.getRandomKnotDistance(context.random()), z = knotsParams.getRandomKnotDistance(context.random());
         while (this.isPosInsideGeneratedEllipsoidPart(x, y, z) && i++ <= max_tries)
         {
-            x = knotsParams.getRandomKnotDistance(context.getRandom()); y = knotsParams.getRandomKnotDistance(context.getRandom()); z = knotsParams.getRandomKnotDistance(context.getRandom());
+            x = knotsParams.getRandomKnotDistance(context.random()); y = knotsParams.getRandomKnotDistance(context.random()); z = knotsParams.getRandomKnotDistance(context.random());
         }
         return getLevelPosFromEllipsoidPos(x, y, z);
     }
 
-    @Override protected void generateInnerLoop(BlockPos.Mutable placementPos, int x, int y, int z, boolean generateBorder)
+    @Override protected void generateInnerLoop(BlockPos.MutableBlockPos placementPos, int x, int y, int z, boolean generateBorder)
     {
         if (this.generateBothDeformedAndNonDeformed) {super.generateInnerLoop(placementPos, x, y, z, generateBorder);} //generating non deformed
         if (randomlyChooseToNotPlaceBlock(generateBorder)) {return;}

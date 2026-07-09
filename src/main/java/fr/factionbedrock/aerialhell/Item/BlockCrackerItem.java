@@ -2,38 +2,42 @@ package fr.factionbedrock.aerialhell.Item;
 
 import fr.factionbedrock.aerialhell.Block.DungeonCores.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
-import net.minecraft.block.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockCrackerItem extends WithInformationItem
 {
-    public BlockCrackerItem(Item.Settings settings) {super(settings);}
+    public BlockCrackerItem(Item.Properties settings) {super(settings);}
 
-    @Override public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
+    @Override public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand)
     {
-        BlockPos origin = user.getBlockPos();
+        BlockPos origin = user.blockPosition();
         if (user.isCreative())
         {
             this.crackRandomBlocks(world, origin, 0.25F);
-            user.playSound(SoundEvents.ENTITY_TURTLE_EGG_CRACK, 1.0F, 0.1F);
-            user.getItemCooldownManager().set(this, 10);
-            return TypedActionResult.consume(user.getStackInHand(hand));
+            user.playSound(SoundEvents.TURTLE_EGG_CRACK, 1.0F, 0.1F);
+            user.getCooldowns().addCooldown(this, 10);
+            return InteractionResultHolder.consume(user.getItemInHand(hand));
         }
         else
         {
-            return TypedActionResult.pass(user.getStackInHand(hand));
+            return InteractionResultHolder.pass(user.getItemInHand(hand));
         }
     }
 
-    protected void crackRandomBlocks(World world, BlockPos origin, float chance)
+    protected void crackRandomBlocks(Level world, BlockPos origin, float chance)
     {
         BlockPos setPos;
         int x, y, z, range = 5;
@@ -43,8 +47,8 @@ public class BlockCrackerItem extends WithInformationItem
             {
                 for (z=-range - 1; z<=range + 1; z++)
                 {
-                    setPos = origin.add(x, y, z);
-                    if (setPos.getSquaredDistance(origin) < range * range && world.getRandom().nextFloat() < chance)
+                    setPos = origin.offset(x, y, z);
+                    if (setPos.distSqr(origin) < range * range && world.getRandom().nextFloat() < chance)
                     {
                         this.tryCrackingBlock(world, setPos);
                     }
@@ -53,12 +57,12 @@ public class BlockCrackerItem extends WithInformationItem
         }
     }
 
-    protected void tryCrackingBlock(World world, BlockPos pos)
+    protected void tryCrackingBlock(Level world, BlockPos pos)
     {
         BlockState previousBlockState = world.getBlockState(pos);
         @Nullable BlockState nextBlockState = getNextBlockState(previousBlockState);
 
-        if (nextBlockState != null) {world.setBlockState(pos, nextBlockState);}
+        if (nextBlockState != null) {world.setBlockAndUpdate(pos, nextBlockState);}
     }
 
     @Nullable protected BlockState getNextBlockState(BlockState previousBlockState)
@@ -69,19 +73,19 @@ public class BlockCrackerItem extends WithInformationItem
 
         if (previousBlock instanceof SlabBlock)
         {
-            return nextBlock.getDefaultState().with(SlabBlock.TYPE, previousBlockState.get(SlabBlock.TYPE));
+            return nextBlock.defaultBlockState().setValue(SlabBlock.TYPE, previousBlockState.getValue(SlabBlock.TYPE));
         }
-        else if (previousBlock instanceof StairsBlock)
+        else if (previousBlock instanceof StairBlock)
         {
-            return nextBlock.getDefaultState().with(StairsBlock.FACING, previousBlockState.get(StairsBlock.FACING)).with(StairsBlock.HALF, previousBlockState.get(StairsBlock.HALF)).with(StairsBlock.SHAPE, previousBlockState.get(StairsBlock.SHAPE));
+            return nextBlock.defaultBlockState().setValue(StairBlock.FACING, previousBlockState.getValue(StairBlock.FACING)).setValue(StairBlock.HALF, previousBlockState.getValue(StairBlock.HALF)).setValue(StairBlock.SHAPE, previousBlockState.getValue(StairBlock.SHAPE));
         }
         else if (previousBlock instanceof WallBlock)
         {
-            return nextBlock.getDefaultState().with(WallBlock.UP, previousBlockState.get(WallBlock.UP)).with(WallBlock.NORTH_SHAPE, previousBlockState.get(WallBlock.NORTH_SHAPE)).with(WallBlock.SOUTH_SHAPE, previousBlockState.get(WallBlock.SOUTH_SHAPE)).with(WallBlock.WEST_SHAPE, previousBlockState.get(WallBlock.WEST_SHAPE)).with(WallBlock.EAST_SHAPE, previousBlockState.get(WallBlock.EAST_SHAPE)).with(WallBlock.WATERLOGGED, previousBlockState.get(WallBlock.WATERLOGGED));
+            return nextBlock.defaultBlockState().setValue(WallBlock.UP, previousBlockState.getValue(WallBlock.UP)).setValue(WallBlock.NORTH_WALL, previousBlockState.getValue(WallBlock.NORTH_WALL)).setValue(WallBlock.SOUTH_WALL, previousBlockState.getValue(WallBlock.SOUTH_WALL)).setValue(WallBlock.WEST_WALL, previousBlockState.getValue(WallBlock.WEST_WALL)).setValue(WallBlock.EAST_WALL, previousBlockState.getValue(WallBlock.EAST_WALL)).setValue(WallBlock.WATERLOGGED, previousBlockState.getValue(WallBlock.WATERLOGGED));
         }
         else
         {
-            return nextBlock.getDefaultState();
+            return nextBlock.defaultBlockState();
         }
     }
 

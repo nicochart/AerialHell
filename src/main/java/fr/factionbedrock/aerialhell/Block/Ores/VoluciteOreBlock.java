@@ -1,27 +1,27 @@
 package fr.factionbedrock.aerialhell.Block.Ores;
 
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.BlockView;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class VoluciteOreBlock extends AerialHellOreBlock
 {
-    public VoluciteOreBlock(int minExpDropped, int maxExpDropped, AbstractBlock.Settings settings) {super(minExpDropped, maxExpDropped, settings);}
+    public VoluciteOreBlock(int minExpDropped, int maxExpDropped, BlockBehaviour.Properties settings) {super(minExpDropped, maxExpDropped, settings);}
 
     //TODO : make the block do not loot
 
-    @Override public float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView world, net.minecraft.util.math.BlockPos pos)
+    @Override public float getDestroyProgress(BlockState state, Player player, BlockGetter world, net.minecraft.core.BlockPos pos)
     {
-        float f = state.getHardness(world, pos);
+        float f = state.getDestroySpeed(world, pos);
         if (f == -1.0F) {return 0.0F;}
         else
         {
-            boolean canHarvest = player.canHarvest(state) && canHarvest(player.getActiveItem());
+            boolean canHarvest = player.hasCorrectToolForDrops(state) && canHarvest(player.getUseItem());
             int i = canHarvest ? 30 : 100;
-            return player.getBlockBreakingSpeed(state) / f / (float)i;
+            return player.getDestroySpeed(state) / f / (float)i;
         }
     }
 

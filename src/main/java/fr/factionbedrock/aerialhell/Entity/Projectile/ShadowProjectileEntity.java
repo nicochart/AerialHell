@@ -4,37 +4,37 @@ import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.world.World;
 
 public class ShadowProjectileEntity extends AbstractLightProjectileEntity
 {
-    public ShadowProjectileEntity(EntityType<? extends ShadowProjectileEntity> type, World world) {super(type, world);}
+    public ShadowProjectileEntity(EntityType<? extends ShadowProjectileEntity> type, Level world) {super(type, world);}
 
-    public ShadowProjectileEntity(World world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
+    public ShadowProjectileEntity(Level world, LivingEntity shooter, double accelX, double accelY, double accelZ, float velocity, float inaccuracy)
     {
         super(AerialHellEntities.SHADOW_PROJECTILE, shooter, world);
-        this.setVelocity(accelX, accelY, accelZ, velocity, inaccuracy);
+        this.shoot(accelX, accelY, accelZ, velocity, inaccuracy);
     }
 
     @Override protected BiomeShifter.ShiftType getShiftType() {return BiomeShifter.ShiftType.CORRUPT;}
     
     @Override
-    protected void onEntityHit(EntityHitResult result)
+    protected void onHitEntity(EntityHitResult result)
     {
-        super.onEntityHit(result);
+        super.onHitEntity(result);
         Entity target = result.getEntity();
         if (target instanceof LivingEntity && !(target instanceof LilithEntity))
         {
-            ((LivingEntity) target).addStatusEffect(new StatusEffectInstance(AerialHellMobEffects.VULNERABILITY, 100, 0));
+            ((LivingEntity) target).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY, 100, 0));
         }
     }
 

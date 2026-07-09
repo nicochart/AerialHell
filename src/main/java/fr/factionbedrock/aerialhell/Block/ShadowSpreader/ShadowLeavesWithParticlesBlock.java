@@ -4,39 +4,39 @@ import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.ParticlesMode;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.ParticleStatus;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class ShadowLeavesWithParticlesBlock extends ShadowLeavesBlock
 {
-    public ShadowLeavesWithParticlesBlock(AbstractBlock.Settings settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType) {super(settings, shiftedVariant, shiftType);}
+    public ShadowLeavesWithParticlesBlock(BlockBehaviour.Properties settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType) {super(settings, shiftedVariant, shiftType);}
 
-    @Nullable protected ParticleEffect getParticle()
+    @Nullable protected ParticleOptions getParticle()
     {
         return BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() ? null : AerialHellParticleTypes.SHADOW_PARTICLE;
     }
 
     protected int getParticleNumber() {return 1;}
 
-    @Override public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random rand)
+    @Override public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rand)
     {
-        super.randomDisplayTick(state, world, pos, rand);
+        super.animateTick(state, world, pos, rand);
 
-        @Nullable ParticleEffect particleType = this.getParticle();
+        @Nullable ParticleOptions particleType = this.getParticle();
         if (particleType == null) {return;}
 
-        if (MinecraftClient.getInstance().options.getParticles().getValue() != ParticlesMode.MINIMAL)
+        if (Minecraft.getInstance().options.particles().get() != ParticleStatus.MINIMAL)
         {
-            if (world.isClient())
+            if (world.isClientSide())
             {
                 if (rand.nextInt(10) == 0)
                 {

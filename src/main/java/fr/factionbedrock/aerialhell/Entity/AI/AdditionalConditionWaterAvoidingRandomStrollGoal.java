@@ -1,17 +1,17 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
-import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 
-public class AdditionalConditionWaterAvoidingRandomStrollGoal extends WanderAroundFarGoal
+public class AdditionalConditionWaterAvoidingRandomStrollGoal extends WaterAvoidingRandomStrollGoal
 {
-    public AdditionalConditionWaterAvoidingRandomStrollGoal(PathAwareEntity entityIn, double speedIn)
+    public AdditionalConditionWaterAvoidingRandomStrollGoal(PathfinderMob entityIn, double speedIn)
     {
         super(entityIn, speedIn);
     }
 
-    @Override public boolean canStart() {return this.additionalConditionMet() && super.canStart();}
-    @Override public boolean shouldContinue() {return this.additionalConditionMet() && super.shouldContinue();}
+    @Override public boolean canUse() {return this.additionalConditionMet() && super.canUse();}
+    @Override public boolean canContinueToUse() {return this.additionalConditionMet() && super.canContinueToUse();}
 
     public boolean additionalConditionMet() {return true;}
 }

@@ -1,19 +1,19 @@
 package fr.factionbedrock.aerialhell.Client.Packet;
 
 import fr.factionbedrock.aerialhell.AerialHell;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public record AerialHellData(String name, int age) implements CustomPayload
+public record AerialHellData(String name, int age) implements CustomPacketPayload
 {
-    public static final CustomPayload.Id<AerialHellData> ID = new CustomPayload.Id<>(AerialHell.id("data"));
+    public static final CustomPacketPayload.Type<AerialHellData> ID = new CustomPacketPayload.Type<>(AerialHell.id("data"));
 
-    public static final PacketCodec<RegistryByteBuf, AerialHellData> CODEC = PacketCodec.tuple(
-            PacketCodecs.STRING, AerialHellData::name,
-            PacketCodecs.VAR_INT, AerialHellData::age,
+    public static final StreamCodec<RegistryFriendlyByteBuf, AerialHellData> CODEC = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8, AerialHellData::name,
+            ByteBufCodecs.VAR_INT, AerialHellData::age,
             AerialHellData::new);
 
-    @Override public Id<? extends CustomPayload> getId() {return ID;}
+    @Override public Type<? extends CustomPacketPayload> type() {return ID;}
 }

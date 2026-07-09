@@ -1,27 +1,27 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.ShroomBoomModel;
 import fr.factionbedrock.aerialhell.Entity.Monster.ShroomBoomEntity;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 //see net.minecraft.client.render.entity.CreeperEntityRenderer
-public class ShroomBoomRender extends MobEntityRenderer<ShroomBoomEntity, ShroomBoomModel>
+public class ShroomBoomRender extends MobRenderer<ShroomBoomEntity, ShroomBoomModel>
 {
-	private static final Identifier TEXTURE = Identifier.of(AerialHell.MODID, "textures/entity/shroomboom/shroomboom.png");
+	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/shroomboom/shroomboom.png");
 	
-	public ShroomBoomRender(EntityRendererFactory.Context context) {super(context, new ShroomBoomModel(context.getPart(AerialHellModelLayers.SHROOMBOOM)), 0.5F);}
+	public ShroomBoomRender(EntityRendererProvider.Context context) {super(context, new ShroomBoomModel(context.bakeLayer(AerialHellModelLayers.SHROOMBOOM)), 0.5F);}
 
-	protected void scale(ShroomBoomEntity shroomBoomEntity, MatrixStack matrixStack, float f)
+	protected void scale(ShroomBoomEntity shroomBoomEntity, PoseStack matrixStack, float f)
 	{
-		float g = shroomBoomEntity.getClientFuseTime(f);
-		float h = 1.0F + MathHelper.sin(g * 100.0F) * g * 0.01F;
-		g = MathHelper.clamp(g, 0.0F, 1.0F);
+		float g = shroomBoomEntity.getSwelling(f);
+		float h = 1.0F + Mth.sin(g * 100.0F) * g * 0.01F;
+		g = Mth.clamp(g, 0.0F, 1.0F);
 		g *= g;
 		g *= g;
 		float i = (1.0F + g * 0.4F) * h;
@@ -29,11 +29,11 @@ public class ShroomBoomRender extends MobEntityRenderer<ShroomBoomEntity, Shroom
 		matrixStack.scale(i, j, i);
 	}
 
-	@Override protected float getAnimationCounter(ShroomBoomEntity livingEntityIn, float partialTicks)
+	@Override protected float getWhiteOverlayProgress(ShroomBoomEntity livingEntityIn, float partialTicks)
 	{
-		float f = livingEntityIn.getClientFuseTime(partialTicks);
-	    return (int)(f * 10.0F) % 2 == 0 ? 0.0F : MathHelper.clamp(f, 0.5F, 1.0F);
+		float f = livingEntityIn.getSwelling(partialTicks);
+	    return (int)(f * 10.0F) % 2 == 0 ? 0.0F : Mth.clamp(f, 0.5F, 1.0F);
 	}
 	
-	@Override public Identifier getTexture(ShroomBoomEntity entity) {return TEXTURE;}
+	@Override public ResourceLocation getTextureLocation(ShroomBoomEntity entity) {return TEXTURE;}
 }

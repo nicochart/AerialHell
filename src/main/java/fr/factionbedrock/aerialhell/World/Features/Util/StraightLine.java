@@ -3,20 +3,20 @@ package fr.factionbedrock.aerialhell.World.Features.Util;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.feature.util.FeatureContext;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 public class StraightLine
 {
-    protected final FeatureContext<?> context;
+    protected final FeaturePlaceContext<?> context;
     protected final StraightLineParameters straightLineParams;
     protected final Vector3f straightLineGenStepMoveVec;
     public final Supplier<Block> block;
@@ -24,7 +24,7 @@ public class StraightLine
     protected List<BlockPos> generatePosList = null;
     protected GenerationMode generationMode;
 
-    public StraightLine(FeatureContext<?> context, StraightLineParameters parameters, Supplier<Block> block)
+    public StraightLine(FeaturePlaceContext<?> context, StraightLineParameters parameters, Supplier<Block> block)
     {
         this.context = context; this.straightLineParams = parameters;
         this.straightLineGenStepMoveVec = getStraightLineGenerationStepMoveVector();
@@ -47,7 +47,7 @@ public class StraightLine
         BlockPos lastPos = this.straightLineParams.getStart();
         for (BlockPos pos : generatePosList)
         {
-            tryPlacingBlock(pos.mutableCopy());
+            tryPlacingBlock(pos.mutable());
             lastPos = pos;
         }
         return lastPos;
@@ -57,7 +57,7 @@ public class StraightLine
     {
         int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(this.straightLineParams.getStart(), this.straightLineParams.getEnd());
 
-        BlockPos.Mutable placementPos = new BlockPos.Mutable();
+        BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
         placementPos.set(this.straightLineParams.getStart());
         while(!placementPos.equals(this.straightLineParams.getEnd()) && i <= maxAbsOffset * straightLineParams.precisionMultiplicator)
         {
@@ -82,7 +82,7 @@ public class StraightLine
             {
                 if (isInsideBorder(pos))
                 {
-                    tryPlacingBlock(pos.mutableCopy());
+                    tryPlacingBlock(pos.mutable());
                     lastPos = pos;
                 }
             }
@@ -94,10 +94,10 @@ public class StraightLine
     public void generateDebug()
     {
         FeatureHelper.generateDebug(this.context);
-        StructureWorldAccess level = context.getWorld();
+        WorldGenLevel level = context.level();
         //start and end position
-        level.setBlockState(this.straightLineParams.getStart(), AerialHellBlocks.ARSONIST_BLOCK.getDefaultState(), 0);
-        level.setBlockState(this.straightLineParams.getEnd(), AerialHellBlocks.ARSONIST_BLOCK.getDefaultState(), 0);
+        level.setBlock(this.straightLineParams.getStart(), AerialHellBlocks.ARSONIST_BLOCK.defaultBlockState(), 0);
+        level.setBlock(this.straightLineParams.getEnd(), AerialHellBlocks.ARSONIST_BLOCK.defaultBlockState(), 0);
     }
 
     private Vector3f getStraightLineGenerationStepMoveVector()
@@ -112,28 +112,28 @@ public class StraightLine
 
     public Vector3f getRandomOrthogonalToStraightLineNormalizedVector(int normalizationFactor)
     {
-        return FeatureHelper.getRandomOrthogonalVectorToLineDefinedWith2Points(this.straightLineParams.getStart(), this.straightLineParams.getEnd(), context.getRandom()).normalize(normalizationFactor);
+        return FeatureHelper.getRandomOrthogonalVectorToLineDefinedWith2Points(this.straightLineParams.getStart(), this.straightLineParams.getEnd(), context.random()).normalize(normalizationFactor);
     }
 
     public BlockPos getOffsetPosFromStart(int step)
     {
-        return this.straightLineParams.getStart().add((int) (step * this.straightLineGenStepMoveVec.x), (int) (step * this.straightLineGenStepMoveVec.y), (int) (step * this.straightLineGenStepMoveVec.z));
+        return this.straightLineParams.getStart().offset((int) (step * this.straightLineGenStepMoveVec.x), (int) (step * this.straightLineGenStepMoveVec.y), (int) (step * this.straightLineGenStepMoveVec.z));
     }
 
     public BlockPos getOffsetPosFromEnd(int step)
     {
-        return this.straightLineParams.getEnd().add((int) (- step * this.straightLineGenStepMoveVec.x), (int) (- step * this.straightLineGenStepMoveVec.y), (int) (- step * this.straightLineGenStepMoveVec.z));
+        return this.straightLineParams.getEnd().offset((int) (- step * this.straightLineGenStepMoveVec.x), (int) (- step * this.straightLineGenStepMoveVec.y), (int) (- step * this.straightLineGenStepMoveVec.z));
     }
 
-    protected boolean tryPlacingBlocks(BlockPos.Mutable pos, int step, int maxStep)
+    protected boolean tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
     {
         return this.tryPlacingBlocksCross(pos);
     }
 
-    protected boolean tryPlacingBlocksSphere(BlockPos.Mutable pos, int radius) //returns true if one of the blocks is placed
+    protected boolean tryPlacingBlocksSphere(BlockPos.MutableBlockPos pos, int radius) //returns true if one of the blocks is placed
     {
         boolean onePlaced = false;
-        BlockPos.Mutable placementPos = pos.mutableCopy();
+        BlockPos.MutableBlockPos placementPos = pos.mutable();
         for (int x=-radius; x<=radius; x++)
         {
             for (int y=-radius; y<=radius; y++)
@@ -142,7 +142,7 @@ public class StraightLine
                 {
                     if (x*x + y*y + z*z <= radius*radius)
                     {
-                        placementPos.set(pos.add(x,y,z));
+                        placementPos.set(pos.offset(x,y,z));
                         onePlaced = tryPlacingBlock(placementPos) || onePlaced;
                     }
                 }
@@ -151,7 +151,7 @@ public class StraightLine
         return onePlaced;
     }
 
-    protected boolean tryPlacingBlocksCross(BlockPos.Mutable pos) //returns true if one of the blocks is placed
+    protected boolean tryPlacingBlocksCross(BlockPos.MutableBlockPos pos) //returns true if one of the blocks is placed
     {
         boolean onePlaced = tryPlacingBlock(pos);
         pos.move(1, 0, 0);
@@ -170,14 +170,14 @@ public class StraightLine
         return onePlaced;
     }
 
-    protected boolean tryPlacingBlock(BlockPos.Mutable pos) //returns true if the block is placed
+    protected boolean tryPlacingBlock(BlockPos.MutableBlockPos pos) //returns true if the block is placed
     {
-        StructureWorldAccess level = context.getWorld();
+        WorldGenLevel level = context.level();
         if (isReplaceable(level, pos))
         {
             if (this.generationMode == GenerationMode.PLACE)
             {
-                level.setBlockState(pos, getStateForPlacement(pos), 2);
+                level.setBlock(pos, getStateForPlacement(pos), 2);
             }
             else //if (this.generationMode == GenerationMode.SIMULATE)
             {
@@ -189,22 +189,22 @@ public class StraightLine
         else {return false;}
     }
 
-    public BlockState getStateForPlacement(BlockPos pos) {return block.get().getDefaultState();}
+    public BlockState getStateForPlacement(BlockPos pos) {return block.get().defaultBlockState();}
 
     protected boolean isInsideBorder(BlockPos pos)
     {
-        return generatePosList.contains(pos) && !generatePosList.contains(pos.north()) || !generatePosList.contains(pos.south()) || !generatePosList.contains(pos.west()) || !generatePosList.contains(pos.east()) || !generatePosList.contains(pos.up()) || !generatePosList.contains(pos.down());
+        return generatePosList.contains(pos) && !generatePosList.contains(pos.north()) || !generatePosList.contains(pos.south()) || !generatePosList.contains(pos.west()) || !generatePosList.contains(pos.east()) || !generatePosList.contains(pos.above()) || !generatePosList.contains(pos.below());
     }
 
     protected boolean isOutsideBorder(BlockPos pos)
     {
-        return !generatePosList.contains(pos) && generatePosList.contains(pos.north()) || generatePosList.contains(pos.south()) || generatePosList.contains(pos.west()) || generatePosList.contains(pos.east()) || generatePosList.contains(pos.up()) || generatePosList.contains(pos.down());
+        return !generatePosList.contains(pos) && generatePosList.contains(pos.north()) || generatePosList.contains(pos.south()) || generatePosList.contains(pos.west()) || generatePosList.contains(pos.east()) || generatePosList.contains(pos.above()) || generatePosList.contains(pos.below());
     }
 
-    protected boolean isReplaceable(StructureWorldAccess reader, BlockPos blockPos)
+    protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
     {
         BlockState previousBlock = reader.getBlockState(blockPos);
-        return previousBlock.isAir() || previousBlock.isIn(AerialHellTags.Blocks.FEATURE_CAN_REPLACE);
+        return previousBlock.isAir() || previousBlock.is(AerialHellTags.Blocks.FEATURE_CAN_REPLACE);
     }
 
     public static class StraightLineParameters

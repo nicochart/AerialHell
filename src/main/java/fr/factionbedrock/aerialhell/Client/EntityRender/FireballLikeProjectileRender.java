@@ -1,55 +1,55 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Entity.Projectile.DimensionShattererProjectileEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.PoisonballEntity;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.projectile.AbstractFireballEntity;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.projectile.Fireball;
 
-public class FireballLikeProjectileRender<T extends AbstractFireballEntity> extends EntityRenderer<T>
+public class FireballLikeProjectileRender<T extends Fireball> extends EntityRenderer<T>
 {
-    public static final Identifier POISONBALL = Identifier.of(AerialHell.MODID, "textures/entity/projectile/poisonball.png");
-    public static final Identifier DIMENSION_SHATTERER_PROJECTILE = Identifier.of(AerialHell.MODID, "textures/item/dimension_shatterer_projectile.png");
+    public static final ResourceLocation POISONBALL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/poisonball.png");
+    public static final ResourceLocation DIMENSION_SHATTERER_PROJECTILE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/item/dimension_shatterer_projectile.png");
 
-    public FireballLikeProjectileRender(EntityRendererFactory.Context context)
+    public FireballLikeProjectileRender(EntityRendererProvider.Context context)
     {
         super(context);
         this.shadowRadius = 0.0F;
     }
 
-    @Override public void render(T entity, float entityYaw, float partialTicks, MatrixStack matrixStack, VertexConsumerProvider buffer, int packedLight)
+    @Override public void render(T entity, float entityYaw, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int packedLight)
     {
-        matrixStack.push();
+        matrixStack.pushPose();
         if (entity instanceof DimensionShattererProjectileEntity) {matrixStack.scale(2.0F, 2.0F, 2.0F);}
-        matrixStack.multiply(this.dispatcher.getRotation());
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F));
-        MatrixStack.Entry entry = matrixStack.peek();
-        VertexConsumer vertexconsumer = buffer.getBuffer(RenderLayer.getEntityCutoutNoCull(this.getTexture(entity)));
+        matrixStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+        matrixStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+        PoseStack.Pose entry = matrixStack.last();
+        VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(this.getTextureLocation(entity)));
         vertex(vertexconsumer, entry, packedLight, 0.0F, 0, 0, 1);
         vertex(vertexconsumer, entry, packedLight, 1.0F, 0, 1, 1);
         vertex(vertexconsumer, entry, packedLight, 1.0F, 1, 1, 0);
         vertex(vertexconsumer, entry, packedLight, 0.0F, 1, 0, 0);
-        matrixStack.pop();
+        matrixStack.popPose();
         super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);
     }
 
     @Override
-    public Identifier getTexture(T entity)
+    public ResourceLocation getTextureLocation(T entity)
     {
         if (entity instanceof PoisonballEntity) {return POISONBALL;}
         else /*if (entity instanceof DimensionShattererProjectileEntity)*/ {return DIMENSION_SHATTERER_PROJECTILE;}
     }
 
-    private static void vertex(VertexConsumer vertexConsumer, MatrixStack.Entry matrixStack, int packedLight, float x, int y, int u, int v)
+    private static void vertex(VertexConsumer vertexConsumer, PoseStack.Pose matrixStack, int packedLight, float x, int y, int u, int v)
     {
-        vertexConsumer.vertex(matrixStack, x - 0.5F, (float)y - 0.25F, 0.0F).color(-1).texture((float)u, (float)v).overlay(OverlayTexture.DEFAULT_UV).light(packedLight).normal(matrixStack, 0.0F, 1.0F, 0.0F);
+        vertexConsumer.addVertex(matrixStack, x - 0.5F, (float)y - 0.25F, 0.0F).setColor(-1).setUv((float)u, (float)v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(matrixStack, 0.0F, 1.0F, 0.0F);
     }
 }

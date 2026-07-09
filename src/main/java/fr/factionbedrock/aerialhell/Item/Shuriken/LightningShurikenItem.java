@@ -2,20 +2,20 @@ package fr.factionbedrock.aerialhell.Item.Shuriken;
 
 import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.LightningShurikenEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.util.Rarity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.Level;
 
 public class LightningShurikenItem extends AbstractShurikenItem
 {
 	public LightningShurikenItem()
 	{
-		super(new Item.Settings().rarity(Rarity.UNCOMMON));
+		super(new Item.Properties().rarity(Rarity.UNCOMMON));
 	}
 
 	@Override protected float getVelocity() {return 1.7F;}
 	@Override protected float getInaccuracy() {return 1.0F;}
 	@Override protected int getCooldown() {return 8;}
-	@Override protected AbstractShurikenEntity getShurikenEntity(PlayerEntity player, World world) {return new LightningShurikenEntity(player, world);}
+	@Override protected AbstractShurikenEntity getShurikenEntity(Player player, Level world) {return new LightningShurikenEntity(player, world);}
 }

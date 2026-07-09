@@ -4,12 +4,12 @@ import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import net.minecraft.block.Block;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
-import net.minecraft.world.gen.feature.util.FeatureContext;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 public class WhiteSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 {
@@ -18,11 +18,11 @@ public class WhiteSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 	protected int getSmallMinSize() {return 4;} protected int getSmallMaxSize() {return 7;}
 	protected Block getEtherBlock() {return AerialHellBlocks.WHITE_SOLID_ETHER;}
     
-	public WhiteSolidEtherCloudFeature(Codec<DefaultFeatureConfig> codec) {super(codec);}
+	public WhiteSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
-	@Override public boolean generate(FeatureContext<DefaultFeatureConfig> context)
+	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		BlockPos pos = context.getOrigin(); Random rand = context.getRandom(); ChunkGenerator generator = context.getGenerator();
+		BlockPos pos = context.origin(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
 		if (FeatureHelper.isFeatureGeneratingNextToDungeon(context)) {return false;}
     	
     	BlockPos generatePos = pos;

@@ -14,20 +14,16 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.BlockModelShaper;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.world.level.block.state.BlockState;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.block.BlockModels;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
-import net.minecraft.client.render.block.entity.HangingSignBlockEntityRenderer;
-import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
-import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.util.ModelIdentifier;
-import net.minecraft.registry.Registries;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +33,9 @@ public class RenderRegistrationListener
 
     public static void registerBlockRenderLayers()
     {
-        RenderLayer translucent = RenderLayer.getTranslucent();
-        RenderLayer cutout = RenderLayer.getCutout();
-        RenderLayer cutout_mipped = RenderLayer.getCutoutMipped();
+        RenderType translucent = RenderType.translucent();
+        RenderType cutout = RenderType.cutout();
+        RenderType cutout_mipped = RenderType.cutoutMipped();
 
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.AERIAL_HELL_PORTAL, translucent);
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.GHOST_BOAT_CHEST, translucent);
@@ -280,7 +276,7 @@ public class RenderRegistrationListener
         EntityRendererRegistry.register(AerialHellEntities.FOREST_CATERPILLAR, ForestCaterpillarRender::new);
         EntityRendererRegistry.register(AerialHellEntities.CRYSTAL_CATERPILLAR, CaterpillarRender::new);
 
-        EntityRendererRegistry.register(AerialHellEntities.THROWN_STELLAR_EGG, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(AerialHellEntities.THROWN_STELLAR_EGG, ThrownItemRenderer::new);
         EntityRendererRegistry.register(AerialHellEntities.IRON_SHURIKEN, ShurikenRender::new);
         EntityRendererRegistry.register(AerialHellEntities.GOLD_SHURIKEN, ShurikenRender::new);
         EntityRendererRegistry.register(AerialHellEntities.DIAMOND_SHURIKEN, ShurikenRender::new);
@@ -301,11 +297,11 @@ public class RenderRegistrationListener
         EntityRendererRegistry.register(AerialHellEntities.SHADOW_PROJECTILE, LightProjectileRender::new);
         EntityRendererRegistry.register(AerialHellEntities.AERIAL_HELL_PAINTING, AerialHellPaintingRender::new);
 
-        BlockEntityRendererFactories.register(AerialHellBlockEntities.CHEST, AerialHellChestBlockEntityRenderer::new);
-        BlockEntityRendererFactories.register(AerialHellBlockEntities.CHEST, AerialHellChestBlockEntityRenderer::new);
-        BlockEntityRendererFactories.register(AerialHellBlockEntities.CHEST_MIMIC, AerialHellChestMimicBlockEntityRenderer::new);
-        BlockEntityRendererFactories.register(AerialHellBlockEntities.SIGN, SignBlockEntityRenderer::new);
-        BlockEntityRendererFactories.register(AerialHellBlockEntities.HANGING_SIGN, HangingSignBlockEntityRenderer::new);
+        BlockEntityRenderers.register(AerialHellBlockEntities.CHEST, AerialHellChestBlockEntityRenderer::new);
+        BlockEntityRenderers.register(AerialHellBlockEntities.CHEST, AerialHellChestBlockEntityRenderer::new);
+        BlockEntityRenderers.register(AerialHellBlockEntities.CHEST_MIMIC, AerialHellChestMimicBlockEntityRenderer::new);
+        BlockEntityRenderers.register(AerialHellBlockEntities.SIGN, SignRenderer::new);
+        BlockEntityRenderers.register(AerialHellBlockEntities.HANGING_SIGN, HangingSignRenderer::new);
     }
 
     public static void registerLayerDefinitions()
@@ -351,14 +347,14 @@ public class RenderRegistrationListener
             List<BlockState> bakedList = new ArrayList<>();
             for (BlockState blockstate : TO_BAKE_LIST)
             {
-                ModelIdentifier initialIdentifier = BlockModels.getModelId(blockstate);
-                ModelIdentifier shiftedIdentifier = BlockModels.getModelId(blockstate.with(AerialHellBooleanProperties.SHIFTED_RENDER, true));
-                BakedModel initialModel = context.loader().getBakedModelMap().get(initialIdentifier);
-                BakedModel shiftedModel = context.loader().getBakedModelMap().get(shiftedIdentifier);
+                ModelResourceLocation initialIdentifier = BlockModelShaper.stateToModelLocation(blockstate);
+                ModelResourceLocation shiftedIdentifier = BlockModelShaper.stateToModelLocation(blockstate.setValue(AerialHellBooleanProperties.SHIFTED_RENDER, true));
+                BakedModel initialModel = context.loader().getBakedTopLevelModels().get(initialIdentifier);
+                BakedModel shiftedModel = context.loader().getBakedTopLevelModels().get(shiftedIdentifier);
                 if (initialModel != null && shiftedModel != null)
                 {
                     BakedModel editedModel = new ShiftingBlockBakedModel(initialModel, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
-                    context.loader().getBakedModelMap().put(initialIdentifier, editedModel);
+                    context.loader().getBakedTopLevelModels().put(initialIdentifier, editedModel);
                     bakedList.add(blockstate);
                 }
                 else {TO_BAKE_LIST.removeAll(bakedList); return original;}

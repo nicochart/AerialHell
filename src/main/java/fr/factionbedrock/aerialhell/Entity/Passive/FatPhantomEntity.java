@@ -8,124 +8,125 @@ import com.google.common.collect.Lists;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.TargetPredicate;
-import net.minecraft.entity.ai.control.BodyControl;
-import net.minecraft.entity.ai.control.LookControl;
-import net.minecraft.entity.ai.control.MoveControl;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.FlyingEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.Monster;
-import net.minecraft.entity.mob.PhantomEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.*;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.BodyRotationControl;
+import net.minecraft.world.entity.ai.control.LookControl;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.Phantom;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class FatPhantomEntity extends PhantomEntity implements Monster
+public class FatPhantomEntity extends Phantom implements Enemy
 {
-   public List<PlayerEntity> attackingPlayers = Lists.newArrayList();
-   private Vec3d orbitOffset = Vec3d.ZERO;
-   private BlockPos orbitPosition = BlockPos.ORIGIN;
+   public List<Player> attackingPlayers = Lists.newArrayList();
+   private Vec3 orbitOffset = Vec3.ZERO;
+   private BlockPos orbitPosition = BlockPos.ZERO;
    private FatPhantomEntity.AttackPhase attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
-   public static final TrackedData<Boolean> DISAPPEARING = DataTracker.registerData(FatPhantomEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+   public static final EntityDataAccessor<Boolean> DISAPPEARING = SynchedEntityData.defineId(FatPhantomEntity.class, EntityDataSerializers.BOOLEAN);
    private int timeDisappearing;
 
-   public FatPhantomEntity(EntityType<? extends FatPhantomEntity> type, World world)
+   public FatPhantomEntity(EntityType<? extends FatPhantomEntity> type, Level world)
    {
       super(type, world);
-      this.experiencePoints = 5;
+      this.xpReward = 5;
       this.moveControl = new FatPhantomEntity.MoveHelperController(this);
       this.lookControl = new FatPhantomEntity.LookHelperController(this);
    }
    
-   public static boolean canSpawn(EntityType<FatPhantomEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random random)
+   public static boolean canSpawn(EntityType<FatPhantomEntity> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource random)
    {
-	   return world.getDifficulty() != Difficulty.PEACEFUL && world.toServerWorld().isDay() && random.nextInt(120) == 0 && canMobSpawn(type, world, reason, pos, random);
+	   return world.getDifficulty() != Difficulty.PEACEFUL && world.getLevel().isDay() && random.nextInt(120) == 0 && checkMobSpawnRules(type, world, reason, pos, random);
    }
 
-   @Override public void calculateDimensions() {}
+   @Override public void refreshDimensions() {}
 
-   @Override protected BodyControl createBodyControl() {return new FatPhantomEntity.BodyHelperController(this);}
+   @Override protected BodyRotationControl createBodyControl() {return new FatPhantomEntity.BodyHelperController(this);}
 
    @Override
-   protected void initGoals()
+   protected void registerGoals()
    {
-      this.goalSelector.add(1, new FatPhantomEntity.PickAttackGoal());
-      this.goalSelector.add(2, new FatPhantomEntity.SweepAttackGoal());
-      this.goalSelector.add(3, new FatPhantomEntity.OrbitPointGoal());
-      this.targetSelector.add(1, new FatPhantomEntity.AttackAttackingPlayerGoal());
+      this.goalSelector.addGoal(1, new FatPhantomEntity.PickAttackGoal());
+      this.goalSelector.addGoal(2, new FatPhantomEntity.SweepAttackGoal());
+      this.goalSelector.addGoal(3, new FatPhantomEntity.OrbitPointGoal());
+      this.targetSelector.addGoal(1, new FatPhantomEntity.AttackAttackingPlayerGoal());
    }
 
-   @Override protected boolean isDisallowedInPeaceful() {return false;}
+   @Override protected boolean shouldDespawnInPeaceful() {return false;}
    
-   public static DefaultAttributeContainer.Builder registerAttributes()
+   public static AttributeSupplier.Builder registerAttributes()
    {
-       return FlyingEntity.createMobAttributes()
-       		.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
-       		.add(EntityAttributes.GENERIC_MAX_HEALTH, 150.0D)
-       		.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 18.0D)
-       		.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D)
-       		.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 64.0D);
+       return FlyingMob.createMobAttributes()
+       		.add(Attributes.MOVEMENT_SPEED, 0.25D)
+       		.add(Attributes.MAX_HEALTH, 150.0D)
+       		.add(Attributes.ATTACK_DAMAGE, 18.0D)
+       		.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
+       		.add(Attributes.FOLLOW_RANGE, 64.0D);
    }
    
    @Override
-   public boolean tryAttack(Entity entity)
+   public boolean doHurtTarget(Entity entity)
    {
-	   if (entity instanceof PlayerEntity playerEntity && !this.attackingPlayers.isEmpty())
+	   if (entity instanceof Player playerEntity && !this.attackingPlayers.isEmpty())
 	   {
 		   if (this.attackingPlayers.contains(playerEntity)) {this.attackingPlayers.remove(playerEntity);}
 	   }
-	   return super.tryAttack(entity);
+	   return super.doHurtTarget(entity);
    }
    
    @Override
-   public boolean damage(DamageSource source, float amount)
+   public boolean hurt(DamageSource source, float amount)
    {
 	   
-	   if (!source.isOf(DamageTypes.MAGIC))
+	   if (!source.is(DamageTypes.MAGIC))
 	   {
-		   if (source.getSource() instanceof PlayerEntity playerEntity)
+		   if (source.getDirectEntity() instanceof Player playerEntity)
 		   {
 			   attackingPlayers.add(playerEntity);
 		   }
-		   else if (source.getSource() instanceof ProjectileEntity)
+		   else if (source.getDirectEntity() instanceof Projectile)
 		   {
-			   List<PlayerEntity> targetable_players = FatPhantomEntity.this.getWorld().getPlayers(TargetPredicate.createAttackable().setBaseMaxDistance(64.0D), FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().expand(16.0D, 64.0D, 16.0D));
+			   List<Player> targetable_players = FatPhantomEntity.this.level().getNearbyPlayers(TargetingConditions.forCombat().range(64.0D), FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().inflate(16.0D, 64.0D, 16.0D));
 			   if (!targetable_players.isEmpty())
 			   {
-				   for (PlayerEntity player : targetable_players)
+				   for (Player player : targetable_players)
 				   {
 					   attackingPlayers.add(player);
 				   }
 			   }
 		   }
 	   }
-	   return super.damage(source, amount);
+	   return super.hurt(source, amount);
    }
    
    @Override
-   protected void initDataTracker(DataTracker.Builder builder)
+   protected void defineSynchedData(SynchedEntityData.Builder builder)
    {
-      super.initDataTracker(builder);
-      builder.add(DISAPPEARING, false);
+      super.defineSynchedData(builder);
+      builder.define(DISAPPEARING, false);
    }
    
    public int getDefaultFatPhantomSize()
@@ -135,14 +136,14 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
 
    private void updatePhantomSize()
    {
-      this.calculateDimensions();
-      this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue((double)(Math.max(16 + this.getPhantomSize() - getDefaultFatPhantomSize(), 16)));
+      this.refreshDimensions();
+      this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue((double)(Math.max(16 + this.getPhantomSize() - getDefaultFatPhantomSize(), 16)));
    }
    
    @Override
-   public void onTrackedDataSet(TrackedData<?> data)
+   public void onSyncedDataUpdated(EntityDataAccessor<?> data)
    {
-      if (SIZE.equals(data)) {this.updatePhantomSize();}
+      if (ID_SIZE.equals(data)) {this.updatePhantomSize();}
       //super.onTrackedDataSet(key); not needed
    }
 
@@ -150,21 +151,21 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
    public void tick()
    {
       super.tick();
-      if (this.getWorld().isClient())
+      if (this.level().isClientSide())
       {
-         float f = MathHelper.cos((float)(this.getId() * 3 + this.age) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
-         float f1 = MathHelper.cos((float)(this.getId() * 3 + this.age + 1) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
+         float f = Mth.cos((float)(this.getId() * 3 + this.tickCount) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
+         float f1 = Mth.cos((float)(this.getId() * 3 + this.tickCount + 1) * 7.448451F * ((float)Math.PI / 180F) + (float)Math.PI);
          if (f > 0.0F && f1 <= 0.0F)
          {
-            this.getWorld().playSound(this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_PHANTOM_FLAP, this.getSoundCategory(), 0.95F + this.random.nextFloat() * 0.05F, 0.95F + this.random.nextFloat() * 0.05F, false);
+            this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), SoundEvents.PHANTOM_FLAP, this.getSoundSource(), 0.95F + this.random.nextFloat() * 0.05F, 0.95F + this.random.nextFloat() * 0.05F, false);
          }
 
          int i = this.getPhantomSize();
-         float f2 = MathHelper.cos(this.getYaw() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
-         float f3 = MathHelper.sin(this.getYaw() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
+         float f2 = Mth.cos(this.getYRot() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
+         float f3 = Mth.sin(this.getYRot() * ((float)Math.PI / 180F)) * (1.3F + 0.21F * (float)i);
          float f4 = (0.3F + f * 0.45F) * ((float)i * 0.2F + 1.0F);
-         this.getWorld().addParticle(ParticleTypes.MYCELIUM, this.getX() + (double)f2, this.getY() + (double)f4, this.getZ() + (double)f3, 0.0D, 0.0D, 0.0D);
-         this.getWorld().addParticle(ParticleTypes.MYCELIUM, this.getX() - (double)f2, this.getY() + (double)f4, this.getZ() - (double)f3, 0.0D, 0.0D, 0.0D);
+         this.level().addParticle(ParticleTypes.MYCELIUM, this.getX() + (double)f2, this.getY() + (double)f4, this.getZ() + (double)f3, 0.0D, 0.0D, 0.0D);
+         this.level().addParticle(ParticleTypes.MYCELIUM, this.getX() - (double)f2, this.getY() + (double)f4, this.getZ() - (double)f3, 0.0D, 0.0D, 0.0D);
       }
       
       if (this.isDisappearing())
@@ -180,17 +181,17 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
    {
    		for (int i=0; i<number; i++)
    		{
-   			this.getWorld().addParticle(AerialHellParticleTypes.FAT_PHANTOM_SMOKE, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat() - 0.5, random.nextFloat() - 0.5, random.nextFloat() -0.5, random.nextFloat() - 0.5);
+   			this.level().addParticle(AerialHellParticleTypes.FAT_PHANTOM_SMOKE, this.getX() + random.nextFloat() - 0.5, this.getY() + 2 * random.nextFloat(), this.getZ() + random.nextFloat() - 0.5, random.nextFloat() - 0.5, random.nextFloat() -0.5, random.nextFloat() - 0.5);
    		}
    }
    
-   @Override public boolean isFireImmune() {return false;}
-   @Override protected boolean isAffectedByDaylight() {return false;}
+   @Override public boolean fireImmune() {return false;}
+   @Override protected boolean isSunBurnTick() {return false;}
 
    @Override
-   public void tickMovement()
+   public void aiStep()
    {
-	   if (!this.getWorld().isDay())
+	   if (!this.level().isDay())
 	   {
 		   if (!this.isDisappearing())
 		   {
@@ -198,31 +199,31 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
 			   this.setDisappearing(true);
 		   }
 	   }   
-	   super.tickMovement();
+	   super.aiStep();
    }
 
-   public boolean isDisappearing() {return this.getDataTracker().get(DISAPPEARING);}
+   public boolean isDisappearing() {return this.getEntityData().get(DISAPPEARING);}
    
-   public void setDisappearing(boolean flag) {this.getDataTracker().set(DISAPPEARING, flag);}
+   public void setDisappearing(boolean flag) {this.getEntityData().set(DISAPPEARING, flag);}
    
    @Override
-   public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficultyIn, SpawnReason reason, @Nullable EntityData spawnDataIn)
+   public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn)
    {
-      EntityData data = super.initialize(world, difficultyIn, reason, spawnDataIn);
-      this.orbitPosition = this.getBlockPos().up(6);
+      SpawnGroupData data = super.finalizeSpawn(world, difficultyIn, reason, spawnDataIn);
+      this.orbitPosition = this.blockPosition().above(6);
       this.setPhantomSize(10 + random.nextInt(6));
-      if (world.getBlockState(this.getBlockPos().up()).getBlock() == Blocks.AIR)
+      if (world.getBlockState(this.blockPosition().above()).getBlock() == Blocks.AIR)
       {
-    	  this.setPosition(new Vec3d(this.getBlockPos().up().getX(), this.getBlockPos().up().getY(), this.getBlockPos().up().getZ()));
+    	  this.setPos(new Vec3(this.blockPosition().above().getX(), this.blockPosition().above().getY(), this.blockPosition().above().getZ()));
       }
       this.timeDisappearing = 0; this.setDisappearing(false);
       return data;
    }
 
    @Override
-   public void readCustomDataFromNbt(NbtCompound nbt)
+   public void readAdditionalSaveData(CompoundTag nbt)
    {
-      super.readCustomDataFromNbt(nbt);
+      super.readAdditionalSaveData(nbt);
       if (nbt.contains("AX"))
       {
          this.orbitPosition = new BlockPos(nbt.getInt("AX"), nbt.getInt("AY"), nbt.getInt("AZ"));
@@ -232,9 +233,9 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
    }
 
    @Override
-   public void writeCustomDataToNbt(NbtCompound nbt)
+   public void addAdditionalSaveData(CompoundTag nbt)
    {
-      super.writeCustomDataToNbt(nbt);
+      super.addAdditionalSaveData(nbt);
       nbt.putInt("AX", this.orbitPosition.getX());
       nbt.putInt("AY", this.orbitPosition.getY());
       nbt.putInt("AZ", this.orbitPosition.getZ());
@@ -242,11 +243,11 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
    }
 
    @Override
-   public EntityDimensions getBaseDimensions(EntityPose pose)
+   public EntityDimensions getDefaultDimensions(Pose pose)
    {
       int i = this.getPhantomSize();
-      EntityDimensions entitydimensions = super.getBaseDimensions(pose);
-      return entitydimensions.scaled(1.0F + 0.15F * (float)i);
+      EntityDimensions entitydimensions = super.getDefaultDimensions(pose);
+      return entitydimensions.scale(1.0F + 0.15F * (float)i);
    }
 
    static enum AttackPhase
@@ -257,12 +258,12 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
 
    class AttackAttackingPlayerGoal extends Goal
    {
-      private final TargetPredicate attackTargeting = TargetPredicate.createAttackable().setBaseMaxDistance(64.0D);
+      private final TargetingConditions attackTargeting = TargetingConditions.forCombat().range(64.0D);
       private int tickDelay = 20;
 
       private AttackAttackingPlayerGoal() {}
 
-      public boolean canStart()
+      public boolean canUse()
       {
          if (this.tickDelay > 0)
          {
@@ -272,14 +273,14 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
          else
          {
             this.tickDelay = 60;
-            List<PlayerEntity> list = FatPhantomEntity.this.getWorld().getPlayers(this.attackTargeting, FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().expand(16.0D, 64.0D, 16.0D));
+            List<Player> list = FatPhantomEntity.this.level().getNearbyPlayers(this.attackTargeting, FatPhantomEntity.this, FatPhantomEntity.this.getBoundingBox().inflate(16.0D, 64.0D, 16.0D));
             if (!attackingPlayers.isEmpty() && !list.isEmpty())
             {
                list.sort(Comparator.<Entity, Double>comparing(Entity::getY).reversed());
 
-               for(PlayerEntity player : list)
+               for(Player player : list)
                {
-                  if (FatPhantomEntity.this.isTarget(player, TargetPredicate.DEFAULT) && attackingPlayers.contains(player))
+                  if (FatPhantomEntity.this.canAttack(player, TargetingConditions.DEFAULT) && attackingPlayers.contains(player))
                   {
                      FatPhantomEntity.this.setTarget(player);
                      return true;
@@ -290,30 +291,30 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
          }
       }
 
-      public boolean shouldContinue()
+      public boolean canContinueToUse()
       {
          LivingEntity livingentity = FatPhantomEntity.this.getTarget();
-         return livingentity != null ? FatPhantomEntity.this.isTarget(livingentity, TargetPredicate.DEFAULT) : false;
+         return livingentity != null ? FatPhantomEntity.this.canAttack(livingentity, TargetingConditions.DEFAULT) : false;
       }
    }
 
-   class BodyHelperController extends BodyControl
+   class BodyHelperController extends BodyRotationControl
    {
-      public BodyHelperController(MobEntity mob)
+      public BodyHelperController(Mob mob)
       {
          super(mob);
       }
 
-      @Override public void tick()
+      @Override public void clientTick()
       {
-         FatPhantomEntity.this.headYaw = FatPhantomEntity.this.bodyYaw;
-         FatPhantomEntity.this.bodyYaw = FatPhantomEntity.this.getYaw();
+         FatPhantomEntity.this.yHeadRot = FatPhantomEntity.this.yBodyRot;
+         FatPhantomEntity.this.yBodyRot = FatPhantomEntity.this.getYRot();
       }
    }
 
    class LookHelperController extends LookControl
    {
-      public LookHelperController(MobEntity entityIn) {super(entityIn);}
+      public LookHelperController(Mob entityIn) {super(entityIn);}
 
       public void tick() {}
    }
@@ -322,12 +323,12 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
    {
       public MoveGoal()
       {
-         this.setControls(EnumSet.of(Goal.Control.MOVE));
+         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
       }
 
       protected boolean touchingTarget()
       {
-         return FatPhantomEntity.this.orbitOffset.squaredDistanceTo(FatPhantomEntity.this.getX(), FatPhantomEntity.this.getY(), FatPhantomEntity.this.getZ()) < 4.0D;
+         return FatPhantomEntity.this.orbitOffset.distanceToSqr(FatPhantomEntity.this.getX(), FatPhantomEntity.this.getY(), FatPhantomEntity.this.getZ()) < 4.0D;
       }
    }
 
@@ -335,7 +336,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
    {
       private float speedFactor = 0.1F;
 
-      public MoveHelperController(MobEntity entityIn)
+      public MoveHelperController(Mob entityIn)
       {
          super(entityIn);
       }
@@ -344,7 +345,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
       {
          if (FatPhantomEntity.this.horizontalCollision)
          {
-            FatPhantomEntity.this.setYaw(FatPhantomEntity.this.getYaw() + 180.0F);
+            FatPhantomEntity.this.setYRot(FatPhantomEntity.this.getYRot() + 180.0F);
             this.speedFactor = 0.1F;
          }
 
@@ -358,26 +359,26 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
             d2 *= d4;
             d3 = Math.sqrt(d0 * d0 + d2 * d2);
             double d5 = Math.sqrt(d0 * d0 + d2 * d2 + d1 * d1);
-            float f = FatPhantomEntity.this.getYaw();
-            float f1 = (float) MathHelper.atan2(d2, d0);
-            float f2 = MathHelper.wrapDegrees(FatPhantomEntity.this.getYaw() + 90.0F);
-            float f3 = MathHelper.wrapDegrees(f1 * (180F / (float) Math.PI));
-            FatPhantomEntity.this.setYaw(MathHelper.stepUnwrappedAngleTowards(f2, f3, 4.0F) - 90.0F);
-            FatPhantomEntity.this.bodyYaw = FatPhantomEntity.this.getYaw();
-            if (MathHelper.angleBetween(f, FatPhantomEntity.this.getYaw()) < 3.0F) {
-               this.speedFactor = MathHelper.stepTowards(this.speedFactor, 1.8F, 0.005F * (1.8F / this.speedFactor));
+            float f = FatPhantomEntity.this.getYRot();
+            float f1 = (float) Mth.atan2(d2, d0);
+            float f2 = Mth.wrapDegrees(FatPhantomEntity.this.getYRot() + 90.0F);
+            float f3 = Mth.wrapDegrees(f1 * (180F / (float) Math.PI));
+            FatPhantomEntity.this.setYRot(Mth.approachDegrees(f2, f3, 4.0F) - 90.0F);
+            FatPhantomEntity.this.yBodyRot = FatPhantomEntity.this.getYRot();
+            if (Mth.degreesDifferenceAbs(f, FatPhantomEntity.this.getYRot()) < 3.0F) {
+               this.speedFactor = Mth.approach(this.speedFactor, 1.8F, 0.005F * (1.8F / this.speedFactor));
             } else {
-               this.speedFactor = MathHelper.stepTowards(this.speedFactor, 0.2F, 0.025F);
+               this.speedFactor = Mth.approach(this.speedFactor, 0.2F, 0.025F);
             }
 
-            float f4 = (float) (-(MathHelper.atan2(-d1, d3) * (double) (180F / (float) Math.PI)));
-            FatPhantomEntity.this.setPitch(f4);
-            float f5 = FatPhantomEntity.this.getYaw() + 90.0F;
-            double d6 = (double) (this.speedFactor * MathHelper.cos(f5 * ((float) Math.PI / 180F))) * Math.abs(d0 / d5);
-            double d7 = (double) (this.speedFactor * MathHelper.sin(f5 * ((float) Math.PI / 180F))) * Math.abs(d2 / d5);
-            double d8 = (double) (this.speedFactor * MathHelper.sin(f4 * ((float) Math.PI / 180F))) * Math.abs(d1 / d5);
-            Vec3d vec3 = FatPhantomEntity.this.getVelocity();
-            FatPhantomEntity.this.setVelocity(vec3.add((new Vec3d(d6, d8, d7)).subtract(vec3).multiply(0.2D)));
+            float f4 = (float) (-(Mth.atan2(-d1, d3) * (double) (180F / (float) Math.PI)));
+            FatPhantomEntity.this.setXRot(f4);
+            float f5 = FatPhantomEntity.this.getYRot() + 90.0F;
+            double d6 = (double) (this.speedFactor * Mth.cos(f5 * ((float) Math.PI / 180F))) * Math.abs(d0 / d5);
+            double d7 = (double) (this.speedFactor * Mth.sin(f5 * ((float) Math.PI / 180F))) * Math.abs(d2 / d5);
+            double d8 = (double) (this.speedFactor * Mth.sin(f4 * ((float) Math.PI / 180F))) * Math.abs(d1 / d5);
+            Vec3 vec3 = FatPhantomEntity.this.getDeltaMovement();
+            FatPhantomEntity.this.setDeltaMovement(vec3.add((new Vec3(d6, d8, d7)).subtract(vec3).scale(0.2D)));
          }
       }
    }
@@ -389,7 +390,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
       private float height;
       private float clockwise;
 
-      public boolean canStart() {return FatPhantomEntity.this.getTarget() == null || FatPhantomEntity.this.attackPhase == FatPhantomEntity.AttackPhase.CIRCLE;}
+      public boolean canUse() {return FatPhantomEntity.this.getTarget() == null || FatPhantomEntity.this.attackPhase == FatPhantomEntity.AttackPhase.CIRCLE;}
 
       public void start()
       {
@@ -401,9 +402,9 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
 
       public void tick()
       {
-         if (FatPhantomEntity.this.random.nextInt(this.getTickCount(350)) == 0) {this.height = -4.0F + FatPhantomEntity.this.random.nextFloat() * 9.0F;}
+         if (FatPhantomEntity.this.random.nextInt(this.adjustedTickDelay(350)) == 0) {this.height = -4.0F + FatPhantomEntity.this.random.nextFloat() * 9.0F;}
 
-         if (FatPhantomEntity.this.random.nextInt(this.getTickCount(250)) == 0)
+         if (FatPhantomEntity.this.random.nextInt(this.adjustedTickDelay(250)) == 0)
          {
             ++this.distance;
             if (this.distance > 15.0F)
@@ -413,7 +414,7 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
             }
          }
 
-         if (FatPhantomEntity.this.random.nextInt(this.getTickCount(450)) == 0)
+         if (FatPhantomEntity.this.random.nextInt(this.adjustedTickDelay(450)) == 0)
          {
             this.angle = FatPhantomEntity.this.random.nextFloat() * 2.0F * (float)Math.PI;
             this.selectNext();
@@ -421,13 +422,13 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
 
          if (this.touchingTarget()) {this.selectNext();}
 
-         if (FatPhantomEntity.this.orbitOffset.y < FatPhantomEntity.this.getY() && !FatPhantomEntity.this.getWorld().isAir(FatPhantomEntity.this.getBlockPos().down(1)))
+         if (FatPhantomEntity.this.orbitOffset.y < FatPhantomEntity.this.getY() && !FatPhantomEntity.this.level().isEmptyBlock(FatPhantomEntity.this.blockPosition().below(1)))
          {
             this.height = Math.max(1.0F, this.height);
             this.selectNext();
          }
 
-         if (FatPhantomEntity.this.orbitOffset.y > FatPhantomEntity.this.getY() && !FatPhantomEntity.this.getWorld().isAir(FatPhantomEntity.this.getBlockPos().up(1)))
+         if (FatPhantomEntity.this.orbitOffset.y > FatPhantomEntity.this.getY() && !FatPhantomEntity.this.level().isEmptyBlock(FatPhantomEntity.this.blockPosition().above(1)))
          {
             this.height = Math.min(-1.0F, this.height);
             this.selectNext();
@@ -437,10 +438,10 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
 
       private void selectNext()
       {
-         if (BlockPos.ZERO.equals(FatPhantomEntity.this.orbitPosition)) {FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getBlockPos();}
+         if (BlockPos.ZERO.equals(FatPhantomEntity.this.orbitPosition)) {FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.blockPosition();}
 
          this.angle += this.clockwise * 15.0F * ((float)Math.PI / 180F);
-         FatPhantomEntity.this.orbitOffset = Vec3d.of(FatPhantomEntity.this.orbitPosition).add((double)(this.distance * MathHelper.cos(this.angle)), (double)(-4.0F + this.height), (double)(this.distance * MathHelper.sin(this.angle)));
+         FatPhantomEntity.this.orbitOffset = Vec3.atLowerCornerOf(FatPhantomEntity.this.orbitPosition).add((double)(this.distance * Mth.cos(this.angle)), (double)(-4.0F + this.height), (double)(this.distance * Mth.sin(this.angle)));
       }
    }
 
@@ -448,20 +449,20 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
    {
       private int nextSweepTick;
 
-      public boolean canStart()
+      public boolean canUse()
       {
          LivingEntity livingentity = FatPhantomEntity.this.getTarget();
-         return livingentity != null ? FatPhantomEntity.this.isTarget(livingentity, TargetPredicate.DEFAULT) : false;
+         return livingentity != null ? FatPhantomEntity.this.canAttack(livingentity, TargetingConditions.DEFAULT) : false;
       }
 
       public void start()
       {
-         this.nextSweepTick = this.getTickCount(10);
+         this.nextSweepTick = this.adjustedTickDelay(10);
          FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
          this.setAnchorAboveTarget();
       }
 
-      public void stop() {FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getWorld().getTopPosition(Heightmap.Type.MOTION_BLOCKING, FatPhantomEntity.this.orbitPosition).up(10 + FatPhantomEntity.this.random.nextInt(20));}
+      public void stop() {FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, FatPhantomEntity.this.orbitPosition).above(10 + FatPhantomEntity.this.random.nextInt(20));}
 
       public void tick()
       {
@@ -472,18 +473,18 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
             {
                FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.SWOOP;
                this.setAnchorAboveTarget();
-               this.nextSweepTick = this.getTickCount((8 + FatPhantomEntity.this.random.nextInt(4)) * 20);
-               FatPhantomEntity.this.playSound(SoundEvents.ENTITY_PHANTOM_SWOOP, 10.0F, 0.95F + FatPhantomEntity.this.random.nextFloat() * 0.1F);
+               this.nextSweepTick = this.adjustedTickDelay((8 + FatPhantomEntity.this.random.nextInt(4)) * 20);
+               FatPhantomEntity.this.playSound(SoundEvents.PHANTOM_SWOOP, 10.0F, 0.95F + FatPhantomEntity.this.random.nextFloat() * 0.1F);
             }
          }
       }
 
       private void setAnchorAboveTarget()
       {
-         FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getTarget().getBlockPos().up(20 + FatPhantomEntity.this.random.nextInt(20));
-         if (FatPhantomEntity.this.orbitPosition.getY() < FatPhantomEntity.this.getWorld().getSeaLevel())
+         FatPhantomEntity.this.orbitPosition = FatPhantomEntity.this.getTarget().blockPosition().above(20 + FatPhantomEntity.this.random.nextInt(20));
+         if (FatPhantomEntity.this.orbitPosition.getY() < FatPhantomEntity.this.level().getSeaLevel())
          {
-            FatPhantomEntity.this.orbitPosition = new BlockPos(FatPhantomEntity.this.orbitPosition.getX(), FatPhantomEntity.this.getWorld().getSeaLevel() + 1, FatPhantomEntity.this.orbitPosition.getZ());
+            FatPhantomEntity.this.orbitPosition = new BlockPos(FatPhantomEntity.this.orbitPosition.getX(), FatPhantomEntity.this.level().getSeaLevel() + 1, FatPhantomEntity.this.orbitPosition.getZ());
          }
       }
    }
@@ -492,14 +493,14 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
    {
       private SweepAttackGoal() {}
 
-      public boolean canStart() {return FatPhantomEntity.this.getTarget() != null && FatPhantomEntity.this.attackPhase == FatPhantomEntity.AttackPhase.SWOOP;}
+      public boolean canUse() {return FatPhantomEntity.this.getTarget() != null && FatPhantomEntity.this.attackPhase == FatPhantomEntity.AttackPhase.SWOOP;}
 
-      public boolean shouldContinue()
+      public boolean canContinueToUse()
       {
          LivingEntity livingentity = FatPhantomEntity.this.getTarget();
          if (livingentity == null) {return false;}
          else if (!livingentity.isAlive()) {return false;}
-         else if (!EntityHelper.isCreaOrSpecPlayer(livingentity)) {return this.canStart();}
+         else if (!EntityHelper.isCreaOrSpecPlayer(livingentity)) {return this.canUse();}
          else {return false;}
       }
 
@@ -514,14 +515,14 @@ public class FatPhantomEntity extends PhantomEntity implements Monster
       public void tick()
       {
          LivingEntity livingentity = FatPhantomEntity.this.getTarget();
-         FatPhantomEntity.this.orbitOffset = new Vec3d(livingentity.getX(), livingentity.getBodyY(0.5D), livingentity.getZ());
-         if (FatPhantomEntity.this.getBoundingBox().expand(0.2F).intersects(livingentity.getBoundingBox()))
+         FatPhantomEntity.this.orbitOffset = new Vec3(livingentity.getX(), livingentity.getY(0.5D), livingentity.getZ());
+         if (FatPhantomEntity.this.getBoundingBox().inflate(0.2F).intersects(livingentity.getBoundingBox()))
          {
-            FatPhantomEntity.this.tryAttack(livingentity);
+            FatPhantomEntity.this.doHurtTarget(livingentity);
             FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
             if (!FatPhantomEntity.this.isSilent())
             {
-               FatPhantomEntity.this.getWorld().syncWorldEvent(WorldEvents.PHANTOM_BITES, FatPhantomEntity.this.getBlockPos(), 0);
+               FatPhantomEntity.this.level().levelEvent(LevelEvent.SOUND_PHANTOM_BITE, FatPhantomEntity.this.blockPosition(), 0);
             }
          }
          else if (FatPhantomEntity.this.horizontalCollision || FatPhantomEntity.this.hurtTime > 0)
