@@ -40,7 +40,7 @@ public record CraftingTableRecipeDisplay(int lineIndex, Alignment alignment, flo
 
         graphics.pose().pushPose();
         graphics.pose().translate(startX, startY, 0);
-        graphics.pose().scale(this.scale(), this.scale(), 0);
+        graphics.pose().scale(this.scale(), this.scale(), 1.0F);
 
         //rendercrafting grid background
         graphics.blit(CRAFTING_TABLE_GRID_TEXTURE.texture(), 0, 0, CRAFTING_TABLE_GRID_TEXTURE.u(), CRAFTING_TABLE_GRID_TEXTURE.v(), CRAFTING_TABLE_GRID_TEXTURE.width(), CRAFTING_TABLE_GRID_TEXTURE.height(), CRAFTING_TABLE_GRID_TEXTURE.textureWidth(), CRAFTING_TABLE_GRID_TEXTURE.textureHeight());

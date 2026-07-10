@@ -65,7 +65,7 @@ public class SmeltingLikeRecipeDisplay implements PageElement
         graphics.pose().pushPose();
 
         graphics.pose().translate(startX, startY, 0);
-        graphics.pose().scale(this.scale, this.scale, 0);
+        graphics.pose().scale(this.scale, this.scale, 1.0F);
 
         graphics.blit(FURNACE_LIKE_DISPLAY.texture(), 0, 0, FURNACE_LIKE_DISPLAY.u(), FURNACE_LIKE_DISPLAY.v(), FURNACE_LIKE_DISPLAY.width(), FURNACE_LIKE_DISPLAY.height(), FURNACE_LIKE_DISPLAY.textureWidth(), FURNACE_LIKE_DISPLAY.textureHeight());
 
@@ -83,7 +83,7 @@ public class SmeltingLikeRecipeDisplay implements PageElement
 
         graphics.pose().translate(stationX, stationY, 0);
 
-        graphics.pose().scale(this.scale, this.scale, 0);
+        graphics.pose().scale(this.scale, this.scale, 1.0F);
 
         graphics.blit(stationTexture.texture(), 0, 0, stationTexture.u(), stationTexture.v(), stationTexture.width(), stationTexture.height(), stationTexture.textureWidth(), stationTexture.textureHeight());
 
@@ -116,7 +116,7 @@ public class SmeltingLikeRecipeDisplay implements PageElement
         graphics.pose().pushPose();
 
         graphics.pose().translate(x, y, 0);
-        graphics.pose().scale(this.scale, this.scale, 0);
+        graphics.pose().scale(this.scale, this.scale, 1.0F);
 
         graphics.renderFakeItem(itemStack, 0, 0);
         if (itemStack.getCount() > 1)
