@@ -250,17 +250,17 @@ public class AerialHellItems
     public static final Item SHADOW_STONE = register("shadow_stone", new BlockItem(AerialHellBlocks.SHADOW_STONE, new Item.Properties()));
 
     //crystal
-    public static final Item CRYSTAL_BLOCK = register("crystal_block", new BlockItem(AerialHellBlocks.CRYSTAL_BLOCK, new Item.Properties()));
+    public static final Item CRYSTAL_BLOCK = register("crystal_block", new WithInformationBlockItem(AerialHellBlocks.CRYSTAL_BLOCK, new Item.Properties()));
     public static final Item CRYSTAL_BRICKS = register("crystal_bricks", new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS, new Item.Properties()));
     public static final Item CRYSTAL_BRICKS_SLAB = register("crystal_bricks_slab", new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS_SLAB, new Item.Properties()));
     public static final Item CRYSTAL_BRICKS_STAIRS = register("crystal_bricks_stairs", new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS_STAIRS, new Item.Properties()));
     public static final Item CRYSTAL_BRICKS_WALL = register("crystal_bricks_wall", new BlockItem(AerialHellBlocks.CRYSTAL_BRICKS_WALL, new Item.Properties()));
     public static final Item STELLAR_STONE_CRYSTAL_BLOCK = register("stellar_stone_crystal_block", new BlockItem(AerialHellBlocks.STELLAR_STONE_CRYSTAL_BLOCK, new Item.Properties()));
-    public static final Item SHADOW_CRYSTAL_BLOCK = register("shadow_crystal_block", new BlockItem(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK, new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item SHADOW_CRYSTAL_BLOCK = register("shadow_crystal_block", new WithInformationBlockItem(AerialHellBlocks.SHADOW_CRYSTAL_BLOCK, new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
     public static final Item CRYSTALLIZED_LEAVES = register("crystallized_leaves", new BlockItem(AerialHellBlocks.CRYSTALLIZED_LEAVES, new Item.Properties()));
-    public static final Item CRYSTAL = register("crystal", new Item(new Item.Properties()));
+    public static final Item CRYSTAL = register("crystal", new WithInformationItem(new Item.Properties()));
     public static final Item STELLAR_STONE_CRYSTAL = register("stellar_stone_crystal", new Item(new Item.Properties()));
-    public static final Item SHADOW_CRYSTAL = register("shadow_crystal", new Item(new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item SHADOW_CRYSTAL = register("shadow_crystal", new WithInformationItem(new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
 
     //glass and glass pane
     public static final Item SLIPPERY_SAND_GLASS = register("slippery_sand_glass", new BlockItem(AerialHellBlocks.SLIPPERY_SAND_GLASS, new Item.Properties()));
@@ -469,13 +469,13 @@ public class AerialHellItems
     public static final Item RAW_AZURITE = register("raw_azurite_crystal", new Item(new Item.Properties()));
     public static final Item RAW_VOLUCITE = register("raw_volucite", new Item(new Item.Properties()));
 
-    public static final Item FLUORITE_BLOCK = register("fluorite_block", new BlockItem(AerialHellBlocks.FLUORITE_BLOCK, new Item.Properties()));
+    public static final Item FLUORITE_BLOCK = register("fluorite_block", new WithInformationBlockItem(AerialHellBlocks.FLUORITE_BLOCK, new Item.Properties()));
     public static final Item MAGMATIC_GEL_BLOCK = register("magmatic_gel_block", new BlockItem(AerialHellBlocks.MAGMATIC_GEL_BLOCK, new Item.Properties()));
     public static final Item RUBY_BLOCK = register("ruby_block", new BlockItem(AerialHellBlocks.RUBY_BLOCK, new Item.Properties()));
     public static final Item AZURITE_BLOCK = register("azurite_block", new BlockItem(AerialHellBlocks.AZURITE_BLOCK, new Item.Properties()));
     public static final Item VOLUCITE_BLOCK = register("volucite_block", new BlockItem(AerialHellBlocks.VOLUCITE_BLOCK, new Item.Properties()));
 
-    public static final Item FLUORITE = register("fluorite", new Item(new Item.Properties()));
+    public static final Item FLUORITE = register("fluorite", new AerialHellItem(new AerialHellItem.Properties()));
     public static final Item MAGMATIC_GEL = register("magmatic_gel", new Item(new Item.Properties()));
     public static final Item RUBY = register("ruby", new Item(new Item.Properties()));
     public static final Item AZURITE_CRYSTAL = register("azurite_crystal", new Item(new Item.Properties()));
@@ -488,10 +488,10 @@ public class AerialHellItems
     public static final Item ARSONIST_INGOT = register("arsonist_ingot", new Item(new Item.Properties().rarity(AerialHellRarities.LEGENDARY).fireResistant()));
     public static final Item LUNATIC_CRYSTAL = register("lunatic_crystal", new Item(new Item.Properties().rarity(AerialHellRarities.LEGENDARY)));
     public static final Item OBSIDIAN_SHARD = register("obsidian_shard", new Item(new Item.Properties().rarity(Rarity.EPIC)));
-    public static final Item CURSED_CRYSTAL = register("cursed_crystal", new Item(new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item CURSED_CRYSTAL = register("cursed_crystal", new WithInformationItem(new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
     public static final Item ARSONIST_BLOCK = register("arsonist_block", new BlockItem(AerialHellBlocks.ARSONIST_BLOCK, new Item.Properties().rarity(AerialHellRarities.LEGENDARY).fireResistant()));
     public static final Item LUNATIC_CRYSTAL_BLOCK = register("lunatic_crystal_block", new BlockItem(AerialHellBlocks.LUNATIC_CRYSTAL_BLOCK, new Item.Properties().rarity(AerialHellRarities.LEGENDARY)));
-    public static final Item CURSED_CRYSTAL_BLOCK = register("cursed_crystal_block", new BlockItem(AerialHellBlocks.CURSED_CRYSAL_BLOCK, new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item CURSED_CRYSTAL_BLOCK = register("cursed_crystal_block", new WithInformationBlockItem(AerialHellBlocks.CURSED_CRYSAL_BLOCK, new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
 
     //cactus
     public static final Item SKY_CACTUS = register("sky_cactus", new BlockItem(AerialHellBlocks.SKY_CACTUS, new Item.Properties()));
@@ -769,7 +769,7 @@ public class AerialHellItems
     //item for crafts
     public static final Item SKY_STICK = register("sky_stick", new BurnableItem(new Item.Properties(), 100));
     public static final Item SKY_BOWL = register("sky_bowl", new BurnableItem(new Item.Properties(), 200));
-    public static final Item SHADOW_SHARD = register("shadow_shard", new Item(new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
+    public static final Item SHADOW_SHARD = register("shadow_shard", new WithInformationItem(new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
     public static final Item ROTTEN_LEATHER = register("rotten_leather", new Item(new Item.Properties()));
     public static final Item VENOMOUS_SNAKE_SKIN = register("venomous_snake_skin", new Item(new Item.Properties()));
     public static final Item ARSONIST_UPGRADE_SMITHING_TEMPLATE = register("arsonist_upgrade_smithing_template", ItemHelper.SmithingTemplate.createUpgradeTemplate("arsonist"));
