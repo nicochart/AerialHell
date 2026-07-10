@@ -33,7 +33,7 @@ public record ItemDisplay(ElementPositionInfo positionInfo, float scale, Supplie
         graphics.pose().pushPose();
 
         graphics.pose().translate(startX, startY, 0);
-        graphics.pose().scale(this.scale(), this.scale(), 0);
+        graphics.pose().scale(this.scale(), this.scale(), 1.0F);
 
         graphics.renderFakeItem(itemStack, 0, 0);
 

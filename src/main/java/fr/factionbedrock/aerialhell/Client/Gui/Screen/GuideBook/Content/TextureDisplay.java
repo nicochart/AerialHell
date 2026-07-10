@@ -30,7 +30,7 @@ public record TextureDisplay(ElementPositionInfo positionInfo, float scale, Text
         graphics.pose().pushPose();
 
         graphics.pose().translate(startX, startY, 0);
-        graphics.pose().scale(this.scale(), this.scale(), 0);
+        graphics.pose().scale(this.scale(), this.scale(), 1.0F);
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
