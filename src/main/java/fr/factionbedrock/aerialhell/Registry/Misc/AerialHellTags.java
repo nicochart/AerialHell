@@ -2,7 +2,9 @@ package fr.factionbedrock.aerialhell.Registry.Misc;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
@@ -98,9 +100,7 @@ public class AerialHellTags
 
 		public static final TagKey<Block> AERIALHELL_PLANTS = tag("aerialhell_plants");
 
-		public static final TagKey<Block> OVERWORLD_LANTERN = tag("overworld_lantern");
-
-		public static final TagKey<Block> AERIALHELL_LANTERN = tag("aerialhell_lantern");
+		public static final TagKey<Block> LANTERN = tag("lantern");
 
 		public static final TagKey<Block> FEATURE_CAN_REPLACE = tag("feature_can_replace");
 
@@ -150,7 +150,7 @@ public class AerialHellTags
 
 		public static final TagKey<Item> CHESTS = tag("chests");
 
-		public static final TagKey<Item> BLOWPIPE_ARROWS = tag("blowpipe_arrows");
+		public static final TagKey<Item> RESONATOR_SHARDS = tag("resonator_shards");
 
 		public static final TagKey<Item> AERIALHELL_PLANKS = tag("aerialhell_planks");
 
@@ -174,10 +174,29 @@ public class AerialHellTags
 
 		public static final TagKey<Item> SLIPPERY_SAND_GLASS = tag("slippery_sand_glass");
 
+		public static final TagKey<Item> REPAIRS_STELLAR_STONE_MATERIAL = tag("repairs_stellar_stone_material");
+		public static final TagKey<Item> REPAIRS_RUBY_MATERIAL = tag("repairs_ruby_material");
+		public static final TagKey<Item> REPAIRS_AZURITE_MATERIAL = tag("repairs_azurite_material");
+		public static final TagKey<Item> REPAIRS_MAGMATIC_GEL_MATERIAL = tag("repairs_magmatic_gel_material");
+		public static final TagKey<Item> REPAIRS_HEAVY_MATERIAL = tag("repairs_heavy_material");
+		public static final TagKey<Item> REPAIRS_OBSIDIAN_MATERIAL = tag("repairs_obsidian_material");
+		public static final TagKey<Item> REPAIRS_VOLUCITE_MATERIAL = tag("repairs_volucite_material");
+		public static final TagKey<Item> REPAIRS_LUNATIC_MATERIAL = tag("repairs_lunatic_material");
+		public static final TagKey<Item> REPAIRS_SHADOW_MATERIAL = tag("repairs_shadow_material");
+		public static final TagKey<Item> REPAIRS_ARSONIST_MATERIAL = tag("repairs_arsonist_material");
+
 		private static TagKey<Item> tag(String name)
 		{
 			return TagKey.create(Registries.ITEM, AerialHell.id(name));
 		}
+	}
+
+	public static class Entities
+	{
+		public static final TagKey<EntityType<?>> LIGHT = tag("light");
+		public static final TagKey<EntityType<?>> SHADOW = tag("shadow");
+
+		private static TagKey<EntityType<?>> tag(String name) {return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));}
 	}
 
 	public static class Fluids

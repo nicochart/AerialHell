@@ -7,7 +7,7 @@ import net.minecraft.world.level.Level;
 
 public class MudSpectralGolemEntity extends MudGolemEntity implements MudSpectralEntity
 {
-	public MudSpectralGolemEntity(EntityType<? extends Monster> type, Level world) {super(type, world);}
+	public MudSpectralGolemEntity(EntityType<? extends Monster> type, Level level) {super(type, level);}
 
 	public static AttributeSupplier.Builder registerAttributes()
 	{

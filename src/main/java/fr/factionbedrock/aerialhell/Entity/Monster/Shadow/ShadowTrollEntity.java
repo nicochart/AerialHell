@@ -2,15 +2,16 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Shadow;
 
 import com.google.common.collect.ImmutableList;
 import fr.factionbedrock.aerialhell.Entity.AI.FleeBlockGoal;
+import fr.factionbedrock.aerialhell.Entity.Monster.ShadowMisleadableEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import java.util.List;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -18,6 +19,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -29,19 +31,46 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
-public class ShadowTrollEntity extends Monster
+import java.util.List;
+
+public class ShadowTrollEntity extends Monster implements ShadowMisleadableEntity
 {
 	public static final EntityDataAccessor<Boolean> DISAPPEARING = SynchedEntityData.<Boolean>defineId(ShadowTrollEntity.class, EntityDataSerializers.BOOLEAN);
 	private int timeDisappearing;
-	
-    public ShadowTrollEntity(EntityType<? extends ShadowTrollEntity> type, Level world) {super(type, world);}
-    
-    @Override
-    protected void registerGoals()
+
+    public ShadowTrollEntity(EntityType<? extends ShadowTrollEntity> type, Level worldIn)
+    {
+        super(type, worldIn);
+    }
+
+    /* ------- MisleadableEntity : Interface method implementation ------- */
+    @Override public Mob getSelf() {return this;}
+    /* ------------------------------------------------------------------- */
+
+    /* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
+    @Override public boolean hurt(DamageSource source, float amount)
+    {
+        if (this.level() instanceof ServerLevel serverLevel)
+        {
+            return this.misleadableHurtServer(serverLevel, source, amount, super::hurt);
+        }
+        return false;
+    }
+
+    @Override public void die(DamageSource damageSource)
+    {
+        this.misleadableDie(damageSource);
+        super.die(damageSource);
+    }
+
+    @Override public boolean canAttack(LivingEntity target) {return this.misleadableCanAttack(target, super::canAttack);}
+    /* ------------------------------------------------------------------------------------------ */
+
+    @Override protected void registerGoals()
     {
         List<Block> blocksToAvoid = ImmutableList.of(AerialHellBlocks.VOLUCITE_TORCH, AerialHellBlocks.VOLUCITE_WALL_TORCH);
         this.goalSelector.addGoal(1, new FleeBlockGoal<>(this, blocksToAvoid, 1.0D, 1.2D));
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, (potentialTarget) -> !this.isMisleadedBy(potentialTarget)));
 		this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.25D, false));
 		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.6D));
@@ -62,26 +91,26 @@ public class ShadowTrollEntity extends Monster
     {
     	if (super.doHurtTarget(attackedEntity))
     	{
-    		if (attackedEntity instanceof LivingEntity attackedLivingEntity)
+    		if (attackedEntity instanceof LivingEntity)
             {
-                if (!EntityHelper.isLivingEntityShadowImmune((attackedLivingEntity)))
+                if (!EntityHelper.isLivingEntityShadowImmune(((LivingEntity) attackedEntity)))
                 {
-                    if (!(attackedLivingEntity.hasEffect(MobEffects.BLINDNESS)))
+                    if (!((LivingEntity) attackedEntity).hasEffect(MobEffects.BLINDNESS))
                     {
-                        attackedLivingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 35, 0));
+                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 35, 0));
                     }
-                    else if (!attackedLivingEntity.hasEffect(AerialHellMobEffects.VULNERABILITY))
+                    else if (!((LivingEntity) attackedEntity).hasEffect(AerialHellMobEffects.VULNERABILITY))
                     {
-                        attackedLivingEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY, 60, 0));
+                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY, 60, 0));
                     }
                     else
                     {
-                        attackedLivingEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY, 120, 0));
+                        ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY, 120, 0));
                     }
                 }
                 else //attacked entity is shadow immune
                 {
-                    attackedLivingEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY, 50, 0));
+                    ((LivingEntity) attackedEntity).addEffect(new MobEffectInstance(AerialHellMobEffects.VULNERABILITY, 50, 0));
                 }
             }
     		return true;
@@ -111,7 +140,7 @@ public class ShadowTrollEntity extends Monster
     		if (!this.isDisappearing())
     		{
     			this.playSound(AerialHellSoundEvents.ENTITY_SHADOW_TROLL_DEATH, 1.0F, 0.9F);
-    			this.addEffect(new MobEffectInstance(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 10, true, false)));
+    			this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 10, true, false));
     			this.setDisappearing(true);
     		}
     	}
@@ -132,20 +161,20 @@ public class ShadowTrollEntity extends Monster
         builder.define(DISAPPEARING, false);
     }
     
-    @Override public void addAdditionalSaveData(CompoundTag nbt)
+    @Override public void addAdditionalSaveData(CompoundTag valueOutput)
     {
-        super.addAdditionalSaveData(nbt);
-        nbt.putBoolean("Disappearing", this.isDisappearing());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putBoolean("Disappearing", this.isDisappearing());
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag nbt)
+    @Override public void readAdditionalSaveData(CompoundTag valueInput)
     {
-        super.readAdditionalSaveData(nbt);
-        this.setDisappearing(nbt.getBoolean("Disappearing"));
+        super.readAdditionalSaveData(valueInput);
+        this.setDisappearing(valueInput.contains("Disappearing") ? valueInput.getBoolean("Disappearing") : false);
     }
     
-    public boolean isDisappearing() {return this.getEntityData().get(DISAPPEARING);}
-    public void setDisappearing(boolean flag) {this.getEntityData().set(DISAPPEARING, flag);}
+    public boolean isDisappearing() {return this.entityData.get(DISAPPEARING);}
+    public void setDisappearing(boolean flag) {this.entityData.set(DISAPPEARING, flag);}
     public int getTimeDisappearing() {return this.timeDisappearing;}
     
     @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_SHADOW_TROLL_AMBIENT;}

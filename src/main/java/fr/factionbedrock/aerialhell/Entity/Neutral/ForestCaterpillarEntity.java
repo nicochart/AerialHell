@@ -14,14 +14,14 @@ import net.minecraft.world.level.Level;
 
 public class ForestCaterpillarEntity extends AbstractCaterpillarEntity
 {
-	public ForestCaterpillarEntity(EntityType<? extends AbstractCaterpillarEntity> type, Level world)
+	public ForestCaterpillarEntity(EntityType<? extends AbstractCaterpillarEntity> type, Level worldIn)
     {
-        super(type, world);
+        super(type, worldIn);
     }
 	
-	public ForestCaterpillarEntity(Level world)
+	public ForestCaterpillarEntity(Level worldIn)
     {
-        this(AerialHellEntities.FOREST_CATERPILLAR, world);
+        this(AerialHellEntities.FOREST_CATERPILLAR, worldIn);
     }
 	
 	public static AttributeSupplier.Builder registerAttributes()

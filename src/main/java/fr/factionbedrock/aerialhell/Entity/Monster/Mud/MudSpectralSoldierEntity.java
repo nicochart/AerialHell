@@ -6,7 +6,7 @@ import net.minecraft.world.level.Level;
 
 public class MudSpectralSoldierEntity extends MudSoldierEntity implements MudSpectralEntity
 {
-	public MudSpectralSoldierEntity(EntityType<? extends MudSpectralSoldierEntity> type, Level world) {super(type, world);}
+	public MudSpectralSoldierEntity(EntityType<? extends MudSpectralSoldierEntity> type, Level level) {super(type, level);}
 	
 	public static AttributeSupplier.Builder registerAttributes()
     {

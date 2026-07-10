@@ -1,18 +1,23 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import java.util.List;
+import fr.factionbedrock.aerialhell.Client.Util.ClientHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import fr.factionbedrock.aerialhell.Util.ItemHelper;
 
-public class WithInformationItem extends Item
+import java.util.List;
+
+public class WithInformationItem extends Item implements ExtraHoverTextItem
 {
-	public WithInformationItem(Item.Properties settings) {super(settings);}
+	public WithInformationItem(Properties properties) {super(properties);}
 
-	@Override public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag type)
+	@Override public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
 	{
-		ItemHelper.appendItemTooltip(this.getDescriptionId(), tooltip);
+		this.appendOptionalDescriptionsHoverText(tooltipContext, components);
+		this.appendAbilityDescriptionHoverText(ClientHelper.getLocalPlayer(), tooltipContext, components);
+		this.appendReactorMenuHoverText(ClientHelper.getLocalPlayer(), tooltipContext, components);
 	}
+
+	@Override public Item getSelf() {return this;}
 }

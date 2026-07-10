@@ -12,15 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.FollowParentGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.player.Player;
@@ -28,14 +20,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.LevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
 public class BoarEntity extends Pig
 {
     private static final Ingredient FOOD_ITEMS = Ingredient.of(AerialHellItems.AERIAL_BERRY, AerialHellItems.VIBRANT_AERIAL_BERRY, Items.CARROT, Items.POTATO, Items.BEETROOT);
 
-    public BoarEntity(EntityType<? extends Pig> entityType, Level world) {super(entityType, world);}
+    public BoarEntity(EntityType<? extends Pig> entityType, Level level) {super(entityType, level);}
 
     protected void registerGoals()
     {
@@ -60,13 +52,11 @@ public class BoarEntity extends Pig
                 .add(Attributes.ATTACK_DAMAGE, 3.0D);
     }
 
-    @Override public boolean isSaddleable() {return false;}
-
-    @Override @Nullable public Pig getBreedOffspring(ServerLevel serverWorld, AgeableMob mob) {return AerialHellEntities.STELLAR_BOAR.create(serverWorld);}
+    @Override @Nullable public Pig getBreedOffspring(ServerLevel level, AgeableMob mob) {return AerialHellEntities.STELLAR_BOAR.create(level);}
     @Override public boolean isFood(ItemStack stack) {return FOOD_ITEMS.test(stack);}
 
-    public static boolean canSpawn(EntityType<? extends Pig> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource random)
+    public static boolean canSpawn(EntityType<? extends Pig> entityType, LevelAccessor worldIn, MobSpawnType spawnType, BlockPos pos, RandomSource random)
     {
-        return world.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK) && isBrightEnoughToSpawn(world, pos);
+        return worldIn.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK) && isBrightEnoughToSpawn(worldIn, pos);
     }
 }

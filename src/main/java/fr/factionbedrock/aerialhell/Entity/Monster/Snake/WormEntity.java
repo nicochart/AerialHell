@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Snake;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -16,7 +17,7 @@ public class WormEntity extends AbstractSnakeEntity
     public WormEntity(EntityType<? extends WormEntity> type, Level world) {super(type, world);}
 
     @Override protected BodyPartDeathReaction getBodyPartDeathReaction() {return BodyPartDeathReaction.SPLIT_IF_NOT_HEAD;}
-    @Override protected UniformInt getLength() {return UniformInt.of(10,24);}
+    @Override protected IntProvider getLength() {return UniformInt.of(10,24);}
     @Override protected int getMinLength() {return 2;}
 
     public static AttributeSupplier.Builder registerAttributes()

@@ -1,19 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " #",
-    "S "
+    " # ",
+    "#S#",
+    " # "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:ruby"
-    },
-    "S": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": {"item": "aerialhell:ruby"},
+    "S": {"item": "aerialhell:sky_stick"}
   },
   "result": {
     "id": "aerialhell:ruby_shuriken",
-    "count": 8
+    "count": 16
   }
 }

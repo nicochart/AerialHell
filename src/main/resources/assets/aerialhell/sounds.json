@@ -244,10 +244,6 @@
       "aerialhell:mob/volucite_golem/ambient_mad"
     ]
   },
-  "entity.volucite_golem.shoot": {
-    "subtitle": "subtitles.aerialhell.entity.volucite_golem.shoot",
-    "sounds": ["aerialhell:mob/volucite_golem/shoot"]
-  },
   "entity.keeper_of_volucite_keys.ambient": {
     "subtitle": "subtitles.aerialhell.entity.keeper_of_volucite_keys.ambient",
     "sounds": [
@@ -506,9 +502,9 @@
       "aerialhell:mob/flying_jellyfish/hurt2"
     ]
   },
-  "entity.volucite_blowpipe.shoot": {
-    "subtitle": "subtitles.aerialhell.entity.volucite_blowpipe.shoot",
-    "sounds": ["aerialhell:projectile/volucite_blowpipe/shoot"]
+  "entity.resonator.shoot": {
+    "subtitle": "subtitles.aerialhell.entity.resonator.shoot",
+    "sounds": ["aerialhell:projectile/resonator/shoot"]
   },
   "entity.shuriken.throw": {
     "subtitle": "subtitles.aerialhell.entity.shuriken.throw",
@@ -547,6 +543,14 @@
       "aerialhell:block/bone_pile_block/step_break_2",
       "aerialhell:block/bone_pile_block/step_break_3"
     ]
+  },
+  "block.reactor.ambient": {
+    "subtitle": "subtitles.aerialhell.block.reactor.ambient",
+    "sounds": ["aerialhell:block/reactor/reactor_ambient"]
+  },
+  "block.reactor.ambient_short": {
+    "subtitle": "subtitles.aerialhell.block.reactor.ambient",
+    "sounds": ["aerialhell:block/reactor/reactor_ambient_short"]
   },
   "item.forgotten_battle_trident.use": {
     "subtitle": "subtitles.aerialhell.item.forgotten_battle_trident.use",

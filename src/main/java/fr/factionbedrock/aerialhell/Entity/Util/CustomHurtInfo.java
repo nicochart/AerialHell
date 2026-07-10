@@ -5,8 +5,7 @@ import org.jetbrains.annotations.Nullable;
 public class CustomHurtInfo
 {
     private final float amount;
-    @Nullable
-    private final float kbStrength;
+    @Nullable private final float kbStrength;
     private final boolean playSound, applyKb;
 
     public CustomHurtInfo(float amount) {this(amount, 0.4F);}

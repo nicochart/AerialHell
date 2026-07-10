@@ -4,6 +4,13 @@ accessWidener v2 named
 accessible field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
 mutable field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
 
+#AerialHellItem
+accessible field net/minecraft/world/item/HoeItem TILLABLES Ljava/util/Map;
+accessible field net/minecraft/world/item/ShovelItem FLATTENABLES Ljava/util/Map;
+
+#Used in ActionModule ThrowProjectile to set firedFromWeapon
+accessible field net/minecraft/world/entity/projectile/AbstractArrow firedFromWeapon Lnet/minecraft/world/item/ItemStack;
+
 #Living Entity
 accessible field net/minecraft/world/entity/LivingEntity lastDamageSource Lnet/minecraft/world/damagesource/DamageSource;
 accessible field net/minecraft/world/entity/LivingEntity lastDamageStamp J
@@ -11,7 +18,7 @@ accessible field net/minecraft/world/entity/LivingEntity lastHurt F
 accessible method net/minecraft/world/entity/LivingEntity actuallyHurt (Lnet/minecraft/world/damagesource/DamageSource;F)V
 
 #ZombieEntity
-accessible field net/minecraft/world/entity/monster/Zombie SPEED_MODIFIER_BABY_ID Lnet/minecraft/resources/ResourceLocation;
+accessible field net/minecraft/world/entity/monster/Zombie SPEED_MODIFIER_BABY Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;
 
 #AbstractSkeletonEntity
 accessible method net/minecraft/world/entity/monster/AbstractSkeleton getStepSound ()Lnet/minecraft/sounds/SoundEvent;

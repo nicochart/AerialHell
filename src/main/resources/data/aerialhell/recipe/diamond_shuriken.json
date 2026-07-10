@@ -1,19 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " #",
-    "S "
+    " # ",
+    "#S#",
+    " # "
   ],
   "key": {
-    "#": {
-      "item": "minecraft:diamond"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "#": {"item": "minecraft:diamond"},
+    "S": {"item": "minecraft:stick"}
   },
   "result": {
     "id": "aerialhell:diamond_shuriken",
-    "count": 8
+    "count": 16
   }
 }

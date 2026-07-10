@@ -3,6 +3,8 @@ package fr.factionbedrock.aerialhell.Util;
 import fr.factionbedrock.aerialhell.Block.ShiftableLeavesBlock;
 import fr.factionbedrock.aerialhell.Block.ShiftableLogBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
+import fr.factionbedrock.aerialhell.BlockEntity.IntangibleTemporaryBlockEntity;
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
@@ -18,6 +20,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeResolver;
@@ -25,6 +28,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
@@ -99,7 +103,7 @@ public class BlockHelper
     {
         if (!BlockHelper.canBeCorrupted(world, pos, type)) {return 0.0F;}
 
-        float custom_multiplier = 1.0F;
+        float custom_multiplier = LoadedConfigParams.SHADOW_SPREAD_SPEED_MULTIPLIER;
         float type_multiplier = (type == CorruptionType.ANY || type == CorruptionType.OTHER) ? 0.4F : 1.0F;
         float multiplier = chance_multiplier * custom_multiplier * type_multiplier;
         Holder<Biome> biome = getInitialBiomeAtPos(world, pos);
@@ -447,5 +451,11 @@ public class BlockHelper
     public static boolean hasAnySolidSurfaceAbove(LevelReader world, BlockPos pos, int radius)
     {
         return BlockHelper.hasAnySolidBlockAbove(world, pos) && hasAnySolidBlockAbove(world, pos.offset(radius, 0, radius)) && hasAnySolidBlockAbove(world, pos.offset(radius, 0, -radius)) && hasAnySolidBlockAbove(world, pos.offset(-radius, 0, radius)) && hasAnySolidBlockAbove(world, pos.offset(-radius, 0, -radius));
+    }
+
+    public static void setIntangibleTemporaryBlockEntityBeforeState(LevelAccessor level, BlockPos pos, @org.jetbrains.annotations.Nullable BlockState state)
+    {
+        BlockEntity blockentity = level.getBlockEntity(pos);
+        if (blockentity instanceof IntangibleTemporaryBlockEntity intangibleblockentity) {intangibleblockentity.setBeforeState(state);}
     }
 }

@@ -12,7 +12,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
-import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockModelShaper;
@@ -291,8 +290,8 @@ public class RenderRegistrationListener
         EntityRendererRegistry.register(AerialHellEntities.LIGHTNING_SHURIKEN, ShurikenRender::new);
         EntityRendererRegistry.register(AerialHellEntities.POISONBALL, FireballLikeProjectileRender::new);
         EntityRendererRegistry.register(AerialHellEntities.DIMENSION_SHATTERER_PROJECTILE, FireballLikeProjectileRender::new);
-        EntityRendererRegistry.register(AerialHellEntities.VOLUCITE_BLOWPIPE_ARROW, AerialArrowRenderer::new);
-        EntityRendererRegistry.register(AerialHellEntities.RUBY_BLOWPIPE_ARROW, AerialArrowRenderer::new);
+        EntityRendererRegistry.register(AerialHellEntities.VOLUCITE_SHARD, ResonatorShardRender::new);
+        EntityRendererRegistry.register(AerialHellEntities.RUBY_SHARD, ResonatorShardRender::new);
         EntityRendererRegistry.register(AerialHellEntities.LUNATIC_PROJECTILE, LightProjectileRender::new);
         EntityRendererRegistry.register(AerialHellEntities.SHADOW_PROJECTILE, LightProjectileRender::new);
         EntityRendererRegistry.register(AerialHellEntities.AERIAL_HELL_PAINTING, AerialHellPaintingRender::new);
@@ -353,7 +352,7 @@ public class RenderRegistrationListener
                 BakedModel shiftedModel = context.loader().getBakedTopLevelModels().get(shiftedIdentifier);
                 if (initialModel != null && shiftedModel != null)
                 {
-                    BakedModel editedModel = new ShiftingBlockBakedModel(initialModel, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+                    BakedModel editedModel = new ShiftingBlockBakedModel(initialModel, shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isShadowBindEnabled() || forceShifted);
                     context.loader().getBakedTopLevelModels().put(initialIdentifier, editedModel);
                     bakedList.add(blockstate);
                 }

@@ -13,7 +13,10 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class EntEntity extends AerialHellHostileEntity
 {
-    public EntEntity(EntityType<? extends AerialHellHostileEntity> type, Level world) {super(type, world);}
+    public EntEntity(EntityType<? extends AerialHellHostileEntity> type, Level world)
+    {
+        super(type, world);
+    }
     
     public static AttributeSupplier.Builder registerAttributes()
     {

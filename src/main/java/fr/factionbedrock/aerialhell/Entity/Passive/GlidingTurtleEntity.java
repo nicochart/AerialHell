@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Passive;
 
 import fr.factionbedrock.aerialhell.Entity.AI.GlideGoal;
 import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -18,7 +19,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import org.jetbrains.annotations.Nullable;
 
 public class GlidingTurtleEntity extends AerialHellAnimalEntity
@@ -26,9 +26,9 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
     public static final EntityDataAccessor<Boolean> GLIDING = SynchedEntityData.<Boolean>defineId(GlidingTurtleEntity.class, EntityDataSerializers.BOOLEAN);
     private int ateTimer;
 
-    public GlidingTurtleEntity(EntityType<? extends GlidingTurtleEntity> type, Level world) {super(type, world);}
+    public GlidingTurtleEntity(EntityType<? extends GlidingTurtleEntity> type, Level worldIn) {super(type, worldIn);}
 
-    public GlidingTurtleEntity(Level world) {this(AerialHellEntities.GLIDING_TURTLE, world);}
+    public GlidingTurtleEntity(Level worldIn) {this(AerialHellEntities.GLIDING_TURTLE, worldIn);}
 
     public InteractionResult mobInteract(Player player, InteractionHand hand)
     {
@@ -65,13 +65,13 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
                 .add(Attributes.MOVEMENT_SPEED, 0.26);
     }
 
-    @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob mob)
+    @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob mob)
     {
-        return AerialHellEntities.GLIDING_TURTLE.create(this.level());
+        return AerialHellEntities.GLIDING_TURTLE.create(world);
     }
     
-    public boolean isGliding() {return !this.getEntityData().get(GLIDING);}
-    public void setGliding(boolean flag) {this.getEntityData().set(GLIDING, !flag);}
+    public boolean isGliding() {return !this.entityData.get(GLIDING);}
+    public void setGliding(boolean flag) {this.entityData.set(GLIDING, !flag);}
 
     @Override public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {return false;}
 
@@ -83,22 +83,21 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity
     @Override public void playAmbientSound()
     {
         SoundEvent ambientSound = this.getAmbientSound();
-        float volume = this.ateTimer <= 0 ? this.getSoundVolume() : 0.0F;
-        float pitch = this.getVoicePitch();
-        if (ambientSound != null) {this.playSound(ambientSound, volume, pitch);}
+        if (ambientSound != null) {this.playSound(ambientSound, this.ateTimer <= 0 ? this.getSoundVolume() : 0.0F, this.getVoicePitch());}
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag nbt)
+    @Override public void addAdditionalSaveData(CompoundTag valueOutput)
     {
-        super.addAdditionalSaveData(nbt);
-        nbt.putBoolean("Glide", this.isGliding());
-        nbt.putInt("AteTimer", this.ateTimer);
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putBoolean("Glide", this.isGliding());
+        valueOutput.putInt("AteTimer", this.ateTimer);
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag nbt)
+    @Override public void readAdditionalSaveData(CompoundTag valueInput)
     {
-        super.readAdditionalSaveData(nbt);
-        this.setGliding(nbt.getBoolean("Glide"));
-        this.ateTimer = nbt.getInt("AteTimer");
+        super.readAdditionalSaveData(valueInput);
+        this.setGliding(valueInput.contains("Glide") ? valueInput.getBoolean("Glide") :  false);
+        if (valueInput.contains("AteTimer")) {this.ateTimer = valueInput.getInt("AteTimer");}
+
     }
 }

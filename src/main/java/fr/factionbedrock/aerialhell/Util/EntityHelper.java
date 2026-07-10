@@ -27,12 +27,17 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.world.entity.*;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -44,9 +49,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.FlyingMob;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Silverfish;
@@ -70,6 +72,8 @@ import net.minecraft.world.phys.EntityHitResult;
 public class EntityHelper
 {
     public static boolean isCreativePlayer(Entity entity) {return entity instanceof Player player && player.isCreative();}
+
+    public static boolean isFlyingCreativePlayer(Entity entity) {return entity instanceof Player player && player.isCreative() && player.getAbilities().flying;}
 
     public static boolean isSpectatorPlayer(Entity entity) {return entity instanceof Player player && player.isSpectator();}
 
@@ -193,6 +197,22 @@ public class EntityHelper
         return false;
     }
 
+    public static boolean hasEnchantment(LivingEntity entity, ItemStack stack, ResourceKey<Enchantment> enchantmentKey)
+    {
+        Optional<Holder.Reference<Enchantment>> enchantment = entity.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).get(enchantmentKey);
+        if (enchantment.isPresent())
+        {
+            return EnchantmentHelper.getItemEnchantmentLevel(enchantment.get(), stack) > 0;
+
+        }
+        return false;
+    }
+
+    public static void applyTraitorEffectTo(LivingEntity livingEntity)
+    {
+        livingEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.TRAITOR, 12000, 0));
+    }
+
     public static void multiplyDeltaMovement(Entity entity, double xzFactor, double yFactor)
     {
         entity.setDeltaMovement(entity.getDeltaMovement().multiply(xzFactor, yFactor, xzFactor));
@@ -242,6 +262,87 @@ public class EntityHelper
         return isLivingEntityShadowBind(entity) && !isLivingEntityATraitor(entity);
     }
 
+    public static boolean hasItemStackInHotbar(Player player, ItemStack stackToSearch)
+    {
+        for (ItemStack stack : getHotbarItemStackList(player))
+        {
+            if (ItemStack.matches(stack, stackToSearch)) {return true;}
+        }
+        return false;
+    }
+
+    public static List<ItemStack> getHotbarItemStackList(Player player)
+    {
+        List<ItemStack> list = new ArrayList<>();
+        for (int i = 0; i < 9; i++)
+        {
+            ItemStack stack = player.getInventory().getItem(i);
+            if (!stack.isEmpty())
+            {
+                list.add(stack);
+            }
+        }
+        return list;
+    }
+
+    public static List<EquippedItemStack> getEquippedItemStackList(LivingEntity livingEntity)
+    {
+        List<EquippedItemStack> list = new ArrayList<>();
+        addInHandsItemToList(list, livingEntity, EquippedItemStack::new);
+        addEquippedHumanoidArmorItemToList(list, livingEntity, EquippedItemStack::new);
+        return list;
+    }
+
+    public static List<ItemStack> getEquippedHumanoidArmorItemList(LivingEntity livingEntity)
+    {
+        List<ItemStack> list = new ArrayList<>();
+        addEquippedHumanoidArmorItemToList(list, livingEntity, (slot, stack) -> stack);
+        return list;
+    }
+
+    public static <T> void addEquippedHumanoidArmorItemToList(List<T> listToFill, LivingEntity livingEntity, BiFunction<EquipmentSlot, ItemStack, T> mapper)
+    {
+        ItemStack headStack = livingEntity.getItemBySlot(EquipmentSlot.HEAD);
+        if (!headStack.isEmpty()) {listToFill.add(mapper.apply(EquipmentSlot.HEAD, headStack));}
+        ItemStack chestStack = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
+        if (!chestStack.isEmpty()) {listToFill.add(mapper.apply(EquipmentSlot.CHEST, chestStack));}
+        ItemStack legsStack = livingEntity.getItemBySlot(EquipmentSlot.LEGS);
+        if (!legsStack.isEmpty()) {listToFill.add(mapper.apply(EquipmentSlot.LEGS, legsStack));}
+        ItemStack feetStack = livingEntity.getItemBySlot(EquipmentSlot.FEET);
+        if (!feetStack.isEmpty()) {listToFill.add(mapper.apply(EquipmentSlot.FEET, feetStack));}
+    }
+
+    public static List<ItemStack> getInHandsItemList(LivingEntity livingEntity)
+    {
+        List<ItemStack> list = new ArrayList<>();
+        addInHandsItemToList(list, livingEntity, (slot, stack) -> stack);
+        return list;
+    }
+
+    public static <T> void addInHandsItemToList(List<T> listToFill, LivingEntity livingEntity, BiFunction<EquipmentSlot, ItemStack, T> mapper)
+    {
+        ItemStack offhandStack = livingEntity.getItemBySlot(EquipmentSlot.OFFHAND);
+        if (!offhandStack.isEmpty()) {listToFill.add(mapper.apply(EquipmentSlot.OFFHAND, offhandStack));}
+        ItemStack mainhandStack = livingEntity.getItemBySlot(EquipmentSlot.MAINHAND);
+        if (!mainhandStack.isEmpty()) {listToFill.add(mapper.apply(EquipmentSlot.MAINHAND, mainhandStack));}
+    }
+
+    public static int countMagmaticGelStuff(LivingEntity livingEntity) {return ItemHelper.countMagmaticGelStuff(getEquippedHumanoidArmorItemList(livingEntity));}
+    public static int countLunaticStuff(LivingEntity livingEntity) {return ItemHelper.countLunaticStuff(getEquippedHumanoidArmorItemList(livingEntity));}
+    public static int countShadowStuff(LivingEntity livingEntity) {return ItemHelper.countShadowStuff(getEquippedHumanoidArmorItemList(livingEntity));}
+    public static int countArsonistStuff(LivingEntity livingEntity) {return ItemHelper.countArsonistStuff(getEquippedHumanoidArmorItemList(livingEntity));}
+    public static int countVoluciteStuff(LivingEntity livingEntity) {return ItemHelper.countVoluciteStuff(getEquippedHumanoidArmorItemList(livingEntity));}
+    public static int countHeavyStuff(LivingEntity livingEntity) {return ItemHelper.countHeavyStuff(getEquippedHumanoidArmorItemList(livingEntity));}
+
+    public static boolean hasFullMagmaticGelStuff(LivingEntity livingEntity) {return countMagmaticGelStuff(livingEntity) == 4;}
+    public static boolean hasFullLunaticStuff(LivingEntity livingEntity) {return countLunaticStuff(livingEntity) == 4;}
+    public static boolean hasFullShadowStuff(LivingEntity livingEntity) {return countShadowStuff(livingEntity) == 4;}
+    public static boolean hasFullVoluciteStuff(LivingEntity livingEntity) {return countVoluciteStuff(livingEntity) == 4;}
+    public static boolean hasFullArsonistStuff(LivingEntity livingEntity) {return countArsonistStuff(livingEntity) == 4;}
+    public static boolean hasNoLunaticStuff(LivingEntity livingEntity) {return countLunaticStuff(livingEntity) == 0;}
+    public static boolean hasNoShadowStuff(LivingEntity livingEntity) {return countShadowStuff(livingEntity) == 0;}
+    public static boolean hasNoHeavyStuff(LivingEntity livingEntity) {return countHeavyStuff(livingEntity) == 0;}
+
     //from in net.minecraft.server.world.ServerChunkLoadingManager sendChunkBiomePackets(..) method
     public static void refreshChunkColors(ServerPlayer player, ServerLevel world, int radius)
     {
@@ -256,6 +357,30 @@ public class EntityHelper
         }
 
         player.connection.send(ClientboundChunksBiomesPacket.forChunks(chunkList));
+    }
+
+    public static List<LivingEntity> getTargetableLivingEntitiesInInflatedBoundingBox(Entity searchSource, double inflateValue, Predicate<Entity> targetCondition)
+    {
+        return getTargetableLivingEntitiesInInflatedBoundingBox(searchSource, inflateValue, 0.0F, targetCondition);
+    }
+
+    public static List<LivingEntity> getTargetableLivingEntitiesInInflatedBoundingBox(Entity searchSource, double boundingBoxInflateValue, double boundingBoxYOffset, Predicate<Entity> targetCondition)
+    {
+        return getEntitiesInInflatedBoundingBox(searchSource, boundingBoxInflateValue,boundingBoxYOffset).stream()
+                .filter(entity -> entity instanceof LivingEntity)
+                .filter(entity -> targetCondition.test(entity))
+                .map(entity -> (LivingEntity) entity)
+                .collect(Collectors.toList());
+    }
+
+    public static List<Entity> getEntitiesInInflatedBoundingBox(Entity searchSource, double boundingBoxInflateValue)
+    {
+        return getEntitiesInInflatedBoundingBox(searchSource, boundingBoxInflateValue, 0.0F);
+    }
+
+    public static List<Entity> getEntitiesInInflatedBoundingBox(Entity searchSource, double boundingBoxInflateValue, double boundingBoxYOffset)
+    {
+        return searchSource.level().getEntities(searchSource, searchSource.getBoundingBox().move(0.0F, boundingBoxYOffset, 0.0F).inflate(boundingBoxInflateValue), EntitySelector.NO_CREATIVE_OR_SPECTATOR);
     }
 
     public static void handleProjectileImpactWithEntity(Projectile projectileEntity, EntityHitResult hitResult, CallbackInfo ci)

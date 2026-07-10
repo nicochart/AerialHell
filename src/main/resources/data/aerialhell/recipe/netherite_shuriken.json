@@ -1,19 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " #",
-    "S "
+    " # ",
+    "#S#",
+    " # "
   ],
   "key": {
-    "#": {
-      "item": "minecraft:netherite_ingot"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "#": {"item": "minecraft:netherite_ingot"},
+    "S": {"item": "minecraft:stick"}
   },
   "result": {
     "id": "aerialhell:netherite_shuriken",
-    "count": 16
+    "count": 64
   }
 }

@@ -3,9 +3,9 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractHumanoidMonster;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.Level;
@@ -15,9 +15,9 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
 {
     public AbstractSlimePirateEntity(EntityType<? extends AbstractSlimePirateEntity> type, Level world) {super(type, world, 1.0F, 0.33F);}
 
-    @Override public void remove(Entity.RemovalReason removalReason)
+    @Override public void remove(RemovalReason removalReason)
     {
-        if (!this.level().isClientSide && !this.isBaby() && this.isDeadOrDying())
+        if (!this.level().isClientSide() && !this.isBaby() && this.isDeadOrDying())
         {
             int number = 1 + this.random.nextInt(2);
             if (random.nextInt(5) == 0) {number++;}
@@ -36,7 +36,7 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
                     littlePirate.moveTo(this.getX() + (double) x, this.getY() + 0.5D, this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
                     this.level().addFreshEntity(littlePirate);
                     //No weapon
-                    //littlePirate.initEquipment(this.getRandom(), this.getWorld().getCurrentDifficultyAt(this.getBlockPos()));
+                    //littlePirate.populateDefaultEquipmentSlots(this.getRandom(), this.level().getCurrentDifficultyAt(this.blockPosition()));
                 }
             }
         }
@@ -45,7 +45,11 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
 
     @Override public boolean hurt(DamageSource damageSource, float amount)
     {
-        return super.hurt(damageSource, this.isBaby() ? amount * 1.5F : amount);
+        if (this.level() instanceof ServerLevel serverLevel)
+        {
+            return super.hurt(damageSource, this.isBaby() ? amount * 1.5F : amount);
+        }
+        return false;
     }
 
     public EntityType<? extends AbstractSlimePirateEntity> getDieOffspringType() {return this.getType();}

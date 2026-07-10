@@ -11,6 +11,8 @@
 		"UpdateNeighborsAlwaysWorldMixin",
 		"UpdateNeighborsExceptMixin",
 		"LivingJumpMixin",
+		"LivingEntityFallFlyingMixin",
+		"LivingEntityGravityMixin",
 		"SleepFinishMixin",
 		"ImpactFromThrownEntityMixin",
 		"ImpactFromPersistentProjectileEntityMixin",
@@ -19,7 +21,12 @@
 		"RarityMixin",
 		"RarityFromItemStackMixin",
 		"RenderBlockOverlayMixin",
-		"RenderHudOverlayMixin"
+		"RenderHudOverlayMixin",
+		"CanDisableShieldMixin"
+	],
+	"client" : [
+		"UseItemFovModifierMixin",
+		"UseItemInHandRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

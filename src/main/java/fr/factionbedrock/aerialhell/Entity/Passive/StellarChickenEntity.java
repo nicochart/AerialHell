@@ -18,22 +18,15 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.FollowParentGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
@@ -44,12 +37,12 @@ public class StellarChickenEntity extends Chicken
     private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.<Integer>defineId(StellarChickenEntity.class, EntityDataSerializers.INT);
     private static final Ingredient FOOD_ITEMS = Ingredient.of(AerialHellItems.STELLAR_WHEAT_SEEDS, AerialHellItems.AERIAL_BERRY_SEEDS, AerialHellItems.VIBRANT_AERIAL_BERRY_SEEDS);
 
-    public StellarChickenEntity(EntityType<? extends Chicken> entityType, Level world) {super(entityType, world);}
+    public StellarChickenEntity(EntityType<? extends Chicken> entityType, Level level) {super(entityType, level);}
 
-    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData)
+    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData)
     {
         this.setColor(getBlockPositionTint());
-        return super.finalizeSpawn(world, difficulty, mobSpawnType, spawnGroupData);
+        return super.finalizeSpawn(level, difficulty, mobSpawnType, spawnGroupData);
     }
 
     @Override public void tick()
@@ -62,7 +55,10 @@ public class StellarChickenEntity extends Chicken
         super.tick();
     }
 
-    private int getBlockPositionTint() {return this.level().getBlockTint(this.blockPosition(), Biome::getGrassColor);}
+    private int getBlockPositionTint()
+    {
+        return this.level().getBlockTint(this.blockPosition(), Biome::getGrassColor);
+    }
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
@@ -70,20 +66,20 @@ public class StellarChickenEntity extends Chicken
         builder.define(COLOR, 0);
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag nbt)
+    @Override public void addAdditionalSaveData(CompoundTag valueOutput)
     {
-        super.addAdditionalSaveData(nbt);
-        nbt.putInt("Color", this.getColor());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putInt("Color", this.getColor());
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag nbt)
+    @Override public void readAdditionalSaveData(CompoundTag valueInput)
     {
-        super.readAdditionalSaveData(nbt);
-        this.setColor(nbt.getInt("Color"));
+        super.readAdditionalSaveData(valueInput);
+        this.setColor(valueInput.contains("Color") ? valueInput.getInt("Color") : 0);
     }
 
-    public int getColor() {return this.getEntityData().get(COLOR);}
-    public void setColor(int color) {this.getEntityData().set(COLOR, color);}
+    public int getColor() {return this.entityData.get(COLOR);}
+    public void setColor(int color) {this.entityData.set(COLOR, color);}
 
     protected void registerGoals()
     {
@@ -114,19 +110,19 @@ public class StellarChickenEntity extends Chicken
                 .add(Attributes.MOVEMENT_SPEED, 0.3);
     }
 
-    @Nullable @Override public ItemEntity spawnAtLocation(ItemLike item)
+    @Nullable @Override public ItemEntity spawnAtLocation(ItemStack itemStack)
     {
-        if (item == Items.EGG) {return super.spawnAtLocation(AerialHellItems.STELLAR_EGG);}
-        else {return super.spawnAtLocation(item);}
+        if (itemStack.getItem() == Items.EGG) {return super.spawnAtLocation(AerialHellItems.STELLAR_EGG.getDefaultInstance());}
+        else {return super.spawnAtLocation(itemStack);}
     }
 
-    @Override public float getWalkTargetValue(BlockPos pos, LevelReader world)
+    @Override public float getWalkTargetValue(BlockPos pos, LevelReader worldIn)
     {
-        return world.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK) ? 10.0F : world.getPathfindingCostFromLightLevels(pos) - 0.5F;
+        return worldIn.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK) ? 10.0F : worldIn.getPathfindingCostFromLightLevels(pos) - 0.5F;
     }
 
-    public static boolean canSpawn(EntityType<? extends Chicken> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
+    public static boolean canSpawn(EntityType<? extends Chicken> entityType, LevelAccessor worldIn, MobSpawnType spawnType, BlockPos pos, RandomSource random)
     {
-        return world.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK) && isBrightEnoughToSpawn(world, pos);
+        return worldIn.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK) && isBrightEnoughToSpawn(worldIn, pos);
     }
 }

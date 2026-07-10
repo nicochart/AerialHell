@@ -20,11 +20,12 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
     private int ticksInAir = 0;
     public AbstractLightProjectileEntity(EntityType<? extends AbstractLightProjectileEntity> type, Level world) {super(type, world);}
 
-    public AbstractLightProjectileEntity(EntityType<? extends AbstractLightProjectileEntity> type, LivingEntity shooter, Level world)
+    protected AbstractLightProjectileEntity(EntityType<? extends ThrowableProjectile> type, LivingEntity shooter, Level level)
     {
-        super(type, shooter, world);
+        super(type, shooter.getX(), shooter.getEyeY() - 0.1F, shooter.getZ(), level);
         this.setOwner(shooter);
     }
+
     @Override public void shoot(double x, double y, double z, float velocity, float inaccuracy)
     {
     	super.shoot(x, y, z, velocity, inaccuracy);
@@ -43,14 +44,13 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
         if (!this.onGround()) {++this.ticksInAir;}
         if (this.ticksInAir > 300) {this.discard();}
         if (this.level().getBlockState(this.blockPosition()).is(AerialHellTags.Blocks.SOLID_ETHER)) {this.playHitEffect(); this.discard();}
-        if (this.level() instanceof ServerLevel serverWorld)
+        if (this.level() instanceof  ServerLevel serverLevel)
         {
-            transformBlocks(serverWorld, this, this.getShiftType());
+            transformBlocks(serverLevel, this, this.getShiftType());
         }
-
     }
 
-    static void transformBlocks(ServerLevel world, AbstractLightProjectileEntity projectile, BiomeShifter.ShiftType shiftType)
+    static void transformBlocks(ServerLevel level, AbstractLightProjectileEntity projectile, BiomeShifter.ShiftType shiftType)
     {
         BlockPos pos;
         for (int x=-2; x<=2; x++)
@@ -62,13 +62,13 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
                     if (!((Math.abs(x) == 2 && Math.abs(y) == 2) || (Math.abs(x) == 2 && Math.abs(z) == 2) || (Math.abs(y) == 2 && Math.abs(z) == 2)))
                     {
                         pos = new BlockPos((int) (projectile.position().x - 0.5F + x), (int) (projectile.position().y + 0.5F + y), (int) (projectile.position().z - 0.5F + z));
-                        if (shiftType == BiomeShifter.ShiftType.UNCORRUPT && BlockHelper.isCorrupted(world, pos))
+                        if (shiftType == BiomeShifter.ShiftType.UNCORRUPT && BlockHelper.isCorrupted(level, pos))
                         {
-                            BlockHelper.uncorrupt(world, pos);
+                            BlockHelper.uncorrupt(level, pos);
                         }
-                        else if (shiftType == BiomeShifter.ShiftType.CORRUPT && !BlockHelper.isCorrupted(world, pos) && BlockHelper.canBeCorrupted(world, pos, BlockHelper.CorruptionType.ANY))
+                        else if (shiftType == BiomeShifter.ShiftType.CORRUPT && !BlockHelper.isCorrupted(level, pos) && BlockHelper.canBeCorrupted(level, pos, BlockHelper.CorruptionType.ANY))
                         {
-                            BlockHelper.corrupt(world, pos, BlockHelper.CorruptionType.ANY);
+                            BlockHelper.corrupt(level, pos, BlockHelper.CorruptionType.ANY);
                         }
                     }
                 }

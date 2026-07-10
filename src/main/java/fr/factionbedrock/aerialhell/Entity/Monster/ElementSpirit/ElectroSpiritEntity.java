@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit;
 
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -13,21 +14,20 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import org.jetbrains.annotations.Nullable;
 
 public class ElectroSpiritEntity extends AbstractElementSpiritEntity
 {
-	public ElectroSpiritEntity(EntityType<? extends ElectroSpiritEntity> type, Level world) {super(type, world);}
+	public ElectroSpiritEntity(EntityType<? extends ElectroSpiritEntity> type, Level worldIn) {super(type, worldIn);}
 
-    public ElectroSpiritEntity(Level world) {this(AerialHellEntities.ELECTRO_SPIRIT, world);}
+    public ElectroSpiritEntity(Level worldIn) {this(AerialHellEntities.ELECTRO_SPIRIT, worldIn);}
     
     @Override public void attackSuicide()
     {
     	if (this.level() instanceof ServerLevel)
     	{
     		LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this.level());
-			lightningBolt.setPosRaw(this.getX(), this.getY(), this.getZ());
+			lightningBolt.setPos(this.getX(), this.getY(), this.getZ());
 			this.level().addFreshEntity(lightningBolt);
     	}
     	super.attackSuicide();
@@ -37,12 +37,8 @@ public class ElectroSpiritEntity extends AbstractElementSpiritEntity
     {
     	((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.GLOWING, 70, 2, true, false));
     }
-    
-    public SimpleParticleType getParticleToSpawn()
-    {
-    	return ParticleTypes.WITCH;
-    }
-    
+
+    @Override public SimpleParticleType getParticleToSpawn() {return ParticleTypes.WITCH;}
     @Nullable @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_HURT;}
     @Nullable @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_DEATH;}
     @Nullable @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_AMBIENT;}

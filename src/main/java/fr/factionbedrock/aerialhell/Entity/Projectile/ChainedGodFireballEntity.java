@@ -8,8 +8,8 @@ import net.minecraft.world.phys.Vec3;
 public class ChainedGodFireballEntity extends LargeFireball
 {
 	private final static int explosion_power = 0;
-	public ChainedGodFireballEntity(Level world, LivingEntity shooter, double accelX, double accelY, double accelZ)
+	public ChainedGodFireballEntity(Level worldIn, LivingEntity shooter, double accelX, double accelY, double accelZ)
 	{
-		super(world,shooter,new Vec3(accelX,accelY,accelZ),explosion_power);
+		super(worldIn,shooter,new Vec3(accelX,accelY,accelZ),explosion_power);
 	}
 }

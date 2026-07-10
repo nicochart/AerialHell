@@ -9,9 +9,9 @@ import net.minecraft.world.level.block.Block;
 
 public class SkyCactusFiberChestMimicEntity extends AbstractChestMimicEntity
 {
-	public SkyCactusFiberChestMimicEntity(EntityType<? extends SkyCactusFiberChestMimicEntity> type, Level world)
+	public SkyCactusFiberChestMimicEntity(EntityType<? extends SkyCactusFiberChestMimicEntity> type, Level worldIn)
 	{
-		super(type, world);
+		super(type, worldIn);
 	}
 	
 	public static AttributeSupplier.Builder registerAttributes()
@@ -25,6 +25,5 @@ public class SkyCactusFiberChestMimicEntity extends AbstractChestMimicEntity
 				.add(Attributes.FOLLOW_RANGE, 8.0D);
 	}
 
-	@Override
-	protected Block getMimicBlock() {return AerialHellBlocks.SKY_CACTUS_FIBER_CHEST_MIMIC;}
+	@Override protected Block getMimicBlock() {return AerialHellBlocks.SKY_CACTUS_FIBER_CHEST_MIMIC;}
 }

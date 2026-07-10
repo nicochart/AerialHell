@@ -6,26 +6,19 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.FollowParentGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ServerLevelAccessor;
 
 public abstract class AerialHellAnimalEntity extends Animal
 {
-	protected AerialHellAnimalEntity(EntityType<? extends Animal> type, Level world)
+	protected AerialHellAnimalEntity(EntityType<? extends Animal> type, Level worldIn)
 	{
-		super(type, world);
+		super(type, worldIn);
 	}
 
 	@Override protected void registerGoals()
@@ -40,18 +33,20 @@ public abstract class AerialHellAnimalEntity extends Animal
 		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 	}
 
-	@Override
-	public float getWalkTargetValue(BlockPos pos, LevelReader world)
+	@Override public float getWalkTargetValue(BlockPos pos, LevelReader worldIn)
 	{
-		return world.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK) ? 10.0F : world.getPathfindingCostFromLightLevels(pos) - 0.5F;
+		return worldIn.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK) ? 10.0F : worldIn.getPathfindingCostFromLightLevels(pos) - 0.5F;
 	}
 
 	@Override public int getAmbientSoundInterval() {return 160;}
 
-	@Override public boolean isFood(ItemStack stack) {return stack.getItem() == AerialHellItems.AERIAL_BERRY;}
-
-	public static boolean canAerialHellAnimalSpawn(EntityType<? extends AerialHellAnimalEntity> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
+	@Override public boolean isFood(ItemStack stack)
 	{
-		return world.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK) && isBrightEnoughToSpawn(world, pos);
+		return stack.getItem() == AerialHellItems.AERIAL_BERRY;
+	}
+
+	public static boolean canAerialHellAnimalSpawn(EntityType<? extends AerialHellAnimalEntity> entityType, LevelAccessor worldIn, MobSpawnType spawnType, BlockPos pos, RandomSource random)
+	{
+		return worldIn.getBlockState(pos.below()).is(AerialHellBlocks.STELLAR_GRASS_BLOCK) && isBrightEnoughToSpawn(worldIn, pos);
 	}
 }

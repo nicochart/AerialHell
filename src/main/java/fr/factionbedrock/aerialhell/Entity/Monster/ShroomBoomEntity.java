@@ -10,13 +10,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.SwellGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Cat;
@@ -29,7 +23,10 @@ import net.minecraft.world.level.Level;
 
 public class ShroomBoomEntity extends Creeper
 {
-    public ShroomBoomEntity(EntityType<? extends ShroomBoomEntity> type, Level world) {super(type, world);}
+    public ShroomBoomEntity(EntityType<? extends ShroomBoomEntity> type, Level worldIn)
+    {
+        super(type, worldIn);
+    }
     
     @Override
     protected void registerGoals()
@@ -86,7 +83,8 @@ public class ShroomBoomEntity extends Creeper
             		((LivingEntity)attackedEntity).knockback(kb * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));
                     EntityHelper.multiplyDeltaMovement(this, 0.6D, 1.0D);
                 }
-                if (this.level() instanceof ServerLevel serverWorld) {EnchantmentHelper.doPostAttackEffects(serverWorld, attackedEntity, damagesource);}
+                if (level() instanceof ServerLevel serverLevel) {
+                    EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);}
             	this.setLastHurtMob(attackedEntity);
             }
             return isAttackSuccess;

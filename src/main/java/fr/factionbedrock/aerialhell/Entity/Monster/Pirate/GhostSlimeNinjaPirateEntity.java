@@ -1,46 +1,94 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Pirate;
 
-import fr.factionbedrock.aerialhell.Entity.AI.GhostGoals;
-import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.AzuriteShurikenEntity;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhostPirateWaterAvoidingRandomStrollGoal;
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.MisleadableEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.ShurikenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity
+public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity implements MisleadableEntity, GoalConditionEntity.PhaseAwareGoalConditionEntity
 {
+    private static final int OTHER = 0, MELEE_ATTACK_GOAL = 1, SHURIKEN_ATTACK_GOAL = 2;
     public GhostSlimeNinjaPirateEntity(EntityType<? extends GhostSlimeNinjaPirateEntity> type, Level world) {super(type, world);}
+
+    /* ------- MisleadableEntity : Interface method implementation ------- */
+    @Override public boolean isMisleadedBy(LivingEntity livingEntity)
+    {
+        return EntityHelper.isImmuneToGhostBlockCollision(livingEntity);
+    }
+    /* ------------------------------------------------------------------- */
+
+    /* ------- MisleadableEntity : Superclass methods Overridden to delegate to interface ------- */
+    @Override public boolean hurt(DamageSource source, float amount)
+    {
+        if (this.level() instanceof ServerLevel serverLevel)
+        {
+            return this.misleadableHurtServer(serverLevel, source, amount, super::hurt);
+        }
+        return false;
+    }
+
+    @Override public void die(DamageSource damageSource)
+    {
+        this.misleadableDie(damageSource);
+        super.die(damageSource);
+    }
+
+    @Override public boolean canAttack(LivingEntity target) {return this.misleadableCanAttack(target, super::canAttack);}
+    /* ------------------------------------------------------------------------------------------ */
+
+    /* ------- MisleadableEntity : Interface methods Overridden for specific behavior ------- */
+    @Override public boolean canMisleaderHurt() {return false;}
+    @Override public TraitorTrigger traitorTrigger(DamageSource damageSource) {return TraitorTrigger.NEVER;}
+    /* -------------------------------------------------------------------------------------- */
+
+    /* ------- GoalSimpleConditionEntity : Interface method implementation ------- */
+    @Override public PathfinderMob getSelf() {return this;}
+
+    @Override public boolean canUseGoalsAdditionalCondition(int goalIndex)
+    {
+        LivingEntity target = this.getTarget();
+        if (target == null || EntityHelper.isImmuneToGhostBlockCollision(target)) {return false;}
+        if (goalIndex == OTHER) {return true;}
+        double distanceToTarget = this.distanceTo(target);
+        return (goalIndex == MELEE_ATTACK_GOAL && distanceToTarget < 3) || (goalIndex == SHURIKEN_ATTACK_GOAL && distanceToTarget > 2);
+    }
+    /* --------------------------------------------------------------------------- */
 
     @Override protected void registerBaseGoals()
     {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.goalSelector.addGoal(3, new GhostGoals.GhostPirateWaterAvoidingRandomStrollGoal(this, 0.6D));
+        this.goalSelector.addGoal(3, new GhostPirateWaterAvoidingRandomStrollGoal(this, 0.6D));
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
     }
 
     @Override protected void registerSpecificGoals()
     {
-        this.goalSelector.addGoal(2, new GhostNinjaMeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.addGoal(4, new GhostGoals.GhostPirateLookAtPlayerGoal(this, Player.class, 16.0F));
-        this.goalSelector.addGoal(1, new GhostShurikenAttackGoal(this));
-        this.targetSelector.addGoal(2, new GhostGoals.GhostPirateNearestAttackableTargetGoal<>(this, Player.class, true));
-    }
-
-    @Override public boolean hurt(DamageSource damageSource, float amount)
-    {
-        Entity sourceEntity = damageSource.getEntity();
-        if (EntityHelper.isImmuneToGhostBlockCollision(sourceEntity) && !EntityHelper.isCreaOrSpecPlayer(sourceEntity)) {return false;}
-        return super.hurt(damageSource, amount);
+        this.goalSelector.addGoal(2, new ConditionalGoal(this, MELEE_ATTACK_GOAL, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.addGoal(4, new ConditionalGoal(this, OTHER, new LookAtPlayerGoal(this, Player.class, 16.0F)));
+        this.goalSelector.addGoal(1, new ConditionalGoal(this, SHURIKEN_ATTACK_GOAL, new GhostShurikenAttackGoal(this)));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, (potentialTarget) -> !this.isMisleadedBy(potentialTarget)));
     }
 
     @Override protected ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand) {return new ItemStack(AerialHellItems.AZURITE_SHURIKEN);}
@@ -49,34 +97,18 @@ public class GhostSlimeNinjaPirateEntity extends SlimeNinjaPirateEntity
 
     @Override public EntityType<? extends AbstractSlimePirateEntity> getType() {return AerialHellEntities.GHOST_SLIME_NINJA_PIRATE;}
 
-    public static class GhostShurikenAttackGoal extends SlimeNinjaPirateEntity.ShurikenAttackGoal
+    public static class GhostShurikenAttackGoal extends ShurikenAttackGoal
     {
         public GhostShurikenAttackGoal(GhostSlimeNinjaPirateEntity entity) {super(entity);}
 
         @Override public GhostSlimeNinjaPirateEntity getParentEntity() {return (GhostSlimeNinjaPirateEntity) super.getParentEntity();}
 
-        @Override public boolean canUse()
+        @Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ)
         {
-            LivingEntity target = getParentEntity().getTarget();
-            return !EntityHelper.isImmuneToGhostBlockCollision(target) && super.canUse();
-        }
-
-        @Override public Projectile createProjectile(Level world, LivingEntity shooter, double accX, double accY, double accZ)
-        {
-            RandomSource rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
-            return new AzuriteShurikenEntity(world, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget, 1.3f, 0.0f);
-        }
-    }
-
-    public static class GhostNinjaMeleeAttackGoal extends GhostGoals.GhostPirateMeleeAttackGoal
-    {
-        public GhostNinjaMeleeAttackGoal(PathfinderMob entityIn, double speedIn, boolean useLongMemory) {super(entityIn, speedIn, useLongMemory);}
-
-        @Override public boolean additionalConditionMet()
-        {
-            LivingEntity target = this.goalOwner.getTarget();
-            if (target == null) {return false;}
-            return super.additionalConditionMet() && this.goalOwner.distanceTo(target) < 3;
+            ShurikenEntity shuriken = new ShurikenEntity(AerialHellEntities.AZURITE_SHURIKEN, level, 9.0F);
+            shuriken.setOwner(shuriken);
+            shuriken.shoot(accX, accY, accZ, 1.3F, 2.0F);
+            return shuriken;
         }
     }
 }

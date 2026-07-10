@@ -37,7 +37,7 @@ public abstract class SummonEntitiesGoal extends Goal
         this.getGoalOwner().level().addFreshEntity(entity);
     }
 
-    protected void setEntityPosToSummonPos(Entity entity) {entity.setPosRaw(this.goalOwner.getX(), this.goalOwner.getY(), this.goalOwner.getZ());}
+    protected void setEntityPosToSummonPos(Entity entity) {entity.setPos(this.goalOwner.getX(), this.goalOwner.getY(), this.goalOwner.getZ());}
 
     protected void playEffect() //default effect, override for custom summon effect
     {

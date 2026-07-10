@@ -21,7 +21,7 @@ public class ShadowFlyingSkullEntity extends Vex
 {
     public float jawOpeningAmplitude = 0.2F;
     public float jawOpeningFrequencyMalus = 7.0F;
-    public ShadowFlyingSkullEntity(EntityType<? extends Vex> type, Level world) {super(type, world); this.setLimitedLife(700); this.SetRandomJawOpeningAmplitudeAndFrequency();}
+    public ShadowFlyingSkullEntity(EntityType<? extends Vex> type, Level level) {super(type, level); this.setLimitedLife(700); this.SetRandomJawOpeningAmplitudeAndFrequency();}
 
     public static AttributeSupplier.Builder registerAttributes()
     {
@@ -66,7 +66,7 @@ public class ShadowFlyingSkullEntity extends Vex
     {
         if (soundIn == SoundEvents.VEX_CHARGE && !this.isSilent())
         {
-            this.level().playSound((Player) null, this.getX(), this.getY(), this.getZ(), SoundEvents.EVOKER_FANGS_ATTACK, this.getSoundSource(), volume, pitch);
+            this.level().playSound((Player)null, this.getX(), this.getY(), this.getZ(), SoundEvents.EVOKER_FANGS_ATTACK, this.getSoundSource(), volume, pitch);
         }
         else {super.playSound(soundIn, volume, pitch);}
     }

@@ -21,19 +21,19 @@ import net.minecraft.world.phys.Vec3;
 
 public class PoisonballEntity extends Fireball
 {
-	public PoisonballEntity(EntityType<? extends PoisonballEntity> type, Level world)
+	public PoisonballEntity(EntityType<? extends PoisonballEntity> type, Level worldIn)
 	{
-		super(type, world);
+		super(type, worldIn);
 	}
 
-	public PoisonballEntity(Level world, double x, double y, double z, double accX, double accY, double accZ)
+	public PoisonballEntity(Level level, double x, double y, double z, double accX, double accY, double accZ)
 	{
-		super(AerialHellEntities.POISONBALL, x, y, z, new Vec3(accX, accY, accZ), world);
+		super(AerialHellEntities.POISONBALL, x, y, z, new Vec3(accX, accY, accZ), level);
 	}
 
-	public PoisonballEntity(Level world, LivingEntity shooter, double accX, double accY, double accZ)
+	public PoisonballEntity(Level level, LivingEntity shooter, double accX, double accY, double accZ)
 	{
-		super(AerialHellEntities.POISONBALL, shooter, new Vec3(accX, accY, accZ), world);
+		super(AerialHellEntities.POISONBALL, shooter, new Vec3(accX, accY, accZ), level);
 	}
 
 	@Override public boolean fireImmune() {return true;}
@@ -58,10 +58,10 @@ public class PoisonballEntity extends Fireball
 				else //TODO
 				{
 					ItemStack activeItemStack = livingEntity.getUseItem();
-					//activeItemStack.damage(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
-					this.level().playSound((Player) null, entity.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
+					//activeItemStack.hurtAndBreak(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
+					this.level().playSound((Player)null, entity.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
 				}
-				if (!this.level().isClientSide) {livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 160, 0));}
+				if (!this.level().isClientSide()) {livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 160, 0));}
 			}
 		}
 		this.discard();
@@ -72,9 +72,8 @@ public class PoisonballEntity extends Fireball
 	@Override public void tick()
 	{
 		Entity entity = this.getOwner();
-		if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition()))
+		if (this.level().isClientSide() || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition()))
 		{
-			super.tick();
 			HitResult hitResult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity, this.getClipType());
 			if (hitResult.getType() != HitResult.Type.MISS)
 			{
@@ -86,7 +85,7 @@ public class PoisonballEntity extends Fireball
 			ProjectileUtil.rotateTowardsMovement(this, 0.2F);
 
 			this.setDeltaMovement(this.getDeltaMovement().add(this.getDeltaMovement().normalize().scale(this.accelerationPower)).scale(this.getInertia()));
-			this.setPosRaw(d0, d1, d2);
+			this.setPos(d0, d1, d2);
 		}
 		else {this.discard(); return;}
 		

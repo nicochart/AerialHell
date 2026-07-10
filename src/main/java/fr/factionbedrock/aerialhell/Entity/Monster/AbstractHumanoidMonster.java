@@ -48,10 +48,10 @@ public abstract class AbstractHumanoidMonster extends Zombie
     @Override public void setBaby(boolean isBaby)
     {
         super.setBaby(isBaby);
-        if (!this.level().isClientSide)
+        if (!this.level().isClientSide())
         {
             AttributeInstance attributeinstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
-            attributeinstance.removeModifier(SPEED_MODIFIER_BABY_ID);
+            attributeinstance.removeModifier(SPEED_MODIFIER_BABY.id());
         }
     }
 
@@ -77,10 +77,10 @@ public abstract class AbstractHumanoidMonster extends Zombie
 
     @Nullable protected abstract ItemStack getRandomHandItem(EquipmentSlot hand, RandomSource rand);
 
-    @Override @Nullable public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn)
+    @Override @Nullable public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn)
     {
         this.setLeftHanded(random.nextFloat() < 0.5F);
-        this.populateDefaultEquipmentSlots(this.random, difficulty);
+        this.populateDefaultEquipmentSlots(this.random, difficultyIn);
         return spawnDataIn;
     }
 

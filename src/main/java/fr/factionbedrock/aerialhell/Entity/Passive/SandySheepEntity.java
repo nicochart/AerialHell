@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Passive;
 import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -25,7 +26,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import org.jetbrains.annotations.Nullable;
 
 public class SandySheepEntity extends AerialHellAnimalEntity
@@ -33,19 +33,22 @@ public class SandySheepEntity extends AerialHellAnimalEntity
 	private int shearedTimer;
     public static final EntityDataAccessor<Boolean> SHEARED = SynchedEntityData.<Boolean>defineId(SandySheepEntity.class, EntityDataSerializers.BOOLEAN);
 
-    public SandySheepEntity(EntityType<? extends SandySheepEntity> type, Level world)
+    public SandySheepEntity(EntityType<? extends SandySheepEntity> type, Level worldIn)
     {
-        super(type, world);
+        super(type, worldIn);
         this.shearedTimer = 200;
     }
 
-    public SandySheepEntity(Level world)
+    public SandySheepEntity(Level worldIn)
     {
-        this(AerialHellEntities.SANDY_SHEEP, world);
+        this(AerialHellEntities.SANDY_SHEEP, worldIn);
         this.shearedTimer = 200;
     }
 
-    @Override public boolean isFood(ItemStack stack) {return super.isFood(stack) || stack.getItem() == AerialHellItems.STELLAR_WHEAT;}
+    @Override public boolean isFood(ItemStack stack)
+    {
+        return super.isFood(stack) || stack.getItem() == AerialHellItems.STELLAR_WHEAT;
+    }
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
@@ -60,13 +63,13 @@ public class SandySheepEntity extends AerialHellAnimalEntity
                 .add(Attributes.MOVEMENT_SPEED, 0.26);
     }
 
-    @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob mob)
+    @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob mob)
     {
-        return AerialHellEntities.SANDY_SHEEP.create(this.level());
+        return AerialHellEntities.SANDY_SHEEP.create(world);
     }
     
-    public boolean hasWool() {return !this.getEntityData().get(SHEARED);}
-    public void setWool(boolean flag) {this.getEntityData().set(SHEARED, !flag);}
+    public boolean hasWool() {return !this.entityData.get(SHEARED);}
+    public void setWool(boolean flag) {this.entityData.set(SHEARED, !flag);}
 
     @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_SANDY_SHEEP_AMBIENT;}
     @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return AerialHellSoundEvents.ENTITY_SANDY_SHEEP_HURT;}
@@ -77,16 +80,16 @@ public class SandySheepEntity extends AerialHellAnimalEntity
         this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.SHEEP_STEP, SoundSource.NEUTRAL, 0.15F, 1.0F);
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag nbt)
+    @Override public void addAdditionalSaveData(CompoundTag valueOutput)
     {
-        super.addAdditionalSaveData(nbt);
-        nbt.putBoolean("Wool", this.hasWool());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putBoolean("Wool", this.hasWool());
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag nbt)
+    @Override public void readAdditionalSaveData(CompoundTag valueInput)
     {
-        super.readAdditionalSaveData(nbt);
-        this.setWool(nbt.getBoolean("Wool"));
+        super.readAdditionalSaveData(valueInput);
+        this.setWool(valueInput.contains("Wool") ? valueInput.getBoolean("Wool") : false);
     }
 
     @Override public boolean skipAttackInteraction(Entity entityIn)
@@ -94,7 +97,8 @@ public class SandySheepEntity extends AerialHellAnimalEntity
     	if (this.hasWool())
     	{
     		this.setWool(false);
-    		this.spawnAtLocation(new ItemStack(Items.YELLOW_WOOL));
+            if (!this.level().isClientSide()) {this.spawnAtLocation(new ItemStack(Items.YELLOW_WOOL));}
+
     		for (int i=0;i<10;i++)
             {
     			double rand = random.nextFloat() * 2;

@@ -3,12 +3,14 @@ package fr.factionbedrock.aerialhell.Setup;
 import fr.factionbedrock.aerialhell.Client.Packet.AerialHellData;
 import fr.factionbedrock.aerialhell.Client.Packet.ServerPayloadHandler;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Config.AerialHellConfigLoader;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.AerialHellCreativeModeTabs;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.BuildContentsEvent;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellFeatures;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructurePlacements;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructures;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 
@@ -16,6 +18,7 @@ public class AerialHellSetup
 {
     public static void init()
     {
+        AerialHellConfigLoader.loadAndStoreConfigParams();
         registration();
         additionalRegistration();
         //listen(bus);
@@ -33,7 +36,7 @@ public class AerialHellSetup
         AerialHellEntities.registerEntitySpawnPlacements();
         AerialHellDimensions.makePortal();
     }
-	
+
 	public static void registration()
     {
     	AerialHellBlocks.load();
@@ -43,6 +46,7 @@ public class AerialHellSetup
         //AerialHellBiomes.BIOMES.register(bus);
         AerialHellMobEffects.load();
         AerialHellStructures.load();
+        AerialHellStructurePlacements.load();
         AerialHellParticleTypes.load();
         AerialHellMenuTypes.load();
         AerialHellRecipes.load();

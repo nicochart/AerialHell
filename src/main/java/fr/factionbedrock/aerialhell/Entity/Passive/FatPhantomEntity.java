@@ -1,13 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Passive;
 
-import java.util.Comparator;
-import java.util.EnumSet;
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -17,7 +11,8 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.*;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
@@ -35,44 +30,51 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Comparator;
+import java.util.EnumSet;
+import java.util.List;
 
 public class FatPhantomEntity extends Phantom implements Enemy
 {
    public List<Player> attackingPlayers = Lists.newArrayList();
    private Vec3 orbitOffset = Vec3.ZERO;
    private BlockPos orbitPosition = BlockPos.ZERO;
-   private FatPhantomEntity.AttackPhase attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
+   private AttackPhase attackPhase = AttackPhase.CIRCLE;
    public static final EntityDataAccessor<Boolean> DISAPPEARING = SynchedEntityData.defineId(FatPhantomEntity.class, EntityDataSerializers.BOOLEAN);
    private int timeDisappearing;
 
-   public FatPhantomEntity(EntityType<? extends FatPhantomEntity> type, Level world)
+   public FatPhantomEntity(EntityType<? extends FatPhantomEntity> type, Level worldIn)
    {
-      super(type, world);
+      super(type, worldIn);
       this.xpReward = 5;
-      this.moveControl = new FatPhantomEntity.MoveHelperController(this);
-      this.lookControl = new FatPhantomEntity.LookHelperController(this);
+      this.moveControl = new MoveHelperController(this);
+      this.lookControl = new LookHelperController(this);
    }
    
-   public static boolean canSpawn(EntityType<FatPhantomEntity> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource random)
+   public static boolean canSpawn(EntityType<FatPhantomEntity> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
    {
-	   return world.getDifficulty() != Difficulty.PEACEFUL && world.getLevel().isDay() && random.nextInt(120) == 0 && checkMobSpawnRules(type, world, reason, pos, random);
+	   return worldIn.getDifficulty() != Difficulty.PEACEFUL && worldIn.getLevel().isDay() && randomIn.nextInt(120) == 0 && checkMobSpawnRules(type, worldIn, reason, pos, randomIn);
    }
 
    @Override public void refreshDimensions() {}
 
-   @Override protected BodyRotationControl createBodyControl() {return new FatPhantomEntity.BodyHelperController(this);}
+   @Override
+   protected BodyRotationControl createBodyControl()
+   {
+      return new BodyHelperController(this);
+   }
 
    @Override
    protected void registerGoals()
    {
-      this.goalSelector.addGoal(1, new FatPhantomEntity.PickAttackGoal());
-      this.goalSelector.addGoal(2, new FatPhantomEntity.SweepAttackGoal());
-      this.goalSelector.addGoal(3, new FatPhantomEntity.OrbitPointGoal());
-      this.targetSelector.addGoal(1, new FatPhantomEntity.AttackAttackingPlayerGoal());
+      this.goalSelector.addGoal(1, new PickAttackGoal());
+      this.goalSelector.addGoal(2, new SweepAttackGoal());
+      this.goalSelector.addGoal(3, new OrbitPointGoal());
+      this.targetSelector.addGoal(1, new AttackAttackingPlayerGoal());
    }
 
    @Override protected boolean shouldDespawnInPeaceful() {return false;}
@@ -88,13 +90,14 @@ public class FatPhantomEntity extends Phantom implements Enemy
    }
    
    @Override
-   public boolean doHurtTarget(Entity entity)
+   public boolean doHurtTarget(Entity entityIn)
    {
-	   if (entity instanceof Player playerEntity && !this.attackingPlayers.isEmpty())
+	   if (entityIn instanceof Player && !this.attackingPlayers.isEmpty())
 	   {
-		   if (this.attackingPlayers.contains(playerEntity)) {this.attackingPlayers.remove(playerEntity);}
+		   Player playerIn = (Player) entityIn;
+		   if (this.attackingPlayers.contains(playerIn)) {this.attackingPlayers.remove(playerIn);}
 	   }
-	   return super.doHurtTarget(entity);
+	   return super.doHurtTarget(entityIn);
    }
    
    @Override
@@ -103,9 +106,10 @@ public class FatPhantomEntity extends Phantom implements Enemy
 	   
 	   if (!source.is(DamageTypes.MAGIC))
 	   {
-		   if (source.getDirectEntity() instanceof Player playerEntity)
+		   if (source.getDirectEntity() instanceof Player)
 		   {
-			   attackingPlayers.add(playerEntity);
+			   Player player = (Player) source.getDirectEntity();
+			   attackingPlayers.add(player);
 		   }
 		   else if (source.getDirectEntity() instanceof Projectile)
 		   {
@@ -141,10 +145,10 @@ public class FatPhantomEntity extends Phantom implements Enemy
    }
    
    @Override
-   public void onSyncedDataUpdated(EntityDataAccessor<?> data)
+   public void onSyncedDataUpdated(EntityDataAccessor<?> key)
    {
-      if (ID_SIZE.equals(data)) {this.updatePhantomSize();}
-      //super.onTrackedDataSet(key); not needed
+      if (ID_SIZE.equals(key)) {this.updatePhantomSize();}
+      //super.onSyncedDataUpdated(key); not needed
    }
 
    @Override
@@ -202,51 +206,50 @@ public class FatPhantomEntity extends Phantom implements Enemy
 	   super.aiStep();
    }
 
-   public boolean isDisappearing() {return this.getEntityData().get(DISAPPEARING);}
+   public boolean isDisappearing() {return this.entityData.get(DISAPPEARING);}
    
-   public void setDisappearing(boolean flag) {this.getEntityData().set(DISAPPEARING, flag);}
+   public void setDisappearing(boolean flag) {this.entityData.set(DISAPPEARING, flag);}
    
-   @Override
-   public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn)
+   @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn)
    {
-      SpawnGroupData data = super.finalizeSpawn(world, difficultyIn, reason, spawnDataIn);
+      SpawnGroupData data = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn);
       this.orbitPosition = this.blockPosition().above(6);
       this.setPhantomSize(10 + random.nextInt(6));
-      if (world.getBlockState(this.blockPosition().above()).getBlock() == Blocks.AIR)
+      if (worldIn.getBlockState(this.blockPosition().above()).getBlock() == Blocks.AIR)
       {
-    	  this.setPos(new Vec3(this.blockPosition().above().getX(), this.blockPosition().above().getY(), this.blockPosition().above().getZ()));
+    	  this.moveTo(new Vec3(blockPosition().above().getX(), blockPosition().above().getY(), blockPosition().above().getZ()));
       }
       this.timeDisappearing = 0; this.setDisappearing(false);
       return data;
    }
 
    @Override
-   public void readAdditionalSaveData(CompoundTag nbt)
+   public void readAdditionalSaveData(CompoundTag compound)
    {
-      super.readAdditionalSaveData(nbt);
-      if (nbt.contains("AX"))
+      super.readAdditionalSaveData(compound);
+      if (compound.contains("AX"))
       {
-         this.orbitPosition = new BlockPos(nbt.getInt("AX"), nbt.getInt("AY"), nbt.getInt("AZ"));
+         this.orbitPosition = new BlockPos(compound.getInt("AX"), compound.getInt("AY"), compound.getInt("AZ"));
       }
 
-      this.setDisappearing(nbt.getBoolean("Disappearing"));
+      this.setDisappearing(compound.getBoolean("Disappearing"));
    }
 
    @Override
-   public void addAdditionalSaveData(CompoundTag nbt)
+   public void addAdditionalSaveData(CompoundTag compound)
    {
-      super.addAdditionalSaveData(nbt);
-      nbt.putInt("AX", this.orbitPosition.getX());
-      nbt.putInt("AY", this.orbitPosition.getY());
-      nbt.putInt("AZ", this.orbitPosition.getZ());
-      nbt.putBoolean("Disappearing", this.isDisappearing());
+      super.addAdditionalSaveData(compound);
+      compound.putInt("AX", this.orbitPosition.getX());
+      compound.putInt("AY", this.orbitPosition.getY());
+      compound.putInt("AZ", this.orbitPosition.getZ());
+      compound.putBoolean("Disappearing", this.isDisappearing());
    }
 
    @Override
-   public EntityDimensions getDefaultDimensions(Pose pose)
+   public EntityDimensions getDefaultDimensions(Pose poseIn)
    {
       int i = this.getPhantomSize();
-      EntityDimensions entitydimensions = super.getDefaultDimensions(pose);
+      EntityDimensions entitydimensions = super.getDefaultDimensions(poseIn);
       return entitydimensions.scale(1.0F + 0.15F * (float)i);
    }
 
@@ -323,7 +326,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
    {
       public MoveGoal()
       {
-         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+         this.setFlags(EnumSet.of(Flag.MOVE));
       }
 
       protected boolean touchingTarget()
@@ -383,14 +386,14 @@ public class FatPhantomEntity extends Phantom implements Enemy
       }
    }
 
-   class OrbitPointGoal extends FatPhantomEntity.MoveGoal
+   class OrbitPointGoal extends MoveGoal
    {
       private float angle;
       private float distance;
       private float height;
       private float clockwise;
 
-      public boolean canUse() {return FatPhantomEntity.this.getTarget() == null || FatPhantomEntity.this.attackPhase == FatPhantomEntity.AttackPhase.CIRCLE;}
+      public boolean canUse() {return FatPhantomEntity.this.getTarget() == null || FatPhantomEntity.this.attackPhase == AttackPhase.CIRCLE;}
 
       public void start()
       {
@@ -458,7 +461,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
       public void start()
       {
          this.nextSweepTick = this.adjustedTickDelay(10);
-         FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
+         FatPhantomEntity.this.attackPhase = AttackPhase.CIRCLE;
          this.setAnchorAboveTarget();
       }
 
@@ -466,12 +469,12 @@ public class FatPhantomEntity extends Phantom implements Enemy
 
       public void tick()
       {
-         if (FatPhantomEntity.this.attackPhase == FatPhantomEntity.AttackPhase.CIRCLE)
+         if (FatPhantomEntity.this.attackPhase == AttackPhase.CIRCLE)
          {
             --this.nextSweepTick;
             if (this.nextSweepTick <= 0)
             {
-               FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.SWOOP;
+               FatPhantomEntity.this.attackPhase = AttackPhase.SWOOP;
                this.setAnchorAboveTarget();
                this.nextSweepTick = this.adjustedTickDelay((8 + FatPhantomEntity.this.random.nextInt(4)) * 20);
                FatPhantomEntity.this.playSound(SoundEvents.PHANTOM_SWOOP, 10.0F, 0.95F + FatPhantomEntity.this.random.nextFloat() * 0.1F);
@@ -489,18 +492,18 @@ public class FatPhantomEntity extends Phantom implements Enemy
       }
    }
 
-   class SweepAttackGoal extends FatPhantomEntity.MoveGoal
+   class SweepAttackGoal extends MoveGoal
    {
       private SweepAttackGoal() {}
 
-      public boolean canUse() {return FatPhantomEntity.this.getTarget() != null && FatPhantomEntity.this.attackPhase == FatPhantomEntity.AttackPhase.SWOOP;}
+      public boolean canUse() {return FatPhantomEntity.this.getTarget() != null && FatPhantomEntity.this.attackPhase == AttackPhase.SWOOP;}
 
       public boolean canContinueToUse()
       {
          LivingEntity livingentity = FatPhantomEntity.this.getTarget();
          if (livingentity == null) {return false;}
          else if (!livingentity.isAlive()) {return false;}
-         else if (!EntityHelper.isCreaOrSpecPlayer(livingentity)) {return this.canUse();}
+         else if (!(livingentity instanceof Player) || !((Player)livingentity).isSpectator() && !((Player)livingentity).isCreative()) {return this.canUse();}
          else {return false;}
       }
 
@@ -509,7 +512,7 @@ public class FatPhantomEntity extends Phantom implements Enemy
       public void stop()
       {
          FatPhantomEntity.this.setTarget((LivingEntity)null);
-         FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
+         FatPhantomEntity.this.attackPhase = AttackPhase.CIRCLE;
       }
 
       public void tick()
@@ -519,15 +522,15 @@ public class FatPhantomEntity extends Phantom implements Enemy
          if (FatPhantomEntity.this.getBoundingBox().inflate(0.2F).intersects(livingentity.getBoundingBox()))
          {
             FatPhantomEntity.this.doHurtTarget(livingentity);
-            FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
+            FatPhantomEntity.this.attackPhase = AttackPhase.CIRCLE;
             if (!FatPhantomEntity.this.isSilent())
             {
-               FatPhantomEntity.this.level().levelEvent(LevelEvent.SOUND_PHANTOM_BITE, FatPhantomEntity.this.blockPosition(), 0);
+               FatPhantomEntity.this.level().levelEvent(1039, FatPhantomEntity.this.blockPosition(), 0);
             }
          }
          else if (FatPhantomEntity.this.horizontalCollision || FatPhantomEntity.this.hurtTime > 0)
          {
-            FatPhantomEntity.this.attackPhase = FatPhantomEntity.AttackPhase.CIRCLE;
+            FatPhantomEntity.this.attackPhase = AttackPhase.CIRCLE;
          }
       }
    }

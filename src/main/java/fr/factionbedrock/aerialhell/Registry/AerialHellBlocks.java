@@ -130,6 +130,8 @@ public class AerialHellBlocks
     public static final Block DEEPSLATE_STELLAR_PORTAL_FRAME_ORE = register("deepslate_stellar_portal_frame_ore", new AerialHellOreBlock(0, 0, BlockBehaviour.Properties.of().strength(30.0F, 600.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
 
     //torch
+    public static final Block CRYSTALLIZED_TORCH = register("crystallized_torch", new AerialHellTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TORCH)));
+    public static final Block CRYSTALLIZED_WALL_TORCH = register("crystallized_wall_torch", new AerialHellWallTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WALL_TORCH).dropsLike(CRYSTALLIZED_TORCH)));
     public static final Block FLUORITE_TORCH = register("fluorite_torch", new AerialHellTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TORCH)));
     public static final Block FLUORITE_WALL_TORCH = register("fluorite_wall_torch", new AerialHellWallTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WALL_TORCH).dropsLike(FLUORITE_TORCH)));
     public static final Block VOLUCITE_TORCH = register("volucite_torch", new AerialHellTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TORCH).lightLevel((state) -> {return 9;})));
@@ -138,10 +140,13 @@ public class AerialHellBlocks
     public static final Block SHADOW_WALL_TORCH = register("shadow_wall_torch", new AerialHellWallTorchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WALL_TORCH).dropsLike(SHADOW_TORCH).lightLevel((state) -> {return 9;})));
 
     //lanterns
+    public static final Block CRYSTALLIZED_LANTERN = register("crystallized_lantern", new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
     public static final Block FLUORITE_LANTERN = register("fluorite_lantern", new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
     public static final Block RUBY_LANTERN = register("ruby_lantern", new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
+    public static final Block RUBY_CRYSTALLIZED_LANTERN = register("ruby_crystallized_lantern", new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
     public static final Block RUBY_FLUORITE_LANTERN = register("ruby_fluorite_lantern", new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
     public static final Block VOLUCITE_LANTERN = register("volucite_lantern", new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
+    public static final Block VOLUCITE_CRYSTALLIZED_LANTERN = register("volucite_crystallized_lantern", new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
     public static final Block VOLUCITE_FLUORITE_LANTERN = register("volucite_fluorite_lantern", new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
     public static final Block LUNATIC_LANTERN = register("lunatic_lantern", new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)));
     public static final Block SHADOW_LANTERN = register("shadow_lantern", new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SOUL_LANTERN)));
@@ -536,7 +541,8 @@ public class AerialHellBlocks
     public static final Block VIBRANT_AERIAL_BERRY_BUSH = register("vibrant_aerial_berry_bush", new VibrantAerialBerryBushBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SWEET_BERRY_BUSH)));
 
     //crops
-    public static final Block STELLAR_WHEAT = register("stellar_wheat", new StellarWheatBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
+    public static final Block STELLAR_WHEAT = register("stellar_wheat", new StellarCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
+    public static final Block BLUE_MEANIE_CROP = register("blue_meanie_crop", new StellarCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
 
     //vertical growing plants
     public static final VerticalGrowingPlantBlock CLIMBING_VINE = register("climbing_vine", new VerticalGrowingPlantBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SUGAR_CANE), 4));

@@ -1,9 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
-import org.jetbrains.annotations.Nullable;
-
-import java.util.EnumSet;
-import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.entity.PathfinderMob;
@@ -13,6 +9,10 @@ import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.EnumSet;
+import java.util.List;
 
 public class FleeBlockGoal<T extends Block> extends Goal
 {
@@ -34,7 +34,7 @@ public class FleeBlockGoal<T extends Block> extends Goal
         this.blocksToAvoid = blocks;
         this.nearSpeed = nearSpeedIn;
         this.farSpeed = farSpeedIn;
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+        this.setFlags(EnumSet.of(Flag.MOVE));
     }
 
     @Override
@@ -61,15 +61,13 @@ public class FleeBlockGoal<T extends Block> extends Goal
     @Override public boolean canContinueToUse() {return !this.navigator.isDone() && this.posToAvoid != null;}
     @Override public void stop() {this.posToAvoid = null; this.fleePos = null;}
 
-    @Override
-    public void tick()
+    @Override public void tick()
     {
         if (this.goalOwner.distanceToSqr(this.posToAvoid.getX(), this.posToAvoid.getY(), this.posToAvoid.getZ()) < 49.0D) {this.navigator.setSpeedModifier(this.nearSpeed);}
         else {this.navigator.setSpeedModifier(this.farSpeed);}
     }
 
-    @Nullable
-    protected BlockPos getPosToAvoid()
+    @Nullable protected BlockPos getPosToAvoid()
     {
         int x = (int) goalOwner.getX(), y = (int) goalOwner.getY(), z = (int) goalOwner.getZ();
         for (int dx = -BOX_TO_CHECK_SIZE_XZ; dx <= BOX_TO_CHECK_SIZE_XZ; dx++)

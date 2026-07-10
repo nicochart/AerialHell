@@ -27,7 +27,7 @@
     	  "weight": 1,
           "functions": [
             {
-              "enchantments": [
+              "options": [
                 "aerialhell:solid_ether_walker"
               ],
               "function": "minecraft:enchant_randomly"
@@ -325,7 +325,7 @@
       "entries": [
 	{
           "type": "item",
-          "name": "aerialhell:volucite_blowpipe_arrow",
+          "name": "aerialhell:volucite_shard",
           "weight": 1,
           "functions": [
             {
@@ -339,7 +339,7 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:volucite_blowpipe",
+          "name": "aerialhell:volucite_resonator",
           "weight": 1
         },
         {

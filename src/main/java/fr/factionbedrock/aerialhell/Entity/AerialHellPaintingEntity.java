@@ -43,120 +43,121 @@ public class AerialHellPaintingEntity extends HangingEntity implements VariantHo
     public static final Codec<Holder<PaintingVariant>> VARIANT_CODEC = VARIANT_MAP_CODEC.codec();
     public static final float DEPTH = 0.0625F;
 
-    public AerialHellPaintingEntity(EntityType<? extends AerialHellPaintingEntity> entityType, Level world) {super(entityType, world);}
+    public AerialHellPaintingEntity(EntityType<? extends AerialHellPaintingEntity> entityType, Level level) {super(entityType, level);}
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
         builder.define(DATA_PAINTING_VARIANT_ID, this.registryAccess().registryOrThrow(Registries.PAINTING_VARIANT).getAny().orElseThrow());
     }
 
-    @Override public void onSyncedDataUpdated(EntityDataAccessor<?> data)
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key)
     {
-        if (DATA_PAINTING_VARIANT_ID.equals(data)) {this.recalculateBoundingBox();}
+        if (DATA_PAINTING_VARIANT_ID.equals(key)) {this.recalculateBoundingBox();}
     }
 
     public void setVariant(Holder<PaintingVariant> variant) {this.entityData.set(DATA_PAINTING_VARIANT_ID, variant);}
+
     public Holder<PaintingVariant> getVariant() {return this.entityData.get(DATA_PAINTING_VARIANT_ID);}
 
-    public static Optional<AerialHellPaintingEntity> create(Level world, BlockPos pos, Direction facing)
+    public static Optional<AerialHellPaintingEntity> create(Level level, BlockPos pos, Direction direction)
     {
-        AerialHellPaintingEntity paintingEntity = new AerialHellPaintingEntity(world, pos);
-        List<Holder<PaintingVariant>> list = new ArrayList();
-        world.registryAccess().registryOrThrow(Registries.PAINTING_VARIANT).getTagOrEmpty(AerialHellTags.PaintingVariants.PLACEABLE).forEach(list::add);
+        AerialHellPaintingEntity painting = new AerialHellPaintingEntity(level, pos);
+        List<Holder<PaintingVariant>> list = new ArrayList<>();
+        level.registryAccess().registryOrThrow(Registries.PAINTING_VARIANT).getTagOrEmpty(AerialHellTags.PaintingVariants.PLACEABLE).forEach(list::add);
         if (list.isEmpty()) {return Optional.empty();}
         else
         {
-            paintingEntity.setDirection(facing);
-            list.removeIf(variant ->
+            painting.setDirection(direction);
+            list.removeIf(p_344343_ ->
             {
-                paintingEntity.setVariant(variant);
-                return !paintingEntity.survives();
+                painting.setVariant((Holder<PaintingVariant>)p_344343_);
+                return !painting.survives();
             });
             if (list.isEmpty()) {return Optional.empty();}
             else
             {
                 int i = list.stream().mapToInt(AerialHellPaintingEntity::variantArea).max().orElse(0);
-                list.removeIf(variant -> variantArea(variant) < i);
-                Optional<Holder<PaintingVariant>> optional = Util.getRandomSafe(list, paintingEntity.random);
+                list.removeIf(p_218883_ -> variantArea((Holder<PaintingVariant>)p_218883_) < i);
+                Optional<Holder<PaintingVariant>> optional = Util.getRandomSafe(list, painting.getRandom());
                 if (optional.isEmpty()) {return Optional.empty();}
                 else
                 {
-                    paintingEntity.setVariant((Holder<PaintingVariant>)optional.get());
-                    paintingEntity.setDirection(facing);
-                    return Optional.of(paintingEntity);
+                    painting.setVariant(optional.get());
+                    painting.setDirection(direction);
+                    return Optional.of(painting);
                 }
             }
         }
     }
 
     private static int variantArea(Holder<PaintingVariant> variant) {return variant.value().area();}
-    private AerialHellPaintingEntity(Level world, BlockPos pos) {super(EntityType.PAINTING, world, pos);}
+    private AerialHellPaintingEntity(Level level, BlockPos pos) {super(EntityType.PAINTING, level, pos);}
 
-    public AerialHellPaintingEntity(Level world, BlockPos pos, Direction direction, Holder<PaintingVariant> variant)
+    public AerialHellPaintingEntity(Level level, BlockPos pos, Direction direction, Holder<PaintingVariant> variant)
     {
-        this(world, pos);
+        this(level, pos);
         this.setVariant(variant);
         this.setDirection(direction);
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag nbt)
+    @Override public void addAdditionalSaveData(CompoundTag compoundTag)
     {
         VARIANT_CODEC.encodeStart(this.registryAccess().createSerializationContext(NbtOps.INSTANCE), this.getVariant())
-                .ifSuccess(nbtElement -> nbt.merge((CompoundTag)nbtElement));
-        nbt.putByte("facing", (byte)this.direction.get2DDataValue());
-        super.addAdditionalSaveData(nbt);
+                .ifSuccess(p_330061_ -> compoundTag.merge((CompoundTag)p_330061_));
+        compoundTag.putByte("facing", (byte)this.direction.get2DDataValue());
+        super.addAdditionalSaveData(compoundTag);
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag nbt)
+    @Override public void readAdditionalSaveData(CompoundTag compoundTag)
     {
-        VARIANT_CODEC.parse(this.registryAccess().createSerializationContext(NbtOps.INSTANCE), nbt).ifSuccess(this::setVariant);
-        this.direction = Direction.from2DDataValue(nbt.getByte("facing"));
-        super.readAdditionalSaveData(nbt);
+        VARIANT_CODEC.parse(this.registryAccess().createSerializationContext(NbtOps.INSTANCE), compoundTag).ifSuccess(this::setVariant);
+        this.direction = Direction.from2DDataValue(compoundTag.getByte("facing"));
+        super.readAdditionalSaveData(compoundTag);
         this.setDirection(this.direction);
     }
 
-    @Override protected AABB calculateBoundingBox(BlockPos pos, Direction side)
+    @Override protected AABB calculateBoundingBox(BlockPos pos, Direction direction)
     {
-        float f = 0.46875F;
-        Vec3 vec3d = Vec3.atCenterOf(pos).relative(side, -0.46875);
-        PaintingVariant paintingVariant = this.getVariant().value();
-        double d = this.offsetForPaintingSize(paintingVariant.width());
-        double e = this.offsetForPaintingSize(paintingVariant.height());
-        Direction direction = side.getCounterClockWise();
-        Vec3 vec3d2 = vec3d.relative(direction, d).relative(Direction.UP, e);
-        Direction.Axis axis = side.getAxis();
-        double g = axis == Direction.Axis.X ? 0.0625 : (double)paintingVariant.width();
-        double h = paintingVariant.height();
-        double i = axis == Direction.Axis.Z ? 0.0625 : (double)paintingVariant.width();
-        return AABB.ofSize(vec3d2, g, h, i);
+        Vec3 vec3 = Vec3.atCenterOf(pos).relative(direction, -0.46875);
+        PaintingVariant paintingvariant = this.getVariant().value();
+        double d0 = this.offsetForPaintingSize(paintingvariant.width());
+        double d1 = this.offsetForPaintingSize(paintingvariant.height());
+        Direction counterClockWiseDirection = direction.getCounterClockWise();
+        Vec3 vec31 = vec3.relative(counterClockWiseDirection, d0).relative(Direction.UP, d1);
+        Direction.Axis direction$axis = direction.getAxis();
+        double d2 = direction$axis == Direction.Axis.X ? 0.0625 : (double)paintingvariant.width();
+        double d3 = (double)paintingvariant.height();
+        double d4 = direction$axis == Direction.Axis.Z ? 0.0625 : (double)paintingvariant.width();
+        return AABB.ofSize(vec31, d2, d3, d4);
     }
 
-    private double offsetForPaintingSize(int dimension) {return dimension % 2 == 0 ? 0.5 : 0.0;}
+    private double offsetForPaintingSize(int dimension) {
+        return dimension % 2 == 0 ? 0.5 : 0.0;
+    }
 
-    @Override public void dropItem(@Nullable Entity breaker)
+    @Override public void dropItem(@Nullable Entity brokenEntity)
     {
         if (this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
         {
             this.playSound(SoundEvents.PAINTING_BREAK, 1.0F, 1.0F);
-            if (breaker instanceof Player playerEntity && playerEntity.hasInfiniteMaterials()) {return;}
+            if (brokenEntity instanceof Player player && player.hasInfiniteMaterials()) {return;}
             this.spawnAtLocation(AerialHellItems.AERIAL_HELL_PAINTING);
         }
     }
 
     @Override public void playPlacementSound() {this.playSound(SoundEvents.PAINTING_PLACE, 1.0F, 1.0F);}
-
-    @Override public void moveTo(double x, double y, double z, float yaw, float pitch) {this.setPos(x, y, z);}
-
-    @Override public void lerpTo(double x, double y, double z, float yaw, float pitch, int interpolationSteps) {this.setPos(x, y, z);}
+    @Override public void moveTo(double pX, double pY, double pZ, float pYaw, float pPitch) {this.setPos(pX, pY, pZ);}
+    @Override public void lerpTo(double pX, double pY, double pZ, float pYRot, float pXRot, int pSteps) {this.setPos(pX, pY, pZ);}
 
     @Override public Vec3 trackingPosition() {return Vec3.atLowerCornerOf(this.pos);}
 
-    @Override public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entityTrackerEntry) {return new ClientboundAddEntityPacket(this, this.direction.get3DDataValue(), this.getPos());}
+    @Override public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entity) {return new ClientboundAddEntityPacket(this, this.direction.get3DDataValue(), this.getPos());}
 
-    @Override public void recreateFromPacket(ClientboundAddEntityPacket packet)
+    @Override public void recreateFromPacket(ClientboundAddEntityPacket pPacket)
     {
-        super.recreateFromPacket(packet);
-        this.setDirection(Direction.from3DDataValue(packet.getData()));
+        super.recreateFromPacket(pPacket);
+        this.setDirection(Direction.from3DDataValue(pPacket.getData()));
     }
 
     @Override public ItemStack getPickResult() {return new ItemStack(AerialHellItems.AERIAL_HELL_PAINTING);}

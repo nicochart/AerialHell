@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -17,14 +18,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import org.jetbrains.annotations.Nullable;
 
 public class EvilCowEntity extends AerialHellHostileEntity
 {
-    public EvilCowEntity(EntityType<? extends EvilCowEntity> type, Level world) {super(type, world);}
+    public EvilCowEntity(EntityType<? extends EvilCowEntity> type, Level worldIn)
+    {
+        super(type, worldIn);
+    }
 
-    public EvilCowEntity(Level world) {this(AerialHellEntities.EVIL_COW, world);}
+    public EvilCowEntity(Level worldIn)
+    {
+        this(AerialHellEntities.EVIL_COW, worldIn);
+    }
 
     public static AttributeSupplier.Builder registerAttributes()
     {
@@ -57,7 +63,7 @@ public class EvilCowEntity extends AerialHellHostileEntity
                 filledBucket = ItemUtils.createFilledResult(itemstack, player, AerialHellItems.RUBY_BUCKET.getDefaultInstance());
             }
             player.setItemInHand(hand, filledBucket);
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
+            return InteractionResult.SUCCESS;
         }
         else {return super.mobInteract(player, hand);}
     }

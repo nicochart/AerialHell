@@ -5,6 +5,9 @@ import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.BlockEntity.ReactorBlockEntity;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import org.joml.Vector3d;
 
 import org.jetbrains.annotations.Nullable;
@@ -95,13 +98,15 @@ public class ReactorBlock extends BiomeShifterBlock
             //face 4
             offsetx = 0.0; offsetz = -basePosOffset;
             sendReactorParticles(world, new Vector3d(basePos).add(offsetx, offsety, offsetz), particleNumber, baseHorizontalParticleOffset, verticalParticleOffset, 0.0, speed, shiftType);
-
-            //TODO add a active sound
-            //if (rand.nextDouble() < 0.1)
-            //{
-            //    level.playLocalSound(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, this.getActiveSound(), SoundCategory.BLOCKS, 1.0F, 1.0F, false);
-            //}
         }
+    }
+
+    @Override public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random)
+    {
+        float randFloat = random.nextFloat();
+        if (!state.getValue(ACTIVE) || randFloat > 0.9F) {return;}
+        SoundEvent ambientSound = randFloat < 0.1F ? AerialHellSoundEvents.REACTOR_AMBIENT : AerialHellSoundEvents.REACTOR_AMBIENT_SHORT;
+        level.playLocalSound(pos.getX() + 0.5F, pos.getY(), pos.getZ() + 0.5F, ambientSound, SoundSource.BLOCKS, 0.7F, 0.8F + random.nextFloat() * 0.6F, false);
     }
 
     public static void sendReactorParticles(ServerLevel world, Vector3d pos, int number, double xOffset, double yOffset, double zOffset, double speed, BiomeShifter.ShiftType type)

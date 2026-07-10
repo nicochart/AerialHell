@@ -9,9 +9,9 @@ import net.minecraft.world.level.block.Block;
 
 public class GoldenBeechChestMimicEntity extends AbstractChestMimicEntity
 {
-	public GoldenBeechChestMimicEntity(EntityType<? extends GoldenBeechChestMimicEntity> type, Level world)
+	public GoldenBeechChestMimicEntity(EntityType<? extends GoldenBeechChestMimicEntity> type, Level worldIn)
 	{
-		super(type, world);
+		super(type, worldIn);
 	}
 	
 	public static AttributeSupplier.Builder registerAttributes()
@@ -25,6 +25,5 @@ public class GoldenBeechChestMimicEntity extends AbstractChestMimicEntity
 				.add(Attributes.FOLLOW_RANGE, 8.0D);
 	}
 
-	@Override
-	protected Block getMimicBlock() {return AerialHellBlocks.GOLDEN_BEECH_CHEST_MIMIC;}
+	@Override protected Block getMimicBlock() {return AerialHellBlocks.GOLDEN_BEECH_CHEST_MIMIC;}
 }

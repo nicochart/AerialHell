@@ -21,9 +21,9 @@ import net.minecraft.world.level.block.Block;
 
 public abstract class AbstractMimicEntity extends PathfinderMob
 {
-	public AbstractMimicEntity(EntityType<? extends AbstractMimicEntity> type, Level world)
+	public AbstractMimicEntity(EntityType<? extends AbstractMimicEntity> type, Level worldIn)
 	{
-		super(type, world);
+		super(type, worldIn);
 		this.xpReward = 10;
 	}
 
@@ -50,21 +50,21 @@ public abstract class AbstractMimicEntity extends PathfinderMob
 		boolean flag = super.hurt(source, amount);
 		if (flag)
 		{
-			if (source.getDirectEntity() instanceof LivingEntity attacker)
+			if (source.getDirectEntity() instanceof LivingEntity)
 			{
+				LivingEntity attacker = (LivingEntity) source.getDirectEntity();
 				if (attacker instanceof Player && !((Player)attacker).isCreative()) {this.setTarget(attacker);}
 			}
 		}
 		return flag;
 	}
 
-	@Override
-	public boolean doHurtTarget(Entity target)
+	@Override public boolean doHurtTarget(Entity entityIn)
 	{
-		boolean flag = super.doHurtTarget(target);
-		if (flag && target instanceof LivingEntity)
+		boolean flag = super.doHurtTarget(entityIn);
+		if (flag && entityIn instanceof LivingEntity)
 		{
-			if (((LivingEntity) target).getHealth() <= 0.0) {this.playSound(SoundEvents.PLAYER_BURP, 1.0F, 1.0F);}
+			if (((LivingEntity) entityIn).getHealth() <= 0.0) {this.playSound(SoundEvents.PLAYER_BURP, 1.0F, 1.0F);}
 			else {this.playSound(SoundEvents.GENERIC_EAT, 1.0F, 1.0F + random.nextFloat());}
 		}
 		return flag;

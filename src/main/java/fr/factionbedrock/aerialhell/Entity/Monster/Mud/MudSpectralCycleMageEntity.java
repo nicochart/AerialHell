@@ -8,13 +8,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.FleeSunGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RestrictSunGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
@@ -25,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 public class MudSpectralCycleMageEntity extends Monster implements MudSpectralEntity
 {
     @Nullable private MudCycleMageEntity master;
-    public MudSpectralCycleMageEntity(EntityType<? extends MudSpectralCycleMageEntity> type, Level world) {super(type, world);}
+    public MudSpectralCycleMageEntity(EntityType<? extends MudSpectralCycleMageEntity> type, Level level) {super(type, level);}
 
     public void setMaster(MudCycleMageEntity master) {this.master = master;}
 
@@ -51,7 +45,7 @@ public class MudSpectralCycleMageEntity extends Monster implements MudSpectralEn
     @Override public boolean hurt(DamageSource source, float amount)
     {
         boolean flag = super.hurt(source, amount);
-        if (flag && this.master.isAlive()) //damage master without showing
+        if (flag && this.master != null && this.master.isAlive()) //damage master without showing
         {
             if (!this.master.isInvulnerableTo(source) && this.master.getHealth() > 20.0F)
             {

@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Snake;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -17,7 +18,7 @@ public class VenomousSnakeEntity extends AbstractSnakeEntity
     public VenomousSnakeEntity(EntityType<? extends VenomousSnakeEntity> type, Level world) {super(type, world);}
 
     @Override protected BodyPartDeathReaction getBodyPartDeathReaction() {return BodyPartDeathReaction.LOOSE_TAIL;}
-    @Override protected UniformInt getLength() {return UniformInt.of(14,20);}//{return ConstantInt.of(16);}
+    @Override protected IntProvider getLength() {return UniformInt.of(14,20);}//{return ConstantInt.of(16);}
     @Override protected int getMinLength() {return 3;}
 
     @Override public boolean doHurtTarget(Entity attackedEntity)

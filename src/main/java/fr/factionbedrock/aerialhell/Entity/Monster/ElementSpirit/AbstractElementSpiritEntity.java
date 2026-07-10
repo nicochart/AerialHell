@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit;
 
-import java.util.List;
+import fr.factionbedrock.aerialhell.Entity.Monster.AerialHellHostileEntity;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -15,14 +15,15 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import fr.factionbedrock.aerialhell.Entity.Monster.AerialHellHostileEntity;
+
+import java.util.List;
 
 public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntity
 {
     private static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.<Boolean>defineId(AbstractElementSpiritEntity.class, EntityDataSerializers.BOOLEAN);
     private int tickStartAttacking;
 
-	public AbstractElementSpiritEntity(EntityType<? extends AbstractElementSpiritEntity> type, Level world) {super(type, world);}
+	public AbstractElementSpiritEntity(EntityType<? extends AbstractElementSpiritEntity> type, Level worldIn) {super(type, worldIn);}
 	
 	@Override
     protected void registerGoals()
@@ -50,7 +51,7 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
     @Override
     public void tick()
     {
-        if (this.isAggressive() && this.tickCount > this.tickStartAttacking + 3) {this.attackSuicide();}
+        if (this.isAttacking() && this.tickCount > this.tickStartAttacking + 3) {this.attackSuicide();}
         super.tick();
     }
 
@@ -76,7 +77,7 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
             double d0 = (this.random.nextGaussian() - 0.5D) * 0.02D;
             double d1 = (this.random.nextGaussian() - 0.5D) * 0.02D;
             double d2 = (this.random.nextGaussian() - 0.5D) * 0.02D;
-            this.level().addParticle(this.getParticleToSpawn(), this.getRandomX(1.0D) + d0 * 10.0D, this.getRandomY() + d1 * 10.0D, this.getRandomZ(1.0D) + d2 * 10.0D, d0, d1, d2);
+            this.level().addParticle(this.getParticleToSpawn(), this.getX(1.0D) + d0 * 10.0D, this.getRandomY() + d1 * 10.0D, this.getRandomZ(1.0D) + d2 * 10.0D, d0, d1, d2);
         }
     }
 
@@ -89,18 +90,18 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
         builder.define(ATTACKING, false);
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag nbt)
+    @Override public void addAdditionalSaveData(CompoundTag valueOutput)
     {
-        super.addAdditionalSaveData(nbt);
-        nbt.putBoolean("Disappearing", this.isAggressive());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putBoolean("Disappearing", this.isAttacking());
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag nbt)
+    @Override public void readAdditionalSaveData(CompoundTag valueInput)
     {
-        super.readAdditionalSaveData(nbt);
-        if (nbt.getBoolean("Disappearing")) {this.setAttacking();}
+        super.readAdditionalSaveData(valueInput);
+        if (valueInput.contains("Disappearing") && valueInput.getBoolean("Disappearing")) {this.setAttacking();}
     }
 
-    public boolean isAggressive() {return this.getEntityData().get(ATTACKING);}
-    public void setAttacking() {this.getEntityData().set(ATTACKING, true);}
+    public boolean isAttacking() {return this.entityData.get(ATTACKING);}
+    public void setAttacking() {this.entityData.set(ATTACKING, true);}
 }

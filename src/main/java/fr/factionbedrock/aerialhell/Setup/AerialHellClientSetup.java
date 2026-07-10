@@ -6,7 +6,9 @@ import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationLis
 import fr.factionbedrock.aerialhell.Client.Packet.ClientPayloadHandler;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSpecialEffects;
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Registry.AerialHellFluids;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
@@ -25,6 +27,10 @@ public class AerialHellClientSetup
         RenderRegistrationListener.registerBlockRenderLayers();
         RenderRegistrationListener.registerRenderers();
         RenderRegistrationListener.registerLayerDefinitions();
+        //if (LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT) condition doesn't work properly because config isn't loaded yet
+        //{
+            RenderRegistrationListener.registerShiftingBakedModels();
+        //}
         RenderRegistrationListener.registerShiftingBakedModels();
         AerialHellRendering.registerFluidsRender();
         AerialHellParticleTypes.registerParticleFactories();
@@ -34,6 +40,8 @@ public class AerialHellClientSetup
 
         BlocksAndItemsColorHandler.handleBlockColors();
         BlocksAndItemsColorHandler.handleItemColors();
+
+        AerialHellItems.registerItemProperties();
     }
 
     public static void registerDimensionRenderInfo()

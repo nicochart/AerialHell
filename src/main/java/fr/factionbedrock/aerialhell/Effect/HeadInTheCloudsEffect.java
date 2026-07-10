@@ -10,6 +10,11 @@ public class HeadInTheCloudsEffect extends AerialHellEffect
     @Override
     public boolean applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier)
     {
+        // 1.21.1 - Backported
+        // 1.21.4 - Movement effects are now applied in LivingEntityFallFlyingMixin and LivingEntityGravityMixin
+        //          because applying player delta movement modifications here doesn't work : delta movement is edited somewhere else just after mob effect tick and before any movement.
+        //          so any movement modification here is ignored for players
+        /*
         double x=entityLivingBaseIn.getDeltaMovement().x, y=entityLivingBaseIn.getDeltaMovement().y, z=entityLivingBaseIn.getDeltaMovement().z;
         double xNew = x, yNew = y, zNew = z;
         if (!entityLivingBaseIn.onGround())
@@ -24,6 +29,7 @@ public class HeadInTheCloudsEffect extends AerialHellEffect
         else if (y < yMin) {yNew = yMin;} //minimize vertical speed if player is not crouching
 
         entityLivingBaseIn.setDeltaMovement(xNew, yNew, zNew);
+        */
         entityLivingBaseIn.resetFallDistance(); //reset fall distance
         return true;
     }

@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
-import java.util.List;
-import java.util.Random;
+import fr.factionbedrock.aerialhell.Item.AerialHellItem;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -15,20 +15,21 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import fr.factionbedrock.aerialhell.Util.ItemHelper;
 
-public class BerserkAxeItem extends EffectAxeItem
+import java.util.List;
+import java.util.Random;
+
+public class BerserkAxeItem extends AerialHellItem
 {
 	private int weight_ticks;
 	
-	public BerserkAxeItem(Tier toolMaterial, Item.Properties settings)
+	public BerserkAxeItem(Properties properties)
 	{
-		super(toolMaterial, settings);
+		super(properties);
 		this.weight_ticks = 0;
 	}
 	
@@ -69,9 +70,9 @@ public class BerserkAxeItem extends EffectAxeItem
 	}
 	
 	@Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand)
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
     {
-		ItemStack heldItem = player.getItemInHand(hand);
+		ItemStack heldItem = playerIn.getItemInHand(handIn);
 		Random rand = new Random();
 		int cooldown = Math.min(getStatus() + 1, 3) * 200;
 		
@@ -80,18 +81,18 @@ public class BerserkAxeItem extends EffectAxeItem
 		
 		for (int i=0 ; i<20; i++)
 		{
-			world.addParticle(ParticleTypes.SMOKE, player.getX() + 4*(rand.nextFloat() - 0.5F), player.getY() + 4*rand.nextFloat(), player.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
+			worldIn.addParticle(ParticleTypes.SMOKE, playerIn.getX() + 4*(rand.nextFloat() - 0.5F), playerIn.getY() + 4*rand.nextFloat(), playerIn.getZ() + 4*(rand.nextFloat() - 0.5F), 0.0D, 0.0D, 0.0D);
 		}
-		player.playSound(SoundEvents.RAVAGER_ROAR, 1.0F, 0.5F + rand.nextFloat());
-		if (world.isClientSide()) //TODO update this dirty code
+		playerIn.playSound(SoundEvents.RAVAGER_ROAR, 1.0F, 0.5F + rand.nextFloat());
+		if (worldIn.isClientSide())
 		{
-			Vec3 forward = player.getForward().multiply(1.7,1.3,1.7);
+			Vec3 forward = playerIn.getForward().multiply(1.7,1.3,1.7);
 			if (forward.y < 1) {forward = new Vec3(forward.x, 1, forward.z);}
-			player.setDeltaMovement(player.getDeltaMovement().add(forward));
+			playerIn.setDeltaMovement(playerIn.getDeltaMovement().add(forward));
 		}
-
-		player.getCooldowns().addCooldown(this, cooldown);
-		heldItem.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+		
+		playerIn.getCooldowns().addCooldown(this, cooldown);
+		heldItem.hurtAndBreak(1, playerIn, LivingEntity.getSlotForHand(handIn));
         return InteractionResultHolder.consume(heldItem);
 	}
 	
@@ -103,13 +104,13 @@ public class BerserkAxeItem extends EffectAxeItem
 	}
 	
 	@Override
-	public boolean canAttackBlock(BlockState state, Level world, BlockPos pos, Player player)
+	public boolean canAttackBlock(BlockState state, Level worldIn, BlockPos pos, Player player)
 	{
 		return !player.isCreative();
 	}
 	
 	@Override
-	public void inventoryTick(ItemStack stack, Level world, Entity entity, int itemSlot, boolean isSelected)
+	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
 		if (this.weight_ticks > 800)
 		{
@@ -119,12 +120,12 @@ public class BerserkAxeItem extends EffectAxeItem
 		{
 			this.weight_ticks-=2;
 		}
-		if (isSelected) {giveEntityEffect(world, entity);}
+		if (isSelected) {giveEntityEffect(worldIn, entityIn);}
 	}
 	
-	private void giveEntityEffect(Level world, Entity entityIn)
+	private void giveEntityEffect(Level worldIn, Entity entityIn)
 	{
-		if (!world.isClientSide() && entityIn instanceof LivingEntity)
+		if (!worldIn.isClientSide() && entityIn instanceof LivingEntity)
 		{
 			LivingEntity livingEntityIn = (LivingEntity) entityIn;
 			int weight = this.getStatus();
@@ -157,10 +158,9 @@ public class BerserkAxeItem extends EffectAxeItem
 		}
 	}
 
-	@Override public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag type)
+	@Override public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipAdder, TooltipFlag flag)
 	{
-		ItemHelper.appendBerserkAxeItemTooltip(this.getDescriptionId(), tooltip, Integer.toString(getStatus()));
+		this.getOptionalItemDescription(1).ifPresent(description -> tooltipAdder.add(description.withStyle(ChatFormatting.GRAY)));
+		this.getOptionalItemDescription(2).ifPresent(description -> tooltipAdder.add(description.append(Integer.toString(getStatus())).withStyle(ChatFormatting.GRAY)));
 	}
-
-	@Override public boolean isValidRepairItem(ItemStack stack, ItemStack ingredient) {return false;}
 }

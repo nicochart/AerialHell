@@ -10,6 +10,7 @@ public class BuildContentsEvent
     {
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries ->
         {
+            entries.accept(AerialHellItems.AERIAL_HELL_GUIDE_BOOK);
             entries.accept(AerialHellItems.STELLAR_PORTAL_FRAME_BLOCK);
             entries.accept(AerialHellItems.STELLAR_LIGHTER);
         });
@@ -23,13 +24,17 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.STELLAR_PORTAL_FRAME_ORE);
             entries.accept(AerialHellItems.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE);
 
+            entries.accept(AerialHellItems.CRYSTALLIZED_TORCH);
             entries.accept(AerialHellItems.FLUORITE_TORCH);
             entries.accept(AerialHellItems.VOLUCITE_TORCH);
             entries.accept(AerialHellItems.SHADOW_TORCH);
+            entries.accept(AerialHellItems.CRYSTALLIZED_LANTERN);
             entries.accept(AerialHellItems.FLUORITE_LANTERN);
             entries.accept(AerialHellItems.RUBY_LANTERN);
+            entries.accept(AerialHellItems.RUBY_CRYSTALLIZED_LANTERN);
             entries.accept(AerialHellItems.RUBY_FLUORITE_LANTERN);
             entries.accept(AerialHellItems.VOLUCITE_LANTERN);
+            entries.accept(AerialHellItems.VOLUCITE_CRYSTALLIZED_LANTERN);
             entries.accept(AerialHellItems.VOLUCITE_FLUORITE_LANTERN);
 
             entries.accept(AerialHellItems.RUBY_CHAIN);
@@ -257,7 +262,7 @@ public class BuildContentsEvent
 
             entries.accept(AerialHellItems.ARSONIST_BLOCK);
             entries.accept(AerialHellItems.LUNATIC_CRYSTAL_BLOCK);
-            entries.accept(AerialHellItems.CURSED_CRYSAL_BLOCK);
+            entries.accept(AerialHellItems.CURSED_CRYSTAL_BLOCK);
 
             entries.accept(AerialHellItems.SKY_CACTUS);
             entries.accept(AerialHellItems.SKY_CACTUS_FIBER_PLANKS);
@@ -674,10 +679,10 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.ARSONIST_SHURIKEN);
             entries.accept(AerialHellItems.LIGHTNING_SHURIKEN);
 
-            entries.accept(AerialHellItems.RUBY_BLOWPIPE_ARROW);
-            entries.accept(AerialHellItems.VOLUCITE_BLOWPIPE_ARROW);
-            entries.accept(AerialHellItems.RUBY_BLOWPIPE);
-            entries.accept(AerialHellItems.VOLUCITE_BLOWPIPE);
+            entries.accept(AerialHellItems.RUBY_SHARD);
+            entries.accept(AerialHellItems.VOLUCITE_SHARD);
+            entries.accept(AerialHellItems.RUBY_RESONATOR);
+            entries.accept(AerialHellItems.VOLUCITE_RESONATOR);
 
             entries.accept(AerialHellItems.SKY_WOOD_SWORD);
             entries.accept(AerialHellItems.STELLAR_STONE_SWORD);
@@ -803,6 +808,8 @@ public class BuildContentsEvent
 
         ItemGroupEvents.modifyEntriesEvent(AerialHellCreativeModeTabs.getItemGroupKey(AerialHellCreativeModeTabs.AERIAL_HELL_MISCELLANEOUS)).register(entries ->
         {
+            entries.accept(AerialHellItems.AERIAL_HELL_GUIDE_BOOK);
+
             entries.accept(AerialHellItems.STELLAR_PORTAL_FRAME_BRICK);
             entries.accept(AerialHellItems.STELLAR_LIGHTER);
 
@@ -832,7 +839,7 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.ARSONIST_INGOT);
             entries.accept(AerialHellItems.LUNATIC_CRYSTAL);
             entries.accept(AerialHellItems.OBSIDIAN_SHARD);
-            entries.accept(AerialHellItems.CURSED_CRYSAL);
+            entries.accept(AerialHellItems.CURSED_CRYSTAL);
 
             entries.accept(AerialHellItems.ARSONIST_UPGRADE_SMITHING_TEMPLATE);
 
@@ -840,6 +847,8 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.VIBRANT_AERIAL_BERRY_SEEDS);
             entries.accept(AerialHellItems.STELLAR_WHEAT_SEEDS);
             entries.accept(AerialHellItems.STELLAR_WHEAT);
+            entries.accept(AerialHellItems.BLUE_MEANIE_SPORES);
+            entries.accept(AerialHellItems.BLUE_MEANIE_CAP);
 
             entries.accept(AerialHellItems.SKY_STICK);
             entries.accept(AerialHellItems.SKY_BOWL);

@@ -1,19 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " #",
-    "S "
+    " # ",
+    "#S#",
+    " # "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:azurite_crystal"
-    },
-    "S": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": {"item": "aerialhell:azurite_crystal"},
+    "S": {"item": "aerialhell:sky_stick"}
   },
   "result": {
     "id": "aerialhell:azurite_shuriken",
-    "count": 8
+    "count": 16
   }
 }

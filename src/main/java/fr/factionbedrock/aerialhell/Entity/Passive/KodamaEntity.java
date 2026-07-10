@@ -6,8 +6,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import org.jetbrains.annotations.Nullable;
-import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -18,17 +16,16 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class KodamaEntity extends AerialHellAnimalEntity
 {
@@ -40,18 +37,18 @@ public class KodamaEntity extends AerialHellAnimalEntity
     public int rattleTimerMalus;
     public float rattleHeadRotZAmplitude;
 
-    public KodamaEntity(EntityType<? extends KodamaEntity> type, Level world) {super(type, world); this.setRandomRattleTimerMalusAndHeadRotAmplitude();}
+    public KodamaEntity(EntityType<? extends KodamaEntity> type, Level worldIn) {super(type, worldIn); this.setRandomRattleTimerMalusAndHeadRotAmplitude();}
 
-    public static boolean canSpawn(EntityType<? extends AerialHellAnimalEntity> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
+    public static boolean canSpawn(EntityType<? extends AerialHellAnimalEntity> entityType, LevelAccessor worldIn, MobSpawnType spawnType, BlockPos pos, RandomSource random)
     {
-        return world.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT);
+        return worldIn.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT);
     }
 
-    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorldAccess, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnGroupData)
+    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData)
     {
         this.setRandomFaceAndSize();
         this.setRattling(false);
-        return super.finalizeSpawn(serverWorldAccess, difficulty, reason, spawnGroupData);
+        return super.finalizeSpawn(serverLevelAccessor, difficulty, mobSpawnType, spawnGroupData);
     }
 
     @Override protected void registerGoals()
@@ -83,19 +80,19 @@ public class KodamaEntity extends AerialHellAnimalEntity
         return super.hurt(damageSource, amount);
     }
 
-    @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob mob)
+    @Nullable @Override public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob mob)
     {
-        return AerialHellEntities.KODAMA.create(this.level());
+        return AerialHellEntities.KODAMA.create(world);
     }
 
-    public int getFaceId() {return this.getEntityData().get(FACE_ID);}
-    public void setFaceId(int id) {this.getEntityData().set(FACE_ID, id);}
-    public int getSizeId() {return this.getEntityData().get(SIZE_ID);}
-    public void setSizeId(int id) {this.getEntityData().set(SIZE_ID, id);}
-    public boolean isRattling() {return this.getEntityData().get(IS_RATTLING);}
-    public void setRattling(boolean b) {this.getEntityData().set(IS_RATTLING, b);}
-    public int getRattlingTiltAngle() {return this.getEntityData().get(RATTLING_TILT_ANGLE);}
-    public void setRattlingTiltAngle(int value) {this.getEntityData().set(RATTLING_TILT_ANGLE, value);}
+    public int getFaceId() {return this.entityData.get(FACE_ID);}
+    public void setFaceId(int id) {this.entityData.set(FACE_ID, id);}
+    public int getSizeId() {return this.entityData.get(SIZE_ID);}
+    public void setSizeId(int id) {this.entityData.set(SIZE_ID, id);}
+    public boolean isRattling() {return this.entityData.get(IS_RATTLING);}
+    public void setRattling(boolean b) {this.entityData.set(IS_RATTLING, b);}
+    public int getRattlingTiltAngle() {return this.entityData.get(RATTLING_TILT_ANGLE);}
+    public void setRattlingTiltAngle(int value) {this.entityData.set(RATTLING_TILT_ANGLE, value);}
 
     public int getMaxRattlingTiltAngle() {return 20;}
     public int getMaxTimeForceInvisible() {return 200;}
@@ -144,21 +141,21 @@ public class KodamaEntity extends AerialHellAnimalEntity
         if (soundevent != null) {this.playSound(soundevent, this.getSoundVolume(), this.getVoicePitch());}
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag nbt)
+    @Override public void addAdditionalSaveData(CompoundTag valueOutput)
     {
-        super.addAdditionalSaveData(nbt);
-        nbt.putInt("FaceId", this.getFaceId());
-        nbt.putInt("SizeId", this.getSizeId());
-        nbt.putBoolean("IsRattling", this.isRattling());
-        nbt.putInt("TiltAngle", this.getRattlingTiltAngle());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putInt("FaceId", this.getFaceId());
+        valueOutput.putInt("SizeId", this.getSizeId());
+        valueOutput.putBoolean("IsRattling", this.isRattling());
+        valueOutput.putInt("TiltAngle", this.getRattlingTiltAngle());
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag nbt)
+    @Override public void readAdditionalSaveData(CompoundTag valueInput)
     {
-        super.readAdditionalSaveData(nbt);
-        this.setFaceId(nbt.getInt("FaceId"));
-        this.setSizeId(nbt.getInt("SizeId"));
-        this.setRattling(nbt.getBoolean("IsRattling"));
-        this.setRattlingTiltAngle(nbt.getInt("TiltAngle"));
+        super.readAdditionalSaveData(valueInput);
+        if (valueInput.contains("FaceId")) {this.setFaceId(valueInput.getInt("FaceId"));}
+        if (valueInput.contains("SizeId")) {this.setSizeId(valueInput.getInt("SizeId"));}
+        this.setRattling(valueInput.contains("IsRattling") ? valueInput.getBoolean("IsRattling") : false);
+        if (valueInput.contains("TiltAngle")) {this.setRattlingTiltAngle(valueInput.getInt("TiltAngle"));}
     }
 }

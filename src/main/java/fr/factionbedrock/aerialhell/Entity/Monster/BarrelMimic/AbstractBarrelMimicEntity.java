@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 
 public abstract class AbstractBarrelMimicEntity extends AbstractMimicEntity
 {
-	public AbstractBarrelMimicEntity(EntityType<? extends AbstractBarrelMimicEntity> type, Level world) {super(type, world);}
+	public AbstractBarrelMimicEntity(EntityType<? extends AbstractBarrelMimicEntity> type, Level worldIn) {super(type, worldIn);}
 
 	@Override protected SoundEvent getDeathSound() {return SoundEvents.BARREL_CLOSE;}
 }

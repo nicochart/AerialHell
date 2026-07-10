@@ -1,19 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " #",
-    "S "
+    " # ",
+    "#S#",
+    " # "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:lunatic_crystal"
-    },
-    "S": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": {"item": "aerialhell:lunatic_crystal"},
+    "S": {"item": "aerialhell:sky_stick"}
   },
   "result": {
     "id": "aerialhell:lunatic_crystal_shuriken",
-    "count": 8
+    "count": 32
   }
 }

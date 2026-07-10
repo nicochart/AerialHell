@@ -1,10 +1,11 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
 import com.google.common.collect.ImmutableList;
-import java.util.List;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.List;
 
 public abstract class SummonThreeEntitiesGoal extends SummonEntitiesGoal
 {

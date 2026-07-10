@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Inventory.Menu;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellRecipes.RecipeTypes;
+import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractFurnaceMenu;
@@ -22,5 +23,5 @@ public class OscillatorMenu extends AbstractFurnaceMenu
 		super(AerialHellMenuTypes.OSCILLATOR, RecipeTypes.OSCILLATING, RecipeBookType.FURNACE, windowId, playerInventory, oscillatingInventory, data);
 	}
 
-	@Override public boolean isFuel(ItemStack stack) {return OscillatorBlockEntity.getOscillatingMap().containsKey(stack.getItem());}
+	@Override public boolean isFuel(ItemStack stack) {return ItemHelper.getOscillatingMap().containsKey(stack.getItem());}
 }

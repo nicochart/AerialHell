@@ -9,9 +9,9 @@ import net.minecraft.world.level.block.Block;
 
 public class AerialTreeChestMimicEntity extends AbstractChestMimicEntity
 {
-	public AerialTreeChestMimicEntity(EntityType<? extends AerialTreeChestMimicEntity> type, Level world)
+	public AerialTreeChestMimicEntity(EntityType<? extends AerialTreeChestMimicEntity> type, Level worldIn)
 	{
-		super(type, world);
+		super(type, worldIn);
 	}
 	
 	public static AttributeSupplier.Builder registerAttributes()
@@ -23,6 +23,5 @@ public class AerialTreeChestMimicEntity extends AbstractChestMimicEntity
 				.add(Attributes.FOLLOW_RANGE, 12.0D);
 	}
 
-	@Override
-	protected Block getMimicBlock() {return AerialHellBlocks.AERIAL_TREE_CHEST_MIMIC;}
+	@Override protected Block getMimicBlock() {return AerialHellBlocks.AERIAL_TREE_CHEST_MIMIC;}
 }

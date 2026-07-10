@@ -1,11 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Spider;
 
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
@@ -13,7 +9,10 @@ import net.minecraft.world.level.Level;
 
 public abstract class AbstractAerialHellSpiderEntity extends Spider
 {
-    public AbstractAerialHellSpiderEntity(EntityType<? extends Spider> type, Level world) {super(type, world);}
+    public AbstractAerialHellSpiderEntity(EntityType<? extends Spider> type, Level worldIn)
+    {
+        super(type, worldIn);
+    }
     
     @Override
     public void registerGoals()

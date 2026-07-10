@@ -9,9 +9,9 @@ import net.minecraft.world.level.block.Block;
 
 public class ShadowPineBarrelMimicEntity extends AbstractBarrelMimicEntity
 {
-	public ShadowPineBarrelMimicEntity(EntityType<? extends ShadowPineBarrelMimicEntity> type, Level world)
+	public ShadowPineBarrelMimicEntity(EntityType<? extends ShadowPineBarrelMimicEntity> type, Level worldIn)
 	{
-		super(type, world);
+		super(type, worldIn);
 	}
 	
 	public static AttributeSupplier.Builder registerAttributes()
@@ -23,6 +23,5 @@ public class ShadowPineBarrelMimicEntity extends AbstractBarrelMimicEntity
 				.add(Attributes.FOLLOW_RANGE, 16.0D);
 	}
 
-	@Override
-	protected Block getMimicBlock() {return AerialHellBlocks.SHADOW_PINE_BARREL_MIMIC;}
+	@Override protected Block getMimicBlock() {return AerialHellBlocks.SHADOW_PINE_BARREL_MIMIC;}
 }

@@ -1,25 +1,21 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 
 public abstract class AerialHellHostileEntity extends Monster
 {
-    protected AerialHellHostileEntity(EntityType<? extends Monster> type, Level world) {super(type, world);}
+    protected AerialHellHostileEntity(EntityType<? extends Monster> type, Level worldIn) {super(type, worldIn);}
     
     @Override
     protected void registerGoals()
@@ -33,19 +29,19 @@ public abstract class AerialHellHostileEntity extends Monster
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
-    public static boolean canHostileEntitySpawn(EntityType<? extends Monster> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource random)
+    public static boolean canHostileEntitySpawn(EntityType<? extends Monster> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
     {
         if (type == AerialHellEntities.CRYSTAL_SPIDER)
         {
-        	return random.nextInt(10) == 0 && checkMonsterSpawnRules(type, world, reason, pos, random);
+        	return randomIn.nextInt(10) == 0 && checkMonsterSpawnRules(type, worldIn, reason, pos, randomIn);
         }
         else if (type == AerialHellEntities.EVIL_COW || type == AerialHellEntities.CORTINARIUS_COW)
         {
-        	return random.nextInt(50) == 0 && checkMonsterSpawnRules(type, world, reason, pos, random);
+        	return randomIn.nextInt(50) == 0 && checkMonsterSpawnRules(type, worldIn, reason, pos, randomIn);
         }
         else
         {
-        	return random.nextInt(40) == 0 && checkMonsterSpawnRules(type, world, reason, pos, random);
+        	return randomIn.nextInt(40) == 0 && checkMonsterSpawnRules(type, worldIn, reason, pos, randomIn);
         }
     }
 }

@@ -1,19 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " #",
-    "S "
+    " # ",
+    "#S#",
+    " # "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:magmatic_gel"
-    },
-    "S": {
-      "item": "aerialhell:sky_stick"
-    }
+    "#": {"item": "aerialhell:magmatic_gel"},
+    "S": {"item": "aerialhell:sky_stick"}
   },
   "result": {
     "id": "aerialhell:magmatic_gel_shuriken",
-    "count": 4
+    "count": 16
   }
 }

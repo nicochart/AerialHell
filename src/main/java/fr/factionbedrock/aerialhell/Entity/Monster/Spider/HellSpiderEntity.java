@@ -17,9 +17,9 @@ import net.minecraft.world.level.Level;
 public class HellSpiderEntity extends AbstractAerialHellSpiderEntity
 {
     private int timeNoThorns;
-    public HellSpiderEntity(EntityType<? extends Spider> type, Level world)
+    public HellSpiderEntity(EntityType<? extends Spider> type, Level worldIn)
     {
-        super(type, world);
+        super(type, worldIn);
         this.timeNoThorns = 0;
     }
     

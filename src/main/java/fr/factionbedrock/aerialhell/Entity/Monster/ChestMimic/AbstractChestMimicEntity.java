@@ -11,9 +11,9 @@ public abstract class AbstractChestMimicEntity extends AbstractMimicEntity
 	public float mouthOpeningAmplitude;
 	public float mouthOpeningFrequencyMalus;
 	
-	public AbstractChestMimicEntity(EntityType<? extends AbstractChestMimicEntity> type, Level world)
+	public AbstractChestMimicEntity(EntityType<? extends AbstractChestMimicEntity> type, Level worldIn)
 	{
-		super(type, world);
+		super(type, worldIn);
 		this.SetRandomMouthOpeningAmplitudeAndFrequency();
 	}
 	
@@ -27,5 +27,8 @@ public abstract class AbstractChestMimicEntity extends AbstractMimicEntity
 		this.mouthOpeningFrequencyMalus = min_frequency_malus + (random.nextFloat() * (max_frequency_malus - min_frequency_malus));
 	}
 
-	@Override protected SoundEvent getDeathSound() {return SoundEvents.CHEST_CLOSE;}
+	@Override protected SoundEvent getDeathSound()
+	{
+		return SoundEvents.CHEST_CLOSE;
+	}
 }

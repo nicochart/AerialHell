@@ -16,31 +16,31 @@ import net.minecraft.world.phys.HitResult;
 
 public class ThrownStellarEgg extends ThrowableItemProjectile
 {
-    public ThrownStellarEgg(EntityType<? extends ThrownStellarEgg> type, Level world) {super(type, world);}
-    public ThrownStellarEgg(Level world, LivingEntity shooter) {super(AerialHellEntities.THROWN_STELLAR_EGG, shooter, world);}
-    public ThrownStellarEgg(Level world, double x, double y, double z) {super(AerialHellEntities.THROWN_STELLAR_EGG, x, y, z, world);}
+    public ThrownStellarEgg(EntityType<? extends ThrownStellarEgg> type, Level level) {super(type, level);}
+    public ThrownStellarEgg(Level level, LivingEntity shooter) {super(AerialHellEntities.THROWN_STELLAR_EGG, shooter, level);}
+    public ThrownStellarEgg(Level level, double x, double y, double z) {super(AerialHellEntities.THROWN_STELLAR_EGG, x, y, z, level);}
 
-    @Override public void handleEntityEvent(byte p_37484_) //copied from EggEntity
+    @Override public void handleEntityEvent(byte p_37484_) //copied from ThrownEgg
     {
         if (p_37484_ == 3)
         {
             for(int i = 0; i < 8; ++i)
             {
-                this.level().addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getDefaultItem().getDefaultInstance()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
+                this.level().addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
             }
         }
     }
 
-    @Override protected void onHitEntity(EntityHitResult entityHitResult) //copied from EggEntity
+    @Override protected void onHitEntity(EntityHitResult entityHitResult) //copied from ThrownEgg
     {
         super.onHitEntity(entityHitResult);
         entityHitResult.getEntity().hurt(this.damageSources().thrown(this, this.getOwner()), 0.0F);
     }
 
-    @Override protected void onHit(HitResult hitResult) //copied from EggEntity, replacing Chicken with StellarChicken
+    @Override protected void onHit(HitResult hitResult) //copied from ThrownEgg, replacing Chicken with StellarChicken
     {
         super.onHit(hitResult);
-        if (!this.level().isClientSide)
+        if (!this.level().isClientSide())
         {
             if (this.random.nextInt(8) == 0)
             {

@@ -1,6 +1,24 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
-import java.util.List;
+import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.ShootProjectileFlurryGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.ShootProjectileGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.ImplodeGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.SummonEntitiesGoal;
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
+import fr.factionbedrock.aerialhell.Entity.ImplodingEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
+import fr.factionbedrock.aerialhell.Entity.StagedActivableEntity;
+import fr.factionbedrock.aerialhell.Entity.Util.ImplodingEntityInfo;
+import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
+import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -9,6 +27,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -17,16 +36,15 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
@@ -36,24 +54,22 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
-import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
-import fr.factionbedrock.aerialhell.Entity.AI.*;
-import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
-import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
-import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
-import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
 
-public class ChainedGodEntity extends AbstractBossEntity
+public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEntity, StagedActivableEntity, GoalConditionEntity.PhaseAwareGoalConditionEntity
 {
+	public static final int OTHER_GOALS = 0, FREELY_MOVING_GOALS = 1, IMPLODE_GOAL = 2;
 	public int attackTimer;
 	public int timeDying;
 
+	/* --- Imploding Entity fields --- */
 	private static final EntityDataAccessor<Boolean> IMPLODING = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
+	private final ImplodingEntityInfo IMPLODING_INFO = new ImplodingEntityInfo(IMPLODING, 126, 600, new ImplodingEntityInfo.ImplodingSoundHelper(this::playRoarSound, 5.0F, 1.0F, -12));
+	/* ------------------------------- */
+	/* --- StagedActivableEntity fields --- */
 	private static final EntityDataAccessor<Boolean> UNCHAINING = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
-	private static final EntityDataAccessor<Boolean> UNCHAINED = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
+	StagedActivableEntityInfo.ActivatingPhaseParameters CHAINED_GOD_UNCHAINING_PARAMETERS = PLAY_ACTIVATING_PHASE_ONLY_ONCE.copy().activatingThreshold(76).activatingStartSoundHelper(new PlaySoundHelper(this::playRoarSound, 5.0F, 1.6F));
+	public final StagedActivableEntityInfo STAGED_ACTIVABLE_INFO = new StagedActivableEntityInfo(this.ACTIVABLE_INFO, UNCHAINING, CHAINED_GOD_UNCHAINING_PARAMETERS);
+	/* -------------------------------------- */
 
 	public ChainedGodEntity(EntityType<? extends Monster> type, Level world)
 	{
@@ -63,19 +79,62 @@ public class ChainedGodEntity extends AbstractBossEntity
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 	}
 
+	/* ------- ImplodingEntity : Interface method implementation or override for specific behavior ------- */
+	@Override public ImplodingEntityInfo getImplodingEntityInfo() {return this.IMPLODING_INFO;}
+
+	@Override public void onImplodingCastTick() {this.runRoarEffects(NearbyEntitiesInteractionInfo.DRAG_NEAR);}
+
+	@Override public ImplodingTargetPolicy getImplodingTargetPolicy() {return new ImplodingTargetPolicy(true, false, 0);} //cooldown does not reset on target loss
+	/* --------------------------------------------------------------------------------------------------- */
+
+	/* ------- StagedActivableEntity : Interface method implementation ------- */
+	@Override public StagedActivableEntityInfo getActivableInfo() {return STAGED_ACTIVABLE_INFO;}
+	/* ----------------------------------------------------------------------- */
+
+	/* ------- StagedActivableEntity : overriden methods pour specific behavior ------- */
+	@Override public void onActivatingPhaseTick()
+	{
+		StagedActivableEntity.super.onActivatingPhaseTick();
+		this.runRoarEffects();
+	}
+	/* -------------------------------------------------------------------------------- */
+
+	/* ------- StagedActivableEntity : alias method to clarity chained god's behavior in code ------- */
+	public boolean isUnchaining() {return this.isActivating();}
+	public boolean isUnchained() {return this.alreadyActivatedOnce();}
+	/* ---------------------------------------------------------------------------------------------- */
+
+	/* ----- GoalConditionEntity.PhaseAwareGoalConditionEntity : Interface method implementation ----- */
+	@Override public boolean checkGoalCondition(int conditionIndex) {return this.canUseGoalsAdditionalCondition(conditionIndex);} //need to override checkGoalCondition because priest implements both GoalSimpleConditionEntity and PhaseAwareGoalConditionEntity
+
+	@Override public boolean canUseGoalsAdditionalCondition(int goalIndex)
+	{
+		boolean superFlag = super.canUseGoalsAdditionalCondition();
+		if (goalIndex == OTHER_GOALS) {return superFlag;}
+		else if (goalIndex == FREELY_MOVING_GOALS)
+		{
+			return superFlag && this.isFreelyMoving();
+		}
+		else if (goalIndex == IMPLODE_GOAL)
+		{
+			return superFlag && this.canStartImploding() || this.isImploding(); //if the boss is already imploding, it needs to finish implosion (even if it is no longer active)
+		}
+		else {return false;}
+	}
+	/* ----------------------------------------------------------------------------------------------- */
+
 	@Override protected void registerGoals()
     {
-		this.targetSelector.addGoal(2, new ActiveNearestAttackableTargetGoal<>(this, Player.class, true));
+		this.targetSelector.addGoal(2, new ConditionalGoal(this, OTHER_GOALS, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.goalSelector.addGoal(0, new ChainedGodEntity.UnchainHimselfGoal(this));
-		this.goalSelector.addGoal(0, new ChainedGodEntity.ChainedGodRandomFireballAttackGoal(this));
-		this.goalSelector.addGoal(1, new ChainedGodEntity.ChainedGodImplodeGoal(this));
-		this.goalSelector.addGoal(2, new ChainedGodEntity.ChainedGodFireballAttackGoal(this));
-		this.goalSelector.addGoal(2, new ChainedGodEntity.ChainedGodSummonTornSpiritSkullGoal(this));
-		this.goalSelector.addGoal(3, new ChainedGodMeleeAttackGoal(this, 1.25D, false));
+		this.goalSelector.addGoal(0, new ChainedGodRandomFireballAttackGoal(this));
+		this.goalSelector.addGoal(1, new ConditionalGoal(this, IMPLODE_GOAL, new ImplodeGoal(this)));
+		this.goalSelector.addGoal(2, new ChainedGodFireballAttackGoal(this));
+		this.goalSelector.addGoal(2, new ChainedGodSummonTornSpiritGoal(this));
+		this.goalSelector.addGoal(3, new ConditionalGoal(this, FREELY_MOVING_GOALS, new MeleeAttackGoal(this, 1.25D, false)));
 		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(5, new ChainedGodWaterAvoidingRandomWalkingGoal(this, 0.6D));
-        this.goalSelector.addGoal(6, new ChainedGodLeapAtTargetGoal(this, 0.7F));
+        this.goalSelector.addGoal(5, new ConditionalGoal(this, FREELY_MOVING_GOALS, new WaterAvoidingRandomStrollGoal(this, 0.6D)));
+        this.goalSelector.addGoal(6, new ConditionalGoal(this, FREELY_MOVING_GOALS, new LeapAtTargetGoal(this, 0.7F)));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
     }
 
@@ -89,7 +148,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 				.add(Attributes.ATTACK_KNOCKBACK, 6.0D)
 				.add(Attributes.ATTACK_DAMAGE, 25.0D);
     }
-	
+
 	@Override public boolean hurt(DamageSource source, float amount)
 	{
 		Entity immediateSourceEntity = source.getDirectEntity();
@@ -123,31 +182,23 @@ public class ChainedGodEntity extends AbstractBossEntity
 	    super.defineSynchedData(builder);
 	    builder.define(IMPLODING, false);
 	    builder.define(UNCHAINING, false);
-	    builder.define(UNCHAINED, false);
 	}
-	
-	@Override public void addAdditionalSaveData(CompoundTag nbt)
+
+	@Override public void addAdditionalSaveData(CompoundTag valueOutput)
 	{
-		super.addAdditionalSaveData(nbt);
-	    nbt.putBoolean("Imploding", this.isImploding());
-	    nbt.putBoolean("Unchaining", this.isUnchaining());
-		if (this.isUnchained()) {nbt.putBoolean("Unchained", true);}
+		super.addAdditionalSaveData(valueOutput);
+		/* ------- ImplodingEntity : Delegating to interface ------- */
+		this.implodingAddAdditionalSaveData(valueOutput);
+		/* --------------------------------------------------------- */
 	}
-	
-	@Override public void readAdditionalSaveData(CompoundTag nbt)
+
+	@Override public void readAdditionalSaveData(CompoundTag valueInput)
 	{
-	    super.readAdditionalSaveData(nbt);
-	    this.setImploding(nbt.getBoolean("Imploding"));
-	    this.setUnchaining(nbt.getBoolean("Unchaining"));
-	    this.setUnchained(nbt.getBoolean("Unchained"));
+	    super.readAdditionalSaveData(valueInput);
+		/* ------- ImplodingEntity : Delegating to interface ------- */
+		this.implodingReadAdditionalSaveData(valueInput);
+		/* --------------------------------------------------------- */
 	}
-	
-	public boolean isImploding() {return this.getEntityData().get(IMPLODING);}
-	public void setImploding(boolean isImploding) {this.getEntityData().set(IMPLODING, isImploding);}
-	public boolean isUnchaining() {return this.getEntityData().get(UNCHAINING);}
-	public void setUnchaining(boolean isUnchaining) {this.getEntityData().set(UNCHAINING, isUnchaining);}
-	public boolean isUnchained() {return this.getEntityData().get(UNCHAINED);}
-	public void setUnchained(boolean isUnchained) {this.getEntityData().set(UNCHAINED, isUnchained);}
 
 	@Override public int getPhaseIdToSkipToDyingPhase() {return BossPhase.SECOND_TO_THIRD_TRANSITION.getPhaseId();}
 	@Override public boolean enableTickPhaseUpdate(BossPhaseTickType type) {return false;}
@@ -162,15 +213,16 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	@Override public boolean fireImmune() {return true;}
 	@Override public boolean displayFireAnimation() {return false;}
-	
+
 	@Override public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {return false;}
-	
+
 	@Override public void tick()
     {
+		/* -- ImplodingEntity : tick --*/
+		this.implodingTick();
+		/* ----------------------------*/
 		if (random.nextFloat() > 0.5 && this.level().isClientSide()) {spawnParticles(AerialHellParticleTypes.GOD_FLAME, 1, -0.06D);}
 
-		if (this.isImploding()) {this.runRoarEffects(NearbyEntitiesInteractionType.DRAG);}
-		if (this.isUnchaining()) {this.runRoarEffects();}
 		this.destroyObstacles();
 		super.tick();
 
@@ -189,46 +241,39 @@ public class ChainedGodEntity extends AbstractBossEntity
 	{
 		this.runRoarEffects();
 		this.timeDying++;
-		if (this.timeDying > 140) {this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);}
+		if (this.timeDying > 140)
+		{
+			if (this.lastDamageSource != null && lastDamageSource.getEntity() instanceof ServerPlayer player)
+			{
+				CriteriaTriggers.PLAYER_KILLED_ENTITY.trigger(player, this, lastDamageSource);
+			}
+			this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);
+		}
 	}
 
 	@Override public void tickDeadPhase() {this.tickDyingPhase();}
 
 	@Override public Item getTrophy() {return AerialHellItems.CHAINED_GOD_TROPHY;}
 
-	protected enum NearbyEntitiesInteractionType {NONE, DRAG, REPULSE}
-
 	protected void runTransitionEffect()
 	{
 		if (this.level().isClientSide()) {this.spawnParticles(ParticleTypes.SMALL_FLAME, 5, -0.06D);}
-		this.runRoarEffects(NearbyEntitiesInteractionType.REPULSE);
+		this.runRoarEffects(NearbyEntitiesInteractionInfo.REPULSE_NEAR);
 	}
 
-	protected void runRoarEffects() {this.runRoarEffects(NearbyEntitiesInteractionType.NONE);}
+	protected void runRoarEffects() {this.runRoarEffects(NearbyEntitiesInteractionInfo.NONE);}
 
-	protected void runRoarEffects(NearbyEntitiesInteractionType type)
+	protected void runRoarEffects(NearbyEntitiesInteractionInfo type)
 	{
 		if (this.random.nextInt(4) == 0) {this.makeRandomRoofBlockFall(5, 15, 12, 20);}
-		this.dragOrRepulseEntities(type);
+		float dragOrRepulseFactor = type.noInteraction() ? 0.0F : type.getType().isDrag() ? 64.0F : 5.8F;
+		this.dragOrRepulseEntities(type, dragOrRepulseFactor);
 		if (this.level().isClientSide()) {this.spawnParticles(ParticleTypes.LAVA, 5, 0.5D);}
 	}
 
-	protected void dragOrRepulseEntities(NearbyEntitiesInteractionType type)
+	@Override protected boolean canDragOrRepulseEntity(Entity entity)
 	{
-		if (type == NearbyEntitiesInteractionType.NONE) {return;}
-		List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(20), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
-		for (Entity entity : nearbyEntities)
-		{
-			if (entity instanceof LivingEntity && !EntityHelper.isImmuneToChainedGodDrag(entity)) {dragEntity(entity, type);}
-		}
-	}
-
-	protected void dragEntity(Entity entityIn, NearbyEntitiesInteractionType type)
-	{
-		double dragOrRepulseFactor = type == NearbyEntitiesInteractionType.DRAG ? 1.0 : -0.3;
-		double factor = 0.8 / Math.max(5, this.distanceTo(entityIn)); //0.04 / Math.max(1, this.getDistance(entityIn)); and multiply only one time, to get uniform dragging
-		Vec3 toGod = new Vec3(this.getX() - entityIn.getX(), this.getY() - entityIn.getY(), this.getZ() - entityIn.getZ()).multiply(factor, factor, factor);
-		entityIn.setDeltaMovement(entityIn.getDeltaMovement().add(toGod.multiply(factor * dragOrRepulseFactor,factor * dragOrRepulseFactor,factor * dragOrRepulseFactor)));
+		return super.canDragOrRepulseEntity(entity) && !EntityHelper.isImmuneToChainedGodDrag(entity);
 	}
 
 	private void spawnParticles(SimpleParticleType type, int number, double dy)
@@ -247,6 +292,8 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	private void destroyObstacles()
 	{
+		if (!LoadedConfigParams.DO_BOSS_GRIEFING) {return;}
+
 		BlockPos pos = this.blockPosition().above(); int x,y,z; int xzRadius = 3, yRadius = 3;
 		for (x=-xzRadius;x<=xzRadius;x++)
 		{
@@ -262,15 +309,15 @@ public class ChainedGodEntity extends AbstractBossEntity
 			}
 		}
 	}
-	
+
 	@Override public void aiStep()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
 		super.aiStep();
     }
-	
+
 	@Override public boolean isPushable() {return false;}
-	
+
 	@Override public boolean doHurtTarget(Entity attackedEntity)
 	{
 		DamageSource damagesource = this.damageSources().mobAttack(this);
@@ -283,7 +330,10 @@ public class ChainedGodEntity extends AbstractBossEntity
 		{
 			((LivingEntity)attackedEntity).knockback(kb * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));
 			attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().x, (double)0.8F, attackedEntity.getDeltaMovement().z);
-			if (level() instanceof ServerLevel serverLevel) {EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);}
+			if (this.level() instanceof ServerLevel serverLevel)
+			{
+				EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);
+			}
 		}
 
 		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
@@ -300,7 +350,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 		}
 		else {super.handleEntityEvent(id);}
 	}
-	
+
 	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_AMBIENT;}
     @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_HURT;}
     @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_CHAINED_GOD_DEATH;}
@@ -316,7 +366,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 
 	public void playDeathSound() {this.playSound(this.getDeathSound(), 5.0F, 1.0F);}
 	@Override public void playFastDeathSound() {this.playSound(getFastDeathSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);}
-	public void playRoarSound(float pitch) {this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_ROAR, 5.0F, pitch);}
+	public void playRoarSound(float volume, float pitch) {this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_ROAR, volume, pitch);}
 	public void playUnchainSound() {this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_UNCHAIN, 5.0F, 0.8F);}
 	public void playTransitionSound() {this.playSound(AerialHellSoundEvents.ENTITY_CHAINED_GOD_TRANSITION, 5.0F, 1.0F);}
 
@@ -336,86 +386,13 @@ public class ChainedGodEntity extends AbstractBossEntity
 	public boolean canUnchainHimself() {return !this.isUnchained() && this.isActive();}
 	public boolean canGetProjectileDamages() {return this.getPhase() == BossPhase.FIRST_PHASE;}
 	public boolean canShootFireballs() {return isActiveAndUnchained() && !this.isImploding() && !isInTransitionOrDyingPhase() && (this.getPhase() == BossPhase.SECOND_PHASE || this.getHealth() * 2 < this.getMaxHealth());}
-	public boolean canImplode() {return isActiveAndUnchained() && this.getPhase() == BossPhase.SECOND_PHASE;}
+	public boolean canStartImploding() {return isActiveAndUnchained() && this.getPhase() == BossPhase.SECOND_PHASE;}
 	public boolean isFreelyMoving() {return !isInTransitionOrDyingPhase() && !this.isImploding() && !this.isUnchaining();}
 	public boolean isActiveAndUnchained() {return this.isActive() && this.isUnchained();}
 
-	protected void implode()
-	{
-		Level world = this.level();
-		if (!world.isClientSide())
-		{
-			world.explode(this, this.getX(), this.getY(), this.getZ(), (float)5, Level.ExplosionInteraction.MOB);
-		}
-		this.spawnImplosionParticle();
-	}
-
-	public void spawnImplosionParticle()
-	{
-		Level world = this.level();
-		if (world.isClientSide())
-		{
-			for(int i = 0; i < 30; ++i)
-			{
-				RandomSource rand = this.getRandom(); double d0 = rand.nextGaussian() * 0.02D; double d1 = rand.nextGaussian() * 0.02D; double d2 = rand.nextGaussian() * 0.02D;
-				world.addParticle(ParticleTypes.LARGE_SMOKE, this.getRandomX(1.0D) - d0 * 10.0D, this.getRandomY() - d1 * 10.0D, this.getRandomZ(1.0D) - d2 * 10.0D, 2 * d0, d1, 2 * d2);
-			}
-		}
-		else {world.broadcastEntityEvent(this, (byte)20);}
-	}
-
 	/* Chained God Goals */
 
-	public static class UnchainHimselfGoal extends Goal
-	{
-		private final ChainedGodEntity goalOwner;
-		public int timeSinceUnchaining;
-		public UnchainHimselfGoal(ChainedGodEntity entity) {this.goalOwner = entity;}
-
-		@Override public boolean canUse() {return this.goalOwner.canUnchainHimself();}
-
-		@Override public void start() {resetTask();}
-		@Override public void stop() {resetTask();}
-
-		@Override public void tick()
-		{
-			if (!this.goalOwner.isUnchaining()) {startUnchaining();}
-			else
-			{
-				this.playUnchainingEffect();
-				this.timeSinceUnchaining++;
-				if (this.canUnchain()) {this.finishUnchaining();}
-			}
-		}
-
-		protected void startUnchaining()
-		{
-			this.immobilizeGoalOwner();
-			this.goalOwner.setUnchaining(true);
-			this.playStartUnchainingEffect();
-		}
-
-		protected void finishUnchaining()
-		{
-			this.goalOwner.setUnchained(true);
-			this.goalOwner.setUnchaining(false);
-		}
-
-		public void playStartUnchainingEffect()
-		{
-			this.goalOwner.playRoarSound(1.6F);
-			this.goalOwner.playUnchainSound();
-		}
-
-		public void playUnchainingEffect() {}
-		private void immobilizeGoalOwner() {if (!this.goalOwner.level().isClientSide()) {this.goalOwner.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, this.getTimeToUnchain() * 2, 10, true, false));}}
-
-		public int getTimeToUnchain() {return 38;} //tick/2
-		protected boolean canUnchain() {return this.timeSinceUnchaining > getTimeToUnchain();}
-		protected void resetTask() {this.timeSinceUnchaining = 0; this.goalOwner.setUnchaining(false);}
-	}
-
-	public static class ChainedGodFireballAttackGoal extends GhastLikeGoals.ShootProjectileFlurryGoal
+	public static class ChainedGodFireballAttackGoal extends ShootProjectileFlurryGoal
 	{
 		public ChainedGodFireballAttackGoal(ChainedGodEntity entity) {super(entity);}
 
@@ -427,10 +404,10 @@ public class ChainedGodEntity extends AbstractBossEntity
 			return chainedGod.canShootFireballs() && target != null && target.isAlive() && chainedGod.canAttack(target) && DistanceToTarget < 16;
 		}
 
-		@Override public Projectile createProjectile(Level world, LivingEntity shooter, double accX, double accY, double accZ)
+		@Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ)
 		{
 			RandomSource rand = this.getParentEntity().getRandom(); double halfDistanceToTarget = this.getParentEntity().distanceTo(this.getParentEntity().getTarget()) / 2;
-			return new ChainedGodFireballEntity(world, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget);
+			return new ChainedGodFireballEntity(level, shooter, accX + 0.5 * rand.nextGaussian() * halfDistanceToTarget, accY, accZ + 0.5 * rand.nextGaussian() * halfDistanceToTarget);
 		}
 
 		@Override public int getShootTimeInterval() {return 50 - ((ChainedGodEntity)this.getParentEntity()).getDifficulty() * 2;}
@@ -443,18 +420,18 @@ public class ChainedGodEntity extends AbstractBossEntity
 		@Override public int getShootInvervalWithinBurst() {return 4;}
 	}
 
-	public static class ChainedGodRandomFireballAttackGoal extends GhastLikeGoals.ShootProjectileGoal
+	public static class ChainedGodRandomFireballAttackGoal extends ShootProjectileGoal
 	{
 		public ChainedGodRandomFireballAttackGoal(ChainedGodEntity entity) {super(entity);}
 		private ChainedGodEntity getChainedGodGoalOwner() {return (ChainedGodEntity)this.getParentEntity();}
 
 		@Override public boolean canUse() {return super.canUse() && this.getChainedGodGoalOwner().isUnchaining();}
 
-		@Override public Projectile createProjectile(Level world, LivingEntity shooter, double accX, double accY, double accZ)
+		@Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ)
 		{
 			RandomSource rand = this.getParentEntity().getRandom();
-			ChainedGodFireballEntity projectile = new ChainedGodFireballEntity(world, shooter, rand.nextInt(7) - 3, rand.nextInt(5) - 2, rand.nextInt(7) - 3);
-			projectile.setPosRaw(projectile.getX(), projectile.getY() + 1.0F, projectile.getZ());
+			ChainedGodFireballEntity projectile = new ChainedGodFireballEntity(level, shooter, rand.nextInt(7) - 3, rand.nextInt(5) - 2, rand.nextInt(7) - 3);
+			projectile.setPos(projectile.getX(), projectile.getY() + 1.0F, projectile.getZ());
 			return projectile;
 		}
 
@@ -466,60 +443,9 @@ public class ChainedGodEntity extends AbstractBossEntity
 		@Override public SoundEvent getShootSound() {return null;}
 	}
 
-	public static class ChainedGodImplodeGoal extends Goal
+	public static class ChainedGodSummonTornSpiritGoal extends SummonEntitiesGoal
 	{
-		private final ChainedGodEntity goalOwner;
-		public int implodeTimer, timeSinceImploding;
-		public ChainedGodImplodeGoal(ChainedGodEntity entity) {this.goalOwner = entity;}
-
-		@Override public boolean canUse() {return this.goalOwner.canImplode();}
-
-		@Override public void start() {resetTask();}
-		@Override public void stop() {resetTask(); this.goalOwner.setImploding(false);}
-		@Override public boolean requiresUpdateEveryTick() {return true;}
-
-		@Override public void tick()
-		{
-			this.implodeTimer++;
-
-			if (this.willStartImplodingSoon()) {this.playStartImplodingSound(); this.immobilizeGoalOwner();}
-			if (this.shouldStartImploding()) {this.startImploding();}
-
-			if (this.goalOwner.isImploding()) //goal owner stop moving, raise his arms, make bonus particles, create an explosion if timeSince = fuzetime
-			{
-				this.timeSinceImploding++;
-				if (this.shouldFinishImploding()) {this.finishImploding();}
-			}
-		}
-
-		protected void startImploding()
-		{
-			this.goalOwner.setImploding(true);
-			this.timeSinceImploding = 0;
-		}
-
-		protected void finishImploding()
-		{
-			this.goalOwner.implode();
-			this.resetTask();
-			this.goalOwner.setImploding(false);
-		}
-
-		protected void playStartImplodingSound() {this.goalOwner.playRoarSound(1.0F);}
-		private void immobilizeGoalOwner() {if (!this.goalOwner.level().isClientSide()) {this.goalOwner.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 10, true, false));}}
-
-		public int getSoundOffset() {return 12;}
-		public int getImplodeTimerTargetValue() {return 600;}
-		public int getImplosionCastDuration() {return 126;}
-		protected boolean shouldStartImploding() {return !this.goalOwner.isImploding() && this.implodeTimer >= this.getImplodeTimerTargetValue();}
-		protected boolean shouldFinishImploding() {return this.timeSinceImploding >= this.getImplosionCastDuration();}
-		protected boolean willStartImplodingSoon() {return this.implodeTimer == this.getImplodeTimerTargetValue() - this.getSoundOffset();}
-		protected void resetTask() {this.implodeTimer = 0; this.timeSinceImploding = 0;}
-	}
-
-	public static class ChainedGodSummonTornSpiritSkullGoal extends SummonEntitiesGoal
-	{
-		public ChainedGodSummonTornSpiritSkullGoal(ChainedGodEntity entity) {super(entity, 1.1D);}
+		public ChainedGodSummonTornSpiritGoal(ChainedGodEntity entity) {super(entity, 1.1D);}
 
 		public ChainedGodEntity getChainedGodGoalOwner() {return (ChainedGodEntity) this.getGoalOwner();}
 
@@ -534,7 +460,7 @@ public class ChainedGodEntity extends AbstractBossEntity
 			return AerialHellEntities.TORN_SPIRIT.create(this.getGoalOwner().level());
 		}
 
-		@Override protected void setEntityPosToSummonPos(Entity entity) {entity.setPosRaw(this.getGoalOwner().getX(), this.getGoalOwner().getY() + 1.0, this.getGoalOwner().getZ());}
+		@Override protected void setEntityPosToSummonPos(Entity entity) {entity.setPos(this.getGoalOwner().getX(), this.getGoalOwner().getY() + 1.0, this.getGoalOwner().getZ());}
 
 		@Override protected int getSummonTimerTargetValue()
 		{
@@ -552,24 +478,5 @@ public class ChainedGodEntity extends AbstractBossEntity
 		}
 
 		@Override protected void playEffect() {}
-	}
-	
-	public static class ChainedGodLeapAtTargetGoal extends ActiveLeapAtTargetGoal
-	{		
-		public ChainedGodLeapAtTargetGoal(ChainedGodEntity godIn, float leapMotionYIn) {super(godIn, leapMotionYIn);}
-		@Override public boolean canUse() {return ((ChainedGodEntity) this.activableGoalOwner).isFreelyMoving() && super.canUse();}
-		@Override public boolean canContinueToUse() {return ((ChainedGodEntity) this.activableGoalOwner).isFreelyMoving() && super.canContinueToUse();}
-	}
-	
-	public static class ChainedGodMeleeAttackGoal extends ActiveMeleeAttackGoal
-	{
-		public ChainedGodMeleeAttackGoal(ChainedGodEntity godIn, double speedIn, boolean useLongMemory) {super(godIn, speedIn, useLongMemory);}
-		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((ChainedGodEntity) this.goalOwner).isFreelyMoving();}
-	}
-	
-	public static class ChainedGodWaterAvoidingRandomWalkingGoal extends ActiveWaterAvoidingRandomWalkingGoal
-	{
-		public ChainedGodWaterAvoidingRandomWalkingGoal(ChainedGodEntity god, double speedIn) {super(god, speedIn);}
-		@Override public boolean additionalConditionMet() {return super.additionalConditionMet() && ((ChainedGodEntity) this.getGoalOwner()).isFreelyMoving();}
 	}
 }

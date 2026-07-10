@@ -1,0 +1,448 @@
+package fr.factionbedrock.aerialhell.Item;
+
+import com.google.common.collect.BiMap;
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.datafixers.util.Pair;
+import fr.factionbedrock.aerialhell.Item.Ability.*;
+import fr.factionbedrock.aerialhell.Item.Material.AerialHellToolMaterial;
+import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
+import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
+import net.minecraft.ChatFormatting;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.locale.Language;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.ChestType;
+import net.minecraft.world.level.gameevent.GameEvent;
+import org.jetbrains.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
+// For Items with AerialHellToolMaterials : inspired of vanilla Item class, with custom AerialhellItem.Properties properties
+// For Tools : Inspired of vanilla AxeItem, HoeItem and ShovelItem, but only takes Item.Properties as constructor parameter.
+// AxeItem, HoeItem and ShovelItem interaction abilities are all managed.
+// To make the item behave like a tool, call properties.sword(...), properties.pickaxe(...), properties.axe(...), properties.hoe(...), properties.shovel(...) in properties before passing them to the constructor.
+// To manage AxeItem, HoeItem and ShovelItem interaction abilities, think about calling .useInteraction(...) if you want your tool to be able to strip, flatten or till.
+public class AerialHellItem extends WithInformationItem
+{
+	public final int maxUseDuration;
+	public final int enchantmentValue;
+	public final boolean canDestroyBlocksInCreative;
+	public final boolean canDisableShield;
+	public final Ingredient repairIngredient;
+	public final UseAnim itemUseAnimation;
+	@Nullable public final AbilitySelector abilitySelector;
+	public final List<UseInteractionType> useInteractionToolTypes;
+
+	public AerialHellItem(Properties properties)
+	{
+		super(properties);
+		this.maxUseDuration = properties.maxUseDuration;
+		this.enchantmentValue = properties.enchantmentValue;
+		this.canDestroyBlocksInCreative = properties.canDestroyBlocksInCreative;
+		this.canDisableShield = properties.canDisableShield;
+		this.repairIngredient = properties.repairIngredient;
+		this.itemUseAnimation = properties.itemUseAnimation;
+		this.abilitySelector = properties.abilitySelector;
+		this.useInteractionToolTypes = properties.useInteractionTypes;
+	}
+
+	//applying tick (passive) tool ability modules
+	@Override public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected)
+	{
+		if (level.isClientSide) {return;}
+		//temporary solution to get slot
+		EquipmentSlot slot = null;
+		if (entity instanceof LivingEntity livingEntity)
+		{
+			if (livingEntity.getItemBySlot(EquipmentSlot.MAINHAND) == stack) {slot = EquipmentSlot.MAINHAND;}
+			else if (livingEntity.getItemBySlot(EquipmentSlot.OFFHAND) == stack) {slot = EquipmentSlot.OFFHAND;}
+			else if (livingEntity.getItemBySlot(EquipmentSlot.FEET) == stack) {slot = EquipmentSlot.FEET;}
+			else if (livingEntity.getItemBySlot(EquipmentSlot.LEGS) == stack) {slot = EquipmentSlot.LEGS;}
+			else if (livingEntity.getItemBySlot(EquipmentSlot.CHEST) == stack) {slot = EquipmentSlot.CHEST;}
+			else if (livingEntity.getItemBySlot(EquipmentSlot.HEAD) == stack) {slot = EquipmentSlot.HEAD;}
+		}
+
+		if (this.abilitySelector != null && entity instanceof LivingEntity itemOwner && entity.tickCount % 10 == 0)
+		{
+			@Nullable UsingItemUseSituationInfo usingItemUseSituationInfo = new UsingItemUseSituationInfo(itemOwner instanceof Player player && player.isUsingItem() ? player.getTicksUsingItem() : 0);
+			this.abilitySelector.tryUseAbility(new AbilityUseSituation.Tick(stack, itemOwner, slot, usingItemUseSituationInfo));
+		}
+	}
+
+	//applying use tool ability modules
+	@Override public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
+	{
+		ItemStack heldItemStack = player.getItemInHand(hand);
+		boolean used = false;
+		if (this.abilitySelector != null) {used = this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnUse(heldItemStack, player, LivingEntity.getSlotForHand(hand)));}
+		if (used && this.maxUseDuration != 0) {player.startUsingItem(hand);}
+		return used ? InteractionResultHolder.consume(heldItemStack) : super.use(level, player, hand);
+	}
+
+	@Override public int getUseDuration(ItemStack itemStack, LivingEntity user)
+	{
+		int vanillaUseDuration = super.getUseDuration(itemStack, user);
+		return vanillaUseDuration > 0 ? vanillaUseDuration : this.maxUseDuration;
+	}
+
+	@Override public UseAnim getUseAnimation(ItemStack itemStack)
+	{
+		UseAnim vanillaUseAnimation = super.getUseAnimation(itemStack);
+		return vanillaUseAnimation != UseAnim.NONE ? vanillaUseAnimation : this.itemUseAnimation;
+	}
+
+	//applying releaseUsing tool ability modules
+	@Override public void releaseUsing(ItemStack itemStack, Level level, LivingEntity itemOwner, int remainingTime)
+	{
+		int ticksUsed = this.getUseDuration(itemStack, itemOwner) - remainingTime;
+		boolean used = false;
+		if (this.abilitySelector != null) {used = this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnReleaseUsing(itemStack, itemOwner, new UsingItemUseSituationInfo(ticksUsed)));}
+	}
+
+	//applying onDealDamage (semi-passive) tool ability modules
+	//enemy entity (stored in damageInfo) is taking damage from item owner
+	public void onDealDamage(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot slot, DamageUseSituationInfo damageInfo)
+	{
+		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnDealDamage(itemStack, itemOwner, slot, damageInfo));}
+	}
+
+	//applying onTakeDamage (semi-passive) tool ability modules
+	//item owner is taking damage from enemy attacker (stored in damageInfo)
+	public void onTakeDamage(ItemStack itemStack, LivingEntity itemOwner, @Nullable EquipmentSlot slot, DamageUseSituationInfo damageInfo)
+	{
+		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnTakeDamage(itemStack, itemOwner, slot, damageInfo));}
+	}
+
+	//applying onMining (semi-passive) tool ability modules
+	public void onMining(ItemStack itemStack, LivingEntity itemOwner, MiningUseSituationInfo miningInfo)
+	{
+		if (this.abilitySelector != null) {this.abilitySelector.tryUseAbility(new AbilityUseSituation.OnMining(itemStack, itemOwner, miningInfo));}
+	}
+
+	@Override public void appendAbilityDescriptionHoverText(Player player, TooltipContext context, List<Component> tooltipAdder)
+	{
+		if (!player.level().isClientSide() || this.abilitySelector == null) {return;}
+
+		//context.player().isShiftKeyDown() do not work here because there is a screen open
+		boolean shiftDown = InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) || InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_RIGHT_SHIFT);
+		List<String> descIds = this.abilitySelector.getAbilitiesDescIds();
+
+		boolean hasAbilityDetail = false;
+		for (String descId : descIds)
+		{
+			if (Language.getInstance().has("ability.aerialhell."+descId+".desc"))
+			{
+				hasAbilityDetail = true;
+				break;
+			}
+		}
+
+		if (!shiftDown)
+		{
+			if (hasAbilityDetail) {tooltipAdder.add(Component.translatable("ability.aerialhell.shift_key_up").withStyle(ChatFormatting.DARK_GRAY));}
+			return;
+		}
+
+		for (String descId : descIds)
+		{
+			if (descId.isEmpty()) {continue;}
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".desc", ChatFormatting.GRAY);
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".desc_2", ChatFormatting.GRAY);
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".desc_3", ChatFormatting.GRAY);
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".desc_4", ChatFormatting.GRAY);
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".desc_5", ChatFormatting.GRAY);
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".desc_6", ChatFormatting.GRAY);
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".condition.desc", ChatFormatting.GRAY);
+			this.appendOptionalDescriptionHoverText(context, tooltipAdder, "ability.aerialhell."+descId+".cooldown.desc", ChatFormatting.GRAY);
+		}
+	}
+
+	@Override public int getEnchantmentValue() {return this.enchantmentValue;}
+
+	@Override public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {return this.canDestroyBlocksInCreative || !player.isCreative();}
+
+	@Override public boolean isValidRepairItem(ItemStack toRepair, ItemStack repairIngredient) {return this.repairIngredient.test(repairIngredient) || super.isValidRepairItem(toRepair, repairIngredient);}
+
+	public boolean canDisableShield(ItemStack usedStack) {return this.canDisableShield;}
+
+	//inspired of vanilla ShovelItem, AxeItem and HoeItem
+	@Override public InteractionResult useOn(UseOnContext context)
+	{
+		InteractionResult result = InteractionResult.PASS;
+		if (this.useInteractionToolTypes.contains(UseInteractionType.AXE))
+		{
+			result = this.useAxeOn(context);
+			if (result != InteractionResult.PASS) {return result;}
+		}
+
+		if (this.useInteractionToolTypes.contains(UseInteractionType.HOE))
+		{
+			result = this.useHoeOn(context);
+			if (result != InteractionResult.PASS) {return result;}
+		}
+
+		if (this.useInteractionToolTypes.contains(UseInteractionType.SHOVEL))
+		{
+			result = this.useShovelOn(context);
+			if (result != InteractionResult.PASS) {return result;}
+		}
+
+		return result;
+	}
+
+	//AxeItem useOn
+	public InteractionResult useAxeOn(UseOnContext context)
+	{
+		Level level = context.getLevel();
+		BlockPos pos = context.getClickedPos();
+		Player player = context.getPlayer();
+		if (playerHasBlockingItemUseIntent(context)) {return InteractionResult.PASS;}
+		else
+		{
+			Optional<BlockState> newBlock = this.axeEvaluateNewBlockState(level, pos, player, level.getBlockState(pos), context);
+			if (newBlock.isEmpty()) {return InteractionResult.PASS;}
+			else
+			{
+				ItemStack itemInHand = context.getItemInHand();
+				if (player instanceof ServerPlayer) {CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, pos, itemInHand);}
+
+				level.setBlock(pos, newBlock.get(), 11);
+				level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, newBlock.get()));
+				if (player != null) {itemInHand.hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));}
+
+				return InteractionResult.SUCCESS;
+			}
+		}
+	}
+
+	//HoeItem useOn
+	public InteractionResult useHoeOn(UseOnContext context)
+	{
+		Level level = context.getLevel();
+		BlockPos pos = context.getClickedPos();
+		Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> logicPair = (Pair) HoeItem.TILLABLES.get(level.getBlockState(pos).getBlock());
+		if (logicPair == null) {return InteractionResult.PASS;}
+		else
+		{
+			Predicate<UseOnContext> predicate = (Predicate)logicPair.getFirst();
+			Consumer<UseOnContext> action = (Consumer)logicPair.getSecond();
+			if (predicate.test(context))
+			{
+				Player player = context.getPlayer();
+				level.playSound(player, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+				if (!level.isClientSide())
+				{
+					action.accept(context);
+					if (player != null) {context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));}
+				}
+
+				return InteractionResult.SUCCESS;
+			}
+			else {return InteractionResult.PASS;}
+		}
+	}
+
+	//ShovelItem useOn
+	public InteractionResult useShovelOn(UseOnContext context)
+	{
+		Level level = context.getLevel();
+		BlockPos pos = context.getClickedPos();
+		BlockState blockState = level.getBlockState(pos);
+		if (context.getClickedFace() == Direction.DOWN) {return InteractionResult.PASS;}
+		else
+		{
+			Player player = context.getPlayer();
+			BlockState newState = ShovelItem.FLATTENABLES.get(blockState.getBlock());
+			BlockState updatedState = null;
+			if (newState != null && level.getBlockState(pos.above()).isAir())
+			{
+				level.playSound(player, pos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+				updatedState = newState;
+			}
+			else if (blockState.getBlock() instanceof CampfireBlock && (Boolean)blockState.getValue(CampfireBlock.LIT))
+			{
+				if (!level.isClientSide()) {level.levelEvent(1009, pos, 0);}
+
+				CampfireBlock.dowse(context.getPlayer(), level, pos, blockState);
+				updatedState = blockState.setValue(CampfireBlock.LIT, false);
+			}
+
+			if (updatedState != null)
+			{
+				if (!level.isClientSide())
+				{
+					level.setBlock(pos, updatedState, 11);
+					level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, updatedState));
+					if (player != null) {context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));}
+				}
+
+				return InteractionResult.SUCCESS;
+			}
+			else {return InteractionResult.PASS;}
+		}
+	}
+
+	//copy of AxeItem method of same name
+	private static boolean playerHasBlockingItemUseIntent(final UseOnContext context)
+	{
+		Player player = context.getPlayer();
+		return context.getHand().equals(InteractionHand.MAIN_HAND) && player.getOffhandItem().is(Items.SHIELD) && !player.isSecondaryUseActive();
+	}
+
+	//copy of AxeItem evaluateNewBlockState method
+	private Optional<BlockState> axeEvaluateNewBlockState(Level level, BlockPos pos, @Nullable Player player, BlockState oldState, UseOnContext context)
+	{
+		Optional<BlockState> strippedBlock = this.axeGetStripped(oldState);
+		if (strippedBlock.isPresent())
+		{
+			level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
+			return strippedBlock;
+		}
+		else
+		{
+			Optional<BlockState> scrapedBlock = WeatheringCopper.getPrevious(oldState);
+			if (scrapedBlock.isPresent())
+			{
+				axeSpawnSoundAndParticle(level, pos, player, oldState, SoundEvents.AXE_SCRAPE, 3005);
+				return scrapedBlock;
+			}
+			else
+			{
+				Optional<BlockState> waxoffBlock = Optional.ofNullable((Block)((BiMap)HoneycombItem.WAX_OFF_BY_BLOCK.get()).get(oldState.getBlock())).map((b) -> b.withPropertiesOf(oldState));
+				if (waxoffBlock.isPresent())
+				{
+					axeSpawnSoundAndParticle(level, pos, player, oldState, SoundEvents.AXE_WAX_OFF, 3004);
+					return waxoffBlock;
+				}
+				else {return Optional.empty();}
+			}
+		}
+	}
+
+	//copy of AxeItem spawnSoundAndParticle method
+	private static void axeSpawnSoundAndParticle(final Level level, final BlockPos pos, final @Nullable Player player, final BlockState oldState, final SoundEvent soundEvent, final int particle)
+	{
+		level.playSound(player, pos, soundEvent, SoundSource.BLOCKS, 1.0F, 1.0F);
+		level.levelEvent(player, particle, pos, 0);
+	}
+
+	//copy of AxeItem getStripped method
+	private Optional<BlockState> axeGetStripped(final BlockState state)
+	{
+		return Optional.ofNullable(AxeItem.STRIPPABLES.get(state.getBlock())).map((block) -> (BlockState)block.defaultBlockState().setValue(RotatedPillarBlock.AXIS, (Direction.Axis)state.getValue(RotatedPillarBlock.AXIS)));
+	}
+
+	public static class Properties extends Item.Properties
+	{
+		private int maxUseDuration;
+		private int enchantmentValue;
+		private boolean canDestroyBlocksInCreative;
+		private boolean canDisableShield;
+		private Ingredient repairIngredient;
+		private UseAnim itemUseAnimation;
+		@Nullable private AbilitySelector abilitySelector;
+		private List<UseInteractionType> useInteractionTypes;
+		public Properties() {super(); this.maxUseDuration = 0; this.enchantmentValue = 0; this.canDestroyBlocksInCreative = true; this.canDisableShield = false; this.repairIngredient = Ingredient.of(); this.itemUseAnimation = UseAnim.NONE; this.useInteractionTypes = new ArrayList<>();}
+
+		public int maxUseDuration() {return this.maxUseDuration;}
+		@Nullable public AbilitySelector abilitySelector() {return this.abilitySelector;}
+
+		public Properties tool(AerialHellToolMaterial material, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
+		{
+			return material.applyToolProperties(this, minesEfficiently, attackDamage, attackSpeed, additionalAttributes);
+		}
+
+		public Properties pickaxe(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.pickaxe(material, attackDamage, attackSpeed, new AttributeEntryList());}
+		public Properties pickaxe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.pickaxe(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
+		public Properties pickaxe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
+		{
+			return this.tool(material, BlockTags.MINEABLE_WITH_PICKAXE, attackDamage, attackSpeed, additionalAttributes);
+		}
+
+		public Properties axe(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.axe(material, attackDamage, attackSpeed, new AttributeEntryList());}
+		public Properties axe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.axe(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
+		public Properties axe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
+		{
+			this.canDisableShield = true;
+			return this.tool(material, BlockTags.MINEABLE_WITH_AXE, attackDamage, attackSpeed, additionalAttributes);
+		}
+
+		public Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.hoe(material, attackDamage, attackSpeed, new AttributeEntryList());}
+		public Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.hoe(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
+		public Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
+		{
+			return this.tool(material, BlockTags.MINEABLE_WITH_HOE, attackDamage, attackSpeed, additionalAttributes);
+		}
+
+		public Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.shovel(material, attackDamage, attackSpeed, new AttributeEntryList());}
+		public Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.shovel(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
+		public Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
+		{
+			return this.tool(material, BlockTags.MINEABLE_WITH_SHOVEL, attackDamage, attackSpeed, additionalAttributes);
+		}
+
+		public Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.sword(material, attackDamage, attackSpeed, new AttributeEntryList());}
+		public Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.sword(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
+		public Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
+		{
+			this.canDestroyBlocksInCreative = false;
+			return material.applySwordProperties(this, attackDamage, attackSpeed, additionalAttributes);
+		}
+
+		public Properties maxUseDuration(int useDuration) {this.maxUseDuration = useDuration; return this;}
+
+		public Properties useAnimation(UseAnim itemUseAnimation) {this.itemUseAnimation = itemUseAnimation; return this;}
+
+		public Properties abilitySelector(AbilitySelector abilitySelector) {this.abilitySelector = abilitySelector; return this;}
+
+		public Properties useInteraction(UseInteractionType useInteractionType) {this.useInteractionTypes = new ArrayList<>(); this.useInteractionTypes.add(useInteractionType); return this;}
+
+		public Properties useInteractions(UseInteractionType... useInteractionTypes) {this.useInteractionTypes = new ArrayList<>(List.of(useInteractionTypes)); return this;}
+
+		@Override public Properties rarity(Rarity rarity) {return (Properties) super.rarity(rarity);}
+
+		@Override public Properties durability(int maxDamage) {return (Properties) super.durability(maxDamage);}
+
+		@Override public Properties fireResistant() {return (Properties) super.fireResistant();}
+
+		@Override public Properties stacksTo(int max) {return (Properties) super.stacksTo(max);}
+
+		@Override public <T> Properties component(DataComponentType<T> type, T value) {return (Properties) super.component(type, value);}
+
+		public Properties enchantable(int value) {this.enchantmentValue = value; return this;}
+
+		public Properties repairable(Ingredient ingredient) {this.repairIngredient = ingredient; return this;}
+	}
+
+	//"tool types" that can be used with right click
+	public enum UseInteractionType {AXE, HOE, SHOVEL}
+}

@@ -1,5 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Flying;
 
+import fr.factionbedrock.aerialhell.Entity.Projectile.PoisonballEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
@@ -15,15 +18,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import fr.factionbedrock.aerialhell.Entity.Projectile.PoisonballEntity;
-import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 
 public class FlyingJellyfishEntity extends AbstractFlyingProjectileShooterMob
 {
-	public FlyingJellyfishEntity(EntityType<? extends FlyingJellyfishEntity> type, Level world) {super(type, world);}
+	public FlyingJellyfishEntity(EntityType<? extends FlyingJellyfishEntity> type, Level levelIn)
+	{
+		super(type, levelIn);
+		this.xpReward = 5;
+	}
 
-	public FlyingJellyfishEntity(Level world) {this(AerialHellEntities.FLYING_JELLYFISH, world);}
+	public FlyingJellyfishEntity(Level worldIn) {this(AerialHellEntities.FLYING_JELLYFISH, worldIn);}
 
 	@Override public Projectile createProjectile(Level level, LivingEntity shooter, double accX, double accY, double accZ) {return new PoisonballEntity(level, shooter, accX, accY, accZ);}
 	@Override public SoundEvent getShootSound() {return this.getAmbientSound();}
@@ -43,9 +47,9 @@ public class FlyingJellyfishEntity extends AbstractFlyingProjectileShooterMob
 
 	@Override protected float getSoundVolume() {return 1.2F;}
 
-	public static boolean canJellyfishSpawn(EntityType<? extends FlyingJellyfishEntity> jellyfish, LevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource random)
+	public static boolean canJellyfishSpawn(EntityType<? extends FlyingJellyfishEntity> jellyfish, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource random)
 	{
-		return world.getDifficulty() != Difficulty.PEACEFUL && random.nextInt(15) == 0 && checkMobSpawnRules(jellyfish, world, reason, pos, random);
+		return worldIn.getDifficulty() != Difficulty.PEACEFUL && random.nextInt(15) == 0 && checkMobSpawnRules(jellyfish, worldIn, reason, pos, random);
 	}
 
 	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_FLYING_JELLYFISH_AMBIENT;}

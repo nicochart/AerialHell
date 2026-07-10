@@ -20,7 +20,7 @@ public class ShiftedRenderDuo
         this.baseModelRL = BlockModelShaper.stateToModelLocation(baseBlock.defaultBlockState()); //warning : will set all state values to default before looking for model. For example, for leaves, default is #distance=7,persistent=false,shifted_render=false,waterlogged=false.. which means the only shifted model is distance=7,persistent=false,..
         ModelResourceLocation shiftedModelRL = BlockModelShaper.stateToModelLocation(shiftedBlockState);
         BakedModel shiftedModel = context.loader().getBakedTopLevelModels().get(shiftedModelRL);
-        this.newBakedModel = new ShiftingBlockBakedModel(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(baseBlock.defaultBlockState()), shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+        this.newBakedModel = new ShiftingBlockBakedModel(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(baseBlock.defaultBlockState()), shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isShadowBindEnabled() || forceShifted);
     }
 
     protected ShiftedRenderDuo(BlockState baseBlockState, BlockState shiftedBlockState, ModelModifier.AfterBake.Context context)
@@ -28,7 +28,7 @@ public class ShiftedRenderDuo
         this.baseModelRL = BlockModelShaper.stateToModelLocation(baseBlockState);
         ModelResourceLocation shiftedModelRL = BlockModelShaper.stateToModelLocation(shiftedBlockState);
         BakedModel shiftedModel = context.loader().getBakedTopLevelModels().get(shiftedModelRL);
-        this.newBakedModel = new ShiftingBlockBakedModel(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(baseBlockState), shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isCurrentPlayerInstanceShadowBind() || forceShifted);
+        this.newBakedModel = new ShiftingBlockBakedModel(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(baseBlockState), shiftedModel, (forceShifted) -> BlocksAndItemsColorHandler.isShadowBindEnabled() || forceShifted);
     }
 
     public ModelResourceLocation getBaseModelRL() {return baseModelRL;}

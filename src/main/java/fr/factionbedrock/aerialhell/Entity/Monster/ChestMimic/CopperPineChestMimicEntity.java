@@ -9,9 +9,9 @@ import net.minecraft.world.level.block.Block;
 
 public class CopperPineChestMimicEntity extends AbstractChestMimicEntity
 {
-	public CopperPineChestMimicEntity(EntityType<? extends CopperPineChestMimicEntity> type, Level world)
+	public CopperPineChestMimicEntity(EntityType<? extends CopperPineChestMimicEntity> type, Level worldIn)
 	{
-		super(type, world);
+		super(type, worldIn);
 	}
 	
 	public static AttributeSupplier.Builder registerAttributes()
@@ -23,6 +23,5 @@ public class CopperPineChestMimicEntity extends AbstractChestMimicEntity
 				.add(Attributes.FOLLOW_RANGE, 8.0D);
 	}
 
-	@Override
-	protected Block getMimicBlock() {return AerialHellBlocks.COPPER_PINE_CHEST_MIMIC;}
+	@Override protected Block getMimicBlock() {return AerialHellBlocks.COPPER_PINE_CHEST_MIMIC;}
 }
