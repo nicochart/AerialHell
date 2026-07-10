@@ -33,10 +33,10 @@ public class RubyBucketItem extends Item
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn)
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand handIn)
     {
-        ItemStack itemstack = playerIn.getItemInHand(handIn);
-        BlockHitResult blockhitresult = getPlayerPOVHitResult(worldIn, playerIn, ClipContext.Fluid.SOURCE_ONLY);
+        ItemStack itemstack = player.getItemInHand(handIn);
+        BlockHitResult blockhitresult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
         if (blockhitresult.getType() != HitResult.Type.BLOCK)
         {
             return InteractionResultHolder.pass(itemstack);
@@ -46,26 +46,26 @@ public class RubyBucketItem extends Item
             BlockPos blockpos = blockhitresult.getBlockPos();
             Direction direction = blockhitresult.getDirection();
             BlockPos blockpos1 = blockpos.relative(direction);
-            if (worldIn.mayInteract(playerIn, blockpos) && playerIn.mayUseItemAt(blockpos1, direction, itemstack))
+            if (level.mayInteract(player, blockpos) && player.mayUseItemAt(blockpos1, direction, itemstack))
             {
-                BlockState blockstate1 = worldIn.getBlockState(blockpos);
-                if (blockstate1.getBlock() instanceof BucketPickup)
+                BlockState blockstate1 = level.getBlockState(blockpos);
+                if (blockstate1.getBlock() instanceof BucketPickup bucketPickup)
                 {
                     //BucketPickup bucketpickup = (BucketPickup)blockstate1.getBlock();
-                    Fluid fluid = worldIn.getFluidState(blockpos).getType();
+                    Fluid fluid = level.getFluidState(blockpos).getType();
                     if (fluid == Fluids.WATER)
                     {
-                        playPickupSound(fluid, playerIn);
-                        worldIn.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
-                        ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, playerIn, new ItemStack(AerialHellBlocksAndItems.RUBY_WATER_BUCKET.get()));
-                        return InteractionResultHolder.sidedSuccess(afterPickupHandItemStack, worldIn.isClientSide());
+                        playPickupSound(fluid, player);
+                        bucketPickup.pickupBlock(player, level, blockpos, blockstate1);
+                        ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, player, new ItemStack(AerialHellBlocksAndItems.RUBY_WATER_BUCKET.get()));
+                        return InteractionResultHolder.sidedSuccess(afterPickupHandItemStack, level.isClientSide());
                     }
                     else if (fluid == AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE.get())
                     {
-                        playPickupSound(fluid, playerIn);
-                        worldIn.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
-                        ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, playerIn, new ItemStack(AerialHellBlocksAndItems.RUBY_LIQUID_OF_GODS_BUCKET.get()));
-                        return InteractionResultHolder.sidedSuccess(afterPickupHandItemStack, worldIn.isClientSide());
+                        playPickupSound(fluid, player);
+                        bucketPickup.pickupBlock(player, level, blockpos, blockstate1);
+                        ItemStack afterPickupHandItemStack = this.fillBucket(itemstack, player, new ItemStack(AerialHellBlocksAndItems.RUBY_LIQUID_OF_GODS_BUCKET.get()));
+                        return InteractionResultHolder.sidedSuccess(afterPickupHandItemStack, level.isClientSide());
                     }
                 }
             }

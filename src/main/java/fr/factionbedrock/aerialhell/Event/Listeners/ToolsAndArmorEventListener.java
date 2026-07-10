@@ -112,6 +112,12 @@ public class ToolsAndArmorEventListener
 		//mining speed multiplier value is changed internally in item abilities (onMining)
 		event.setNewSpeed(speed * miningSpeedMultiplier.get());
 
+		//player mining a lunar dungeon core as a lunar misleader OR mining a shadow dungeon core as a shadow misleader
+		if (state.is(AerialHellBlocksAndItems.LUNATIC_DUNGEON_CORE) && EntityHelper.isLivingEntityMisleadingLunar(itemOwner) || (state.is(AerialHellBlocksAndItems.SHADOW_CATACOMBS_DUNGEON_CORE) && EntityHelper.isLivingEntityMisleadingShadow(itemOwner)))
+		{
+			EntityHelper.applyTraitorEffectTo(itemOwner);
+		}
+
 		//player mining a block that needs lunar tool
 		if (state != null && state.is(AerialHellTags.Blocks.NEEDS_LUNAR_TOOL))
 		{

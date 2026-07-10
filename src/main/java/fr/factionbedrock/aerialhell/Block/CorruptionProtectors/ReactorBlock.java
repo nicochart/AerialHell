@@ -98,12 +98,6 @@ public class ReactorBlock extends BiomeShifterBlock
             //face 4
             offsetx = 0.0; offsetz = -basePosOffset;
             sendReactorParticles(level, new Vector3d(basePos).add(offsetx, offsety, offsetz), particleNumber, baseHorizontalParticleOffset, verticalParticleOffset, 0.0, speed, shiftType);
-
-            //TODO add a active sound
-            //if (rand.nextDouble() < 0.1)
-            //{
-            //    level.playLocalSound(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, this.getActiveSound(), SoundSource.BLOCKS, 1.0F, 1.0F, false);
-            //}
         }
     }
 
