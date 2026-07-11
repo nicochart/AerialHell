@@ -47,7 +47,7 @@ public class UseItemInHandRendererMixin
             {
                 if (itemStack.getUseAnimation() == UseAnim.BOW)
                 {
-                    this.applyItemArmTransform(poseStack, arm, inverseArmHeight);
+                    this.doApplyItemArmTransform(poseStack, arm, inverseArmHeight);
                     poseStack.translate((float)invert * -0.2785682F, 0.18344387F, 0.15731531F);
                     poseStack.mulPose(Axis.XP.rotationDegrees(-13.935F));
                     poseStack.mulPose(Axis.YP.rotationDegrees((float)invert * 35.3F));
@@ -78,8 +78,8 @@ public class UseItemInHandRendererMixin
         }
     }
 
-    //copy of net.minecraft.client.renderer.ItemInHandRenderer method of same name
-    private void applyItemArmTransform(PoseStack poseStack, HumanoidArm arm, float inverseArmHeight)
+    //copy of net.minecraft.client.renderer.ItemInHandRenderer method "applyItemArmTransform"
+    private void doApplyItemArmTransform(PoseStack poseStack, HumanoidArm arm, float inverseArmHeight)
     {
         int invert = arm == HumanoidArm.RIGHT ? 1 : -1;
         poseStack.translate((float)invert * 0.56F, -0.52F + inverseArmHeight * -0.6F, -0.72F);
