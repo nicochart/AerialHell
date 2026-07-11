@@ -43,7 +43,7 @@ public class UseItemInHandRendererMixin
             int invert = isRightArm ? 1 : -1;
             if (player.isUsingItem() && player.getUseItemRemainingTicks() > 0 && player.getUsedItemHand() == hand)
             {
-                if (!itemStack.getUseAnimation().hasCustomArmTransform()) {this.applyItemArmTransform(poseStack, arm, inverseArmHeight);}
+                if (!itemStack.getUseAnimation().hasCustomArmTransform()) {this.doApplyItemArmTransform(poseStack, arm, inverseArmHeight);}
 
                 if (itemStack.getUseAnimation() == ItemUseAnimation.BOW)
                 {
@@ -78,8 +78,8 @@ public class UseItemInHandRendererMixin
         }
     }
 
-    //copy of net.minecraft.client.renderer.ItemInHandRenderer method of same name
-    private void applyItemArmTransform(PoseStack poseStack, HumanoidArm arm, float inverseArmHeight)
+    //copy of net.minecraft.client.renderer.ItemInHandRenderer method "applyItemArmTransform"
+    private void doApplyItemArmTransform(PoseStack poseStack, HumanoidArm arm, float inverseArmHeight)
     {
         int invert = arm == HumanoidArm.RIGHT ? 1 : -1;
         poseStack.translate((float)invert * 0.56F, -0.52F + inverseArmHeight * -0.6F, -0.72F);
