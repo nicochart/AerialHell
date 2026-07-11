@@ -673,6 +673,8 @@
   "item.aerialhell.ruby_liquid_of_gods_bucket" : "魔神液体桶",
   "item.aerialhell.iron_liquid_of_gods_bucket" : "魔神液体桶",
   "fluid.aerialhell.liquid_of_the_gods_source" : "魔神液体",
+  "fluid.aerialhell.liquid_of_the_gods" : "魔神液体",
+  "block.aerialhell.liquid_of_the_gods" : "魔神液体",
   "item.aerialhell.ruby_water_bucket" : "红宝石水桶",
   "item.aerialhell.ruby_milk_bucket" : "红宝石牛奶桶",
   "effect.aerialhell.head_in_the_clouds" : "浮云",
