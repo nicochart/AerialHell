@@ -96,7 +96,7 @@ public class AerialHellEntities
 	public static final DeferredHolder<EntityType<?>, EntityType<GlidingTurtleEntity>> GLIDING_TURTLE = ENTITIES.register("gliding_turtle", () -> EntityType.Builder.<GlidingTurtleEntity>of(GlidingTurtleEntity::new, MobCategory.CREATURE)
 			.sized(1.4F, 1.9F).build("gliding_turtle"));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<FatPhantomEntity>> FAT_PHANTOM = ENTITIES.register("fat_phantom", () -> EntityType.Builder.<FatPhantomEntity>of(FatPhantomEntity::new, MobCategory.CREATURE)
+	public static final DeferredHolder<EntityType<?>, EntityType<FatPhantomEntity>> FAT_PHANTOM = ENTITIES.register("fat_phantom", () -> EntityType.Builder.<FatPhantomEntity>of(FatPhantomEntity::new, MobCategory.MONSTER)
 			.sized(2.6F, 1.5F).fireImmune().build("fat_phantom"));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<KodamaEntity>> KODAMA = ENTITIES.register("kodama", () -> EntityType.Builder.<KodamaEntity>of(KodamaEntity::new, MobCategory.CREATURE)
@@ -228,10 +228,10 @@ public class AerialHellEntities
 	public static final DeferredHolder<EntityType<?>, EntityType<ShadowSpiderEntity>> SHADOW_SPIDER = ENTITIES.register("shadow_spider", () -> EntityType.Builder.of(ShadowSpiderEntity::new, MobCategory.MONSTER)
 			.sized(0.85F, 0.8F).build("shadow_spider"));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<ForestCaterpillarEntity>> FOREST_CATERPILLAR = ENTITIES.register("forest_caterpillar", () -> EntityType.Builder.<ForestCaterpillarEntity>of(ForestCaterpillarEntity::new, MobCategory.CREATURE)
+	public static final DeferredHolder<EntityType<?>, EntityType<ForestCaterpillarEntity>> FOREST_CATERPILLAR = ENTITIES.register("forest_caterpillar", () -> EntityType.Builder.<ForestCaterpillarEntity>of(ForestCaterpillarEntity::new, MobCategory.MONSTER)
 			.sized(0.4F, 0.4F).build("forest_caterpillar"));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<CrystalCaterpillarEntity>> CRYSTAL_CATERPILLAR = ENTITIES.register("crystal_caterpillar", () -> EntityType.Builder.<CrystalCaterpillarEntity>of(CrystalCaterpillarEntity::new, MobCategory.CREATURE)
+	public static final DeferredHolder<EntityType<?>, EntityType<CrystalCaterpillarEntity>> CRYSTAL_CATERPILLAR = ENTITIES.register("crystal_caterpillar", () -> EntityType.Builder.<CrystalCaterpillarEntity>of(CrystalCaterpillarEntity::new, MobCategory.MONSTER)
 			.sized(0.4F, 0.4F).build("crystal_caterpillar"));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<AerialHellPaintingEntity>> AERIAL_HELL_PAINTING = ENTITIES.register("aerial_hell_painting", () -> EntityType.Builder.<AerialHellPaintingEntity>of(AerialHellPaintingEntity::new, MobCategory.MISC)
