@@ -49,12 +49,11 @@ public class GhostBoatFenceBlock extends FenceBlock
 
 	@Override public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context)
 	{
-		if (context instanceof EntityCollisionContext entityCollisionContext && entityCollisionContext.getEntity() != null)
+		if (context instanceof EntityCollisionContext entityCollisionContext && entityCollisionContext.getEntity() != null && !canEntityCollide(entityCollisionContext.getEntity()))
 		{
-			Entity entity = entityCollisionContext.getEntity();
-			if (canEntityCollide(entity)) {return super.getCollisionShape(state, blockGetter, pos, context);}
+			return CollisionConditionHalfTransparentBlock.EMPTY_SHAPE;
 		}
-		return CollisionConditionHalfTransparentBlock.EMPTY_SHAPE;
+		return super.getCollisionShape(state, blockGetter, pos, context);
 	}
 
 	protected boolean canEntityCollide(Entity entity) {return !EntityHelper.isImmuneToGhostBlockCollision(entity);}
