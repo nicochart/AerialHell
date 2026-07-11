@@ -674,6 +674,8 @@
   "item.aerialhell.ruby_liquid_of_gods_bucket" : "Götterflüssigkeitseimer",
   "item.aerialhell.iron_liquid_of_gods_bucket" : "Götterflüssigkeitseimer",
   "fluid.aerialhell.liquid_of_the_gods_source" : "Götterflüssigkeit",
+  "fluid.aerialhell.liquid_of_the_gods" : "Götterflüssigkeit",
+  "block.aerialhell.liquid_of_the_gods" : "Götterflüssigkeit",
   "item.aerialhell.ruby_water_bucket" : "Rubinwassereimer",
   "item.aerialhell.ruby_milk_bucket" : "Rubinmilcheimer",
   "effect.aerialhell.head_in_the_clouds" : "Kopf in den Wolken",
