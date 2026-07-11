@@ -46,14 +46,13 @@ public class GhostBoatFenceBlock extends FenceBlock
 		EntityHelper.multiplyDeltaMovement(entity, CollisionConditionHalfTransparentBlock.default_non_living_entity_xz_delta_movement_factor, CollisionConditionHalfTransparentBlock.default_y_delta_movement_factor);
 	}
 
-	@Override public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context)
+	@Override public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context)
 	{
-		if (context instanceof EntityCollisionContext entityShapeContext && entityShapeContext.getEntity() != null)
+		if (context instanceof EntityCollisionContext entityCollisionContext && entityCollisionContext.getEntity() != null && !canEntityCollide(entityCollisionContext.getEntity()))
 		{
-			Entity entity = entityShapeContext.getEntity();
-			if (canEntityCollide(entity)) {return super.getCollisionShape(state, world, pos, context);}
+			return CollisionConditionHalfTransparentBlock.EMPTY_SHAPE;
 		}
-		return CollisionConditionHalfTransparentBlock.EMPTY_SHAPE;
+		return super.getCollisionShape(state, blockGetter, pos, context);
 	}
 
 	protected boolean canEntityCollide(Entity entity) {return !EntityHelper.isImmuneToGhostBlockCollision(entity);}
