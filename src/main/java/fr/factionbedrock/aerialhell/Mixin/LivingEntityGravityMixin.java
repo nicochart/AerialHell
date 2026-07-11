@@ -40,7 +40,6 @@ public class LivingEntityGravityMixin
                 callbackInfo.setReturnValue(yDeficit);
                 return;
             }
-            entity.setDeltaMovement(deltaMovement.x * 1.5D, deltaMovement.y, deltaMovement.z * 1.5D);
             callbackInfo.setReturnValue(baseGravity - 0.05D);
         }
     }

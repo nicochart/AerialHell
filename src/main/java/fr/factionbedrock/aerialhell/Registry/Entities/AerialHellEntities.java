@@ -53,7 +53,7 @@ public class AerialHellEntities
 	public static final EntityType<GhostSlimeNinjaPirateEntity> GHOST_SLIME_NINJA_PIRATE = register(Keys.GHOST_SLIME_NINJA_PIRATE, GhostSlimeNinjaPirateEntity::new, 0.7F,1.9F, MobCategory.MONSTER, true);
 	public static final EntityType<SandySheepEntity> SANDY_SHEEP = register(Keys.SANDY_SHEEP, SandySheepEntity::new, 0.9F, 1.4F, MobCategory.CREATURE);
 	public static final EntityType<GlidingTurtleEntity> GLIDING_TURTLE = register(Keys.GLIDING_TURTLE, GlidingTurtleEntity::new, 1.4F, 1.9F, MobCategory.CREATURE);
-	public static final EntityType<FatPhantomEntity> FAT_PHANTOM = register(Keys.FAT_PHANTOM, FatPhantomEntity::new, 2.6F, 1.5F, MobCategory.CREATURE);
+	public static final EntityType<FatPhantomEntity> FAT_PHANTOM = register(Keys.FAT_PHANTOM, FatPhantomEntity::new, 2.6F, 1.5F, MobCategory.MONSTER);
 	public static final EntityType<KodamaEntity> KODAMA = register(Keys.KODAMA, KodamaEntity::new, 0.7F, 0.9F, MobCategory.CREATURE);
 	public static final EntityType<CrystalSlimeEntity> CRYSTAL_SLIME = register(Keys.CRYSTAL_SLIME, CrystalSlimeEntity::new, 1.0F, 1.0F, MobCategory.MONSTER, true);
 	public static final EntityType<MudSoldierEntity> MUD_SOLDIER = register(Keys.MUD_SOLDIER, MudSoldierEntity::new, 0.6F, 1.99F, MobCategory.MONSTER, true);
