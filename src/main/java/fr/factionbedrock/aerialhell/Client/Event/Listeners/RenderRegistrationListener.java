@@ -202,6 +202,8 @@ public class RenderRegistrationListener
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.SHADOW_BARS, translucent);
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.SKY_CACTUS, cutout);
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.VIBRANT_SKY_CACTUS, cutout);
+        BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.CRYSTALLIZED_TORCH, cutout);
+        BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.CRYSTALLIZED_WALL_TORCH, cutout);
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.FLUORITE_TORCH, cutout);
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.FLUORITE_WALL_TORCH, cutout);
         BlockRenderLayerMap.INSTANCE.putBlock(AerialHellBlocks.RUBY_LANTERN, cutout);
