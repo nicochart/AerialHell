@@ -12,7 +12,7 @@
   "criteria": {
     "shot_shard": {
       "trigger": "minecraft:player_hurt_entity",
-      "conditions": {"damage": {"type": {"is_projectile": true, "direct_entity": {"type": "aerialhell:volucite_shard"}}}}}
+      "conditions": {"damage": {"type": {"is_projectile": true, "direct_entity": {"minecraft:entity_type": "aerialhell:volucite_shard"}}}}}
   },
   "requirements": [["shot_shard"]],
   "rewards": {"function": "aerialhell:advancement_classic_sound"}
