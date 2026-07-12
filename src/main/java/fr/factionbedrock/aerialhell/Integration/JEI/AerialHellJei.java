@@ -11,7 +11,7 @@ import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class AerialHellJei implements IModPlugin
 {
@@ -40,5 +40,5 @@ public class AerialHellJei implements IModPlugin
         registration.addCraftingStation(FreezingRecipeCategory.FREEZING, AerialHellItems.FREEZER);
     }
 
-    @Override public Identifier getPluginUid() {return AerialHell.id("jei");}
+    @Override public ResourceLocation getPluginUid() {return AerialHell.id("jei");}
 }

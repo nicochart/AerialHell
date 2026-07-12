@@ -12,24 +12,23 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity, VoluciteGolemRenderState, VoluciteGolemHeadModel>
 {
 	private static String name = "volucite_golem";
-    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
-    private static final Identifier GUARDIAN_BEAM_NORMAL = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/beam.png");
-    private static final Identifier GUARDIAN_BEAM_LOAD = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/beam_load.png");
-    private static final Identifier GUARDIAN_BEAM_OVERHEAT = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/beam_overheat.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
+    private static final ResourceLocation GUARDIAN_BEAM_NORMAL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/beam.png");
+    private static final ResourceLocation GUARDIAN_BEAM_LOAD = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/beam_load.png");
+    private static final ResourceLocation GUARDIAN_BEAM_OVERHEAT = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/beam_overheat.png");
 
     public VoluciteGolemHeadRender(EntityRendererProvider.Context context)
     {
@@ -65,9 +64,9 @@ public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity
         return new Vec3(d0, d1, d2);
     }
 
-    @Override public Identifier getTextureLocation(VoluciteGolemRenderState renderState) {return TEXTURE;}
+    @Override public ResourceLocation getTextureLocation(VoluciteGolemRenderState renderState) {return TEXTURE;}
 
-    @Nullable public Identifier getBeamTextureLocation(int beamingPhase)
+    @Nullable public ResourceLocation getBeamTextureLocation(int beamingPhase)
     {
         return switch (beamingPhase)
         {
@@ -78,9 +77,9 @@ public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity
         };
     }
 
-    public static RenderType getBeamRenderType(Identifier textureLocation)
+    public static RenderType getBeamRenderType(ResourceLocation textureLocation)
     {
-        return RenderTypes.entityCutoutNoCull(textureLocation);
+        return RenderType.entityCutoutNoCull(textureLocation);
     }
 
     @Override public void submit(VoluciteGolemRenderState renderState, PoseStack matrixStack, SubmitNodeCollector orderedRenderCommandQueue, CameraRenderState cameraRenderState)
@@ -96,7 +95,7 @@ public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity
         }
     }
 
-    private static void renderBeam(PoseStack matrixStack, SubmitNodeCollector orderedRenderCommandQueue, Vec3 beamVector, Identifier textureLocation)
+    private static void renderBeam(PoseStack matrixStack, SubmitNodeCollector orderedRenderCommandQueue, Vec3 beamVector, ResourceLocation textureLocation)
     {
         float y = (float)(beamVector.length());
         beamVector = beamVector.normalize();

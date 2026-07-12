@@ -9,11 +9,11 @@ import java.awt.*;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class EntRender<E extends EntEntity> extends MobRenderer<E, EntRenderState, EntModel<EntRenderState>>
 {
-    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/ent/stellar_ent.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/ent/stellar_ent.png");
 
     public EntRender(EntityRendererProvider.Context context)
     {
@@ -30,5 +30,5 @@ public class EntRender<E extends EntEntity> extends MobRenderer<E, EntRenderStat
 
     @Override public EntRenderState createRenderState() {return new EntRenderState();}
 
-    @Override public Identifier getTextureLocation(EntRenderState renderState) {return TEXTURE;}
+    @Override public ResourceLocation getTextureLocation(EntRenderState renderState) {return TEXTURE;}
 }

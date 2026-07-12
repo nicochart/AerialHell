@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.MultipartEntity;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class MasterPartInfo
 {

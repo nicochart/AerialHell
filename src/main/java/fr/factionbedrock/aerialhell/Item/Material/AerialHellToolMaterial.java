@@ -6,7 +6,7 @@ import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -26,8 +26,8 @@ import java.util.List;
 public class AerialHellToolMaterial extends ExtraAttributeModifiersMaterial
 {
     //need to use these modifier ids so that the extra speed & damage modifier values stack with base vanilla ones
-    public static final Identifier BASE_ATTACK_SPEED_ATTRIBUTE_MODIFIER_ID = Identifier.withDefaultNamespace("base_attack_speed");
-    public static final Identifier BASE_ATTACK_DAMAGE_ATTRIBUTE_MODIFIER_ID = Identifier.withDefaultNamespace("base_attack_damage");
+    public static final ResourceLocation BASE_ATTACK_SPEED_ATTRIBUTE_MODIFIER_ID = ResourceLocation.withDefaultNamespace("base_attack_speed");
+    public static final ResourceLocation BASE_ATTACK_DAMAGE_ATTRIBUTE_MODIFIER_ID = ResourceLocation.withDefaultNamespace("base_attack_damage");
 
     private final ToolMaterial vanillaMaterial;
 

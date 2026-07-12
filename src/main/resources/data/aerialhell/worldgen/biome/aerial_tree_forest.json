@@ -4,23 +4,24 @@
   "has_precipitation": false,
   "temperature_modifier": "none",
   "effects": {
+    "sky_color": 7583106,
+    "fog_color": 7771012,
     "water_color": 3704182,
+    "water_fog_color": 3504470,
     "grass_color": 3247187,
     "foliage_color": 1993823,
-    "grass_color_modifier": "none"
-  },
-  "attributes": {
-    "minecraft:audio/background_music": {
-      "default": {
-        "max_delay": 3600,
-        "min_delay": 1200,
-        "sound": "aerialhell:aerialhell.dimension_music",
-        "replace_current_music": false
+    "grass_color_modifier": "none",
+    "music": [
+      {
+        "data": {
+          "max_delay": 1200,
+          "min_delay": 3600,
+          "replace_current_music": false,
+          "sound": "aerialhell:aerialhell.dimension_music"
+        },
+        "weight": 1
       }
-    },
-    "minecraft:visual/sky_color": 7583106,
-    "minecraft:visual/fog_color": 7771012,
-    "minecraft:visual/water_fog_color": 3504470
+    ]
   },
   "spawners": {
     "monster": [
@@ -148,12 +149,11 @@
       "aerialhell:giant_golden_beech",
       "aerialhell:giant_lapis_robinia",
       "aerialhell:giant_aerial_tree",
+      "aerialhell:stellar_wheat_field_rare",
 
       "aerialhell:forest_aerial_tree_vegetation",
       "aerialhell:golden_beech_vegetation",
       "aerialhell:lapis_robinia_vegetation",
-
-      "aerialhell:stellar_wheat_field_rare",
 
       "aerialhell:giant_ganoderma_applanatum",
       "aerialhell:patch_glowing_boletus",

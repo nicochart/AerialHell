@@ -9,18 +9,17 @@ import fr.factionbedrock.aerialhell.Entity.Projectile.LunaticProjectileEntity;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 //see net.minecraft.client.renderer.entity.DragonFireballRenderer
 public class LightProjectileRender<T extends AbstractLightProjectileEntity> extends EntityRenderer<T, LightProjectileRenderState>
 {
-    public static final Identifier LUNATIC_PROJECTILE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/lunatic_projectile.png");
-    public static final Identifier SHADOW_PROJECTILE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/shadow_projectile.png");
+    public static final ResourceLocation LUNATIC_PROJECTILE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/lunatic_projectile.png");
+    public static final ResourceLocation SHADOW_PROJECTILE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/shadow_projectile.png");
 
     public LightProjectileRender(EntityRendererProvider.Context context)
     {
@@ -59,9 +58,9 @@ public class LightProjectileRender<T extends AbstractLightProjectileEntity> exte
         renderState.texture = getTextureLocation(entity);
     }
 
-    public static RenderType getRenderLayer(Identifier texture) {return RenderTypes.entityCutoutNoCull(texture);}
+    public static RenderType getRenderLayer(ResourceLocation texture) {return RenderType.entityCutoutNoCull(texture);}
 
-    public Identifier getTextureLocation(T entity)
+    public ResourceLocation getTextureLocation(T entity)
     {
         if (entity instanceof LunaticProjectileEntity) {return LUNATIC_PROJECTILE;}
         else {return SHADOW_PROJECTILE;}

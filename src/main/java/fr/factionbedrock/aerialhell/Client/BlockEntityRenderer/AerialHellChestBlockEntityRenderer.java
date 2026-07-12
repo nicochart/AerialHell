@@ -5,14 +5,13 @@ import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellChestMaterials;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellChestVariants;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.renderer.blockentity.state.ChestRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -22,7 +21,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.phys.Vec3;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class AerialHellChestBlockEntityRenderer<T extends ChestBlockEntity> extends ChestRenderer<T>
 {
@@ -37,63 +36,63 @@ public class AerialHellChestBlockEntityRenderer<T extends ChestBlockEntity> exte
 	{
 		if (variant == AerialHellChestVariants.AERIAL_TREE)
 		{
-			return getSpriteIdentifier(chestType, AerialHellChestMaterials.AERIAL_TREE_SINGLE, AerialHellChestMaterials.AERIAL_TREE_LEFT, AerialHellChestMaterials.AERIAL_TREE_RIGHT);
+			return getSpriteResourceLocation(chestType, AerialHellChestMaterials.AERIAL_TREE_SINGLE, AerialHellChestMaterials.AERIAL_TREE_LEFT, AerialHellChestMaterials.AERIAL_TREE_RIGHT);
 		}
 		else if (variant == AerialHellChestVariants.COPPER_PINE)
 		{
-			return getSpriteIdentifier(chestType, AerialHellChestMaterials.COPPER_PINE_SINGLE, AerialHellChestMaterials.COPPER_PINE_LEFT, AerialHellChestMaterials.COPPER_PINE_RIGHT);
+			return getSpriteResourceLocation(chestType, AerialHellChestMaterials.COPPER_PINE_SINGLE, AerialHellChestMaterials.COPPER_PINE_LEFT, AerialHellChestMaterials.COPPER_PINE_RIGHT);
 		}
 		else if (variant == AerialHellChestVariants.LAPIS_ROBINIA)
 		{
-			return getSpriteIdentifier(chestType, AerialHellChestMaterials.LAPIS_ROBINIA_SINGLE, AerialHellChestMaterials.LAPIS_ROBINIA_LEFT, AerialHellChestMaterials.LAPIS_ROBINIA_RIGHT);
+			return getSpriteResourceLocation(chestType, AerialHellChestMaterials.LAPIS_ROBINIA_SINGLE, AerialHellChestMaterials.LAPIS_ROBINIA_LEFT, AerialHellChestMaterials.LAPIS_ROBINIA_RIGHT);
 		}
 		else if (variant == AerialHellChestVariants.STELLAR_JUNGLE_TREE)
 		{
-			return getSpriteIdentifier(chestType, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_SINGLE, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_LEFT, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_RIGHT);
+			return getSpriteResourceLocation(chestType, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_SINGLE, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_LEFT, AerialHellChestMaterials.STELLAR_JUNGLE_TREE_RIGHT);
 		}
 		else if (variant == AerialHellChestVariants.GOLDEN_BEECH)
 		{
-			return getSpriteIdentifier(chestType, AerialHellChestMaterials.GOLDEN_BEECH_SINGLE, AerialHellChestMaterials.GOLDEN_BEECH_LEFT, AerialHellChestMaterials.GOLDEN_BEECH_RIGHT);
+			return getSpriteResourceLocation(chestType, AerialHellChestMaterials.GOLDEN_BEECH_SINGLE, AerialHellChestMaterials.GOLDEN_BEECH_LEFT, AerialHellChestMaterials.GOLDEN_BEECH_RIGHT);
 		}
 		else if (variant == AerialHellChestVariants.SHADOW_PINE)
 		{
-			return getSpriteIdentifier(chestType, AerialHellChestMaterials.SHADOW_PINE_SINGLE, AerialHellChestMaterials.SHADOW_PINE_LEFT, AerialHellChestMaterials.SHADOW_PINE_RIGHT);
+			return getSpriteResourceLocation(chestType, AerialHellChestMaterials.SHADOW_PINE_SINGLE, AerialHellChestMaterials.SHADOW_PINE_LEFT, AerialHellChestMaterials.SHADOW_PINE_RIGHT);
 		}
 		else if (variant == AerialHellChestVariants.GRAY_SHROOM)
 		{
-			return getSpriteIdentifier(chestType, AerialHellChestMaterials.GRAY_SHROOM_SINGLE, AerialHellChestMaterials.GRAY_SHROOM_LEFT, AerialHellChestMaterials.GRAY_SHROOM_RIGHT);
+			return getSpriteResourceLocation(chestType, AerialHellChestMaterials.GRAY_SHROOM_SINGLE, AerialHellChestMaterials.GRAY_SHROOM_LEFT, AerialHellChestMaterials.GRAY_SHROOM_RIGHT);
 		}
 		else if (variant == AerialHellChestVariants.SKY_CACTUS_FIBER)
 		{
-			return getSpriteIdentifier(chestType, AerialHellChestMaterials.SKY_CACTUS_FIBER_SINGLE, AerialHellChestMaterials.SKY_CACTUS_FIBER_LEFT, AerialHellChestMaterials.SKY_CACTUS_FIBER_RIGHT);
+			return getSpriteResourceLocation(chestType, AerialHellChestMaterials.SKY_CACTUS_FIBER_SINGLE, AerialHellChestMaterials.SKY_CACTUS_FIBER_LEFT, AerialHellChestMaterials.SKY_CACTUS_FIBER_RIGHT);
 		}
 		else if (variant == AerialHellChestVariants.GHOST_BOAT)
 		{
-			return getSpriteIdentifier(chestType, AerialHellChestMaterials.GHOST_BOAT_SINGLE, AerialHellChestMaterials.GHOST_BOAT_LEFT, AerialHellChestMaterials.GHOST_BOAT_RIGHT);
+			return getSpriteResourceLocation(chestType, AerialHellChestMaterials.GHOST_BOAT_SINGLE, AerialHellChestMaterials.GHOST_BOAT_LEFT, AerialHellChestMaterials.GHOST_BOAT_RIGHT);
 		}
 		else if (variant == AerialHellChestVariants.MUD)
 		{
-			return getSpriteIdentifier(chestType, AerialHellChestMaterials.MUD_SINGLE, AerialHellChestMaterials.MUD_LEFT, AerialHellChestMaterials.MUD_RIGHT);
+			return getSpriteResourceLocation(chestType, AerialHellChestMaterials.MUD_SINGLE, AerialHellChestMaterials.MUD_LEFT, AerialHellChestMaterials.MUD_RIGHT);
 		}
 		else if (variant == AerialHellChestVariants.LUNATIC)
 		{
-			return getSpriteIdentifier(chestType, AerialHellChestMaterials.LUNATIC_SINGLE, AerialHellChestMaterials.LUNATIC_LEFT, AerialHellChestMaterials.LUNATIC_RIGHT);
+			return getSpriteResourceLocation(chestType, AerialHellChestMaterials.LUNATIC_SINGLE, AerialHellChestMaterials.LUNATIC_LEFT, AerialHellChestMaterials.LUNATIC_RIGHT);
 		}
 		else if (variant == AerialHellChestVariants.GOLDEN_NETHER)
 		{
-			return getSpriteIdentifier(chestType, AerialHellChestMaterials.GOLDEN_NETHER_SINGLE, AerialHellChestMaterials.GOLDEN_NETHER_LEFT, AerialHellChestMaterials.GOLDEN_NETHER_RIGHT);
+			return getSpriteResourceLocation(chestType, AerialHellChestMaterials.GOLDEN_NETHER_SINGLE, AerialHellChestMaterials.GOLDEN_NETHER_LEFT, AerialHellChestMaterials.GOLDEN_NETHER_RIGHT);
 		}
 		else if (variant == AerialHellChestVariants.SHADOW_CATACOMBS)
 		{
-			return getSpriteIdentifier(chestType, AerialHellChestMaterials.SHADOW_CATACOMBS_SINGLE, AerialHellChestMaterials.SHADOW_CATACOMBS_LEFT, AerialHellChestMaterials.SHADOW_CATACOMBS_RIGHT);
+			return getSpriteResourceLocation(chestType, AerialHellChestMaterials.SHADOW_CATACOMBS_SINGLE, AerialHellChestMaterials.SHADOW_CATACOMBS_LEFT, AerialHellChestMaterials.SHADOW_CATACOMBS_RIGHT);
 		}
 		else if (variant == AerialHellChestVariants.VOLUCITE)
 		{
-			return getSpriteIdentifier(chestType, AerialHellChestMaterials.VOLUCITE_SINGLE, AerialHellChestMaterials.VOLUCITE_LEFT, AerialHellChestMaterials.VOLUCITE_RIGHT);
+			return getSpriteResourceLocation(chestType, AerialHellChestMaterials.VOLUCITE_SINGLE, AerialHellChestMaterials.VOLUCITE_LEFT, AerialHellChestMaterials.VOLUCITE_RIGHT);
 		}
-		else //default spriteIdentifier (should never happen)
+		else //default spriteResourceLocation (should never happen)
 		{
-			return getSpriteIdentifier(chestType, Sheets.CHEST_LOCATION, Sheets.CHEST_LOCATION_LEFT, Sheets.CHEST_LOCATION_RIGHT);
+			return getSpriteResourceLocation(chestType, Sheets.CHEST_LOCATION, Sheets.CHEST_LOCATION_LEFT, Sheets.CHEST_LOCATION_RIGHT);
 		}
 	}
 
@@ -123,7 +122,7 @@ public class AerialHellChestBlockEntityRenderer<T extends ChestBlockEntity> exte
 		chestBlockEntityRenderState.material = this.getVariant(blockEntity);
 	}
 
-	private static Material getSpriteIdentifier(ChestType type, Material single, Material left, Material right)
+	private static Material getSpriteResourceLocation(ChestType type, Material single, Material left, Material right)
 	{
 		return switch (type)
 		{
@@ -142,11 +141,11 @@ public class AerialHellChestBlockEntityRenderer<T extends ChestBlockEntity> exte
 		float openness = chestBlockEntityRenderState.open;
 		openness = 1.0F - openness;
 		openness = 1.0F - openness * openness * openness;
-		Material spriteIdentifier = this.getMaterial(chestBlockEntityRenderState.material, chestBlockEntityRenderState.type);
+		Material spriteResourceLocation = this.getMaterial(chestBlockEntityRenderState.material, chestBlockEntityRenderState.type);
 
-		boolean isGhost = spriteIdentifier == AerialHellChestMaterials.GHOST_BOAT_LEFT || spriteIdentifier == AerialHellChestMaterials.GHOST_BOAT_RIGHT || spriteIdentifier == AerialHellChestMaterials.GHOST_BOAT_SINGLE;
-		RenderType renderLayer = isGhost ? spriteIdentifier.renderType(RenderTypes::entityTranslucent) : spriteIdentifier.renderType(RenderTypes::entityCutout);
-		TextureAtlasSprite sprite = this.materials.get(spriteIdentifier);
+		boolean isGhost = spriteResourceLocation == AerialHellChestMaterials.GHOST_BOAT_LEFT || spriteResourceLocation == AerialHellChestMaterials.GHOST_BOAT_RIGHT || spriteResourceLocation == AerialHellChestMaterials.GHOST_BOAT_SINGLE;
+		RenderType renderLayer = isGhost ? spriteResourceLocation.renderType(RenderType::entityTranslucent) : spriteResourceLocation.renderType(RenderType::entityCutout);
+		TextureAtlasSprite sprite = this.materials.get(spriteResourceLocation);
 		if (chestBlockEntityRenderState.type != ChestType.SINGLE)
 		{
 			if (chestBlockEntityRenderState.type == ChestType.LEFT) {orderedRenderCommandQueue.submitModel(this.doubleLeftModel, openness, matrixStack, renderLayer, chestBlockEntityRenderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, sprite, 0, chestBlockEntityRenderState.breakProgress);}

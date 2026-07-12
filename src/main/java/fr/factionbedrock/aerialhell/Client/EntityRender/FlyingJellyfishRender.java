@@ -8,13 +8,13 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.FlyingJellyfishRen
 import fr.factionbedrock.aerialhell.Entity.Monster.Flying.FlyingJellyfishEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class FlyingJellyfishRender<J extends FlyingJellyfishEntity> extends MobRenderer<J, FlyingJellyfishRenderState, FlyingJellyfishModel>
 {	
 	private static String name = "flying_jellyfish";
-	private static final Identifier JELLYFISH = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
-	private static final Identifier JELLYFISH_SHOOTING = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + "_shooting.png");
+	private static final ResourceLocation JELLYFISH = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+	private static final ResourceLocation JELLYFISH_SHOOTING = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + "_shooting.png");
 	
 	public FlyingJellyfishRender(EntityRendererProvider.Context context)
 	{
@@ -35,9 +35,9 @@ public class FlyingJellyfishRender<J extends FlyingJellyfishEntity> extends MobR
 		matrixStack.scale(5.0F, 5.0F, 5.0F);
 	}
 
-	@Override public Identifier getTextureLocation(FlyingJellyfishRenderState renderState) {return renderState.texture;}
+	@Override public ResourceLocation getTextureLocation(FlyingJellyfishRenderState renderState) {return renderState.texture;}
 
-	public Identifier getTextureLocation(J jellyFish)
+	public ResourceLocation getTextureLocation(J jellyFish)
 	{
 		if (jellyFish.isAggressive()) {return JELLYFISH_SHOOTING;}
 		else {return JELLYFISH;}

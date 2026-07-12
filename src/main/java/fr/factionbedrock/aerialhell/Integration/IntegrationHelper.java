@@ -12,7 +12,7 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -34,8 +34,8 @@ public class IntegrationHelper
     public static RecipeHolder<OscillatingRecipe> createOscillatingRecipeEntry(List<Item> ingredients, Item result)
     {
         OscillatingRecipe recipe = createOscillatingRecipe(ingredients, result);
-        Identifier recipeIdentifier = AerialHell.id("oscillating_recipe");
-        return new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, recipeIdentifier), recipe);
+        ResourceLocation recipeResourceLocation = AerialHell.id("oscillating_recipe");
+        return new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, recipeResourceLocation), recipe);
     }
 
     public static OscillatingRecipe createOscillatingRecipe(List<Item> ingredient, Item result)
@@ -46,8 +46,8 @@ public class IntegrationHelper
     public static RecipeHolder<FreezingRecipe> createFreezingRecipeEntry(List<Item> ingredients, Item result)
     {
         FreezingRecipe recipe = createFreezingRecipe(ingredients, result);
-        Identifier recipeIdentifier = AerialHell.id("freezing_recipe");
-        return new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, recipeIdentifier), recipe);
+        ResourceLocation recipeResourceLocation = AerialHell.id("freezing_recipe");
+        return new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, recipeResourceLocation), recipe);
     }
 
     public static FreezingRecipe createFreezingRecipe(List<Item> ingredient, Item result)

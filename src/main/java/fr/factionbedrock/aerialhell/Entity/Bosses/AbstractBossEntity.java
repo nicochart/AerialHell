@@ -6,6 +6,8 @@ import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.SyncedTargetEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.level.GameRules;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -34,13 +36,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
@@ -374,7 +374,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity impleme
 		{
 			//Copy of net.minecraft.entity.vehicle.VehicleEntity.killAndDropItem(Item item) {..}
 			entity.kill(serverWorld);
-			if (serverWorld.getGameRules().get(GameRules.ENTITY_DROPS))
+			if (serverWorld.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
 			{
 				ItemStack itemstack = new ItemStack(boat.getDropItem());
 				itemstack.set(DataComponents.CUSTOM_NAME, this.getCustomName());

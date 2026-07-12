@@ -7,15 +7,15 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.ChestMimicRenderSt
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class ChestMimicRender<T extends AbstractChestMimicEntity> extends MobRenderer<T, ChestMimicRenderState, ChestMimicModel>
 {	
-	private static final Identifier OVERWORLD_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/overworld.png");
-	private static final Identifier AERIAL_TREE_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/aerial_tree.png");
-	private static final Identifier SKY_CACTUS_FIBER_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/sky_cactus_fiber.png");
-	private static final Identifier GOLDEN_BEECH_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/golden_beech.png");
-	private static final Identifier COPPER_PINE_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/copper_pine.png");
+	private static final ResourceLocation OVERWORLD_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/overworld.png");
+	private static final ResourceLocation AERIAL_TREE_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/aerial_tree.png");
+	private static final ResourceLocation SKY_CACTUS_FIBER_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/sky_cactus_fiber.png");
+	private static final ResourceLocation GOLDEN_BEECH_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/golden_beech.png");
+	private static final ResourceLocation COPPER_PINE_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/chest_mimic/copper_pine.png");
 	
 	public ChestMimicRender(EntityRendererProvider.Context context)
 	{
@@ -32,7 +32,7 @@ public class ChestMimicRender<T extends AbstractChestMimicEntity> extends MobRen
 		renderState.mouthOpeningFrequencyMalus = entity.mouthOpeningFrequencyMalus;
 	}
 
-	public Identifier getTextureLocation(T mimic)
+	public ResourceLocation getTextureLocation(T mimic)
 	{
 		if (mimic instanceof AerialTreeChestMimicEntity)
 		{
@@ -56,5 +56,5 @@ public class ChestMimicRender<T extends AbstractChestMimicEntity> extends MobRen
 		}
 	}
 
-	@Override public Identifier getTextureLocation(ChestMimicRenderState renderState) {return renderState.texture;}
+	@Override public ResourceLocation getTextureLocation(ChestMimicRenderState renderState) {return renderState.texture;}
 }

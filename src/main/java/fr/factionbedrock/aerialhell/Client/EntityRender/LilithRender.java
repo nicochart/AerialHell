@@ -7,13 +7,13 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.LilithRenderState;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class LilithRender extends MobRenderer<LilithEntity, LilithRenderState, LilithModel>
 {
 	private static String name = "lilith";
-    private static final Identifier LILITH = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
-    private static final Identifier EVIL_LILITH = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + "_evil.png");
+    private static final ResourceLocation LILITH = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + ".png");
+    private static final ResourceLocation EVIL_LILITH = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name +"/" + name + "_evil.png");
 	
     public LilithRender(EntityRendererProvider.Context context)
 	{
@@ -30,9 +30,9 @@ public class LilithRender extends MobRenderer<LilithEntity, LilithRenderState, L
 		renderState.attackTimer = entity.attackTimer;
 	}
 
-	@Override public Identifier getTextureLocation(LilithRenderState renderState) {return renderState.texture;}
+	@Override public ResourceLocation getTextureLocation(LilithRenderState renderState) {return renderState.texture;}
 
-	public Identifier getTextureLocation(LilithEntity entity)
+	public ResourceLocation getTextureLocation(LilithEntity entity)
     {
 		if (entity.isTransformed()) {return EVIL_LILITH;}
 		else {return LILITH;}

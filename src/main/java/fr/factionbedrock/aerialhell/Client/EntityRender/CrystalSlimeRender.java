@@ -9,11 +9,11 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.CrystalSlimeRender
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalSlimeEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class CrystalSlimeRender extends MobRenderer<CrystalSlimeEntity, CrystalSlimeRenderState, CrystalSlimeModel>
 {	
-	private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/crystal_slime/crystal_slime.png");
+	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/crystal_slime/crystal_slime.png");
 	
 	public CrystalSlimeRender(EntityRendererProvider.Context context)
 	{
@@ -39,10 +39,10 @@ public class CrystalSlimeRender extends MobRenderer<CrystalSlimeEntity, CrystalS
 		renderState.texture = getTextureLocation(entity);
 	}
 
-	public Identifier getTextureLocation(CrystalSlimeEntity entity)
+	public ResourceLocation getTextureLocation(CrystalSlimeEntity entity)
 	{
 		return TEXTURE;
 	}
 
-	@Override public Identifier getTextureLocation(CrystalSlimeRenderState renderState) {return renderState.texture;}
+	@Override public ResourceLocation getTextureLocation(CrystalSlimeRenderState renderState) {return renderState.texture;}
 }

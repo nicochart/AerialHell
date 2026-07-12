@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.State;
 
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class CrystalGolemRenderState extends AerialHellGolemRenderState
 {
-    public Identifier texture;
+    public ResourceLocation texture;
 }

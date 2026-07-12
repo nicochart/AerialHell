@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Mixin;
 
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.phys.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,17 +13,11 @@ import java.util.ArrayList;
 public abstract class ImpactFromPersistentProjectileEntityMixin
 {
     @ModifyVariable(method = "stepMoveAndHit", at = @At("STORE"), ordinal = 0)
-    private ArrayList<EntityHitResult> modifyHitEntitiesList(ArrayList<EntityHitResult> original)
+    private EntityHitResult modifyHitEntitiesList(EntityHitResult hit)
     {
+        if (hit == null) {return null;}
         AbstractArrow projectileEntity = (AbstractArrow) (Object) this;
 
-        ArrayList<EntityHitResult> filtered = new ArrayList<>();
-
-        for (EntityHitResult hit : original)
-        {
-            if (EntityHelper.canProjectileImpact(projectileEntity, hit.getEntity())) {filtered.add(hit);}
-        }
-
-        return filtered;
+        return EntityHelper.canProjectileImpact(projectileEntity, hit.getEntity()) ? hit : null;
     }
 }

@@ -4,23 +4,24 @@
   "has_precipitation": false,
   "temperature_modifier": "none",
   "effects": {
+    "sky_color": 6388367,
+    "fog_color": 7583100,
     "water_color": 4090254,
+    "water_fog_color": 4019819,
     "grass_color": 4425578,
     "foliage_color": 3247187,
-    "grass_color_modifier": "none"
-  },
-  "attributes": {
-    "minecraft:audio/background_music": {
-      "default": {
-        "max_delay": 3600,
-        "min_delay": 1200,
-        "sound": "aerialhell:aerialhell.dimension_music",
-        "replace_current_music": false
+    "grass_color_modifier": "none",
+    "music": [
+      {
+        "data": {
+          "max_delay": 1200,
+          "min_delay": 3600,
+          "replace_current_music": false,
+          "sound": "aerialhell:aerialhell.dimension_music"
+        },
+        "weight": 1
       }
-    },
-    "minecraft:visual/sky_color": 6388367,
-    "minecraft:visual/fog_color": 7583100,
-    "minecraft:visual/water_fog_color": 4019819
+    ]
   },
   "spawners": {
     "monster": [
@@ -122,6 +123,7 @@
 
       "aerialhell:giant_verdigris_agaric",
       "aerialhell:giant_red_mushroom",
+
       "aerialhell:giant_ganoderma_applanatum",
       "aerialhell:patch_blue_meanie",
       "aerialhell:giant_root_shroom",
@@ -136,10 +138,13 @@
 
       "aerialhell:aerial_hell_flowers",
       "aerialhell:patch_stellar_grass",
+
       "aerialhell:patch_stellar_grass_ball",
       "aerialhell:patch_polychrome_fern",
       "aerialhell:patch_bluish_fern",
+
       "aerialhell:patch_stellar_clovers",
+
       "aerialhell:blossoming_vines_rare"
     ],
     []

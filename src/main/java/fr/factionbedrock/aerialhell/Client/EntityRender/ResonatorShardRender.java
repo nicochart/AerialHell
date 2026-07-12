@@ -11,17 +11,17 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 
 //edited copy of ArrowRenderer
 public class ResonatorShardRender<T extends AbstractArrow> extends EntityRenderer<T, ResonatorShardRenderState>
 {
-    public static final Identifier VOLUCITE_SHARD_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/shard/volucite.png");
-    public static final Identifier RUBY_SHARD_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/shard/ruby.png");
+    public static final ResourceLocation VOLUCITE_SHARD_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/shard/volucite.png");
+    public static final ResourceLocation RUBY_SHARD_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/shard/ruby.png");
 
     private final ResonatorShardModel model;
 
@@ -36,14 +36,14 @@ public class ResonatorShardRender<T extends AbstractArrow> extends EntityRendere
         poseStack.pushPose();
         poseStack.mulPose(Axis.YP.rotationDegrees(state.yRot - 90.0F));
         poseStack.mulPose(Axis.ZP.rotationDegrees(state.xRot));
-        submitNodeCollector.submitModel(this.model, state, poseStack, RenderTypes.entityCutout(state.texture), state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor, null);
+        submitNodeCollector.submitModel(this.model, state, poseStack, RenderType.entityCutout(state.texture), state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor, null);
         poseStack.popPose();
         super.submit(state, poseStack, submitNodeCollector, camera);
     }
 
     @Override public ResonatorShardRenderState createRenderState() {return new ResonatorShardRenderState();}
 
-    protected Identifier getTextureLocation(T entity)
+    protected ResourceLocation getTextureLocation(T entity)
     {
         if (entity instanceof RubyShardEntity) {return RUBY_SHARD_TEXTURE;}
         else {return VOLUCITE_SHARD_TEXTURE;}

@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.MultipartEntity;
 
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import net.minecraft.network.syncher.EntityDataAccessor;

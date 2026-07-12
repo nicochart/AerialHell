@@ -9,6 +9,7 @@ import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSkyRenderer;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.SkyRenderer;
 import net.minecraft.client.renderer.state.LevelRenderState;
@@ -19,7 +20,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.material.FogType;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -47,7 +48,7 @@ public class RenderSkyMixin
         if (cameraSubmersionType != FogType.POWDER_SNOW && cameraSubmersionType != FogType.LAVA && !hasBlindnessOrDarknessEffect(camera))
         {
             SkyRenderState skyRenderState = levelRenderState.skyRenderState;
-            if (skyRenderState.skybox != DimensionType.Skybox.NONE)
+            if (skyRenderState.skyType != DimensionSpecialEffects.SkyType.NONE)
             {
                 FramePass framePass = frameGraphBuilder.addPass("sky");
                 worldRenderer.targets.main = framePass.readsAndWrites(worldRenderer.targets.main);
@@ -63,14 +64,18 @@ public class RenderSkyMixin
 
     private static boolean hasBlindnessOrDarknessEffect(Camera camera)
     {
-        Entity var3 = camera.entity();
+        Entity var3 = camera.getEntity();
         if (!(var3 instanceof LivingEntity livingEntity)) {return false;}
         else {return livingEntity.hasEffect(MobEffects.BLINDNESS) || livingEntity.hasEffect(MobEffects.DARKNESS);}
     }
 
     private static void aerialHellRender(LevelRenderState worldRenderState, SkyRenderState skyRenderState)
     {
-        if (ahSkyRenderer == null) {ahSkyRenderer = new AerialHellDimensionSkyRenderer();}
+        if (ahSkyRenderer == null)
+        {
+            ahSkyRenderer = new AerialHellDimensionSkyRenderer();
+            ahSkyRenderer.initTextures();
+        }
 
         PoseStack matrixStack = new PoseStack();
         float red = ARGB.redFloat(skyRenderState.skyColor);
@@ -82,7 +87,7 @@ public class RenderSkyMixin
         float moonAlpha = Math.min(skyRenderState.starBrightness * 2, 1.0F); //Moon brightness = 0.0F during the day, 1.0F during the night. Using / 0.5F and "min" because StarBrightness is never 1.0F (never above 0.6F) apparently
         float sunAlpha = 1.0F - moonAlpha; //Sun brightness = 1.0F during the day, 0.0F during the night
 
-        ahSkyRenderer.renderSunMoonAndStars(matrixStack, skyRenderState.sunAngle, skyRenderState.moonAngle, skyRenderState.starAngle, skyRenderState.moonPhase, sunAlpha, moonAlpha, skyRenderState.starBrightness);
+        ahSkyRenderer.renderSunMoonAndStars(matrixStack, skyRenderState.timeOfDay, skyRenderState.moonPhase, sunAlpha, moonAlpha, skyRenderState.starBrightness);
         if (skyRenderState.shouldRenderDarkDisc) {ahSkyRenderer.renderDarkDisc();}
     }
 }

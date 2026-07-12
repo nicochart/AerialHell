@@ -1,10 +1,10 @@
 package fr.factionbedrock.aerialhell.Client.Util;
 
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class TextureInfo
 {
-    private final Identifier texture;
+    private final ResourceLocation texture;
     private final float u;
     private final float v;
     private final int width;
@@ -12,9 +12,9 @@ public class TextureInfo
     private final int textureWidth;
     private final int textureHeight;
 
-    public TextureInfo(Identifier texture, int textureWidth, int textureHeight) {this(texture, 0.0F, 0.0F, textureWidth, textureHeight, textureWidth, textureHeight);}
+    public TextureInfo(ResourceLocation texture, int textureWidth, int textureHeight) {this(texture, 0.0F, 0.0F, textureWidth, textureHeight, textureWidth, textureHeight);}
 
-    public TextureInfo(Identifier texture, float u, float v, int width, int height, int textureWidth, int textureHeight)
+    public TextureInfo(ResourceLocation texture, float u, float v, int width, int height, int textureWidth, int textureHeight)
     {
         this.texture = texture;
         this.u = u;
@@ -25,7 +25,7 @@ public class TextureInfo
         this.textureHeight = textureHeight;
     }
 
-    public Identifier texture() {return texture;}
+    public ResourceLocation texture() {return texture;}
 
     public float u() {return u;}
 

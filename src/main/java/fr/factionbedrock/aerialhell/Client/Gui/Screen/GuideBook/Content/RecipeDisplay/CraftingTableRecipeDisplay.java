@@ -8,7 +8,7 @@ import fr.factionbedrock.aerialhell.Client.Util.TextureInfo;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 
 public record CraftingTableRecipeDisplay(int lineIndex, Alignment alignment, float scale, Ingredients ingredients, Supplier<ItemStack> result, boolean displayTooltip) implements PageElement
 {
-    private static final TextureInfo CRAFTING_TABLE_GRID_TEXTURE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/recipe/crafting_table_grid_display.png"), 100, 54);
+    private static final TextureInfo CRAFTING_TABLE_GRID_TEXTURE = new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/recipe/crafting_table_grid_display.png"), 100, 54);
 
     @Override public void render(Font font, GuiGraphics graphics, float scale, List<Line> lines, int bookLeft, int bookTop, int mouseX, int mouseY)
     {

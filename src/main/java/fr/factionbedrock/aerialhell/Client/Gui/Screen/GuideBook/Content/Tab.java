@@ -5,7 +5,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ToFloatFunction;
 
 import java.util.function.Supplier;
@@ -14,7 +14,7 @@ import java.util.function.ToIntFunction;
 public class Tab
 {
     private final String key;
-    private final Identifier texture;
+    private final ResourceLocation texture;
     private final Supplier<Integer> bookLeft;
     private final Supplier<Integer> bookTop;
     private final ToIntFunction<Boolean> width; //tab x dimension. the boolean is "isPulledOut"
@@ -29,7 +29,7 @@ public class Tab
     public Tab(String name, ToIntFunction<Boolean> width, ToIntFunction<Boolean> height, Supplier<Integer> bookLeft, Supplier<Integer> bookTop, ToIntFunction<Boolean> relativeXPos, ToIntFunction<Boolean> relativeYPos, ToFloatFunction<Boolean> blitU, ToFloatFunction<Boolean> blitV, int startPageIndex, int endPageIndex)
     {
         this.key = "aerialhell.guide_book.tab." + name;
-        this.texture = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/tab/"+name+".png");
+        this.texture = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/tab/"+name+".png");
         this.bookLeft = bookLeft;
         this.bookTop = bookTop;
         this.width = width;

@@ -8,12 +8,12 @@ import fr.factionbedrock.aerialhell.Entity.AbstractCaterpillarEntity;
 import java.awt.*;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class CaterpillarRender<T extends AbstractCaterpillarEntity> extends MobRenderer<T, CaterpillarRenderState, ForestCaterpillarModel<CaterpillarRenderState>>
 {
 	private static String name_crystal = "crystal_caterpillar";
-	private static final Identifier CRYSTAL = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/caterpillar/" + name_crystal + ".png");
+	private static final ResourceLocation CRYSTAL = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/caterpillar/" + name_crystal + ".png");
 
     public CaterpillarRender(EntityRendererProvider.Context context)
 	{
@@ -22,7 +22,7 @@ public class CaterpillarRender<T extends AbstractCaterpillarEntity> extends MobR
 
 	@Override public CaterpillarRenderState createRenderState() {return new CaterpillarRenderState();}
 
-	@Override public Identifier getTextureLocation(CaterpillarRenderState renderState) {return CRYSTAL;}
+	@Override public ResourceLocation getTextureLocation(CaterpillarRenderState renderState) {return CRYSTAL;}
 
 	@Override public void extractRenderState(T entity, CaterpillarRenderState renderState, float f)
 	{

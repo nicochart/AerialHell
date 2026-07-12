@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class AerialHellModelLayers
 {
@@ -46,6 +46,6 @@ public class AerialHellModelLayers
 
     private static ModelLayerLocation createEntityModelLayer(String id, String layer)
     {
-        return new ModelLayerLocation(Identifier.fromNamespaceAndPath(AerialHell.MODID, id), layer);
+        return new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, id), layer);
     }
 }

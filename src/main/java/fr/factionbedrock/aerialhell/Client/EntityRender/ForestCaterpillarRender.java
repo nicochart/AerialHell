@@ -9,12 +9,12 @@ import java.awt.*;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class ForestCaterpillarRender<T extends AbstractCaterpillarEntity> extends MobRenderer<T, CaterpillarRenderState, ForestCaterpillarModel<CaterpillarRenderState>>
 {
 	private static String name_forest = "forest_caterpillar";
-	private static final Identifier FOREST = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/caterpillar/" + name_forest + ".png");
+	private static final ResourceLocation FOREST = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/caterpillar/" + name_forest + ".png");
 
     public ForestCaterpillarRender(EntityRendererProvider.Context context)
 	{
@@ -24,7 +24,7 @@ public class ForestCaterpillarRender<T extends AbstractCaterpillarEntity> extend
 	@Override
 	public CaterpillarRenderState createRenderState() {return new CaterpillarRenderState();}
 
-	@Override public Identifier getTextureLocation(CaterpillarRenderState renderState) {return FOREST;}
+	@Override public ResourceLocation getTextureLocation(CaterpillarRenderState renderState) {return FOREST;}
 
 	@Override public void extractRenderState(T entity, CaterpillarRenderState renderState, float f)
 	{

@@ -6,7 +6,7 @@ import fr.factionbedrock.aerialhell.Client.Util.TextureInfo;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -73,9 +73,9 @@ public class Page
         return this;
     }
 
-    public Page addTextureDisplay(ElementPositionInfo positionInfo, float scale, String path, float u, float v, int width, int height, int textureWidth, int textureHeight, String tooltipKey) {return this.addTextureDisplay(positionInfo, scale, new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/"+path+".png"), u, v, width, height, textureWidth, textureHeight), tooltipKey);}
+    public Page addTextureDisplay(ElementPositionInfo positionInfo, float scale, String path, float u, float v, int width, int height, int textureWidth, int textureHeight, String tooltipKey) {return this.addTextureDisplay(positionInfo, scale, new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/"+path+".png"), u, v, width, height, textureWidth, textureHeight), tooltipKey);}
     public Page addTextureDisplay(ElementPositionInfo positionInfo, float scale, String path, int width, int height) {return this.addTextureDisplay(positionInfo, scale, path, width, height, "");}
-    public Page addTextureDisplay(ElementPositionInfo positionInfo, float scale, String path, int width, int height, String tooltipKey) {return this.addTextureDisplay(positionInfo, scale, new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/"+path+".png"), width, height), tooltipKey);}
+    public Page addTextureDisplay(ElementPositionInfo positionInfo, float scale, String path, int width, int height, String tooltipKey) {return this.addTextureDisplay(positionInfo, scale, new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/"+path+".png"), width, height), tooltipKey);}
     public Page addTextureDisplay(ElementPositionInfo positionInfo, float scale, TextureInfo textureInfo) {return this.addTextureDisplay(positionInfo, scale, textureInfo, "");}
     public Page addTextureDisplay(ElementPositionInfo positionInfo, float scale, TextureInfo textureInfo, String tooltipKey)
     {

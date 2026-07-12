@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.MultipartEntity;
 
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class PartEntityFieldsAccessor
 {

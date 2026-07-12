@@ -7,12 +7,12 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.AerialHellGolemRen
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudGolemEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class MudGolemRender extends MobRenderer<MudGolemEntity, AerialHellGolemRenderState, MudGolemModel>
 {
 	private static String name = "mud_golem";
-    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
     public MudGolemRender(EntityRendererProvider.Context context)
     {
@@ -27,5 +27,5 @@ public class MudGolemRender extends MobRenderer<MudGolemEntity, AerialHellGolemR
         renderState.attackTimer = entity.attackTimer;
     }
 
-    @Override public Identifier getTextureLocation(AerialHellGolemRenderState renderState) {return TEXTURE;}
+    @Override public ResourceLocation getTextureLocation(AerialHellGolemRenderState renderState) {return TEXTURE;}
 }

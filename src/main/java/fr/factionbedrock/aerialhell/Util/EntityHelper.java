@@ -11,6 +11,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellEnchantments;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -37,8 +38,7 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
-import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -204,7 +204,7 @@ public class EntityHelper
             if (dimensiontransition != null)
             {
                 ServerLevel destinationWorld = dimensiontransition.newLevel();
-                if (serverWorld.isAllowedToEnterPortal(destinationWorld) && (destinationWorld.dimension() == serverWorld.dimension() || entity.canTeleport(serverWorld, destinationWorld)))
+                if (serverWorld.getServer().isAllowedToEnterPortal(destinationWorld) && (destinationWorld.dimension() == serverWorld.dimension() || entity.canTeleport(serverWorld, destinationWorld)))
                 {
                     entity.teleport(dimensiontransition);
                 }

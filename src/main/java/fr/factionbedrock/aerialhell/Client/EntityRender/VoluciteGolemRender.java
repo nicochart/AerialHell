@@ -7,12 +7,12 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteGolemRende
 import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, VoluciteGolemRenderState, VoluciteGolemModel>
 {
 	private static String name = "volucite_golem";
-    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
     public VoluciteGolemRender(EntityRendererProvider.Context context)
     {
@@ -28,5 +28,5 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Voluci
         renderState.eyePosition = entity.getEyePosition(partialTick);
     }
 
-    @Override public Identifier getTextureLocation(VoluciteGolemRenderState renderState) {return TEXTURE;}
+    @Override public ResourceLocation getTextureLocation(VoluciteGolemRenderState renderState) {return TEXTURE;}
 }

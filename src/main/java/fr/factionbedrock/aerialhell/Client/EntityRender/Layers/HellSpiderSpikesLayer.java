@@ -7,22 +7,22 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.HellSpiderRenderSt
 import fr.factionbedrock.aerialhell.Entity.Monster.Spider.HellSpiderEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowSpiderEntity;
 import java.awt.*;
-import net.minecraft.client.model.monster.spider.SpiderModel;
+
+import net.minecraft.client.model.SpiderModel;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.monster.spider.Spider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.monster.Spider;
 
 public class HellSpiderSpikesLayer<S extends HellSpiderRenderState, M extends SpiderModel> extends RenderLayer<S, M>
 {
     private final HellSpiderSpikeModel spiderSpikeModel;
-    private static final Identifier HELL_SPIDER_SPIKES = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/hell_spider/spikes.png");
-    private static final Identifier CRYSTAL_SPIDER_SPIKES = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/crystal_spider/crystals.png");
-    private static final Identifier SHADOW_SPIDER_SPIKES = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/shadow_spider/spikes.png");
+    private static final ResourceLocation HELL_SPIDER_SPIKES = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/hell_spider/spikes.png");
+    private static final ResourceLocation CRYSTAL_SPIDER_SPIKES = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/crystal_spider/crystals.png");
+    private static final ResourceLocation SHADOW_SPIDER_SPIKES = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/shadow_spider/spikes.png");
 
     public HellSpiderSpikesLayer(RenderLayerParent<S,M> layerParent, HellSpiderSpikeModel spikeModel)
     {
@@ -34,15 +34,15 @@ public class HellSpiderSpikesLayer<S extends HellSpiderRenderState, M extends Sp
     {
        if (renderState.layer_texture == CRYSTAL_SPIDER_SPIKES)
        {
-           return RenderTypes.entityTranslucent(CRYSTAL_SPIDER_SPIKES);
+           return RenderType.entityTranslucent(CRYSTAL_SPIDER_SPIKES);
        }
        else
        {
-           return RenderTypes.entityCutout(renderState.layer_texture);
+           return RenderType.entityCutout(renderState.layer_texture);
        }
     }
 
-    public static <T extends Spider> Identifier getTextureLocation(T entity)
+    public static <T extends Spider> ResourceLocation getTextureLocation(T entity)
     {
         if (entity instanceof HellSpiderEntity) {return HELL_SPIDER_SPIKES;}
         else if (entity instanceof ShadowSpiderEntity) {return SHADOW_SPIDER_SPIKES;}

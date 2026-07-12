@@ -2,8 +2,8 @@ package fr.factionbedrock.aerialhell;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.resources.Identifier;
 import fr.factionbedrock.aerialhell.Setup.*;
+import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,5 +22,5 @@ public class AerialHell implements ModInitializer, ClientModInitializer
 		AerialHellClientSetup.init();
 	}
 
-	public static Identifier id(String path) {return Identifier.fromNamespaceAndPath(MODID, path);}
+	public static ResourceLocation id(String path) {return ResourceLocation.fromNamespaceAndPath(MODID, path);}
 }

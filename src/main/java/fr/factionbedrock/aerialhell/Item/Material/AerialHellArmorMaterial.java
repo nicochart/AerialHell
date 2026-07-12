@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Item.Material;
 
 import net.minecraft.core.Holder;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
@@ -41,7 +41,7 @@ public class AerialHellArmorMaterial extends ExtraAttributeModifiersMaterial
         int defense = this.vanillaMaterial.defense().getOrDefault(type, 0);
         ItemAttributeModifiers.Builder modifiers = ItemAttributeModifiers.builder();
         EquipmentSlotGroup slotGroup = EquipmentSlotGroup.bySlot(type.getSlot());
-        Identifier modifierId = this.getModifierId(type.getName());
+        ResourceLocation modifierId = this.getModifierId(type.getName());
         modifiers.add(Attributes.ARMOR, new AttributeModifier(modifierId, defense, AttributeModifier.Operation.ADD_VALUE), slotGroup);
         modifiers.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(modifierId, this.vanillaMaterial.toughness(), AttributeModifier.Operation.ADD_VALUE), slotGroup);
         if (this.vanillaMaterial.knockbackResistance() > 0.0F) {modifiers.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(modifierId, this.vanillaMaterial.knockbackResistance(), AttributeModifier.Operation.ADD_VALUE), slotGroup);}

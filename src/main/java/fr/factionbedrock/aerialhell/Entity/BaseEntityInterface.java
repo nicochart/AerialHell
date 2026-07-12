@@ -5,14 +5,14 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public interface BaseEntityInterface
 {
     Entity getSelf();
     default SynchedEntityData getEntityData() {return getSelf().getEntityData();}
 
-    default void setNeedsSync() {this.getSelf().needsSync = true;} //TODO rename
+    default void setNeedsSync() {this.getSelf().hasImpulse = true;} //TODO rename
     default Level getLevel() {return this.getSelf().level();} //TODO rename
 
     default int getId() {return this.getSelf().getId();}

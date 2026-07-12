@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.BaseMobEntityInterface;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public interface SyncedTargetEntity extends BaseMobEntityInterface
 {

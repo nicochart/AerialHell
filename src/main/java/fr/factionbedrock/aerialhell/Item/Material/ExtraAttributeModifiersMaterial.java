@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Item.Material;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -26,9 +26,9 @@ public abstract class ExtraAttributeModifiersMaterial
         attributesToApply.addAttributeModifiers(this.extraAttributes);
         attributesToApply.addAttributeModifiers(additionalAttributes);
 
-        Identifier modifierId = this.getModifierId(nameSuffix);
+        ResourceLocation modifierId = this.getModifierId(nameSuffix);
         return attributesToApply.applyAll(modifiersBuilder, modifierId, slotGroup);
     }
 
-    public Identifier getModifierId(String nameSuffix) {return Identifier.fromNamespaceAndPath(AerialHell.MODID, "item."+nameSuffix);}
+    public ResourceLocation getModifierId(String nameSuffix) {return ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "item."+nameSuffix);}
 }

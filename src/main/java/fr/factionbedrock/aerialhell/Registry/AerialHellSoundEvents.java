@@ -3,7 +3,7 @@ package fr.factionbedrock.aerialhell.Registry;
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 
 public class AerialHellSoundEvents
@@ -137,7 +137,7 @@ public class AerialHellSoundEvents
 
 	private static SoundEvent register(String name)
 	{
-		Identifier id = AerialHell.id(name);
+		ResourceLocation id = AerialHell.id(name);
 		return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
 	}
 

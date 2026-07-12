@@ -10,12 +10,12 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.State.CrystalGolemRender
 import fr.factionbedrock.aerialhell.Entity.Monster.CrystalGolemEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class CrystalGolemRender extends MobRenderer<CrystalGolemEntity, CrystalGolemRenderState, CrystalGolemModel<CrystalGolemRenderState>>
 {
 	private static String name = "crystal_golem";
-    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/" + name + "/" + name + ".png");
 
     public CrystalGolemRender(EntityRendererProvider.Context context)
     {
@@ -38,7 +38,7 @@ public class CrystalGolemRender extends MobRenderer<CrystalGolemEntity, CrystalG
         renderState.attackTimer = entity.attackTimer;
     }
     
-    public Identifier getTextureLocation(CrystalGolemEntity entity) {return TEXTURE;}
+    public ResourceLocation getTextureLocation(CrystalGolemEntity entity) {return TEXTURE;}
 
-    @Override public Identifier getTextureLocation(CrystalGolemRenderState renderState) {return renderState.texture;}
+    @Override public ResourceLocation getTextureLocation(CrystalGolemRenderState renderState) {return renderState.texture;}
 }

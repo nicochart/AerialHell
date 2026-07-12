@@ -45,7 +45,7 @@ public class UseItemInHandRendererMixin
             int invert = isRightArm ? 1 : -1;
             if (player.isUsingItem() && player.getUseItemRemainingTicks() > 0 && player.getUsedItemHand() == hand)
             {
-                if (!itemStack.getUseAnimation().hasCustomArmTransform()) {this.doApplyItemArmTransform(poseStack, arm, inverseArmHeight);}
+                this.doApplyItemArmTransform(poseStack, arm, inverseArmHeight);
 
                 if (itemStack.getUseAnimation() == ItemUseAnimation.BOW)
                 {

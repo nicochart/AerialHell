@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.RenderType;
 
 public class ShadowTrollShadowLayer extends RenderLayer<ShadowTrollRenderState, ShadowTrollModel>
 {
@@ -25,7 +25,7 @@ public class ShadowTrollShadowLayer extends RenderLayer<ShadowTrollRenderState, 
       if (!renderState.isInvisible)
       {
          this.shadowTrollModel.setupAnim(renderState);
-         queue.submitModel(this.shadowTrollModel, renderState, matrices, RenderTypes.entityTranslucent(renderState.texture), light, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
+         queue.submitModel(this.shadowTrollModel, renderState, matrices, RenderType.entityTranslucent(renderState.texture), light, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
       }
    }
 }

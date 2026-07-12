@@ -4,14 +4,14 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.state.ArrowRenderState;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.util.Mth;
 
 //edited copy or ArrowModel
 public class ResonatorShardModel extends EntityModel<ArrowRenderState>
 {
-    public ResonatorShardModel(ModelPart root) {super(root, RenderTypes::entityCutoutNoCull);}
+    public ResonatorShardModel(ModelPart root) {super(root, RenderType::entityCutoutNoCull);}
 
     //copy or ArrowModel createBodyLayer(), edited position of back
     public static LayerDefinition createBodyLayer()

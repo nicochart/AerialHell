@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Item.Material;
 
 import net.minecraft.core.Holder;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -21,7 +21,7 @@ public class AttributeEntryList
 
     public List<AttributeEntry> get() {return this.attributes;}
 
-    public ItemAttributeModifiers addAllAttributesToBuilder(ItemAttributeModifiers.Builder builder, Identifier modifierId, EquipmentSlotGroup slotGroup)
+    public ItemAttributeModifiers addAllAttributesToBuilder(ItemAttributeModifiers.Builder builder, ResourceLocation modifierId, EquipmentSlotGroup slotGroup)
     {
         for (AttributeEntry entry : this.attributes)
         {

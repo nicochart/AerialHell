@@ -15,7 +15,7 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.ItemStack;
@@ -49,19 +49,19 @@ public class GuideBookScreen extends Screen
     private static final int MAX_LINES_PER_VISUAL_PAGE = 17;
     private static final int MAX_LINES_PER_TECHNICAL_PAGE = MAX_LINES_PER_VISUAL_PAGE * 2;
 
-    private static final TextureInfo PAGE_TEXTURE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/page.png"), BOOK_TEXTURE_WIDTH, BOOK_TEXTURE_HEIGHT);
-    private static final TextureInfo VERTICAL_SEPARATOR_8 = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/vertical_separator_8.png"), 10, 82);
-    private static final TextureInfo VERTICAL_SEPARATOR_9 = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/vertical_separator_9.png"), 10, 92);
-    private static final TextureInfo VERTICAL_SEPARATOR_16 = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/vertical_separator_16.png"), 8, 168);
-    private static final TextureInfo HORIZONTAL_SEPARATOR = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/horizontal_separator.png"), 166, 6);
-    private static final TextureInfo CROSSING_POINT = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/crossing_point.png"), 22, 22);
+    private static final TextureInfo PAGE_TEXTURE = new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/page.png"), BOOK_TEXTURE_WIDTH, BOOK_TEXTURE_HEIGHT);
+    private static final TextureInfo VERTICAL_SEPARATOR_8 = new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/vertical_separator_8.png"), 10, 82);
+    private static final TextureInfo VERTICAL_SEPARATOR_9 = new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/vertical_separator_9.png"), 10, 92);
+    private static final TextureInfo VERTICAL_SEPARATOR_16 = new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/vertical_separator_16.png"), 8, 168);
+    private static final TextureInfo HORIZONTAL_SEPARATOR = new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/horizontal_separator.png"), 166, 6);
+    private static final TextureInfo CROSSING_POINT = new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/crossing_point.png"), 22, 22);
 
-    private static final TextureInfo NAVIGATION_ARROW_PREVIOUS_PAGE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_previous_page.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
-    private static final TextureInfo NAVIGATION_ARROW_PREVIOUS_PAGE_HOVERED = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_previous_page_hovered.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
-    private static final TextureInfo NAVIGATION_ARROW_NEXT_PAGE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_next_page.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
-    private static final TextureInfo NAVIGATION_ARROW_NEXT_PAGE_HOVERED = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_next_page_hovered.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
-    private static final TextureInfo NAVIGATION_BUTTON_HOME_PAGE = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_button_home_page.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
-    private static final TextureInfo NAVIGATION_BUTTON_HOME_PAGE_HOVERED = new TextureInfo(Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_button_home_page_hovered.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
+    private static final TextureInfo NAVIGATION_ARROW_PREVIOUS_PAGE = new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_previous_page.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
+    private static final TextureInfo NAVIGATION_ARROW_PREVIOUS_PAGE_HOVERED = new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_previous_page_hovered.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
+    private static final TextureInfo NAVIGATION_ARROW_NEXT_PAGE = new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_next_page.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
+    private static final TextureInfo NAVIGATION_ARROW_NEXT_PAGE_HOVERED = new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_arrow_next_page_hovered.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
+    private static final TextureInfo NAVIGATION_BUTTON_HOME_PAGE = new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_button_home_page.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
+    private static final TextureInfo NAVIGATION_BUTTON_HOME_PAGE_HOVERED = new TextureInfo(ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/guide_book/navigation_button_home_page_hovered.png"), NAVIGATION_BUTTON_SIZE, NAVIGATION_BUTTON_SIZE);
 
     private float textScale;
 

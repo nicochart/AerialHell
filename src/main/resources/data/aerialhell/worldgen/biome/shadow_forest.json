@@ -4,31 +4,30 @@
   "has_precipitation": false,
   "temperature_modifier": "none",
   "effects": {
+    "sky_color": 1914152,
+    "fog_color": 2377529,
     "water_color": 921102,
+    "water_fog_color": 6959500,
     "grass_color": 6959500,
     "foliage_color": 1900846,
-    "grass_color_modifier": "none"
-  },
-  "attributes": {
-    "minecraft:audio/background_music": {
-      "default": {
-        "max_delay": 3600,
-        "min_delay": 1200,
-        "sound": "aerialhell:aerialhell.shadow_music",
-        "replace_current_music": false
-      }
-    },
-    "minecraft:visual/ambient_particles": [
+    "grass_color_modifier": "none",
+    "music": [
       {
-        "particle": {
-          "type": "aerialhell:shadow_particle"
+        "data": {
+          "max_delay": 1200,
+          "min_delay": 3600,
+          "replace_current_music": false,
+          "sound": "aerialhell:aerialhell.shadow_music"
         },
-        "probability": 0.004
+        "weight": 1
       }
     ],
-    "minecraft:visual/sky_color": 1914152,
-    "minecraft:visual/fog_color": 2377529,
-    "minecraft:visual/water_fog_color": 6959500
+    "particle": {
+      "options": {
+        "type": "aerialhell:shadow_particle"
+      },
+      "probability": 0.004
+    }
   },
   "spawners": {
     "monster": [
@@ -128,8 +127,10 @@
       "aerialhell:patch_stellar_very_tall_grass",
 
       "aerialhell:aerial_hell_flowers",
+
       "aerialhell:patch_polychrome_fern",
       "aerialhell:patch_stellar_clovers",
+
       "aerialhell:patch_shadow_grass",
       "aerialhell:patch_shadow_grass_ball",
       "aerialhell:patch_shadow_brambles",

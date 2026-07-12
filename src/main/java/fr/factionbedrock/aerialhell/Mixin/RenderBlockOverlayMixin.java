@@ -10,10 +10,10 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.ScreenEffectRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
@@ -75,7 +75,7 @@ public class RenderBlockOverlayMixin
     }
 
     //copy of net.minecraft.client.gui.hud.InGameOverlayRenderer renderUnderwaterOverlay method, edited
-    private static void renderCustomOverlay(Player player, PoseStack matrices, MultiBufferSource vertexConsumers, Identifier texture)
+    private static void renderCustomOverlay(Player player, PoseStack matrices, MultiBufferSource vertexConsumers, ResourceLocation texture)
     {
         BlockPos blockPos = BlockPos.containing(player.getX(), player.getEyeY(), player.getZ());
         float brightness = LightTexture.getBrightness(player.level().dimensionType(), player.level().getMaxLocalRawBrightness(blockPos));
@@ -83,16 +83,16 @@ public class RenderBlockOverlayMixin
         float yaw = -player.getYRot() / 64.0F;
         float pitch = player.getXRot() / 64.0F;
         Matrix4f matrix4f = matrices.last().pose();
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderTypes.blockScreenEffect(texture));
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderType.blockScreenEffect(texture));
         vertexConsumer.addVertex(matrix4f, -1.0F, -1.0F, -0.5F).setUv(4.0F + yaw, 4.0F + pitch).setColor(color);
         vertexConsumer.addVertex(matrix4f, 1.0F, -1.0F, -0.5F).setUv(0.0F + yaw, 4.0F + pitch).setColor(color);
         vertexConsumer.addVertex(matrix4f, 1.0F, 1.0F, -0.5F).setUv(0.0F + yaw, 0.0F + pitch).setColor(color);
         vertexConsumer.addVertex(matrix4f, -1.0F, 1.0F, -0.5F).setUv(4.0F + yaw, 0.0F + pitch).setColor(color);
     }
 
-    private static Identifier getBlockTextureLocation(Block block) {return getBlockTextureLocation(BuiltInRegistries.BLOCK.getKey(block).getPath());}
+    private static ResourceLocation getBlockTextureLocation(Block block) {return getBlockTextureLocation(BuiltInRegistries.BLOCK.getKey(block).getPath());}
 
-    private static Identifier getBlockTextureLocation(String id)
+    private static ResourceLocation getBlockTextureLocation(String id)
     {
         return AerialHell.id("textures/block/"+id+".png");
     }

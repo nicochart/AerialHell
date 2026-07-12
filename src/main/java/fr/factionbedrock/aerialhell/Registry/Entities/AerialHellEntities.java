@@ -103,7 +103,7 @@ public class AerialHellEntities
 
 	public static <E extends Entity> EntityType<E> registerPainting(ResourceKey<EntityType<?>> key, EntityType.EntityFactory<E> factory, float width, float height, MobCategory group)
 	{
-		return register(key.identifier().getPath(), EntityType.Builder.of(factory, group).clientTrackingRange(10).updateInterval(Integer.MAX_VALUE).sized(width, height).build(key));
+		return register(key.location().getPath(), EntityType.Builder.of(factory, group).clientTrackingRange(10).updateInterval(Integer.MAX_VALUE).sized(width, height).build(key));
 	}
 
 	public static <E extends Entity> EntityType<E> register(ResourceKey<EntityType<?>> key, EntityType.EntityFactory<E> factory, float width, float height, MobCategory group)
@@ -118,13 +118,13 @@ public class AerialHellEntities
 
 	public static <E extends Entity> EntityType<E> register(ResourceKey<EntityType<?>> key, EntityType.EntityFactory<E> factory, float width, float height, float eyeHeight, MobCategory group, boolean notInPeaceful)
 	{
-		if (notInPeaceful) {return register(key.identifier().getPath(), EntityType.Builder.of(factory, group).notInPeaceful().sized(width, height).eyeHeight(eyeHeight).build(key));}
+		if (notInPeaceful) {return register(key.location().getPath(), EntityType.Builder.of(factory, group).notInPeaceful().sized(width, height).eyeHeight(eyeHeight).build(key));}
 		else {return register(key, factory, width, height, eyeHeight, group);}
 	}
 
 	public static <E extends Entity> EntityType<E> register(ResourceKey<EntityType<?>> key, EntityType.EntityFactory<E> factory, float width, float height, float eyeHeight, MobCategory group)
 	{
-		return register(key.identifier().getPath(), EntityType.Builder.of(factory, group).sized(width, height).eyeHeight(eyeHeight).build(key));
+		return register(key.location().getPath(), EntityType.Builder.of(factory, group).sized(width, height).eyeHeight(eyeHeight).build(key));
 	}
 
 	public static <T extends EntityType<? extends Entity>> T register(String id, T entityType) {return Registry.register(BuiltInRegistries.ENTITY_TYPE, AerialHell.id(id), entityType);}

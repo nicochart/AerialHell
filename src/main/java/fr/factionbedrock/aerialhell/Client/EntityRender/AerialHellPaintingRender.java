@@ -8,12 +8,11 @@ import com.mojang.math.Axis;
 
 import fr.factionbedrock.aerialhell.Entity.AerialHellPaintingEntity;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.PaintingRenderState;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -21,14 +20,14 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.data.AtlasIds;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.decoration.painting.PaintingVariant;
+import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.level.Level;
 
 public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingEntity, PaintingRenderState>
 {
-    private static final Identifier BACK_TEXTURE = Identifier.withDefaultNamespace("back");
+    private static final ResourceLocation BACK_TEXTURE = ResourceLocation.withDefaultNamespace("back");
     private final TextureAtlas paintingAtlases;
     public AerialHellPaintingRender(EntityRendererProvider.Context context)
     {
@@ -45,7 +44,7 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
             matrixStack.mulPose(Axis.YP.rotationDegrees((float)(180 - paintingEntityRenderState.direction.get2DDataValue() * 90)));
             TextureAtlasSprite sprite = this.paintingAtlases.getSprite(paintingVariant.assetId());
             TextureAtlasSprite sprite2 = this.paintingAtlases.getSprite(BACK_TEXTURE);
-            this.renderPainting(matrixStack, orderedRenderCommandQueue, RenderTypes.entitySolidZOffsetForward(sprite2.atlasLocation()), paintingEntityRenderState.lightCoordsPerBlock, paintingVariant.width(), paintingVariant.height(), sprite, sprite2);
+            this.renderPainting(matrixStack, orderedRenderCommandQueue, RenderType.entitySolidZOffsetForward(sprite2.atlasLocation()), paintingEntityRenderState.lightCoordsPerBlock, paintingVariant.width(), paintingVariant.height(), sprite, sprite2);
             matrixStack.popPose();
             super.submit(paintingEntityRenderState, matrixStack, orderedRenderCommandQueue, cameraRenderState);
         }

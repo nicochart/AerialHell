@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.BlockEntity.IntangibleTemporaryBlockEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -12,7 +13,6 @@ import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -76,7 +76,7 @@ public class IntangibleTemporaryBlock extends CollisionConditionHalfTransparentB
         if (world instanceof ServerLevel serverworld && world.getBlockEntity(pos) instanceof IntangibleTemporaryBlockEntity intangibleBlockEntity && intangibleBlockEntity.getBeforeState() != null)
         {
             //copy of net.minecraft.block.AbstractBlock.getLootTableKey()
-            Identifier identifier = BuiltInRegistries.BLOCK.getKey(intangibleBlockEntity.getBeforeState().getBlock());
+            ResourceLocation identifier = BuiltInRegistries.BLOCK.getKey(intangibleBlockEntity.getBeforeState().getBlock());
             ResourceKey<LootTable> lootTable = ResourceKey.create(Registries.LOOT_TABLE, identifier.withPrefix("blocks/"));
             LootParams lootparams = new LootParams.Builder(serverworld).create(LootContextParamSets.EMPTY);
             ServerLevel lootparamserverlevel = lootparams.getLevel();

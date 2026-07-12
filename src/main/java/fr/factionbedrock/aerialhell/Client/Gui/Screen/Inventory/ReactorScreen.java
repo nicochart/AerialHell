@@ -6,15 +6,15 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 
 public class ReactorScreen extends AbstractContainerScreen<ReactorMenu>
 {
-    private static final Identifier REACTOR_BACKGROUND = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/reactor.png");
-    private static final Identifier LIGHT_PROGRESS = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/sprites/container/reactor/light_progress.png");
-    private static final Identifier SHADOW_PROGRESS = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/sprites/container/reactor/shadow_progress.png");
+    private static final ResourceLocation REACTOR_BACKGROUND = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/container/reactor.png");
+    private static final ResourceLocation LIGHT_PROGRESS = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/sprites/container/reactor/light_progress.png");
+    private static final ResourceLocation SHADOW_PROGRESS = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/sprites/container/reactor/shadow_progress.png");
 
     //progress zone
     private static final int CENTER_X = 88;
@@ -40,7 +40,7 @@ public class ReactorScreen extends AbstractContainerScreen<ReactorMenu>
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, REACTOR_BACKGROUND, i, j, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
 
         float proportion = this.menu.getActivePercent() / 100.0F;
-        Identifier progressIdentifier = this.menu.isLightReactor() ? LIGHT_PROGRESS : SHADOW_PROGRESS;
+        ResourceLocation progressResourceLocation = this.menu.isLightReactor() ? LIGHT_PROGRESS : SHADOW_PROGRESS;
 
         float displayedProportion;
 
@@ -57,7 +57,7 @@ public class ReactorScreen extends AbstractContainerScreen<ReactorMenu>
 
         if (fillX > 0 && fillY > 0)
         {
-            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, progressIdentifier, i + CENTER_X - fillX, j + CENTER_Y - fillY, HALF_WIDTH - fillX, HALF_HEIGHT - fillY, fillX * 2, fillY * 2, 140, 50);
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, progressResourceLocation, i + CENTER_X - fillX, j + CENTER_Y - fillY, HALF_WIDTH - fillX, HALF_HEIGHT - fillY, fillX * 2, fillY * 2, 140, 50);
         }
     }
 

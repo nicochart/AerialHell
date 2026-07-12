@@ -1,34 +1,33 @@
 {
-  "temperature": 0.8,
+  "temperature": 0.4,
   "downfall": 0,
   "has_precipitation": false,
   "temperature_modifier": "none",
   "effects": {
+    "sky_color": 6388367,
+    "fog_color": 11190677,
     "water_color": 3304584,
+    "water_fog_color": 7253909,
     "grass_color": 6326322,
     "foliage_color": 2459986,
-    "grass_color_modifier": "none"
-  },
-  "attributes": {
-    "minecraft:audio/background_music": {
-      "default": {
-        "max_delay": 3600,
-        "min_delay": 1200,
-        "sound": "aerialhell:aerialhell.dimension_music",
-        "replace_current_music": false
-      }
-    },
-    "minecraft:visual/ambient_particles": [
+    "grass_color_modifier": "none",
+    "music": [
       {
-        "particle": {
-          "type": "aerialhell:copper_pine_leaves"
+        "data": {
+          "max_delay": 1200,
+          "min_delay": 3600,
+          "replace_current_music": false,
+          "sound": "aerialhell:aerialhell.dimension_music"
         },
-        "probability": 0.01
+        "weight": 1
       }
     ],
-    "minecraft:visual/sky_color": 6388367,
-    "minecraft:visual/fog_color": 11190677,
-    "minecraft:visual/water_fog_color": 7253909
+    "particle": {
+      "options": {
+        "type": "aerialhell:copper_pine_leaves"
+      },
+      "probability": 0.01
+    }
   },
   "spawners": {
     "monster": [
@@ -157,6 +156,7 @@
 
       "aerialhell:patch_climbing_vine",
       "aerialhell:patch_stellar_very_tall_grass",
+
       "aerialhell:aerial_hell_flowers",
       "aerialhell:patch_stellar_grass",
       "aerialhell:patch_glowing_stellar_grass",

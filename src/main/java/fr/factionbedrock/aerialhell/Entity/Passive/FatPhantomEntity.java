@@ -128,7 +128,9 @@ public class FatPhantomEntity extends Phantom implements Enemy
       super.defineSynchedData(builder);
       builder.define(DISAPPEARING, false);
    }
-   
+
+   @Override public boolean isOnFire() {return false;}
+
    public int getDefaultFatPhantomSize()
    {
 	   return 12;

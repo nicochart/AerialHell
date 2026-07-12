@@ -23,7 +23,7 @@ public class WorldHelper
 {
     public static void doAerialHellNeighborUpdate(Level world, BlockPos pos)
     {
-        if (world.dimensionTypeRegistration().is(AerialHellDimensions.AERIAL_HELL_DIMENSION.identifier()))
+        if (world.dimensionTypeRegistration().is(AerialHellDimensions.AERIAL_HELL_DIMENSION.location()))
         {
             FluidState fluidstate = world.getFluidState(pos);
             BlockState blockstate = world.getBlockState(pos);

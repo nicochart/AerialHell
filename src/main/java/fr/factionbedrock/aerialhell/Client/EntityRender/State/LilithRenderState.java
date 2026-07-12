@@ -1,11 +1,11 @@
 package fr.factionbedrock.aerialhell.Client.EntityRender.State;
 
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class LilithRenderState extends LivingEntityRenderState
 {
-    public Identifier texture;
+    public ResourceLocation texture;
     public boolean raisesArms;
     public int attackTimer;
 }
