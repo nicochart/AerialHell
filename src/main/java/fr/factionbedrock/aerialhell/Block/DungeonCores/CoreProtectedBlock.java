@@ -8,6 +8,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.material.PushReaction;
+import org.jspecify.annotations.Nullable;
 
 import static fr.factionbedrock.aerialhell.Registry.AerialHellStateProperties.CORE_PROTECTED;
 
@@ -49,4 +51,6 @@ public class CoreProtectedBlock extends Block implements CoreProtectedPropertyBl
 		else if (this == AerialHellBlocks.LIGHT_VOLUCITE_STONE.get()) {return AerialHellBlocks.CRACKED_LIGHT_VOLUCITE_STONE.get();}
 		else {return this;}
 	}
+
+	@Override public @Nullable PushReaction getPistonPushReaction(BlockState state) {return this.isProtected(state) ? PushReaction.BLOCK : super.getPistonPushReaction(state);}
 }
