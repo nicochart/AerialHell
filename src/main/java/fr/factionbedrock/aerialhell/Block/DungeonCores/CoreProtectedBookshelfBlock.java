@@ -3,6 +3,8 @@ package fr.factionbedrock.aerialhell.Block.DungeonCores;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.material.PushReaction;
+import org.jspecify.annotations.Nullable;
 
 public class CoreProtectedBookshelfBlock extends CoreProtectedBlock
 {
@@ -10,10 +12,8 @@ public class CoreProtectedBookshelfBlock extends CoreProtectedBlock
 	{
 		super(properties);
 	}
-	
-	@Override
-	public float getEnchantPowerBonus(BlockState state, LevelReader world, BlockPos pos)
-    {
-        return 1F;
-    }
+
+	@Override public float getEnchantPowerBonus(BlockState state, LevelReader world, BlockPos pos) {return 1.0F;}
+
+	@Override public @Nullable PushReaction getPistonPushReaction(BlockState state) {return this.isProtected(state) ? PushReaction.BLOCK : super.getPistonPushReaction(state);}
 }

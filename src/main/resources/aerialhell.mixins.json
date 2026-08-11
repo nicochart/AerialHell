@@ -9,7 +9,8 @@
 		"ServerPlayerTickMixin",
 		"RenderSkyMixin",
 		"UseItemFovModifierMixin",
-		"UseItemInHandRendererMixin"
+		"UseItemInHandRendererMixin",
+		"CactusFlowerMayPlaceOnMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

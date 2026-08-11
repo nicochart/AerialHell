@@ -595,10 +595,10 @@ public class AerialHellItemAbilities
     public static final ItemAbility THROW_LIGHTNING_SHURIKEN = ItemAbility.builder().addOnUseModules(ModuleList.builder().addActions(THROW_PROJECTILE.build(AerialHellEntities.LIGHTNING_SHURIKEN.get(), 1.7F, 1.0F)).addSideEffects(COOLDOWN.of(8), SHRINK_USED_ITEM).build()).build();
 
 
-    public static final ItemAbility REGENERATION_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(REGENERATION_TO_SELF.passiveBuild()).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
+    public static final ItemAbility REGENERATION_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(REGENERATION_TO_SELF.passiveBuild(240, 0, 200)).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
     public static final ItemAbility SPEED_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(SPEED_TO_SELF.passiveBuild()).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
     public static final ItemAbility SPEED_II_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(SPEED_TO_SELF.passiveBuild(1)).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
-    public static final ItemAbility NIGHT_VISION_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(NIGHT_VISION_TO_SELF.passiveBuild(240, 0)).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
+    public static final ItemAbility NIGHT_VISION_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(NIGHT_VISION_TO_SELF.passiveBuild(240, 0, 10)).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
     public static final ItemAbility AGILITY_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(SPEED_TO_SELF.passiveBuild(), JUMP_BOOST_TO_SELF.passiveBuild()).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
     public static final ItemAbility HERO_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(HERO_OF_THE_VILLAGE_TO_SELF.passiveBuild()).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
     public static final ItemAbility HEAD_IN_THE_CLOUDS_TOTEM = ItemAbility.builder().addPassiveModules(ModuleList.builder().addActions(HEAD_IN_THE_CLOUDS_TO_SELF.passiveBuild()).addConditions(IN_MAIN_OR_OFF_HAND).build()).build();
