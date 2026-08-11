@@ -25,7 +25,9 @@
 		"RenderBlockOverlayMixin",
 		"RenderHudOverlayMixin",
 		"ItemTintMixin",
-		"RenderSkyMixin"
+		"RenderSkyMixin",
+		"PistonIsPushableMixin",
+		"CactusFlowerMayPlaceOnMixin"
 	],
 	"client" : [
 		"ChestVariantMixin",

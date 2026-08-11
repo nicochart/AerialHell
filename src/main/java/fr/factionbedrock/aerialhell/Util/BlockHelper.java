@@ -46,6 +46,8 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import static fr.factionbedrock.aerialhell.Registry.AerialHellBooleanProperties.CORE_PROTECTED;
+
 public class BlockHelper
 {
     public static boolean isAerialHellPortalFrameBlock(BlockState blockstate)
@@ -384,6 +386,11 @@ public class BlockHelper
             || world.getBlockState(pos).is(AerialHellBlocks.SHADOW_BRAMBLES)
             || world.getBlockState(pos).is(AerialHellBlocks.SHADOW_GLOWING_ROOTS)
             || world.getBlockState(pos).is(AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT);
+    }
+
+    public static boolean isCoreProtected(BlockState state)
+    {
+        return state.getOptionalValue(CORE_PROTECTED).orElse(false);
     }
 
     public static boolean isSurroundingCorrupted(LevelReader level, BlockPos pos)

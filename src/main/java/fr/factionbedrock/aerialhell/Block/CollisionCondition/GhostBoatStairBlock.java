@@ -9,6 +9,7 @@ import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,7 +22,7 @@ public class GhostBoatStairBlock extends StairBlock
 {
 	public GhostBoatStairBlock(BlockState state, BlockBehaviour.Properties settings)
 	{
-		super(state, settings);
+		super(state, settings.isValidSpawn(Blocks::never));
 	}
 
 	@Override public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier handler, boolean intersects)
