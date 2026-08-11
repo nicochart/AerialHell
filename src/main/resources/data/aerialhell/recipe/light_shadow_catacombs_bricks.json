@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "S#S",
+    " S "
+  ],
+  "key": {
+    "#": "aerialhell:shadow_catacombs_bricks",
+    "S": "aerialhell:shadow_shard"
+  },
+  "result": {
+    "id": "aerialhell:light_shadow_catacombs_bricks",
+    "count": 1
+  }
+}
