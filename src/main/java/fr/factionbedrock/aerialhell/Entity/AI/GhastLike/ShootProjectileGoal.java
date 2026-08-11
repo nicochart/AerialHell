@@ -55,7 +55,8 @@ public abstract class ShootProjectileGoal extends Goal
     @Override public void tick()
     {
         LivingEntity target = parentEntity.getTarget();
-        if (target.distanceToSqr(this.parentEntity) < 64 * 64 && this.parentEntity.hasLineOfSight(target)) {
+        if (target != null && target.distanceToSqr(this.parentEntity) < 64 * 64 && this.parentEntity.hasLineOfSight(target))
+        {
             ++this.shootTimer;
 
             if (tryShooting(target)) {this.resetTask();}
