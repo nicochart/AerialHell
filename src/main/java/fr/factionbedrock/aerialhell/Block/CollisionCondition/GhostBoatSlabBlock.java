@@ -10,6 +10,7 @@ import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SlabType;
@@ -22,7 +23,7 @@ public class GhostBoatSlabBlock extends SlabBlock
 {
 	public GhostBoatSlabBlock(Properties properties)
 	{
-		super(properties);
+		super(properties.isValidSpawn(Blocks::never));
 		this.registerDefaultState(this.defaultBlockState());
 	}
 

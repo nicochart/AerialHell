@@ -52,7 +52,7 @@ public class ActionModule extends AbilityModule
     {
         //Effect Target is the one who will get the effect (item owner or other)
         //Test Target is the one who is used by template for mob effect instance creation, i.e. if you do some tests for duration or amplifier, the tests are done on the testTarget.
-        public MobEffect(MobEffectTemplate template, EffectTarget effectTarget, TestTarget testTarget)
+        public MobEffect(MobEffectTemplate template, EffectTarget effectTarget, TestTarget testTarget, int refreshThreshold)
         {
             super((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) ->
             {
@@ -61,7 +61,14 @@ public class ActionModule extends AbilityModule
                 if (targetEntity != null && testEntity != null && !itemOwner.level().isClientSide())
                 {
                     @Nullable MobEffectInstance instance = template.createNewInstance(testEntity);
-                    if (instance != null) {targetEntity.addEffect(instance);}
+                    if (instance == null) {return;}
+                    Holder<net.minecraft.world.effect.MobEffect> effect = instance.getEffect();
+                    MobEffectInstance currentEffect = targetEntity.getEffect(effect);
+
+                    //verifying effect refresh condition
+                    if (currentEffect != null && currentEffect.getAmplifier() == instance.getAmplifier() && instance.getDuration() - currentEffect.getDuration() <= refreshThreshold) {return;}
+
+                    targetEntity.addEffect(instance);
                 }
             });
         }
@@ -80,6 +87,7 @@ public class ActionModule extends AbilityModule
             private boolean ambient;
             private boolean visible;
             private boolean showIcon;
+            private int refreshThreshold;
 
             private Builder(Holder<net.minecraft.world.effect.MobEffect> effect, int amplifier, EffectTarget effectTarget)
             {
@@ -91,6 +99,7 @@ public class ActionModule extends AbilityModule
                 this.ambient = false;
                 this.visible = true;
                 this.showIcon = true;
+                this.refreshThreshold = 10;
             }
 
             public MobEffect.Builder duration(int duration) {this.duration = duration; return this;}
@@ -98,20 +107,23 @@ public class ActionModule extends AbilityModule
             public MobEffect.Builder iconAlwaysVisible(boolean visible) {this.ambient = visible; return this;}
             public MobEffect.Builder visible() {this.visible = false; this.showIcon = false; return this;}
             public MobEffect.Builder invisible() {this.visible = true; this.showIcon = true; return this;}
+            public MobEffect.Builder refreshThreshold(int refreshThreshold) {this.refreshThreshold = refreshThreshold; return this;}
 
-            public MobEffect build() {return new MobEffect(new MobEffectTemplate(this.effect, this.duration, this.amplifier, this.ambient, this.visible, this.showIcon), this.effectTarget, this.defaultTestTarget);}
+            public MobEffect build() {return new MobEffect(new MobEffectTemplate(this.effect, this.duration, this.amplifier, this.ambient, this.visible, this.showIcon), this.effectTarget, this.defaultTestTarget, this.refreshThreshold);}
             //override duration
-            public MobEffect withDuration(int duration) {return new MobEffect(new MobEffectTemplate(this.effect, duration, this.amplifier, this.ambient, this.visible, this.showIcon), this.effectTarget, this.defaultTestTarget);}
-            public MobEffect withDuration(ToIntFunction<LivingEntity> duration, TestTarget testTarget) {return new MobEffect(new MobEffectTemplate(this.effect, duration, (entity) -> this.amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon), this.effectTarget, testTarget);}
+            public MobEffect withDuration(int duration) {return new MobEffect(new MobEffectTemplate(this.effect, duration, this.amplifier, this.ambient, this.visible, this.showIcon), this.effectTarget, this.defaultTestTarget, this.refreshThreshold);}
+            public MobEffect withDuration(ToIntFunction<LivingEntity> duration, TestTarget testTarget) {return new MobEffect(new MobEffectTemplate(this.effect, duration, (entity) -> this.amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon), this.effectTarget, testTarget, this.refreshThreshold);}
             //override duration and amplifier
-            public MobEffect with(int duration, int amplifier) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, this.ambient, this.visible, this.showIcon), this.effectTarget, this.defaultTestTarget);}
-            public MobEffect with(ToIntFunction<LivingEntity> duration, ToIntFunction<LivingEntity> amplifier, TestTarget testTarget) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon), this.effectTarget, testTarget);}
+            public MobEffect with(int duration, int amplifier) {return this.with(duration, amplifier, this.refreshThreshold);}
+            public MobEffect with(int duration, int amplifier, int refreshThreshold) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, this.ambient, this.visible, this.showIcon), this.effectTarget, this.defaultTestTarget, refreshThreshold);}
+            public MobEffect with(ToIntFunction<LivingEntity> duration, ToIntFunction<LivingEntity> amplifier, TestTarget testTarget) {return this.with(duration, amplifier, testTarget, this.refreshThreshold);}
+            public MobEffect with(ToIntFunction<LivingEntity> duration, ToIntFunction<LivingEntity> amplifier, TestTarget testTarget, int refreshThreshold) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, (entity) -> this.ambient, (entity) -> this.visible, (entity) -> this.showIcon), this.effectTarget, testTarget, refreshThreshold);}
             //override duration and visibility. ambient = true to always display icon
-            public MobEffect passiveBuild() {return new MobEffect(new MobEffectTemplate(this.effect, 32, this.amplifier, true, true, true), this.effectTarget, this.defaultTestTarget);}
-            public MobEffect passiveBuild(int amplifier) {return this.passiveBuild(32, amplifier);}
-            public MobEffect passiveBuild(int duration, int amplifier) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, true, true, true), this.effectTarget, this.defaultTestTarget);}
+            public MobEffect passiveBuild() {return new MobEffect(new MobEffectTemplate(this.effect, 32, this.amplifier, true, true, true), this.effectTarget, this.defaultTestTarget, this.refreshThreshold);}
+            public MobEffect passiveBuild(int amplifier) {return this.passiveBuild(32, amplifier, this.refreshThreshold);}
+            public MobEffect passiveBuild(int duration, int amplifier, int refreshThreshold) {return new MobEffect(new MobEffectTemplate(this.effect, duration, amplifier, true, true, true), this.effectTarget, this.defaultTestTarget, refreshThreshold);}
             public MobEffect notVisiblePassiveBuild() {return notVisiblePassiveBuild(0);}
-            public MobEffect notVisiblePassiveBuild(int amplifier) {return new MobEffect(new MobEffectTemplate(this.effect, 32, amplifier, false, false, false), this.effectTarget, this.defaultTestTarget);}
+            public MobEffect notVisiblePassiveBuild(int amplifier) {return new MobEffect(new MobEffectTemplate(this.effect, 32, amplifier, false, false, false), this.effectTarget, this.defaultTestTarget, this.refreshThreshold);}
         }
     }
 

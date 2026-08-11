@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Block.AerialHellBarrelBlock;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -22,7 +23,7 @@ public class GhostBoatBarrelBlock extends AerialHellBarrelBlock
 {
 	public GhostBoatBarrelBlock(Properties properties)
 	{
-		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
+		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true).isValidSpawn((state, blockGetter, blockPos, entityType) -> entityType == AerialHellEntities.GHOST_SLIME_PIRATE.get() || entityType == AerialHellEntities.GHOST_SLIME_NINJA_PIRATE.get()));
 	}
 
 	@Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit)
