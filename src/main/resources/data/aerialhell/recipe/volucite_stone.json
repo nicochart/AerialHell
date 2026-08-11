@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#V#",
+    " # "
+  ],
+  "key": {
+    "V": "aerialhell:volucite_stone",
+    "#": "aerialhell:stellar_cobblestone"
+  },
+  "result": {
+    "id": "aerialhell:volucite_stone",
+    "count": 3
+  }
+}
