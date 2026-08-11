@@ -3,6 +3,8 @@ package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 
 import java.util.Optional;
+
+import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
@@ -33,5 +35,5 @@ public interface CoreProtectedPropertyBlock
         }
     }
 
-    default  boolean isProtected(BlockState state) {return state.getValue(CORE_PROTECTED);}
+    default boolean isProtected(BlockState state) {return BlockHelper.isCoreProtected(state);}
 }
