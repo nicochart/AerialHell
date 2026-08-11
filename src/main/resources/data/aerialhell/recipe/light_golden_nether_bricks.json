@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#F#",
+    " # "
+  ],
+  "key": {
+    "#": "aerialhell:golden_nether_bricks",
+    "F": "aerialhell:fluorite_block"
+  },
+  "result": {
+    "id": "aerialhell:light_golden_nether_bricks",
+    "count": 4
+  }
+}

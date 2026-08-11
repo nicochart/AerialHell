@@ -24,7 +24,8 @@
 		"RenderBlockOverlayMixin",
 		"RenderHudOverlayMixin",
 		"ItemTintMixin",
-		"RenderSkyMixin"
+		"RenderSkyMixin",
+		"PistonIsPushableMixin"
 	],
 	"client" : [
 		"ChestVariantMixin",
