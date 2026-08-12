@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -18,7 +19,7 @@ public class GhostBoatVineRopeSpoolBlock extends VineRopeSpoolBlock {
 
     public GhostBoatVineRopeSpoolBlock(BlockBehaviour.Properties settings)
     {
-        super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
+        super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true).isValidSpawn(Blocks::never));
     }
 
     @Override public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity)

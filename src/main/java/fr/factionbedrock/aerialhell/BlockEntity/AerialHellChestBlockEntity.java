@@ -1,7 +1,11 @@
 package fr.factionbedrock.aerialhell.BlockEntity;
 
+import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
+import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -29,5 +33,15 @@ public class AerialHellChestBlockEntity extends ChestBlockEntity
 	public boolean hasChest()
 	{
 		return !chest.defaultBlockState().isAir();
+	}
+
+	@Override public boolean canPlaceItem(int slot, ItemStack itemStack)
+	{
+		return !this.getBlockState().getOptionalValue(CoreProtectedBlock.CORE_PROTECTED).orElse(false) && super.canPlaceItem(slot, itemStack);
+	}
+
+	@Override public boolean canTakeItem(Container into, int slot, ItemStack itemStack)
+	{
+		return !this.getBlockState().getOptionalValue(CoreProtectedBlock.CORE_PROTECTED).orElse(false) && super.canTakeItem(into, slot, itemStack);
 	}
 }

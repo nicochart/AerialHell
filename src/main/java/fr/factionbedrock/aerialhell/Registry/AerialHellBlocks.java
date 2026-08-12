@@ -406,11 +406,11 @@ public class AerialHellBlocks
     public static final Block CRACKED_LIGHT_VOLUCITE_STONE = register("cracked_light_volucite_stone", new CoreProtectedBlock(BlockBehaviour.Properties.of().strength(2.0F, 6.0F).sound(SoundType.STONE)));
 
     //dungeon cores
-    public static final Block MUD_DUNGEON_CORE = register("mud_dungeon_core", new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(30.0F, 1200.0F).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
-    public static final Block LUNATIC_DUNGEON_CORE = register("lunatic_dungeon_core", new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(40.0F, 1200.0F).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
-    public static final Block SHADOW_CATACOMBS_DUNGEON_CORE = register("shadow_catacombs_dungeon_core", new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(30.0F, 1200.0F).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
-    public static final Block GOLDEN_NETHER_DUNGEON_CORE = register("golden_nether_dungeon_core", new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(50.0F, 1200.0F).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
-    public static final Block VOLUCITE_DUNGEON_CORE = register("volucite_dungeon_core", new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(50.0F, 1200.0F).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
+    public static final Block MUD_DUNGEON_CORE = register("mud_dungeon_core", new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(30.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
+    public static final Block LUNATIC_DUNGEON_CORE = register("lunatic_dungeon_core", new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(40.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
+    public static final Block SHADOW_CATACOMBS_DUNGEON_CORE = register("shadow_catacombs_dungeon_core", new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(30.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
+    public static final Block GOLDEN_NETHER_DUNGEON_CORE = register("golden_nether_dungeon_core", new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(50.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
+    public static final Block VOLUCITE_DUNGEON_CORE = register("volucite_dungeon_core", new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(50.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
 
     //dungeons slabs, stairs & walls
     public static final SlabBlock MUD_BRICKS_SLAB = register("mud_bricks_slab", new CoreProtectedSlabBlock(BlockBehaviour.Properties.ofFullCopy(MUD_BRICKS)));

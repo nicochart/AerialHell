@@ -8,11 +8,11 @@ import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.AerialHellCreativeModeTabs;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.BuildContentsEvent;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellFeatures;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructurePlacements;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellStructures;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.*;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.minecraft.world.level.levelgen.GenerationStep;
 
 public class AerialHellSetup
 {
@@ -21,6 +21,7 @@ public class AerialHellSetup
         AerialHellConfigLoader.loadAndStoreConfigParams();
         registration();
         additionalRegistration();
+        addFeaturesToOverworldBiomes();
         //listen(bus);
         //eventBusListen(NeoForge.EVENT_BUS);
 
@@ -58,6 +59,11 @@ public class AerialHellSetup
         AerialHellFeatures.load();
         //AerialHellConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
         //AerialHellPlacedFeatures.PLACED_FEATURES.register(bus);
+    }
+
+    public static void addFeaturesToOverworldBiomes()
+    {
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES, AerialHellPlacedFeatures.STELLAR_PORTAL_FRAME_ORE);
     }
 
     //public static void listen(IEventBus bus)

@@ -10,10 +10,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
+import static fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock.CORE_PROTECTED;
+
 public class CoreProtectedSlabBlock extends SlabBlock
 {
-	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
-	
 	public CoreProtectedSlabBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#F#",
+    " # "
+  ],
+  "key": {
+    "#": {"item": "aerialhell:mud_bricks"},
+    "F": {"item": "aerialhell:fluorite_block"}
+  },
+  "result": {
+    "id": "aerialhell:light_mud_bricks",
+    "count": 4
+  }
+}

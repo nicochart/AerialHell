@@ -10,8 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class CoreProtectedWallBlock extends WallBlock
 {
 	//Problem with .isOpaque()
-	//public static final BooleanProperty CORE_PROTECTED = BooleanProperty.of("core_protected");
-	
+
 	public CoreProtectedWallBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);

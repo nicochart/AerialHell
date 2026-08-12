@@ -28,23 +28,23 @@ public class ExplosionBehaviorMixin
         }
         else if (block instanceof CoreProtectedChestBlock)
         {
-            if (state.getValue(CoreProtectedChestBlock.CORE_PROTECTED)) {cir.setReturnValue(Optional.of(1200F));}
+            if (state.getValue(CoreProtectedBlock.CORE_PROTECTED)) {cir.setReturnValue(Optional.of(1200F));}
         }
         else if (block instanceof CoreProtectedGlyphBlock)
         {
-            if (state.getValue(CoreProtectedGlyphBlock.CORE_PROTECTED)) {cir.setReturnValue(Optional.of(1200F));}
+            if (state.getValue(CoreProtectedBlock.CORE_PROTECTED)) {cir.setReturnValue(Optional.of(1200F));}
         }
         else if (block instanceof CoreProtectedRotatedPillarBlock)
         {
-            if (state.getValue(CoreProtectedRotatedPillarBlock.CORE_PROTECTED)) {cir.setReturnValue(Optional.of(1200F));}
+            if (state.getValue(CoreProtectedBlock.CORE_PROTECTED)) {cir.setReturnValue(Optional.of(1200F));}
         }
         else if (block instanceof CoreProtectedSlabBlock)
         {
-            if (state.getValue(CoreProtectedSlabBlock.CORE_PROTECTED)) {cir.setReturnValue(Optional.of(1200F));}
+            if (state.getValue(CoreProtectedBlock.CORE_PROTECTED)) {cir.setReturnValue(Optional.of(1200F));}
         }
         else if (block instanceof CoreProtectedStairsBlock)
         {
-            if (state.getValue(CoreProtectedStairsBlock.CORE_PROTECTED)) {cir.setReturnValue(Optional.of(1200F));}
+            if (state.getValue(CoreProtectedBlock.CORE_PROTECTED)) {cir.setReturnValue(Optional.of(1200F));}
         }
         /*else if (block instanceof CoreProtectedWallBlock)
         {

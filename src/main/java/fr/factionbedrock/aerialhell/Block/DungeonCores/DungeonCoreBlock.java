@@ -92,27 +92,27 @@ public class DungeonCoreBlock extends Block
 		}
 		else if (block instanceof CoreProtectedRotatedPillarBlock)
 		{
-			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedRotatedPillarBlock.CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedSlabBlock)
 		{
-			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedSlabBlock.CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedStairsBlock)
 		{
-			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedStairsBlock.CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedChestBlock)
 		{
-			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedChestBlock.CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedTrappedBlock)
 		{
-			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedTrappedBlock.CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedGlyphBlock)
 		{
-			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedTrappedBlock.CORE_PROTECTED, protect));
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
 		}
 		//else if (block instanceof CoreProtectedWallBlock)
 		//{

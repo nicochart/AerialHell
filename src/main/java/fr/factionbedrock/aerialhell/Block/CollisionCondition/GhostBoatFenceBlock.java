@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -18,20 +19,20 @@ public class GhostBoatFenceBlock extends FenceBlock
 {
 	public GhostBoatFenceBlock(BlockBehaviour.Properties settings)
 	{
-		super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
+		super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false).isValidSpawn((state, blockGetter, blockPos, entityType) -> entityType == AerialHellEntities.GHOST_SLIME_PIRATE || entityType == AerialHellEntities.GHOST_SLIME_NINJA_PIRATE));
 	}
 
-	@Override public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity)
+	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
 	{
 		entity.fallDistance = 0.0F;
 		if (entity.getDeltaMovement().y < 0.0)
 		{
-			if (entity instanceof LivingEntity livingEntity) {this.livingEntityInside(state, world, pos, livingEntity);}
-			else {this.nonLivingEntityInside(state, world, pos, entity);}
+			if (entity instanceof LivingEntity livingEntity) {this.livingEntityInside(state, level, pos, livingEntity);}
+			else {this.nonLivingEntityInside(state, level, pos, entity);}
 		}
 	}
 
-	public void livingEntityInside(BlockState state, Level world, BlockPos pos, LivingEntity entity)
+	public void livingEntityInside(BlockState state, Level level, BlockPos pos, LivingEntity entity)
 	{
 		if (!canEntityCollide(entity))
 		{
@@ -40,7 +41,7 @@ public class GhostBoatFenceBlock extends FenceBlock
 		}
 	}
 
-	public void nonLivingEntityInside(BlockState state, Level world, BlockPos pos, Entity entity)
+	public void nonLivingEntityInside(BlockState state, Level level, BlockPos pos, Entity entity)
 	{
 		EntityHelper.multiplyDeltaMovement(entity, CollisionConditionHalfTransparentBlock.default_non_living_entity_xz_delta_movement_factor, CollisionConditionHalfTransparentBlock.default_y_delta_movement_factor);
 	}
@@ -56,5 +57,5 @@ public class GhostBoatFenceBlock extends FenceBlock
 
 	protected boolean canEntityCollide(Entity entity) {return !EntityHelper.isImmuneToGhostBlockCollision(entity);}
 
-	@Override public VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {return Shapes.empty();}
+	@Override public VoxelShape getVisualShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {return Shapes.empty();}
 }

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#L#",
+    " # "
+  ],
+  "key": {
+    "L": {"item": "aerialhell:roof_lunatic_stone"},
+    "#": {"item": "aerialhell:stellar_cobblestone"}
+  },
+  "result": {
+    "id": "aerialhell:roof_lunatic_stone",
+    "count": 3
+  }
+}

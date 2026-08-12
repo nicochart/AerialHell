@@ -12,10 +12,10 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
+import static fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock.CORE_PROTECTED;
+
 public class CoreProtectedGlyphBlock extends GlyphBlock
 {
-	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
-
 	public CoreProtectedGlyphBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);

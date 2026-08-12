@@ -26,8 +26,8 @@ public class UseItemFovModifierMixin
             {
                 float scale = Math.min((float)player.getTicksUsingItem() / AerialHellItemAbilities.RESONATOR_USE_TICKS, 1.0F);
                 modifier *= 1.0F - Mth.square(scale) * 0.15F;
+                callbackInfoReturnable.setReturnValue(Mth.lerp((Minecraft.getInstance().options.fovEffectScale().get()).floatValue(), 1.0F, modifier));
             }
-            callbackInfoReturnable.setReturnValue(Mth.lerp((Minecraft.getInstance().options.fovEffectScale().get()).floatValue(), 1.0F, modifier));
         }
     }
 }

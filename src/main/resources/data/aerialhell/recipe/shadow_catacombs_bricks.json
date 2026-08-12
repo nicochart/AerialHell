@@ -2,15 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " # ",
-    "#G#",
+    "#L#",
     " # "
   ],
   "key": {
-    "G": {"item": "aerialhell:golden_nether_bricks"},
+    "L": {"item": "aerialhell:shadow_catacombs_bricks"},
     "#": {"item": "aerialhell:stellar_stone_bricks"}
   },
   "result": {
-    "id": "aerialhell:golden_nether_bricks",
+    "id": "aerialhell:shadow_catacombs_bricks",
     "count": 3
   }
 }
