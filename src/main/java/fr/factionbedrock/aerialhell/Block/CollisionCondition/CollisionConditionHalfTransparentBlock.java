@@ -1,8 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
-import com.mojang.authlib.minecraft.TelemetrySession;
-import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.GhostSlimePirateEntity;
-import fr.factionbedrock.aerialhell.Entity.Monster.Pirate.SlimePirateEntity;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -25,10 +23,10 @@ public abstract class CollisionConditionHalfTransparentBlock extends HalfTranspa
 
 	public CollisionConditionHalfTransparentBlock(Properties properties)
 	{
-		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
+		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true).isValidSpawn((state, blockGetter, blockPos, entityType) -> entityType == AerialHellEntities.GHOST_SLIME_PIRATE.get() || entityType == AerialHellEntities.GHOST_SLIME_NINJA_PIRATE.get()));
 	}
-	
-	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
+
+	@Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
 	{
 		entity.fallDistance = 0.0F;
 		if (entity.getDeltaMovement().y < 0.0)

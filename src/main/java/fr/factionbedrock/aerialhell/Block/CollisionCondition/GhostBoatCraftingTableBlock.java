@@ -1,9 +1,9 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import fr.factionbedrock.aerialhell.Block.AerialHellCraftingTableBlock;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,7 +19,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GhostBoatCraftingTableBlock extends AerialHellCraftingTableBlock
 {
-    public GhostBoatCraftingTableBlock(Properties prop) {super(prop.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false));}
+    public GhostBoatCraftingTableBlock(Properties prop) {super(prop.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isValidSpawn((state, blockGetter, blockPos, entityType) -> entityType == AerialHellEntities.GHOST_SLIME_PIRATE.get() || entityType == AerialHellEntities.GHOST_SLIME_NINJA_PIRATE.get()));}
 
     @Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit)
     {

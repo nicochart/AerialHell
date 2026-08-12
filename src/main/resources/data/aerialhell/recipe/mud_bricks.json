@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#M#",
+    " # "
+  ],
+  "key": {
+    "M": {"item": "aerialhell:mud_bricks"},
+    "#": {"item": "aerialhell:stellar_dirt"}
+  },
+  "result": {
+    "id": "aerialhell:mud_bricks",
+    "count": 3
+  }
+}

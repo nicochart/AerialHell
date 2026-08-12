@@ -10,7 +10,6 @@ import net.minecraft.world.level.BlockGetter;
 public class CoreProtectedWallBlock extends WallBlock
 {
 	//Problem with .isOpaque()
-	//public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
 	
 	public CoreProtectedWallBlock(Properties properties)
 	{

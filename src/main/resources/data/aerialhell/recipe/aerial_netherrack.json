@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#A#",
+    " # "
+  ],
+  "key": {
+    "A": {"item": "aerialhell:aerial_netherrack"},
+    "#": {"item": "minecraft:netherrack"}
+  },
+  "result": {
+    "id": "aerialhell:aerial_netherrack",
+    "count": 3
+  }
+}

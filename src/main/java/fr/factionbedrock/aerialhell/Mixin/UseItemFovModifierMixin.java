@@ -26,8 +26,8 @@ public class UseItemFovModifierMixin
             {
                 float scale = Math.min((float)player.getTicksUsingItem() / AerialHellItemAbilities.RESONATOR_USE_TICKS, 1.0F);
                 modifier *= 1.0F - Mth.square(scale) * 0.15F;
+                callbackInfoReturnable.setReturnValue(ClientHooks.getFieldOfViewModifier(player, modifier));
             }
-            callbackInfoReturnable.setReturnValue(ClientHooks.getFieldOfViewModifier(player, modifier));
         }
     }
 }

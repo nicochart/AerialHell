@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Block.CollisionCondition.CollisionConditionH
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,7 +21,7 @@ public class SolidEtherBlock extends CollisionConditionHalfTransparentBlock
 	
 	public SolidEtherBlock(BlockBehaviour.Properties properties)
 	{
-		super(properties);
+		super(properties.isValidSpawn(Blocks::never));
 		this.registerDefaultState(this.defaultBlockState());
 	}
 

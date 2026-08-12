@@ -14,10 +14,10 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 
+import static fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock.CORE_PROTECTED;
+
 public class CoreProtectedChestBlock extends AerialHellChestBlock
 {
-	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
-	
 	public CoreProtectedChestBlock(Properties builder)
 	{
 		super(builder);

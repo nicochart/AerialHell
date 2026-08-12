@@ -8,7 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -22,12 +22,12 @@ public abstract class CollisionConditionHalfTransparentBlockEntity extends BaseE
 
     protected CollisionConditionHalfTransparentBlockEntity(Properties properties)
     {
-        super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
+        super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true).isValidSpawn(Blocks::never));
     }
 
     @Override protected RenderShape getRenderShape(BlockState pState) {return RenderShape.MODEL;}
 
-    @Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
+    @Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)
     {
         entity.fallDistance = 0.0F;
         if (entity.getDeltaMovement().y < 0.0)
