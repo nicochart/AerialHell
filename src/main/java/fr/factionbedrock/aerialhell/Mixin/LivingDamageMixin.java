@@ -8,66 +8,25 @@ import fr.factionbedrock.aerialhell.Util.FieldAccessor;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import fr.factionbedrock.aerialhell.Util.MutableFloat;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(LivingEntity.class)
 public class LivingDamageMixin
 {
-    @Inject(method = "hurtServer", at = @At("RETURN"), cancellable = true)
-    private void onDamage(ServerLevel serverWorld, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir)
+    @ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, ordinal = 0)
+    private float modifyDamage(float damage, ServerLevel serverLevel, DamageSource damageSource)
     {
         LivingEntity damagedEntity = (LivingEntity) (Object) this;
-        Entity sourceEntity = damageSource.getEntity();
 
-        float baseAmount = calculateBaseAmount(serverWorld, damagedEntity, damageSource, amount);
-        float damageMultiplier = applyDamageEffectsAndCalculateDamageMultiplier(sourceEntity, damagedEntity, damageSource, baseAmount);
-        applyMultipliedDamage(serverWorld, damagedEntity, damageSource, baseAmount, damageMultiplier);
-    }
+        float damageMultiplier = applyDamageEffectsAndCalculateDamageMultiplier(damageSource.getEntity(), damagedEntity, damageSource, damage);
 
-    //target method (damage(..)) already dealt baseAmount damage
-    //apply damage multiplier by applying damage diff (adding or removing health)
-    private static void applyMultipliedDamage(ServerLevel serverWorld, LivingEntity damagedEntity, DamageSource source, float baseAmount, float multiplier)
-    {
-        if (multiplier == 1) {return;}
-        else if (multiplier > 1)
-        {
-            float additionalDamage = (multiplier - 1) * baseAmount;
-            float totalDamage = multiplier * baseAmount;
-            if (totalDamage > damagedEntity.lastHurt)
-            {
-                damagedEntity.actuallyHurt(serverWorld, source, additionalDamage);
-                damagedEntity.lastHurt = totalDamage;
-            }
-        }
-        else //multiplier < 1
-        {
-            float healthToRestore = (1 - multiplier) * baseAmount;
-            float totalDamage = multiplier * baseAmount;
-            damagedEntity.setHealth(damagedEntity.getHealth() + healthToRestore);
-            damagedEntity.lastHurt = totalDamage;
-        }
-    }
-
-    private static float calculateBaseAmount(ServerLevel serverWorld, LivingEntity damagedEntity, DamageSource source, float amount)
-    {
-        float baseAmount = amount;
-        float blockedAmount = damagedEntity.applyItemBlocking(serverWorld, source, amount);
-        baseAmount -= blockedAmount;
-        if (baseAmount <= 0.0F) {return 0.0F;}
-        if (source.is(DamageTypeTags.IS_FREEZING) && damagedEntity.is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {baseAmount *= 5.0F;}
-        if (source.is(DamageTypeTags.DAMAGES_HELMET) && !damagedEntity.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {baseAmount *= 0.75F;}
-
-        return baseAmount;
+        return damage * damageMultiplier;
     }
 
     private static float applyDamageEffectsAndCalculateDamageMultiplier(Entity sourceEntity, LivingEntity target, DamageSource damageSource, float baseAmount)
