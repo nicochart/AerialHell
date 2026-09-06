@@ -955,6 +955,7 @@
   "death.attack.aerialhell.cursed_tool": "%1$s hat mit einem verfluchten Werkzeug Selbstmord begangen",
   "death.attack.aerialhell.cursed_tool.player": "%1$s hat mit einem verfluchten Werkzeug Selbstmord begangen",
   "death.attack.aerialhell.lunatic_projection": "%1$s hat das Licht betreten",
+  "death.attack.aerialhell.lunatic_projection.player": "%1$s hat das Licht betreten",
   "death.attack.aerialhell.god_bless": "%1$s hatte Gottes Segen erhalten",
   "death.attack.aerialhell.god_bless.player": "%1$s hatte durch %2$s Gottes Segen erhalten",
   "death.attack.aerialhell.golem_beam": "%1$s wurde von einen Golemstrahl getötet",
