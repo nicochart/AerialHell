@@ -941,6 +941,7 @@
   "death.attack.aerialhell.cursed_tool": "%1$s se suicidó con una herramienta maldita",
   "death.attack.aerialhell.cursed_tool.player": "%1$s se suicidó con una herramienta maldita",
   "death.attack.aerialhell.lunatic_projection": "%1$s entró en la luz",
+  "death.attack.aerialhell.lunatic_projection.player": "%1$s entró en la luz de %2$s",
   "death.attack.aerialhell.god_bless": "%1$s recibió la bendición divina",
   "death.attack.aerialhell.god_bless.player": "%1$s recibió la bendición divina por parte de %2$s",
   "death.attack.aerialhell.golem_beam": "%1$s murió por el rayo de un golem",
