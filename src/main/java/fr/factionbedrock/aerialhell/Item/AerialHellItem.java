@@ -54,10 +54,7 @@ public class AerialHellItem extends WithInformationItem implements AerialHellIte
 	@Override public UseAnim itemUseAnimation() {return this.itemUseAnimation;}
 
 	//applying tick (passive) tool ability modules
-	@Override public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected)
-	{
-		this.ahInventoryTick(stack, level, entity, slotId, isSelected);
-	}
+	@Override public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {this.ahInventoryTick(stack, level, entity, slotId, isSelected);}
 
 	//applying use tool ability modules
 	@Override public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {return this.ahUse(level, player, hand, super::use);}
@@ -67,10 +64,7 @@ public class AerialHellItem extends WithInformationItem implements AerialHellIte
 	@Override public UseAnim getUseAnimation(ItemStack itemStack) {return this.ahGetUseAnimation(itemStack, super::getUseAnimation);}
 
 	//applying releaseUsing tool ability modules
-	@Override public void releaseUsing(ItemStack itemStack, Level level, LivingEntity itemOwner, int remainingTime)
-	{
-		this.ahReleaseUsing(itemStack, level, itemOwner, remainingTime);
-	}
+	@Override public void releaseUsing(ItemStack itemStack, Level level, LivingEntity itemOwner, int remainingTime) {this.ahReleaseUsing(itemStack, level, itemOwner, remainingTime);}
 
 	@Override public int getEnchantmentValue() {return this.enchantmentValue;}
 
@@ -93,7 +87,6 @@ public class AerialHellItem extends WithInformationItem implements AerialHellIte
 		private UseAnim itemUseAnimation;
 		@Nullable private AbilitySelector abilitySelector;
 		private List<UseInteractionType> useInteractionTypes;
-		@Nullable private AerialHellToolMaterial toolMaterial;
 		private boolean lockedComponents;
 		public Properties() {super(); this.maxUseDuration = 0; this.enchantmentValue = 0; this.canDisableShield = false; this.repairIngredient = Ingredient.of(); this.itemUseAnimation = UseAnim.NONE; this.useInteractionTypes = new ArrayList<>(); this.lockedComponents = false;}
 
@@ -104,11 +97,9 @@ public class AerialHellItem extends WithInformationItem implements AerialHellIte
 		public UseAnim itemUseAnimation() {return this.itemUseAnimation;}
 		@Nullable public AbilitySelector abilitySelector() {return this.abilitySelector;}
 		public List<UseInteractionType> useInteractionTypes() {return this.useInteractionTypes;}
-		@Nullable public AerialHellToolMaterial toolMaterial() {return this.toolMaterial;}
 
 		public Properties tool(AerialHellToolMaterial material, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
-			this.toolMaterial = material;
 			return material.applyToolProperties(this, minesEfficiently, attackDamage, attackSpeed, additionalAttributes).lockComponents();
 		}
 
@@ -145,7 +136,6 @@ public class AerialHellItem extends WithInformationItem implements AerialHellIte
 		public Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.sword(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
 		public Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
-			this.toolMaterial = material;
 			return material.applySwordProperties(this, attackDamage, attackSpeed, additionalAttributes).lockComponents();
 		}
 
