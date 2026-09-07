@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Mixin;
 
 import fr.factionbedrock.aerialhell.Item.Ability.MiningUseSituationInfo;
 import fr.factionbedrock.aerialhell.Item.AerialHellItem;
+import fr.factionbedrock.aerialhell.Item.AerialHellItemInterface;
 import fr.factionbedrock.aerialhell.Item.Armor.AerialHellArmorItem;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
@@ -32,7 +33,7 @@ public class BlockBreakingSpeedMixin
 
         MutableFloat miningSpeedMultiplier = new MutableFloat(1.0F);
         FieldAccessor<Float> miningSpeedMultiplierAccessor = new FieldAccessor<>(miningSpeedMultiplier::get, miningSpeedMultiplier::set);
-        if (miningItemStack.getItem() instanceof AerialHellItem ahItem)
+        if (miningItemStack.getItem() instanceof AerialHellItemInterface ahItem)
         {
             ahItem.onMining(miningItemStack, itemOwner, new MiningUseSituationInfo(blockstate, miningSpeedMultiplierAccessor));
         }

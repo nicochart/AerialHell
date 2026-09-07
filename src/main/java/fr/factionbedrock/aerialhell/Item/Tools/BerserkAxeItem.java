@@ -23,11 +23,11 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Random;
 
-public class BerserkAxeItem extends AerialHellItem
+public class BerserkAxeItem extends AerialHellAxeItem
 {
 	private int weight_ticks;
 	
-	public BerserkAxeItem(Properties properties)
+	public BerserkAxeItem(AerialHellItem.Properties properties)
 	{
 		super(properties);
 		this.weight_ticks = 0;
