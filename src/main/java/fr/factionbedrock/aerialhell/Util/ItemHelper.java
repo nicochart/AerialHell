@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Util;
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Item.AerialHellItem;
+import fr.factionbedrock.aerialhell.Item.AerialHellItemInterface;
 import fr.factionbedrock.aerialhell.Item.Armor.AerialHellArmorItem;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -37,12 +38,12 @@ import java.util.function.Predicate;
 
 public class ItemHelper
 {
-    public static void forEachAerialHellItem(List<EquippedItemStack> items, BiConsumer<AerialHellItem, EquippedItemStack> action)
+    public static void forEachAerialHellItem(List<EquippedItemStack> items, BiConsumer<AerialHellItemInterface, EquippedItemStack> action)
     {
         for (EquippedItemStack e : items)
         {
             ItemStack stack = e.stack();
-            if (stack.getItem() instanceof AerialHellItem item) {action.accept(item, e);}
+            if (stack.getItem() instanceof AerialHellItemInterface item) {action.accept(item, e);}
         }
     }
 

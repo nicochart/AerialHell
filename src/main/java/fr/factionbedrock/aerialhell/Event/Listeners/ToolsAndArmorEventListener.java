@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Shadow.ShadowTrollEntity;
 import fr.factionbedrock.aerialhell.Item.Ability.DamageUseSituationInfo;
 import fr.factionbedrock.aerialhell.Item.Ability.MiningUseSituationInfo;
 import fr.factionbedrock.aerialhell.Item.AerialHellItem;
+import fr.factionbedrock.aerialhell.Item.AerialHellItemInterface;
 import fr.factionbedrock.aerialhell.Item.Armor.AerialHellArmorItem;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
@@ -100,7 +101,7 @@ public class ToolsAndArmorEventListener
 		float speed = event.getOriginalSpeed();
 
 		MutableFloat miningSpeedMultiplier = new MutableFloat(1.0F);
-		if (miningItemStack.getItem() instanceof AerialHellItem ahItem)
+		if (miningItemStack.getItem() instanceof AerialHellItemInterface ahItem)
 		{
 			ahItem.onMining(miningItemStack, itemOwner, new MiningUseSituationInfo(state, new FieldAccessor<>(miningSpeedMultiplier::get, miningSpeedMultiplier::set)));
 		}

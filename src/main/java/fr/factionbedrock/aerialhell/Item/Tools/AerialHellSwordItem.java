@@ -1,39 +1,45 @@
-package fr.factionbedrock.aerialhell.Item.Armor;
+package fr.factionbedrock.aerialhell.Item.Tools;
 
-import fr.factionbedrock.aerialhell.Item.Ability.*;
+import fr.factionbedrock.aerialhell.Client.Util.ClientHelper;
+import fr.factionbedrock.aerialhell.Item.Ability.AbilitySelector;
 import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import fr.factionbedrock.aerialhell.Item.AerialHellItemInterface;
-import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterial;
-import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Supplier;
 
-public class AerialHellArmorItem extends ArmorItem implements AerialHellItemInterface
+public class AerialHellSwordItem extends SwordItem implements AerialHellItemInterface
 {
-    private final Supplier<ItemAttributeModifiers> aerialHellDefaultModifiers;
+    public final int maxUseDuration;
+    public final int enchantmentValue;
+    public final boolean canDisableShield;
+    public final Ingredient repairIngredient;
     public final UseAnim itemUseAnimation;
     @Nullable public final AbilitySelector abilitySelector;
     public final List<AerialHellItem.UseInteractionType> useInteractionToolTypes;
-    public final int maxUseDuration;
-    public AerialHellArmorItem(AerialHellArmorMaterial armorMaterial, Type type, AerialHellItem.Properties properties) {this(armorMaterial, type, new AttributeEntryList(), properties);}
-    public AerialHellArmorItem(AerialHellArmorMaterial armorMaterial, Type type, AttributeEntryList additionalAttributes, AerialHellItem.Properties properties)
+
+    public AerialHellSwordItem(AerialHellItem.Properties properties)
     {
-        super(armorMaterial.vanillaMaterial, type, properties.durability(type.getDurability(armorMaterial.durability)));
+        super(Tiers.IRON /*tier behavior is overridden*/, properties);
+        this.components = properties.buildAndValidateComponents();
+        this.maxUseDuration = properties.maxUseDuration();
+        this.enchantmentValue = properties.enchantmentValue();
+        this.canDisableShield = properties.canDisableShield();
+        this.repairIngredient = properties.repairIngredient();
         this.itemUseAnimation = properties.itemUseAnimation();
         this.abilitySelector = properties.abilitySelector();
         this.useInteractionToolTypes = properties.useInteractionTypes();
-        this.maxUseDuration = properties.maxUseDuration();
-        aerialHellDefaultModifiers = armorMaterial.createAttributes(type, additionalAttributes);
     }
 
     @Override public Item getSelf() {return this;}
@@ -42,9 +48,11 @@ public class AerialHellArmorItem extends ArmorItem implements AerialHellItemInte
     @Override public List<AerialHellItem.UseInteractionType> useInteractionToolTypes() {return this.useInteractionToolTypes;}
     @Override public UseAnim itemUseAnimation() {return this.itemUseAnimation;}
 
-    @Override public ItemAttributeModifiers getDefaultAttributeModifiers()
+    @Override public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
     {
-        return this.aerialHellDefaultModifiers.get();
+        this.appendOptionalDescriptionsHoverText(tooltipContext, components);
+        this.appendAbilityDescriptionHoverText(ClientHelper.getLocalPlayer(), tooltipContext, components);
+        this.appendReactorMenuHoverText(ClientHelper.getLocalPlayer(), tooltipContext, components);
     }
 
     //applying tick (passive) tool ability modules
@@ -59,4 +67,14 @@ public class AerialHellArmorItem extends ArmorItem implements AerialHellItemInte
 
     //applying releaseUsing tool ability modules
     @Override public void releaseUsing(ItemStack itemStack, Level level, LivingEntity itemOwner, int remainingTime) {this.ahReleaseUsing(itemStack, level, itemOwner, remainingTime);}
+
+    @Override public int getEnchantmentValue() {return this.enchantmentValue;}
+
+    @Override public boolean isValidRepairItem(ItemStack toRepair, ItemStack repairIngredient) {return this.repairIngredient.test(repairIngredient) || super.isValidRepairItem(toRepair, repairIngredient);}
+
+    @Override public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {return this.canDisableShield;}
+
+    @Override public InteractionResult useOn(UseOnContext context) {return this.ahUseOn(context);}
+
+    @Override public boolean canPerformAction(ItemStack stack, net.neoforged.neoforge.common.ItemAbility itemAbility) {return super.canPerformAction(stack, itemAbility) || this.ahCanPerformAction(stack, itemAbility);}
 }

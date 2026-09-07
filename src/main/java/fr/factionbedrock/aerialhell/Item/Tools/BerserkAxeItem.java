@@ -28,11 +28,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public class BerserkAxeItem extends AerialHellItem
+public class BerserkAxeItem extends AerialHellAxeItem
 {
 	private int weight_ticks;
 	
-	public BerserkAxeItem(Properties properties)
+	public BerserkAxeItem(AerialHellItem.Properties properties)
 	{
 		super(properties);
 		this.weight_ticks = 0;
