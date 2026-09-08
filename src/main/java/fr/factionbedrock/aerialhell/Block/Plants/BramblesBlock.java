@@ -4,8 +4,12 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellStateProperties;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -38,5 +42,12 @@ public class BramblesBlock extends AerialHellTallGrassBlock
 				livingEntity.hurt(AerialHellDamageTypes.getDamageSource(level, AerialHellDamageTypes.BRAMBLES_THORNS), 1.0F);
 			}
     	}
+	}
+
+	@Override public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {return BonemealableBlock.hasSpreadableNeighbourPos(level, pos, state);}
+
+	@Override public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state)
+	{
+		BonemealableBlock.findSpreadableNeighbourPos(level, pos, state).ifPresent((blockPos) -> level.setBlockAndUpdate(blockPos, this.defaultBlockState()));
 	}
 }
