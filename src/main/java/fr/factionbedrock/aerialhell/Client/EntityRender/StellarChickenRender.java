@@ -20,7 +20,7 @@ public class StellarChickenRender extends MobRenderer<StellarChickenEntity, Stel
 
     @Override public ResourceLocation getTextureLocation(StellarChickenEntity entity) {return TEXTURE;}
 
-    @Override protected float getWhiteOverlayProgress(StellarChickenEntity chickenEntity, float flap)
+    @Override protected float getBob(StellarChickenEntity chickenEntity, float flap)
     {
         float g = Mth.lerp(flap, chickenEntity.oFlap, chickenEntity.flap);
         float h = Mth.lerp(flap, chickenEntity.oFlapSpeed, chickenEntity.flapSpeed);

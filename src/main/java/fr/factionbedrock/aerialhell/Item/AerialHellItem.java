@@ -4,7 +4,6 @@ import fr.factionbedrock.aerialhell.Item.Ability.*;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellToolMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -19,7 +18,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -98,7 +96,7 @@ public class AerialHellItem extends WithInformationItem implements AerialHellIte
 
 		public Properties tool(AerialHellToolMaterial material, TagKey<Block> minesEfficiently, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
-			return material.applyToolProperties(this, minesEfficiently, attackDamage, attackSpeed, additionalAttributes);
+			return material.applyToolProperties(this, minesEfficiently, attackDamage, attackSpeed, additionalAttributes).lockComponents();
 		}
 
 		public Properties pickaxe(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.pickaxe(material, attackDamage, attackSpeed, new AttributeEntryList());}
@@ -134,7 +132,7 @@ public class AerialHellItem extends WithInformationItem implements AerialHellIte
 		public Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.sword(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
 		public Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
-			return material.applySwordProperties(this, attackDamage, attackSpeed, additionalAttributes);
+			return material.applySwordProperties(this, attackDamage, attackSpeed, additionalAttributes).lockComponents();
 		}
 
 		public Properties maxUseDuration(int useDuration) {this.maxUseDuration = useDuration; return this;}
