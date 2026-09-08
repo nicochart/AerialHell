@@ -962,7 +962,9 @@
   "death.attack.aerialhell.golem_beam.player": "%1$s meg lett ölve %2$s sugara által",
 
   "enchantment.aerialhell.solid_ether_walker": "Szilárd Éterjáró",
+  "enchantment.aerialhell.solid_ether_walker.desc": "Allows to collide with Solid Ether and all Ghostly things",
   "enchantment.aerialhell.vulnerability_aspect": "Sérülékenység",
+  "enchantment.aerialhell.vulnerability_aspect.desc": "Inflicts Vulnerability effect to light creatures on hit",
 
   "advancements.story.enter_aerial_hell.title": "Légi Pokol",
   "advancements.story.enter_aerial_hell.desc": "Egy másik történet kezdődik...",

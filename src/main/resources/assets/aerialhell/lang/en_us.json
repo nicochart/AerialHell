@@ -962,7 +962,9 @@
   "death.attack.aerialhell.golem_beam.player": "%1$s was killed by %2$s's Beam",
 
   "enchantment.aerialhell.solid_ether_walker": "Solid Ether Walker",
+  "enchantment.aerialhell.solid_ether_walker.desc": "Allows to collide with Solid Ether and all Ghostly things",
   "enchantment.aerialhell.vulnerability_aspect": "Vulnerability Aspect",
+  "enchantment.aerialhell.vulnerability_aspect.desc": "Inflicts Vulnerability effect to light creatures on hit",
 
   "advancements.story.enter_aerial_hell.title": "Aerial Hell",
   "advancements.story.enter_aerial_hell.desc": "Another story begins..",

@@ -962,7 +962,9 @@
   "death.attack.aerialhell.golem_beam.player": "%1$s wurde vom Strahl von %2$s getötet",
 
   "enchantment.aerialhell.solid_ether_walker": "Festätherläufer",
+  "enchantment.aerialhell.solid_ether_walker.desc": "Allows to collide with Solid Ether and all Ghostly things",
   "enchantment.aerialhell.vulnerability_aspect": "Verletzung",
+  "enchantment.aerialhell.vulnerability_aspect.desc": "Inflicts Vulnerability effect to light creatures on hit",
 
   "advancements.story.enter_aerial_hell.title": "Aerial Hell",
   "advancements.story.enter_aerial_hell.desc": "Eine weitere Geschichte beginnt..",
