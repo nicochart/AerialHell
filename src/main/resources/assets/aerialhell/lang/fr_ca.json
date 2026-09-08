@@ -962,7 +962,9 @@
   "death.attack.aerialhell.golem_beam.player": "%1$s a été pulvérisé par %2$s",
 
   "enchantment.aerialhell.solid_ether_walker": "Marcheur Éthéré",
+  "enchantment.aerialhell.solid_ether_walker.desc": "Permet d'entrer en collision avec l'Ether Condensé et les blocs fantomatiques",
   "enchantment.aerialhell.vulnerability_aspect": "Aura Vulnérabilisante",
+  "enchantment.aerialhell.vulnerability_aspect.desc": "Inflige Vulnérabilé aux créatures de lumière que vous frappez",
 
   "advancements.story.enter_aerial_hell.title": "Aerial Hell - l'Enfer Aérien",
   "advancements.story.enter_aerial_hell.desc": "Une nouvelle Aventure commence..",
