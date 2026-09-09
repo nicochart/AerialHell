@@ -4,28 +4,66 @@
     {
       "rolls": 1,
       "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "predicates": {
+                      "minecraft:enchantments": [
+                        {
+                          "enchantments": "minecraft:silk_touch",
+                          "levels": {
+                            "min": 1
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "name": "aerialhell:blue_solid_ether"
+            },
             {
               "type": "minecraft:item",
               "functions": [
                 {
                   "function": "minecraft:set_count",
-                  "count": {"min": 2.0, "max": 4.0, "type": "minecraft:uniform"}
+                  "count": {
+                    "min": 2.0,
+                    "max": 4.0,
+                    "type": "minecraft:uniform"
+                  }
                 },
                 {
                   "function": "minecraft:apply_bonus",
                   "enchantment": "minecraft:fortune",
                   "formula": "minecraft:uniform_bonus_count",
-                  "parameters": {"bonusMultiplier": 1}
+                  "parameters": {
+                    "bonusMultiplier": 1
+                  }
                 },
                 {
                   "function": "minecraft:limit_count",
-                  "limit": {"max": 4, "min": 1}
+                  "limit": {
+                    "max": 4,
+                    "min": 1
+                  }
                 },
-                {"function": "minecraft:explosion_decay"}
+                {
+                  "function": "minecraft:explosion_decay"
+                }
               ],
               "name": "aerialhell:blue_solid_ether_fragment"
             }
+          ]
+        }
       ]
     }
-  ]
+  ],
+  "random_sequence": "aerialhell:blue_solid_ether"
 }
