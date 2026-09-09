@@ -5,16 +5,18 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 public class SolidEtherBlock extends CollisionConditionHalfTransparentBlock
 {
@@ -31,16 +33,15 @@ public class SolidEtherBlock extends CollisionConditionHalfTransparentBlock
 		if (!EntityHelper.isFeatheryEntity(entity)) {super.livingEntityInside(state, level, pos, entity);}
 	}
 
-	@Override
-	public boolean onDestroyedByPlayer(BlockState state, Level worldIn, BlockPos pos, Player player, ItemStack toolStack, boolean willHarvest, FluidState fluid)
+	@Override public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool)
 	{
-		boolean flag = super.onDestroyedByPlayer(state, worldIn, pos, player, toolStack, willHarvest, fluid);
-		if (flag && !(this == AerialHellBlocks.WHITE_SOLID_ETHER.get()))
+		super.playerDestroy(level, player, pos, state, blockEntity, tool);
+
+		if (!EntityHelper.hasEnchantment(player, Enchantments.SILK_TOUCH) && !state.is(AerialHellBlocks.WHITE_SOLID_ETHER))
 		{
-			worldIn.setBlockAndUpdate(pos, AerialHellBlocks.WHITE_SOLID_ETHER.get().defaultBlockState());
+			level.setBlock(pos, AerialHellBlocks.WHITE_SOLID_ETHER.get().defaultBlockState(), Block.UPDATE_ALL);
 		}
-		return flag;
-    }
+	}
 
 	@Override protected boolean canEntityCollide(Entity entity) {return !EntityHelper.isImmuneToSolidEtherCollision(entity);}
 	@Override protected VoxelShape getCollidingShape() {return SOLID_ETHER_COLLISION_SHAPE;}
