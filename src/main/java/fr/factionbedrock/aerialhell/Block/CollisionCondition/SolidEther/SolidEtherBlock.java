@@ -9,7 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -17,9 +17,9 @@ public class SolidEtherBlock extends CollisionConditionHalfTransparentBlock
 {
 	protected final static VoxelShape SOLID_ETHER_COLLISION_SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 0.02, 16.0);
 	
-	public SolidEtherBlock(BlockBehaviour.Properties settings)
+	public SolidEtherBlock(Properties settings)
 	{
-		super(settings);
+		super(settings.isValidSpawn(Blocks::never));
 	}
 
 	@Override public void livingEntityInside(BlockState state, Level world, BlockPos pos, LivingEntity entity)

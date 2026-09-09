@@ -8,14 +8,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GhostBoatBlock extends CollisionConditionHalfTransparentBlock
 {
-	public GhostBoatBlock(BlockBehaviour.Properties settings)
+	public GhostBoatBlock(Properties settings)
 	{
 		super(settings);
 	}

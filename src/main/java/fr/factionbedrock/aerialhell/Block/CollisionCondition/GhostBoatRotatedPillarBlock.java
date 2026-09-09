@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
 import com.mojang.serialization.MapCodec;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
@@ -8,7 +9,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -19,9 +19,9 @@ public class GhostBoatRotatedPillarBlock extends CollisionConditionHalfTranspare
 {
     public static final MapCodec<GhostBoatRotatedPillarBlock> CODEC = simpleCodec(GhostBoatRotatedPillarBlock::new);
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
-    public GhostBoatRotatedPillarBlock(BlockBehaviour.Properties settings)
+    public GhostBoatRotatedPillarBlock(Properties settings)
     {
-        super(settings);
+        super(settings.isValidSpawn((state, blockGetter, blockPos, entityType) -> entityType == AerialHellEntities.GHOST_SLIME_PIRATE || entityType == AerialHellEntities.GHOST_SLIME_NINJA_PIRATE));
         this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y));
     }
 

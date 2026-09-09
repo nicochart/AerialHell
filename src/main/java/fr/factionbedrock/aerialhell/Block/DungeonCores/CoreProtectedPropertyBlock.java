@@ -33,5 +33,5 @@ public interface CoreProtectedPropertyBlock
         }
     }
 
-    default  boolean isProtected(BlockState state) {return state.getValue(CORE_PROTECTED);}
+    default boolean isProtected(BlockState state) {return state.getValue(CORE_PROTECTED);}
 }

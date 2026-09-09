@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#L#",
+    " # "
+  ],
+  "key": {
+    "L": "aerialhell:shadow_catacombs_bricks",
+    "#": "aerialhell:stellar_stone_bricks"
+  },
+  "result": {
+    "id": "aerialhell:shadow_catacombs_bricks",
+    "count": 3
+  }
+}
