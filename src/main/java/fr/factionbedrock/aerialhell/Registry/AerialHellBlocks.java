@@ -116,6 +116,8 @@ public class AerialHellBlocks
         FlattenableBlockRegistry.register(STELLAR_GRASS_BLOCK, STELLAR_DIRT_PATH.defaultBlockState());
         FlattenableBlockRegistry.register(CHISELED_STELLAR_DIRT, STELLAR_DIRT_PATH.defaultBlockState());
         FlattenableBlockRegistry.register(CHISELED_STELLAR_GRASS_BLOCK, STELLAR_DIRT_PATH.defaultBlockState());
+        FlattenableBlockRegistry.register(STELLAR_PODZOL, STELLAR_DIRT.defaultBlockState());
+        FlattenableBlockRegistry.register(STELLAR_CRYSTAL_PODZOL, STELLAR_DIRT.defaultBlockState());
     }
 
     public static void registerHoeTillableBlocks()
@@ -125,6 +127,7 @@ public class AerialHellBlocks
         TillableBlockRegistry.register(STELLAR_GRASS_BLOCK, HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
         TillableBlockRegistry.register(CHISELED_STELLAR_DIRT, HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
         TillableBlockRegistry.register(CHISELED_STELLAR_GRASS_BLOCK, HoeItem::onlyIfAirAbove,HoeItem. changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
+        TillableBlockRegistry.register(STELLAR_DIRT_PATH, HoeItem::onlyIfAirAbove,HoeItem. changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
     }
     
     //materials
