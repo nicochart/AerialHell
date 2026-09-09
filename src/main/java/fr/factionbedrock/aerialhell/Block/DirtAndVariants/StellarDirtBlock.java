@@ -15,15 +15,23 @@ public class StellarDirtBlock extends Block
 		super(properties);
 	}
 
-	@Override @Nullable
-	public BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate)
+	@Override @Nullable public BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate)
 	{
 		if (!context.getItemInHand().canPerformAction(itemAbility)) {return null;}
-		boolean isStellarDirt =  state.getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get(), isStellarCoarseDirt = state.getBlock() == AerialHellBlocksAndItems.STELLAR_COARSE_DIRT.get(), isChiseledStellarDirt = state.getBlock() == AerialHellBlocksAndItems.CHISELED_STELLAR_DIRT.get();
-		if (isStellarDirt || isStellarCoarseDirt || isChiseledStellarDirt)
+		if (ItemAbilities.HOE_TILL == itemAbility)
 		{
-			if (ItemAbilities.HOE_TILL == itemAbility) {return isStellarCoarseDirt ? AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState() : AerialHellBlocksAndItems.STELLAR_FARMLAND.get().defaultBlockState();}
-			if (ItemAbilities.SHOVEL_FLATTEN == itemAbility) {return AerialHellBlocksAndItems.STELLAR_DIRT_PATH.get().defaultBlockState();}
+			if (state.is(AerialHellBlocksAndItems.STELLAR_DIRT.get()) || state.is(AerialHellBlocksAndItems.CHISELED_STELLAR_DIRT.get()))
+			{
+				return AerialHellBlocksAndItems.STELLAR_FARMLAND.get().defaultBlockState();
+			}
+			else if (state.is(AerialHellBlocksAndItems.STELLAR_COARSE_DIRT.get()))
+			{
+				return AerialHellBlocksAndItems.STELLAR_DIRT.get().defaultBlockState();
+			}
+		}
+		else if (ItemAbilities.SHOVEL_FLATTEN == itemAbility)
+		{
+			return AerialHellBlocksAndItems.STELLAR_DIRT_PATH.get().defaultBlockState();
 		}
 		return super.getToolModifiedState(state, context, itemAbility, simulate);
 	}
