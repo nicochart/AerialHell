@@ -4,6 +4,30 @@
     {
       "rolls": 1,
       "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "predicates": {
+                      "minecraft:enchantments": [
+                        {
+                          "enchantments": "minecraft:silk_touch",
+                          "levels": {
+                            "min": 1
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "name": "aerialhell:green_solid_ether"
+            },
             {
               "type": "minecraft:item",
               "functions": [
@@ -40,5 +64,6 @@
         }
       ]
     }
-  ]
+  ],
+  "random_sequence": "aerialhell:green_solid_ether"
 }
