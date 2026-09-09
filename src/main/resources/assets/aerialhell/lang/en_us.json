@@ -963,13 +963,16 @@
   "death.attack.aerialhell.cursed_tool": "%1$s commited suicide with a cursed tool",
   "death.attack.aerialhell.cursed_tool.player": "%1$s commited suicide with a cursed tool",
   "death.attack.aerialhell.lunatic_projection": "%1$s entered the light",
+  "death.attack.aerialhell.lunatic_projection.player": "%1$s entered %2$s's light",
   "death.attack.aerialhell.god_bless": "%1$s received god's blessing",
   "death.attack.aerialhell.god_bless.player": "%1$s received god's blessing by %2$s",
   "death.attack.aerialhell.golem_beam": "%1$s was killed by a Golem Beam",
   "death.attack.aerialhell.golem_beam.player": "%1$s was killed by %2$s's Beam",
 
   "enchantment.aerialhell.solid_ether_walker": "Solid Ether Walker",
+  "enchantment.aerialhell.solid_ether_walker.desc": "Allows to collide with Solid Ether and all Ghostly things",
   "enchantment.aerialhell.vulnerability_aspect": "Vulnerability Aspect",
+  "enchantment.aerialhell.vulnerability_aspect.desc": "Inflicts Vulnerability effect to light creatures on hit",
 
   "advancements.story.enter_aerial_hell.title": "Aerial Hell",
   "advancements.story.enter_aerial_hell.desc": "Another story begins..",
