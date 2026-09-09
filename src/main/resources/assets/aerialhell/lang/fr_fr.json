@@ -955,13 +955,16 @@
   "death.attack.aerialhell.cursed_tool": "%1$s s'est enlevé la vie avec un outils maudit",
   "death.attack.aerialhell.cursed_tool.player": "%1$s s'est enlevé la vie lui même, avec un outils maudit",
   "death.attack.aerialhell.lunatic_projection": "%1$s est entré dans la lumière",
+  "death.attack.aerialhell.lunatic_projection.player": "%1$s est entré dans la lumière de %2$s",
   "death.attack.aerialhell.god_bless": "%1$s a reçu la bénédiction des dieux",
   "death.attack.aerialhell.god_bless.player": "%1$s a reçu la bénédiction des dieux à cause de %2$s",
   "death.attack.aerialhell.golem_beam": "%1$s a été pulvérisé par le laser d'un Golem",
   "death.attack.aerialhell.golem_beam.player": "%1$s a été pulvérisé par %2$s",
 
   "enchantment.aerialhell.solid_ether_walker": "Marcheur Éthéré",
+  "enchantment.aerialhell.solid_ether_walker.desc": "Permet d'entrer en collision avec l'Ether Condensé et les blocs fantomatiques",
   "enchantment.aerialhell.vulnerability_aspect": "Aura Vulnérabilisante",
+  "enchantment.aerialhell.vulnerability_aspect.desc": "Inflige Vulnérabilé aux créatures de lumière que vous frappez",
 
   "advancements.story.enter_aerial_hell.title": "Aerial Hell - l'Enfer Aérien",
   "advancements.story.enter_aerial_hell.desc": "Une nouvelle Aventure commence..",

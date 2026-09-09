@@ -74,7 +74,7 @@ public class StellarChickenEntity extends Chicken
     @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
         super.readAdditionalSaveData(valueInput);
-        this.setColor(valueInput.getInt("Color").get());
+        this.setColor(valueInput.getIntOr("Color", 0));
     }
 
     public int getColor() {return this.entityData.get(COLOR);}
