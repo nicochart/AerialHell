@@ -955,13 +955,16 @@
   "death.attack.aerialhell.cursed_tool": "%1$s hat mit einem verfluchten Werkzeug Selbstmord begangen",
   "death.attack.aerialhell.cursed_tool.player": "%1$s hat mit einem verfluchten Werkzeug Selbstmord begangen",
   "death.attack.aerialhell.lunatic_projection": "%1$s hat das Licht betreten",
+  "death.attack.aerialhell.lunatic_projection.player": "%1$s hat das Licht betreten",
   "death.attack.aerialhell.god_bless": "%1$s hatte Gottes Segen erhalten",
   "death.attack.aerialhell.god_bless.player": "%1$s hatte durch %2$s Gottes Segen erhalten",
   "death.attack.aerialhell.golem_beam": "%1$s wurde von einen Golemstrahl getötet",
   "death.attack.aerialhell.golem_beam.player": "%1$s wurde vom Strahl von %2$s getötet",
 
   "enchantment.aerialhell.solid_ether_walker": "Festätherläufer",
+  "enchantment.aerialhell.solid_ether_walker.desc": "Allows to collide with Solid Ether and all Ghostly things",
   "enchantment.aerialhell.vulnerability_aspect": "Verletzung",
+  "enchantment.aerialhell.vulnerability_aspect.desc": "Inflicts Vulnerability effect to light creatures on hit",
 
   "advancements.story.enter_aerial_hell.title": "Aerial Hell",
   "advancements.story.enter_aerial_hell.desc": "Eine weitere Geschichte beginnt..",

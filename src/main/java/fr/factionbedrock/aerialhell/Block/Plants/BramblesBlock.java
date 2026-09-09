@@ -5,11 +5,14 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,18 +29,24 @@ public class BramblesBlock extends AerialHellTallGrassBlock
 
 	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(AerialHellGrassBlock.SHIFTED_RENDER);}
 
-	@Override
-	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entityIn)
+	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn)
 	{
 		entityIn.makeStuckInBlock(state, new Vec3((double)0.8F, 0.75D, (double)0.8F));
-		if (!world.isClientSide() && entityIn instanceof LivingEntity livingEntity)
+		if (!level.isClientSide() && entityIn instanceof LivingEntity livingEntity)
     	{
 			if (!EntityHelper.isImmuneToBramblesDamage(livingEntity))
 			{
 				int poisonDuration = this == AerialHellBlocks.SHADOW_BRAMBLES ? 60 : 40;
 				livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, poisonDuration, 0));
-				livingEntity.hurt(AerialHellDamageTypes.getDamageSource(world, AerialHellDamageTypes.BRAMBLES_THORNS), 1.0F);
+				livingEntity.hurt(AerialHellDamageTypes.getDamageSource(level, AerialHellDamageTypes.BRAMBLES_THORNS), 1.0F);
 			}
     	}
+	}
+
+	@Override public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {return hasSpreadableNeighbourPos(level, pos, state);}
+
+	@Override public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state)
+	{
+		findSpreadableNeighbourPos(level, pos, state).ifPresent((blockPos) -> level.setBlockAndUpdate(blockPos, this.defaultBlockState()));
 	}
 }

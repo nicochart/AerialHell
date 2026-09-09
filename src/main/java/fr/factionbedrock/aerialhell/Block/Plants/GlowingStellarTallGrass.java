@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
-import java.util.function.ToIntFunction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -8,6 +7,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RedstoneTorchBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -46,5 +46,10 @@ public class GlowingStellarTallGrass extends AerialHellTallGrassBlock
 
 	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> state) {state.add(LIT);}
 
-	private static ToIntFunction<BlockState> litBlockEmission(int p_50760_) {return (state) -> {return state.getValue(RedstoneTorchBlock.LIT) ? p_50760_ : 0;};}
+	@Override public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {return hasSpreadableNeighbourPos(level, pos, state);}
+
+	@Override public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state)
+	{
+		findSpreadableNeighbourPos(level, pos, state).ifPresent((blockPos) -> level.setBlockAndUpdate(blockPos, this.defaultBlockState()));
+	}
 }
