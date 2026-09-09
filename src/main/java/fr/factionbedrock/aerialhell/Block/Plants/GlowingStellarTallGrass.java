@@ -9,7 +9,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.RedstoneTorchBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -47,5 +49,10 @@ public class GlowingStellarTallGrass extends AerialHellTallGrassBlock
 
 	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> state) {state.add(LIT);}
 
-	private static ToIntFunction<BlockState> litBlockEmission(int p_50760_) {return (state) -> {return state.getValue(RedstoneTorchBlock.LIT) ? p_50760_ : 0;};}
+	@Override public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {return BonemealableBlock.hasSpreadableNeighbourPos(level, pos, state);}
+
+	@Override public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state)
+	{
+		BonemealableBlock.findSpreadableNeighbourPos(level, pos, state).ifPresent((blockPos) -> level.setBlockAndUpdate(blockPos, this.defaultBlockState()));
+	}
 }
