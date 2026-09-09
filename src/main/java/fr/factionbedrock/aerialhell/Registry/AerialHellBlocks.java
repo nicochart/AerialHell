@@ -116,8 +116,8 @@ public class AerialHellBlocks
         FlattenableBlockRegistry.register(STELLAR_GRASS_BLOCK, STELLAR_DIRT_PATH.defaultBlockState());
         FlattenableBlockRegistry.register(CHISELED_STELLAR_DIRT, STELLAR_DIRT_PATH.defaultBlockState());
         FlattenableBlockRegistry.register(CHISELED_STELLAR_GRASS_BLOCK, STELLAR_DIRT_PATH.defaultBlockState());
-        FlattenableBlockRegistry.register(STELLAR_PODZOL, STELLAR_DIRT.defaultBlockState());
-        FlattenableBlockRegistry.register(STELLAR_CRYSTAL_PODZOL, STELLAR_DIRT.defaultBlockState());
+        FlattenableBlockRegistry.register(STELLAR_PODZOL, STELLAR_DIRT_PATH.defaultBlockState());
+        FlattenableBlockRegistry.register(STELLAR_CRYSTAL_PODZOL, STELLAR_DIRT_PATH.defaultBlockState());
     }
 
     public static void registerHoeTillableBlocks()
