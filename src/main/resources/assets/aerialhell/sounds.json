@@ -548,6 +548,14 @@
       "aerialhell:block/bone_pile_block/step_break_3"
     ]
   },
+  "block.reactor.ambient": {
+    "subtitle": "subtitles.aerialhell.block.reactor.ambient",
+    "sounds": ["aerialhell:block/reactor/reactor_ambient"]
+  },
+  "block.reactor.ambient_short": {
+    "subtitle": "subtitles.aerialhell.block.reactor.ambient",
+    "sounds": ["aerialhell:block/reactor/reactor_ambient_short"]
+  },
   "item.forgotten_battle_trident.use": {
     "subtitle": "subtitles.aerialhell.item.forgotten_battle_trident.use",
     "sounds": [

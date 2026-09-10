@@ -8,6 +8,8 @@ import com.google.common.collect.ImmutableMap;
 
 import fr.factionbedrock.aerialhell.Block.*;
 import fr.factionbedrock.aerialhell.Block.CollisionCondition.SolidEther.*;
+import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.BiomeShifterBlock;
+import fr.factionbedrock.aerialhell.Block.CorruptionProtectors.ReactorBlock;
 import fr.factionbedrock.aerialhell.Block.DirtAndVariants.*;
 import fr.factionbedrock.aerialhell.Block.DungeonCores.*;
 import fr.factionbedrock.aerialhell.Block.Furnaces.*;
@@ -17,9 +19,12 @@ import fr.factionbedrock.aerialhell.Block.Plants.*;
 import fr.factionbedrock.aerialhell.Block.Plants.Bushes.*;
 import fr.factionbedrock.aerialhell.Block.Plants.Vines.*;
 import fr.factionbedrock.aerialhell.Block.CollisionCondition.*;
+import fr.factionbedrock.aerialhell.Block.ShadowSpreader.*;
 import fr.factionbedrock.aerialhell.Block.StandingAndWall.*;
 import fr.factionbedrock.aerialhell.Block.Trophies.BottomSlabLikeTrophyBlock;
+import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Item.*;
+import fr.factionbedrock.aerialhell.Item.Armor.ShadowArmorItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
 import fr.factionbedrock.aerialhell.Item.Material.*;
 import fr.factionbedrock.aerialhell.Item.Shuriken.*;
@@ -41,7 +46,6 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
-import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.registries.RegistryObject;
@@ -199,7 +203,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> SHADOW_CHAIN_ITEM = ITEMS.register("shadow_chain", () -> new BlockItem(SHADOW_CHAIN.get(), new Item.Properties()));
 
 	//grass & dirt
-	public static final RegistryObject<Block> STELLAR_GRASS_BLOCK = BLOCKS.register("stellar_grass_block", () -> new StellarGrassBlock(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK)));
+	public static final RegistryObject<StellarGrassBlock> STELLAR_GRASS_BLOCK = BLOCKS.register("stellar_grass_block", () -> new StellarGrassBlock(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK)));
 	public static final RegistryObject<Block> CHISELED_STELLAR_GRASS_BLOCK = BLOCKS.register("chiseled_stellar_grass_block", () -> new StellarGrassBlock(BlockBehaviour.Properties.copy(STELLAR_GRASS_BLOCK.get())));
 	public static final RegistryObject<Block> STELLAR_DIRT = BLOCKS.register("stellar_dirt", () -> new StellarDirtBlock(BlockBehaviour.Properties.copy(Blocks.DIRT)));
 	public static final RegistryObject<Block> STELLAR_COARSE_DIRT = BLOCKS.register("stellar_coarse_dirt", () -> new StellarDirtBlock(BlockBehaviour.Properties.copy(Blocks.COARSE_DIRT)));
@@ -208,7 +212,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> STELLAR_PODZOL = BLOCKS.register("stellar_podzol", () -> new Block(BlockBehaviour.Properties.copy(Blocks.PODZOL)));
 	public static final RegistryObject<Block> STELLAR_CRYSTAL_PODZOL = BLOCKS.register("stellar_crystal_podzol", () -> new Block(BlockBehaviour.Properties.copy(Blocks.PODZOL)));
 	public static final RegistryObject<Block> CHISELED_STELLAR_DIRT = BLOCKS.register("chiseled_stellar_dirt", () -> new StellarDirtBlock(BlockBehaviour.Properties.copy(STELLAR_DIRT.get())));
-	public static final RegistryObject<Block> SHADOW_GRASS_BLOCK = BLOCKS.register("shadow_grass_block", () -> new ShadowGrassBlock(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK)));
+	public static final RegistryObject<ShadowGrassBlock> SHADOW_GRASS_BLOCK = BLOCKS.register("shadow_grass_block", () -> new ShadowGrassBlock(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK)));
 	public static final RegistryObject<Item> STELLAR_GRASS_BLOCK_ITEM = ITEMS.register("stellar_grass_block", () -> new BlockItem(STELLAR_GRASS_BLOCK.get(), new Item.Properties()));
 	public static final RegistryObject<Item> CHISELED_STELLAR_GRASS_BLOCK_ITEM = ITEMS.register("chiseled_stellar_grass_block", () -> new BlockItem(CHISELED_STELLAR_GRASS_BLOCK.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_DIRT_ITEM = ITEMS.register("stellar_dirt", () -> new BlockItem(STELLAR_DIRT.get(), new Item.Properties()));
@@ -237,11 +241,11 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> GIANT_ROOT_ITEM = ITEMS.register("giant_root", () -> new BurnableBlockItem(GIANT_ROOT.get(), new Item.Properties(), 300));
 
     //aerial_tree
-	public static final RegistryObject<RotatedPillarBlock> AERIAL_TREE_LOG = BLOCKS.register("aerial_tree_log", () -> new RotatedPillarBlock(AERIAL_TREE_MATERIAL));
+	public static final RegistryObject<ShiftableLogBlock> AERIAL_TREE_LOG = BLOCKS.register("aerial_tree_log", () -> new ShiftableLogBlock(AERIAL_TREE_MATERIAL, () -> AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LOG.get(), BiomeShifter.ShiftType.CORRUPT));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_AERIAL_TREE_LOG = BLOCKS.register("stripped_aerial_tree_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(AERIAL_TREE_LOG.get())));
 	public static final RegistryObject<RotatedPillarBlock> AERIAL_TREE_WOOD = BLOCKS.register("aerial_tree_wood", () -> new RotatedPillarBlock(AERIAL_TREE_MATERIAL));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_AERIAL_TREE_WOOD = BLOCKS.register("stripped_aerial_tree_wood", () -> new RotatedPillarBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Block> AERIAL_TREE_LEAVES = BLOCKS.register("aerial_tree_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
+	public static final RegistryObject<ShiftableLeavesBlock> AERIAL_TREE_LEAVES = BLOCKS.register("aerial_tree_leaves", () -> new ShiftableLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES), () -> AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LEAVES.get(), BiomeShifter.ShiftType.CORRUPT));
 	public static final RegistryObject<Block> AERIAL_TREE_PLANKS = BLOCKS.register("aerial_tree_planks", () -> new Block(BlockBehaviour.Properties.copy(AERIAL_TREE_LOG.get())));
 	public static final RegistryObject<Block> CHISELED_AERIAL_TREE_PLANKS = BLOCKS.register("chiseled_aerial_tree_planks", () -> new Block(BlockBehaviour.Properties.copy(AERIAL_TREE_PLANKS.get())));
 	public static final RegistryObject<Block> AERIAL_TREE_BOOKSHELF = BLOCKS.register("aerial_tree_bookshelf", () -> new AerialHellBookshelfBlock(BlockBehaviour.Properties.copy(AERIAL_TREE_PLANKS.get())));
@@ -261,13 +265,13 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> PETRIFIED_AERIAL_TREE_LOG_ITEM = ITEMS.register("petrified_aerial_tree_log", () -> new BurnableBlockItem(PETRIFIED_AERIAL_TREE_LOG.get(), new Item.Properties(), 600));
 
 	//golden beech
-	public static final RegistryObject<RotatedPillarBlock> GOLDEN_BEECH_LOG = BLOCKS.register("golden_beech_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(AERIAL_TREE_LOG.get())));
+	public static final RegistryObject<ShiftableLogBlock> GOLDEN_BEECH_LOG = BLOCKS.register("golden_beech_log", () -> new ShiftableLogBlock(BlockBehaviour.Properties.copy(AERIAL_TREE_LOG.get()), () -> AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LOG.get(), BiomeShifter.ShiftType.CORRUPT));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_GOLDEN_BEECH_LOG = BLOCKS.register("stripped_golden_beech_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(GOLDEN_BEECH_LOG.get())));
 	public static final RegistryObject<RotatedPillarBlock> GOLDEN_BEECH_WOOD = BLOCKS.register("golden_beech_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(GOLDEN_BEECH_LOG.get())));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_GOLDEN_BEECH_WOOD = BLOCKS.register("stripped_golden_beech_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(GOLDEN_BEECH_LOG.get())));
 	public static final RegistryObject<Block> GOLDEN_BEECH_PLANKS = BLOCKS.register("golden_beech_planks", () -> new Block(BlockBehaviour.Properties.copy(GOLDEN_BEECH_LOG.get())));
 	public static final RegistryObject<Block> CHISELED_GOLDEN_BEECH_PLANKS = BLOCKS.register("chiseled_golden_beech_planks", () -> new Block(BlockBehaviour.Properties.copy(GOLDEN_BEECH_PLANKS.get())));
-	public static final RegistryObject<Block> GOLDEN_BEECH_LEAVES = BLOCKS.register("golden_beech_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
+	public static final RegistryObject<ShiftableLeavesBlock> GOLDEN_BEECH_LEAVES = BLOCKS.register("golden_beech_leaves", () -> new ShiftableLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES), () -> AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LEAVES.get(), BiomeShifter.ShiftType.CORRUPT));
 	public static final RegistryObject<Block> GOLDEN_BEECH_BOOKSHELF = BLOCKS.register("golden_beech_bookshelf", () -> new AerialHellBookshelfBlock(BlockBehaviour.Properties.copy(GOLDEN_BEECH_PLANKS.get())));
 	public static final RegistryObject<SaplingBlock> GOLDEN_BEECH_SAPLING = BLOCKS.register("golden_beech_sapling", () -> new SaplingBlock(new GoldenBeechTree(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
 	public static final RegistryObject<Item> GOLDEN_BEECH_LOG_ITEM = ITEMS.register("golden_beech_log", () -> new BurnableBlockItem(GOLDEN_BEECH_LOG.get(), new Item.Properties(), 300));
@@ -281,12 +285,12 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> GOLDEN_BEECH_SAPLING_ITEM = ITEMS.register("golden_beech_sapling", () -> new BlockItem(GOLDEN_BEECH_SAPLING.get(), new Item.Properties()));
 
 	//cropper pine
-	public static final RegistryObject<RotatedPillarBlock> COPPER_PINE_LOG = BLOCKS.register("copper_pine_log", () -> new RotatedPillarBlock(COPPER_PINE_MATERIAL));
+	public static final RegistryObject<ShiftableLogBlock> COPPER_PINE_LOG = BLOCKS.register("copper_pine_log", () -> new ShiftableLogBlock(COPPER_PINE_MATERIAL, () -> AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LOG.get(), BiomeShifter.ShiftType.CORRUPT));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_COPPER_PINE_LOG = BLOCKS.register("stripped_copper_pine_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(COPPER_PINE_LOG.get())));
 	public static final RegistryObject<RotatedPillarBlock> COPPER_PINE_WOOD = BLOCKS.register("copper_pine_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(COPPER_PINE_LOG.get())));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_COPPER_PINE_WOOD = BLOCKS.register("stripped_copper_pine_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(COPPER_PINE_LOG.get())));
 	public static final RegistryObject<Block> COPPER_PINE_PLANKS = BLOCKS.register("copper_pine_planks", () -> new Block(BlockBehaviour.Properties.copy(COPPER_PINE_LOG.get())));
-	public static final RegistryObject<Block> COPPER_PINE_LEAVES = BLOCKS.register("copper_pine_leaves", () -> new LeavesWithAmbientParticlesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
+	public static final RegistryObject<ShiftableLeavesBlock> COPPER_PINE_LEAVES = BLOCKS.register("copper_pine_leaves", () -> new LeavesWithAmbientParticlesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES), () -> AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LEAVES.get(), BiomeShifter.ShiftType.CORRUPT));
 	public static final RegistryObject<Block> COPPER_PINE_BOOKSHELF = BLOCKS.register("copper_pine_bookshelf", () -> new AerialHellBookshelfBlock(BlockBehaviour.Properties.copy(COPPER_PINE_PLANKS.get())));
 	public static final RegistryObject<SaplingBlock> COPPER_PINE_SAPLING = BLOCKS.register("copper_pine_sapling", () -> new AerialHellSaplingBlock(new CopperPine(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING), AerialHellConfiguredFeatures.GIANT_COPPER_PINE, AerialHellConfiguredFeatures.HUGE_COPPER_PINE, 0.1F));
 	public static final RegistryObject<Item> COPPER_PINE_LOG_ITEM = ITEMS.register("copper_pine_log", () -> new BurnableBlockItem(COPPER_PINE_LOG.get(), new Item.Properties(), 300));
@@ -299,12 +303,12 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> COPPER_PINE_SAPLING_ITEM = ITEMS.register("copper_pine_sapling", () -> new BlockItem(COPPER_PINE_SAPLING.get(), new Item.Properties()));
 
 	//lapis robinia
-	public static final RegistryObject<RotatedPillarBlock> LAPIS_ROBINIA_LOG = BLOCKS.register("lapis_robinia_log", () -> new RotatedPillarBlock(COPPER_PINE_MATERIAL));
-	public static final RegistryObject<RotatedPillarBlock> ENCHANTED_LAPIS_ROBINIA_LOG = BLOCKS.register("enchanted_lapis_robinia_log", () -> new EffectLogBlock(COPPER_PINE_MATERIAL));
+	public static final RegistryObject<ShiftableLogBlock> LAPIS_ROBINIA_LOG = BLOCKS.register("lapis_robinia_log", () -> new ShiftableLogBlock(COPPER_PINE_MATERIAL, () -> AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LOG.get(), BiomeShifter.ShiftType.CORRUPT));
+	public static final RegistryObject<EffectLogBlock> ENCHANTED_LAPIS_ROBINIA_LOG = BLOCKS.register("enchanted_lapis_robinia_log", () -> new EffectLogBlock(COPPER_PINE_MATERIAL, () -> AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LOG.get(), BiomeShifter.ShiftType.CORRUPT));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_LAPIS_ROBINIA_LOG = BLOCKS.register("stripped_lapis_robinia_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(LAPIS_ROBINIA_LOG.get())));
 	public static final RegistryObject<RotatedPillarBlock> LAPIS_ROBINIA_WOOD = BLOCKS.register("lapis_robinia_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(LAPIS_ROBINIA_LOG.get())));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_LAPIS_ROBINIA_WOOD = BLOCKS.register("stripped_lapis_robinia_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(LAPIS_ROBINIA_LOG.get())));
-	public static final RegistryObject<Block> LAPIS_ROBINIA_LEAVES = BLOCKS.register("lapis_robinia_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
+	public static final RegistryObject<ShiftableLeavesBlock> LAPIS_ROBINIA_LEAVES = BLOCKS.register("lapis_robinia_leaves", () -> new ShiftableLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES), () -> AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LEAVES.get(), BiomeShifter.ShiftType.CORRUPT));
 	public static final RegistryObject<Block> LAPIS_ROBINIA_PLANKS = BLOCKS.register("lapis_robinia_planks", () -> new Block(BlockBehaviour.Properties.copy(LAPIS_ROBINIA_LOG.get())));
 	public static final RegistryObject<Block> LAPIS_ROBINIA_BOOKSHELF = BLOCKS.register("lapis_robinia_bookshelf", () -> new AerialHellBookshelfBlock(BlockBehaviour.Properties.copy(LAPIS_ROBINIA_PLANKS.get())));
 	public static final RegistryObject<SaplingBlock> LAPIS_ROBINIA_SAPLING = BLOCKS.register("lapis_robinia_sapling", () -> new AerialHellSaplingBlock(new LapisRobinia(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING), AerialHellConfiguredFeatures.GIANT_LAPIS_ROBINIA));
@@ -319,13 +323,13 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LAPIS_ROBINIA_SAPLING_ITEM = ITEMS.register("lapis_robinia_sapling", () -> new BlockItem(LAPIS_ROBINIA_SAPLING.get(), new Item.Properties()));
 
 	//shadow_pine
-	public static final RegistryObject<RotatedPillarBlock> SHADOW_PINE_LOG = BLOCKS.register("shadow_pine_log", () -> new RotatedPillarBlock(SHADOW_PINE_MATERIAL));
-	public static final RegistryObject<RotatedPillarBlock> EYE_SHADOW_PINE_LOG = BLOCKS.register("eye_shadow_pine_log", () -> new EffectLogBlock(SHADOW_PINE_MATERIAL));
+	public static final RegistryObject<ShiftableLogBlock> SHADOW_PINE_LOG = BLOCKS.register("shadow_pine_log", () -> new ShadowLogBlock(SHADOW_PINE_MATERIAL, () -> AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LOG.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final RegistryObject<ShiftableLogBlock> EYE_SHADOW_PINE_LOG = BLOCKS.register("eye_shadow_pine_log", () -> new ShadowEffectLogBlock(SHADOW_PINE_MATERIAL, () -> AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LOG.get(), BiomeShifter.ShiftType.UNCORRUPT));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_SHADOW_PINE_LOG = BLOCKS.register("stripped_shadow_pine_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(SHADOW_PINE_LOG.get())));
 	public static final RegistryObject<RotatedPillarBlock> SHADOW_PINE_WOOD = BLOCKS.register("shadow_pine_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(SHADOW_PINE_LOG.get())));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_SHADOW_PINE_WOOD = BLOCKS.register("stripped_shadow_pine_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(SHADOW_PINE_LOG.get())));
-	public static final RegistryObject<Block> SHADOW_PINE_LEAVES = BLOCKS.register("shadow_pine_leaves", () -> new LeavesWithAmbientParticlesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
-	public static final RegistryObject<Block> PURPLE_SHADOW_PINE_LEAVES = BLOCKS.register("purple_shadow_pine_leaves", () -> new LeavesWithAmbientParticlesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
+	public static final RegistryObject<ShiftableLeavesBlock> SHADOW_PINE_LEAVES = BLOCKS.register("shadow_pine_leaves", () -> new ShadowLeavesWithParticlesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES), () -> AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LEAVES.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final RegistryObject<ShiftableLeavesBlock> PURPLE_SHADOW_PINE_LEAVES = BLOCKS.register("purple_shadow_pine_leaves", () -> new ShadowLeavesWithParticlesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES), () -> AerialHellBlocksAndItems.HOLLOW_PURPLE_SHADOW_PINE_LEAVES.get(), BiomeShifter.ShiftType.UNCORRUPT));
 	public static final RegistryObject<Block> SHADOW_PINE_PLANKS = BLOCKS.register("shadow_pine_planks", () -> new Block(BlockBehaviour.Properties.copy(SHADOW_PINE_LOG.get())));
 	public static final RegistryObject<Block> SHADOW_PINE_BOOKSHELF = BLOCKS.register("shadow_pine_bookshelf", () -> new AerialHellBookshelfBlock(BlockBehaviour.Properties.copy(SHADOW_PINE_PLANKS.get())));
 	public static final RegistryObject<SaplingBlock> SHADOW_PINE_SAPLING = BLOCKS.register("shadow_pine_sapling", () -> new ShadowPineSaplingBlock(new ShadowPine(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING), AerialHellConfiguredFeatures.GIANT_SHADOW_PINE, AerialHellConfiguredFeatures.HUGE_SHADOW_PINE, 0.1F));
@@ -343,11 +347,11 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> PURPLE_SHADOW_PINE_SAPLING_ITEM = ITEMS.register("purple_shadow_pine_sapling", () -> new BlockItem(PURPLE_SHADOW_PINE_SAPLING.get(), new Item.Properties()));
 
 	//stellar jungle tree
-	public static final RegistryObject<RotatedPillarBlock> STELLAR_JUNGLE_TREE_LOG = BLOCKS.register("stellar_jungle_tree_log", () -> new RotatedPillarBlock(COPPER_PINE_MATERIAL));
+	public static final RegistryObject<ShiftableLogBlock> STELLAR_JUNGLE_TREE_LOG = BLOCKS.register("stellar_jungle_tree_log", () -> new ShiftableLogBlock(COPPER_PINE_MATERIAL, () -> AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LOG.get(), BiomeShifter.ShiftType.CORRUPT));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_STELLAR_JUNGLE_TREE_LOG = BLOCKS.register("stripped_stellar_jungle_tree_log", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(STELLAR_JUNGLE_TREE_LOG.get())));
 	public static final RegistryObject<RotatedPillarBlock> STELLAR_JUNGLE_TREE_WOOD = BLOCKS.register("stellar_jungle_tree_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(STELLAR_JUNGLE_TREE_LOG.get())));
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_STELLAR_JUNGLE_TREE_WOOD = BLOCKS.register("stripped_stellar_jungle_tree_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(STELLAR_JUNGLE_TREE_LOG.get())));
-	public static final RegistryObject<Block> STELLAR_JUNGLE_TREE_LEAVES = BLOCKS.register("stellar_jungle_tree_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
+	public static final RegistryObject<ShiftableLeavesBlock> STELLAR_JUNGLE_TREE_LEAVES = BLOCKS.register("stellar_jungle_tree_leaves", () -> new ShiftableLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES), () -> AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get(), BiomeShifter.ShiftType.CORRUPT));
 	public static final RegistryObject<Block> STELLAR_JUNGLE_TREE_PLANKS = BLOCKS.register("stellar_jungle_tree_planks", () -> new Block(BlockBehaviour.Properties.copy(STELLAR_JUNGLE_TREE_LOG.get())));
 	public static final RegistryObject<Block> STELLAR_JUNGLE_TREE_BOOKSHELF = BLOCKS.register("stellar_jungle_tree_bookshelf", () -> new AerialHellBookshelfBlock(BlockBehaviour.Properties.copy(STELLAR_JUNGLE_TREE_PLANKS.get())));
 	public static final RegistryObject<SaplingBlock> STELLAR_JUNGLE_TREE_SAPLING = BLOCKS.register("stellar_jungle_tree_sapling", () -> new AerialHellSaplingBlock(new StellarJungleTree(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING), AerialHellConfiguredFeatures.GIANT_STELLAR_JUNGLE_TREE));
@@ -407,6 +411,34 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> GRAY_SHROOM_PLANKS_ITEM = ITEMS.register("gray_shroom_planks", () -> new BurnableBlockItem(GRAY_SHROOM_PLANKS.get(), new Item.Properties(), 100));
 	public static final RegistryObject<Item> GRAY_SHROOM_BOOKSHELF_ITEM = ITEMS.register("gray_shroom_bookshelf", () -> new BlockItem(GRAY_SHROOM_BOOKSHELF.get(), new Item.Properties()));
 
+	//shadow corrupted / uncorrupted variants
+	public static final RegistryObject<ShadowLogBlock> SHADOW_AERIAL_TREE_LOG = BLOCKS.register("shadow_aerial_tree_log", () -> new ShadowLogBlock(BlockBehaviour.Properties.copy(AERIAL_TREE_LOG.get()), () -> AERIAL_TREE_LOG.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final RegistryObject<Item> SHADOW_AERIAL_TREE_LOG_ITEM = ITEMS.register("shadow_aerial_tree_log", () -> new BurnableBlockItem(SHADOW_AERIAL_TREE_LOG.get(), new Item.Properties(), 300));
+	public static final RegistryObject<ShadowLogBlock> SHADOW_GOLDEN_BEECH_LOG = BLOCKS.register("shadow_golden_beech_log", () -> new ShadowLogBlock(BlockBehaviour.Properties.copy(GOLDEN_BEECH_LOG.get()), () -> GOLDEN_BEECH_LOG.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final RegistryObject<Item> SHADOW_GOLDEN_BEECH_LOG_ITEM = ITEMS.register("shadow_golden_beech_log", () -> new BurnableBlockItem(SHADOW_GOLDEN_BEECH_LOG.get(), new Item.Properties(), 300));
+	public static final RegistryObject<ShadowLogBlock> SHADOW_COPPER_PINE_LOG = BLOCKS.register("shadow_copper_pine_log", () -> new ShadowLogBlock(BlockBehaviour.Properties.copy(COPPER_PINE_LOG.get()), () -> COPPER_PINE_LOG.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final RegistryObject<Item> SHADOW_COPPER_PINE_LOG_ITEM = ITEMS.register("shadow_copper_pine_log", () -> new BurnableBlockItem(SHADOW_COPPER_PINE_LOG.get(), new Item.Properties(), 300));
+	public static final RegistryObject<ShadowLogBlock> SHADOW_LAPIS_ROBINIA_LOG = BLOCKS.register("shadow_lapis_robinia_log", () -> new ShadowLogBlock(BlockBehaviour.Properties.copy(LAPIS_ROBINIA_LOG.get()), () -> LAPIS_ROBINIA_LOG.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final RegistryObject<Item> SHADOW_LAPIS_ROBINIA_LOG_ITEM = ITEMS.register("shadow_lapis_robinia_log", () -> new BurnableBlockItem(SHADOW_LAPIS_ROBINIA_LOG.get(), new Item.Properties(), 300));
+	public static final RegistryObject<ShadowLogBlock> SHADOW_STELLAR_JUNGLE_TREE_LOG = BLOCKS.register("shadow_stellar_jungle_tree_log", () -> new ShadowLogBlock(BlockBehaviour.Properties.copy(STELLAR_JUNGLE_TREE_LOG.get()), () -> STELLAR_JUNGLE_TREE_LOG.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final RegistryObject<Item> SHADOW_STELLAR_JUNGLE_TREE_LOG_ITEM = ITEMS.register("shadow_stellar_jungle_tree_log", () -> new BurnableBlockItem(SHADOW_STELLAR_JUNGLE_TREE_LOG.get(), new Item.Properties(), 300));
+	public static final RegistryObject<ShiftableLogBlock> HOLLOW_SHADOW_PINE_LOG = BLOCKS.register("hollow_shadow_pine_log", () -> new ShiftableLogBlock(BlockBehaviour.Properties.copy(AERIAL_TREE_LOG.get()), () -> SHADOW_PINE_LOG.get(), BiomeShifter.ShiftType.CORRUPT));
+	public static final RegistryObject<Item> HOLLOW_SHADOW_PINE_LOG_ITEM = ITEMS.register("hollow_shadow_pine_log", () -> new BurnableBlockItem(HOLLOW_SHADOW_PINE_LOG.get(), new Item.Properties(), 300));
+	public static final RegistryObject<ShiftableLeavesBlock> SHADOW_AERIAL_TREE_LEAVES = BLOCKS.register("shadow_aerial_tree_leaves", () -> new ShadowLeavesBlock(BlockBehaviour.Properties.copy(AERIAL_TREE_LEAVES.get()), () -> AerialHellBlocksAndItems.AERIAL_TREE_LEAVES.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final RegistryObject<Item> SHADOW_AERIAL_TREE_LEAVES_ITEM = ITEMS.register("shadow_aerial_tree_leaves", () -> new BlockItem(SHADOW_AERIAL_TREE_LEAVES.get(), new Item.Properties()));
+	public static final RegistryObject<ShiftableLeavesBlock> SHADOW_GOLDEN_BEECH_LEAVES = BLOCKS.register("shadow_golden_beech_leaves", () -> new ShadowLeavesBlock(BlockBehaviour.Properties.copy(GOLDEN_BEECH_LEAVES.get()), () -> AerialHellBlocksAndItems.GOLDEN_BEECH_LEAVES.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final RegistryObject<Item> SHADOW_GOLDEN_BEECH_LEAVES_ITEM = ITEMS.register("shadow_golden_beech_leaves", () -> new BlockItem(SHADOW_GOLDEN_BEECH_LEAVES.get(), new Item.Properties()));
+	public static final RegistryObject<ShiftableLeavesBlock> SHADOW_COPPER_PINE_LEAVES = BLOCKS.register("shadow_copper_pine_leaves", () -> new ShadowLeavesBlock(BlockBehaviour.Properties.copy(COPPER_PINE_LEAVES.get()), () -> AerialHellBlocksAndItems.COPPER_PINE_LEAVES.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final RegistryObject<Item> SHADOW_COPPER_PINE_LEAVES_ITEM = ITEMS.register("shadow_copper_pine_leaves", () -> new BlockItem(SHADOW_COPPER_PINE_LEAVES.get(), new Item.Properties()));
+	public static final RegistryObject<ShiftableLeavesBlock> SHADOW_LAPIS_ROBINIA_LEAVES = BLOCKS.register("shadow_lapis_robinia_leaves", () -> new ShadowLeavesBlock(BlockBehaviour.Properties.copy(LAPIS_ROBINIA_LEAVES.get()), () -> AerialHellBlocksAndItems.LAPIS_ROBINIA_LEAVES.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final RegistryObject<Item> SHADOW_LAPIS_ROBINIA_LEAVES_ITEM = ITEMS.register("shadow_lapis_robinia_leaves", () -> new BlockItem(SHADOW_LAPIS_ROBINIA_LEAVES.get(), new Item.Properties()));
+	public static final RegistryObject<ShiftableLeavesBlock> SHADOW_STELLAR_JUNGLE_TREE_LEAVES = BLOCKS.register("shadow_stellar_jungle_tree_leaves", () -> new ShadowLeavesBlock(BlockBehaviour.Properties.copy(STELLAR_JUNGLE_TREE_LEAVES.get()), () -> AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get(), BiomeShifter.ShiftType.UNCORRUPT));
+	public static final RegistryObject<Item> SHADOW_STELLAR_JUNGLE_TREE_LEAVES_ITEM = ITEMS.register("shadow_stellar_jungle_tree_leaves", () -> new BlockItem(SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get(), new Item.Properties()));
+	public static final RegistryObject<ShiftableLeavesBlock> HOLLOW_SHADOW_PINE_LEAVES = BLOCKS.register("hollow_shadow_pine_leaves", () -> new ShiftableLeavesBlock(BlockBehaviour.Properties.copy(SHADOW_PINE_LEAVES.get()), () -> AerialHellBlocksAndItems.SHADOW_PINE_LEAVES.get(), BiomeShifter.ShiftType.CORRUPT));
+	public static final RegistryObject<Item> HOLLOW_SHADOW_PINE_LEAVES_ITEM = ITEMS.register("hollow_shadow_pine_leaves", () -> new BlockItem(HOLLOW_SHADOW_PINE_LEAVES.get(), new Item.Properties()));
+	public static final RegistryObject<ShiftableLeavesBlock> HOLLOW_PURPLE_SHADOW_PINE_LEAVES = BLOCKS.register("hollow_purple_shadow_pine_leaves", () -> new ShiftableLeavesBlock(BlockBehaviour.Properties.copy(PURPLE_SHADOW_PINE_LEAVES.get()), () -> AerialHellBlocksAndItems.PURPLE_SHADOW_PINE_LEAVES.get(), BiomeShifter.ShiftType.CORRUPT));
+	public static final RegistryObject<Item> HOLLOW_PURPLE_SHADOW_PINE_LEAVES_ITEM = ITEMS.register("hollow_purple_shadow_pine_leaves", () -> new BlockItem(HOLLOW_PURPLE_SHADOW_PINE_LEAVES.get(), new Item.Properties()));
+
 	//ladder
 	public static final RegistryObject<LadderBlock> SKY_LADDER = BLOCKS.register("sky_ladder", () -> new LadderBlock(BlockBehaviour.Properties.copy(AERIAL_TREE_PLANKS.get()).noOcclusion()));
 	public static final RegistryObject<Item> SKY_LADDER_ITEM = ITEMS.register("sky_ladder", () -> new BlockItem(SKY_LADDER.get(), new Item.Properties()));
@@ -420,6 +452,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> STELLAR_CLAY = BLOCKS.register("stellar_clay", () -> new Block(BlockBehaviour.Properties.copy(Blocks.CLAY)));
 	public static final RegistryObject<Block> GLAUCOPHANITE = BLOCKS.register("glaucophanite",() -> new Block(BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
 	public static final RegistryObject<Block> POLISHED_GLAUCOPHANITE = BLOCKS.register("polished_glaucophanite",() -> new Block(BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+	public static final RegistryObject<Block> SHADOW_STONE = BLOCKS.register("shadow_stone", () -> new ShadowStoneBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
 	public static final RegistryObject<Item> STELLAR_STONE_ITEM = ITEMS.register("stellar_stone", () -> new BlockItem(STELLAR_STONE.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_COBBLESTONE_ITEM = ITEMS.register("stellar_cobblestone", () -> new BlockItem(STELLAR_COBBLESTONE.get(), new Item.Properties()));
 	public static final RegistryObject<Item> MOSSY_STELLAR_STONE_ITEM = ITEMS.register("mossy_stellar_stone", () -> new BlockItem(MOSSY_STELLAR_STONE.get(), new Item.Properties()));
@@ -428,6 +461,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> STELLAR_STONE_BRICKS_ITEM = ITEMS.register("stellar_stone_bricks", () -> new BlockItem(STELLAR_STONE_BRICKS.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GLAUCOPHANITE_ITEM = ITEMS.register("glaucophanite", () -> new BlockItem(GLAUCOPHANITE.get(), new Item.Properties()));
 	public static final RegistryObject<Item> POLISHED_GLAUCOPHANITE_ITEM = ITEMS.register("polished_glaucophanite", () -> new BlockItem(POLISHED_GLAUCOPHANITE.get(), new Item.Properties()));
+	public static final RegistryObject<Item> SHADOW_STONE_ITEM = ITEMS.register("shadow_stone", () -> new BlockItem(SHADOW_STONE.get(), new Item.Properties()));
 
 	//crystal
 	public static final RegistryObject<Block> CRYSTAL_BLOCK = BLOCKS.register("crystal_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS).lightLevel((state) -> 14)));
@@ -440,9 +474,9 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> CRYSTAL_BRICKS_STAIRS_ITEM = ITEMS.register("crystal_bricks_stairs", () -> new BlockItem(CRYSTAL_BRICKS_STAIRS.get(), new Item.Properties()));
 	public static final RegistryObject<WallBlock> CRYSTAL_BRICKS_WALL = BLOCKS.register("crystal_bricks_wall", () -> new WallBlock(BlockBehaviour.Properties.copy(CRYSTAL_BRICKS.get())));
 	public static final RegistryObject<Item> CRYSTAL_BRICKS_WALL_ITEM = ITEMS.register("crystal_bricks_wall", () -> new BlockItem(CRYSTAL_BRICKS_WALL.get(), new Item.Properties()));
-	public static final RegistryObject<Block> STELLAR_STONE_CRYSTAL_BLOCK = BLOCKS.register("stellar_stone_crystal_block", () -> new Block(BlockBehaviour.Properties.copy(CRYSTAL_BLOCK.get()).lightLevel((state) -> 13)));
+	public static final RegistryObject<Block> STELLAR_STONE_CRYSTAL_BLOCK = BLOCKS.register("stellar_stone_crystal_block", () -> new BasicShiftableRenderBlock(BlockBehaviour.Properties.copy(CRYSTAL_BLOCK.get()).lightLevel((state) -> 13)));
 	public static final RegistryObject<Item> STELLAR_STONE_CRYSTAL_BLOCK_ITEM = ITEMS.register("stellar_stone_crystal_block", () -> new BlockItem(STELLAR_STONE_CRYSTAL_BLOCK.get(), new Item.Properties()));
-	public static final RegistryObject<Block> SHADOW_CRYSTAL_BLOCK = BLOCKS.register("shadow_crystal_block", () -> new Block(BlockBehaviour.Properties.copy(CRYSTAL_BLOCK.get()).lightLevel((state) -> 12)));
+	public static final RegistryObject<Block> SHADOW_CRYSTAL_BLOCK = BLOCKS.register("shadow_crystal_block", () -> new BasicShadowSpreaderBlock(BlockBehaviour.Properties.copy(CRYSTAL_BLOCK.get()).lightLevel((state) -> 12)));
 	public static final RegistryObject<Item> SHADOW_CRYSTAL_BLOCK_ITEM = ITEMS.register("shadow_crystal_block", () -> new BlockItem(SHADOW_CRYSTAL_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
 	public static final RegistryObject<Block> CRYSTALLIZED_LEAVES = BLOCKS.register("crystallized_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES).lightLevel((state) -> 12)));
 	public static final RegistryObject<Block> CRYSTALLIZED_FIRE = BLOCKS.register("crystallized_fire", () -> new GlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).lightLevel((state) -> 12).instabreak()));
@@ -515,6 +549,25 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> GHOST_BOAT_CRAFTING_TABLE_ITEM = ITEMS.register("ghost_boat_crafting_table", () -> new BlockItem(GHOST_BOAT_CRAFTING_TABLE.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GHOST_BOAT_VINE_ROPE_SPOOL_ITEM = ITEMS.register("ghost_boat_vine_rope_spool", () -> new BlockItem(GHOST_BOAT_VINE_ROPE_SPOOL.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GHOST_LANTERN_ITEM = ITEMS.register("ghost_lantern", () -> new BlockItem(GHOST_LANTERN.get(), new Item.Properties()));
+
+	//reactors
+	public static final RegistryObject<Block> WEAK_LIGHT_REACTOR = BLOCKS.register("weak_light_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 32, BiomeShifter.ShiftType.UNCORRUPT, () -> AerialHellBlocksAndItems.BROKEN_WEAK_LIGHT_REACTOR.get()));
+	public static final RegistryObject<Block> HIGH_POWER_LIGHT_REACTOR = BLOCKS.register("high_power_light_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 58, BiomeShifter.ShiftType.UNCORRUPT, () -> AerialHellBlocksAndItems.BROKEN_HIGH_POWER_LIGHT_REACTOR.get()));
+	public static final RegistryObject<Block> WEAK_SHADOW_REACTOR = BLOCKS.register("weak_shadow_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 26, BiomeShifter.ShiftType.CORRUPT, () -> AerialHellBlocksAndItems.BROKEN_WEAK_SHADOW_REACTOR.get()));
+	public static final RegistryObject<Block> HIGH_POWER_SHADOW_REACTOR = BLOCKS.register("high_power_shadow_reactor", () -> new ReactorBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 60, BiomeShifter.ShiftType.CORRUPT, () -> AerialHellBlocksAndItems.BROKEN_HIGH_POWER_SHADOW_REACTOR.get()));
+	public static final RegistryObject<Item> WEAK_LIGHT_REACTOR_ITEM = ITEMS.register("weak_light_reactor", () -> new WithInformationBlockItem(WEAK_LIGHT_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT)));
+	public static final RegistryObject<Item> HIGH_POWER_LIGHT_REACTOR_ITEM = ITEMS.register("high_power_light_reactor", () -> new WithInformationBlockItem(HIGH_POWER_LIGHT_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT)));
+	public static final RegistryObject<Item> WEAK_SHADOW_REACTOR_ITEM = ITEMS.register("weak_shadow_reactor", () -> new WithInformationBlockItem(WEAK_SHADOW_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
+	public static final RegistryObject<Item> HIGH_POWER_SHADOW_REACTOR_ITEM = ITEMS.register("high_power_shadow_reactor", () -> new WithInformationBlockItem(HIGH_POWER_SHADOW_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
+
+	public static final RegistryObject<Block> BROKEN_WEAK_LIGHT_REACTOR = BLOCKS.register("broken_weak_light_reactor", () -> new Block(BlockBehaviour.Properties.copy(WEAK_LIGHT_REACTOR.get())));
+	public static final RegistryObject<Block> BROKEN_HIGH_POWER_LIGHT_REACTOR = BLOCKS.register("broken_high_power_light_reactor", () -> new Block(BlockBehaviour.Properties.copy(HIGH_POWER_LIGHT_REACTOR.get())));
+	public static final RegistryObject<Block> BROKEN_WEAK_SHADOW_REACTOR = BLOCKS.register("broken_weak_shadow_reactor", () -> new Block(BlockBehaviour.Properties.copy(WEAK_SHADOW_REACTOR.get())));
+	public static final RegistryObject<Block> BROKEN_HIGH_POWER_SHADOW_REACTOR = BLOCKS.register("broken_high_power_shadow_reactor", () -> new Block(BlockBehaviour.Properties.copy(HIGH_POWER_SHADOW_REACTOR.get())));
+	public static final RegistryObject<Item> BROKEN_WEAK_LIGHT_REACTOR_ITEM = ITEMS.register("broken_weak_light_reactor", () -> new WithInformationBlockItem(BROKEN_WEAK_LIGHT_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT)));
+	public static final RegistryObject<Item> BROKEN_HIGH_POWER_LIGHT_REACTOR_ITEM = ITEMS.register("broken_high_power_light_reactor", () -> new WithInformationBlockItem(BROKEN_HIGH_POWER_LIGHT_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT)));
+	public static final RegistryObject<Item> BROKEN_WEAK_SHADOW_REACTOR_ITEM = ITEMS.register("broken_weak_shadow_reactor", () -> new WithInformationBlockItem(BROKEN_WEAK_SHADOW_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
+	public static final RegistryObject<Item> BROKEN_HIGH_POWER_SHADOW_REACTOR_ITEM = ITEMS.register("broken_high_power_shadow_reactor", () -> new WithInformationBlockItem(BROKEN_HIGH_POWER_SHADOW_REACTOR.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
 
 	//solid_ethers
 	public static final RegistryObject<Block> WHITE_SOLID_ETHER = BLOCKS.register("white_solid_ether", () -> new SolidEtherBlock(BlockBehaviour.Properties.of().strength(0.2F).sound(SoundType.WOOL).noOcclusion()));
@@ -788,7 +841,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> IRON_STELLAR_ORE = BLOCKS.register("iron_stellar_ore",() -> new AerialHellOreBlock(0, 2, BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
 	public static final RegistryObject<Block> GOLD_STELLAR_ORE = BLOCKS.register("gold_stellar_ore",() -> new AerialHellOreBlock(0, 2, BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
 	public static final RegistryObject<Block> DIAMOND_STELLAR_ORE = BLOCKS.register("diamond_stellar_ore",() -> new AerialHellOreBlock(3, 5, BlockBehaviour.Properties.of().strength(5.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
-	public static final RegistryObject<Block> FLUORITE_ORE = BLOCKS.register("fluorite_ore",() -> new AerialHellOreBlock(0, 2, BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+	public static final RegistryObject<Block> FLUORITE_ORE = BLOCKS.register("fluorite_ore",() -> new BiomeShifterOreBlock(0, 2, BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.STONE).requiresCorrectToolForDrops(), 2, BiomeShifter.ShiftType.UNCORRUPT, () -> AerialHellBlocksAndItems.SMOKY_QUARTZ_ORE.get()));
 	public static final RegistryObject<Block> MAGMATIC_GEL_ORE = BLOCKS.register("magmatic_gel_ore",() -> new MagmaticGelOreBlock(0, 2, BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.STONE).lightLevel(s -> 4).requiresCorrectToolForDrops()));
 	public static final RegistryObject<Block> RUBY_ORE = BLOCKS.register("ruby_ore",() -> new AerialHellOreBlock(0, 0, BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
 	public static final RegistryObject<Block> AZURITE_ORE = BLOCKS.register("azurite_ore",() -> new AerialHellOreBlock(0, 0, BlockBehaviour.Properties.of().strength(3.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
@@ -817,7 +870,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> RAW_AZURITE = ITEMS.register("raw_azurite_crystal", () -> new Item(new Item.Properties()));
 	public static final RegistryObject<Item> RAW_VOLUCITE = ITEMS.register("raw_volucite", () -> new Item(new Item.Properties()));
 
-	public static final RegistryObject<Block> FLUORITE_BLOCK = BLOCKS.register("fluorite_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()));
+	public static final RegistryObject<Block> FLUORITE_BLOCK = BLOCKS.register("fluorite_block", () -> new BiomeShifterBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops(), 7, BiomeShifter.ShiftType.UNCORRUPT, () -> AerialHellBlocksAndItems.SMOKY_QUARTZ_BLOCK.get()));
 	public static final RegistryObject<Block> MAGMATIC_GEL_BLOCK = BLOCKS.register("magmatic_gel_block", () -> new MagmaticGelBlock(BlockBehaviour.Properties.of().strength(1.0F, 1600.0F).randomTicks().sound(SoundType.GLASS).noOcclusion().requiresCorrectToolForDrops().isViewBlocking((state, reader, pos) -> false)));
 	public static final RegistryObject<Block> RUBY_BLOCK = BLOCKS.register("ruby_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()));
 	public static final RegistryObject<Block> AZURITE_BLOCK = BLOCKS.register("azurite_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()));
@@ -841,14 +894,14 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> ARSONIST_INGOT = ITEMS.register("arsonist_ingot", () -> new Item(new Item.Properties().rarity(AerialHellRarities.LEGENDARY).fireResistant()));
 	public static final RegistryObject<Item> LUNATIC_CRYSTAL = ITEMS.register("lunatic_crystal", () -> new Item(new Item.Properties().rarity(AerialHellRarities.LEGENDARY)));
 	public static final RegistryObject<Item> OBSIDIAN_SHARD = ITEMS.register("obsidian_shard", () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
-	public static final RegistryObject<Item> CURSED_CRYSAL = ITEMS.register("cursed_crystal", () -> new Item(new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
+	public static final RegistryObject<Item> CURSED_CRYSTAL = ITEMS.register("cursed_crystal", () -> new Item(new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
 
 	public static final RegistryObject<Block> ARSONIST_BLOCK = BLOCKS.register("arsonist_block", () -> new ArsonistBlock(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK).requiresCorrectToolForDrops().lightLevel((state) -> 9)));
 	public static final RegistryObject<Item> ARSONIST_BLOCK_ITEM = ITEMS.register("arsonist_block", () -> new BlockItem(ARSONIST_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.LEGENDARY).fireResistant()));
 	public static final RegistryObject<Block> LUNATIC_CRYSTAL_BLOCK = BLOCKS.register("lunatic_crystal_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK).sound(SoundType.GLASS).requiresCorrectToolForDrops().lightLevel((state) -> 9)));
 	public static final RegistryObject<Item> LUNATIC_CRYSTAL_BLOCK_ITEM = ITEMS.register("lunatic_crystal_block", () -> new BlockItem(LUNATIC_CRYSTAL_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.LEGENDARY)));
 	public static final RegistryObject<Block> CURSED_CRYSAL_BLOCK = BLOCKS.register("cursed_crystal_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK).sound(SoundType.GLASS).requiresCorrectToolForDrops().lightLevel((state) -> 9)));
-	public static final RegistryObject<Item> CURSED_CRYSAL_BLOCK_ITEM = ITEMS.register("cursed_crystal_block", () -> new BlockItem(CURSED_CRYSAL_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
+	public static final RegistryObject<Item> CURSED_CRYSTAL_BLOCK_ITEM = ITEMS.register("cursed_crystal_block", () -> new BlockItem(CURSED_CRYSAL_BLOCK.get(), new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
 
 	//cactus
 	public static final RegistryObject<SkyCactusBlock> SKY_CACTUS = BLOCKS.register("sky_cactus", () -> new SkyCactusBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN).strength(0.4F).sound(SoundType.WOOL).randomTicks()));
@@ -869,9 +922,12 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> VIBRANT_AERIAL_BERRY_SEEDS = ITEMS.register("vibrant_aerial_berry_seeds",() -> new ItemNameBlockItem(VIBRANT_AERIAL_BERRY_BUSH.get(), new Item.Properties().rarity(AerialHellRarities.VIBRANT)));
 
 	//crops
-	public static final RegistryObject<Block> STELLAR_WHEAT = BLOCKS.register("stellar_wheat", () -> new StellarWheatBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)));
+	public static final RegistryObject<Block> STELLAR_WHEAT = BLOCKS.register("stellar_wheat", () -> new StellarCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)));
 	public static final RegistryObject<Item> STELLAR_WHEAT_SEEDS = ITEMS.register("stellar_wheat_seeds",() -> new ItemNameBlockItem(STELLAR_WHEAT.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_WHEAT_ITEM = ITEMS.register("stellar_wheat",() -> new Item(new Item.Properties()));
+	public static final RegistryObject<Block> BLUE_MEANIE_CROP = BLOCKS.register("blue_meanie_crop", () -> new StellarCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)));
+	public static final RegistryObject<Item> BLUE_MEANIE_SPORES = ITEMS.register("blue_meanie_spores", () -> new ItemNameBlockItem(BLUE_MEANIE_CROP.get(), new Item.Properties()));
+	public static final RegistryObject<Item> BLUE_MEANIE_CAP = ITEMS.register("blue_meanie_cap", () -> new Item(new Item.Properties()));
 
 	//Vertical growing plants
 	public static final RegistryObject<VerticalGrowingPlantBlock> CLIMBING_VINE = BLOCKS.register("climbing_vine", () -> new VerticalGrowingPlantBlock(BlockBehaviour.Properties.copy(Blocks.SUGAR_CANE), 4));
@@ -902,26 +958,29 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<AerialHellTwistingVinesBlock> GLOWING_ROOTS = BLOCKS.register("glowing_roots", () -> new AerialHellTwistingVinesBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES).lightLevel((state) -> 9)));
 	public static final RegistryObject<AerialHellTwistingVinesPlantBlock> GLOWING_ROOTS_PLANT = BLOCKS.register("glowing_roots_plant", () -> new AerialHellTwistingVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES_PLANT).lightLevel((state) -> 14)));
 	public static final RegistryObject<Item> GLOWING_ROOTS_ITEM = ITEMS.register("glowing_roots", () -> new BlockItem(GLOWING_ROOTS.get(), new Item.Properties()));
+	public static final RegistryObject<AerialHellTwistingVinesBlock> SHADOW_GLOWING_ROOTS = BLOCKS.register("shadow_glowing_roots", () -> new AerialHellTwistingVinesBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES).lightLevel((state) -> 8)));
+	public static final RegistryObject<AerialHellTwistingVinesPlantBlock> SHADOW_GLOWING_ROOTS_PLANT = BLOCKS.register("shadow_glowing_roots_plant", () -> new AerialHellTwistingVinesPlantBlock(BlockBehaviour.Properties.copy(Blocks.TWISTING_VINES_PLANT).lightLevel((state) -> 13)));
+	public static final RegistryObject<Item> SHADOW_GLOWING_ROOTS_ITEM = ITEMS.register("shadow_glowing_roots", () -> new BlockItem(SHADOW_GLOWING_ROOTS.get(), new Item.Properties()));
 
 	//grass
-	public static final RegistryObject<Block> STELLAR_GRASS = BLOCKS.register("stellar_grass", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> STELLAR_GRASS_BALL = BLOCKS.register("stellar_grass_ball", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> STELLAR_FERN = BLOCKS.register("stellar_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> STELLAR_TALL_GRASS = BLOCKS.register("stellar_tall_grass", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> STELLAR_TALL_FERN = BLOCKS.register("stellar_tall_fern", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> STELLAR_GRASS = BLOCKS.register("stellar_grass", () -> new ShiftableRenderTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> STELLAR_GRASS_BALL = BLOCKS.register("stellar_grass_ball", () -> new ShiftableRenderTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> STELLAR_FERN = BLOCKS.register("stellar_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> STELLAR_TALL_GRASS = BLOCKS.register("stellar_tall_grass", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> STELLAR_TALL_FERN = BLOCKS.register("stellar_tall_fern", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<VerticalGrowingPlantBlock> STELLAR_VERY_TALL_GRASS = BLOCKS.register("stellar_very_tall_grass", () -> new VerticalGrowingPlantBlock(BlockBehaviour.Properties.copy(Blocks.SUGAR_CANE), 3));
-	public static final RegistryObject<Block> BLUISH_FERN = BLOCKS.register("bluish_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> TALL_BLUISH_FERN = BLOCKS.register("tall_bluish_fern", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> POLYCHROME_FERN = BLOCKS.register("polychrome_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> TALL_POLYCHROME_FERN = BLOCKS.register("tall_polychrome_fern", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> STELLAR_DEAD_BUSH = BLOCKS.register("stellar_dead_bush", () -> new AerialHellDeadBushBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).mapColor(MapColor.WOOD).noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> BLUISH_FERN = BLOCKS.register("bluish_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> TALL_BLUISH_FERN = BLOCKS.register("tall_bluish_fern", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> POLYCHROME_FERN = BLOCKS.register("polychrome_fern", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> TALL_POLYCHROME_FERN = BLOCKS.register("tall_polychrome_fern", () -> new DoublePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> STELLAR_DEAD_BUSH = BLOCKS.register("stellar_dead_bush", () -> new AerialHellDeadBushBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().mapColor(MapColor.WOOD).noCollission().instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<Block> BRAMBLES = BLOCKS.register("brambles", () -> new BramblesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().strength(0.5F).sound(SoundType.GRASS)));
 	public static final RegistryObject<Block> SHADOW_BRAMBLES = BLOCKS.register("shadow_brambles", () -> new BramblesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().strength(0.5F).sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> SHADOW_GRASS = BLOCKS.register("shadow_grass", () -> new ShadowPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> SHADOW_GRASS_BALL = BLOCKS.register("shadow_grass_ball", () -> new ShadowPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> PURPLISH_STELLAR_GRASS = BLOCKS.register("purplish_stellar_grass", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> STELLAR_CLOVERS = BLOCKS.register("stellar_clovers", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)));
-	public static final RegistryObject<Block> GLOWING_STELLAR_GRASS = BLOCKS.register("glowing_stellar_grass", () -> new GlowingStellarTallGrass(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().noCollission().lightLevel((state) -> {return state.getValue(BlockStateProperties.LIT) ? 10 : 0;}).instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> SHADOW_GRASS = BLOCKS.register("shadow_grass", () -> new ShadowPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> SHADOW_GRASS_BALL = BLOCKS.register("shadow_grass_ball", () -> new ShadowPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> PURPLISH_STELLAR_GRASS = BLOCKS.register("purplish_stellar_grass", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> STELLAR_CLOVERS = BLOCKS.register("stellar_clovers", () -> new AerialHellTallGrassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission().instabreak().sound(SoundType.GRASS)));
+	public static final RegistryObject<Block> GLOWING_STELLAR_GRASS = BLOCKS.register("glowing_stellar_grass", () -> new GlowingStellarTallGrass(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().randomTicks().noCollission().lightLevel((state) -> {return state.getValue(BlockStateProperties.LIT) ? 10 : 0;}).instabreak().sound(SoundType.GRASS)));
 	public static final RegistryObject<Item> STELLAR_GRASS_ITEM = ITEMS.register("stellar_grass", () -> new BlockItem(STELLAR_GRASS.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_GRASS_BALL_ITEM = ITEMS.register("stellar_grass_ball", () -> new BlockItem(STELLAR_GRASS_BALL.get(), new Item.Properties()));
 	public static final RegistryObject<Item> STELLAR_FERN_ITEM = ITEMS.register("stellar_fern", () -> new BlockItem(STELLAR_FERN.get(), new Item.Properties()));
@@ -990,9 +1049,9 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<ChestBlock> AERIAL_TREE_CHEST = BLOCKS.register("aerial_tree_chest", () -> new AerialHellChestBlock(AERIAL_TREE_MATERIAL));
 	public static final RegistryObject<Item> AERIAL_TREE_CHEST_ITEM = ITEMS.register("aerial_tree_chest", () -> new ChestBlockItem(AERIAL_TREE_CHEST.get(), new Item.Properties()));
 	public static final RegistryObject<ChestBlock> GOLDEN_BEECH_CHEST = BLOCKS.register("golden_beech_chest", () -> new AerialHellChestBlock(AERIAL_TREE_MATERIAL));
-	public static final RegistryObject<Item> GOLDEN_BEECH_ITEM = ITEMS.register("golden_beech_chest", () -> new ChestBlockItem(GOLDEN_BEECH_CHEST.get(), new Item.Properties()));
+	public static final RegistryObject<Item> GOLDEN_BEECH_CHEST_ITEM = ITEMS.register("golden_beech_chest", () -> new ChestBlockItem(GOLDEN_BEECH_CHEST.get(), new Item.Properties()));
 	public static final RegistryObject<ChestBlock> COPPER_PINE_CHEST = BLOCKS.register("copper_pine_chest", () -> new AerialHellChestBlock(COPPER_PINE_MATERIAL));
-	public static final RegistryObject<Item> COPPER_PINE_ITEM = ITEMS.register("copper_pine_chest", () -> new ChestBlockItem(COPPER_PINE_CHEST.get(), new Item.Properties()));
+	public static final RegistryObject<Item> COPPER_PINE_CHEST_ITEM = ITEMS.register("copper_pine_chest", () -> new ChestBlockItem(COPPER_PINE_CHEST.get(), new Item.Properties()));
 	public static final RegistryObject<ChestBlock> LAPIS_ROBINIA_CHEST = BLOCKS.register("lapis_robinia_chest", () -> new AerialHellChestBlock(COPPER_PINE_MATERIAL));
 	public static final RegistryObject<Item> LAPIS_ROBINIA_CHEST_ITEM = ITEMS.register("lapis_robinia_chest", () -> new ChestBlockItem(LAPIS_ROBINIA_CHEST.get(), new Item.Properties()));
 	public static final RegistryObject<ChestBlock> SHADOW_PINE_CHEST = BLOCKS.register("shadow_pine_chest", () -> new AerialHellChestBlock(SHADOW_PINE_MATERIAL));
@@ -1417,18 +1476,18 @@ public class AerialHellBlocksAndItems
 
 	//food
 	public static final RegistryObject<Item> AERIAL_BERRY = ITEMS.register("aerial_berry",() -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2F).build())));
-	public static final RegistryObject<Item> ROASTED_AERIAL_BERRY = ITEMS.register("roasted_aerial_berry",() -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.4F).build())));
-	public static final RegistryObject<Item> VIBRANT_AERIAL_BERRY = ITEMS.register("vibrant_aerial_berry",() -> new Item(new Item.Properties().rarity(AerialHellRarities.VIBRANT).food(new FoodProperties.Builder().nutrition(6).saturationMod(0.6F).build())));
-	public static final RegistryObject<Item> FROZEN_AERIAL_BERRY = ITEMS.register("frozen_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, () -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 310, 0), () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 210, 0)));
+	public static final RegistryObject<Item> ROASTED_AERIAL_BERRY = ITEMS.register("roasted_aerial_berry",() -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(0.3F).build())));
+	public static final RegistryObject<Item> VIBRANT_AERIAL_BERRY = ITEMS.register("vibrant_aerial_berry",() -> new Item(new Item.Properties().rarity(AerialHellRarities.VIBRANT).food(new FoodProperties.Builder().nutrition(4).saturationMod(0.4F).build())));
+	public static final RegistryObject<Item> FROZEN_AERIAL_BERRY = ITEMS.register("frozen_aerial_berry", () -> new FoodWithEffectItem(4, 0.4F, AerialHellRarities.FROZEN, () -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 310, 0), () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 210, 0)));
 	public static final RegistryObject<Item> STELLAR_BREAD = ITEMS.register("stellar_bread",() -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).saturationMod(0.6F).build())));
 	public static final RegistryObject<Item> FROZEN_MUTTON = ITEMS.register("frozen_mutton", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, () -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 310, 0), () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 210, 0)));
 	public static final RegistryObject<Item> VIBRANT_CHICKEN = ITEMS.register("vibrant_chicken", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, () -> new MobEffectInstance(MobEffects.SLOW_FALLING, 60, 0)));
 	public static final RegistryObject<Item> FROZEN_CHICKEN = ITEMS.register("frozen_chicken", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.FROZEN, () -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 310, 0), () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 210, 1), () -> new MobEffectInstance(MobEffects.HUNGER, 80, 0)));
 	public static final RegistryObject<Item> RUBY_AERIAL_BERRY = ITEMS.register("ruby_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, Rarity.RARE, () -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 2400, 0)));
-	public static final RegistryObject<Item> VOLUCITE_AERIAL_BERRY = ITEMS.register("volucite_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, () -> new MobEffectInstance(MobEffects.SLOW_FALLING, 2400, 2)));
-	public static final RegistryObject<Item> GLOWING_STICK_FRUIT = ITEMS.register("glowing_stick_fruit",() -> new ItemNameBlockItem(GLOWING_STICK_FRUIT_VINES.get(), new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2F).build())));
-	public static final RegistryObject<Item> VIBRANT_GLOWING_STICK_FRUIT = ITEMS.register("vibrant_glowing_stick_fruit", () -> new Item(new Item.Properties().rarity(AerialHellRarities.VIBRANT).food(new FoodProperties.Builder().nutrition(4).saturationMod(0.4F).build())));
-	public static final RegistryObject<Item> FROZEN_GLOWING_STICK_FRUIT = ITEMS.register("frozen_glowing_stick_fruit", () -> new FoodWithEffectItem(4, 0.4F, AerialHellRarities.FROZEN, () -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 0), () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 180, 0)));
+	public static final RegistryObject<Item> VOLUCITE_AERIAL_BERRY = ITEMS.register("volucite_aerial_berry", () -> new FoodWithEffectItem(6, 0.8F, AerialHellRarities.VIBRANT, () -> new MobEffectInstance(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get(), 5000, 1)));
+	public static final RegistryObject<Item> GLOWING_STICK_FRUIT = ITEMS.register("glowing_stick_fruit",() -> new ItemNameBlockItem(GLOWING_STICK_FRUIT_VINES.get(), new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(0.3F).build())));
+	public static final RegistryObject<Item> VIBRANT_GLOWING_STICK_FRUIT = ITEMS.register("vibrant_glowing_stick_fruit", () -> new Item(new Item.Properties().rarity(AerialHellRarities.VIBRANT).food(new FoodProperties.Builder().nutrition(6).saturationMod(0.8F).build())));
+	public static final RegistryObject<Item> FROZEN_GLOWING_STICK_FRUIT = ITEMS.register("frozen_glowing_stick_fruit", () -> new FoodWithEffectItem(6, 0.6F, AerialHellRarities.FROZEN, () -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 0), () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 180, 0)));
 	public static final RegistryObject<Item> CORTINARIUS_VIOLACEUS_PIECE = ITEMS.register("cortinarius_violaceus_piece", () -> new FoodWithEffectItem(1, 0.1F, Rarity.COMMON, () -> new MobEffectInstance(MobEffects.CONFUSION, 100, 0)));
 	public static final RegistryObject<Item> GANODERMA_APPLANATUM_PIECE = ITEMS.register("ganoderma_applanatum_piece", () -> new FoodWithEffectItem(1, 0.1F, Rarity.COMMON, () -> new MobEffectInstance(MobEffects.HUNGER, 100, 0)));
 	public static final RegistryObject<Item> DARK_SHADOW_FRUIT = ITEMS.register("dark_shadow_fruit", () -> new FoodWithEffectItem(2, 0.2F, Rarity.COMMON, () -> new MobEffectInstance(MobEffects.BLINDNESS, 20, 0), () -> new MobEffectInstance(MobEffects.NIGHT_VISION, 120, 0)));
@@ -1441,7 +1500,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> PHANTOM_MEAT = ITEMS.register("phantom_meat", () -> new FoodWithEffectItem(5, 0.8F, Rarity.UNCOMMON, () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 120, 0)));
 	public static final RegistryObject<Item> VIBRANT_PHANTOM_MEAT = ITEMS.register("vibrant_phantom_meat", () -> new FoodWithEffectItem(8, 0.8F, AerialHellRarities.VIBRANT, () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 400, 1)));
 	public static final RegistryObject<Item> FROZEN_PHANTOM_MEAT = ITEMS.register("frozen_phantom_meat", () -> new FoodWithEffectItem(6, 0.6F, AerialHellRarities.FROZEN, () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 800, 1)));
-    public static final RegistryObject<Item> COOKED_PHANTOM_MEAT = ITEMS.register("cooked_phantom_meat",() -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(10).saturationMod(0.9F).meat().build())));
+	public static final RegistryObject<Item> COOKED_PHANTOM_MEAT = ITEMS.register("cooked_phantom_meat",() -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(10).saturationMod(0.9F).build())));
 	public static final RegistryObject<Item> TURTLE_MEAT = ITEMS.register("turtle_meat", () -> new Item(new Item.Properties().food(Foods.BEEF)));
 	public static final RegistryObject<Item> VIBRANT_TURTLE_MEAT = ITEMS.register("vibrant_turtle_meat", () -> new FoodWithEffectItem(7, 0.7F, AerialHellRarities.VIBRANT, () -> new MobEffectInstance(MobEffects.SLOW_FALLING, 400, 0)));
 	public static final RegistryObject<Item> FROZEN_TURTLE_MEAT = ITEMS.register("frozen_turtle_meat", () -> new FoodWithEffectItem(6, 0.6F, AerialHellRarities.FROZEN, () -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 400, 0)));
@@ -1602,10 +1661,10 @@ public class AerialHellBlocksAndItems
     public static final RegistryObject<ArmorItem> ARSONIST_LEGGINGS = ITEMS.register("arsonist_leggings", () -> new ArmorItem(AerialHellArmorMaterials.arsonist, ArmorItem.Type.LEGGINGS, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
     public static final RegistryObject<ArmorItem> ARSONIST_BOOTS = ITEMS.register("arsonist_boots", () -> new ArmorItem(AerialHellArmorMaterials.arsonist, ArmorItem.Type.BOOTS, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
 
-	public static final RegistryObject<ArmorItem> SHADOW_HELMET = ITEMS.register("shadow_helmet", () -> new ArmorItem(AerialHellArmorMaterials.shadow, ArmorItem.Type.HELMET, (new Item.Properties()).rarity(AerialHellRarities.CORRUPTED)));
-	public static final RegistryObject<ArmorItem> SHADOW_CHESTPLATE = ITEMS.register("shadow_chestplate", () -> new AerialHellArmorItem(AerialHellArmorMaterials.shadow, ArmorItem.Type.CHESTPLATE, (new Item.Properties()).rarity(AerialHellRarities.CORRUPTED)));
-	public static final RegistryObject<ArmorItem> SHADOW_LEGGINGS = ITEMS.register("shadow_leggings", () -> new ArmorItem(AerialHellArmorMaterials.shadow, ArmorItem.Type.LEGGINGS, (new Item.Properties()).rarity(AerialHellRarities.CORRUPTED)));
-	public static final RegistryObject<ArmorItem> SHADOW_BOOTS = ITEMS.register("shadow_boots", () -> new ArmorItem(AerialHellArmorMaterials.shadow, ArmorItem.Type.BOOTS, (new Item.Properties()).rarity(AerialHellRarities.CORRUPTED)));
+	public static final RegistryObject<ArmorItem> SHADOW_HELMET = ITEMS.register("shadow_helmet", () -> new ShadowArmorItem(AerialHellArmorMaterials.shadow, ArmorItem.Type.HELMET, new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
+	public static final RegistryObject<ArmorItem> SHADOW_CHESTPLATE = ITEMS.register("shadow_chestplate", () -> new ShadowArmorItem(AerialHellArmorMaterials.shadow, ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
+	public static final RegistryObject<ArmorItem> SHADOW_LEGGINGS = ITEMS.register("shadow_leggings", () -> new ShadowArmorItem(AerialHellArmorMaterials.shadow, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
+	public static final RegistryObject<ArmorItem> SHADOW_BOOTS = ITEMS.register("shadow_boots", () -> new ShadowArmorItem(AerialHellArmorMaterials.shadow, ArmorItem.Type.BOOTS, new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
 
 	//effect totems
     public static final RegistryObject<Item> REGENERATION_TOTEM = ITEMS.register("regeneration_totem", () -> new EffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.LEGENDARY)));

@@ -61,8 +61,7 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 		return blockstate.isFaceSturdy(worldIn, blockpos, direction);
 	}
 
-	@Nullable
-	public BlockState getStateForPlacement(BlockPlaceContext context)
+	@Override @Nullable public BlockState getStateForPlacement(BlockPlaceContext context)
 	{
 		BlockState blockstate = this.defaultBlockState();
 		LevelReader iworldreader = context.getLevel();
@@ -81,12 +80,12 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 		return null;
 	}
 
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos)
+	@Override public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos)
 	{
 		return facing.getOpposite() == stateIn.getValue(HORIZONTAL_FACING) && !stateIn.canSurvive(worldIn, currentPos) ? Blocks.AIR.defaultBlockState() : stateIn;
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@Override @OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand)
 	{
 		Direction direction = stateIn.getValue(HORIZONTAL_FACING);
@@ -104,17 +103,17 @@ public class AerialHellWallTorchBlock extends AerialHellTorchBlock
 		}
 	}
 
-	public BlockState rotate(BlockState state, Rotation rot)
+	@Override public BlockState rotate(BlockState state, Rotation rot)
 	{
 		return state.setValue(HORIZONTAL_FACING, rot.rotate(state.getValue(HORIZONTAL_FACING)));
 	}
 
-	public BlockState mirror(BlockState state, Mirror mirrorIn)
+	@Override public BlockState mirror(BlockState state, Mirror mirrorIn)
 	{
 		return state.rotate(mirrorIn.getRotation(state.getValue(HORIZONTAL_FACING)));
 	}
 
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
+	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(HORIZONTAL_FACING);
 	}

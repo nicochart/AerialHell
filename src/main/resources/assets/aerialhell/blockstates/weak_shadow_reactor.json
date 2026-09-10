@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "aerialhell:block/weak_shadow_reactor"
+    },
+    "active=true": {
+      "model": "aerialhell:block/weak_shadow_reactor_on"
+    }
+  }
+}

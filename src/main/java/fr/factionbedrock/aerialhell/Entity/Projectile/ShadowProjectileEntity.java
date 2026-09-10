@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity.Projectile;
 
+import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Bosses.LilithEntity;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -23,9 +24,10 @@ public class ShadowProjectileEntity extends AbstractLightProjectileEntity
         super(AerialHellEntities.SHADOW_PROJECTILE.get(), shooter, world);
         this.shoot(accelX, accelY, accelZ, velocity, inaccuracy);
     }
+
+    @Override protected BiomeShifter.ShiftType getShiftType() {return BiomeShifter.ShiftType.CORRUPT;}
     
-    @Override
-    protected void onHitEntity(EntityHitResult result)
+    @Override protected void onHitEntity(EntityHitResult result)
     {
         super.onHitEntity(result);
         Entity target = result.getEntity();

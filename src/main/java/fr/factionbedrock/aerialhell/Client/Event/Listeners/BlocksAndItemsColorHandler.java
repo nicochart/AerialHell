@@ -1,7 +1,11 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
-import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.Util.CalculateTintContextInfo;
+import fr.factionbedrock.aerialhell.Client.Util.ColorHandlerHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
@@ -9,51 +13,17 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.awt.*;
 
-@Mod.EventBusSubscriber(modid = AerialHell.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BlocksAndItemsColorHandler
 {
-    private static final Color DEFAULT_COLOR = new Color(12, 35, 26);
-    private static final int MUD_GLYPH_COLOR = new Color(144, 95, 1).getRGB();
-    private static final int LUNATIC_GLYPH_COLOR = new Color(175, 236, 181).getRGB();
-    private static final int GOLDEN_NETHER_PRISON_GLYPH_COLOR = new Color(193, 25, 25).getRGB();
-    private static final int VOLUCITE_GLYPH_COLOR = new Color(48, 66, 179).getRGB();
-    private static final int SHADOW_CATACOMBS_GLYPH_COLOR = new Color(153, 99, 248).getRGB();
-
-    @SubscribeEvent
     public static void handleBlockColors(RegisterColorHandlersEvent.Block event)
     {
         event.getBlockColors().register((state, level, pos, tint) -> getColor(tint, level, pos),
                 AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get(),
-                AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(),
-                AerialHellBlocksAndItems.STELLAR_GRASS.get(),
-                AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get(),
-                AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get(),
-                AerialHellBlocksAndItems.STELLAR_FERN.get(),
-                AerialHellBlocksAndItems.STELLAR_TALL_FERN.get(),
-                AerialHellBlocksAndItems.STELLAR_VERY_TALL_GRASS.get(),
-                AerialHellBlocksAndItems.BLUISH_FERN.get(),
-                AerialHellBlocksAndItems.TALL_BLUISH_FERN.get(),
-                AerialHellBlocksAndItems.POLYCHROME_FERN.get(),
-                AerialHellBlocksAndItems.TALL_POLYCHROME_FERN.get(),
-                AerialHellBlocksAndItems.BLOSSOMING_VINES.get(),
-                AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get(),
-                AerialHellBlocksAndItems.CLIMBING_VINE.get(),
-                AerialHellBlocksAndItems.STELLAR_ROOTS.get(),
-                AerialHellBlocksAndItems.STELLAR_ROOTS_PLANT.get(),
-                AerialHellBlocksAndItems.BRAMBLES.get(),
-                AerialHellBlocksAndItems.PURPLISH_STELLAR_GRASS.get(),
-                AerialHellBlocksAndItems.STELLAR_CLOVERS.get(),
-                AerialHellBlocksAndItems.GLOWING_STELLAR_GRASS.get(),
-                AerialHellBlocksAndItems.BLACK_ROSE.get(),
-                AerialHellBlocksAndItems.BLUE_FLOWER.get(),
-                AerialHellBlocksAndItems.BELLFLOWER.get(),
                 AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_SAPLING.get(),
-                AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get(),
                 AerialHellBlocksAndItems.MOSSY_STELLAR_STONE.get(),
                 AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE.get(),
                 AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_WALL.get(),
@@ -74,12 +44,62 @@ public class BlocksAndItemsColorHandler
         );
 
         event.getBlockColors().register((state, level, pos, tint) -> getCustomColor(state, tint, level, pos),
+                AerialHellBlocksAndItems.SLIPPERY_SAND.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS.get(),
+                AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS.get(),
+                AerialHellBlocksAndItems.CUT_SLIPPERY_SAND_STONE.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_SLAB.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_SLAB.get(),
+                AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_SLAB.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_STAIRS.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_STAIRS.get(),
+                AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_STAIRS.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_WALL.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_WALL.get(),
+                AerialHellBlocksAndItems.CRACKED_SLIPPERY_SAND_STONE_BRICKS_WALL.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BUTTON.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_BUTTON.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_PRESSURE_PLATE.get(),
+                AerialHellBlocksAndItems.SLIPPERY_SAND_STONE_BRICKS_PRESSURE_PLATE.get(),
                 AerialHellBlocksAndItems.STELLAR_PODZOL.get(),
                 AerialHellBlocksAndItems.MUD_GLYPH_BLOCK.get(),
                 AerialHellBlocksAndItems.LUNATIC_GLYPH_BLOCK.get(),
                 AerialHellBlocksAndItems.GOLDEN_NETHER_PRISON_GLYPH_BLOCK.get(),
                 AerialHellBlocksAndItems.VOLUCITE_GLYPH_BLOCK.get(),
                 AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK.get()
+        );
+
+        event.getBlockColors().register((state, level, pos, tint) -> getVegetationColor(state, tint, level, pos),
+                AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(),
+                AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(),
+                AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get(),
+                AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get(),
+                AerialHellBlocksAndItems.SHADOW_GRASS.get(),
+                AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get(),
+                AerialHellBlocksAndItems.STELLAR_GRASS.get(),
+                AerialHellBlocksAndItems.STELLAR_TALL_GRASS.get(),
+                AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get(),
+                AerialHellBlocksAndItems.STELLAR_FERN.get(),
+                AerialHellBlocksAndItems.STELLAR_TALL_FERN.get(),
+                AerialHellBlocksAndItems.STELLAR_VERY_TALL_GRASS.get(),
+                AerialHellBlocksAndItems.CLIMBING_VINE.get(),
+                AerialHellBlocksAndItems.BLOSSOMING_VINES.get(),
+                AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get(),
+                AerialHellBlocksAndItems.STELLAR_ROOTS.get(),
+                AerialHellBlocksAndItems.STELLAR_ROOTS_PLANT.get(),
+                AerialHellBlocksAndItems.BLUISH_FERN.get(),
+                AerialHellBlocksAndItems.TALL_BLUISH_FERN.get(),
+                AerialHellBlocksAndItems.POLYCHROME_FERN.get(),
+                AerialHellBlocksAndItems.TALL_POLYCHROME_FERN.get(),
+                AerialHellBlocksAndItems.BRAMBLES.get(),
+                AerialHellBlocksAndItems.SHADOW_BRAMBLES.get(),
+                AerialHellBlocksAndItems.PURPLISH_STELLAR_GRASS.get(),
+                AerialHellBlocksAndItems.STELLAR_CLOVERS.get(),
+                AerialHellBlocksAndItems.GLOWING_STELLAR_GRASS.get(),
+                AerialHellBlocksAndItems.BLACK_ROSE.get(),
+                AerialHellBlocksAndItems.BLUE_FLOWER.get(),
+                AerialHellBlocksAndItems.BELLFLOWER.get()
         );
     }
 
@@ -92,10 +112,73 @@ public class BlocksAndItemsColorHandler
                 case 0 : return BiomeColors.getAverageGrassColor(level, pos);
                 case 1 : return BiomeColors.getAverageFoliageColor(level, pos);
                 case 2 : return BiomeColors.getAverageWaterColor(level, pos);
-                default: return DEFAULT_COLOR.getRGB();
+                default: return ColorHandlerHelper.DEFAULT_COLOR.getRGB();
             }
         }
-        else {return DEFAULT_COLOR.getRGB();}
+        else {return ColorHandlerHelper.DEFAULT_COLOR.getRGB();}
+    }
+
+    private static int getVegetationColor(BlockState state, int tint, BlockAndTintGetter level, BlockPos pos)
+    {
+        if (level != null && pos != null)
+        {
+            switch (tint)
+            {
+                case 0 :
+                {
+                    if (state.is(AerialHellBlocksAndItems.BLUISH_FERN.get()) || state.is(AerialHellBlocksAndItems.TALL_BLUISH_FERN.get()) || state.is(AerialHellBlocksAndItems.POLYCHROME_FERN.get()) || state.is(AerialHellBlocksAndItems.TALL_POLYCHROME_FERN.get()))
+                    {
+                        return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(pos), ColorHandlerHelper::getLightGrassColor, (info) -> isShadowBindEnabled() ? ColorHandlerHelper.getShadowGrassColor(info) : ColorHandlerHelper.vanillaGetColor(info.pos, BiomeColors.GRASS_COLOR_RESOLVER));
+                    }
+                    else if (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) || state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()))
+                    {
+                        boolean shouldRenderBlack = (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get()) && isShadowBindEnabled()) || (state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()) && !isShadowBindEnabled());
+                        return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(pos));
+                    }
+                    else if (state.is(AerialHellBlocksAndItems.STELLAR_GRASS.get()) || state.is(AerialHellBlocksAndItems.SHADOW_GRASS.get()))
+                    {
+                        boolean shouldRenderBlack = (state.is(AerialHellBlocksAndItems.STELLAR_GRASS.get()) && isShadowBindEnabled()) || (state.is(AerialHellBlocksAndItems.SHADOW_GRASS.get()) && !isShadowBindEnabled());
+                        return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(pos));
+                    }
+                    else if (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get()) || state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get()))
+                    {
+                        boolean shouldRenderBlack = (state.is(AerialHellBlocksAndItems.STELLAR_GRASS_BALL.get()) && isShadowBindEnabled()) || (state.is(AerialHellBlocksAndItems.SHADOW_GRASS_BALL.get()) && !isShadowBindEnabled());
+                        return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(pos));
+                    }
+                    else if (state.is(AerialHellBlocksAndItems.BRAMBLES.get()) || state.is(AerialHellBlocksAndItems.SHADOW_BRAMBLES.get()))
+                    {
+                        boolean shouldRenderBlack = (state.is(AerialHellBlocksAndItems.BRAMBLES.get()) && isShadowBindEnabled()) || (state.is(AerialHellBlocksAndItems.SHADOW_BRAMBLES.get()) && !isShadowBindEnabled());
+                        return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(pos));
+                    }
+                    else if (state.is(AerialHellBlocksAndItems.STELLAR_ROOTS.get()) || state.is(AerialHellBlocksAndItems.STELLAR_ROOTS_PLANT.get()) || state.is(AerialHellBlocksAndItems.BLOSSOMING_VINES.get()) || state.is(AerialHellBlocksAndItems.BLOSSOMING_VINES_PLANT.get()))
+                    {
+                        return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(pos), (info) -> ColorHandlerHelper.getLightColor(info, BiomeColors.GRASS_COLOR_RESOLVER, ColorHandlerHelper.SHADOW_PURPLE), (info) -> ColorHandlerHelper.getShadowColor(info, BiomeColors.GRASS_COLOR_RESOLVER, ColorHandlerHelper.SHADOW_PURPLE));
+                    }
+                    else
+                    {
+                        return ColorHandlerHelper.calculatePlantVegetationBlockTint(new CalculateTintContextInfo(pos));
+                    }
+                }
+                case 1 :
+                {
+                    if (state.is(AerialHellBlocksAndItems.BLUISH_FERN.get()) || state.is(AerialHellBlocksAndItems.TALL_BLUISH_FERN.get()) || state.is(AerialHellBlocksAndItems.POLYCHROME_FERN.get()) || state.is(AerialHellBlocksAndItems.TALL_POLYCHROME_FERN.get()))
+                    {
+                        return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(pos), ColorHandlerHelper::getLightFoliageColor, (info) -> isShadowBindEnabled() ? ColorHandlerHelper.getShiftedOrNotGrassColor(info.pos) : ColorHandlerHelper.vanillaGetColor(info.pos, BiomeColors.FOLIAGE_COLOR_RESOLVER));
+                    }
+                    else if (state.is(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get()) || state.is(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get()))
+                    {
+                        boolean isShadow = state.is(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES.get());
+                        boolean isShifted = isShadowBindEnabled();
+                        boolean shouldRenderWhite = (isShifted && !isShadow) || (!isShifted && isShadow);
+                        return shouldRenderWhite ? ColorHandlerHelper.WHITE : ColorHandlerHelper.calculateFoliageTint(new CalculateTintContextInfo(pos));
+                    }
+                    else {return BiomeColors.getAverageFoliageColor(level, pos);}
+                }
+                case 2 : return BiomeColors.getAverageWaterColor(level, pos);
+                default: return ColorHandlerHelper.DEFAULT_COLOR.getRGB();
+            }
+        }
+        else {return ColorHandlerHelper.DEFAULT_COLOR.getRGB();}
     }
 
     private static int getCustomColor(BlockState state, int tint, BlockAndTintGetter level, BlockPos pos)
@@ -106,30 +189,34 @@ public class BlocksAndItemsColorHandler
             {
                 case 0 :
                 {
-                    Color baseColor = new Color(BiomeColors.getAverageGrassColor(level, pos));
-                    int r = baseColor.getRed(), g = baseColor.getGreen(), b = baseColor.getBlue();
-                    if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_PODZOL.get())
+
+                    if (state.is(AerialHellTags.Blocks.SLIPPERY_SAND))
                     {
+                        return isShadowBindEnabled() ? ColorHandlerHelper.WHITE : ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(pos), (blockpos) -> ColorHandlerHelper.WHITE, (blockpos) -> ColorHandlerHelper.SHADOW_PURPLE);
+                    }
+                    else if (state.getBlock() == AerialHellBlocksAndItems.STELLAR_PODZOL.get())
+                    {
+                        Color baseColor = new Color(ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(pos)));
+                        int r = baseColor.getRed(), g = baseColor.getGreen(), b = baseColor.getBlue();
                         return new Color((int) Math.min(255, r * 1.5), (int) (g / 1.5), b).getRGB();
                     }
-                    else if (state.getBlock() == AerialHellBlocksAndItems.MUD_GLYPH_BLOCK.get()) {return MUD_GLYPH_COLOR;}
-                    else if (state.getBlock() == AerialHellBlocksAndItems.LUNATIC_GLYPH_BLOCK.get()) {return LUNATIC_GLYPH_COLOR;}
-                    else if (state.getBlock() == AerialHellBlocksAndItems.GOLDEN_NETHER_PRISON_GLYPH_BLOCK.get()) {return GOLDEN_NETHER_PRISON_GLYPH_COLOR;}
-                    else if (state.getBlock() == AerialHellBlocksAndItems.VOLUCITE_GLYPH_BLOCK.get()) {return VOLUCITE_GLYPH_COLOR;}
-                    else if (state.getBlock() == AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK.get()) {return SHADOW_CATACOMBS_GLYPH_COLOR;}
+                    else if (state.getBlock() == AerialHellBlocksAndItems.MUD_GLYPH_BLOCK.get()) {return ColorHandlerHelper.MUD_GLYPH_COLOR;}
+                    else if (state.getBlock() == AerialHellBlocksAndItems.LUNATIC_GLYPH_BLOCK.get()) {return ColorHandlerHelper.LUNATIC_GLYPH_COLOR;}
+                    else if (state.getBlock() == AerialHellBlocksAndItems.GOLDEN_NETHER_PRISON_GLYPH_BLOCK.get()) {return ColorHandlerHelper.GOLDEN_NETHER_PRISON_GLYPH_COLOR;}
+                    else if (state.getBlock() == AerialHellBlocksAndItems.VOLUCITE_GLYPH_BLOCK.get()) {return ColorHandlerHelper.VOLUCITE_GLYPH_COLOR;}
+                    else if (state.getBlock() == AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK.get()) {return ColorHandlerHelper.SHADOW_CATACOMBS_GLYPH_COLOR;}
                 }
                 case 1 : return BiomeColors.getAverageFoliageColor(level, pos);
                 case 2 : return BiomeColors.getAverageWaterColor(level, pos);
-                default: return DEFAULT_COLOR.getRGB();
+                default: return ColorHandlerHelper.DEFAULT_COLOR.getRGB();
             }
         }
-        else {return DEFAULT_COLOR.getRGB();}
+        else {return ColorHandlerHelper.DEFAULT_COLOR.getRGB();}
     }
 
-    @SubscribeEvent
     public static void handleItemColors(RegisterColorHandlersEvent.Item event)
     {
-        event.getItemColors().register((stack, color) -> new Color(50, 140, 102).getRGB(),
+        event.getItemColors().register((stack, color) -> ColorHandlerHelper.AERIAL_HELL_PLAINS_GRASS_COLOR,
                 AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK_ITEM.get(),
                 AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK_ITEM.get(),
                 AerialHellBlocksAndItems.STELLAR_PODZOL_ITEM.get(),
@@ -163,6 +250,10 @@ public class BlocksAndItemsColorHandler
                 AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get()
         );
 
+        event.getItemColors().register((stack, color) -> ColorHandlerHelper.SHADOW_BLACK,
+                AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get()
+        );
+
         event.getItemColors().register((stack, color) -> getCustomColor(stack, color),
                 AerialHellBlocksAndItems.MUD_GLYPH_BLOCK_ITEM.get(),
                 AerialHellBlocksAndItems.LUNATIC_GLYPH_BLOCK_ITEM.get(),
@@ -174,11 +265,15 @@ public class BlocksAndItemsColorHandler
 
     private static int getCustomColor(ItemStack itemstack, int color)
     {
-        if (itemstack.getItem() == AerialHellBlocksAndItems.MUD_GLYPH_BLOCK_ITEM.get()) {return MUD_GLYPH_COLOR;}
-        else if (itemstack.getItem() == AerialHellBlocksAndItems.LUNATIC_GLYPH_BLOCK_ITEM.get()) {return LUNATIC_GLYPH_COLOR;}
-        else if (itemstack.getItem() == AerialHellBlocksAndItems.GOLDEN_NETHER_PRISON_GLYPH_BLOCK_ITEM.get()) {return GOLDEN_NETHER_PRISON_GLYPH_COLOR;}
-        else if (itemstack.getItem() == AerialHellBlocksAndItems.VOLUCITE_GLYPH_BLOCK_ITEM.get()) {return VOLUCITE_GLYPH_COLOR;}
-        else if (itemstack.getItem() == AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK_ITEM.get()) {return SHADOW_CATACOMBS_GLYPH_COLOR;}
-        else {return DEFAULT_COLOR.getRGB();}
+        if (itemstack.getItem() == AerialHellBlocksAndItems.MUD_GLYPH_BLOCK_ITEM.get()) {return ColorHandlerHelper.MUD_GLYPH_COLOR;}
+        else if (itemstack.getItem() == AerialHellBlocksAndItems.LUNATIC_GLYPH_BLOCK_ITEM.get()) {return ColorHandlerHelper.LUNATIC_GLYPH_COLOR;}
+        else if (itemstack.getItem() == AerialHellBlocksAndItems.GOLDEN_NETHER_PRISON_GLYPH_BLOCK_ITEM.get()) {return ColorHandlerHelper.GOLDEN_NETHER_PRISON_GLYPH_COLOR;}
+        else if (itemstack.getItem() == AerialHellBlocksAndItems.VOLUCITE_GLYPH_BLOCK_ITEM.get()) {return ColorHandlerHelper.VOLUCITE_GLYPH_COLOR;}
+        else if (itemstack.getItem() == AerialHellBlocksAndItems.SHADOW_CATACOMBS_GLYPH_BLOCK_ITEM.get()) {return ColorHandlerHelper.SHADOW_CATACOMBS_GLYPH_COLOR;}
+        else {return ColorHandlerHelper.DEFAULT_COLOR.getRGB();}
     }
+
+    public static boolean isShadowBindEnabled() {return /*TODO LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT &&*/ isCurrentPlayerInstanceShadowBind();}
+
+    public static boolean isCurrentPlayerInstanceShadowBind() {return FMLEnvironment.dist == Dist.CLIENT && Minecraft.getInstance().player != null && EntityHelper.isLivingEntityShadowBind(Minecraft.getInstance().player);}
 }

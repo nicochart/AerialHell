@@ -20,7 +20,23 @@ public class AerialHellBlockEntities
 	
 	public static final RegistryObject<BlockEntityType<FreezerBlockEntity>> FREEZER = BLOCK_ENTITY_TYPES.register("freezer", () ->
 			new BlockEntityType<>(FreezerBlockEntity::new, Sets.newHashSet(AerialHellBlocksAndItems.FREEZER.get()), null));
-	
+
+	public static final RegistryObject<BlockEntityType<BiomeShifterBlockEntity>> BIOME_SHIFTER = BLOCK_ENTITY_TYPES.register("biome_shifter", () ->
+			new BlockEntityType<>((pos, blockState) -> new BiomeShifterBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null), Sets.newHashSet
+					(
+							AerialHellBlocksAndItems.FLUORITE_ORE.get(),
+							AerialHellBlocksAndItems.FLUORITE_BLOCK.get()
+					), null));
+
+	public static final RegistryObject<BlockEntityType<ReactorBlockEntity>> REACTOR = BLOCK_ENTITY_TYPES.register("reactor", () ->
+			new BlockEntityType<>((pos, blockState) -> new ReactorBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null), Sets.newHashSet
+					(
+							AerialHellBlocksAndItems.WEAK_LIGHT_REACTOR.get(),
+							AerialHellBlocksAndItems.HIGH_POWER_LIGHT_REACTOR.get(),
+							AerialHellBlocksAndItems.WEAK_SHADOW_REACTOR.get(),
+							AerialHellBlocksAndItems.HIGH_POWER_SHADOW_REACTOR.get()
+					), null));
+
 	public static final RegistryObject<BlockEntityType<StellarFurnaceBlockEntity>> STELLAR_FURNACE = BLOCK_ENTITY_TYPES.register("stellar_furnace", () ->
 			new BlockEntityType<>(StellarFurnaceBlockEntity::new, Sets.newHashSet
 					(

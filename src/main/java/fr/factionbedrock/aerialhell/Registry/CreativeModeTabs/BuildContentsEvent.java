@@ -132,9 +132,24 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_PLANKS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GRAY_SHROOM_BOOKSHELF_ITEM.get());
 
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LOG_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_AERIAL_TREE_LEAVES_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_GOLDEN_BEECH_LEAVES_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_COPPER_PINE_LEAVES_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_LAPIS_ROBINIA_LEAVES_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_STELLAR_JUNGLE_TREE_LEAVES_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.HOLLOW_SHADOW_PINE_LEAVES_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.HOLLOW_PURPLE_SHADOW_PINE_LEAVES_ITEM.get());
+
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_LADDER_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_STONE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_STONE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_COBBLESTONE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_ITEM.get());
@@ -202,6 +217,15 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_BOAT_VINE_ROPE_SPOOL_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GHOST_LANTERN_ITEM.get());
 
+            itemsToAdd.add(AerialHellBlocksAndItems.WEAK_LIGHT_REACTOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.HIGH_POWER_LIGHT_REACTOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.WEAK_SHADOW_REACTOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.HIGH_POWER_SHADOW_REACTOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.BROKEN_WEAK_LIGHT_REACTOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.BROKEN_HIGH_POWER_LIGHT_REACTOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.BROKEN_WEAK_SHADOW_REACTOR_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.BROKEN_HIGH_POWER_SHADOW_REACTOR_ITEM.get());
+
             itemsToAdd.add(AerialHellBlocksAndItems.WHITE_SOLID_ETHER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.BLUE_SOLID_ETHER_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_SOLID_ETHER_ITEM.get());
@@ -241,7 +265,7 @@ public class BuildContentsEvent
 
             itemsToAdd.add(AerialHellBlocksAndItems.ARSONIST_BLOCK_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LUNATIC_CRYSTAL_BLOCK_ITEM.get());
-            itemsToAdd.add(AerialHellBlocksAndItems.CURSED_CRYSAL_BLOCK_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.CURSED_CRYSTAL_BLOCK_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_CACTUS_FIBER_PLANKS_ITEM.get());
@@ -259,6 +283,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_ROOTS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.DEAD_ROOTS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.GLOWING_ROOTS_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_GRASS_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_GRASS_BALL_ITEM.get());
@@ -288,8 +313,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_FURNACE_ITEM.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.AERIAL_TREE_CHEST_ITEM.get());
-            itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_ITEM.get());
-            itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.GOLDEN_BEECH_CHEST_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.COPPER_PINE_CHEST_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LAPIS_ROBINIA_CHEST_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SHADOW_PINE_CHEST_ITEM.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_CHEST_ITEM.get());
@@ -810,7 +835,7 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.ARSONIST_INGOT.get());
             itemsToAdd.add(AerialHellBlocksAndItems.LUNATIC_CRYSTAL.get());
             itemsToAdd.add(AerialHellBlocksAndItems.OBSIDIAN_SHARD.get());
-            itemsToAdd.add(AerialHellBlocksAndItems.CURSED_CRYSAL.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.CURSED_CRYSTAL.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.ARSONIST_UPGRADE_SMITHING_TEMPLATE.get());
 
@@ -818,6 +843,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_SEEDS.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_WHEAT_SEEDS.get());
             itemsToAdd.add(AerialHellBlocksAndItems.STELLAR_WHEAT_ITEM.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.BLUE_MEANIE_SPORES.get());
+            itemsToAdd.add(AerialHellBlocksAndItems.BLUE_MEANIE_CAP.get());
 
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_STICK.get());
             itemsToAdd.add(AerialHellBlocksAndItems.SKY_BOWL.get());

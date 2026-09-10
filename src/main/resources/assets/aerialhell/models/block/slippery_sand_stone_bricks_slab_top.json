@@ -1,5 +1,5 @@
 {
-    "parent": "block/slab_top",
+    "parent": "aerialhell:block/tinted_slab_top",
     "textures": {
         "bottom": "aerialhell:block/slippery_sand_stone_bricks",
         "top": "aerialhell:block/slippery_sand_stone_bricks",

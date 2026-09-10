@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SCS",
+    "CBC",
+    "SCS"
+  ],
+  "key": {
+    "C": {
+      "item": "aerialhell:cursed_crystal"
+    },
+    "B": {
+      "item": "aerialhell:broken_high_power_shadow_reactor"
+    },
+    "S": {
+      "item": "aerialhell:shadow_shard"
+    }
+  },
+  "result": {
+    "id": "aerialhell:high_power_shadow_reactor"
+  }
+}

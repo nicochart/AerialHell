@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Setup;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.Packet.AerialHellNetwork;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.AerialHellCreativeModeTabs;
@@ -26,6 +27,7 @@ public class AerialHellSetup
         	AerialHellBlocksAndItems.registerPots();
         	AerialHellBlocksAndItems.registerAxeStrippingBlocks();
         	AerialHellBrewingRecipes.registerBrewingRecipes();
+            AerialHellNetwork.register();
         });
     }
 	

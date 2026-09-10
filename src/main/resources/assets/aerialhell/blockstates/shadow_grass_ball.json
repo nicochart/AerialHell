@@ -1,14 +1,11 @@
 {
-  "multipart": [
-    {
-      "apply": [
-        {
-          "model": "aerialhell:block/shadow_grass_ball0"
-        },
-        {
-          "model": "aerialhell:block/shadow_grass_ball1"
-        }
-      ]
-    }
-  ]
+  "variants": {
+    "shifted_render=false": [
+    {"model": "aerialhell:block/shadow_grass_ball0"},
+    {"model": "aerialhell:block/shadow_grass_ball1"}
+  ],
+    "shifted_render=true": [
+    {"model": "aerialhell:block/stellar_grass_ball0"},
+    {"model": "aerialhell:block/stellar_grass_ball1"}
+  ]}
 }

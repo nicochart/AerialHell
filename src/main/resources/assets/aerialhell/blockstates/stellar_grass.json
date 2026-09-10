@@ -1,7 +1,6 @@
 {
   "variants": {
-    "": {
-      "model": "aerialhell:block/stellar_grass"
-    }
+    "shifted_render=false": {"model": "aerialhell:block/stellar_grass"},
+    "shifted_render=true": {"model": "aerialhell:block/shadow_grass"}
   }
 }

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "SBS",
+    " S "
+  ],
+  "key": {
+    "B": {
+      "item": "aerialhell:broken_weak_shadow_reactor"
+    },
+    "S": {
+      "item": "aerialhell:shadow_shard"
+    }
+  },
+  "result": {
+    "id": "aerialhell:weak_shadow_reactor"
+  }
+}

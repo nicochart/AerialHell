@@ -212,5 +212,6 @@ public class AerialHellRendering
         MenuScreens.register(AerialHellMenuTypes.OSCILLATOR.get(), OscillatorScreen::new);
         MenuScreens.register(AerialHellMenuTypes.FREEZER.get(), FreezerScreen::new);
         MenuScreens.register(AerialHellMenuTypes.STELLAR_FURNACE.get(), StellarFurnaceScreen::new);
+        MenuScreens.register(AerialHellMenuTypes.REACTOR.get(), ReactorScreen::new);
     }
 }

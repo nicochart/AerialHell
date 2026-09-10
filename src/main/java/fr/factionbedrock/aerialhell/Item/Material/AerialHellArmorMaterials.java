@@ -98,7 +98,7 @@ public class AerialHellArmorMaterials
 		SoundEvents.ARMOR_EQUIP_LEATHER, //Son lorsqu'on équipe
 		1.0F, //Robustesse
 		0.0F, //Resistance au recul
-		() -> Ingredient.of(AerialHellBlocksAndItems.CURSED_CRYSAL.get()) //Matériaux de réparation
+		() -> Ingredient.of(AerialHellBlocksAndItems.CURSED_CRYSTAL.get()) //Matériaux de réparation
 	);
 	
 	public final static ArmorMaterial arsonist = new AerialHellArmorMaterial

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CBC",
+    "CRC",
+    "SSS"
+  ],
+  "key": {
+    "R": {
+      "item": "aerialhell:weak_shadow_reactor"
+    },
+    "S": {
+      "item": "aerialhell:shadow_shard"
+    },
+    "B": {
+      "item": "aerialhell:cursed_crystal_block"
+    },
+    "C": {
+      "item": "aerialhell:cursed_crystal"
+    }
+  },
+  "result": {
+    "id": "aerialhell:high_power_shadow_reactor"
+  }
+}

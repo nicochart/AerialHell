@@ -78,7 +78,7 @@ public class ToolMaterials
 		8.0F, //efficacité
 		3.0F, //Dégats d'attaque
 		15, //Enchantabilité
-		() -> Ingredient.of(AerialHellBlocksAndItems.CURSED_CRYSAL.get()) //Ingrédient de réparation (Enclume)
+		() -> Ingredient.of(AerialHellBlocksAndItems.CURSED_CRYSTAL.get()) //Ingrédient de réparation (Enclume)
 	);
 	
 	public static final Tier volucite = new ToolMaterial

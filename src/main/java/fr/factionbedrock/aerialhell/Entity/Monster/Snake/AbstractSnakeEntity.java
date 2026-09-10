@@ -139,6 +139,8 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
+    @Override public boolean isPersistenceRequired() {return !this.isHead();}
+
     @Override public void tick()
     {
         super.tick();

@@ -1,0 +1,11 @@
+{
+    "type": "minecraft:smelting",
+    "ingredient": {
+        "item": "aerialhell:raw_volucite"
+    },
+    "result": {
+        "id": "aerialhell:overheated_volucite"
+    },
+    "experience": 0.5,
+    "cookingtime": 200
+}

@@ -27,21 +27,21 @@ public class AerialHellBarrelBlockEntity extends RandomizableContainerBlockEntit
 	private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
 	private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter()
 	{
-		protected void onOpen(Level level, BlockPos pos, BlockState state)
+		@Override protected void onOpen(Level level, BlockPos pos, BlockState state)
 		{
 			AerialHellBarrelBlockEntity.this.playSound(state, SoundEvents.BARREL_OPEN);
 			AerialHellBarrelBlockEntity.this.updateBlockState(state, true);
 		}
 
-		protected void onClose(Level level, BlockPos pos, BlockState state)
+		@Override protected void onClose(Level level, BlockPos pos, BlockState state)
 		{
 			AerialHellBarrelBlockEntity.this.playSound(state, SoundEvents.BARREL_CLOSE);
 			AerialHellBarrelBlockEntity.this.updateBlockState(state, false);
 		}
 
-		protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int p_155069_, int p_155070_) {}
+		@Override protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int p_155069_, int p_155070_) {}
 
-		protected boolean isOwnContainer(Player p_155060_)
+		@Override protected boolean isOwnContainer(Player p_155060_)
 		{
 			if (p_155060_.containerMenu instanceof ChestMenu)
 			{
@@ -54,35 +54,35 @@ public class AerialHellBarrelBlockEntity extends RandomizableContainerBlockEntit
 
 	public AerialHellBarrelBlockEntity(BlockPos pos, BlockState state) {super(AerialHellBlockEntities.BARREL.get(), pos, state);}
 
-	protected void saveAdditional(CompoundTag tag)
+	@Override protected void saveAdditional(CompoundTag tag)
 	{
 		super.saveAdditional(tag);
 		if (!this.trySaveLootTable(tag)) {ContainerHelper.saveAllItems(tag, this.items);}
 	}
 
-	public void load(CompoundTag tag)
+	@Override public void load(CompoundTag tag)
 	{
 		super.load(tag);
 		this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 		if (!this.tryLoadLootTable(tag)) {ContainerHelper.loadAllItems(tag, this.items);}
 	}
 
-	public int getContainerSize() {return 27;}
+	@Override public int getContainerSize() {return 27;}
 
-	protected NonNullList<ItemStack> getItems() {return this.items;}
+	@Override protected NonNullList<ItemStack> getItems() {return this.items;}
 
-	protected void setItems(NonNullList<ItemStack> itemStackList) {this.items = itemStackList;}
+	@Override protected void setItems(NonNullList<ItemStack> itemStackList) {this.items = itemStackList;}
 
-	protected Component getDefaultName() {return Component.translatable("container.barrel");}
+	@Override protected Component getDefaultName() {return Component.translatable("container.barrel");}
 
-	protected AbstractContainerMenu createMenu(int p_58598_, Inventory inv) {return ChestMenu.threeRows(p_58598_, inv, this);}
+	@Override protected AbstractContainerMenu createMenu(int p_58598_, Inventory inv) {return ChestMenu.threeRows(p_58598_, inv, this);}
 
-	public void startOpen(Player player)
+	@Override public void startOpen(Player player)
 	{
 		if (!this.remove && !player.isSpectator()) {this.openersCounter.incrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());}
 	}
 
-	public void stopOpen(Player player)
+	@Override public void stopOpen(Player player)
 	{
 		if (!this.remove && !player.isSpectator()) {this.openersCounter.decrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());}
 	}

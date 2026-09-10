@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "aerialhell:block/shadow_brambles_0"
+    "layer0": "aerialhell:item/shadow_brambles"
   }
 }

@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Util;
 
+import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
@@ -13,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SmithingTemplateItem;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 
 public class ItemHelper
 {
@@ -61,5 +64,48 @@ public class ItemHelper
                     SmithingTemplateItem.createNetheriteUpgradeIconList(),
                     SmithingTemplateItem.createNetheriteUpgradeMaterialList());
         }
+    }
+
+    public static Map<Item, Integer> getOscillatingMap()
+    {
+        Map<Item, Integer> map = Maps.newLinkedHashMap();
+        map.put(AerialHellBlocksAndItems.FLUORITE.get(), 1200);
+        map.put(AerialHellBlocksAndItems.FLUORITE_BLOCK_ITEM.get(), 10800);
+        map.put(AerialHellBlocksAndItems.CRYSTAL.get(), 300);
+        map.put(AerialHellBlocksAndItems.CRYSTAL_BLOCK_ITEM.get(), 1200);
+        return map;
+    }
+
+    public static Map<Item, Integer> getCorruptingMap()
+    {
+        Map<Item, Integer> map = Maps.newLinkedHashMap();
+        map.put(AerialHellBlocksAndItems.SHADOW_CRYSTAL.get(), 400);
+        map.put(AerialHellBlocksAndItems.SHADOW_CRYSTAL_BLOCK_ITEM.get(), 3600);
+        map.put(AerialHellBlocksAndItems.SHADOW_SHARD.get(), 1000);
+        map.put(AerialHellBlocksAndItems.CURSED_CRYSTAL.get(), 2000);
+        map.put(AerialHellBlocksAndItems.CURSED_CRYSTAL_BLOCK_ITEM.get(), 18000);
+        return map;
+    }
+
+    public static String getTimeStringFromTicks(int ticks)
+    {
+        int secondsToRegain = ticks / 20;
+        return getTimeStringFromSeconds(secondsToRegain);
+    }
+
+    public static String getTimeStringFromSeconds(int secs)
+    {
+        int days = secs / 86400;
+        int hours = (secs % 86400) / 3600;
+        int minutes = (secs % 3600) / 60;
+        int seconds = secs % 60;
+
+        StringBuilder sb = new StringBuilder();
+        if (days > 0) sb.append(days).append("d ");
+        if (hours > 0 || days > 0) sb.append(hours).append("h ");
+        if (minutes > 0 || hours > 0 || days > 0) sb.append(minutes).append("m ");
+        sb.append(seconds).append("s");
+
+        return sb.toString().trim();
     }
 }

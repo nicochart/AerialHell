@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BYB",
+    "SOS",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "aerialhell:shadow_catacombs_bricks"
+    },
+    "Y": {
+      "item": "aerialhell:cursed_crystal"
+    },
+    "O": {
+      "item": "aerialhell:oscillator"
+    },
+    "S": {
+      "item": "aerialhell:shadow_shard"
+    }
+  },
+  "result": {
+    "id": "aerialhell:weak_shadow_reactor"
+  }
+}

@@ -5,6 +5,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.*;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -12,7 +13,8 @@ import net.minecraft.world.level.material.Fluid;
 
 public class AerialHellTags
 {
-	public static class Blocks {
+	public static class Blocks
+	{
 		public static final TagKey<Block> STELLAR_STONE = tag("stellar_stone");
 
 		public static final TagKey<Block> STELLAR_STONE_AND_DERIVATIVES = tag("stellar_stone_and_derivatives");
@@ -32,6 +34,8 @@ public class AerialHellTags
 		public static final TagKey<Block> SOLID_ETHER = tag("solid_ether");
 
 		public static final TagKey<Block> LEAVES = tag("leaves");
+
+		public static final TagKey<Block> ROOTS = tag("roots");
 
 		public static final TagKey<Block> AERIALHELL_WOODEN_DOORS = tag("aerialhell_wooden_doors");
 
@@ -97,6 +101,8 @@ public class AerialHellTags
 
 		public static final TagKey<Block> AERIALHELL_LANTERN = tag("aerialhell_lantern");
 
+		public static final TagKey<Block> SLIPPERY_SAND = tag("slippery_sand");
+
 		public static final TagKey<Block> FEATURE_CAN_REPLACE = tag("feature_can_replace");
 
 		public static final TagKey<Block> SLIPPERY_SAND_GLASS = tag("slippery_sand_glass");
@@ -127,7 +133,8 @@ public class AerialHellTags
 		}
 	}
 
-	public static class Items {
+	public static class Items
+	{
 		public static final TagKey<Item> STICKS = tag("sticks");
 
 		public static final TagKey<Item> AERIALHELL_SIGNS = tag("aerialhell_signs");
@@ -172,7 +179,8 @@ public class AerialHellTags
 		}
 	}
 
-	public static class Fluids {
+	public static class Fluids
+	{
 		public static final TagKey<Fluid> CRYSTALLIZABLE = tag("crystallizable");
 
 		public static final TagKey<Fluid> LIQUID_OF_THE_GODS = tag("liquid_of_the_gods");
@@ -183,12 +191,39 @@ public class AerialHellTags
 		}
 	}
 
-	public static class Structures {
+	public static class Structures
+	{
 		public static final TagKey<Structure> DUNGEONS = tag("dungeons");
 
 		private static TagKey<Structure> tag(String name)
 		{
 			return TagKey.create(Registries.STRUCTURE, new ResourceLocation(name));
+		}
+	}
+
+	public static class Biomes
+	{
+		public static final TagKey<Biome> IS_AERIAL_HELL = tag("is_aerial_hell");
+
+		public static final TagKey<Biome> IS_AERIAL_HELL_NON_SHADOW = tag("is_aerial_hell_non_shadow");
+
+		public static final TagKey<Biome> IS_CRYSTAL = tag("is_crystal");
+
+		public static final TagKey<Biome> IS_DESERT = tag("is_desert");
+
+		public static final TagKey<Biome> IS_FOREST = tag("is_forest");
+
+		public static final TagKey<Biome> IS_PLAIN = tag("is_plain");
+
+		public static final TagKey<Biome> IS_SAVANA = tag("is_savana");
+
+		public static final TagKey<Biome> IS_SHADOW = tag("is_shadow");
+
+		public static final TagKey<Biome> IS_SHROOM = tag("is_shroom");
+
+		private static TagKey<Biome> tag(String name)
+		{
+			return TagKey.create(Registries.BIOME, new ResourceLocation(AerialHell.MODID, name));
 		}
 	}
 }

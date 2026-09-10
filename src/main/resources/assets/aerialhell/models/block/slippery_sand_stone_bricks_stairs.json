@@ -1,5 +1,5 @@
 {
-    "parent": "block/stairs",
+    "parent": "aerialhell:block/tinted_stairs",
     "textures": {
         "bottom": "aerialhell:block/slippery_sand_stone_bricks",
         "top": "aerialhell:block/slippery_sand_stone_bricks",

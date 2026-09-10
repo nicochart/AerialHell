@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "VVV",
+    "VRV",
+    "VVV"
+  ],
+  "key": {
+    "R": {
+      "item": "aerialhell:weak_light_reactor"
+    },
+    "V": {
+      "item": "aerialhell:volucite_vibrant"
+    }
+  },
+  "result": {
+    "id": "aerialhell:high_power_light_reactor"
+  }
+}

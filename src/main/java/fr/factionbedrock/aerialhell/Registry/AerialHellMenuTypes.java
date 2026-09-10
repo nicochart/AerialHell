@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Registry;
 import fr.factionbedrock.aerialhell.AerialHell;
 
 import fr.factionbedrock.aerialhell.Inventory.Menu.OscillatorMenu;
+import fr.factionbedrock.aerialhell.Inventory.Menu.ReactorMenu;
 import fr.factionbedrock.aerialhell.Inventory.Menu.StellarFurnaceMenu;
 import fr.factionbedrock.aerialhell.Inventory.Menu.FreezerMenu;
 import net.minecraft.world.flag.FeatureFlags;
@@ -18,4 +19,5 @@ public class AerialHellMenuTypes
 	public static final RegistryObject<MenuType<OscillatorMenu>> OSCILLATOR = MENUS.register("oscillator", () -> new MenuType<>(OscillatorMenu::new, FeatureFlags.DEFAULT_FLAGS));
 	public static final RegistryObject<MenuType<FreezerMenu>> FREEZER = MENUS.register("freezer", () -> new MenuType<>(FreezerMenu::new, FeatureFlags.DEFAULT_FLAGS));
 	public static final RegistryObject<MenuType<StellarFurnaceMenu>> STELLAR_FURNACE = MENUS.register("stellar_furnace", () -> new MenuType<>(StellarFurnaceMenu::new, FeatureFlags.DEFAULT_FLAGS));
+	public static final RegistryObject<MenuType<ReactorMenu>> REACTOR = MENUS.register("reactor", () -> new MenuType<>(ReactorMenu::new, FeatureFlags.DEFAULT_FLAGS));
 }

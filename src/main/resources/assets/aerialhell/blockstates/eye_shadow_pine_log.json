@@ -1,15 +1,30 @@
 {
   "variants": {
-    "axis=x": {
-      "model": "aerialhell:block/shadow_pine_log_horizontal",
+    "axis=x,shifted_render=false": [
+      {"model": "aerialhell:block/eye_shadow_pine_log_horizontal","x": 90,"y": 90},
+      {"model": "aerialhell:block/eye_shadow_pine_log_horizontal_variant","x": 90,"y": 90},
+      {"model": "aerialhell:block/eye_shadow_pine_log_horizontal_variant_2","x": 90,"y": 90}
+    ],
+    "axis=y,shifted_render=false": [
+      {"model": "aerialhell:block/eye_shadow_pine_log"},
+      {"model": "aerialhell:block/eye_shadow_pine_log_variant"},
+      {"model": "aerialhell:block/eye_shadow_pine_log_variant_2"}
+    ],
+    "axis=z,shifted_render=false": [
+      {"model": "aerialhell:block/eye_shadow_pine_log_horizontal","x": 90},
+      {"model": "aerialhell:block/eye_shadow_pine_log_horizontal_variant","x": 90},
+      {"model": "aerialhell:block/eye_shadow_pine_log_horizontal_variant_2","x": 90}
+    ],
+    "axis=x,shifted_render=true": {
+      "model": "aerialhell:block/hollow_shadow_pine_log_horizontal",
       "x": 90,
       "y": 90
     },
-    "axis=y": {
-      "model": "aerialhell:block/eye_shadow_pine_log"
+    "axis=y,shifted_render=true": {
+      "model": "aerialhell:block/hollow_shadow_pine_log"
     },
-    "axis=z": {
-      "model": "aerialhell:block/eye_shadow_pine_log_horizontal",
+    "axis=z,shifted_render=true": {
+      "model": "aerialhell:block/hollow_shadow_pine_log_horizontal",
       "x": 90
     }
   }
