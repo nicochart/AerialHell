@@ -1,31 +1,33 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses;
 
-import javax.annotation.Nullable;
-
 import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock;
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.SyncedTargetEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -33,16 +35,27 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
-public abstract class AbstractBossEntity extends AbstractActivableEntity
+public abstract class AbstractBossEntity extends AbstractActivableEntity implements SyncedTargetEntity
 {
 	protected final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.GREEN, BossEvent.BossBarOverlay.PROGRESS);
 	private static final EntityDataAccessor<Integer> BOSS_DIFFICULTY = SynchedEntityData.defineId(AbstractBossEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(AbstractBossEntity.class, EntityDataSerializers.INT);
 
+	/* SyncedTargetEntity fields */
+	private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(AbstractBossEntity.class, EntityDataSerializers.INT);
+	SyncedTargetEntityInfo SYNCED_TARGET_ENTITY_INFO = new SyncedTargetEntityInfo(ATTACK_TARGET_ID);
+	/* ------------------------- */
+
 	public AbstractBossEntity(EntityType<? extends Monster> type, Level world) {super(type, world);}
+
+	/* ------- SyncedTargetEntity : Interface method implementation ------- */
+	@Override public SyncedTargetEntityInfo getSyncedTargetEntityInfo() {return this.SYNCED_TARGET_ENTITY_INFO;}
+	/* -------------------------------------------------------------------- */
 
 	@Override public boolean hurt(DamageSource source, float amount)
 	{
@@ -50,9 +63,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		if (flag)
 		{
 			if (source.is(DamageTypes.GENERIC_KILL) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {}
-			else {this.setActive(true);}
-			this.lastHurtByPlayerTime = 100;
-			this.timeWithoutAnyTarget = 0;
+			else if (this.level() instanceof ServerLevel serverLevel) {this.activableHurtServer(flag, serverLevel, source, amount);}
 		}
 		return flag;
 	}
@@ -60,45 +71,78 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	//copy of net.minecraft.world.entity.LivingEntity hurt(DamageSource source, float amount) method, removing everything non-related to my bosses, and calling other methods, allowing customization in my inheriting classes
 	public boolean bossHurt(DamageSource source, float amount)
 	{
-		if (!net.minecraftforge.common.ForgeHooks.onLivingAttack(this, source, amount)) return false;
-		if (this.isInvulnerableTo(source) || this.level().isClientSide || this.isDeadOrDying()) {return false;}
+		if (this.isInvulnerableTo(source) || this.level().isClientSide() || this.isDeadOrDying()) {return false;}
 		else if (source.is(DamageTypeTags.IS_FIRE) && this.hasEffect(MobEffects.FIRE_RESISTANCE)) {return false;}
 		else
 		{
-			this.noActionTime = 0;
-
-			if (source.is(DamageTypeTags.IS_FREEZING) && this.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {amount *= 5.0F;}
-			this.walkAnimation.setSpeed(1.5F);
-
-			boolean wasOnHurtCooldown = (float)this.invulnerableTime > 10.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN);
-			boolean actuallyGotHurt = tryActuallyHurt(source, amount);
-
-			if (!actuallyGotHurt) {return false;}
-			//we know this got hurt
-			setLastHurtBy(source);
-
-			if (!wasOnHurtCooldown)
+			if (!net.minecraftforge.common.ForgeHooks.onLivingAttack(this, source, amount)) {return false;}
+			else
 			{
-				this.level().broadcastDamageEvent(this, source);
-				if (!source.is(DamageTypeTags.NO_IMPACT)) {this.markHurt();}
+				this.noActionTime = 0;
 
-				tryApplyingKnockback(source);
+				if (source.is(DamageTypeTags.IS_FREEZING) && this.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {amount *= 5.0F;}
+				this.walkAnimation.setSpeed(1.5F);
+
+				boolean wasOnHurtCooldown = (float)this.invulnerableTime > 10.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN);
+				boolean actuallyGotHurt = tryActuallyHurt(source, amount);
+
+				if (!actuallyGotHurt) {return false;}
+				//we know this got hurt
+				//TODO it works ? (also check for AbstractCustomHurtMonsterEntity)
+				this.resolveMobResponsibleForDamage(source);
+				this.resolvePlayerResponsibleForDamage(source);
+
+				if (!wasOnHurtCooldown)
+				{
+					this.level().broadcastDamageEvent(this, source);
+					if (!source.is(DamageTypeTags.NO_IMPACT)) {this.markHurt();}
+
+					tryApplyingKnockback(source);
+				}
+
+				boolean died = false;
+				if (this.isDeadOrDying()) {died = tryDying(source);}
+
+				if (!wasOnHurtCooldown) {playHurtSound(source, died);}
+
+				this.lastDamageSource = source;
+				this.lastDamageStamp = this.level().getGameTime();
+
+				if (source.getEntity() instanceof ServerPlayer serverPlayerSource)
+				{
+					CriteriaTriggers.PLAYER_HURT_ENTITY.trigger(serverPlayerSource, this, source, amount, amount, false);
+				}
 			}
-
-			boolean died = false;
-			if (this.isDeadOrDying()) {died = tryDying(source);}
-
-			if (!wasOnHurtCooldown) {playHurtSound(source, died);}
-
-			this.lastDamageSource = source;
-			this.lastDamageStamp = this.level().getGameTime();
-
-			if (source.getEntity() instanceof ServerPlayer serverPlayerSource)
-			{
-				CriteriaTriggers.PLAYER_HURT_ENTITY.trigger(serverPlayerSource, this, source, amount, amount, false);
-			}
-
 			return true;
+		}
+	}
+
+	//backported method
+	protected void resolveMobResponsibleForDamage(DamageSource damageSource)
+	{
+		Entity entity = damageSource.getEntity();
+		if (entity instanceof LivingEntity livingentity)
+		{
+			if (!damageSource.is(DamageTypeTags.NO_ANGER)) {this.setLastHurtByMob(livingentity);}
+		}
+	}
+
+	//edited backported method
+	protected void resolvePlayerResponsibleForDamage(DamageSource damageSource)
+	{
+		Entity entity = damageSource.getEntity();
+		if (entity instanceof Player player) {this.setLastHurtByPlayer(player);}
+		else if (entity instanceof TamableAnimal tamableAnimal)
+		{
+			if (tamableAnimal.isTame())
+			{
+				if (tamableAnimal.getOwner() instanceof Player player) {this.setLastHurtByPlayer(player);}
+				else
+				{
+					this.lastHurtByPlayer = null;
+					this.lastHurtByPlayerTime = 0;
+				}
+			}
 		}
 	}
 
@@ -203,39 +247,12 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		return false;
 	}
 
-	public void setLastHurtBy(DamageSource damageSource)
-	{
-		Entity sourceEntity = damageSource.getEntity();
-		if (sourceEntity != null)
-		{
-			if (sourceEntity instanceof LivingEntity sourceLivingEntity)
-			{
-				if (!damageSource.is(DamageTypeTags.NO_ANGER)) {this.setLastHurtByMob(sourceLivingEntity);}
-			}
-
-			if (sourceEntity instanceof Player sourcePlayerEntity)
-			{
-				this.lastHurtByPlayerTime = 100;
-				this.lastHurtByPlayer = sourcePlayerEntity;
-			}
-			else if (sourceEntity instanceof TamableAnimal tamableEntity)
-			{
-				if (tamableEntity.isTame())
-				{
-					this.lastHurtByPlayerTime = 100;
-					LivingEntity tamableEntityOwner = tamableEntity.getOwner();
-					if (tamableEntityOwner instanceof Player playerOwner) {this.lastHurtByPlayer = playerOwner;}
-					else {this.lastHurtByPlayer = null;}
-				}
-			}
-		}
-	}
-
 	@Override protected void defineSynchedData()
 	{
 		super.defineSynchedData();
 		this.entityData.define(BOSS_DIFFICULTY, 0);
 		this.entityData.define(PHASE, 0);
+		this.entityData.define(ATTACK_TARGET_ID, 0);
 	}
 
 	public void setDifficulty(int difficulty) {this.entityData.set(BOSS_DIFFICULTY, difficulty);}
@@ -336,17 +353,17 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
     	this.bossInfo.removePlayer(player);
     }
 
-	@Override public void addAdditionalSaveData(CompoundTag compound)
+	@Override public void addAdditionalSaveData(CompoundTag valueOutput)
 	{
-		super.addAdditionalSaveData(compound);
-		compound.putInt("Phase", this.getPhase().getPhaseId());
+		super.addAdditionalSaveData(valueOutput);
+		valueOutput.putInt("Phase", this.getPhase().getPhaseId());
 	}
 
-	@Override public void readAdditionalSaveData(CompoundTag compound)
+	@Override public void readAdditionalSaveData(CompoundTag valueInput)
 	{
-		super.readAdditionalSaveData(compound);
+		super.readAdditionalSaveData(valueInput);
 		if (this.hasCustomName()) {this.bossInfo.setName(this.getDisplayName());}
-		this.setPhase(compound.getInt("Phase"));
+		if (valueInput.contains("Phase")) {this.setPhase(valueInput.getInt("Phase"));}
 	}
 	
 	@Override public void setCustomName(@Nullable Component name)
@@ -364,6 +381,10 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 	@Override public void tick()
 	{
 		super.tick();
+		/* SyncedTargetEntity tick */
+		this.syncedTargetEntityTick();
+		/* ----------------------- */
+
 		if (this.isActive() && this.tickCount % 900 == 0) {this.updateBossDifficulty(); this.adaptBossDifficulty();}
 		this.bossInfo.setVisible(this.isActive());
 		this.immunizeToEffects();
@@ -376,16 +397,16 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		this.removeEffect(AerialHellMobEffects.HEAD_IN_THE_CLOUDS.get());
 	}
 
-	@Override public boolean startRiding(Entity entity, boolean p_19967_)
+	@Override public boolean startRiding(Entity entity, boolean force)
 	{
-		if (entity instanceof Boat boat)
+		if (entity instanceof Boat boat && this.level() instanceof ServerLevel level)
 		{
 			//Copy of net.minecraft.world.entity.vehicle.VehicleEntity.destroy(Item item) {..}
 			entity.kill();
-			if (entity.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
+			if (level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
 			{
 				ItemStack itemstack = new ItemStack(boat.getDropItem());
-				if (this.hasCustomName()) {itemstack.setHoverName(this.getCustomName());}
+				itemstack.setHoverName(this.getCustomName());
 				this.spawnAtLocation(itemstack);
 			}
 		}
@@ -429,6 +450,8 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	protected void makeRandomRoofBlockFall(int yBaseOffset, int maxXZOffset, int minYOffset, int maxYOffset)
 	{
+		if (!LoadedConfigParams.DO_BOSS_GRIEFING) {return;}
+
 		BlockPos basePos = this.blockPosition().above(yBaseOffset);
 		BlockPos fallPos = basePos.offset(this.random.nextInt(-maxXZOffset, maxXZOffset), this.random.nextInt(minYOffset, maxYOffset), this.random.nextInt(-maxXZOffset, maxXZOffset));
 		while (this.level().getBlockState(fallPos).isAir() && fallPos.getY() < basePos.getY() + 25) {fallPos = fallPos.above();}
@@ -444,7 +467,97 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 		}
 	}
 
-	@Override protected void dropCustomDeathLoot(DamageSource p_33574_, int p_33575_, boolean p_33576_)
+	protected boolean canDragOrRepulseEntity(Entity entity)
+	{
+		return entity instanceof LivingEntity && !EntityHelper.isCreaOrSpecPlayer(entity);
+	}
+
+	protected void dragOrRepulseEntities(NearbyEntitiesInteractionInfo type, float factor)
+	{
+		dragOrRepulseEntities(type, factor, 15, 20);
+	}
+
+	protected void dragOrRepulseEntities(NearbyEntitiesInteractionInfo type, float factor, int range, int boundingBoxInflate)
+	{
+		if (type == NearbyEntitiesInteractionInfo.NONE) {return;}
+		List<LivingEntity> nearbyEntities = EntityHelper.getTargetableLivingEntitiesInInflatedBoundingBox(this, boundingBoxInflate, this.getDragOrRepulseSourcePosRelativeY(), (potentialTarget) -> !potentialTarget.is(this) && EntitySelector.withinDistance(this.getDragOrRepulseSourcePos().x, this.getDragOrRepulseSourcePos().y, this.getDragOrRepulseSourcePos().z, range).test(potentialTarget));
+		dragOrRepulseEntities(nearbyEntities, type, factor, range);
+	}
+
+	protected void dragOrRepulseEntities(List<LivingEntity> entities, NearbyEntitiesInteractionInfo type, float factor, int range)
+	{
+		for (Entity entity : entities)
+		{
+			if (canDragOrRepulseEntity(entity)) {dragOrRepulseEntity(this.getDragOrRepulseSourcePos(), entity, factor, type, range);}
+		}
+	}
+
+	protected Vec3 getDragOrRepulseSourcePos() {return this.position().add(0.0F, this.getDragOrRepulseSourcePosRelativeY(), 0.0F);}
+	protected float getDragOrRepulseSourcePosRelativeY() {return 0.0F;} //override this if source pos should be higher
+
+	protected static void dragOrRepulseEntity(Vec3 sourcePos, Entity targetEntity, float factor, NearbyEntitiesInteractionInfo interactionInfo, int range)
+	{
+		if (interactionInfo.noInteraction()) {return;}
+		float dragOrRepulseFactor = interactionInfo.getType().isDrag() ? 1.0F : -1.0F;
+
+		float falloffFactor, distance;
+		if (interactionInfo.getFalloff().isUniform()) {distance = (float)Math.max(1, sourcePos.distanceTo(targetEntity.position())); falloffFactor = 0.001F / distance;}
+		else
+		{
+			distance = (float)Math.max(5, sourcePos.distanceTo(targetEntity.position()));
+			if (interactionInfo.getFalloff().increasesNear()) {falloffFactor = 0.1F / distance;} //increasesNear
+			else if (interactionInfo.getFalloff().decreasesNear()) {falloffFactor = distance / 500.0F;} //decreasesNear
+			else {return;}
+
+			falloffFactor = falloffFactor * falloffFactor;
+		}
+
+		float smoothingFactor = smoothingFactor(distance, range, interactionInfo);
+		dragOrRepulseEntity(sourcePos, targetEntity, factor * falloffFactor * dragOrRepulseFactor * smoothingFactor);
+	}
+
+	protected static void dragOrRepulseEntity(Vec3 sourcePos, Entity targetEntity, float factor)
+	{
+		Vec3 toBoss = new Vec3(sourcePos.x - targetEntity.getX(), sourcePos.y - targetEntity.getY(), sourcePos.z - targetEntity.getZ()).multiply(factor, factor, factor);
+		targetEntity.setDeltaMovement(targetEntity.getDeltaMovement().add(toBoss));
+	}
+
+	protected static float smoothingFactor(float distance, float range, NearbyEntitiesInteractionInfo interactionInfo)
+	{
+		float percentage = 0.6F; //1.0F - percentage = range percentage (border) used for smoothing;
+		if (interactionInfo.getFalloff().increasesNear())
+		{
+			return 1.0F; //no smoothing factor
+		}
+		else if (interactionInfo.getFalloff().isUniform())
+		{
+			float normalized = distance / range;
+			if (normalized <= percentage) {return 1.0F;}
+			else
+			{
+				double t = (normalized - percentage) / (1.0F - percentage);
+				return (float) Math.cos(t * (Math.PI / 2));
+			}
+		}
+		else //decreasesNear
+		{
+			if (distance <= 0.0 || distance >= range) {return 0.0F;}
+
+			float normalized = distance / range;
+
+			if (normalized <= percentage)
+			{
+				return (float) Math.sin((normalized / percentage) * (Math.PI / 2));
+			}
+			else
+			{
+				double t = (normalized - percentage) / (1.0F - percentage);
+				return (float) Math.cos(t * (Math.PI / 2));
+			}
+		}
+	}
+
+	@Override protected void dropCustomDeathLoot(DamageSource damageSource, int looting, boolean recentlyHit)
 	{
 		if (this.getTrophy() != null)
 		{
@@ -454,7 +567,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity
 
 	@Nullable public abstract Item getTrophy();
 
-	@Override public int getMinTimeToActivate() {return 5;}
+	@Override public int getTicksToActivate() {return 5;}
 	@Override public double getMinDistanceToActivate() {return 8;}
 	@Override public double getMinDistanceToDeactivate() {return 48;}
 	@Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}

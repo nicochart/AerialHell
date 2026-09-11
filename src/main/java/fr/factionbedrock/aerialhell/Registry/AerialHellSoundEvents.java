@@ -123,6 +123,8 @@ public class AerialHellSoundEvents
 	public static final RegistryObject<SoundEvent> REACTOR_AMBIENT = register("block.reactor.ambient");
 	public static final RegistryObject<SoundEvent> REACTOR_AMBIENT_SHORT = register("block.reactor.ambient_short");
 
+	public static final RegistryObject<SoundEvent> HEAVY_CORE_HIT = register("block.backport_heavy_core.hit");
+
 	public static final RegistryObject<SoundEvent> MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = register("music_disc.aerial_hell_theme_tommaup");
 	public static final RegistryObject<SoundEvent> MUSIC_DISC_SWEDEN_ANDREAS_ZOELLER = register("music_disc.sweden_andreas_zoeller");
 	public static final RegistryObject<SoundEvent> MUSIC_DISC_ENTHUSIAST_TOURS = register("music_disc.enthusiast_tours");

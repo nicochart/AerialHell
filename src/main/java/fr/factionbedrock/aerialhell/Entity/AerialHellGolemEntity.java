@@ -1,23 +1,24 @@
 package fr.factionbedrock.aerialhell.Entity;
 
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveLookAtPlayerGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveRandomLookAroundGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveMeleeAttackGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.ActiveWaterAvoidingRandomWalkingGoal;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.damagesource.DamageSource;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
+import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class AerialHellGolemEntity extends AbstractActivableEntity
 {
@@ -32,10 +33,10 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
     @Override
     protected void registerGoals()
     {
-    	this.goalSelector.addGoal(1, new ActiveMeleeAttackGoal(this, 1.25D, false));
-        this.goalSelector.addGoal(2, new ActiveWaterAvoidingRandomWalkingGoal(this, 0.6D));
-        this.goalSelector.addGoal(3, new ActiveLookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(3, new ActiveRandomLookAroundGoal(this));
+    	this.goalSelector.addGoal(1, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.addGoal(2, new ConditionalGoal(this, new WaterAvoidingRandomStrollGoal(this, 0.6D)));
+        this.goalSelector.addGoal(3, new ConditionalGoal(this, new LookAtPlayerGoal(this, Player.class, 8.0F)));
+        this.goalSelector.addGoal(3, new ConditionalGoal(this, new RandomLookAroundGoal(this)));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
     }
 
@@ -50,27 +51,46 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
 		if (this.attackTimer > 0) {this.attackTimer--;}
 		super.aiStep();
     }
-	
-    @Override
-    public boolean doHurtTarget(Entity entityIn)
+
+    @Override public boolean doHurtTarget(Entity attackedEntity)
     {
-    	float attackDamage = this.getAttackDamage();
-    	this.level().broadcastEntityEvent(this, (byte)4);
-        float f1 = (int)attackDamage > 0 ? attackDamage / 2.0F + (float)this.random.nextInt((int)attackDamage) : attackDamage;
-        boolean flag = entityIn.hurt(this.damageSources().mobAttack(this), f1);
+        DamageSource damagesource = this.damageSources().mobAttack(this);
+        float attackDamage = this.getAttackDamage();
+        this.level().broadcastEntityEvent(this, (byte)4);
+        float amount = (int)attackDamage > 0 ? attackDamage / 2.0F + (float)this.random.nextInt((int)attackDamage) : attackDamage;
+        boolean flag = attackedEntity.hurt(damagesource, amount);
         if (flag)
         {
-           entityIn.setDeltaMovement(entityIn.getDeltaMovement().add(0.0D, (double)this.getYMotionOnAttack(), 0.0D)); //projection en hauteur
-           this.doEnchantDamageEffects(this, entityIn);
+            attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().add(0.0D, (double)this.getYMotionOnAttack(), 0.0D)); //projection en hauteur
+            this.doEnchantDamageEffects(this, attackedEntity);
         }
 
         this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
         return flag;
     }
+
+    @Override public boolean hurt(DamageSource source, float amount)
+    {
+        boolean flag = super.hurt(source, amount);
+        if (flag && this.updateTargetOnHurtByLivingEntity())
+        {
+            Entity immediateSourceEntity = source.getDirectEntity();
+            Entity trueSourceEntity = source.getEntity();
+            if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrow))
+            {
+                if (!(trueSourceEntity instanceof Player && ((Player)trueSourceEntity).isCreative()))
+                {
+                    this.setTarget((LivingEntity) trueSourceEntity);
+                }
+            }
+        }
+        return flag;
+    }
     
     public abstract float getYMotionOnAttack();
+    public abstract boolean updateTargetOnHurtByLivingEntity();
 
-    @Override @OnlyIn(Dist.CLIENT)
+    @Override
 	public void handleEntityEvent(byte id) //broadcastEntityEvent
 	{
 		if (id == 4)
@@ -81,7 +101,7 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
 		else {super.handleEntityEvent(id);}
 	}
 
-    @Override public int getMinTimeToActivate() {return 60;}
+    @Override public int getTicksToActivate() {return 60;}
     @Override public double getMinDistanceToActivate() {return 16;}
     @Override public double getMinDistanceToDeactivate() {return 32;}
     @Override protected SoundEvent getAmbientSound() {return SoundEvents.SNOW_GOLEM_AMBIENT;}

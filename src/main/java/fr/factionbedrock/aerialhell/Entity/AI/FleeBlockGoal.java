@@ -1,19 +1,18 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 public class FleeBlockGoal<T extends Block> extends Goal
 {
@@ -35,7 +34,7 @@ public class FleeBlockGoal<T extends Block> extends Goal
         this.blocksToAvoid = blocks;
         this.nearSpeed = nearSpeedIn;
         this.farSpeed = farSpeedIn;
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+        this.setFlags(EnumSet.of(Flag.MOVE));
     }
 
     @Override

@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -18,9 +20,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
-
-import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 
 public class EvilCowEntity extends AerialHellHostileEntity
 {
@@ -65,7 +64,7 @@ public class EvilCowEntity extends AerialHellHostileEntity
                 filledBucket = ItemUtils.createFilledResult(itemstack, player, AerialHellBlocksAndItems.RUBY_BUCKET.get().getDefaultInstance());
             }
             player.setItemInHand(hand, filledBucket);
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
+            return InteractionResult.SUCCESS;
         }
         else {return super.mobInteract(player, hand);}
     }

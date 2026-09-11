@@ -14,8 +14,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 
@@ -48,7 +46,7 @@ public class MudSpectralCycleMageEntity extends Monster implements MudSpectralEn
     @Override public boolean hurt(DamageSource source, float amount)
     {
         boolean flag = super.hurt(source, amount);
-        if (flag && this.master.isAlive()) //damage master without showing
+        if (flag && this.master != null && this.master.isAlive()) //damage master without showing
         {
             if (!this.master.isInvulnerableTo(source) && this.master.getHealth() > 20.0F)
             {
@@ -59,7 +57,7 @@ public class MudSpectralCycleMageEntity extends Monster implements MudSpectralEn
         return flag;
     }
 
-    @Override @OnlyIn(Dist.CLIENT)
+    @Override
     public void handleEntityEvent(byte id)
     {
         if (id == 5) {this.popDisappearingParticles(this, 15);}

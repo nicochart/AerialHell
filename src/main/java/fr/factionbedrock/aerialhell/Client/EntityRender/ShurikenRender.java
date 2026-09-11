@@ -4,19 +4,21 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Entity.Projectile.AbstractShurikenEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 
 //see net.minecraft.client.renderer.entity ThrownItemRenderer
-public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRenderer<T>
+public class ShurikenRender<T extends ShurikenEntity> extends EntityRenderer<T>
 {
 	private static final ResourceLocation IRON_SHURIKEN_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/iron_shuriken.png");
 	private static final ResourceLocation GOLD_SHURIKEN_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/item/gold_shuriken.png");
@@ -35,12 +37,12 @@ public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRend
 	{
 		super(context);
 	}
-	
+
 	@Override
 	public void render(T entityIn, float entityYaw, float partialTicks, PoseStack matrix, MultiBufferSource bufferIn, int packedLightIn)
 	{
 		matrix.pushPose();
-		
+
 		entityIn.shurikenZRot -= 4;
 		if (entityIn.shurikenZRot <= -360)
 		{
@@ -50,26 +52,40 @@ public class ShurikenRender<T extends AbstractShurikenEntity> extends EntityRend
 		matrix.mulPose(Axis.XP.rotationDegrees(- 90.0f - entityIn.xRotO)); /*Pointing to forward*/
 		matrix.mulPose(Axis.ZP.rotationDegrees(entityIn.shurikenZRot)); /*Horizontal plane rotation*/
 
-		Minecraft.getInstance().getItemRenderer().renderStatic(entityIn.getItem(), ItemDisplayContext.GROUND, packedLightIn, OverlayTexture.NO_OVERLAY, matrix, bufferIn, entityIn.level(), entityIn.getId());
+		Minecraft.getInstance().getItemRenderer().renderStatic(this.getItem(entityIn).getDefaultInstance(), ItemDisplayContext.GROUND, packedLightIn, OverlayTexture.NO_OVERLAY, matrix, bufferIn, entityIn.level(), entityIn.getId());
 		matrix.popPose();
 		super.render(entityIn, entityYaw, partialTicks, matrix, bufferIn, packedLightIn);
 	}
 
-	@Override
-	public ResourceLocation getTextureLocation(T entity)
+	@Override public ResourceLocation getTextureLocation(T entity)
 	{
-		if (entity instanceof IronShurikenEntity) {return IRON_SHURIKEN_TEXTURE;}
-		else if (entity instanceof GoldShurikenEntity) {return GOLD_SHURIKEN_TEXTURE;}
-		else if (entity instanceof VoluciteShurikenEntity) {return VOLUCITE_SHURIKEN_TEXTURE;}
-		else if (entity instanceof ObsidianShurikenEntity) {return OBSIDIAN_SHURIKEN_TEXTURE;}
-		else if (entity instanceof LunaticCrystalShurikenEntity) {return LUNATIC_CRYSTAL_SHURIKEN_TEXTURE;}
-		else if (entity instanceof ArsonistShurikenEntity) {return ARSONIST_SHURIKEN_TEXTURE;}
-		else if (entity instanceof DiamondShurikenEntity) {return DIAMOND_SHURIKEN_TEXTURE;}
-		else if (entity instanceof NetheriteShurikenEntity) {return NETHERITE_SHURIKEN_TEXTURE;}
-		else if (entity instanceof RubyShurikenEntity) {return RUBY_SHURIKEN_TEXTURE;}
-		else if (entity instanceof AzuriteShurikenEntity) {return AZURITE_SHURIKEN_TEXTURE;}
-		else if (entity instanceof MagmaticGelShurikenEntity) {return MAGMATIC_GEL_SHURIKEN_TEXTURE;}
+		if (entity.getType() == AerialHellEntities.IRON_SHURIKEN.get()) {return IRON_SHURIKEN_TEXTURE;}
+		else if (entity.getType() == AerialHellEntities.GOLD_SHURIKEN.get()) {return GOLD_SHURIKEN_TEXTURE;}
+		else if (entity.getType() == AerialHellEntities.VOLUCITE_SHURIKEN.get()) {return VOLUCITE_SHURIKEN_TEXTURE;}
+		else if (entity.getType() == AerialHellEntities.OBSIDIAN_SHURIKEN.get()) {return OBSIDIAN_SHURIKEN_TEXTURE;}
+		else if (entity.getType() == AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get()) {return LUNATIC_CRYSTAL_SHURIKEN_TEXTURE;}
+		else if (entity.getType() == AerialHellEntities.ARSONIST_SHURIKEN.get()) {return ARSONIST_SHURIKEN_TEXTURE;}
+		else if (entity.getType() == AerialHellEntities.DIAMOND_SHURIKEN.get()) {return DIAMOND_SHURIKEN_TEXTURE;}
+		else if (entity.getType() == AerialHellEntities.NETHERITE_SHURIKEN.get()) {return NETHERITE_SHURIKEN_TEXTURE;}
+		else if (entity.getType() == AerialHellEntities.RUBY_SHURIKEN.get()) {return RUBY_SHURIKEN_TEXTURE;}
+		else if (entity.getType() == AerialHellEntities.AZURITE_SHURIKEN.get()) {return AZURITE_SHURIKEN_TEXTURE;}
+		else if (entity.getType() == AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get()) {return MAGMATIC_GEL_SHURIKEN_TEXTURE;}
 		else {return LIGHTNING_SHURIKEN_TEXTURE;}
 	}
 
+	public Item getItem(T entity)
+	{
+		if (entity.getType() == AerialHellEntities.IRON_SHURIKEN.get()) {return AerialHellBlocksAndItems.IRON_SHURIKEN.get();}
+		else if (entity.getType() == AerialHellEntities.GOLD_SHURIKEN.get()) {return AerialHellBlocksAndItems.GOLD_SHURIKEN.get();}
+		else if (entity.getType() == AerialHellEntities.VOLUCITE_SHURIKEN.get()) {return AerialHellBlocksAndItems.VOLUCITE_SHURIKEN.get();}
+		else if (entity.getType() == AerialHellEntities.OBSIDIAN_SHURIKEN.get()) {return AerialHellBlocksAndItems.OBSIDIAN_SHURIKEN.get();}
+		else if (entity.getType() == AerialHellEntities.LUNATIC_CRYSTAL_SHURIKEN.get()) {return AerialHellBlocksAndItems.LUNATIC_CRYSTAL_SHURIKEN.get();}
+		else if (entity.getType() == AerialHellEntities.ARSONIST_SHURIKEN.get()) {return AerialHellBlocksAndItems.ARSONIST_SHURIKEN.get();}
+		else if (entity.getType() == AerialHellEntities.DIAMOND_SHURIKEN.get()) {return AerialHellBlocksAndItems.DIAMOND_SHURIKEN.get();}
+		else if (entity.getType() == AerialHellEntities.NETHERITE_SHURIKEN.get()) {return AerialHellBlocksAndItems.NETHERITE_SHURIKEN.get();}
+		else if (entity.getType() == AerialHellEntities.RUBY_SHURIKEN.get()) {return AerialHellBlocksAndItems.RUBY_SHURIKEN.get();}
+		else if (entity.getType() == AerialHellEntities.AZURITE_SHURIKEN.get()) {return AerialHellBlocksAndItems.AZURITE_SHURIKEN.get();}
+		else if (entity.getType() == AerialHellEntities.MAGMATIC_GEL_SHURIKEN.get()) {return AerialHellBlocksAndItems.MAGMATIC_GEL_SHURIKEN.get();}
+		else {return AerialHellBlocksAndItems.LIGHTNING_SHURIKEN.get();}
+	}
 }

@@ -1,11 +1,11 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 
 public class SkyCactusFiberChestMimicEntity extends AbstractChestMimicEntity
 {
@@ -25,6 +25,5 @@ public class SkyCactusFiberChestMimicEntity extends AbstractChestMimicEntity
 				.add(Attributes.FOLLOW_RANGE, 8.0D);
 	}
 
-	@Override
-	protected Block getMimicBlock() {return AerialHellBlocksAndItems.SKY_CACTUS_FIBER_CHEST_MIMIC.get();}
+	@Override protected Block getMimicBlock() {return AerialHellBlocksAndItems.SKY_CACTUS_FIBER_CHEST_MIMIC.get();}
 }

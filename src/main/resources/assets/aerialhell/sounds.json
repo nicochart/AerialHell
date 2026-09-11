@@ -571,5 +571,14 @@
        "aerialhell:portal/portal4",
        "aerialhell:portal/portal5"
     ]
+  },
+  "block.backport_heavy_core.hit": {
+    "sounds": [
+      "aerialhell:block/backport_heavy_core/step1",
+      "aerialhell:block/backport_heavy_core/step2",
+      "aerialhell:block/backport_heavy_core/step3",
+      "aerialhell:block/backport_heavy_core/step4"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
   }
 }

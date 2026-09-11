@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:lilith",
+    "aerialhell:evil_cow",
+    "aerialhell:shadow_automaton",
+    "aerialhell:shadow_flying_skull",
+    "aerialhell:shadow_spider",
+    "aerialhell:shadow_troll",
+    "aerialhell:shadow_pine_mimic",
+    "minecraft:enderman"
+  ]
+}

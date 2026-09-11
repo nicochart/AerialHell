@@ -27,7 +27,6 @@ import fr.factionbedrock.aerialhell.Item.*;
 import fr.factionbedrock.aerialhell.Item.Armor.ShadowArmorItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
 import fr.factionbedrock.aerialhell.Item.Material.*;
-import fr.factionbedrock.aerialhell.Item.Shuriken.*;
 import fr.factionbedrock.aerialhell.Item.Tools.*;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
@@ -1470,18 +1469,19 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> STELLAR_EGG = ITEMS.register("stellar_egg",() -> new StellarEggItem(new Item.Properties().stacksTo(16)));
 
 	//shurikens
-	public static final RegistryObject<Item> IRON_SHURIKEN = ITEMS.register("iron_shuriken", () -> new IronShurikenItem());
-	public static final RegistryObject<Item> GOLD_SHURIKEN = ITEMS.register("gold_shuriken", () -> new GoldShurikenItem());
-	public static final RegistryObject<Item> DIAMOND_SHURIKEN = ITEMS.register("diamond_shuriken", () -> new DiamondShurikenItem());
-	public static final RegistryObject<Item> NETHERITE_SHURIKEN = ITEMS.register("netherite_shuriken", () -> new NetheriteShurikenItem());
-	public static final RegistryObject<Item> RUBY_SHURIKEN = ITEMS.register("ruby_shuriken", () -> new RubyShurikenItem());
-	public static final RegistryObject<Item> AZURITE_SHURIKEN = ITEMS.register("azurite_shuriken", () -> new AzuriteShurikenItem());
-	public static final RegistryObject<Item> MAGMATIC_GEL_SHURIKEN = ITEMS.register("magmatic_gel_shuriken", () -> new MagmaticGelShurikenItem());
-	public static final RegistryObject<Item> VOLUCITE_SHURIKEN = ITEMS.register("volucite_shuriken", () -> new VoluciteShurikenItem());
-	public static final RegistryObject<Item> OBSIDIAN_SHURIKEN = ITEMS.register("obsidian_shuriken", () -> new ObsidianShurikenItem());
-	public static final RegistryObject<Item> LUNATIC_CRYSTAL_SHURIKEN = ITEMS.register("lunatic_crystal_shuriken", () -> new LunaticCrystalShurikenItem());
-	public static final RegistryObject<Item> ARSONIST_SHURIKEN = ITEMS.register("arsonist_shuriken", () -> new ArsonistShurikenItem());
-	public static final RegistryObject<Item> LIGHTNING_SHURIKEN = ITEMS.register("lightning_shuriken", () -> new LightningShurikenItem());
+	//TODO
+	public static final RegistryObject<Item> IRON_SHURIKEN = ITEMS.register("iron_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_IRON_SHURIKEN))));
+	public static final RegistryObject<Item> GOLD_SHURIKEN = ITEMS.register("gold_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_GOLD_SHURIKEN))));
+	public static final RegistryObject<Item> DIAMOND_SHURIKEN = ITEMS.register("diamond_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_DIAMOND_SHURIKEN))));
+	public static final RegistryObject<Item> NETHERITE_SHURIKEN = ITEMS.register("netherite_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.UNCOMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_NETHERITE_SHURIKEN))));
+	public static final RegistryObject<Item> RUBY_SHURIKEN = ITEMS.register("ruby_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_RUBY_SHURIKEN))));
+	public static final RegistryObject<Item> AZURITE_SHURIKEN = ITEMS.register("azurite_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_AZURITE_SHURIKEN))));
+	public static final RegistryObject<Item> MAGMATIC_GEL_SHURIKEN = ITEMS.register("magmatic_gel_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(AerialHellRarities.FROZEN.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_MAGMATIC_GEL_SHURIKEN))));
+	public static final RegistryObject<Item> VOLUCITE_SHURIKEN = ITEMS.register("volucite_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(AerialHellRarities.VIBRANT.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_VOLUCITE_GEL_SHURIKEN))));
+	public static final RegistryObject<Item> OBSIDIAN_SHURIKEN = ITEMS.register("obsidian_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.EPIC).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_OBSIDIAN_SHURIKEN))));
+	public static final RegistryObject<Item> LUNATIC_CRYSTAL_SHURIKEN = ITEMS.register("lunatic_crystal_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(AerialHellRarities.LEGENDARY.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_LUNATIC_CRYSTAL_SHURIKEN))));
+	public static final RegistryObject<Item> ARSONIST_SHURIKEN = ITEMS.register("arsonist_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(AerialHellRarities.MYTHICAL.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_ARSONIST_SHURIKEN))));
+	public static final RegistryObject<Item> LIGHTNING_SHURIKEN = ITEMS.register("lightning_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.UNCOMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_LIGHTNING_SHURIKEN))));
 
 	//food
 	public static final RegistryObject<Item> AERIAL_BERRY = ITEMS.register("aerial_berry",() -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2F).build())));
@@ -1537,11 +1537,18 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> RUBY_MILK_BUCKET = ITEMS.register("ruby_milk_bucket", () -> new RubyMilkBucketItem(new Item.Properties().stacksTo(1)));
 
 	//arrows & bows
-	public static final RegistryObject<Item> RUBY_BLOWPIPE_ARROW = ITEMS.register("ruby_blowpipe_arrow", () -> new AerialArrowItem(new Item.Properties()));
-	public static final RegistryObject<Item> VOLUCITE_BLOWPIPE_ARROW = ITEMS.register("volucite_blowpipe_arrow", () -> new AerialArrowItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT)));
+	public static final RegistryObject<Item> RUBY_SHARD = ITEMS.register("ruby_shard", () -> new WithInformationItem(new Item.Properties()));
+	public static final RegistryObject<Item> VOLUCITE_SHARD = ITEMS.register("volucite_shard", () -> new WithInformationItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT)));
 
-	public static final RegistryObject<Item> RUBY_BLOWPIPE = ITEMS.register("ruby_blowpipe", () -> new BlowpipeItem(new Item.Properties().stacksTo(1).durability(200), 1.7F));
-	public static final RegistryObject<Item> VOLUCITE_BLOWPIPE = ITEMS.register("volucite_blowpipe", () -> new BlowpipeItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT).stacksTo(1).durability(400), 2.4F));
+	//TODO
+	//public static final RegistryObject<Item> RUBY_RESONATOR = ITEMS.register("ruby_resonator", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).durability(200).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.RUBY_RESONATOR)).enchantable(10).maxUseDuration(72000).useAnimation(UseAnim.BOW)));
+	//public static final RegistryObject<Item> VOLUCITE_RESONATOR = ITEMS.register("volucite_resonator", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).durability(200).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.VOLUCITE_RESONATOR)).enchantable(10).maxUseDuration(72000).useAnimation(UseAnim.BOW)));
+
+	public static final RegistryObject<Item> RUBY_BLOWPIPE_ARROW = ITEMS.register("ruby_blowpipe_arrow", () -> new WithInformationItem(new Item.Properties()));
+	public static final RegistryObject<Item> VOLUCITE_BLOWPIPE_ARROW = ITEMS.register("volucite_blowpipe_arrow", () -> new WithInformationItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT)));
+
+	public static final RegistryObject<Item> RUBY_BLOWPIPE = ITEMS.register("ruby_blowpipe", () -> new WithInformationItem(new Item.Properties().stacksTo(1)));
+	public static final RegistryObject<Item> VOLUCITE_BLOWPIPE = ITEMS.register("volucite_blowpipe", () -> new WithInformationItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT).stacksTo(1)));
 
 	//music discs
 	public static final RegistryObject<Item> MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP = ITEMS.register("music_disc_aerial_hell_theme_tommaup", () -> new RecordItem(1, () -> AerialHellSoundEvents.MUSIC_DISC_AERIAL_HELL_THEME_TOMMAUP.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 2860));

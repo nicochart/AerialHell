@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
@@ -33,7 +34,6 @@ public abstract class AbstractLightProjectileEntity extends ThrowableProjectile
 
     //@Override public Packet<ClientGamePacketListener> getAddEntityPacket() {return ForgeHooks.getEntitySpawnPacket(this);}
     @Override protected void defineSynchedData() {}
-
     @Override public boolean isNoGravity() {return true;}
 
     @Override public void tick()

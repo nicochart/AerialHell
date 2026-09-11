@@ -1,11 +1,15 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Mud;
 
-import javax.annotation.Nullable;
-
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.TornSpiritEntity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -16,16 +20,12 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+
+import javax.annotation.Nullable;
 
 public class MudSoldierEntity extends AbstractSkeleton
 {
@@ -63,9 +63,8 @@ public class MudSoldierEntity extends AbstractSkeleton
 		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
 	}
 	
-	@Override
-	@Nullable
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag)
+	@Override @Nullable
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, CompoundTag compoundTag)
 	{
 		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
 		this.populateDefaultEquipmentSlots(this.random, difficultyIn);

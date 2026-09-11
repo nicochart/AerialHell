@@ -1,32 +1,29 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
-import java.util.EnumSet;
-
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.MudCycleMageEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSpectralSoldierEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+
+import java.util.EnumSet;
 
 public class TornSpiritEntity extends Monster
 {
@@ -38,7 +35,7 @@ public class TornSpiritEntity extends Monster
 	@Override protected void registerGoals()
     {
 		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
-		this.goalSelector.addGoal(2, new TornSpiritEntity.FireballAttackGoal(this));
+		this.goalSelector.addGoal(2, new FireballAttackGoal(this));
 		this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.25D, false));
 		this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.6D));
@@ -63,11 +60,11 @@ public class TornSpiritEntity extends Monster
 		boolean flag = super.hurt(source, amount);
 		if (flag)
 		{
-			if (source.getEntity() instanceof LivingEntity && !(source.getDirectEntity() instanceof AbstractArrow))
+			if (source.getEntity() instanceof LivingEntity livingEntity && !(source.getDirectEntity() instanceof AbstractArrow))
 			{
-				if (!(source.getEntity() instanceof Player && ((Player)source.getEntity()).isCreative()))
+				if (!(EntityHelper.isCreativePlayer(livingEntity)))
 				{
-					this.setTarget((LivingEntity) source.getEntity());
+					this.setTarget(livingEntity);
 				}
 			}
 		}
@@ -103,7 +100,7 @@ public class TornSpiritEntity extends Monster
 	    public FireballAttackGoal(TornSpiritEntity fireminionIn)
 	    {
 	    	this.tornspirit = fireminionIn;
-	        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+	        this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
 	    }
 
 	    public boolean canUse()
@@ -180,13 +177,13 @@ public class TornSpiritEntity extends Monster
 	                        this.tornspirit.level().levelEvent((Player)null, 1018, this.tornspirit.blockPosition(), 0);
 	                     }
 	                     
-	                     int n = (int)(Math.random() * 2) + 1; //nombre al�atoire entre 1 et 3
+	                     int n = (int)(Math.random() * 2) + 1;
 	                    		 
 	                     for(int i = 0; i < n; ++i)
 	                     {
-	                        SmallFireball smallfireballentity = new SmallFireball(this.tornspirit.level(), this.tornspirit, Xdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget);
-	                        smallfireballentity.setPos(smallfireballentity.getX(), this.tornspirit.getY(0.5D) + 0.5D, smallfireballentity.getZ());
-	                        this.tornspirit.level().addFreshEntity(smallfireballentity);
+							 SmallFireball smallfireball = new SmallFireball(this.tornspirit.level(), this.tornspirit, Xdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget, Ydistance, Zdistance + 0.5 * this.tornspirit.getRandom().nextGaussian() * (double)halfDistanceToTarget);
+							 smallfireball.setPos(smallfireball.getX(), this.tornspirit.getY(0.5D) + 0.5D, smallfireball.getZ());
+	                        this.tornspirit.level().addFreshEntity(smallfireball);
 	                     }
 	                  }
 	               }

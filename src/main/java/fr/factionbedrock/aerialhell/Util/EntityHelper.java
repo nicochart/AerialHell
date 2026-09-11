@@ -34,6 +34,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.monster.EnderMan;
@@ -47,6 +48,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class EntityHelper
 {
@@ -164,6 +169,11 @@ public class EntityHelper
         return false;
     }
 
+    public static void applyTraitorEffectTo(LivingEntity livingEntity)
+    {
+        livingEntity.addEffect(new MobEffectInstance(AerialHellMobEffects.TRAITOR.get(), 12000, 0));
+    }
+
     public static void multiplyDeltaMovement(Entity entity, double xzFactor, double yFactor)
     {
         entity.setDeltaMovement(entity.getDeltaMovement().multiply(xzFactor, yFactor, xzFactor));
@@ -231,5 +241,29 @@ public class EntityHelper
     public static boolean isLivingEntityMisleadingShadow(LivingEntity entity)
     {
         return ItemHelper.getItemInTagCount(entity.getArmorSlots(), AerialHellTags.Items.SHADOW_ARMOR) >= 4 && !isLivingEntityATraitor(entity);
+    }
+
+    public static List<LivingEntity> getTargetableLivingEntitiesInInflatedBoundingBox(Entity searchSource, double inflateValue, Predicate<Entity> targetCondition)
+    {
+        return getTargetableLivingEntitiesInInflatedBoundingBox(searchSource, inflateValue, 0.0F, targetCondition);
+    }
+
+    public static List<LivingEntity> getTargetableLivingEntitiesInInflatedBoundingBox(Entity searchSource, double boundingBoxInflateValue, double boundingBoxYOffset, Predicate<Entity> targetCondition)
+    {
+        return getEntitiesInInflatedBoundingBox(searchSource, boundingBoxInflateValue,boundingBoxYOffset).stream()
+                .filter(entity -> entity instanceof LivingEntity)
+                .filter(entity -> targetCondition.test(entity))
+                .map(entity -> (LivingEntity) entity)
+                .collect(Collectors.toList());
+    }
+
+    public static List<Entity> getEntitiesInInflatedBoundingBox(Entity searchSource, double boundingBoxInflateValue)
+    {
+        return getEntitiesInInflatedBoundingBox(searchSource, boundingBoxInflateValue, 0.0F);
+    }
+
+    public static List<Entity> getEntitiesInInflatedBoundingBox(Entity searchSource, double boundingBoxInflateValue, double boundingBoxYOffset)
+    {
+        return searchSource.level().getEntities(searchSource, searchSource.getBoundingBox().move(0.0F, boundingBoxYOffset, 0.0F).inflate(boundingBoxInflateValue), EntitySelector.NO_CREATIVE_OR_SPECTATOR);
     }
 }

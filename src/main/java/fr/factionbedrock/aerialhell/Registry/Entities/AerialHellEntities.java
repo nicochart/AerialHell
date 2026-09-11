@@ -17,7 +17,8 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Spider.*;
 import fr.factionbedrock.aerialhell.Entity.Neutral.*;
 import fr.factionbedrock.aerialhell.Entity.Passive.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.*;
-import fr.factionbedrock.aerialhell.Entity.Projectile.BlowpipeArrow.*;
+import fr.factionbedrock.aerialhell.Entity.Projectile.ResonatorShard.RubyShardEntity;
+import fr.factionbedrock.aerialhell.Entity.Projectile.ResonatorShard.VoluciteShardEntity;
 import fr.factionbedrock.aerialhell.Entity.Projectile.Shuriken.*;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -139,48 +140,48 @@ public class AerialHellEntities
 	public static final RegistryObject<EntityType<ThrownStellarEgg>> THROWN_STELLAR_EGG = ENTITIES.register("thrown_stellar_egg", () -> EntityType.Builder.<ThrownStellarEgg>of(ThrownStellarEgg::new, MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("thrown_stellar_egg"));
 
-	public static final RegistryObject<EntityType<IronShurikenEntity>> IRON_SHURIKEN = ENTITIES.register("iron_shuriken", () -> EntityType.Builder.<IronShurikenEntity>of(IronShurikenEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<ShurikenEntity>> IRON_SHURIKEN = ENTITIES.register("iron_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 8.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("iron_shuriken"));
 
-	public static final RegistryObject<EntityType<GoldShurikenEntity>> GOLD_SHURIKEN = ENTITIES.register("gold_shuriken", () -> EntityType.Builder.<GoldShurikenEntity>of(GoldShurikenEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<ShurikenEntity>> GOLD_SHURIKEN = ENTITIES.register("gold_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 9.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("gold_shuriken"));
 
-	public static final RegistryObject<EntityType<DiamondShurikenEntity>> DIAMOND_SHURIKEN = ENTITIES.register("diamond_shuriken", () -> EntityType.Builder.<DiamondShurikenEntity>of(DiamondShurikenEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<ShurikenEntity>> DIAMOND_SHURIKEN = ENTITIES.register("diamond_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 11.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("diamond_shuriken"));
 
-	public static final RegistryObject<EntityType<NetheriteShurikenEntity>> NETHERITE_SHURIKEN = ENTITIES.register("netherite_shuriken", () -> EntityType.Builder.<NetheriteShurikenEntity>of(NetheriteShurikenEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<ShurikenEntity>> NETHERITE_SHURIKEN = ENTITIES.register("netherite_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 12.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("netherite_shuriken"));
 
-	public static final RegistryObject<EntityType<RubyShurikenEntity>> RUBY_SHURIKEN = ENTITIES.register("ruby_shuriken", () -> EntityType.Builder.<RubyShurikenEntity>of(RubyShurikenEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<ShurikenEntity>> RUBY_SHURIKEN = ENTITIES.register("ruby_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 9.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("ruby_shuriken"));
 
-	public static final RegistryObject<EntityType<AzuriteShurikenEntity>> AZURITE_SHURIKEN = ENTITIES.register("azurite_shuriken", () -> EntityType.Builder.<AzuriteShurikenEntity>of(AzuriteShurikenEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<ShurikenEntity>> AZURITE_SHURIKEN = ENTITIES.register("azurite_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 9.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("azurite_shuriken"));
 
-	public static final RegistryObject<EntityType<MagmaticGelShurikenEntity>> MAGMATIC_GEL_SHURIKEN = ENTITIES.register("magmatic_gel_shuriken", () -> EntityType.Builder.<MagmaticGelShurikenEntity>of(MagmaticGelShurikenEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<SlowingShurikenEntity>> MAGMATIC_GEL_SHURIKEN = ENTITIES.register("magmatic_gel_shuriken", () -> EntityType.Builder.<SlowingShurikenEntity>of((entityType, level) -> new SlowingShurikenEntity(entityType, level, 9.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("magmatic_gel_shuriken"));
 
-	public static final RegistryObject<EntityType<VoluciteShurikenEntity>> VOLUCITE_SHURIKEN = ENTITIES.register("volucite_shuriken", () -> EntityType.Builder.<VoluciteShurikenEntity>of(VoluciteShurikenEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<NoGravityShurikenEntity>> VOLUCITE_SHURIKEN = ENTITIES.register("volucite_shuriken", () -> EntityType.Builder.<NoGravityShurikenEntity>of((entityType, level) -> new NoGravityShurikenEntity(entityType, level, 13.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("volucite_shuriken"));
 
-	public static final RegistryObject<EntityType<ObsidianShurikenEntity>> OBSIDIAN_SHURIKEN = ENTITIES.register("obsidian_shuriken", () -> EntityType.Builder.<ObsidianShurikenEntity>of(ObsidianShurikenEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<ShurikenEntity>> OBSIDIAN_SHURIKEN = ENTITIES.register("obsidian_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 11.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("obsidian_shuriken"));
 
-	public static final RegistryObject<EntityType<LunaticCrystalShurikenEntity>> LUNATIC_CRYSTAL_SHURIKEN = ENTITIES.register("lunatic_crystal_shuriken", () -> EntityType.Builder.<LunaticCrystalShurikenEntity>of(LunaticCrystalShurikenEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<ShurikenEntity>> LUNATIC_CRYSTAL_SHURIKEN = ENTITIES.register("lunatic_crystal_shuriken", () -> EntityType.Builder.<ShurikenEntity>of((entityType, level) -> new ShurikenEntity(entityType, level, 12.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("lunatic_crystal_shuriken"));
 
-	public static final RegistryObject<EntityType<ArsonistShurikenEntity>> ARSONIST_SHURIKEN = ENTITIES.register("arsonist_shuriken", () -> EntityType.Builder.<ArsonistShurikenEntity>of(ArsonistShurikenEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<FlamingShurikenEntity>> ARSONIST_SHURIKEN = ENTITIES.register("arsonist_shuriken", () -> EntityType.Builder.<FlamingShurikenEntity>of((entityType, level) -> new FlamingShurikenEntity(entityType, level, 14.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("arsonist_shuriken"));
 
-	public static final RegistryObject<EntityType<LightningShurikenEntity>> LIGHTNING_SHURIKEN = ENTITIES.register("lightning_shuriken", () -> EntityType.Builder.<LightningShurikenEntity>of(LightningShurikenEntity::new, MobCategory.MISC)
+	public static final RegistryObject<EntityType<LightningShurikenEntity>> LIGHTNING_SHURIKEN = ENTITIES.register("lightning_shuriken", () -> EntityType.Builder.<LightningShurikenEntity>of((entityType, level) -> new LightningShurikenEntity(entityType, level, 2.0F), MobCategory.MISC)
 			.sized(0.25F, 0.25F).build("lightning_shuriken"));
 
-	public static final RegistryObject<EntityType<VoluciteArrowEntity>> VOLUCITE_BLOWPIPE_ARROW = ENTITIES.register("volucite_blowpipe_arrow", () -> EntityType.Builder.<VoluciteArrowEntity>of(VoluciteArrowEntity::new, MobCategory.MISC)
-			.sized(0.5F, 0.5F).build("volucite_blowpipe_arrow"));
+	public static final RegistryObject<EntityType<VoluciteShardEntity>> VOLUCITE_SHARD = ENTITIES.register("volucite_shard", () -> EntityType.Builder.<VoluciteShardEntity>of(VoluciteShardEntity::new, MobCategory.MISC)
+			.sized(0.5F, 0.5F).build("volucite_shard"));
 
-	public static final RegistryObject<EntityType<RubyArrowEntity>> RUBY_BLOWPIPE_ARROW = ENTITIES.register("ruby_blowpipe_arrow", () -> EntityType.Builder.<RubyArrowEntity>of(RubyArrowEntity::new, MobCategory.MISC)
-			.sized(0.5F, 0.5F).build("ruby_blowpipe_arrow"));
-
+	public static final RegistryObject<EntityType<RubyShardEntity>> RUBY_SHARD = ENTITIES.register("ruby_shard", () -> EntityType.Builder.<RubyShardEntity>of(RubyShardEntity::new, MobCategory.MISC)
+			.sized(0.5F, 0.5F).build("ruby_shard"));
+	
 	public static final RegistryObject<EntityType<LunaticProjectileEntity>> LUNATIC_PROJECTILE = ENTITIES.register("lunatic_projectile", () -> EntityType.Builder.<LunaticProjectileEntity>of(LunaticProjectileEntity::new, MobCategory.MISC)
 			.sized(1.1F, 1.1F).build("lunatic_projectile"));
 

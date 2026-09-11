@@ -7,8 +7,12 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -35,49 +39,81 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
     public boolean customHurt(DamageSource source, CustomHurtInfo info)
     {
         float amount = info.amount();
-        if (!net.minecraftforge.common.ForgeHooks.onLivingAttack(this, source, amount)) return false;
-        if (this.isInvulnerableTo(source) || this.level().isClientSide || this.isDeadOrDying()) {return false;}
+        if (this.isInvulnerableTo(source) || this.level().isClientSide() || this.isDeadOrDying()) {return false;}
         else if (source.is(DamageTypeTags.IS_FIRE) && this.hasEffect(MobEffects.FIRE_RESISTANCE)) {return false;}
         else
         {
-            this.noActionTime = 0;
-
-            if (source.is(DamageTypeTags.IS_FREEZING) && this.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {amount *= 5.0F;}
-            this.walkAnimation.setSpeed(1.5F);
-
-            boolean wasOnHurtCooldown = (float)this.invulnerableTime > 10.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN);
-            boolean actuallyGotHurt = tryActuallyHurt(source, amount);
-
-            if (!actuallyGotHurt) {return false;}
-            //we know this got hurt
-            setLastHurtBy(source);
-
-            if (!wasOnHurtCooldown)
+            if (!net.minecraftforge.common.ForgeHooks.onLivingAttack(this, source, amount)) {return false;}
+            else
             {
-                this.level().broadcastDamageEvent(this, source);
-                if (!source.is(DamageTypeTags.NO_IMPACT)) {this.markHurt();}
+                this.noActionTime = 0;
 
-                if (info.applyKb()) {tryApplyingKnockback(source, info.kbStrength());}
+                if (source.is(DamageTypeTags.IS_FREEZING) && this.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {amount *= 5.0F;}
+                this.walkAnimation.setSpeed(1.5F);
+
+                boolean wasOnHurtCooldown = (float)this.invulnerableTime > 10.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN);
+                boolean actuallyGotHurt = tryActuallyHurt(source, amount);
+
+                if (!actuallyGotHurt) {return false;}
+                //we know this got hurt
+                this.resolveMobResponsibleForDamage(source);
+                this.resolvePlayerResponsibleForDamage(source);
+
+                if (!wasOnHurtCooldown)
+                {
+                    this.level().broadcastDamageEvent(this, source);
+                    if (!source.is(DamageTypeTags.NO_IMPACT)) {this.markHurt();}
+
+                    if (info.applyKb()) {tryApplyingKnockback(source, info.kbStrength());}
+                }
+
+                boolean died = false;
+                if (this.isDeadOrDying()) {this.customDie(source, info.playSound()); died = true;}
+
+                if (!wasOnHurtCooldown && info.playSound())
+                {
+                    if (died) {/*this.playDeathSound(source);*/} //death sound is now played in customDie(DamageSource, boolean) method
+                    else {this.playHurtSound(source);}
+                }
+
+                this.lastDamageSource = source;
+                this.lastDamageStamp = this.level().getGameTime();
+
+                if (source.getEntity() instanceof ServerPlayer serverPlayerSource)
+                {
+                    CriteriaTriggers.PLAYER_HURT_ENTITY.trigger(serverPlayerSource, this, source, amount, amount, false);
+                }
             }
-
-            boolean died = false;
-            if (this.isDeadOrDying()) {this.customDie(source, info.playSound()); died = true;}
-
-            if (!wasOnHurtCooldown && info.playSound())
-            {
-                if (died) {/*this.playDeathSound(source);*/} //death sound is now played in customDie(DamageSource, boolean) method
-                else {this.playHurtSound(source);}
-            }
-
-            this.lastDamageSource = source;
-            this.lastDamageStamp = this.level().getGameTime();
-
-            if (source.getEntity() instanceof ServerPlayer serverPlayerSource)
-            {
-                CriteriaTriggers.PLAYER_HURT_ENTITY.trigger(serverPlayerSource, this, source, amount, amount, false);
-            }
-
             return true;
+        }
+    }
+
+    //backported method
+    protected void resolveMobResponsibleForDamage(DamageSource damageSource)
+    {
+        Entity entity = damageSource.getEntity();
+        if (entity instanceof LivingEntity livingentity)
+        {
+            if (!damageSource.is(DamageTypeTags.NO_ANGER)) {this.setLastHurtByMob(livingentity);}
+        }
+    }
+
+    //edited backported method
+    protected void resolvePlayerResponsibleForDamage(DamageSource damageSource)
+    {
+        Entity entity = damageSource.getEntity();
+        if (entity instanceof Player player) {this.setLastHurtByPlayer(player);}
+        else if (entity instanceof TamableAnimal tamableAnimal)
+        {
+            if (tamableAnimal.isTame())
+            {
+                if (tamableAnimal.getOwner() instanceof Player player) {this.setLastHurtByPlayer(player);}
+                else
+                {
+                    this.lastHurtByPlayer = null;
+                    this.lastHurtByPlayerTime = 0;
+                }
+            }
         }
     }
 
@@ -110,34 +146,6 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
             this.hurtDuration = 10;
             this.hurtTime = this.hurtDuration;
             return true;
-        }
-    }
-
-    public void setLastHurtBy(DamageSource damageSource)
-    {
-        Entity sourceEntity = damageSource.getEntity();
-        if (sourceEntity != null)
-        {
-            if (sourceEntity instanceof LivingEntity sourceLivingEntity)
-            {
-                if (!damageSource.is(DamageTypeTags.NO_ANGER)) {this.setLastHurtByMob(sourceLivingEntity);}
-            }
-
-            if (sourceEntity instanceof Player sourcePlayerEntity)
-            {
-                this.lastHurtByPlayerTime = 100;
-                this.lastHurtByPlayer = sourcePlayerEntity;
-            }
-            else if (sourceEntity instanceof TamableAnimal tamableEntity)
-            {
-                if (tamableEntity.isTame())
-                {
-                    this.lastHurtByPlayerTime = 100;
-                    LivingEntity tamableEntityOwner = tamableEntity.getOwner();
-                    if (tamableEntityOwner instanceof Player playerOwner) {this.lastHurtByPlayer = playerOwner;}
-                    else {this.lastHurtByPlayer = null;}
-                }
-            }
         }
     }
 

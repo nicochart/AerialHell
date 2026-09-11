@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.Entity.Passive;
 import fr.factionbedrock.aerialhell.Entity.AerialHellAnimalEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -25,7 +24,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.*;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 
 import javax.annotation.Nullable;
@@ -33,14 +35,14 @@ import javax.annotation.Nullable;
 public class StellarChickenEntity extends Chicken
 {
     private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.<Integer>defineId(StellarChickenEntity.class, EntityDataSerializers.INT);
-    private static final Ingredient FOOD_ITEMS = Ingredient.of(AerialHellBlocksAndItems.AERIAL_BERRY_SEEDS.get(), AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_SEEDS.get());
+    private static final Ingredient FOOD_ITEMS = Ingredient.of(AerialHellBlocksAndItems.STELLAR_WHEAT_SEEDS.get(), AerialHellBlocksAndItems.AERIAL_BERRY_SEEDS.get(), AerialHellBlocksAndItems.VIBRANT_AERIAL_BERRY_SEEDS.get());
 
     public StellarChickenEntity(EntityType<? extends Chicken> entityType, Level level) {super(entityType, level);}
 
-    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag tag)
+    @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag compoundTag)
     {
         this.setColor(getBlockPositionTint());
-        return super.finalizeSpawn(level, difficulty, mobSpawnType, spawnGroupData, tag);
+        return super.finalizeSpawn(level, difficulty, mobSpawnType, spawnGroupData, compoundTag);
     }
 
     @Override public void tick()
@@ -64,16 +66,16 @@ public class StellarChickenEntity extends Chicken
         this.entityData.define(COLOR, 0);
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag compound)
+    @Override public void addAdditionalSaveData(CompoundTag valueOutput)
     {
-        super.addAdditionalSaveData(compound);
-        compound.putInt("Color", this.getColor());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putInt("Color", this.getColor());
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compound)
+    @Override public void readAdditionalSaveData(CompoundTag valueInput)
     {
-        super.readAdditionalSaveData(compound);
-        this.setColor(compound.getInt("Color"));
+        super.readAdditionalSaveData(valueInput);
+        this.setColor(valueInput.contains("Color") ? valueInput.getInt("Color") : 0);
     }
 
     public int getColor() {return this.entityData.get(COLOR);}
@@ -93,7 +95,12 @@ public class StellarChickenEntity extends Chicken
 
     @Override public boolean isFood(ItemStack stack) {return FOOD_ITEMS.test(stack);}
 
-    @Nullable @Override public Chicken getBreedOffspring(ServerLevel world, AgeableMob mob) {return AerialHellEntities.STELLAR_CHICKEN.get().create(this.level());}
+    @Nullable @Override public Chicken getBreedOffspring(ServerLevel world, AgeableMob mob)
+    {
+        StellarChickenEntity baby = AerialHellEntities.STELLAR_CHICKEN.get().create(this.level());
+        baby.setColor(this.getColor());
+        return baby;
+    }
 
     public static AttributeSupplier.Builder registerAttributes()
     {
@@ -103,10 +110,10 @@ public class StellarChickenEntity extends Chicken
                 .add(Attributes.MOVEMENT_SPEED, 0.3);
     }
 
-    @Nullable @Override public ItemEntity spawnAtLocation(ItemLike item)
+    @Nullable @Override public ItemEntity spawnAtLocation(ItemStack itemStack)
     {
-        if (item == Items.EGG) {return super.spawnAtLocation(AerialHellBlocksAndItems.STELLAR_EGG.get());}
-        else {return super.spawnAtLocation(item);}
+        if (itemStack.getItem() == Items.EGG) {return super.spawnAtLocation(AerialHellBlocksAndItems.STELLAR_EGG.get().getDefaultInstance());}
+        else {return super.spawnAtLocation(itemStack);}
     }
 
     @Override public float getWalkTargetValue(BlockPos pos, LevelReader worldIn)

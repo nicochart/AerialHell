@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Spider;
 
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -23,11 +23,5 @@ public abstract class AbstractAerialHellSpiderEntity extends Spider
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-    }
-
-    @Override
-    public int getExperienceReward()
-    {
-        return this.level().getRandom().nextInt(10);
     }
 }

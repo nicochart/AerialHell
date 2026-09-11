@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -8,11 +9,9 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.Level;
 
 public abstract class AerialHellAnimalEntity extends Animal
 {
@@ -26,7 +25,7 @@ public abstract class AerialHellAnimalEntity extends Animal
 		this.goalSelector.addGoal(0, new FloatGoal(this));
 		this.goalSelector.addGoal(1, new PanicGoal(this, 1.25));
 		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0));
-		this.goalSelector.addGoal(3, new TemptGoal(this, 1.1, Ingredient.of(AerialHellBlocksAndItems.AERIAL_BERRY.get()), false));
+		this.goalSelector.addGoal(3, new fr.factionbedrock.aerialhell.Entity.AI.TemptGoal(this, 1.1, this::isFood, false));
 		this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1));
 		this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0));
 		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
@@ -41,8 +40,7 @@ public abstract class AerialHellAnimalEntity extends Animal
 
 	@Override public int getAmbientSoundInterval() {return 160;}
 
-	@Override
-	public boolean isFood(ItemStack stack)
+	@Override public boolean isFood(ItemStack stack)
 	{
 		return stack.getItem() == AerialHellBlocksAndItems.AERIAL_BERRY.get();
 	}

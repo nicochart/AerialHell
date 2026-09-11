@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Monster.Snake;
 
-import fr.factionbedrock.aerialhell.Entity.AI.*;
+import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.SnakeAlignSnakeBodyPartGoal;
+import fr.factionbedrock.aerialhell.Entity.GoalConditionEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.AbstractCustomHurtMonsterEntity;
 import fr.factionbedrock.aerialhell.Entity.Util.CustomHurtInfo;
 import fr.factionbedrock.aerialhell.Entity.Util.SnakeCustomHurtInfo;
@@ -16,7 +18,7 @@ import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +35,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntity
+public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntity implements GoalConditionEntity.GoalSimpleConditionEntity
 {
     protected enum BodyPartDeathReaction{ALWAYS_SPLIT, SPLIT_IF_NOT_HEAD, LOOSE_TAIL, ALWAYS_DIE}
     protected enum SendDirection{FORWARD, BACKWARD}
@@ -120,26 +122,42 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         while (nextBodyPart != null)
         {
             count++;
-            if (nextBodyPart.onGround()) {fallingCount = 0;}
+            if (nextBodyPart.onGround() || nextBodyPart.isInWaterOrBubble() || nextBodyPart.isInLava()) {fallingCount = 0;}
             else {fallingCount++;}
             nextBodyPart = nextBodyPart.nextBodyPart;
         }
         return fallingCount >= 0.60F * count;
     }
 
+    /* ------- GoalSimpleConditionEntity : Interface method implementation ------- */
+    @Override public PathfinderMob getSelf() {return this;}
+
+    @Override public boolean canUseGoalsAdditionalCondition() {return this.isHead();}
+    /* --------------------------------------------------------------------------- */
+
     @Override protected void registerGoals()
     {
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new SnakeGoals.SnakeMeleeAttackGoal(this, 1.25D));
-        this.goalSelector.addGoal(3, new SnakeGoals.SnakeWaterAvoidingRandomWalkingGoal(this, 0.9D));
-        this.goalSelector.addGoal(4, new SnakeGoals.SnakeLookAtPlayerGoal(this));
-        this.goalSelector.addGoal(4, new SnakeGoals.SnakeRandomLookAroundGoal(this));
-        this.goalSelector.addGoal(4, new SnakeGoals.AlignSnakeBodyPartGoal(this));
+        this.goalSelector.addGoal(2, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
+        this.goalSelector.addGoal(3, new ConditionalGoal(this, new WaterAvoidingRandomStrollGoal(this, 0.9D)));
+        this.goalSelector.addGoal(4, new ConditionalGoal(this, new LookAtPlayerGoal(this, Player.class, 8.0F)));
+        this.goalSelector.addGoal(4, new ConditionalGoal(this, new RandomLookAroundGoal(this)));
+        this.goalSelector.addGoal(4, new SnakeAlignSnakeBodyPartGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
     @Override public boolean isPersistenceRequired() {return !this.isHead();}
+
+    @Override public void remove(Entity.RemovalReason reason)
+    {
+        AbstractSnakeEntity head = this.isHead() ? this : this.getHead();
+        if (head != null)
+        {
+            head.sendRemove(reason, this, SendDirection.BACKWARD);
+        }
+        super.remove(reason);
+    }
 
     @Override public void tick()
     {
@@ -150,11 +168,11 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         if (this.head == null) {this.head = this.getHeadBodyPart();} //called after reloading the world
         if (!this.isCut() && this.nextBodyPart == null) {this.tryToFindBackNextBodyPart();} //called after reloading the world
 
-        if (this.nextBodyPart != null && this.nextBodyPart.isDeadOrDying()) {this.setCut(); this.nextBodyPart = null;}
+        if (this.nextBodyPart != null && !this.nextBodyPart.isAlive()) {this.setCut(); this.nextBodyPart = null;}
 
         if (this.isHead() && this.tickCount % 5 == 0)
         {
-            boolean shouldReverseDrag = this.isTailFalling() && this.onGround() || (this.reverseDrag && !this.onGround());
+            boolean shouldReverseDrag = this.shouldReverseDrag();
             if (this.reverseDrag != shouldReverseDrag)
             {
                 this.sendDragDirection(shouldReverseDrag ? SendDirection.FORWARD : SendDirection.BACKWARD, SendDirection.BACKWARD, this);
@@ -271,7 +289,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
     }
 
     @Override @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag)
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag compoundTag)
     {
         if (this.isHead()) {this.head = this;}
         if (this.getBodyPartId() < this.length && !this.isCut() && this.getNextBodyPart() == null)
@@ -279,7 +297,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
             this.nextBodyPart = this.summonNextBodyPart();
             if (this.nextBodyPart != null)
             {
-                this.nextBodyPart.finalizeSpawn(level, difficultyIn, reason, spawnDataIn, dataTag);
+                this.nextBodyPart.finalizeSpawn(level, difficultyIn, reason, spawnDataIn, compoundTag);
             }
         }
         return spawnDataIn;
@@ -296,7 +314,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
             nextBodyPart.setCustomName(this.getCustomName());
             nextBodyPart.setNoAi(this.isNoAi());
             nextBodyPart.setInvulnerable(this.isInvulnerable());
-            nextBodyPart.moveTo(this.getX() + (double) x, this.getY(), this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
+            nextBodyPart.snapTo(this.getX() + (double) x, this.getY(), this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
             nextBodyPart.setBodyPartId(this.getBodyPartId() + 1);
             nextBodyPart.setPreviousBodyPart(this);
             nextBodyPart.head = this.getHead();
@@ -319,11 +337,18 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
             float amountReduction = 2.0F;
             float kbStrengthReduction = this.isHead() ? 0.01F : 0.05F;
             float minimumAmount = Math.min(amount, 0.5F);
-            if (this.nextBodyPart != null) {this.nextBodyPart.sendHurt(damageSource, info, amountReduction, kbStrengthReduction, minimumAmount, 0.0F, this, AbstractSnakeEntity.SendDirection.BACKWARD);}
-            if (this.previousBodyPart != null) {this.previousBodyPart.sendHurt(damageSource, info, amountReduction, kbStrengthReduction, minimumAmount, 0.0F, this, AbstractSnakeEntity.SendDirection.FORWARD);}
+            if (this.nextBodyPart != null) {this.nextBodyPart.sendHurt(damageSource, info, amountReduction, kbStrengthReduction, minimumAmount, 0.0F, this, SendDirection.BACKWARD);}
+            if (this.previousBodyPart != null) {this.previousBodyPart.sendHurt(damageSource, info, amountReduction, kbStrengthReduction, minimumAmount, 0.0F, this, SendDirection.FORWARD);}
         }
         if (this.isDeadOrDying()) {this.runDeathReaction();}
         return flag;
+    }
+
+    public boolean shouldReverseDrag()
+    {
+        AbstractSnakeEntity head = this.getHead();
+        if (head != null && head.countNextBodyParts() + 1 < 6) {return false;}
+        return this.isTailFalling() && this.onGround() || (this.reverseDrag && !this.onGround());
     }
 
     public void sendDragDirection(SendDirection dragDirection, SendDirection sendDirection, AbstractSnakeEntity sender)
@@ -362,6 +387,17 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         if (torchbearer != null) {torchbearer.sendDie(damageSource, sender, direction);}
         this.setHealth(0.0F);
         this.customDie(damageSource, this.shouldPlayHurtOrDeathSoundOnHurt());
+    }
+
+    public void sendRemove(RemovalReason reason, AbstractSnakeEntity sender, SendDirection direction)
+    {
+        AbstractSnakeEntity torchbearer = direction == SendDirection.BACKWARD ? this.nextBodyPart : this.previousBodyPart; //next one to receive and send the message
+        if (torchbearer != null) {torchbearer.sendRemove(reason, sender, direction);}
+        if (!this.isRemoved())
+        {
+            this.setRemoved(reason);
+            super.remove(reason); //do not call this.remove here. Will infinite loop : this.triggerOnDeathMobEffects -> sendRemove -> this.triggerOnDeathMobEffects -> sendRemove -> ...
+        }
     }
 
     public void sendJump(float yMovement, float yMovementReduction, AbstractSnakeEntity sender, SendDirection direction)
@@ -459,26 +495,26 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
         this.entityData.define(IS_CUT, false);
     }
 
-    @Override public void addAdditionalSaveData(CompoundTag compound)
+    @Override public void addAdditionalSaveData(CompoundTag valueOutput)
     {
-        super.addAdditionalSaveData(compound);
-        compound.putInt("body_part_id", this.getBodyPartId());
-        compound.putBoolean("is_cut", this.isCut());
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putInt("body_part_id", this.getBodyPartId());
+        valueOutput.putBoolean("is_cut", this.isCut());
         if (this.nextBodyPart != null)
         {
-            compound.putString("next_body_part_uuid", this.nextBodyPart.getStringUUID());
+            valueOutput.putString("next_body_part_uuid", this.nextBodyPart.getStringUUID());
         }
     }
 
-    @Override public void readAdditionalSaveData(CompoundTag compound)
+    @Override public void readAdditionalSaveData(CompoundTag valueInput)
     {
-        super.readAdditionalSaveData(compound);
-        this.setBodyPartId(compound.getInt("body_part_id"));
-        if (compound.getBoolean("is_cut")) {this.setCut();}
+        super.readAdditionalSaveData(valueInput);
+        if (valueInput.contains("body_part_id")) {this.setBodyPartId(valueInput.getInt("body_part_id"));}
+        if (valueInput.contains("is_cut") && valueInput.getBoolean("is_cut")) {this.setCut();}
         else {this.entityData.set(IS_CUT, false);}
-        if (compound.contains("next_body_part_uuid"))
+        if (valueInput.contains("next_body_part_uuid"))
         {
-            this.nextBodyPartStringUUID = compound.getString("next_body_part_uuid");
+            this.nextBodyPartStringUUID = valueInput.getString("next_body_part_uuid");
         }
     }
 

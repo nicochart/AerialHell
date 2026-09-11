@@ -2,6 +2,11 @@ package fr.factionbedrock.aerialhell.Entity.Monster.Shadow;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,18 +15,13 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Vex;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.Level;
 
 public class ShadowFlyingSkullEntity extends Vex
 {
     public float jawOpeningAmplitude = 0.2F;
     public float jawOpeningFrequencyMalus = 7.0F;
-    public ShadowFlyingSkullEntity(EntityType<? extends Vex> p_i50190_1_, Level p_i50190_2_) {super(p_i50190_1_, p_i50190_2_); this.setLimitedLife(700); this.SetRandomJawOpeningAmplitudeAndFrequency();}
+    public ShadowFlyingSkullEntity(EntityType<? extends Vex> type, Level level) {super(type, level); this.setLimitedLife(700); this.SetRandomJawOpeningAmplitudeAndFrequency();}
 
     public static AttributeSupplier.Builder registerAttributes()
     {

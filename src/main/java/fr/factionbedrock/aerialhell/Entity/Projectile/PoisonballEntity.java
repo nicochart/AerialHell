@@ -2,8 +2,11 @@ package fr.factionbedrock.aerialhell.Entity.Projectile;
 
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,17 +14,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Fireball;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ForgeHooks;
 
 public class PoisonballEntity extends Fireball
 {
@@ -30,15 +26,14 @@ public class PoisonballEntity extends Fireball
 		super(type, worldIn);
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	public PoisonballEntity(Level worldIn, double x, double y, double z, double accX, double accY, double accZ)
+	public PoisonballEntity(Level level, double x, double y, double z, double accX, double accY, double accZ)
 	{
-		super(AerialHellEntities.POISONBALL.get(), x, y, z, accX, accY, accZ, worldIn);
+		super(AerialHellEntities.POISONBALL.get(), x, y, z, accX, accY, accZ, level);
 	}
 
-	public PoisonballEntity(Level worldIn, LivingEntity shooter, double accX, double accY, double accZ)
+	public PoisonballEntity(Level level, LivingEntity shooter, double accX, double accY, double accZ)
 	{
-		super(AerialHellEntities.POISONBALL.get(), shooter, accX, accY, accZ, worldIn);
+		super(AerialHellEntities.POISONBALL.get(), shooter, accX, accY, accZ, level);
 	}
 
 	@Override public boolean fireImmune() {return true;}
@@ -66,7 +61,7 @@ public class PoisonballEntity extends Fireball
 					activeItemStack.hurtAndBreak(1, livingEntity, p -> p.broadcastBreakEvent(activeItemStack.getEquipmentSlot()));
 					level().playSound((Player)null, entity.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
 				}
-				livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 160, 0));
+				if (!livingEntity.level().isClientSide()) {livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 160, 0));}
 			}
 		}
 		this.discard();
@@ -77,7 +72,7 @@ public class PoisonballEntity extends Fireball
 	@Override public void tick()
 	{
 		Entity entity = this.getOwner();
-		if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition()))
+		if (this.level().isClientSide() || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition()))
 		{
 			HitResult raytraceresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
 			if (raytraceresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult))
