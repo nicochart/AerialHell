@@ -10,7 +10,6 @@ import net.minecraft.world.level.BlockGetter;
 public class CoreProtectedWallBlock extends WallBlock
 {
 	//Problem with .isOpaque()
-	//public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
 	
 	public CoreProtectedWallBlock(Properties properties)
 	{
@@ -43,9 +42,9 @@ public class CoreProtectedWallBlock extends WallBlock
 	}*/
 
 	@Override
-	public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos)
+	public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
 	{
-		float f = state.getDestroySpeed(worldIn, pos);
+		float f = state.getDestroySpeed(level, pos);
 		if (f == -1.0F /*|| isProtected(state)*/)
 		{
 			return 0.0F;

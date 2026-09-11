@@ -11,6 +11,7 @@
     "aerialhell:volucite_ore",
     "aerialhell:obsidian_ore",
 
+    "#aerialhell:reactors",
     "#aerialhell:stone_ghost_blocks",
 
     "aerialhell:stellar_stone",
@@ -19,6 +20,7 @@
     "aerialhell:mossy_stellar_cobblestone",
     "aerialhell:glaucophanite",
     "aerialhell:polished_glaucophanite",
+    "aerialhell:shadow_stone",
     "aerialhell:stellar_stone_bricks",
     "aerialhell:slippery_sand_stone",
     "aerialhell:slippery_sand_stone_bricks",
@@ -113,8 +115,8 @@
     "aerialhell:raw_azurite_crystal_block",
     "aerialhell:raw_volucite_block",
 
-    "#aerialhell:aerialhell_lantern",
-    "#aerialhell:overworld_lantern",
+    "#aerialhell:chains",
+    "#aerialhell:lantern",
 
     "aerialhell:oscillator",
     "aerialhell:freezer",

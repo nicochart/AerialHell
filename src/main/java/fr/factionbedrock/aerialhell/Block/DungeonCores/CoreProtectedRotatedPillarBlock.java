@@ -9,11 +9,13 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.material.PushReaction;
+import org.jetbrains.annotations.Nullable;
+
+import static fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock.CORE_PROTECTED;
 
 public class CoreProtectedRotatedPillarBlock extends RotatedPillarBlock
 {
-	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
-	
 	public CoreProtectedRotatedPillarBlock(Properties properties)
 	{
 		super(properties);
@@ -45,9 +47,9 @@ public class CoreProtectedRotatedPillarBlock extends RotatedPillarBlock
 	}
 
 	@Override
-	public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos)
+	public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
 	{
-		float f = state.getDestroySpeed(worldIn, pos);
+		float f = state.getDestroySpeed(level, pos);
 		if (f == -1.0F || isProtected(state))
 		{
 			return 0.0F;
@@ -58,4 +60,6 @@ public class CoreProtectedRotatedPillarBlock extends RotatedPillarBlock
 			return player.getDigSpeed(state, pos) / f / (float)i;
 		}
 	}
+
+	@Override public @Nullable PushReaction getPistonPushReaction(BlockState state) {return this.isProtected(state) ? PushReaction.BLOCK : super.getPistonPushReaction(state);}
 }

@@ -14,10 +14,10 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 
+import static fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock.CORE_PROTECTED;
+
 public class CoreProtectedChestBlock extends AerialHellChestBlock
 {
-	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
-	
 	public CoreProtectedChestBlock(Properties builder)
 	{
 		super(builder);
@@ -34,15 +34,14 @@ public class CoreProtectedChestBlock extends AerialHellChestBlock
 		return state.getValue(CORE_PROTECTED);
 	}
 	
-	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
+	@Override public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)
 	{
-		return (isProtected(state) && !player.isCreative()) ? InteractionResult.SUCCESS : super.use(state, worldIn, pos, player, handIn, hit);
+		return (isProtected(state) && !player.isCreative()) ? InteractionResult.SUCCESS : super.use(state, level, pos, player, handIn, hit);
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion)
+	public float getExplosionResistance(BlockState state, BlockGetter level, BlockPos pos, Explosion explosion)
     {
         return isProtected(state) ? 1200.0F : this.asBlock().getExplosionResistance();
     }
@@ -55,9 +54,9 @@ public class CoreProtectedChestBlock extends AerialHellChestBlock
 	}
 
 	@Override
-	public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos)
+	public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
 	{
-		float f = state.getDestroySpeed(worldIn, pos);
+		float f = state.getDestroySpeed(level, pos);
 		if (f == -1.0F || isProtected(state))
 		{
 			return 0.0F;

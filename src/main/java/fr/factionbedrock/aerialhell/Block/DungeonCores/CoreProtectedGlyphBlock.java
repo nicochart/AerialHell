@@ -13,12 +13,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.Nullable;
+
+import static fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock.CORE_PROTECTED;
 
 public class CoreProtectedGlyphBlock extends GlyphBlock
 {
-	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
-
 	public CoreProtectedGlyphBlock(Properties properties)
 	{
 		super(properties);
@@ -35,15 +37,14 @@ public class CoreProtectedGlyphBlock extends GlyphBlock
 		return state.getValue(CORE_PROTECTED);
 	}
 
-	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult)
+	@Override public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult)
 	{
 		if (!player.isCreative() && this.isProtected(state)) {return InteractionResult.PASS;}
 		else {return super.use(state, level, pos, player, hand, hitResult);}
 	}
 
 	@Override
-	public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion)
+	public float getExplosionResistance(BlockState state, BlockGetter level, BlockPos pos, Explosion explosion)
     {
         return isProtected(state) ? 1200.0F : this.asBlock().getExplosionResistance();
     }
@@ -56,9 +57,9 @@ public class CoreProtectedGlyphBlock extends GlyphBlock
 	}
 	
 	@Override
-	public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos)
+	public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
 	{
-		float f = state.getDestroySpeed(worldIn, pos);
+		float f = state.getDestroySpeed(level, pos);
 	    if (f == -1.0F || isProtected(state))
 	    {
 	         return 0.0F;
@@ -69,4 +70,6 @@ public class CoreProtectedGlyphBlock extends GlyphBlock
 	         return player.getDigSpeed(state, pos) / f / (float)i;
 	    }
 	}
+
+	@Override public @Nullable PushReaction getPistonPushReaction(BlockState state) {return this.isProtected(state) ? PushReaction.BLOCK : super.getPistonPushReaction(state);}
 }

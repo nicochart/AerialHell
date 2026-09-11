@@ -11,11 +11,13 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.material.PushReaction;
+import org.jetbrains.annotations.Nullable;
+
+import static fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock.CORE_PROTECTED;
 
 public class CoreProtectedStairsBlock extends StairBlock
 {
-	public static final BooleanProperty CORE_PROTECTED = BooleanProperty.create("core_protected");
-	
 	public CoreProtectedStairsBlock(BlockState state, BlockBehaviour.Properties properties)
 	{
 		super(state, properties);
@@ -47,9 +49,9 @@ public class CoreProtectedStairsBlock extends StairBlock
 	}
 
 	@Override
-	public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos)
+	public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
 	{
-		float f = state.getDestroySpeed(worldIn, pos);
+		float f = state.getDestroySpeed(level, pos);
 		if (f == -1.0F || isProtected(state))
 		{
 			return 0.0F;
@@ -70,5 +72,7 @@ public class CoreProtectedStairsBlock extends StairBlock
 		else if (this == AerialHellBlocksAndItems.VOLUCITE_STONE_STAIRS.get()) {return AerialHellBlocksAndItems.CRACKED_VOLUCITE_STONE_STAIRS.get();}
 		else {return this;}
 	}
+
+	@Override public @Nullable PushReaction getPistonPushReaction(BlockState state) {return this.isProtected(state) ? PushReaction.BLOCK : super.getPistonPushReaction(state);}
 }
 

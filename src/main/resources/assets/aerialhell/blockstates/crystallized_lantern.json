@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "aerialhell:block/crystallized_lantern"
+    },
+    "hanging=true": {
+      "model": "aerialhell:block/crystallized_lantern_hanging"
+    }
+  }
+}

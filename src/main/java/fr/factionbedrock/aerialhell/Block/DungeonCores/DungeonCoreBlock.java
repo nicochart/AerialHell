@@ -95,19 +95,19 @@ public class DungeonCoreBlock extends Block
 		}
 		else if (block instanceof CoreProtectedRotatedPillarBlock)
 		{
-			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedRotatedPillarBlock.CORE_PROTECTED, protect));
+			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedSlabBlock)
 		{
-			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedSlabBlock.CORE_PROTECTED, protect));
+			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedStairsBlock)
 		{
-			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedStairsBlock.CORE_PROTECTED, protect));
+			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedChestBlock)
 		{
-			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedChestBlock.CORE_PROTECTED, protect));
+			worldIn.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
 		}
 		else if (block instanceof CoreProtectedTrappedBlock)
 		{

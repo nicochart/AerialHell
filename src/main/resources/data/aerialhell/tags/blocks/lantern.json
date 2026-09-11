@@ -2,8 +2,13 @@
   "replace": false,
   "values":
   [
+    "aerialhell:crystallized_lantern",
     "aerialhell:fluorite_lantern",
+    "aerialhell:ruby_lantern",
+    "aerialhell:ruby_crystallized_lantern",
     "aerialhell:ruby_fluorite_lantern",
+    "aerialhell:volucite_lantern",
+    "aerialhell:volucite_crystallized_lantern",
     "aerialhell:volucite_fluorite_lantern",
     "aerialhell:lunatic_lantern",
     "aerialhell:shadow_lantern"
