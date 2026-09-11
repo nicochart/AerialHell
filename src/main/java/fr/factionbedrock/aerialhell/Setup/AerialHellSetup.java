@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Setup;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Packet.AerialHellNetwork;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Config.AerialHellConfigLoader;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.AerialHellCreativeModeTabs;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -22,6 +23,7 @@ public class AerialHellSetup
     {
         event.enqueueWork(() ->
         {
+            AerialHellConfigLoader.loadAndStoreConfigParams();
         	AerialHellBlocksAndItems.registerCompostableItems();
         	AerialHellEntities.entitySpawnPlacements();
         	AerialHellBlocksAndItems.registerPots();
@@ -42,6 +44,7 @@ public class AerialHellSetup
         AerialHellMobEffects.EFFECTS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellPOI.POI.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellStructures.STRUCTURES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        AerialHellStructurePlacements.STRUCTURE_PLACEMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellParticleTypes.PARTICLES.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellMenuTypes.MENUS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AerialHellRecipes.RECIPE_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());

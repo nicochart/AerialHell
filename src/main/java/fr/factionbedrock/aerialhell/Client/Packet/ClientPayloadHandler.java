@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.Packet;
 
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -12,7 +13,7 @@ public class ClientPayloadHandler
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() ->
         {
-            if (/*TODO LoadedConfigParams.ENABLE_SHADOW_BIND_RELOAD_TEXTURE && LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT*/ true) //not necessary to reload textures if shifting is disabled
+            if (LoadedConfigParams.ENABLE_SHADOW_BIND_RELOAD_TEXTURE && LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT) //not necessary to reload textures if shifting is disabled
             {
                 Minecraft.getInstance().reloadResourcePacks();
             }

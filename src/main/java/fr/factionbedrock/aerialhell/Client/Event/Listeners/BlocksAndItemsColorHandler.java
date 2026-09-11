@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Util.CalculateTintContextInfo;
 import fr.factionbedrock.aerialhell.Client.Util.ColorHandlerHelper;
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
@@ -279,7 +280,7 @@ public class BlocksAndItemsColorHandler
         else {return ColorHandlerHelper.DEFAULT_COLOR.getRGB();}
     }
 
-    public static boolean isShadowBindEnabled() {return /*TODO LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT &&*/ isCurrentPlayerInstanceShadowBind();}
+    public static boolean isShadowBindEnabled() {return LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT && isCurrentPlayerInstanceShadowBind();}
 
     public static boolean isCurrentPlayerInstanceShadowBind() {return FMLEnvironment.dist == Dist.CLIENT && Minecraft.getInstance().player != null && EntityHelper.isLivingEntityShadowBind(Minecraft.getInstance().player);}
 }

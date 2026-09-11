@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Armor;
 
+import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
@@ -45,11 +46,11 @@ public class ShadowArmorItem extends ArmorItem//TODO AerialHellArmorItem
 
     @Override public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag)
     {
-        if (/*TODO LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT*/ true)
+        if (LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT)
         {
             components.add(this.getTextureShiftDescription().withStyle(ChatFormatting.GRAY));
 
-            if (/*TODO LoadedConfigParams.ENABLE_SHADOW_BIND_RELOAD_TEXTURE*/ true)
+            if (LoadedConfigParams.ENABLE_SHADOW_BIND_RELOAD_TEXTURE)
             {
                 components.add(this.getReloadTextureDescription().withStyle(ChatFormatting.GRAY));
             }
