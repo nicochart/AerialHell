@@ -134,6 +134,7 @@ public class RenderRegistrationListener
         event.registerLayerDefinition(AerialHellModelLayers.SPIDER_SPIKE, HellSpiderSpikeModel::createBodyLayer);
     }
 
+    @SubscribeEvent
     public static void onModelBake(ModelEvent.ModifyBakingResult event)
     {
         ShiftedModelRenderHelper.createAndRegisterDefaultBlockShiftedRender(AerialHellBlocksAndItems.STELLAR_STONE_CRYSTAL_BLOCK.get(), event, ShiftingBlockBakedModel.TRANSLUCENT);

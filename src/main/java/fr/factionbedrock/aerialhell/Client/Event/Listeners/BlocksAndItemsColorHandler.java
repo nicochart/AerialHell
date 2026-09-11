@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
+import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Util.CalculateTintContextInfo;
 import fr.factionbedrock.aerialhell.Client.Util.ColorHandlerHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
@@ -13,33 +14,21 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.awt.*;
 
+@Mod.EventBusSubscriber(modid = AerialHell.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BlocksAndItemsColorHandler
 {
+    @SubscribeEvent
     public static void handleBlockColors(RegisterColorHandlersEvent.Block event)
     {
         event.getBlockColors().register((state, level, pos, tint) -> getColor(tint, level, pos),
                 AerialHellBlocksAndItems.CHISELED_STELLAR_GRASS_BLOCK.get(),
                 AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_SAPLING.get(),
-                AerialHellBlocksAndItems.MOSSY_STELLAR_STONE.get(),
-                AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE.get(),
-                AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_WALL.get(),
-                AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_WALL.get(),
-                AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_SLAB.get(),
-                AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_SLAB.get(),
-                AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_STAIRS.get(),
-                AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_STAIRS.get(),
-                AerialHellBlocksAndItems.MOSSY_MUD_BRICKS.get(),
-                AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_WALL.get(),
-                AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_SLAB.get(),
-                AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_STAIRS.get(),
-                AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS.get(),
-                AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_WALL.get(),
-                AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB.get(),
-                AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS.get(),
                 AerialHellBlocksAndItems.POTTED_STELLAR_FERN.get()
         );
 
@@ -71,6 +60,22 @@ public class BlocksAndItemsColorHandler
         );
 
         event.getBlockColors().register((state, level, pos, tint) -> getVegetationColor(state, tint, level, pos),
+                AerialHellBlocksAndItems.MOSSY_STELLAR_STONE.get(),
+                AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE.get(),
+                AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_WALL.get(),
+                AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_WALL.get(),
+                AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_SLAB.get(),
+                AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_SLAB.get(),
+                AerialHellBlocksAndItems.MOSSY_STELLAR_STONE_STAIRS.get(),
+                AerialHellBlocksAndItems.MOSSY_STELLAR_COBBLESTONE_STAIRS.get(),
+                AerialHellBlocksAndItems.MOSSY_MUD_BRICKS.get(),
+                AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_WALL.get(),
+                AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_SLAB.get(),
+                AerialHellBlocksAndItems.MOSSY_MUD_BRICKS_STAIRS.get(),
+                AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS.get(),
+                AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_WALL.get(),
+                AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB.get(),
+                AerialHellBlocksAndItems.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS.get(),
                 AerialHellBlocksAndItems.STELLAR_GRASS_BLOCK.get(),
                 AerialHellBlocksAndItems.SHADOW_GRASS_BLOCK.get(),
                 AerialHellBlocksAndItems.STELLAR_JUNGLE_TREE_LEAVES.get(),
@@ -214,6 +219,7 @@ public class BlocksAndItemsColorHandler
         else {return ColorHandlerHelper.DEFAULT_COLOR.getRGB();}
     }
 
+    @SubscribeEvent
     public static void handleItemColors(RegisterColorHandlersEvent.Item event)
     {
         event.getItemColors().register((stack, color) -> ColorHandlerHelper.AERIAL_HELL_PLAINS_GRASS_COLOR,
