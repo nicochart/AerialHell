@@ -4,7 +4,6 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.SectionPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
@@ -80,7 +79,7 @@ public class FeatureHelper
     {
         return level.isStateAtPosition(pos, (state) ->
         {
-            return state.canBeReplaced() || canReplacePlant && state.getMapColor(level, pos) == MapColor.PLANT; //TODO : it works ?
+            return state.canBeReplaced() || state.is(AerialHellTags.Blocks.SHROOMS_REPLACEABLE) || canReplacePlant && state.getMapColor(level, pos) == MapColor.PLANT; //TODO : it works ?
         });
     }
 
