@@ -52,15 +52,6 @@ public class ItemHelper
         }
     }
 
-    public static void forEachAerialHellArmorItem(List<EquippedItemStack> items, BiConsumer<AerialHellArmorItem, EquippedItemStack> action)
-    {
-        for (EquippedItemStack e : items)
-        {
-            ItemStack stack = e.stack();
-            if (stack.getItem() instanceof AerialHellArmorItem item) {action.accept(item, e);}
-        }
-    }
-
     public static int getItemInTagCount(Iterable<ItemStack> stuff, TagKey<Item> tag)
     {
         int count = 0;

@@ -7,7 +7,6 @@ import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.Util.FieldAccessor;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import fr.factionbedrock.aerialhell.Util.MutableFloat;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
@@ -42,24 +41,12 @@ public class LivingDamageMixin
                 //attacker is the ah item owner, dealing damage to target (enemy)
                 ahItem.onDealDamage(equippedItemStack.stack(), attacker, equippedItemStack.slot(), new DamageUseSituationInfo(target, damageSource, new FieldAccessor<>(damageMultiplier::get, damageMultiplier::set)));
             });
-
-            ItemHelper.forEachAerialHellArmorItem(EntityHelper.getEquippedItemStackList(attacker), (ahArmorItem, equippedItemStack) ->
-            {
-                //attacker is the ah item owner, dealing damage to target (enemy)
-                ahArmorItem.onDealDamage(equippedItemStack.stack(), attacker, equippedItemStack.slot(), new DamageUseSituationInfo(target, damageSource, new FieldAccessor<>(damageMultiplier::get, damageMultiplier::set)));
-            });
         }
 
         ItemHelper.forEachAerialHellItem(EntityHelper.getEquippedItemStackList(target), (ahItem, equippedItemStack) ->
         {
             //target is the ah item owner, receiving damage from attacker (enemy)
             ahItem.onTakeDamage(equippedItemStack.stack(), target, equippedItemStack.slot(), new DamageUseSituationInfo(sourceEntity, damageSource, new FieldAccessor<>(damageMultiplier::get, damageMultiplier::set)));
-        });
-
-        ItemHelper.forEachAerialHellArmorItem(EntityHelper.getEquippedItemStackList(target), (ahArmorItem, equippedItemStack) ->
-        {
-            //target is the ah item owner, receiving damage from attacker (enemy)
-            ahArmorItem.onTakeDamage(equippedItemStack.stack(), target, equippedItemStack.slot(), new DamageUseSituationInfo(sourceEntity, damageSource, new FieldAccessor<>(damageMultiplier::get, damageMultiplier::set)));
         });
 
         //damage multiplier value is changed internally in item abilities (onDealDamage / onTakeDamage)
