@@ -67,21 +67,9 @@ public class ToolsAndArmorEventListener
 				//attacker is the ah item owner, dealing damage to target (enemy)
 				ahItem.onDealDamage(equippedItemStack.stack(), attacker, equippedItemStack.slot(), new DamageUseSituationInfo(target, damageSource, new FieldAccessor<>(damageMultiplier::get, damageMultiplier::set)));
 			});
-
-			ItemHelper.forEachAerialHellArmorItem(EntityHelper.getEquippedItemStackList(attacker), (ahItem, equippedItemStack) ->
-			{
-				//attacker is the ah item owner, dealing damage to target (enemy)
-				ahItem.onDealDamage(equippedItemStack.stack(), attacker, equippedItemStack.slot(), new DamageUseSituationInfo(target, damageSource, new FieldAccessor<>(damageMultiplier::get, damageMultiplier::set)));
-			});
 		}
 
 		ItemHelper.forEachAerialHellItem(EntityHelper.getEquippedItemStackList(target), (ahItem, equippedItemStack) ->
-		{
-			//target is the ah item owner, receiving damage from attacker (enemy)
-			ahItem.onTakeDamage(equippedItemStack.stack(), target, equippedItemStack.slot(), new DamageUseSituationInfo(sourceEntity, damageSource, new FieldAccessor<>(damageMultiplier::get, damageMultiplier::set)));
-		});
-
-		ItemHelper.forEachAerialHellArmorItem(EntityHelper.getEquippedItemStackList(target), (ahItem, equippedItemStack) ->
 		{
 			//target is the ah item owner, receiving damage from attacker (enemy)
 			ahItem.onTakeDamage(equippedItemStack.stack(), target, equippedItemStack.slot(), new DamageUseSituationInfo(sourceEntity, damageSource, new FieldAccessor<>(damageMultiplier::get, damageMultiplier::set)));
