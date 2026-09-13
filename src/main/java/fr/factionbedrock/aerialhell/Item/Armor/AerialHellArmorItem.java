@@ -1,10 +1,12 @@
 package fr.factionbedrock.aerialhell.Item.Armor;
 
+import fr.factionbedrock.aerialhell.Client.Util.ClientHelper;
 import fr.factionbedrock.aerialhell.Item.Ability.*;
 import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import fr.factionbedrock.aerialhell.Item.AerialHellItemInterface;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -41,6 +43,12 @@ public class AerialHellArmorItem extends ArmorItem implements AerialHellItemInte
     @Override public int maxUseDuration() {return this.maxUseDuration;}
     @Override public List<AerialHellItem.UseInteractionType> useInteractionToolTypes() {return this.useInteractionToolTypes;}
     @Override public UseAnim itemUseAnimation() {return this.itemUseAnimation;}
+
+    @Override public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> components, TooltipFlag tooltipFlag)
+    {
+        this.appendOptionalDescriptionsHoverText(tooltipContext, components);
+        this.appendAbilityDescriptionHoverText(ClientHelper.getLocalPlayer(), tooltipContext, components);
+    }
 
     @Override public ItemAttributeModifiers getDefaultAttributeModifiers()
     {
