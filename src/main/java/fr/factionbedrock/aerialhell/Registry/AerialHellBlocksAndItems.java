@@ -1749,7 +1749,6 @@ public class AerialHellBlocksAndItems
 
 	public static void registerItemProperties()
 	{
-		System.out.println("registration");
 		ItemProperties.register(
 				RUBY_RESONATOR.get(),
 				ResourceLocation.fromNamespaceAndPath(MODID, "charge"),
