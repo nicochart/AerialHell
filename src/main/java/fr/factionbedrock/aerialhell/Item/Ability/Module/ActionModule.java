@@ -202,7 +202,6 @@ public class ActionModule extends AbilityModule
                         
                         int ticksUsed = usingItemInfo != null ? usingItemInfo.ticksUsed() : 0;
                         projectile.setPos(itemOwner.getX(), itemOwner.getY(0.5D) + 0.5D, itemOwner.getZ());
-                        projectile.setOwner(itemOwner);
                         projectile.shoot(itemOwner.getLookAngle().x, itemOwner.getLookAngle().y, itemOwner.getLookAngle().z, velocityFromTicksUsed.applyAsFloat(ticksUsed), inaccuracy);
                         level.addFreshEntity(projectile);
                     }

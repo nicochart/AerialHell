@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Item.Ability.AbilitySelector;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellToolMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
@@ -18,6 +19,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.ToolAction;
@@ -83,7 +86,15 @@ public class AerialHellItem extends WithInformationItem implements AerialHellIte
 	//inspired of AxeItem, HoeItem and ShovelItem methods of same name
 	@Override public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {return this.ahCanPerformAction(stack, toolAction);}
 
-	@Override public boolean isFoil(ItemStack stack) {return this.isFoil;}
+	//specific to 1.20.1
+	@Override public boolean isFoil(ItemStack stack) {return this.isFoil || super.isFoil(stack);}
+
+	@Override public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
+	{
+		if (stack.is(AerialHellTags.Items.RESONATORS) && enchantment.category == EnchantmentCategory.BOW) {return true;}
+
+		return super.canApplyAtEnchantingTable(stack, enchantment);
+	}
 
 	public static class Properties extends Item.Properties
 	{

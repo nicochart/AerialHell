@@ -18,14 +18,6 @@ import java.util.function.Supplier;
 
 public class AerialHellArmorMaterial extends ExtraAttributeModifiersMaterial implements ArmorMaterial
 {
-    //vanilla copy from ArmorItem
-    private static final EnumMap<ArmorItem.Type, UUID> ARMOR_MODIFIER_UUID_PER_TYPE = Util.make(new EnumMap<>(ArmorItem.Type.class), (map) -> {
-        map.put(ArmorItem.Type.BOOTS, UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"));
-        map.put(ArmorItem.Type.LEGGINGS, UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"));
-        map.put(ArmorItem.Type.CHESTPLATE, UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"));
-        map.put(ArmorItem.Type.HELMET, UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150"));
-    });
-
     public final String name;
     public final int durabilityMultiplier;
     public final Map<ArmorItem.Type, Integer> defense;
@@ -53,9 +45,8 @@ public class AerialHellArmorMaterial extends ExtraAttributeModifiersMaterial imp
     public ImmutableMultimap<Attribute, AttributeModifier> createAttributes(ArmorItem.Type type, AttributeEntryList additionalAttributes)
     {
         //vanilla copy of ArmorItem default attributes creation
-
         ImmutableMultimap.Builder<Attribute, AttributeModifier> modifiers = ImmutableMultimap.builder();
-        UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(type);
+        UUID uuid = ArmorItem.ARMOR_MODIFIER_UUID_PER_TYPE.get(type);
         int defense = this.getDefenseForType(type);
         float toughness = this.getToughness();
         modifiers.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", defense, AttributeModifier.Operation.ADDITION));

@@ -6,18 +6,14 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 
-import java.util.UUID;
 import java.util.function.Supplier;
 
 public class AerialHellToolMaterial extends ExtraAttributeModifiersMaterial
 {
-    //need to use these modifier ids so that the extra speed & damage modifier values stack with base vanilla ones
-    protected static final UUID BASE_ATTACK_DAMAGE_UUID = UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF");
-    protected static final UUID BASE_ATTACK_SPEED_UUID = UUID.fromString("FA233E1C-4180-4865-B01B-BCCE9785ACA3");
-
     private final VanillaToolMaterial vanillaMaterial;
 
     public AerialHellToolMaterial(int level, int durability, float efficientMiningSpeed, float attackDamage, int enchantmentValue, Supplier<Ingredient> repairItems)
@@ -51,8 +47,8 @@ public class AerialHellToolMaterial extends ExtraAttributeModifiersMaterial
     {
         float effectiveAttackDamage = attackDamage + this.vanillaMaterial.getAttackDamageBonus();
         ImmutableMultimap.Builder<Attribute, AttributeModifier> modifiers = ImmutableMultimap.builder();
-        if (effectiveAttackDamage != 0.0F) {modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", effectiveAttackDamage, AttributeModifier.Operation.ADDITION));}
-        if (attackSpeed != 0.0F) {modifiers.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", attackSpeed, AttributeModifier.Operation.ADDITION));}
+        if (effectiveAttackDamage != 0.0F) {modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_UUID, "Tool modifier", effectiveAttackDamage, AttributeModifier.Operation.ADDITION));}
+        if (attackSpeed != 0.0F) {modifiers.put(Attributes.ATTACK_SPEED, new AttributeModifier(Item.BASE_ATTACK_SPEED_UUID, "Tool modifier", attackSpeed, AttributeModifier.Operation.ADDITION));}
 
         //applying custom attributes
         this.applyExtraAttributes(modifiers, additionalAttributes, "tool");

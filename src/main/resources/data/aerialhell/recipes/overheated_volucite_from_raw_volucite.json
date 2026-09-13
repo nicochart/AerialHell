@@ -4,7 +4,7 @@
         "item": "aerialhell:raw_volucite"
     },
     "result": {
-        "id": "aerialhell:overheated_volucite"
+        "item": "aerialhell:overheated_volucite"
     },
     "experience": 0.5,
     "cookingtime": 200
