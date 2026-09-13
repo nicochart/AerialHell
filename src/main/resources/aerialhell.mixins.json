@@ -1,3 +1,14 @@
 {
-
+  "required": true,
+  "package": "fr.factionbedrock.aerialhell.Mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "aerialhell.refmap.json",
+  "mixins": [],
+  "client": [
+    "UseItemFovModifierMixin",
+    "UseItemInHandRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

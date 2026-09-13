@@ -2,7 +2,9 @@ package fr.factionbedrock.aerialhell.Util;
 
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Item.AerialHellItemInterface;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
@@ -15,10 +17,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SmithingTemplateItem;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Predicate;
 
 public class ItemHelper
 {
+    public static void forEachAerialHellItem(List<EquippedItemStack> items, BiConsumer<AerialHellItemInterface, EquippedItemStack> action)
+    {
+        for (EquippedItemStack e : items)
+        {
+            ItemStack stack = e.stack();
+            if (stack.getItem() instanceof AerialHellItemInterface item) {action.accept(item, e);}
+        }
+    }
+
     public static int getItemInTagCount(Iterable<ItemStack> stuff, TagKey<Item> tag)
     {
         int count = 0;
@@ -32,6 +46,32 @@ public class ItemHelper
     public static int getItemMiningLevel(Item item)
     {
         return item instanceof DiggerItem ? ((DiggerItem)item).getTier().getLevel() : 0;
+    }
+
+    public static int countItemStacksMatching(Iterable<ItemStack> itemStackList, Predicate<ItemStack> condition)
+    {
+        int count = 0;
+        for (ItemStack itemStack : itemStackList)
+        {
+            if (condition.test(itemStack)) {count++;}
+        }
+        return count;
+    }
+
+    public static int countItemStacksInTag(Iterable<ItemStack> itemStackList, TagKey<Item> tag)
+    {
+        return countItemStacksMatching(itemStackList, (itemStack) -> itemStack.is(tag));
+    }
+
+    public static int countMagmaticGelStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.MAGMATIC_GEL);}
+    public static int countLunaticStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.LUNATIC_STUFF);}
+    public static int countShadowStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.SHADOW_STUFF);}
+    public static int countArsonistStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.ARSONIST_STUFF);}
+    public static int countVoluciteStuff(Iterable<ItemStack> itemStackList) {return countItemStacksInTag(itemStackList, AerialHellTags.Items.VOLUCITE_STUFF);}
+
+    public static int countHeavyStuff(Iterable<ItemStack> itemStackList)
+    {
+        return countItemStacksMatching(itemStackList, (itemStack) -> itemStack.is(AerialHellTags.Items.OBSIDIAN_STUFF) || itemStack.is(AerialHellTags.Items.ARSONIST_STUFF));
     }
 
     public static class SmithingTemplate

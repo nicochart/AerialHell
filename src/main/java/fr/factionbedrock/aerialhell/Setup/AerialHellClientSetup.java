@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.AerialHellRendering;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSkyRenderer;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSpecialEffects;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.resources.ResourceLocation;
@@ -25,7 +26,15 @@ public class AerialHellClientSetup
         AerialHellWoodTypes.registerWoodTypes(event);
         AerialHellWoodTypes.addWoodTypesToSheets(event);
     }
-    
+
+    @SubscribeEvent public static void onClientSetup(FMLClientSetupEvent event)
+    {
+        event.enqueueWork(() ->
+        {
+            AerialHellBlocksAndItems.registerItemProperties();
+        });
+    }
+
     @OnlyIn(Dist.CLIENT) @SubscribeEvent
     public static void registerDimensionRenderInfo(RegisterDimensionSpecialEffectsEvent event)
     {

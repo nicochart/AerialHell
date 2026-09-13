@@ -1,6 +1,9 @@
 package fr.factionbedrock.aerialhell.Item.Armor;
 
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
+import fr.factionbedrock.aerialhell.Item.AerialHellItem;
+import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterial;
+import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
@@ -17,16 +20,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ShadowArmorItem extends ArmorItem//TODO AerialHellArmorItem
+public class ShadowArmorItem extends AerialHellArmorItem
 {
-
-    public ShadowArmorItem(ArmorMaterial armorMaterial, Type type, Properties properties)
-    {
-        super(armorMaterial, type, properties);
-    }
-
-    //TODO
-    //public ShadowArmorItem(AerialHellArmorMaterial material, ArmorItem.Type type, AerialHellItem.Properties properties) {super(material, type, new AttributeEntryList(), properties);}
+    public ShadowArmorItem(AerialHellArmorMaterial material, ArmorItem.Type type, AerialHellItem.Properties properties) {super(material, type, new AttributeEntryList(), properties);}
 
     @Override public void inventoryTick(ItemStack stack, Level level, Entity entity, int itemSlot, boolean isSelected)
     {

@@ -1,10 +1,11 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
-        "aerialhell:volucite_blowpipe"
+      {
+        "item": "aerialhell:volucite_blowpipe"
+      }
     ],
     "result": {
-        "id": "aerialhell:volucite_resonator",
-        "count": 1
+      "item": "aerialhell:volucite_resonator"
     }
 }

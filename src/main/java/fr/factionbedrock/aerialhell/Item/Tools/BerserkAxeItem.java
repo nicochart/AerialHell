@@ -1,39 +1,35 @@
 package fr.factionbedrock.aerialhell.Item.Tools;
 
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
+import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.Nullable;
 
-public class BerserkAxeItem extends EffectAxeItem
+import java.util.List;
+import java.util.Random;
+
+public class BerserkAxeItem extends AerialHellAxeItem
 {
 	private int weight_ticks;
 	
-	public BerserkAxeItem(Tier tier, float attackDamageIn, float attackSpeedIn, float movementSpeedIn,	float maxHealthIn, Properties builderIn)
+	public BerserkAxeItem(AerialHellItem.Properties properties)
 	{
-		super(tier, attackDamageIn, attackSpeedIn, movementSpeedIn, maxHealthIn, builderIn);
+		super(properties);
 		this.weight_ticks = 0;
 	}
 	
@@ -96,7 +92,7 @@ public class BerserkAxeItem extends EffectAxeItem
 		}
 		
 		playerIn.getCooldowns().addCooldown(this, cooldown);
-		heldItem.hurtAndBreak(1, playerIn, (player) -> {player.broadcastBreakEvent(playerIn.getUsedItemHand());});
+		heldItem.hurtAndBreak(1, playerIn, (p) -> {p.broadcastBreakEvent(playerIn.getUsedItemHand());});
         return InteractionResultHolder.consume(heldItem);
 	}
 	
@@ -161,16 +157,10 @@ public class BerserkAxeItem extends EffectAxeItem
 			}
 		}
 	}
-	
-	@Override @OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn)
-	{
-		tooltip.add(this.getDescription().append(Integer.toString(getStatus())).withStyle(ChatFormatting.GRAY));
-	}
 
-	@OnlyIn(Dist.CLIENT)
-	public MutableComponent getDescription()
+	@Override public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag)
 	{
-		return Component.translatable(this.getDescriptionId() + ".desc");
+		this.getOptionalItemDescription(1).ifPresent(description -> components.add(description.withStyle(ChatFormatting.GRAY)));
+		this.getOptionalItemDescription(2).ifPresent(description -> components.add(description.append(Integer.toString(getStatus())).withStyle(ChatFormatting.GRAY)));
 	}
 }

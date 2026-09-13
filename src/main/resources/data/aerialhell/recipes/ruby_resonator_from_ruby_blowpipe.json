@@ -1,10 +1,11 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
-        "aerialhell:ruby_blowpipe"
+      {
+        "item": "aerialhell:ruby_blowpipe"
+      }
     ],
     "result": {
-        "id": "aerialhell:ruby_resonator",
-        "count": 1
+      "item": "aerialhell:ruby_resonator"
     }
 }

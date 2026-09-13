@@ -1,10 +1,11 @@
 {
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
-        "aerialhell:ruby_blowpipe_arrow"
+      {
+        "item": "aerialhell:ruby_blowpipe_arrow"
+      }
     ],
     "result": {
-        "id": "aerialhell:ruby_shard",
-        "count": 1
+      "item": "aerialhell:ruby_shard"
     }
 }

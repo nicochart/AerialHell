@@ -24,6 +24,8 @@ import fr.factionbedrock.aerialhell.Block.StandingAndWall.*;
 import fr.factionbedrock.aerialhell.Block.Trophies.BottomSlabLikeTrophyBlock;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Item.*;
+import fr.factionbedrock.aerialhell.Item.Ability.AbilitySelector;
+import fr.factionbedrock.aerialhell.Item.Armor.AerialHellArmorItem;
 import fr.factionbedrock.aerialhell.Item.Armor.ShadowArmorItem;
 import fr.factionbedrock.aerialhell.Item.Bucket.*;
 import fr.factionbedrock.aerialhell.Item.Material.*;
@@ -33,7 +35,9 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellRarities;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import fr.factionbedrock.aerialhell.World.Tree.*;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
@@ -889,7 +893,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> AZURITE_BLOCK_ITEM = ITEMS.register("azurite_block", () -> new BlockItem(AZURITE_BLOCK.get(), new Item.Properties()));
 	public static final RegistryObject<Item> VOLUCITE_BLOCK_ITEM = ITEMS.register("volucite_block", () -> new BlockItem(VOLUCITE_BLOCK.get(), new Item.Properties()));
 
-	public static final RegistryObject<Item> FLUORITE = ITEMS.register("fluorite", () -> new WithInformationItem(new Item.Properties()));
+	public static final RegistryObject<Item> FLUORITE = ITEMS.register("fluorite", () -> new AerialHellItem(new AerialHellItem.Properties()));
 	public static final RegistryObject<Item> MAGMATIC_GEL = ITEMS.register("magmatic_gel",() -> new Item(new Item.Properties()));
 	public static final RegistryObject<Item> RUBY = ITEMS.register("ruby", () -> new Item(new Item.Properties()));
 	public static final RegistryObject<Item> AZURITE_CRYSTAL = ITEMS.register("azurite_crystal", () -> new Item(new Item.Properties()));
@@ -1469,19 +1473,18 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> STELLAR_EGG = ITEMS.register("stellar_egg",() -> new StellarEggItem(new Item.Properties().stacksTo(16)));
 
 	//shurikens
-	//TODO
-	public static final RegistryObject<Item> IRON_SHURIKEN = ITEMS.register("iron_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_IRON_SHURIKEN))));
-	public static final RegistryObject<Item> GOLD_SHURIKEN = ITEMS.register("gold_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_GOLD_SHURIKEN))));
-	public static final RegistryObject<Item> DIAMOND_SHURIKEN = ITEMS.register("diamond_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_DIAMOND_SHURIKEN))));
-	public static final RegistryObject<Item> NETHERITE_SHURIKEN = ITEMS.register("netherite_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.UNCOMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_NETHERITE_SHURIKEN))));
-	public static final RegistryObject<Item> RUBY_SHURIKEN = ITEMS.register("ruby_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_RUBY_SHURIKEN))));
-	public static final RegistryObject<Item> AZURITE_SHURIKEN = ITEMS.register("azurite_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_AZURITE_SHURIKEN))));
-	public static final RegistryObject<Item> MAGMATIC_GEL_SHURIKEN = ITEMS.register("magmatic_gel_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(AerialHellRarities.FROZEN.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_MAGMATIC_GEL_SHURIKEN))));
-	public static final RegistryObject<Item> VOLUCITE_SHURIKEN = ITEMS.register("volucite_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(AerialHellRarities.VIBRANT.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_VOLUCITE_GEL_SHURIKEN))));
-	public static final RegistryObject<Item> OBSIDIAN_SHURIKEN = ITEMS.register("obsidian_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.EPIC).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_OBSIDIAN_SHURIKEN))));
-	public static final RegistryObject<Item> LUNATIC_CRYSTAL_SHURIKEN = ITEMS.register("lunatic_crystal_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(AerialHellRarities.LEGENDARY.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_LUNATIC_CRYSTAL_SHURIKEN))));
-	public static final RegistryObject<Item> ARSONIST_SHURIKEN = ITEMS.register("arsonist_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(AerialHellRarities.MYTHICAL.getValue()).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_ARSONIST_SHURIKEN))));
-	public static final RegistryObject<Item> LIGHTNING_SHURIKEN = ITEMS.register("lightning_shuriken", () -> new Item(new Item.Properties()));// () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.UNCOMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_LIGHTNING_SHURIKEN))));
+	public static final RegistryObject<Item> IRON_SHURIKEN = ITEMS.register("iron_shuriken", () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_IRON_SHURIKEN))));
+	public static final RegistryObject<Item> GOLD_SHURIKEN = ITEMS.register("gold_shuriken", () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_GOLD_SHURIKEN))));
+	public static final RegistryObject<Item> DIAMOND_SHURIKEN = ITEMS.register("diamond_shuriken", () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_DIAMOND_SHURIKEN))));
+	public static final RegistryObject<Item> NETHERITE_SHURIKEN = ITEMS.register("netherite_shuriken", () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.UNCOMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_NETHERITE_SHURIKEN))));
+	public static final RegistryObject<Item> RUBY_SHURIKEN = ITEMS.register("ruby_shuriken", () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_RUBY_SHURIKEN))));
+	public static final RegistryObject<Item> AZURITE_SHURIKEN = ITEMS.register("azurite_shuriken", () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.COMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_AZURITE_SHURIKEN))));
+	public static final RegistryObject<Item> MAGMATIC_GEL_SHURIKEN = ITEMS.register("magmatic_gel_shuriken", () -> new AerialHellItem(new AerialHellItem.Properties().rarity(AerialHellRarities.FROZEN).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_MAGMATIC_GEL_SHURIKEN))));
+	public static final RegistryObject<Item> VOLUCITE_SHURIKEN = ITEMS.register("volucite_shuriken", () -> new AerialHellItem(new AerialHellItem.Properties().rarity(AerialHellRarities.VIBRANT).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_VOLUCITE_GEL_SHURIKEN))));
+	public static final RegistryObject<Item> OBSIDIAN_SHURIKEN = ITEMS.register("obsidian_shuriken", () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.EPIC).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_OBSIDIAN_SHURIKEN))));
+	public static final RegistryObject<Item> LUNATIC_CRYSTAL_SHURIKEN = ITEMS.register("lunatic_crystal_shuriken", () -> new AerialHellItem(new AerialHellItem.Properties().rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_LUNATIC_CRYSTAL_SHURIKEN))));
+	public static final RegistryObject<Item> ARSONIST_SHURIKEN = ITEMS.register("arsonist_shuriken", () -> new AerialHellItem(new AerialHellItem.Properties().rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_ARSONIST_SHURIKEN))));
+	public static final RegistryObject<Item> LIGHTNING_SHURIKEN = ITEMS.register("lightning_shuriken", () -> new AerialHellItem(new AerialHellItem.Properties().rarity(Rarity.UNCOMMON).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.THROW_LIGHTNING_SHURIKEN))));
 
 	//food
 	public static final RegistryObject<Item> AERIAL_BERRY = ITEMS.register("aerial_berry",() -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.2F).build())));
@@ -1540,9 +1543,8 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> RUBY_SHARD = ITEMS.register("ruby_shard", () -> new WithInformationItem(new Item.Properties()));
 	public static final RegistryObject<Item> VOLUCITE_SHARD = ITEMS.register("volucite_shard", () -> new WithInformationItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT)));
 
-	//TODO
-	//public static final RegistryObject<Item> RUBY_RESONATOR = ITEMS.register("ruby_resonator", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).durability(200).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.RUBY_RESONATOR)).enchantable(10).maxUseDuration(72000).useAnimation(UseAnim.BOW)));
-	//public static final RegistryObject<Item> VOLUCITE_RESONATOR = ITEMS.register("volucite_resonator", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).durability(200).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.VOLUCITE_RESONATOR)).enchantable(10).maxUseDuration(72000).useAnimation(UseAnim.BOW)));
+	public static final RegistryObject<Item> RUBY_RESONATOR = ITEMS.register("ruby_resonator", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).durability(200).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.RUBY_RESONATOR)).enchantable(10).maxUseDuration(72000).useAnimation(UseAnim.BOW)));
+	public static final RegistryObject<Item> VOLUCITE_RESONATOR = ITEMS.register("volucite_resonator", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).durability(200).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.VOLUCITE_RESONATOR)).enchantable(10).maxUseDuration(72000).useAnimation(UseAnim.BOW)));
 
 	public static final RegistryObject<Item> RUBY_BLOWPIPE_ARROW = ITEMS.register("ruby_blowpipe_arrow", () -> new WithInformationItem(new Item.Properties()));
 	public static final RegistryObject<Item> VOLUCITE_BLOWPIPE_ARROW = ITEMS.register("volucite_blowpipe_arrow", () -> new WithInformationItem(new Item.Properties().rarity(AerialHellRarities.VIBRANT)));
@@ -1560,139 +1562,140 @@ public class AerialHellBlocksAndItems
 	//fluids
     public static final RegistryObject<LiquidBlock> LIQUID_OF_THE_GODS = BLOCKS.register("liquid_of_the_gods", () -> new AerialHellFluidBlock(AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE, BlockBehaviour.Properties.of().replaceable().lightLevel((state) -> 8)));
 
-    //tools
-    public static final RegistryObject<PickaxeItem> SKY_WOOD_PICKAXE = ITEMS.register("sky_wood_pickaxe", () -> new PickaxeItem(ToolMaterials.sky_wood, 1, -2.8F, (new Item.Properties())));
-    public static final RegistryObject<PickaxeItem> STELLAR_STONE_PICKAXE = ITEMS.register("stellar_stone_pickaxe", () -> new PickaxeItem(ToolMaterials.stellar_stone, 1, -2.8F, (new Item.Properties())));
-    public static final RegistryObject<PickaxeItem> RUBY_PICKAXE = ITEMS.register("ruby_pickaxe", () -> new PickaxeItem(ToolMaterials.ruby, 1, -2.8F, (new Item.Properties())));
-    public static final RegistryObject<PickaxeItem> AZURITE_PICKAXE = ITEMS.register("azurite_pickaxe", () -> new PickaxeItem(ToolMaterials.azurite, 1, -2.8F, (new Item.Properties())));
-    public static final RegistryObject<PickaxeItem> MAGMATIC_GEL_PICKAXE = ITEMS.register("magmatic_gel_pickaxe", () -> new PickaxeItem(ToolMaterials.magmatic_gel, 1, -2.8F, (new Item.Properties())));
-    public static final RegistryObject<PickaxeItem> OBSIDIAN_PICKAXE = ITEMS.register("obsidian_pickaxe", () -> new PickaxeItem(ToolMaterials.obsidian, 1, -2.8F, (new Item.Properties()).rarity(Rarity.EPIC)));
-    public static final RegistryObject<PickaxeItem> VOLUCITE_PICKAXE = ITEMS.register("volucite_pickaxe", () -> new EffectPickaxeItem(ToolMaterials.volucite, 1, -2.8F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
-    public static final RegistryObject<PickaxeItem> LUNATIC_PICKAXE = ITEMS.register("lunatic_pickaxe", () -> new PickaxeItem(ToolMaterials.lunatic, 1, -2.8F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<PickaxeItem> ARSONIST_PICKAXE = ITEMS.register("arsonist_pickaxe", () -> new PickaxeItem(ToolMaterials.arsonist, 1, -2.8F, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    
-    public static final RegistryObject<PickaxeItem> MAGMA_CUBE_PICKAXE = ITEMS.register("magma_cube_pickaxe", () -> new EffectPickaxeItem(ToolMaterials.obsidian, 1, -2.8F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<PickaxeItem> STELLAR_STONE_BREAKER = ITEMS.register("stellar_stone_breaker", () -> new AerialHellPickaxeItem(ToolMaterials.breaker, 1, -2.8F, 0.0F, 0.0F, (new Item.Properties()).rarity(Rarity.EPIC)));
-    
-    public static final RegistryObject<ShovelItem> SKY_WOOD_SHOVEL = ITEMS.register("sky_wood_shovel", () -> new ShovelItem(ToolMaterials.sky_wood, 1.5F, -3F, (new Item.Properties())));
-    public static final RegistryObject<ShovelItem> STELLAR_STONE_SHOVEL = ITEMS.register("stellar_stone_shovel", () -> new ShovelItem(ToolMaterials.stellar_stone, 1.5F, -3F, (new Item.Properties())));
-    public static final RegistryObject<ShovelItem> RUBY_SHOVEL = ITEMS.register("ruby_shovel", () -> new ShovelItem(ToolMaterials.ruby, 1.5F, -3F, (new Item.Properties())));
-    public static final RegistryObject<ShovelItem> AZURITE_SHOVEL = ITEMS.register("azurite_shovel", () -> new ShovelItem(ToolMaterials.azurite, 1.5F, -3F, (new Item.Properties())));
-    public static final RegistryObject<ShovelItem> MAGMATIC_GEL_SHOVEL = ITEMS.register("magmatic_gel_shovel", () -> new ShovelItem(ToolMaterials.magmatic_gel, 1.5F, -3F, (new Item.Properties())));
-    public static final RegistryObject<ShovelItem> OBSIDIAN_SHOVEL = ITEMS.register("obsidian_shovel", () -> new ShovelItem(ToolMaterials.obsidian, 1.5F, -3F, (new Item.Properties()).rarity(Rarity.EPIC)));
-    public static final RegistryObject<ShovelItem> VOLUCITE_SHOVEL = ITEMS.register("volucite_shovel", () -> new EffectShovelItem(ToolMaterials.volucite, 1.5F, -3F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
-    public static final RegistryObject<ShovelItem> LUNATIC_SHOVEL = ITEMS.register("lunatic_shovel", () -> new ShovelItem(ToolMaterials.lunatic, 1.5F, -3F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<ShovelItem> ARSONIST_SHOVEL = ITEMS.register("arsonist_shovel", () -> new ShovelItem(ToolMaterials.arsonist, 1.5F, -3F, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    
-    public static final RegistryObject<ShovelItem> MAGMA_CUBE_SHOVEL = ITEMS.register("magma_cube_shovel", () -> new EffectShovelItem(ToolMaterials.obsidian, 1.5F, -3F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
-    
-    public static final RegistryObject<AxeItem> SKY_WOOD_AXE = ITEMS.register("sky_wood_axe", () -> new AxeItem(ToolMaterials.sky_wood, 6, -3.1F, (new Item.Properties())));
-    public static final RegistryObject<AxeItem> STELLAR_STONE_AXE = ITEMS.register("stellar_stone_axe", () -> new AxeItem(ToolMaterials.stellar_stone, 6, -3.1F, (new Item.Properties())));
-    public static final RegistryObject<AxeItem> RUBY_AXE = ITEMS.register("ruby_axe", () -> new AxeItem(ToolMaterials.ruby, 6, -3.1F, (new Item.Properties())));
-    public static final RegistryObject<AxeItem> AZURITE_AXE = ITEMS.register("azurite_axe", () -> new AxeItem(ToolMaterials.azurite, 6, -3.1F, (new Item.Properties())));
-    public static final RegistryObject<AxeItem> MAGMATIC_GEL_AXE = ITEMS.register("magmatic_gel_axe", () -> new AxeItem(ToolMaterials.magmatic_gel, 6, -3.1F, (new Item.Properties())));
-    public static final RegistryObject<AxeItem> OBSIDIAN_AXE = ITEMS.register("obsidian_axe", () -> new AxeItem(ToolMaterials.obsidian, 6, -3.1F, (new Item.Properties()).rarity(Rarity.EPIC)));
-    public static final RegistryObject<AxeItem> VOLUCITE_AXE = ITEMS.register("volucite_axe", () -> new EffectAxeItem(ToolMaterials.volucite, 6, -3.1F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
-    public static final RegistryObject<AxeItem> LUNATIC_AXE = ITEMS.register("lunatic_axe", () -> new AxeItem(ToolMaterials.lunatic, 6, -3.1F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<AxeItem> ARSONIST_AXE = ITEMS.register("arsonist_axe", () -> new AxeItem(ToolMaterials.arsonist, 6, -3.1F, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    
-    public static final RegistryObject<AxeItem> HEAVY_AXE = ITEMS.register("heavy_axe", () -> new AerialHellAxeItem(ToolMaterials.heavy, 6, -3.5F, -0.30F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC)));
-    public static final RegistryObject<AxeItem> AXE_OF_LIGHT = ITEMS.register("axe_of_light", () -> new EffectAxeItem(ToolMaterials.lunatic, 5, -3.1F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<AxeItem> CURSED_AXE = ITEMS.register("cursed_axe", () -> new AerialHellAxeItem(ToolMaterials.shadow, 2, -3.2F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.CORRUPTED)));
-    public static final RegistryObject<AxeItem> BERSERK_AXE = ITEMS.register("berserk_axe", () -> new BerserkAxeItem(ToolMaterials.arsonist, 4, -2.5F, 0.05F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL)));
-    
-    public static final RegistryObject<HoeItem> SKY_WOOD_HOE = ITEMS.register("sky_wood_hoe", () -> new HoeItem(ToolMaterials.sky_wood, -3, 0.0F, (new Item.Properties())));
-    public static final RegistryObject<HoeItem> STELLAR_STONE_HOE = ITEMS.register("stellar_stone_hoe", () -> new HoeItem(ToolMaterials.stellar_stone, -3, 0.0F, (new Item.Properties())));
-    public static final RegistryObject<HoeItem> RUBY_HOE = ITEMS.register("ruby_hoe", () -> new HoeItem(ToolMaterials.ruby, -3, 0.0F, (new Item.Properties())));
-    public static final RegistryObject<HoeItem> AZURITE_HOE = ITEMS.register("azurite_hoe", () -> new HoeItem(ToolMaterials.azurite, -3, 0.0F, (new Item.Properties())));
-    public static final RegistryObject<HoeItem> MAGMATIC_GEL_HOE = ITEMS.register("magmatic_gel_hoe", () -> new HoeItem(ToolMaterials.magmatic_gel, 0, 0.0F, (new Item.Properties())));
-    public static final RegistryObject<HoeItem> OBSIDIAN_HOE = ITEMS.register("obsidian_hoe", () -> new HoeItem(ToolMaterials.obsidian, -3, 0.0F, (new Item.Properties()).rarity(Rarity.EPIC)));
-    public static final RegistryObject<HoeItem> VOLUCITE_HOE = ITEMS.register("volucite_hoe", () -> new EffectHoeItem(ToolMaterials.volucite, -3, 0.0F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
-    public static final RegistryObject<HoeItem> LUNATIC_HOE = ITEMS.register("lunatic_hoe", () -> new HoeItem(ToolMaterials.lunatic, -1, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<HoeItem> ARSONIST_HOE = ITEMS.register("arsonist_hoe", () -> new HoeItem(ToolMaterials.arsonist, -1, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    
-    public static final RegistryObject<HoeItem> REAPER_SCYTHE = ITEMS.register("reaper_scythe", () -> new EffectHoeItem(ToolMaterials.shadow, 4, -2.8F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    
-    //weapons
-    public static final RegistryObject<SwordItem> SKY_WOOD_SWORD = ITEMS.register("sky_wood_sword", () -> new SwordItem(ToolMaterials.sky_wood, 3, -2.4F, (new Item.Properties())));
-    public static final RegistryObject<SwordItem> STELLAR_STONE_SWORD = ITEMS.register("stellar_stone_sword", () -> new SwordItem(ToolMaterials.stellar_stone, 3, -2.4F, (new Item.Properties())));
-    public static final RegistryObject<SwordItem> RUBY_SWORD = ITEMS.register("ruby_sword", () -> new SwordItem(ToolMaterials.ruby, 3, -2.4F, (new Item.Properties())));
-    public static final RegistryObject<SwordItem> AZURITE_SWORD = ITEMS.register("azurite_sword", () -> new SwordItem(ToolMaterials.azurite, 3, -2.4F, (new Item.Properties())));
-    public static final RegistryObject<SwordItem> MAGMATIC_GEL_SWORD = ITEMS.register("magmatic_gel_sword", () -> new SwordItem(ToolMaterials.magmatic_gel, 3, -2.4F, (new Item.Properties())));
-    public static final RegistryObject<SwordItem> OBSIDIAN_SWORD = ITEMS.register("obsidian_sword", () -> new SwordItem(ToolMaterials.obsidian, 3, -2.4F, (new Item.Properties()).rarity(Rarity.EPIC)));
-    public static final RegistryObject<SwordItem> VOLUCITE_SWORD = ITEMS.register("volucite_sword", () -> new EffectSwordItem(ToolMaterials.volucite, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
-    public static final RegistryObject<SwordItem> LUNATIC_SWORD = ITEMS.register("lunatic_sword", () -> new SwordItem(ToolMaterials.lunatic, 3, -2.4F, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<SwordItem> ARSONIST_SWORD = ITEMS.register("arsonist_sword", () -> new AerialHellSwordItem(ToolMaterials.arsonist, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    
-    public static final RegistryObject<SwordItem> HEAVY_SWORD = ITEMS.register("heavy_sword", () -> new AerialHellSwordItem(ToolMaterials.heavy, 3, -2.7F, -0.30F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC)));
-    public static final RegistryObject<SwordItem> HEALTH_BOOST_SWORD = ITEMS.register("health_boost_sword", () -> new AerialHellSwordItem(ToolMaterials.lunatic, 2, -2.4F, 0.0F, 4.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC)));
-    public static final RegistryObject<SwordItem> NINJA_SWORD = ITEMS.register("ninja_sword", () -> new EffectSwordItem(ToolMaterials.obsidian, 2, -1.6F, 0.15F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<SwordItem> NINJA_MASTER_SWORD = ITEMS.register("ninja_master_sword", () -> new EffectSwordItem(ToolMaterials.obsidian, 4, -1.6F, 0.15F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL)));
-    public static final RegistryObject<SwordItem> GLOUTON_SWORD = ITEMS.register("glouton_sword", () -> new EffectSwordItem(ToolMaterials.ruby, 4, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<SwordItem> RANDOM_SWORD = ITEMS.register("random_sword", () -> new EffectSwordItem(ToolMaterials.ruby, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC)));
-    public static final RegistryObject<SwordItem> DISLOYAL_SWORD = ITEMS.register("disloyal_sword", () -> new AerialHellSwordItem(ToolMaterials.lunatic, 2, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<SwordItem> CURSED_SWORD = ITEMS.register("cursed_sword", () -> new AerialHellSwordItem(ToolMaterials.shadow, 1, -2.5F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.CORRUPTED)));
-    public static final RegistryObject<SwordItem> ABSOLUTE_ZERO_SWORD = ITEMS.register("absolute_zero_sword", () -> new AerialHellSwordItem(ToolMaterials.lunatic, 2, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL)));
-    public static final RegistryObject<SwordItem> SWORD_OF_LIGHT = ITEMS.register("sword_of_light", () -> new EffectSwordItem(ToolMaterials.lunatic, 2, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<SwordItem> ANTIDOTE_SWORD = ITEMS.register("antidote_sword", () -> new EffectSwordItem(ToolMaterials.ruby, 4, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(Rarity.EPIC)));
-    public static final RegistryObject<SwordItem> NETHERIAN_KING_SWORD = ITEMS.register("netherian_king_sword", () -> new EffectSwordItem(ToolMaterials.obsidian, 1, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<SwordItem> GLASS_CANON_SWORD = ITEMS.register("glass_canon_sword", () -> new EffectSwordItem(ToolMaterials.arsonist, 7, -1.6F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL)));
-    public static final RegistryObject<SwordItem> GOD_SWORD = ITEMS.register("god_sword", () -> new EffectSwordItem(ToolMaterials.arsonist, 3, -2.4F, 0.0F, 0.0F, (new Item.Properties()).setNoRepair().rarity(AerialHellRarities.MYTHICAL)));
-    
-    public static final RegistryObject<SwordItem> FORGOTTEN_BATTLE_TRIDENT = ITEMS.register("forgotten_battle_trident", () -> new ForgottenBattleTridentItem(ToolMaterials.volucite, 3, -2.9F, 0.2F, (new Item.Properties()).durability(1000).rarity(AerialHellRarities.LEGENDARY)));
-    
-    //armor
-    public static final RegistryObject<ArmorItem> RUBY_HELMET = ITEMS.register("ruby_helmet", () -> new ArmorItem(AerialHellArmorMaterials.ruby, ArmorItem.Type.HELMET, (new Item.Properties())));
-    public static final RegistryObject<ArmorItem> RUBY_CHESTPLATE = ITEMS.register("ruby_chestplate", () -> new ArmorItem(AerialHellArmorMaterials.ruby, ArmorItem.Type.CHESTPLATE, (new Item.Properties())));
-    public static final RegistryObject<ArmorItem> RUBY_LEGGINGS = ITEMS.register("ruby_leggings", () -> new ArmorItem(AerialHellArmorMaterials.ruby, ArmorItem.Type.LEGGINGS, (new Item.Properties())));
-    public static final RegistryObject<ArmorItem> RUBY_BOOTS = ITEMS.register("ruby_boots", () -> new ArmorItem(AerialHellArmorMaterials.ruby, ArmorItem.Type.BOOTS, (new Item.Properties())));
-    
-    public static final RegistryObject<ArmorItem> AZURITE_HELMET = ITEMS.register("azurite_helmet", () -> new ArmorItem(AerialHellArmorMaterials.azurite, ArmorItem.Type.HELMET, (new Item.Properties())));
-    public static final RegistryObject<ArmorItem> AZURITE_CHESTPLATE = ITEMS.register("azurite_chestplate", () -> new ArmorItem(AerialHellArmorMaterials.azurite, ArmorItem.Type.CHESTPLATE, (new Item.Properties())));
-    public static final RegistryObject<ArmorItem> AZURITE_LEGGINGS = ITEMS.register("azurite_leggings", () -> new ArmorItem(AerialHellArmorMaterials.azurite, ArmorItem.Type.LEGGINGS, (new Item.Properties())));
-    public static final RegistryObject<ArmorItem> AZURITE_BOOTS = ITEMS.register("azurite_boots", () -> new ArmorItem(AerialHellArmorMaterials.azurite, ArmorItem.Type.BOOTS, (new Item.Properties())));
-    
-    public static final RegistryObject<ArmorItem> OBSIDIAN_HELMET = ITEMS.register("obsidian_helmet", () -> new ArmorItem(AerialHellArmorMaterials.obsidian, ArmorItem.Type.HELMET, (new Item.Properties()).rarity(Rarity.EPIC)));
-    public static final RegistryObject<ArmorItem> OBSIDIAN_CHESTPLATE = ITEMS.register("obsidian_chestplate", () -> new ArmorItem(AerialHellArmorMaterials.obsidian, ArmorItem.Type.CHESTPLATE, (new Item.Properties()).rarity(Rarity.EPIC)));
-    public static final RegistryObject<ArmorItem> OBSIDIAN_LEGGINGS = ITEMS.register("obsidian_leggings", () -> new ArmorItem(AerialHellArmorMaterials.obsidian, ArmorItem.Type.LEGGINGS, (new Item.Properties()).rarity(Rarity.EPIC)));
-    public static final RegistryObject<ArmorItem> OBSIDIAN_BOOTS = ITEMS.register("obsidian_boots", () -> new ArmorItem(AerialHellArmorMaterials.obsidian, ArmorItem.Type.BOOTS, (new Item.Properties()).rarity(Rarity.EPIC)));
-    
-    public static final RegistryObject<ArmorItem> VOLUCITE_HELMET = ITEMS.register("volucite_helmet", () -> new ArmorItem(AerialHellArmorMaterials.volucite, ArmorItem.Type.HELMET, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
-    public static final RegistryObject<ArmorItem> VOLUCITE_CHESTPLATE = ITEMS.register("volucite_chestplate", () -> new ArmorItem(AerialHellArmorMaterials.volucite, ArmorItem.Type.CHESTPLATE, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
-    public static final RegistryObject<ArmorItem> VOLUCITE_LEGGINGS = ITEMS.register("volucite_leggings", () -> new ArmorItem(AerialHellArmorMaterials.volucite, ArmorItem.Type.LEGGINGS, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
-    public static final RegistryObject<ArmorItem> VOLUCITE_BOOTS = ITEMS.register("volucite_boots", () -> new ArmorItem(AerialHellArmorMaterials.volucite, ArmorItem.Type.BOOTS, (new Item.Properties()).rarity(AerialHellRarities.VIBRANT)));
-    
-    public static final RegistryObject<ArmorItem> MAGMATIC_GEL_HELMET = ITEMS.register("magmatic_gel_helmet", () -> new ArmorItem(AerialHellArmorMaterials.magmatic_gel, ArmorItem.Type.HELMET, (new Item.Properties())));
-    public static final RegistryObject<ArmorItem> MAGMATIC_GEL_CHESTPLATE = ITEMS.register("magmatic_gel_chestplate", () -> new ArmorItem(AerialHellArmorMaterials.magmatic_gel, ArmorItem.Type.CHESTPLATE, (new Item.Properties())));
-    public static final RegistryObject<ArmorItem> MAGMATIC_GEL_LEGGINGS = ITEMS.register("magmatic_gel_leggings", () -> new ArmorItem(AerialHellArmorMaterials.magmatic_gel, ArmorItem.Type.LEGGINGS, (new Item.Properties())));
-    public static final RegistryObject<ArmorItem> MAGMATIC_GEL_BOOTS = ITEMS.register("magmatic_gel_boots", () -> new ArmorItem(AerialHellArmorMaterials.magmatic_gel, ArmorItem.Type.BOOTS, (new Item.Properties())));
-    
-    public static final RegistryObject<ArmorItem> LUNATIC_HELMET = ITEMS.register("lunatic_helmet", () -> new ArmorItem(AerialHellArmorMaterials.lunatic, ArmorItem.Type.HELMET, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<ArmorItem> LUNATIC_CHESTPLATE = ITEMS.register("lunatic_chestplate", () -> new ArmorItem(AerialHellArmorMaterials.lunatic, ArmorItem.Type.CHESTPLATE, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<ArmorItem> LUNATIC_LEGGINGS = ITEMS.register("lunatic_leggings", () -> new ArmorItem(AerialHellArmorMaterials.lunatic, ArmorItem.Type.LEGGINGS, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<ArmorItem> LUNATIC_BOOTS = ITEMS.register("lunatic_boots", () -> new ArmorItem(AerialHellArmorMaterials.lunatic, ArmorItem.Type.BOOTS, (new Item.Properties()).rarity(AerialHellRarities.LEGENDARY)));
-    
-    public static final RegistryObject<ArmorItem> ARSONIST_HELMET = ITEMS.register("arsonist_helmet", () -> new ArmorItem(AerialHellArmorMaterials.arsonist, ArmorItem.Type.HELMET, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    public static final RegistryObject<ArmorItem> ARSONIST_CHESTPLATE = ITEMS.register("arsonist_chestplate", () -> new ArmorItem(AerialHellArmorMaterials.arsonist, ArmorItem.Type.CHESTPLATE, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    public static final RegistryObject<ArmorItem> ARSONIST_LEGGINGS = ITEMS.register("arsonist_leggings", () -> new ArmorItem(AerialHellArmorMaterials.arsonist, ArmorItem.Type.LEGGINGS, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    public static final RegistryObject<ArmorItem> ARSONIST_BOOTS = ITEMS.register("arsonist_boots", () -> new ArmorItem(AerialHellArmorMaterials.arsonist, ArmorItem.Type.BOOTS, (new Item.Properties()).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
+	//tools
+	public static final RegistryObject<Item> SKY_WOOD_PICKAXE = ITEMS.register("sky_wood_pickaxe", () -> new AerialHellPickaxeItem(new AerialHellItem.Properties().pickaxe(AerialHellToolMaterials.SKY_WOOD, 1.0F, -2.8F)));
+	public static final RegistryObject<Item> STELLAR_STONE_PICKAXE = ITEMS.register("stellar_stone_pickaxe", () -> new AerialHellPickaxeItem(new AerialHellItem.Properties().pickaxe(AerialHellToolMaterials.STELLAR_STONE, 1.0F, -2.8F)));
+	public static final RegistryObject<Item> RUBY_PICKAXE = ITEMS.register("ruby_pickaxe", () -> new AerialHellPickaxeItem(new AerialHellItem.Properties().pickaxe(AerialHellToolMaterials.RUBY, 1.0F, -2.8F)));
+	public static final RegistryObject<Item> AZURITE_PICKAXE = ITEMS.register("azurite_pickaxe", () -> new AerialHellPickaxeItem(new AerialHellItem.Properties().pickaxe(AerialHellToolMaterials.AZURITE, 1.0F, -2.8F)));
+	public static final RegistryObject<Item> MAGMATIC_GEL_PICKAXE = ITEMS.register("magmatic_gel_pickaxe", () -> new AerialHellPickaxeItem(new AerialHellItem.Properties().pickaxe(AerialHellToolMaterials.MAGMATIC_GEL, 1.0F, -2.8F).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.MAGMATIC_GEL_TOOL))));
+	public static final RegistryObject<Item> OBSIDIAN_PICKAXE = ITEMS.register("obsidian_pickaxe", () -> new AerialHellPickaxeItem(new AerialHellItem.Properties().pickaxe(AerialHellToolMaterials.OBSIDIAN, 1.0F, -2.8F).rarity(Rarity.EPIC)));
+	public static final RegistryObject<Item> VOLUCITE_PICKAXE = ITEMS.register("volucite_pickaxe", () -> new AerialHellPickaxeItem(new AerialHellItem.Properties().pickaxe(AerialHellToolMaterials.VOLUCITE, 1.0F, -2.8F).rarity(AerialHellRarities.VIBRANT).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.VOLUCITE_POWER))));
+	public static final RegistryObject<Item> LUNATIC_PICKAXE = ITEMS.register("lunatic_pickaxe", () -> new AerialHellPickaxeItem(new AerialHellItem.Properties().pickaxe(AerialHellToolMaterials.LUNATIC, 1.0F, -2.8F).rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.LUNAR_TOOL))));
+	public static final RegistryObject<Item> ARSONIST_PICKAXE = ITEMS.register("arsonist_pickaxe", () -> new AerialHellPickaxeItem(new AerialHellItem.Properties().pickaxe(AerialHellToolMaterials.ARSONIST, 1.0F, -2.8F).fireResistant().rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.ARSONIST_TOOL))));
 
-	public static final RegistryObject<ArmorItem> SHADOW_HELMET = ITEMS.register("shadow_helmet", () -> new ShadowArmorItem(AerialHellArmorMaterials.shadow, ArmorItem.Type.HELMET, new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
-	public static final RegistryObject<ArmorItem> SHADOW_CHESTPLATE = ITEMS.register("shadow_chestplate", () -> new ShadowArmorItem(AerialHellArmorMaterials.shadow, ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
-	public static final RegistryObject<ArmorItem> SHADOW_LEGGINGS = ITEMS.register("shadow_leggings", () -> new ShadowArmorItem(AerialHellArmorMaterials.shadow, ArmorItem.Type.LEGGINGS, new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
-	public static final RegistryObject<ArmorItem> SHADOW_BOOTS = ITEMS.register("shadow_boots", () -> new ShadowArmorItem(AerialHellArmorMaterials.shadow, ArmorItem.Type.BOOTS, new Item.Properties().rarity(AerialHellRarities.CORRUPTED)));
+	public static final RegistryObject<Item> MAGMA_CUBE_PICKAXE = ITEMS.register("magma_cube_pickaxe", () -> new AerialHellPickaxeItem(new AerialHellItem.Properties().pickaxe(AerialHellToolMaterials.OBSIDIAN, 1.0F, -2.8F).rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.MAGMA_CUBE))));
+	public static final RegistryObject<Item> STELLAR_STONE_BREAKER = ITEMS.register("stellar_stone_breaker", () -> new AerialHellPickaxeItem(new AerialHellItem.Properties().pickaxe(AerialHellToolMaterials.BREAKER, 1.0F, -2.8F).rarity(Rarity.EPIC).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.MINE_STONE_FAST))));
+
+	public static final RegistryObject<Item> SKY_WOOD_SHOVEL = ITEMS.register("sky_wood_shovel", () -> new AerialHellShovelItem(new AerialHellItem.Properties().shovel(AerialHellToolMaterials.SKY_WOOD, 1.5F, -3.0F).useInteraction(AerialHellItem.UseInteractionType.SHOVEL)));
+	public static final RegistryObject<Item> STELLAR_STONE_SHOVEL = ITEMS.register("stellar_stone_shovel", () -> new AerialHellShovelItem(new AerialHellItem.Properties().shovel(AerialHellToolMaterials.STELLAR_STONE, 1.5F, -3.0F).useInteraction(AerialHellItem.UseInteractionType.SHOVEL)));
+	public static final RegistryObject<Item> RUBY_SHOVEL = ITEMS.register("ruby_shovel", () -> new AerialHellShovelItem(new AerialHellItem.Properties().shovel(AerialHellToolMaterials.RUBY, 1.5F, -3.0F).useInteraction(AerialHellItem.UseInteractionType.SHOVEL)));
+	public static final RegistryObject<Item> AZURITE_SHOVEL = ITEMS.register("azurite_shovel", () -> new AerialHellShovelItem(new  AerialHellItem.Properties().shovel(AerialHellToolMaterials.AZURITE, 1.5F, -3.0F).useInteraction(AerialHellItem.UseInteractionType.SHOVEL)));
+	public static final RegistryObject<Item> MAGMATIC_GEL_SHOVEL = ITEMS.register("magmatic_gel_shovel", () -> new AerialHellShovelItem(new AerialHellItem.Properties().shovel(AerialHellToolMaterials.MAGMATIC_GEL, 1.5F, -3.0F).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.MAGMATIC_GEL_TOOL)).useInteraction(AerialHellItem.UseInteractionType.SHOVEL)));
+	public static final RegistryObject<Item> OBSIDIAN_SHOVEL = ITEMS.register("obsidian_shovel", () -> new AerialHellShovelItem(new AerialHellItem.Properties().shovel(AerialHellToolMaterials.OBSIDIAN, 1.5F, -3.0F).rarity(Rarity.EPIC).useInteraction(AerialHellItem.UseInteractionType.SHOVEL)));
+	public static final RegistryObject<Item> VOLUCITE_SHOVEL = ITEMS.register("volucite_shovel", () -> new AerialHellShovelItem(new AerialHellItem.Properties().shovel(AerialHellToolMaterials.VOLUCITE, 1.5F, -3.0F).rarity(AerialHellRarities.VIBRANT).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.VOLUCITE_POWER)).useInteraction(AerialHellItem.UseInteractionType.SHOVEL)));
+	public static final RegistryObject<Item> LUNATIC_SHOVEL = ITEMS.register("lunatic_shovel", () -> new AerialHellShovelItem(new AerialHellItem.Properties().shovel(AerialHellToolMaterials.LUNATIC, 1.5F, -3.0F).rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.LUNAR_TOOL)).useInteraction(AerialHellItem.UseInteractionType.SHOVEL)));
+	public static final RegistryObject<Item> ARSONIST_SHOVEL = ITEMS.register("arsonist_shovel", () -> new AerialHellShovelItem(new AerialHellItem.Properties().shovel(AerialHellToolMaterials.ARSONIST, 1.5F, -3.0F).fireResistant().rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.ARSONIST_TOOL)).useInteraction(AerialHellItem.UseInteractionType.SHOVEL)));
+
+	public static final RegistryObject<Item> MAGMA_CUBE_SHOVEL = ITEMS.register("magma_cube_shovel", () -> new AerialHellShovelItem(new AerialHellItem.Properties().shovel(AerialHellToolMaterials.OBSIDIAN, 1.5F, -3.0F).rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.MAGMA_CUBE)).useInteraction(AerialHellItem.UseInteractionType.SHOVEL)));
+
+	public static final RegistryObject<Item> SKY_WOOD_AXE = ITEMS.register("sky_wood_axe", () -> new AerialHellAxeItem(new AerialHellItem.Properties().axe(AerialHellToolMaterials.SKY_WOOD, 6.0F, -3.1F).useInteraction(AerialHellItem.UseInteractionType.AXE)));
+	public static final RegistryObject<Item> STELLAR_STONE_AXE = ITEMS.register("stellar_stone_axe", () -> new AerialHellAxeItem(new AerialHellItem.Properties().axe(AerialHellToolMaterials.STELLAR_STONE, 6.0F, -3.1F).useInteraction(AerialHellItem.UseInteractionType.AXE)));
+	public static final RegistryObject<Item> RUBY_AXE = ITEMS.register("ruby_axe", () -> new AerialHellAxeItem(new AerialHellItem.Properties().axe(AerialHellToolMaterials.RUBY, 6.0F, -3.1F).useInteraction(AerialHellItem.UseInteractionType.AXE)));
+	public static final RegistryObject<Item> AZURITE_AXE = ITEMS.register("azurite_axe", () -> new AerialHellAxeItem(new AerialHellItem.Properties().axe(AerialHellToolMaterials.AZURITE, 6.0F, -3.1F).useInteraction(AerialHellItem.UseInteractionType.AXE)));
+	public static final RegistryObject<Item> MAGMATIC_GEL_AXE = ITEMS.register("magmatic_gel_axe", () -> new AerialHellAxeItem(new AerialHellItem.Properties().axe(AerialHellToolMaterials.MAGMATIC_GEL, 6.0F, -3.1F).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.MAGMATIC_GEL_TOOL)).useInteraction(AerialHellItem.UseInteractionType.AXE)));
+	public static final RegistryObject<Item> OBSIDIAN_AXE = ITEMS.register("obsidian_axe", () -> new AerialHellAxeItem(new AerialHellItem.Properties().axe(AerialHellToolMaterials.OBSIDIAN, 6.0F, -3.1F).rarity(Rarity.EPIC).useInteraction(AerialHellItem.UseInteractionType.AXE)));
+	public static final RegistryObject<Item> VOLUCITE_AXE = ITEMS.register("volucite_axe", () -> new AerialHellAxeItem(new AerialHellItem.Properties().axe(AerialHellToolMaterials.VOLUCITE, 6.0F, -3.1F).rarity(AerialHellRarities.VIBRANT).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.VOLUCITE_POWER)).useInteraction(AerialHellItem.UseInteractionType.AXE)));
+	public static final RegistryObject<Item> LUNATIC_AXE = ITEMS.register("lunatic_axe", () -> new AerialHellAxeItem(new AerialHellItem.Properties().axe(AerialHellToolMaterials.LUNATIC, 6.0F, -3.1F).rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.LUNAR_TOOL)).useInteraction(AerialHellItem.UseInteractionType.AXE)));
+	public static final RegistryObject<Item> ARSONIST_AXE = ITEMS.register("arsonist_axe", () -> new AerialHellAxeItem(new AerialHellItem.Properties().axe(AerialHellToolMaterials.ARSONIST, 6.0F, -3.1F).fireResistant().rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.ARSONIST_TOOL)).useInteraction(AerialHellItem.UseInteractionType.AXE)));
+
+	public static final RegistryObject<Item> HEAVY_AXE = ITEMS.register("heavy_axe", () -> new AerialHellAxeItem(new AerialHellItem.Properties().axe(AerialHellToolMaterials.HEAVY, 6.0F, -3.5F, AttributeEntry.movementSpeed(-0.1F)).rarity(Rarity.EPIC).useInteraction(AerialHellItem.UseInteractionType.AXE)));
+	public static final RegistryObject<Item> AXE_OF_LIGHT = ITEMS.register("axe_of_light", () -> new AerialHellAxeItem(new AerialHellItem.Properties().axe(AerialHellToolMaterials.LUNATIC, 5.0F, -3.1F).rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.SPREAD_LIGHT)).useInteraction(AerialHellItem.UseInteractionType.AXE)));
+	public static final RegistryObject<Item> CURSED_AXE = ITEMS.register("cursed_axe", () -> new AerialHellAxeItem(new AerialHellItem.Properties().axe(AerialHellToolMaterials.SHADOW, 2.0F, -3.2F).rarity(AerialHellRarities.CORRUPTED).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.CURSED_TOOL)).useInteraction(AerialHellItem.UseInteractionType.AXE)));
+	public static final RegistryObject<Item> BERSERK_AXE = ITEMS.register("berserk_axe", () -> new BerserkAxeItem(new AerialHellItem.Properties().axe(AerialHellToolMaterials.ARSONIST, 4.0F, -2.5F).rarity(AerialHellRarities.MYTHICAL).useInteraction(AerialHellItem.UseInteractionType.AXE)));
+
+	public static final RegistryObject<Item> SKY_WOOD_HOE = ITEMS.register("sky_wood_hoe", () -> new AerialHellHoeItem(new AerialHellItem.Properties().hoe(AerialHellToolMaterials.SKY_WOOD, 0.0F, -3.0F).useInteraction(AerialHellItem.UseInteractionType.HOE)));
+	public static final RegistryObject<Item> STELLAR_STONE_HOE = ITEMS.register("stellar_stone_hoe", () -> new AerialHellHoeItem(new AerialHellItem.Properties().hoe(AerialHellToolMaterials.STELLAR_STONE, 0.0F, -3.0F).useInteraction(AerialHellItem.UseInteractionType.HOE)));
+	public static final RegistryObject<Item> RUBY_HOE = ITEMS.register("ruby_hoe", () -> new AerialHellHoeItem(new AerialHellItem.Properties().hoe(AerialHellToolMaterials.RUBY, 0.0F, -3.0F).useInteraction(AerialHellItem.UseInteractionType.HOE)));
+	public static final RegistryObject<Item> AZURITE_HOE = ITEMS.register("azurite_hoe", () -> new AerialHellHoeItem(new AerialHellItem.Properties().hoe(AerialHellToolMaterials.AZURITE, 0.0F, -3.0F).useInteraction(AerialHellItem.UseInteractionType.HOE)));
+	public static final RegistryObject<Item> MAGMATIC_GEL_HOE = ITEMS.register("magmatic_gel_hoe", () -> new AerialHellHoeItem(new AerialHellItem.Properties().hoe(AerialHellToolMaterials.MAGMATIC_GEL, 0.0F, -3.0F).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.MAGMATIC_GEL_TOOL)).useInteraction(AerialHellItem.UseInteractionType.HOE)));
+	public static final RegistryObject<Item> OBSIDIAN_HOE = ITEMS.register("obsidian_hoe", () -> new AerialHellHoeItem(new AerialHellItem.Properties().hoe(AerialHellToolMaterials.OBSIDIAN, 0.0F, -3.0F).rarity(Rarity.EPIC).useInteraction(AerialHellItem.UseInteractionType.HOE)));
+	public static final RegistryObject<Item> VOLUCITE_HOE = ITEMS.register("volucite_hoe", () -> new AerialHellHoeItem(new AerialHellItem.Properties().hoe(AerialHellToolMaterials.VOLUCITE, 0.0F, -3.0F).rarity(AerialHellRarities.VIBRANT).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.VOLUCITE_POWER)).useInteraction(AerialHellItem.UseInteractionType.HOE)));
+	public static final RegistryObject<Item> LUNATIC_HOE = ITEMS.register("lunatic_hoe", () -> new AerialHellHoeItem(new AerialHellItem.Properties().hoe(AerialHellToolMaterials.LUNATIC, 0.0F, -1.0F).rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.LUNAR_TOOL)).useInteraction(AerialHellItem.UseInteractionType.HOE)));
+	public static final RegistryObject<Item> ARSONIST_HOE = ITEMS.register("arsonist_hoe", () -> new AerialHellHoeItem(new AerialHellItem.Properties().hoe(AerialHellToolMaterials.ARSONIST, 0.0F, -1.0F).fireResistant().rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.ARSONIST_TOOL)).useInteraction(AerialHellItem.UseInteractionType.HOE)));
+
+	public static final RegistryObject<Item> REAPER_SCYTHE = ITEMS.register("reaper_scythe", () -> new AerialHellHoeItem(new AerialHellItem.Properties().hoe(AerialHellToolMaterials.SHADOW, 1.5F, 4.0F, AttributeEntry.entityInteractionRange(2.0F)).rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.REAPER_SCYTHE)).useInteraction(AerialHellItem.UseInteractionType.HOE)));
+
+	//weapons
+	public static final RegistryObject<Item> SKY_WOOD_SWORD = ITEMS.register("sky_wood_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.SKY_WOOD, 3, -2.4F)));
+	public static final RegistryObject<Item> STELLAR_STONE_SWORD = ITEMS.register("stellar_stone_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.STELLAR_STONE, 3, -2.4F)));
+	public static final RegistryObject<Item> RUBY_SWORD = ITEMS.register("ruby_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.RUBY, 3, -2.4F)));
+	public static final RegistryObject<Item> AZURITE_SWORD = ITEMS.register("azurite_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.AZURITE, 3, -2.4F)));
+	public static final RegistryObject<Item> MAGMATIC_GEL_SWORD = ITEMS.register("magmatic_gel_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.MAGMATIC_GEL, 3, -2.4F).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.MAGMATIC_GEL_TOOL))));
+	public static final RegistryObject<Item> OBSIDIAN_SWORD = ITEMS.register("obsidian_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.OBSIDIAN, 3, -2.4F).rarity(Rarity.EPIC)));
+	public static final RegistryObject<Item> VOLUCITE_SWORD = ITEMS.register("volucite_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.VOLUCITE, 3, -2.4F).rarity(AerialHellRarities.VIBRANT).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.VOLUCITE_POWER))));
+	public static final RegistryObject<Item> LUNATIC_SWORD = ITEMS.register("lunatic_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.LUNATIC, 3, -2.4F).rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.LUNAR_TOOL))));
+	public static final RegistryObject<Item> ARSONIST_SWORD = ITEMS.register("arsonist_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.ARSONIST, 3, -2.4F).fireResistant().rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.ARSONIST_TOOL))));
+
+	public static final RegistryObject<Item> HEAVY_SWORD = ITEMS.register("heavy_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.HEAVY, 3, -2.7F).fireResistant().rarity(Rarity.EPIC)));
+
+	public static final RegistryObject<Item> HEALTH_BOOST_SWORD = ITEMS.register("health_boost_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.LUNATIC, 3, -2.4F).fireResistant().rarity(Rarity.EPIC).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.PASSIVE_HEALTH_BOOST))));
+	public static final RegistryObject<Item> NINJA_SWORD = ITEMS.register("ninja_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.OBSIDIAN, 2, -1.6F, AttributeEntry.movementSpeed(0.15F)).fireResistant().rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.NINJA_SWORD))));
+	public static final RegistryObject<Item> NINJA_MASTER_SWORD = ITEMS.register("ninja_master_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.OBSIDIAN, 4, -2.4F, AttributeEntry.movementSpeed(0.15F)).fireResistant().rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.NINJA_MASTER_SWORD))));
+	public static final RegistryObject<Item> GLOUTON_SWORD = ITEMS.register("glouton_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.RUBY, 3, -2.4F).fireResistant().rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.GLOUTON_SWORD))));
+	public static final RegistryObject<Item> RANDOM_SWORD = ITEMS.register("random_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.RUBY, 2, -2.4F).fireResistant().rarity(Rarity.EPIC).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.RANDOM_SWORD))));
+	public static final RegistryObject<Item> DISLOYAL_SWORD = ITEMS.register("disloyal_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.LUNATIC, 2, -2.4F).fireResistant().rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.DISADVANTAGE_OPPONENT))));
+	public static final RegistryObject<Item> CURSED_SWORD = ITEMS.register("cursed_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.SHADOW, 1, -2.5F).fireResistant().rarity(AerialHellRarities.CORRUPTED).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.CURSED_TOOL))));
+	public static final RegistryObject<Item> ABSOLUTE_ZERO_SWORD = ITEMS.register("absolute_zero_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.LUNATIC, 2, -2.4F).fireResistant().rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.ABSOLUTE_ZERO))));
+	public static final RegistryObject<Item> SWORD_OF_LIGHT = ITEMS.register("sword_of_light", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.LUNATIC, 2, -2.4F).fireResistant().rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.SPREAD_LIGHT))));
+	public static final RegistryObject<Item> ANTIDOTE_SWORD = ITEMS.register("antidote_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.RUBY, 4, -2.4F).fireResistant().rarity(Rarity.EPIC).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.ANTIDOTE_SWORD))));
+	public static final RegistryObject<Item> NETHERIAN_KING_SWORD = ITEMS.register("netherian_king_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.OBSIDIAN, 1, -2.4F).fireResistant().rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.NETHERIAN_KING_SWORD))));
+	public static final RegistryObject<Item> GLASS_CANON_SWORD = ITEMS.register("glass_canon_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.ARSONIST, 7, -1.6F).fireResistant().rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.GLASS_CANNON_ARMORED_GLASS).nextAbility(AerialHellItemAbilities.GLASS_CANNON_LIFTOFF))));
+	public static final RegistryObject<Item> GOD_SWORD = ITEMS.register("god_sword", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.ARSONIST, 3, -2.4F).fireResistant().rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.GOD))));
+
+	public static final RegistryObject<Item> FORGOTTEN_BATTLE_TRIDENT = ITEMS.register("forgotten_battle_trident", () -> new AerialHellSwordItem(new AerialHellItem.Properties().sword(AerialHellToolMaterials.VOLUCITE, 3, -2.9F, new AttributeEntryList().add(AttributeEntry.movementSpeed(0.2F)).add(AttributeEntry.entityInteractionRange(2.0F))).durability(1000).rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.FORGOTTEN_BATTLE_TRIDENT))));
+
+	//armor
+	public static final RegistryObject<ArmorItem> RUBY_HELMET = ITEMS.register("ruby_helmet", () -> new AerialHellArmorItem(AerialHellArmorMaterials.RUBY, ArmorItem.Type.HELMET, new AerialHellItem.Properties()));
+	public static final RegistryObject<ArmorItem> RUBY_CHESTPLATE = ITEMS.register("ruby_chestplate", () -> new AerialHellArmorItem(AerialHellArmorMaterials.RUBY, AerialHellArmorItem.Type.CHESTPLATE, new AerialHellItem.Properties()));
+	public static final RegistryObject<ArmorItem> RUBY_LEGGINGS = ITEMS.register("ruby_leggings", () -> new AerialHellArmorItem(AerialHellArmorMaterials.RUBY, ArmorItem.Type.LEGGINGS, new AerialHellItem.Properties()));
+	public static final RegistryObject<ArmorItem> RUBY_BOOTS = ITEMS.register("ruby_boots", () -> new AerialHellArmorItem(AerialHellArmorMaterials.RUBY, ArmorItem.Type.BOOTS, new AerialHellItem.Properties()));
+
+	public static final RegistryObject<ArmorItem> AZURITE_HELMET = ITEMS.register("azurite_helmet", () -> new AerialHellArmorItem(AerialHellArmorMaterials.AZURITE, ArmorItem.Type.HELMET, new AerialHellItem.Properties()));
+	public static final RegistryObject<ArmorItem> AZURITE_CHESTPLATE = ITEMS.register("azurite_chestplate", () -> new AerialHellArmorItem(AerialHellArmorMaterials.AZURITE, ArmorItem.Type.CHESTPLATE, new AerialHellItem.Properties()));
+	public static final RegistryObject<ArmorItem> AZURITE_LEGGINGS = ITEMS.register("azurite_leggings", () -> new AerialHellArmorItem(AerialHellArmorMaterials.AZURITE, ArmorItem.Type.LEGGINGS, new AerialHellItem.Properties()));
+	public static final RegistryObject<ArmorItem> AZURITE_BOOTS = ITEMS.register("azurite_boots", () -> new AerialHellArmorItem(AerialHellArmorMaterials.AZURITE, ArmorItem.Type.BOOTS, new AerialHellItem.Properties()));
+
+	public static final RegistryObject<ArmorItem> OBSIDIAN_HELMET = ITEMS.register("obsidian_helmet", () -> new AerialHellArmorItem(AerialHellArmorMaterials.OBSIDIAN, ArmorItem.Type.HELMET, new AerialHellItem.Properties().rarity(Rarity.EPIC)));
+	public static final RegistryObject<ArmorItem> OBSIDIAN_CHESTPLATE = ITEMS.register("obsidian_chestplate", () -> new AerialHellArmorItem(AerialHellArmorMaterials.OBSIDIAN, ArmorItem.Type.CHESTPLATE, new AerialHellItem.Properties().rarity(Rarity.EPIC)));
+	public static final RegistryObject<ArmorItem> OBSIDIAN_LEGGINGS = ITEMS.register("obsidian_leggings", () -> new AerialHellArmorItem(AerialHellArmorMaterials.OBSIDIAN, ArmorItem.Type.LEGGINGS, new AerialHellItem.Properties().rarity(Rarity.EPIC)));
+	public static final RegistryObject<ArmorItem> OBSIDIAN_BOOTS = ITEMS.register("obsidian_boots", () -> new AerialHellArmorItem(AerialHellArmorMaterials.OBSIDIAN, ArmorItem.Type.BOOTS, new AerialHellItem.Properties().rarity(Rarity.EPIC)));
+
+	public static final RegistryObject<ArmorItem> VOLUCITE_HELMET = ITEMS.register("volucite_helmet", () -> new AerialHellArmorItem(AerialHellArmorMaterials.VOLUCITE, ArmorItem.Type.HELMET, new AerialHellItem.Properties().rarity(AerialHellRarities.VIBRANT)));
+	public static final RegistryObject<ArmorItem> VOLUCITE_CHESTPLATE = ITEMS.register("volucite_chestplate", () -> new AerialHellArmorItem(AerialHellArmorMaterials.VOLUCITE, ArmorItem.Type.CHESTPLATE, new AerialHellItem.Properties().rarity(AerialHellRarities.VIBRANT)));
+	public static final RegistryObject<ArmorItem> VOLUCITE_LEGGINGS = ITEMS.register("volucite_leggings", () -> new AerialHellArmorItem(AerialHellArmorMaterials.VOLUCITE, ArmorItem.Type.LEGGINGS, new AerialHellItem.Properties().rarity(AerialHellRarities.VIBRANT)));
+	public static final RegistryObject<ArmorItem> VOLUCITE_BOOTS = ITEMS.register("volucite_boots", () -> new AerialHellArmorItem(AerialHellArmorMaterials.VOLUCITE, ArmorItem.Type.BOOTS, new AerialHellItem.Properties().rarity(AerialHellRarities.VIBRANT)));
+
+	public static final RegistryObject<ArmorItem> MAGMATIC_GEL_HELMET = ITEMS.register("magmatic_gel_helmet", () -> new AerialHellArmorItem(AerialHellArmorMaterials.MAGMATIC_GEL, ArmorItem.Type.HELMET, new AerialHellItem.Properties().abilitySelector(AbilitySelector.of(AerialHellItemAbilities.MAGMATIC_GEL_ARMOR))));
+	public static final RegistryObject<ArmorItem> MAGMATIC_GEL_CHESTPLATE = ITEMS.register("magmatic_gel_chestplate", () -> new AerialHellArmorItem(AerialHellArmorMaterials.MAGMATIC_GEL, ArmorItem.Type.CHESTPLATE, new AerialHellItem.Properties().abilitySelector(AbilitySelector.of(AerialHellItemAbilities.MAGMATIC_GEL_ARMOR))));
+	public static final RegistryObject<ArmorItem> MAGMATIC_GEL_LEGGINGS = ITEMS.register("magmatic_gel_leggings", () -> new AerialHellArmorItem(AerialHellArmorMaterials.MAGMATIC_GEL, ArmorItem.Type.LEGGINGS, new AerialHellItem.Properties().abilitySelector(AbilitySelector.of(AerialHellItemAbilities.MAGMATIC_GEL_ARMOR))));
+	public static final RegistryObject<ArmorItem> MAGMATIC_GEL_BOOTS = ITEMS.register("magmatic_gel_boots", () -> new AerialHellArmorItem(AerialHellArmorMaterials.MAGMATIC_GEL, ArmorItem.Type.BOOTS, new AerialHellItem.Properties().abilitySelector(AbilitySelector.of(AerialHellItemAbilities.MAGMATIC_GEL_ARMOR))));
+
+	public static final RegistryObject<ArmorItem> LUNATIC_HELMET = ITEMS.register("lunatic_helmet", () -> new AerialHellArmorItem(AerialHellArmorMaterials.LUNATIC, ArmorItem.Type.HELMET, new AerialHellItem.Properties().rarity(AerialHellRarities.LEGENDARY)));
+	public static final RegistryObject<ArmorItem> LUNATIC_CHESTPLATE = ITEMS.register("lunatic_chestplate", () -> new AerialHellArmorItem(AerialHellArmorMaterials.LUNATIC, ArmorItem.Type.CHESTPLATE, new AerialHellItem.Properties().rarity(AerialHellRarities.LEGENDARY)));
+	public static final RegistryObject<ArmorItem> LUNATIC_LEGGINGS = ITEMS.register("lunatic_leggings", () -> new AerialHellArmorItem(AerialHellArmorMaterials.LUNATIC, ArmorItem.Type.LEGGINGS, new AerialHellItem.Properties().rarity(AerialHellRarities.LEGENDARY)));
+	public static final RegistryObject<ArmorItem> LUNATIC_BOOTS = ITEMS.register("lunatic_boots", () -> new AerialHellArmorItem(AerialHellArmorMaterials.LUNATIC, ArmorItem.Type.BOOTS, new AerialHellItem.Properties().rarity(AerialHellRarities.LEGENDARY)));
+
+	public static final RegistryObject<ArmorItem> ARSONIST_HELMET = ITEMS.register("arsonist_helmet", () -> new AerialHellArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.HELMET, new AerialHellItem.Properties().abilitySelector(AbilitySelector.of(AerialHellItemAbilities.ARSONIST_ARMOR)).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
+	public static final RegistryObject<ArmorItem> ARSONIST_CHESTPLATE = ITEMS.register("arsonist_chestplate", () -> new AerialHellArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.CHESTPLATE, new AerialHellItem.Properties().abilitySelector(AbilitySelector.of(AerialHellItemAbilities.ARSONIST_ARMOR)).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
+	public static final RegistryObject<ArmorItem> ARSONIST_LEGGINGS = ITEMS.register("arsonist_leggings", () -> new AerialHellArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.LEGGINGS, new AerialHellItem.Properties().abilitySelector(AbilitySelector.of(AerialHellItemAbilities.ARSONIST_ARMOR)).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
+	public static final RegistryObject<ArmorItem> ARSONIST_BOOTS = ITEMS.register("arsonist_boots", () -> new AerialHellArmorItem(AerialHellArmorMaterials.ARSONIST, ArmorItem.Type.BOOTS, new AerialHellItem.Properties().abilitySelector(AbilitySelector.of(AerialHellItemAbilities.ARSONIST_ARMOR)).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
+
+	public static final RegistryObject<ArmorItem> SHADOW_HELMET = ITEMS.register("shadow_helmet", () -> new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.HELMET, new AerialHellItem.Properties().rarity(AerialHellRarities.CORRUPTED)));
+	public static final RegistryObject<ArmorItem> SHADOW_CHESTPLATE = ITEMS.register("shadow_chestplate", () -> new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.CHESTPLATE, new AerialHellItem.Properties().rarity(AerialHellRarities.CORRUPTED)));
+	public static final RegistryObject<ArmorItem> SHADOW_LEGGINGS = ITEMS.register("shadow_leggings", () -> new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.LEGGINGS, new AerialHellItem.Properties().rarity(AerialHellRarities.CORRUPTED)));
+	public static final RegistryObject<ArmorItem> SHADOW_BOOTS = ITEMS.register("shadow_boots", () -> new ShadowArmorItem(AerialHellArmorMaterials.SHADOW, ArmorItem.Type.BOOTS, new AerialHellItem.Properties().rarity(AerialHellRarities.CORRUPTED)));
 
 	//effect totems
-    public static final RegistryObject<Item> REGENERATION_TOTEM = ITEMS.register("regeneration_totem", () -> new EffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<Item> SPEED_TOTEM = ITEMS.register("speed_totem", () -> new EffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<Item> SPEED_II_TOTEM = ITEMS.register("speed_ii_totem", () -> new EnchantedEffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.MYTHICAL)));
-    public static final RegistryObject<Item> NIGHT_VISION_TOTEM = ITEMS.register("night_vision_totem", () -> new EffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.LEGENDARY)));
-    public static final RegistryObject<Item> AGILITY_TOTEM = ITEMS.register("agility_totem", () -> new EnchantedEffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.MYTHICAL)));
-    public static final RegistryObject<Item> HERO_TOTEM = ITEMS.register("hero_totem", () -> new EffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.MYTHICAL)));
-    public static final RegistryObject<Item> HEAD_IN_THE_CLOUDS_TOTEM = ITEMS.register("head_in_the_clouds_totem", () -> new EffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.VIBRANT)));
-    public static final RegistryObject<Item> GOD_TOTEM = ITEMS.register("god_totem", () -> new EnchantedEffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.MYTHICAL).fireResistant()));
-    public static final RegistryObject<Item> CURSED_TOTEM = ITEMS.register("cursed_totem", () -> new EffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.MYTHICAL)));
-    public static final RegistryObject<Item> SHADOW_TOTEM = ITEMS.register("shadow_totem", () -> new EffectTotemItem(new Item.Properties().stacksTo(1).rarity(AerialHellRarities.CORRUPTED)));
+	public static final RegistryObject<Item> REGENERATION_TOTEM = ITEMS.register("regeneration_totem", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.REGENERATION_TOTEM))));
+	public static final RegistryObject<Item> SPEED_TOTEM = ITEMS.register("speed_totem", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.SPEED_TOTEM))));
+	public static final RegistryObject<Item> SPEED_II_TOTEM = ITEMS.register("speed_ii_totem", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).rarity(AerialHellRarities.MYTHICAL).foil(true).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.SPEED_II_TOTEM))));
+	public static final RegistryObject<Item> NIGHT_VISION_TOTEM = ITEMS.register("night_vision_totem", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.NIGHT_VISION_TOTEM))));
+	public static final RegistryObject<Item> AGILITY_TOTEM = ITEMS.register("agility_totem", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).rarity(AerialHellRarities.MYTHICAL).foil(true).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.AGILITY_TOTEM))));
+	public static final RegistryObject<Item> HERO_TOTEM = ITEMS.register("hero_totem", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.HERO_TOTEM))));
+	public static final RegistryObject<Item> HEAD_IN_THE_CLOUDS_TOTEM = ITEMS.register("head_in_the_clouds_totem", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).rarity(AerialHellRarities.VIBRANT).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.HEAD_IN_THE_CLOUDS_TOTEM))));
+	public static final RegistryObject<Item> GOD_TOTEM = ITEMS.register("god_totem", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).rarity(AerialHellRarities.MYTHICAL).foil(true).fireResistant().abilitySelector(AbilitySelector.of(AerialHellItemAbilities.GOD_TOTEM))));
+	public static final RegistryObject<Item> CURSED_TOTEM = ITEMS.register("cursed_totem", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.CURSED_TOTEM))));
+	public static final RegistryObject<Item> SHADOW_TOTEM = ITEMS.register("shadow_totem", () -> new AerialHellItem(new AerialHellItem.Properties().stacksTo(1).rarity(AerialHellRarities.CORRUPTED).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.SHADOW_TOTEM))));
 
 	//spawn eggs
 	public static final RegistryObject<Item> STELLAR_STONE_AUTOMATON_SPAWN_EGG = ITEMS.register("stellar_stone_automaton_spawn_egg", () -> new ForgeSpawnEggItem(() -> AerialHellEntities.STELLAR_STONE_AUTOMATON.get(), 16382457, 16382457, new Item.Properties().rarity(AerialHellRarities.VIBRANT)));
@@ -1741,4 +1744,41 @@ public class AerialHellBlocksAndItems
 	//build items
 	public static final RegistryObject<Item> BLOCK_UPDATER = ITEMS.register("block_updater", () -> new BlockUpdaterItem(new Item.Properties()));
 	public static final RegistryObject<Item> BLOCK_CRACKER = ITEMS.register("block_cracker", () -> new BlockCrackerItem(new Item.Properties()));
+
+	public static void registerItemProperties()
+	{
+		ItemProperties.register(
+				RUBY_RESONATOR.get(),
+				new ResourceLocation(MODID, "charge"),
+				(stack, level, entity, seed) ->
+				{
+					if (entity == null) return 0.0F;
+					return entity.getUseItem() != stack ? 0.0F : (float)(stack.getUseDuration() - entity.getUseItemRemainingTicks()) / AerialHellItemAbilities.RESONATOR_USE_TICKS;
+				});
+
+		ItemProperties.register(
+				RUBY_RESONATOR.get(),
+				new ResourceLocation(MODID, "charging"),
+				(stack, level, entity, seed) ->
+				{
+					return entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F;
+				});
+
+		ItemProperties.register(
+				VOLUCITE_RESONATOR.get(),
+				new ResourceLocation(MODID, "charge"),
+				(stack, level, entity, seed) ->
+				{
+					if (entity == null) return 0.0F;
+					return entity.getUseItem() != stack ? 0.0F : (float)(stack.getUseDuration() - entity.getUseItemRemainingTicks()) / AerialHellItemAbilities.RESONATOR_USE_TICKS;
+				});
+
+		ItemProperties.register(
+				VOLUCITE_RESONATOR.get(),
+				new ResourceLocation(MODID, "charging"),
+				(stack, level, entity, seed) ->
+				{
+					return entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F;
+				});
+	}
 }
