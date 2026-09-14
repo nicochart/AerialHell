@@ -183,7 +183,7 @@
       "entries": [
 	{
           "type": "item",
-          "name": "aerialhell:ruby_blowpipe_arrow",
+          "name": "aerialhell:ruby_shard",
           "weight": 1,
           "functions": [
             {
@@ -197,7 +197,7 @@
         },
         {
           "type": "item",
-          "name": "aerialhell:ruby_blowpipe",
+          "name": "aerialhell:ruby_resonator",
           "weight": 1
         }
       ]

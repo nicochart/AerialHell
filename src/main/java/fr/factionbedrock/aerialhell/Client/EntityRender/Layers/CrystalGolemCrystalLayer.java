@@ -33,7 +33,7 @@ public class CrystalGolemCrystalLayer<T extends AerialHellGolemEntity, M extends
       {
          this.getParentModel().copyPropertiesTo(this.golemModel);
          this.golemModel.setupAnim(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-         VertexConsumer consumer = bufferIn.getBuffer(RenderType.entityCutout(CRYSTAL_GOLEM_CRYSTALS));
+         VertexConsumer consumer = bufferIn.getBuffer(RenderType.entityTranslucent(CRYSTAL_GOLEM_CRYSTALS));
          this.golemModel.renderToBuffer(matrixStackIn, consumer, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
       }
    }

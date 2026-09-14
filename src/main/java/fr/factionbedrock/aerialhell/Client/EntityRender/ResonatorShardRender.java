@@ -20,8 +20,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ResonatorShardRender<T extends AbstractArrow> extends EntityRenderer<T>
 {
-    public static final ResourceLocation VOLUCITE_SHARD_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/shard/volucite.png");
-    public static final ResourceLocation RUBY_SHARD_TEXTURE = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/projectile/shard/ruby.png");
+    public static final ResourceLocation VOLUCITE_SHARD_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/projectile/shard/volucite.png");
+    public static final ResourceLocation RUBY_SHARD_TEXTURE = new ResourceLocation(AerialHell.MODID, "textures/entity/projectile/shard/ruby.png");
 
     public ResonatorShardRender(EntityRendererProvider.Context pContext) {super(pContext);}
 
