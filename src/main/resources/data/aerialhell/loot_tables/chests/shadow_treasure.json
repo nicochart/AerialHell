@@ -32,6 +32,17 @@
             }
           ]
         },
+	{
+    	  "type": "item",
+    	  "name": "minecraft:enchanted_book",
+    	  "weight": 1,
+    	  "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{StoredEnchantments:[{id:\"aerialhell:vulnerability_aspect\",lvl:1s}]}"
+            }
+    	  ]
+        },
         {
           "type": "item",
           "name": "aerialhell:shadow_fruit_stew",

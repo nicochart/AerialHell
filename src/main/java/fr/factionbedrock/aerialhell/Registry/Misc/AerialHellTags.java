@@ -197,6 +197,7 @@ public class AerialHellTags
 	{
 		public static final TagKey<EntityType<?>> LIGHT = tag("light");
 		public static final TagKey<EntityType<?>> SHADOW = tag("shadow");
+		public static final TagKey<EntityType<?>> SENSITIVE_TO_VULNERABILITY = tag("sensitive_to_vulnerability_enchantment");
 
 		private static TagKey<EntityType<?>> tag(String name) {return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));}
 	}

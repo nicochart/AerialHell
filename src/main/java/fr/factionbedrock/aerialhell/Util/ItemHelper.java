@@ -7,20 +7,23 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.DiggerItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SmithingTemplateItem;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class ItemHelper
 {
@@ -147,5 +150,17 @@ public class ItemHelper
         sb.append(seconds).append("s");
 
         return sb.toString().trim();
+    }
+
+    public static ItemStack createPotionItemStack(Potion potion)
+    {
+        return PotionUtils.setPotion(new ItemStack(Items.POTION), potion);
+    }
+
+    public static ItemStack createEnchantedBookItemStack(Supplier<Enchantment> enchantment, int level, RegistryAccess registryAccess)
+    {
+        ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
+        EnchantedBookItem.addEnchantment(stack, new EnchantmentInstance(enchantment.get(), level));
+        return stack;
     }
 }
