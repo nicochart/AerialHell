@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,6 +26,8 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.BlockEntity.ChestMimicBlockEntity;
 
+import static fr.factionbedrock.aerialhell.Registry.AerialHellStateProperties.CORE_PROTECTED;
+
 public class ChestMimicBlock extends ChestBlock
 {
 	public ChestMimicBlock(BlockBehaviour.Properties builder)
@@ -33,45 +36,54 @@ public class ChestMimicBlock extends ChestBlock
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.valueOf(false)));
 	}
 
-	@Override
-	public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult hit)
+	@Override public BlockState getStateForPlacement(BlockPlaceContext context)
 	{
-		if (!ChestBlock.isChestBlockedAt(worldIn, pos))
+		BlockState state = super.getStateForPlacement(context);
+
+		if (state.hasProperty(ChestBlock.TYPE) && state.getValue(ChestBlock.TYPE) != ChestType.SINGLE)
 		{
-			if (worldIn.isClientSide()) {addSpawnParticle(worldIn, pos);}
+			return state.setValue(ChestBlock.TYPE, ChestType.SINGLE);
+		}
+		return state;
+	}
+
+	@Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit)
+	{
+		if (!ChestBlock.isChestBlockedAt(level, pos))
+		{
+			if (level.isClientSide()) {addSpawnParticle(level, pos);}
 			else
 			{
-				worldIn.playSound(null, pos, SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 0.5F, 0.7F + 0.5F * worldIn.getRandom().nextFloat());
-				revealMimic(state, worldIn, pos);
-				worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+				level.playSound(null, pos, SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 0.5F, 0.7F + 0.5F * level.getRandom().nextFloat());
+				revealMimic(state, level, pos);
+				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			}
 		}
 		return InteractionResult.SUCCESS;
 	}
 
-	@Override
-	public void spawnAfterBreak(BlockState state, ServerLevel worldIn, BlockPos pos, ItemStack stack, boolean bool)
+	@Override public void spawnAfterBreak(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack, boolean bool)
 	{
-		super.spawnAfterBreak(state, worldIn, pos, stack, bool);
-		revealMimic(state, worldIn, pos);
+		super.spawnAfterBreak(state, level, pos, stack, bool);
+		revealMimic(state, level, pos);
 	}
 
-	private void revealMimic(BlockState state, Level worldIn, BlockPos pos)
+	private void revealMimic(BlockState state, Level level, BlockPos pos)
 	{
 		float angle = state.getValue(FACING).toYRot();
-		AbstractChestMimicEntity chestMimic = getNewChestMimicEntity(worldIn);
+		AbstractChestMimicEntity chestMimic = getNewChestMimicEntity(level);
 		chestMimic.absSnapTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, angle, 0.0F);
 		chestMimic.setYHeadRot(angle);
-		worldIn.addFreshEntity(chestMimic);
+		level.addFreshEntity(chestMimic);
 	}
 
-	public void addSpawnParticle(Level worldIn, BlockPos pos)
+	public void addSpawnParticle(Level level, BlockPos pos)
 	{
 		for(int i = 0; i < 20; ++i)
 		{
-			double dx = worldIn.getRandom().nextGaussian() * 0.04D, dy = worldIn.getRandom().nextGaussian() * 0.04D, dz = worldIn.getRandom().nextGaussian() * 0.04D;
+			double dx = level.getRandom().nextGaussian() * 0.04D, dy = level.getRandom().nextGaussian() * 0.04D, dz = level.getRandom().nextGaussian() * 0.04D;
 			double x = pos.getX() + 0.5F + dx * 10.0D, y = pos.getY() + 0.5F + dy * 10.0D, z = pos.getZ() + 0.5F + dz * 10.0D;
-			worldIn.addParticle(this.getMimicSpawnParticle(), x, y, z, dx * 10.0D, dy * 10.0D, dz * 10.0D);
+			level.addParticle(this.getMimicSpawnParticle(), x, y, z, dx * 10.0D, dy * 10.0D, dz * 10.0D);
 		}
 	}
 
