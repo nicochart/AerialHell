@@ -25,7 +25,7 @@ public class ShadowLeavesBlock extends ShiftableLeavesBlock implements ShadowSpr
 
 	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {super.createBlockStateDefinition(builder); builder.add(CAN_SPREAD);}
 
-	@Override protected boolean isRandomlyTicking(BlockState state) {return state.getValue(CAN_SPREAD);}
+	@Override protected boolean isRandomlyTicking(BlockState state) {return super.isRandomlyTicking(state) || state.getValue(CAN_SPREAD);}
 
 	@Override protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean movedByPiston)
 	{
@@ -39,5 +39,6 @@ public class ShadowLeavesBlock extends ShiftableLeavesBlock implements ShadowSpr
 	@Override public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
 	{
 		ShadowSpreaderBlock.trySpreading(state, level, pos, rand);
+		super.randomTick(state, level, pos, rand);
 	}
 }
