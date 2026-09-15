@@ -34,7 +34,6 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
     /* ----------------------- */
 
     /* -- BeamAttackEntity fields -- */
-    public static final float MAX_BEAM_LENGTH = 30.0F;
     public static final int BEAMING_LOAD_DURATION = 35;
     public static final int BEAMING_OVERHEAT_DURATION = 60;
     public static final int BEAMING_TOTAL_DURATION = 260;

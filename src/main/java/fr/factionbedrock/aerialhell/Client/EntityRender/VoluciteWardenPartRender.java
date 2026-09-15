@@ -3,10 +3,12 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.VoluciteWardenPartModel;
+import fr.factionbedrock.aerialhell.Client.EntityRender.Helper.BeamRenderHelper;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteWardenRenderState;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenChestPartEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenPartEntity;
+import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -28,9 +30,9 @@ public class VoluciteWardenPartRender extends MobRenderer<VoluciteWardenPartEnti
 
 	@Override public VoluciteWardenRenderState createRenderState() {return new VoluciteWardenRenderState();}
 
-	@Override public void extractRenderState(VoluciteWardenPartEntity entity, VoluciteWardenRenderState renderState, float f)
+	@Override public void extractRenderState(VoluciteWardenPartEntity entity, VoluciteWardenRenderState renderState, float partialTick)
 	{
-		super.extractRenderState(entity, renderState, f);
+		super.extractRenderState(entity, renderState, partialTick);
 		MasterPartEntity master = entity.getMaster();
 
 		//left leg & right leg have -1, other parts (including right leg & left arm) have 1. The parameter is only used for legs in model animation.
@@ -38,22 +40,56 @@ public class VoluciteWardenPartRender extends MobRenderer<VoluciteWardenPartEnti
 		renderState.shouldRender = !(entity instanceof VoluciteWardenChestPartEntity chestPartEntity) || chestPartEntity.shouldRender();
 		if (master instanceof VoluciteWardenEntity wardenMaster)
 		{
-			renderState.walkAnimationPos = wardenMaster.walkAnimation.position(f);
-			renderState.walkAnimationSpeed = wardenMaster.walkAnimation.speed(f);
+			renderState.walkAnimationPos = wardenMaster.walkAnimation.position(partialTick);
+			renderState.walkAnimationSpeed = wardenMaster.walkAnimation.speed(partialTick);
 		}
 
 		renderState.texture = getTextureLocation(entity, this.part);
+
+		//-- beam part --
+		renderState.eyePosition = entity.getEyePosition(partialTick);
+		if (entity instanceof BeamAttackEntity beamEntity && beamEntity.isBeaming() && beamEntity.getBeamAttackTarget() != null && beamEntity.getBeamEndPos() != null && beamEntity.getPrevBeamEndPos() != null)
+		{
+			renderState.beamTargetPosition = BeamRenderHelper.getBeamTargetPosition(beamEntity.getBeamEndPos(), beamEntity.getPrevBeamEndPos(), partialTick);
+			renderState.beamTexture = BeamRenderHelper.getBeamTextureLocation(beamEntity.getBeamingPhase());
+			renderState.maxBeamLength = beamEntity.getMaxBeamLength();
+		}
+		else
+		{
+			renderState.beamTargetPosition = null;
+			renderState.beamTexture = null;
+			renderState.maxBeamLength = 0.0F;
+		}
+		//---------------
 	}
 
 	@Override public void submit(VoluciteWardenRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState)
 	{
 		if (!renderState.shouldRender) {return;}
 		super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
+
+		//beam render
+		Vec3 vec3 = renderState.beamTargetPosition;
+		if (vec3 != null)
+		{
+			poseStack.pushPose();
+			poseStack.translate(0.0F, renderState.eyeHeight, 0.0F);
+
+			BeamRenderHelper.renderBeam(poseStack, submitNodeCollector, vec3.subtract(renderState.eyePosition), renderState.beamTexture, renderState.maxBeamLength);
+			poseStack.popPose();
+		}
 	}
 
 	@Override public AABB getBoundingBoxForCulling(VoluciteWardenPartEntity entity)
 	{
 		AABB box = super.getBoundingBoxForCulling(entity);
+
+		//-- beam part --
+		if (entity instanceof BeamAttackEntity beamEntity && beamEntity.isBeaming() && beamEntity.getBeamEndPos() != null)
+		{
+			box = BeamRenderHelper.calculateBeamCullingBox(box, beamEntity.getBeamStartPos(), beamEntity.getBeamEndPos());
+		}
+		//---------------
 
 		if (entity instanceof VoluciteWardenChestPartEntity chestPartEntity && chestPartEntity.shouldRender())
 		{

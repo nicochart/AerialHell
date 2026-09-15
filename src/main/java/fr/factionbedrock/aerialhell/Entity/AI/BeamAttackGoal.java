@@ -41,13 +41,14 @@ public class BeamAttackGoal extends Goal
     @Override public boolean canUse()
     {
         if (this.beamingCooldown > 0) {this.beamingCooldown--; return false;}
-        LivingEntity livingentity = this.entity.getTarget();
-        return livingentity != null && livingentity.isAlive();
+        LivingEntity target = this.entity.getTarget();
+        return target != null && target.isAlive() && this.entity.getSelf().distanceToSqr(target) <= this.entity.getMaxBeamLength() * this.entity.getMaxBeamLength();
     }
 
     @Override public boolean canContinueToUse()
     {
-        return super.canContinueToUse() && (this.entity.getTarget() != null /*&& this.entity.distanceToSqr(this.entity.getTarget()) < (double)480.0F*/);
+        LivingEntity target = this.entity.getTarget();
+        return super.canContinueToUse() && (target != null && this.entity.getSelf().distanceToSqr(target) <= this.entity.getMaxBeamLength() * this.entity.getMaxBeamLength());
     }
 
     @Override public void start()
