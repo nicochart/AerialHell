@@ -63,7 +63,11 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
         boolean flag = attackedEntity.hurtServer(serverLevel, damagesource, amount);
         if (flag)
         {
-            attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().add(0.0D, (double)this.getYMotionOnAttack(), 0.0D)); //projection en hauteur
+            double kbResistance = 0.0F;
+            if (attackedEntity instanceof LivingEntity target) {kbResistance = target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);}
+            double kbScale = Math.max(0.0D, (double)1.0D - kbResistance);
+
+            attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().add(0.0D, (double)this.getYMotionOnAttack() * kbScale, 0.0D));
             EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);
         }
 

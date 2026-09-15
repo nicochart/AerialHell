@@ -317,9 +317,12 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 		float amount = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
 		float kb = (float)this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
 		boolean flag = attackedEntity.hurtServer(serverLevel, damagesource, amount);
-		if (flag)
+		if (flag && attackedEntity instanceof LivingEntity target)
 		{
-			((LivingEntity)attackedEntity).knockback(kb * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))), damagesource, amount);
+			double kbResistance = target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
+			double kbScale = Math.max(0.0D, (double)1.0D - kbResistance);
+
+			target.knockback(kb * kbScale * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))), damagesource, amount);
 			attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().x, (double)0.8F, attackedEntity.getDeltaMovement().z);
 			EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);
 		}
