@@ -163,7 +163,7 @@ public class VoluciteWardenPartModel extends EntityModel<VoluciteWardenPartRende
 
 	public static class Part
 	{
-		public static Part ARM = new Part("arm", AerialHellModelLayers.VOLUCITE_WARDEN_ARM);
+		public static Part ARM = new Part("arm", AerialHellModelLayers.VOLUCITE_WARDEN_ARM_SEGMENT);
 		public static Part LEG = new Part("volucite_stone_pattern", AerialHellModelLayers.VOLUCITE_WARDEN_LEG);
 		public static Part PELVIS = new Part("volucite_stone_pattern", AerialHellModelLayers.VOLUCITE_WARDEN_PELVIS);
 		public static Part ABDOMEN = new Part("volucite_stone_pattern", AerialHellModelLayers.VOLUCITE_WARDEN_ABDOMEN);

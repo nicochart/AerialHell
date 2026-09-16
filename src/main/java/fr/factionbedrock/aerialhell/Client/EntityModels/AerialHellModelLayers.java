@@ -9,7 +9,7 @@ public class AerialHellModelLayers
     public static final ModelLayerLocation CATERPILLAR = createModelLayerLocation("caterpillar");
     public static final ModelLayerLocation BOAR = createModelLayerLocation("boar");
     public static final ModelLayerLocation CHAINED_GOD = createModelLayerLocation("chained_god");
-    public static final ModelLayerLocation VOLUCITE_WARDEN_ARM = createModelLayerLocation("volucite_warden_arm");
+    public static final ModelLayerLocation VOLUCITE_WARDEN_ARM_SEGMENT = createModelLayerLocation("volucite_warden_arm_segment");
     public static final ModelLayerLocation VOLUCITE_WARDEN_LEG = createModelLayerLocation("volucite_warden_leg");
     public static final ModelLayerLocation VOLUCITE_WARDEN_PELVIS = createModelLayerLocation("volucite_warden_pelvis");
     public static final ModelLayerLocation VOLUCITE_WARDEN_ABDOMEN = createModelLayerLocation("volucite_warden_abdomen");

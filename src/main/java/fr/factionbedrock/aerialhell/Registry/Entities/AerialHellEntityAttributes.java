@@ -65,7 +65,7 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.ELECTRO_SPIRIT.get(), AbstractElementSpiritEntity.registerAttributes().build());
 		event.put(AerialHellEntities.CHAINED_GOD.get(), ChainedGodEntity.registerAttributes().build());
 		event.put(AerialHellEntities.VOLUCITE_WARDEN.get(), VoluciteWardenEntity.registerAttributes().build());
-		event.put(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), VoluciteWardenArmEntity.registerAttributes().build());
+		event.put(AerialHellEntities.VOLUCITE_WARDEN_ARM_SEGMENT.get(), VoluciteWardenArmSegmentEntity.registerAttributes().build());
 		event.put(AerialHellEntities.VOLUCITE_WARDEN_LEG.get(), VoluciteWardenPartEntity.registerAttributes().build());
 		event.put(AerialHellEntities.VOLUCITE_WARDEN_PELVIS.get(), VoluciteWardenPartEntity.registerAttributes().build());
 		event.put(AerialHellEntities.VOLUCITE_WARDEN_ABDOMEN.get(), VoluciteWardenPartEntity.registerAttributes().build());

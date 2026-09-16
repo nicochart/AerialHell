@@ -14,24 +14,23 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
-public class VoluciteWardenArmEntity extends VoluciteWardenPartEntity implements BeamAttackEntity
+public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity implements BeamAttackEntity
 {
     /* -- BeamAttackEntity fields -- */
-    public static final int BEAMING_LOAD_DURATION = 35;
-    public static final int BEAMING_OVERHEAT_DURATION = 60;
-    public static final int BEAMING_TOTAL_DURATION = 260;
-    public static final int BEAMING_COOLDOWN = 40;
-    private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteWardenArmEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteWardenArmEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> BEAM_TARGET_POS_NEEDS_SYNC = SynchedEntityData.defineId(VoluciteWardenArmEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final int BEAMING_LOAD_DURATION = 40;
+    public static final int BEAMING_OVERHEAT_DURATION = 140;
+    public static final int BEAMING_TOTAL_DURATION = 200;
+    public static final int BEAMING_COOLDOWN = 20;
+    private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteWardenArmSegmentEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteWardenArmSegmentEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> BEAM_TARGET_POS_NEEDS_SYNC = SynchedEntityData.defineId(VoluciteWardenArmSegmentEntity.class, EntityDataSerializers.BOOLEAN);
     private final BeamAttackEntityInfo BEAM_ATTACK_ENTITY_INFO = new BeamAttackEntityInfo(ATTACK_TARGET_ID, BEAMING_PHASE, BEAM_TARGET_POS_NEEDS_SYNC);
     /* ----------------------------- */
 
     private VoluciteWardenArmBeamAttackGoal BEAM_ATTACK_GOAL;
 
-    public VoluciteWardenArmEntity(EntityType<? extends VoluciteWardenPartEntity> type, Level level) {super(type, level);}
+    public VoluciteWardenArmSegmentEntity(EntityType<? extends VoluciteWardenPartEntity> type, Level level) {super(type, level);}
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
@@ -73,14 +72,6 @@ public class VoluciteWardenArmEntity extends VoluciteWardenPartEntity implements
     @Override public boolean isBeamSilent() {return false;}
 
     /* ---------- Warden arm beam specificities ---------- */
-    @Override public Vec3 getBeamStartPos(Vec3 eyePos, float partialTick)
-    {
-        Vec3 lookVec = this.getViewVector(partialTick).normalize();
-
-        double sideOffset = 1.5D;
-
-        return eyePos.add(lookVec.scale(sideOffset));
-    }
 
     public void enableBeam() {if (this.BEAM_ATTACK_GOAL != null) {this.BEAM_ATTACK_GOAL.enabled = true;}}
     public void disableBeam() {if (this.BEAM_ATTACK_GOAL != null) {this.BEAM_ATTACK_GOAL.enabled = false;}}

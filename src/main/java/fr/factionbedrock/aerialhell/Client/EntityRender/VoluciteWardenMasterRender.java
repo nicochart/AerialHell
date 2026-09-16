@@ -8,7 +8,7 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.EmptyModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Helper.BeamRenderHelper;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteWardenMasterRenderState;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenArmEntity;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenArmSegmentEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -62,7 +62,7 @@ public class VoluciteWardenMasterRender extends LivingEntityRenderer<VoluciteWar
     {
         for (VoluciteWardenEntity.ArmPartInfo armSegmentInfo : arm)
         {
-            if (armSegmentInfo.getPart() != null && armSegmentInfo.getPart().getSelf() instanceof VoluciteWardenArmEntity armSegment && this.isSegmentValidForConnection(armSegment))
+            if (armSegmentInfo.getPart() != null && armSegmentInfo.getPart().getSelf() instanceof VoluciteWardenArmSegmentEntity armSegment && this.isSegmentValidForConnection(armSegment))
             {
                 double x = Mth.lerp(partialTick, armSegment.xo, armSegment.getX());
                 double y = Mth.lerp(partialTick, armSegment.yo, armSegment.getY());
@@ -77,7 +77,7 @@ public class VoluciteWardenMasterRender extends LivingEntityRenderer<VoluciteWar
         }
     }
 
-    private boolean isSegmentValidForConnection(VoluciteWardenArmEntity armSegment)
+    private boolean isSegmentValidForConnection(VoluciteWardenArmSegmentEntity armSegment)
     {
         return armSegment.isAlive();
     }

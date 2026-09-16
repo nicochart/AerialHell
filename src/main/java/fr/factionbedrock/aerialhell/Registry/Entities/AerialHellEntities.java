@@ -146,8 +146,8 @@ public class AerialHellEntities
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenEntity>> VOLUCITE_WARDEN = ENTITIES.register("volucite_warden", () -> EntityType.Builder.<VoluciteWardenEntity>of(VoluciteWardenEntity::new, MobCategory.MONSTER)
 			.sized(12.0F,38.0F).build(Keys.VOLUCITE_WARDEN));
 
-	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenArmEntity>> VOLUCITE_WARDEN_ARM = ENTITIES.register("volucite_warden_arm", () -> EntityType.Builder.<VoluciteWardenArmEntity>of(VoluciteWardenArmEntity::new, MobCategory.MISC)
-			.sized(3.5F,3.5F).eyeHeight(1.5F).noSummon().build(Keys.VOLUCITE_WARDEN_ARM));
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenArmSegmentEntity>> VOLUCITE_WARDEN_ARM_SEGMENT = ENTITIES.register("volucite_warden_arm_segment", () -> EntityType.Builder.<VoluciteWardenArmSegmentEntity>of(VoluciteWardenArmSegmentEntity::new, MobCategory.MISC)
+			.sized(3.5F,3.5F).eyeHeight(1.75F).noSummon().build(Keys.VOLUCITE_WARDEN_ARM_SEGMENT));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_LEG = ENTITIES.register("volucite_warden_leg", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenPartEntity::new, MobCategory.MISC)
 			.sized(3.0F,10.0F).noSummon().build(Keys.VOLUCITE_WARDEN_LEG));
@@ -316,7 +316,7 @@ public class AerialHellEntities
 		public static ResourceKey<EntityType<?>> ELECTRO_SPIRIT = key("electro_spirit");
 		public static ResourceKey<EntityType<?>> CHAINED_GOD = key("chained_god");
 		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN = key("volucite_warden");
-		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_ARM = key("volucite_warden_arm");
+		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_ARM_SEGMENT = key("volucite_warden_arm_segment");
 		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_LEG = key("volucite_warden_leg");
 		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_PELVIS = key("volucite_warden_pelvis");
 		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_ABDOMEN = key("volucite_warden_abdomen");

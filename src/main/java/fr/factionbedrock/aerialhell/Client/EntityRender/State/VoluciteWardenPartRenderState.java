@@ -11,6 +11,7 @@ public class VoluciteWardenPartRenderState extends LivingEntityRenderState
     public int walkAnimationDirection;
     public boolean shouldRender;
 
+    //specific to arm segments
     @Nullable public Vec3 beamTargetPosition;
     @Nullable public Vec3 beamStartPosition;
     public float maxBeamLength;
