@@ -45,7 +45,7 @@ public class AerialHellEntities
 			.sized(1.3F,2.1F).notInPeaceful().build(Keys.VOLUCITE_GOLEM));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteGolemHeadEntity>> VOLUCITE_GOLEM_HEAD = ENTITIES.register("volucite_golem_head", () -> EntityType.Builder.of(VoluciteGolemHeadEntity::new, MobCategory.MISC)
-			.sized(0.6F,0.6F).eyeHeight(0.3F).notInPeaceful().build(Keys.VOLUCITE_GOLEM_HEAD));
+			.sized(0.6F,0.6F).eyeHeight(0.3F).notInPeaceful().noSummon().build(Keys.VOLUCITE_GOLEM_HEAD));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<MudGolemEntity>> MUD_GOLEM = ENTITIES.register("mud_golem", () -> EntityType.Builder.of(MudGolemEntity::new, MobCategory.MONSTER)
 			.sized(1.4F,2.3F).notInPeaceful().build(Keys.MUD_GOLEM));
@@ -147,31 +147,31 @@ public class AerialHellEntities
 			.sized(12.0F,38.0F).build(Keys.VOLUCITE_WARDEN));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenArmEntity>> VOLUCITE_WARDEN_ARM = ENTITIES.register("volucite_warden_arm", () -> EntityType.Builder.<VoluciteWardenArmEntity>of(VoluciteWardenArmEntity::new, MobCategory.MISC)
-			.sized(3.5F,3.5F).eyeHeight(1.5F).build(Keys.VOLUCITE_WARDEN_ARM));
+			.sized(3.5F,3.5F).eyeHeight(1.5F).noSummon().build(Keys.VOLUCITE_WARDEN_ARM));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_LEG = ENTITIES.register("volucite_warden_leg", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenPartEntity::new, MobCategory.MISC)
-			.sized(3.0F,10.0F).build(Keys.VOLUCITE_WARDEN_LEG));
+			.sized(3.0F,10.0F).noSummon().build(Keys.VOLUCITE_WARDEN_LEG));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_PELVIS = ENTITIES.register("volucite_warden_pelvis", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenCollidablePartEntity::new, MobCategory.MISC)
-			.sized(5.0F,3.0F).build(Keys.VOLUCITE_WARDEN_PELVIS));
+			.sized(5.0F,3.0F).noSummon().build(Keys.VOLUCITE_WARDEN_PELVIS));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_ABDOMEN = ENTITIES.register("volucite_warden_abdomen", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenCollidablePartEntity::new, MobCategory.MISC)
-			.sized(8.0F,4.0F).build(Keys.VOLUCITE_WARDEN_ABDOMEN));
+			.sized(8.0F,4.0F).noSummon().build(Keys.VOLUCITE_WARDEN_ABDOMEN));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenChestPartEntity>> VOLUCITE_WARDEN_CHEST = ENTITIES.register("volucite_warden_chest", () -> EntityType.Builder.<VoluciteWardenChestPartEntity>of(VoluciteWardenChestPartEntity::new, MobCategory.MISC)
-			.sized(10.0F,2.0F).build(Keys.VOLUCITE_WARDEN_CHEST));
+			.sized(10.0F,2.0F).noSummon().build(Keys.VOLUCITE_WARDEN_CHEST));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenCoreEntity>> VOLUCITE_WARDEN_CORE = ENTITIES.register("volucite_warden_core", () -> EntityType.Builder.<VoluciteWardenCoreEntity>of(VoluciteWardenCoreEntity::new, MobCategory.MISC)
-			.sized(4.0F,6.0F).build(Keys.VOLUCITE_WARDEN_CORE));
+			.sized(4.0F,6.0F).noSummon().build(Keys.VOLUCITE_WARDEN_CORE));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_CORE_RIB = ENTITIES.register("volucite_warden_core_rib", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenCollidablePartEntity::new, MobCategory.MISC)
-			.sized(2.0F,6.0F).build(Keys.VOLUCITE_WARDEN_CORE_RIB));
+			.sized(2.0F,6.0F).noSummon().build(Keys.VOLUCITE_WARDEN_CORE_RIB));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenPartEntity>> VOLUCITE_WARDEN_NECK = ENTITIES.register("volucite_warden_neck", () -> EntityType.Builder.<VoluciteWardenPartEntity>of(VoluciteWardenCollidablePartEntity::new, MobCategory.MISC)
-			.sized(4.0F,4.0F).build(Keys.VOLUCITE_WARDEN_NECK));
+			.sized(4.0F,4.0F).noSummon().build(Keys.VOLUCITE_WARDEN_NECK));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenHeadEntity>> VOLUCITE_WARDEN_HEAD = ENTITIES.register("volucite_warden_head", () -> EntityType.Builder.<VoluciteWardenHeadEntity>of(VoluciteWardenHeadEntity::new, MobCategory.MISC)
-			.sized(6.0F,7.0F).eyeHeight(4.0F).build(Keys.VOLUCITE_WARDEN_HEAD));
+			.sized(6.0F,7.0F).noSummon().eyeHeight(4.0F).build(Keys.VOLUCITE_WARDEN_HEAD));
 
 	public static final DeferredHolder<EntityType<?>, EntityType<PoisonballEntity>> POISONBALL = ENTITIES.register("poisonball", () -> EntityType.Builder.<PoisonballEntity>of(PoisonballEntity::new, MobCategory.MISC)
 			.sized(1.0F, 1.0F).build(Keys.POISONBALL));
