@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 
 public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity, VoluciteGolemRenderState, VoluciteGolemHeadModel>
 {
@@ -32,12 +31,12 @@ public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity
     {
         super.extractRenderState(entity, renderState, partialTick);
         renderState.attackTimer = entity.getMaster() != null ? entity.getMaster().attackTimer : 0;
-        renderState.eyePosition = entity.getEyePosition(partialTick);
 
         LivingEntity target = entity.getBeamAttackTarget();
         if (entity.isBeaming() && target != null && entity.getBeamEndPos() != null && entity.getPrevBeamEndPos() != null)
         {
-            renderState.beamTargetPosition = BeamRenderHelper.getBeamTargetPosition(entity.getBeamEndPos(), entity.getPrevBeamEndPos(), partialTick);
+            renderState.beamStartPosition = entity.toRelativePos(entity.getBeamStartPos(partialTick));
+            renderState.beamTargetPosition = entity.toRelativePos(BeamRenderHelper.getBeamTargetPosition(entity.getBeamEndPos(), entity.getPrevBeamEndPos(), partialTick));
             renderState.beamTexture = BeamRenderHelper.getBeamTextureLocation(entity.getBeamingPhase());
             renderState.maxBeamLength = entity.getMaxBeamLength();
         }
@@ -54,13 +53,12 @@ public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity
     @Override public void submit(VoluciteGolemRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
     {
         super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
-        Vec3 vec3 = renderState.beamTargetPosition;
-        if (vec3 != null)
+        if (renderState.beamTargetPosition != null && renderState.beamStartPosition != null)
         {
             poseStack.pushPose();
-            poseStack.translate(0.0F, renderState.eyeHeight, 0.0F);
+            poseStack.translate(renderState.beamStartPosition);
 
-            BeamRenderHelper.renderBeam(poseStack, nodeCollector, vec3.subtract(renderState.eyePosition), renderState.beamTexture, renderState.maxBeamLength);
+            BeamRenderHelper.renderBeam(poseStack, nodeCollector, renderState.beamTargetPosition.subtract(renderState.beamStartPosition), renderState.beamTexture, renderState.maxBeamLength);
             poseStack.popPose();
         }
     }

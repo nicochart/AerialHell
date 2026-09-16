@@ -14,6 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class VoluciteWardenArmEntity extends VoluciteWardenPartEntity implements BeamAttackEntity
 {
@@ -72,6 +73,15 @@ public class VoluciteWardenArmEntity extends VoluciteWardenPartEntity implements
     @Override public boolean isBeamSilent() {return false;}
 
     /* ---------- Warden arm beam specificities ---------- */
+    @Override public Vec3 getBeamStartPos(Vec3 eyePos, float partialTick)
+    {
+        Vec3 lookVec = this.getViewVector(partialTick).normalize();
+
+        double sideOffset = 1.5D;
+
+        return eyePos.add(lookVec.scale(sideOffset));
+    }
+
     public void enableBeam() {if (this.BEAM_ATTACK_GOAL != null) {this.BEAM_ATTACK_GOAL.enabled = true;}}
     public void disableBeam() {if (this.BEAM_ATTACK_GOAL != null) {this.BEAM_ATTACK_GOAL.enabled = false;}}
 

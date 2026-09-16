@@ -47,15 +47,16 @@ public class VoluciteWardenPartRender extends MobRenderer<VoluciteWardenPartEnti
 		renderState.texture = getTextureLocation(entity, this.part);
 
 		//-- beam part --
-		renderState.eyePosition = entity.getEyePosition(partialTick);
 		if (entity instanceof BeamAttackEntity beamEntity && beamEntity.isBeaming() && beamEntity.getBeamAttackTarget() != null && beamEntity.getBeamEndPos() != null && beamEntity.getPrevBeamEndPos() != null)
 		{
-			renderState.beamTargetPosition = BeamRenderHelper.getBeamTargetPosition(beamEntity.getBeamEndPos(), beamEntity.getPrevBeamEndPos(), partialTick);
+			renderState.beamStartPosition = beamEntity.toRelativePos(beamEntity.getBeamStartPos(partialTick));
+			renderState.beamTargetPosition = beamEntity.toRelativePos(BeamRenderHelper.getBeamTargetPosition(beamEntity.getBeamEndPos(), beamEntity.getPrevBeamEndPos(), partialTick));
 			renderState.beamTexture = BeamRenderHelper.getBeamTextureLocation(beamEntity.getBeamingPhase());
 			renderState.maxBeamLength = beamEntity.getMaxBeamLength();
 		}
 		else
 		{
+			renderState.beamStartPosition = null;
 			renderState.beamTargetPosition = null;
 			renderState.beamTexture = null;
 			renderState.maxBeamLength = 0.0F;
@@ -69,13 +70,12 @@ public class VoluciteWardenPartRender extends MobRenderer<VoluciteWardenPartEnti
 		super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
 
 		//beam render
-		Vec3 vec3 = renderState.beamTargetPosition;
-		if (vec3 != null)
+		if (renderState.beamTargetPosition != null && renderState.beamStartPosition != null)
 		{
 			poseStack.pushPose();
-			poseStack.translate(0.0F, renderState.eyeHeight, 0.0F);
+			poseStack.translate(renderState.beamStartPosition);
 
-			BeamRenderHelper.renderBeam(poseStack, submitNodeCollector, vec3.subtract(renderState.eyePosition), renderState.beamTexture, renderState.maxBeamLength);
+			BeamRenderHelper.renderBeam(poseStack, submitNodeCollector, renderState.beamTargetPosition.subtract(renderState.beamStartPosition), renderState.beamTexture, renderState.maxBeamLength);
 			poseStack.popPose();
 		}
 	}

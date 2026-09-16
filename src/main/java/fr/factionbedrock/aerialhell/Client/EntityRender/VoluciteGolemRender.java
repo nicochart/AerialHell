@@ -25,7 +25,7 @@ public class VoluciteGolemRender extends MobRenderer<VoluciteGolemEntity, Voluci
     {
         super.extractRenderState(entity, renderState, partialTick);
         renderState.attackTimer = entity.attackTimer;
-        renderState.eyePosition = entity.getEyePosition(partialTick);
+        renderState.beamStartPosition = entity.getEyePosition(partialTick);
     }
 
     @Override public Identifier getTextureLocation(VoluciteGolemRenderState renderState) {return TEXTURE;}

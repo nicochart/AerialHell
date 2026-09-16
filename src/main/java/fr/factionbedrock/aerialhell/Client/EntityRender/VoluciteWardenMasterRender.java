@@ -86,24 +86,26 @@ public class VoluciteWardenMasterRender extends LivingEntityRenderer<VoluciteWar
     {
         super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
 
+        // Récupération de la lumière et de l'overlay de dégâts depuis le state
         int light = renderState.lightCoords;
+        int overlay = OverlayTexture.pack(OverlayTexture.u(this.getWhiteOverlayProgress(renderState)), OverlayTexture.v(renderState.hasRedOverlay));
 
-        renderArmConnections(renderState.leftArmPositions, poseStack, submitNodeCollector, light);
-        renderArmConnections(renderState.rightArmPositions, poseStack, submitNodeCollector, light);
+        renderArmConnections(renderState.leftArmPositions, poseStack, submitNodeCollector, light, overlay);
+        renderArmConnections(renderState.rightArmPositions, poseStack, submitNodeCollector, light, overlay);
     }
 
-    private void renderArmConnections(List<Vec3> positions, PoseStack poseStack, SubmitNodeCollector nodeCollector, int light)
+    private void renderArmConnections(List<Vec3> positions, PoseStack poseStack, SubmitNodeCollector nodeCollector, int light, int overlay)
     {
         for (int i = 0; i < positions.size() - 1; i++)
         {
             @Nullable Vec3 start = positions.get(i);
             @Nullable Vec3 end = positions.get(i + 1);
 
-            if (start != null && end != null) {renderCuboid(poseStack, nodeCollector, start, end, light);}
+            if (start != null && end != null) {renderCuboid(poseStack, nodeCollector, start, end, light, overlay);}
         }
     }
 
-    private void renderCuboid(PoseStack poseStack, SubmitNodeCollector nodeCollector, @NotNull Vec3 start, @NotNull Vec3 end, int light)
+    private void renderCuboid(PoseStack poseStack, SubmitNodeCollector nodeCollector, @NotNull Vec3 start, @NotNull Vec3 end, int light, int overlay)
     {
         Vec3 diff = end.subtract(start);
         float length = (float) diff.length();
@@ -120,28 +122,27 @@ public class VoluciteWardenMasterRender extends LivingEntityRenderer<VoluciteWar
         nodeCollector.submitCustomGeometry(poseStack, BeamRenderHelper.getBeamRenderType(ARM_SEGMENTS_CONNECTION_TEXTURE), (pose, consumer) ->
         {
             float w = ARM_SEGMENTS_CONNECTION_THICKNESS / 2.0F;
-
             float vMax = length;
 
-            addQuad(consumer, pose, -w, w, 0, length, w, w, vMax, light);
-            addQuad(consumer, pose, w, -w, 0, length, -w, -w, vMax, light);
-            addQuad(consumer, pose, -w, -w, 0, length, -w, w, vMax, light);
-            addQuad(consumer, pose, w, w, 0, length, w, -w, vMax, light);
+            addQuad(consumer, pose, -w, w, 0, length, w, w, vMax, light, overlay);
+            addQuad(consumer, pose, w, -w, 0, length, -w, -w, vMax, light, overlay);
+            addQuad(consumer, pose, -w, -w, 0, length, -w, w, vMax, light, overlay);
+            addQuad(consumer, pose, w, w, 0, length, w, -w, vMax, light, overlay);
         });
 
         poseStack.popPose();
     }
 
-    private void addQuad(VertexConsumer consumer, PoseStack.Pose pose, float x1, float x2, float yMin, float yMax, float z1, float z2, float vMax, int light)
+    private void addQuad(VertexConsumer consumer, PoseStack.Pose pose, float x1, float x2, float yMin, float yMax, float z1, float z2, float vMax, int light, int overlay)
     {
-        vertex(consumer, pose, x1, yMin, z1, 0.0F, vMax, light);
-        vertex(consumer, pose, x2, yMin, z2, 1.0F, vMax, light);
-        vertex(consumer, pose, x2, yMax, z2, 1.0F, 0.0F, light);
-        vertex(consumer, pose, x1, yMax, z1, 0.0F, 0.0F, light);
+        vertex(consumer, pose, x1, yMin, z1, 0.0F, vMax, light, overlay);
+        vertex(consumer, pose, x2, yMin, z2, 1.0F, vMax, light, overlay);
+        vertex(consumer, pose, x2, yMax, z2, 1.0F, 0.0F, light, overlay);
+        vertex(consumer, pose, x1, yMax, z1, 0.0F, 0.0F, light, overlay);
     }
 
-    private void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z, float u, float v, int light)
+    private void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z, float u, float v, int light, int overlay)
     {
-        consumer.addVertex(pose, x, y, z).setColor(255, 255, 255, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(pose, 0.0F, 1.0F, 0.0F);
+        consumer.addVertex(pose, x, y, z).setColor(255, 255, 255, 255).setUv(u, v).setOverlay(overlay).setLight(light).setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 }

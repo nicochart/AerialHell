@@ -81,7 +81,9 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     default void onStopBeaming() {this.getSelf().removeEffect(MobEffects.SLOWNESS);}
 
     default float getMaxBeamLength() {return 30.0F;}
-    default Vec3 getBeamStartPos() {return this.getSelf().getEyePosition();}
+    default Vec3 getBeamStartPos() {return this.getBeamStartPos(1.0F);}
+    default Vec3 getBeamStartPos(float partialTick) {return this.getBeamStartPos(this.getSelf().getEyePosition(partialTick), partialTick);}
+    default Vec3 getBeamStartPos(Vec3 eyePos, float partialTick) {return eyePos;} //override this method, adding offset, if you want to move beam start pos
     default Vec3 getBeamTargetPosOffset(Entity target) {return new Vec3(0, target.getBoundingBox().getYsize() * 0.75F, 0);}
 
     @Nullable default ParticleOptions getBeamParticles()

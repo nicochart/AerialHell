@@ -7,7 +7,7 @@ import org.jspecify.annotations.Nullable;
 public class VoluciteGolemRenderState extends AerialHellGolemRenderState
 {
     public Vec3 beamTargetPosition;
-    public Vec3 eyePosition;
+    public Vec3 beamStartPosition;
     public float maxBeamLength;
     @Nullable public Identifier beamTexture;
 }
