@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.Client.EntityModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteWardenRenderState;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteWardenPartRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
-public class VoluciteWardenPartModel extends EntityModel<VoluciteWardenRenderState>
+public class VoluciteWardenPartModel extends EntityModel<VoluciteWardenPartRenderState>
 {
 	@Nullable private final ModelPart arm;
 	@Nullable private final ModelPart leg;
@@ -121,7 +121,7 @@ public class VoluciteWardenPartModel extends EntityModel<VoluciteWardenRenderSta
 		return LayerDefinition.create(meshdefinition, textureWidth, textureHeight);
 	}
 
-	@Override public void setupAnim(VoluciteWardenRenderState renderState)
+	@Override public void setupAnim(VoluciteWardenPartRenderState renderState)
 	{
 		float headPitch = renderState.xRot;
 		float netHeadYaw = renderState.yRot;

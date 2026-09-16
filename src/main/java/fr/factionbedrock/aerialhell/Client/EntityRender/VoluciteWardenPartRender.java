@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.VoluciteWardenPartModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Helper.BeamRenderHelper;
-import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteWardenRenderState;
+import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteWardenPartRenderState;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenChestPartEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenPartEntity;
@@ -18,7 +18,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public class VoluciteWardenPartRender extends MobRenderer<VoluciteWardenPartEntity, VoluciteWardenRenderState, VoluciteWardenPartModel>
+public class VoluciteWardenPartRender extends MobRenderer<VoluciteWardenPartEntity, VoluciteWardenPartRenderState, VoluciteWardenPartModel>
 {
 	private final VoluciteWardenPartModel.Part part;
 
@@ -28,9 +28,9 @@ public class VoluciteWardenPartRender extends MobRenderer<VoluciteWardenPartEnti
         this.part = part;
     }
 
-	@Override public VoluciteWardenRenderState createRenderState() {return new VoluciteWardenRenderState();}
+	@Override public VoluciteWardenPartRenderState createRenderState() {return new VoluciteWardenPartRenderState();}
 
-	@Override public void extractRenderState(VoluciteWardenPartEntity entity, VoluciteWardenRenderState renderState, float partialTick)
+	@Override public void extractRenderState(VoluciteWardenPartEntity entity, VoluciteWardenPartRenderState renderState, float partialTick)
 	{
 		super.extractRenderState(entity, renderState, partialTick);
 		MasterPartEntity master = entity.getMaster();
@@ -63,7 +63,7 @@ public class VoluciteWardenPartRender extends MobRenderer<VoluciteWardenPartEnti
 		//---------------
 	}
 
-	@Override public void submit(VoluciteWardenRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState)
+	@Override public void submit(VoluciteWardenPartRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState)
 	{
 		if (!renderState.shouldRender) {return;}
 		super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
@@ -114,5 +114,5 @@ public class VoluciteWardenPartRender extends MobRenderer<VoluciteWardenPartEnti
 		return Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/volucite_warden/" + part.getName() + variantString + ".png");
 	}
 
-	@Override public Identifier getTextureLocation(VoluciteWardenRenderState renderState) {return renderState.texture;}
+	@Override public Identifier getTextureLocation(VoluciteWardenPartRenderState renderState) {return renderState.texture;}
 }

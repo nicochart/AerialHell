@@ -581,26 +581,24 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		if (nextPhaseType == ArmBeamAttackPhaseType.BEAM)
 		{
 			//enabling beam
-			List<ArmPartInfo> arm = isRightArm ? this.getRightArm() : this.getLeftArm();
-			for (ArmPartInfo armSegmentInfo : arm)
-			{
-				if (armSegmentInfo.getPart() != null && armSegmentInfo.getPart().getSelf() instanceof VoluciteWardenArmEntity armSegment)
-				{
-					armSegment.enableBeam();
-				}
-			}
+			setArmBeam(isRightArm ? this.getRightArm() : this.getLeftArm(), true);
 		}
 
 		if (nextPhaseType == ArmBeamAttackPhaseType.RECOVERY)
 		{
 			//disabling beam
-			List<ArmPartInfo> arm = isRightArm ? this.getRightArm() : this.getLeftArm();
-			for (ArmPartInfo armSegmentInfo : arm)
+			setArmBeam(isRightArm ? this.getRightArm() : this.getLeftArm(), false);
+		}
+	}
+
+	public static void setArmBeam(List<ArmPartInfo> arm, boolean enable)
+	{
+		for (ArmPartInfo armSegmentInfo : arm)
+		{
+			if (armSegmentInfo.getPart() != null && armSegmentInfo.getPart().getSelf() instanceof VoluciteWardenArmEntity armSegment)
 			{
-				if (armSegmentInfo.getPart() != null && armSegmentInfo.getPart().getSelf() instanceof VoluciteWardenArmEntity armSegment)
-				{
-					armSegment.disableBeam();
-				}
+				if (enable) {armSegment.enableBeam();}
+				else {armSegment.disableBeam();}
 			}
 		}
 	}
@@ -613,7 +611,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private Vec3 getRelativePreparePos1(int sideFactor) {return new Vec3(sideFactor * 18.0F, 17.0F, 2.0F);}
 	private Vec3 getRelativePreparePos2(int sideFactor) {return new Vec3(sideFactor * 24.0F, 23.0F, 4.0F);}
 	private Vec3 getRelativePreparePos3(int sideFactor) {return new Vec3(sideFactor * 28.0F, 26.5F, 5.0F);}
-	private Vec3 getRelativeBeamingPos(int sideFactor) {return this.getRelativeWindupPos3(sideFactor);}
+	private Vec3 getRelativeBeamingPos(int sideFactor) {return this.getRelativePreparePos3(sideFactor);}
 	private Vec3 getRelativeBeamRecoveryPos(int sideFactor) {return new Vec3(sideFactor * 9.5F, 5.5F, 0.0F);}
 
 	/* --------------------------------------------------------------------------- */

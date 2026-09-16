@@ -53,7 +53,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.FIRE_SPIRIT.get(), ElementSpiritRender::new);
         event.registerEntityRenderer(AerialHellEntities.ELECTRO_SPIRIT.get(), ElementSpiritRender::new);
         event.registerEntityRenderer(AerialHellEntities.CHAINED_GOD.get(), ChainedGodRender::new);
-        event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN.get(), EmptyRender::new);
+        event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN.get(), VoluciteWardenMasterRender::new);
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_ARM.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.ARM));
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_LEG.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.LEG));
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_PELVIS.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.PELVIS));

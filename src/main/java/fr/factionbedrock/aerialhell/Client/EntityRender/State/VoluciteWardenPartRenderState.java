@@ -5,7 +5,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
-public class VoluciteWardenRenderState extends LivingEntityRenderState
+public class VoluciteWardenPartRenderState extends LivingEntityRenderState
 {
     public Identifier texture;
     public int walkAnimationDirection;

@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden;
 
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.ArmBeamAttack.ArmBeamAttackPhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.ArmBeamAttack.ArmBeamAttackPhaseType;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenArmEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import net.minecraft.util.Mth;
@@ -120,6 +121,8 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
     public void skipToPhaseType(ArmBeamAttackPhaseType phaseType)
     {
         if (this.getCurrentPhase().getType() == phaseType) {return;}
+        //disabling beam
+        if (phaseType != ArmBeamAttackPhaseType.BEAM) {VoluciteWardenEntity.setArmBeam(this.isRightArm ? this.goalOwner.getRightArm() : this.goalOwner.getLeftArm(), false);}
 
         int previousPhaseIndex = this.phaseIndex;
         int newPhaseIndex = this.getNextPhaseIndex(previousPhaseIndex);
