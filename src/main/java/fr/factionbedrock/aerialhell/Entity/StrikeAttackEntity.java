@@ -33,7 +33,7 @@ public interface StrikeAttackEntity extends BaseMobEntityInterface
         this.getLevel().broadcastEntityEvent(this.getSelf(), (byte) 68);
     }
 
-    default boolean shouldTrigger() {return this.canUseStrikeAttack();} //return false if you want the goal to only be active when manually triggered
+    default boolean shouldTriggerStrikeAttack() {return this.canUseStrikeAttack();} //return false if you want the goal to only be active when manually triggered
 
     default void onStrikePhaseStartFinishing(Vec3 unrotatedRelativeTargetPos, StrikeAttackPhaseType currentPhaseType) //when entity reaches target pos
     {

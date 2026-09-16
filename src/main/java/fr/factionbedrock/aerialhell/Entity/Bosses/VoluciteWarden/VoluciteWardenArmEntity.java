@@ -18,7 +18,6 @@ import net.minecraft.world.level.Level;
 public class VoluciteWardenArmEntity extends VoluciteWardenPartEntity implements BeamAttackEntity
 {
     /* -- BeamAttackEntity fields -- */
-    public static final float MAX_BEAM_LENGTH = 30.0F;
     public static final int BEAMING_LOAD_DURATION = 35;
     public static final int BEAMING_OVERHEAT_DURATION = 60;
     public static final int BEAMING_TOTAL_DURATION = 260;
@@ -28,6 +27,8 @@ public class VoluciteWardenArmEntity extends VoluciteWardenPartEntity implements
     private static final EntityDataAccessor<Boolean> BEAM_TARGET_POS_NEEDS_SYNC = SynchedEntityData.defineId(VoluciteWardenArmEntity.class, EntityDataSerializers.BOOLEAN);
     private final BeamAttackEntityInfo BEAM_ATTACK_ENTITY_INFO = new BeamAttackEntityInfo(ATTACK_TARGET_ID, BEAMING_PHASE, BEAM_TARGET_POS_NEEDS_SYNC);
     /* ----------------------------- */
+
+    private VoluciteWardenArmBeamAttackGoal BEAM_ATTACK_GOAL;
 
     public VoluciteWardenArmEntity(EntityType<? extends VoluciteWardenPartEntity> type, Level level) {super(type, level);}
 
@@ -43,9 +44,10 @@ public class VoluciteWardenArmEntity extends VoluciteWardenPartEntity implements
 
     @Override protected void registerGoals()
     {
+        this.BEAM_ATTACK_GOAL = new VoluciteWardenArmBeamAttackGoal(this, BEAMING_LOAD_DURATION, BEAMING_OVERHEAT_DURATION, BEAMING_TOTAL_DURATION, BEAMING_COOLDOWN);
         //this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         super.registerGoals();
-        this.goalSelector.addGoal(4, new BeamAttackGoal(this, BEAMING_LOAD_DURATION, BEAMING_OVERHEAT_DURATION, BEAMING_TOTAL_DURATION, BEAMING_COOLDOWN));
+        this.goalSelector.addGoal(4, BEAM_ATTACK_GOAL);
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
@@ -70,5 +72,22 @@ public class VoluciteWardenArmEntity extends VoluciteWardenPartEntity implements
     @Override public boolean isBeamSilent() {return false;}
 
     /* ---------- Warden arm beam specificities ---------- */
+    public void enableBeam() {if (this.BEAM_ATTACK_GOAL != null) {this.BEAM_ATTACK_GOAL.enabled = true;}}
+    public void disableBeam() {if (this.BEAM_ATTACK_GOAL != null) {this.BEAM_ATTACK_GOAL.enabled = false;}}
+
     @Override public float getMaxBeamLength() {return 50.0F;}
+
+    public static class VoluciteWardenArmBeamAttackGoal extends BeamAttackGoal
+    {
+        public boolean enabled;
+
+        public VoluciteWardenArmBeamAttackGoal(BeamAttackEntity entity, int beamingLoadDuration, int beamingOverheatDuration, int beamingTotalDuration, int cooldownDuration)
+        {
+            super(entity, beamingLoadDuration, beamingOverheatDuration, beamingTotalDuration, cooldownDuration);
+            this.enabled = false;
+        }
+
+        @Override public boolean canUse() {return this.enabled && super.canUse();}
+        @Override public boolean canContinueToUse() {return this.enabled && super.canContinueToUse();}
+    }
 }

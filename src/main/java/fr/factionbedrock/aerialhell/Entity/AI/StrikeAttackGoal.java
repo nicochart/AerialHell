@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 public class StrikeAttackGoal extends Goal
 {
     public final StrikeAttackEntity goalOwner;
-    private final float distanceOffsetTolerance;
+    private final float distanceOffsetTolerance; //used to avoid float imprecision. goal can skip to next phase only if distance to target < distanceOffsetTolerance for some (parametrized) ticks
     private int phaseIndex;
     private Vec3 cachedUnrotatedRelativePos;
     private final StrikeInfo strikeInfo;
@@ -37,7 +37,7 @@ public class StrikeAttackGoal extends Goal
 
     @Override public boolean canUse()
     {
-        if (this.goalOwner.canUseStrikeAttack() && this.goalOwner.shouldTrigger()) {this.trigger();}
+        if (this.goalOwner.canUseStrikeAttack() && this.goalOwner.shouldTriggerStrikeAttack()) {this.trigger();}
         return this.isActive();
     }
 
@@ -169,12 +169,12 @@ public class StrikeAttackGoal extends Goal
     {
         Vec3 previousURPos = this.getCachedUnrotatedRelativePos();
         StrikeAttackPhase phase = this.getCurrentPhase();
-        Vec3 newUnrotatedRelativePos = calculateArmUnrotatedRelativePosDuringStrike(previousURPos, phase.getUnrotatedRelativeTargetPos(), phase.getSpeed());
+        Vec3 newUnrotatedRelativePos = calculateNewUnrotatedRelativePosDuringStrike(previousURPos, phase.getUnrotatedRelativeTargetPos(), phase.getSpeed());
         this.cachedUnrotatedRelativePos = newUnrotatedRelativePos;
         return newUnrotatedRelativePos;
     }
 
-    public static Vec3 calculateArmUnrotatedRelativePosDuringStrike(Vec3 unrotatedRelativeCurrentPos, Vec3 unrotatedRelativeTargetPos, double maxSpeed)
+    public static Vec3 calculateNewUnrotatedRelativePosDuringStrike(Vec3 unrotatedRelativeCurrentPos, Vec3 unrotatedRelativeTargetPos, double maxSpeed)
     {
         Vec3 direction = unrotatedRelativeTargetPos.subtract(unrotatedRelativeCurrentPos);
         double distance = direction.length();
