@@ -38,6 +38,8 @@ public class VoluciteWardenMasterRender extends LivingEntityRenderer<VoluciteWar
     @Override @NotNull public Identifier getTextureLocation(VoluciteWardenMasterRenderState renderState) {return MissingTextureAtlasSprite.getLocation();}
     //-------------------------------
 
+    @Override protected void submitNameDisplay(VoluciteWardenMasterRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {}
+
     @Override public VoluciteWardenMasterRenderState createRenderState() {return new VoluciteWardenMasterRenderState();}
 
     @Override public void extractRenderState(VoluciteWardenEntity entity, VoluciteWardenMasterRenderState state, float partialTick)
