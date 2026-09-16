@@ -99,7 +99,7 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     default void makeBeamStartSound(int currentBeamingTime) {this.makeBeamSound(true, currentBeamingTime);}
     default void makeBeamSound(int currentBeamingTime) {this.makeBeamSound(false, currentBeamingTime);}
     default void makeBeamSound(boolean beamStart, int currentBeamingTime) {if (this.shouldPlayBeamSound(currentBeamingTime)) {this.playBeamSound(beamStart);}}
-    default void playBeamSound(boolean start) {this.getLevel().playSound(null, this.getX(), this.getY(), this.getZ(), this.getBeamSound(start), this.getSelf().getSoundSource(), 0.5F, 1.0F);}
+    default void playBeamSound(boolean start) {this.getLevel().playSound(null, this.getX(), this.getY(), this.getZ(), this.getBeamSound(start), this.getSelf().getSoundSource(), 0.078125F * this.getMaxBeamLength(), 1.0F);} //volume = 1.25F * this.getMaxBeamLength() / 16.0F because this.getMaxBeamLength() / 16.0F = can be hear up to laser max length. adding 25%
     default boolean shouldPlayBeamSound(int currentBeamingTime) {return !this.isBeamSilent() && currentBeamingTime % this.getBeamSoundLength() == 0;}
 
     default SyncedTargetEntityInfo getSyncedTargetEntityInfo() {return this.getBeamAttackEntityInfo();}

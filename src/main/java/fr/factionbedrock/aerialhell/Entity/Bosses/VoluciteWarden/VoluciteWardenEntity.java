@@ -348,7 +348,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
     {
 		return Monster.createMonsterAttributes()
 				.add(Attributes.MAX_HEALTH, 1400.0D)
-				.add(Attributes.FOLLOW_RANGE, 32.0D)
+				.add(Attributes.FOLLOW_RANGE, 64.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.25D)
 				.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 				.add(Attributes.ATTACK_KNOCKBACK, 5.0D)
