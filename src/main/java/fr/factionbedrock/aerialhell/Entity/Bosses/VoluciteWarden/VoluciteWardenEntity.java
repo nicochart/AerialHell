@@ -597,7 +597,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		{
 			if (armSegmentInfo.getPart() != null && armSegmentInfo.getPart().getSelf() instanceof VoluciteWardenArmSegmentEntity armSegment)
 			{
-				if (enable) {armSegment.enableBeam();}
+				if (enable) {armSegment.queueBeamEnable(armSegmentInfo.segmentIndex * 5);}
 				else {armSegment.disableBeam();}
 			}
 		}

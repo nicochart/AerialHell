@@ -17,6 +17,8 @@ import net.minecraft.world.level.Level;
 
 public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity implements BeamAttackEntity
 {
+    private int beamEnableDelay = -1;
+
     /* -- BeamAttackEntity fields -- */
     public static final int BEAMING_LOAD_DURATION = 40;
     public static final int BEAMING_OVERHEAT_DURATION = 140;
@@ -60,6 +62,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
     @Override public void onPartDeath()
     {
         this.setBeamingPhaseToOff();
+        this.disableBeam(); //specific to volucite warden
     }
 
     /* ---------- BeamAttackEntity : Interface implementation ---------- */
@@ -73,8 +76,34 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
 
     /* ---------- Warden arm beam specificities ---------- */
 
-    public void enableBeam() {if (this.BEAM_ATTACK_GOAL != null) {this.BEAM_ATTACK_GOAL.enabled = true;}}
-    public void disableBeam() {if (this.BEAM_ATTACK_GOAL != null) {this.BEAM_ATTACK_GOAL.enabled = false;}}
+    @Override public void beamAttackTick()
+    {
+        BeamAttackEntity.super.beamAttackTick();
+        //Warden arm beam specificities (delay)
+        if (this.beamEnableDelay > 0) {this.beamEnableDelay--;}
+        else if (this.beamEnableDelay == 0)
+        {
+            this.enableBeam();
+            this.beamEnableDelay = -1;
+        }
+    }
+
+    public void queueBeamEnable(int delayTicks)
+    {
+        if (delayTicks <= 0) {this.enableBeam();}
+        else {this.beamEnableDelay = delayTicks;}
+    }
+
+    public void enableBeam()
+    {
+        if (this.BEAM_ATTACK_GOAL != null) {this.BEAM_ATTACK_GOAL.enabled = true;}
+    }
+
+    public void disableBeam()
+    {
+        if (this.BEAM_ATTACK_GOAL != null) {this.BEAM_ATTACK_GOAL.enabled = false;}
+        this.beamEnableDelay = -1;
+    }
 
     @Override public float getMaxBeamLength() {return 50.0F;}
 
