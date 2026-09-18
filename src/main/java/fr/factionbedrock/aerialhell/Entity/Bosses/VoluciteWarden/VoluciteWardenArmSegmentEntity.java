@@ -3,11 +3,10 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 import fr.factionbedrock.aerialhell.Entity.AI.BeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +19,8 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
     private int beamEnableDelay = -1;
 
     /* -- BeamAttackEntity fields -- */
-    public static final int BEAMING_LOAD_DURATION = 40;
+    public static final int MAX_BEAM_LENGTH = 50;
+    public static final int BEAMING_LOAD_DURATION = 35;
     public static final int BEAMING_OVERHEAT_DURATION = 140;
     public static final int BEAMING_TOTAL_DURATION = 200;
     public static final int BEAMING_COOLDOWN = 20;
@@ -70,9 +70,11 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
     @Override public boolean canBeamHitEntity(LivingEntity entity) {return this.getMaster() != null && !this.getMaster().is(entity);}
     @Override public Entity getImmediateBeamSource() {return this;}
     @Override public Entity getTrueBeamSource() {return this.getMaster() != null ? this.getMaster().getSelf() : this;}
-    @Override public void onStartBeaming(int beamingDuration) {if (this.getMaster() != null) {this.getMaster().getSelf().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, beamingDuration, 2, false, false));}}
-    @Override public void onStopBeaming() {if (this.getMaster() != null) {this.getMaster().getSelf().removeEffect(MobEffects.SLOWNESS);}}
-    @Override public boolean isBeamSilent() {return false;}
+
+    //specific to arm segment
+    @Override public void onStartBeaming(int beamingDuration) {}
+    @Override public void onStopBeaming() {}
+    @Override public boolean isBeamSilent() {return true;}
 
     /* ---------- Warden arm beam specificities ---------- */
 
@@ -105,7 +107,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         this.beamEnableDelay = -1;
     }
 
-    @Override public float getMaxBeamLength() {return 50.0F;}
+    @Override public float getMaxBeamLength() {return MAX_BEAM_LENGTH;}
 
     public static class VoluciteWardenArmBeamAttackGoal extends BeamAttackGoal
     {
@@ -115,6 +117,23 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         {
             super(entity, beamingLoadDuration, beamingOverheatDuration, beamingTotalDuration, cooldownDuration);
             this.enabled = false;
+        }
+
+        //redirect beam sound to master
+        @Override public void makeBeamSound()
+        {
+            if (this.getGoalOwner() instanceof PartEntity armSegment && armSegment.getMaster() != null && armSegment.getMaster().getSelf() instanceof VoluciteWardenEntity master)
+            {
+                master.makeBeamSound();
+            }
+        }
+
+        @Override public void makeBeamStartSound()
+        {
+            if (this.getGoalOwner() instanceof PartEntity armSegment && armSegment.getMaster() != null && armSegment.getMaster().getSelf() instanceof VoluciteWardenEntity master)
+            {
+                master.makeBeamStartSound();
+            }
         }
 
         @Override public boolean canUse() {return this.enabled && super.canUse();}

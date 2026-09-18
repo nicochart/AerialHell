@@ -486,6 +486,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ---------------------------------------------------- */
 	/* ---------- Arm Beam Attack : Goal methods ---------- */
 	/* ---------------------------------------------------- */
+	private int ticksSinceLastArmBeamSound = getBeamSoundLength();
+
 	private int inactiveRightArmBeamAttackTicks;
 	private int inactiveLeftArmBeamAttackTicks;
 	private int minimumArmBeamCooldown = 40;
@@ -500,6 +502,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			this.rightArmBeamCooldown = this.getRandom().nextInt(this.armBeamCooldownMaxOffset);
 			this.leftArmBeamCooldown = this.getRandom().nextInt(this.armBeamCooldownMaxOffset);
 		}
+
+		this.ticksSinceLastArmBeamSound++;
 
 		if (!this.level().isClientSide())
 		{
@@ -591,7 +595,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		}
 	}
 
-	public static void setArmBeam(List<ArmPartInfo> arm, boolean enable)
+	public void setArmBeam(boolean isRightArm, boolean enable)
+	{
+		setArmBeam(isRightArm ? this.getRightArm() : this.getLeftArm(), enable);
+	}
+
+	public void setArmBeam(List<ArmPartInfo> arm, boolean enable)
 	{
 		for (ArmPartInfo armSegmentInfo : arm)
 		{
@@ -602,6 +611,19 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			}
 		}
 	}
+
+	//copy of methods from BeamAttackEntity, edited for arm segments. arms segments beam sound is emitted from master to avoid multiple beam sound to play at once
+	public void makeBeamStartSound() {this.makeBeamSound(true);}
+	public void makeBeamSound() {this.makeBeamSound(false);}
+	public void makeBeamSound(boolean beamStart) {if (this.shouldPlayBeamSound()) {this.playBeamSound(beamStart);}}
+	public void playBeamSound(boolean start) //volume = 1.5F * this.getMaxBeamLength() / 16.0F because this.getMaxBeamLength() / 16.0F = can be hear up to laser max length. adding 50%
+	{
+		this.ticksSinceLastArmBeamSound = 0;
+		this.getLevel().playSound(null, this.getX(), this.getY(), this.getZ(), this.getArmBeamSound(start), this.getSelf().getSoundSource(), 0.09375F * VoluciteWardenArmSegmentEntity.MAX_BEAM_LENGTH, 1.0F);
+	}
+	public boolean shouldPlayBeamSound() {return this.ticksSinceLastArmBeamSound >= this.getBeamSoundLength();}
+	public int getBeamSoundLength() {return 35;}
+	public SoundEvent getArmBeamSound(boolean beamStart) {return beamStart ? AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get() : AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get();}
 
 	/* ---------------------------------------------------- */
 	/* ---------------------------------------------------- */

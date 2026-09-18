@@ -38,6 +38,8 @@ public class BeamAttackGoal extends Goal
         //this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK)); //can't disable move and look flags because they are needed to avoid parasite head position change by move controls.. will need to separate head and body.
     }
 
+    public BeamAttackEntity getGoalOwner() {return this.entity;}
+
     @Override public boolean canUse()
     {
         if (this.beamingCooldown > 0) {this.beamingCooldown--; return false;}
@@ -63,7 +65,7 @@ public class BeamAttackGoal extends Goal
             this.entity.getLookControl().setLookAt(livingentity, 90.0F, 90.0F);
         }
 
-        this.entity.makeBeamStartSound(this.currentBeamingTime);
+        this.makeBeamStartSound();
         this.entity.setNeedsSync();
         this.entity.setBeamingTargetPosNeedsSync();
     }
@@ -85,7 +87,7 @@ public class BeamAttackGoal extends Goal
     @Override public void tick()
     {
         ++this.currentBeamingTime;
-        this.entity.makeBeamSound(this.currentBeamingTime);
+        this.makeBeamSound();
         LivingEntity livingentity = this.entity.getBeamAttackTarget();
         if (livingentity != null)
         {
@@ -122,6 +124,16 @@ public class BeamAttackGoal extends Goal
                 super.tick();
             }
         }
+    }
+
+    public void makeBeamSound()
+    {
+        this.entity.makeBeamSound(this.currentBeamingTime);
+    }
+
+    public void makeBeamStartSound()
+    {
+        this.entity.makeBeamStartSound(this.currentBeamingTime);
     }
 
     public void hitEntities(float damage)

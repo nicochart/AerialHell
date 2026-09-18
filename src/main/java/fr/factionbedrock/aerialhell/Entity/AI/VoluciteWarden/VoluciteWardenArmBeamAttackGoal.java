@@ -121,7 +121,7 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
     {
         if (this.getCurrentPhase().getType() == phaseType) {return;}
         //disabling beam
-        if (phaseType != ArmBeamAttackPhaseType.BEAM) {VoluciteWardenEntity.setArmBeam(this.isRightArm ? this.goalOwner.getRightArm() : this.goalOwner.getLeftArm(), false);}
+        if (phaseType != ArmBeamAttackPhaseType.BEAM) {this.goalOwner.setArmBeam(this.isRightArm, false);}
 
         int previousPhaseIndex = this.phaseIndex;
         int newPhaseIndex = this.getNextPhaseIndex(previousPhaseIndex);
