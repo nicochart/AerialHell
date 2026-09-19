@@ -483,6 +483,18 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
 	}
 
+	private boolean isArmActive(List<ArmPartInfo> arm)
+	{
+		if (arm.getFirst().isRightArm)
+		{
+			return this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive() || this.RIGHT_ARM_BEAM_ATTACK_GOAL.isActive();
+		}
+		else
+		{
+			return this.LEFT_ARM_STRIKE_ATTACK_GOAL.isActive() || this.LEFT_ARM_BEAM_ATTACK_GOAL.isActive();
+		}
+	}
+
 	/* ---------------------------------------------------- */
 	/* ---------- Arm Beam Attack : Goal methods ---------- */
 	/* ---------------------------------------------------- */
@@ -548,7 +560,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		boolean targetNotNull = this.getTarget() != null;
 		boolean timerCondition = armToTrigger == this.RIGHT_ARM_BEAM_ATTACK_GOAL ? this.inactiveRightArmBeamAttackTicks > this.rightArmBeamCooldown : this.inactiveLeftArmBeamAttackTicks > this.leftArmBeamCooldown;
 		boolean otherIsNotInPreparePhase = armToTrigger == this.RIGHT_ARM_BEAM_ATTACK_GOAL ? this.LEFT_ARM_BEAM_ATTACK_GOAL.getPhaseType() != ArmBeamAttackPhaseType.PREPARE : this.RIGHT_ARM_BEAM_ATTACK_GOAL.getPhaseType() != ArmBeamAttackPhaseType.PREPARE;
-		return targetNotNull && timerCondition && otherIsNotInPreparePhase;
+		boolean selfIsNotAlreadyAttacking = !this.isArmActive(armToTrigger == this.RIGHT_ARM_BEAM_ATTACK_GOAL ? this.getRightArm() : this.getLeftArm());
+		return targetNotNull && timerCondition && otherIsNotInPreparePhase && selfIsNotAlreadyAttacking;
 	}
 
 	private final List<ArmBeamAttackPhase> leftArmBeamAttackSequence = List.of(
@@ -719,7 +732,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		boolean targetNotNull = this.getTarget() != null;
 		boolean timerCondition = armToTrigger == this.RIGHT_ARM_STRIKE_ATTACK_GOAL ? this.inactiveRightArmStrikeAttackTicks > this.rightArmStrikeCooldown : this.inactiveLeftArmStrikeAttackTicks > this.leftArmStrikeCooldown;
 		boolean otherIsNotInWindupPhase = armToTrigger == this.RIGHT_ARM_STRIKE_ATTACK_GOAL ? this.LEFT_ARM_STRIKE_ATTACK_GOAL.getPhaseType() != StrikeAttackPhaseType.WINDUP : this.RIGHT_ARM_STRIKE_ATTACK_GOAL.getPhaseType() != StrikeAttackPhaseType.WINDUP;
-		return targetNotNull && timerCondition && otherIsNotInWindupPhase;
+		boolean selfIsNotAlreadyAttacking = !this.isArmActive(armToTrigger == this.RIGHT_ARM_STRIKE_ATTACK_GOAL ? this.getRightArm() : this.getLeftArm());
+		return targetNotNull && timerCondition && otherIsNotInWindupPhase && selfIsNotAlreadyAttacking;
 	}
 
 	private final List<StrikeAttackPhase> leftArmStrikeAttackSequence = List.of(
@@ -755,7 +769,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		else {return this.getDefaultStrikeAttackSequence();}
 	}
 
-	@Override public boolean canUseStrikeAttack() {return false;}//TODO this.getTarget() != null;}
+	@Override public boolean canUseStrikeAttack() {return this.getTarget() != null;}
 
 	@Override public boolean shouldTriggerStrikeAttack() {return false;}
 
