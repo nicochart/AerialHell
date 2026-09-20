@@ -18,6 +18,7 @@ import net.minecraft.world.phys.Vec3;
 public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity implements BeamAttackEntity
 {
     private int beamEnableDelay = -1;
+    private int beamEnabledTicks = 0;
 
     /* -- BeamAttackEntity fields -- */
     public static final int MAX_BEAM_LENGTH = 50;
@@ -80,8 +81,12 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
     /* ---------- Warden arm beam specificities ---------- */
 
     //custom calculation to make a circle around x axis (relative to master)
+    //the beam target position rotates around the x-axis centered on the master, and beamEnabledTicks is used for angle calculation.
+    //below setting allows (each time the beam is activated) to follow a semicircle starting horizontally from the back of the master to the front (horizontally).
     @Override public void updateBeamPositions()
     {
+        boolean lowHalfCircle = true;
+
         Vec3 beamTargetPos = this.getBeamTargetPos();
         Vec3 beamEndPos = this.getBeamEndPos();
 
@@ -100,10 +105,8 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         Vec3 rightVec = forwardVec.cross(new Vec3(0, 1, 0)).normalize();
         Vec3 upVec = rightVec.cross(forwardVec).normalize();
 
-        int ticks = this.getSelf().tickCount;
-
-        double rotationSpeed = 0.01D;
-        double beamAngle = ticks * rotationSpeed;
+        double rotationSpeed = 0.018D;
+        double beamAngle = (lowHalfCircle ? Math.PI : 0) + this.beamEnabledTicks * rotationSpeed;
         double radius = 8.0D;
 
         Vec3 patternTargetPos = startPos.add(forwardVec.scale(Math.cos(beamAngle) * radius)).add(upVec.scale(Math.sin(beamAngle) * radius));
@@ -121,6 +124,9 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
     @Override public void beamAttackTick()
     {
         BeamAttackEntity.super.beamAttackTick();
+        if (this.isBeaming()) {this.beamEnabledTicks++;}
+        else {this.beamEnabledTicks = 0;}
+
         //Warden arm beam specificities (delay)
         if (this.beamEnableDelay > 0) {this.beamEnableDelay--;}
         else if (this.beamEnableDelay == 0)
@@ -145,6 +151,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
     {
         if (this.BEAM_ATTACK_GOAL != null) {this.BEAM_ATTACK_GOAL.enabled = false;}
         this.beamEnableDelay = -1;
+        this.beamEnabledTicks = 0;
     }
 
     @Override public float getMaxBeamLength() {return MAX_BEAM_LENGTH;}
