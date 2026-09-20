@@ -182,7 +182,7 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         this.setBeamTargetPos(prevBeamTargetPos.add(velocity.length() < maxVelocity ? velocity : velocity.normalize().scale(maxVelocity)));
     }
 
-    private void updateBeamEndPos(Vec3 beamTargetPos, float maxDistance)
+    default void updateBeamEndPos(Vec3 beamTargetPos, float maxDistance)
     {
         Vec3 beamStart = this.getBeamStartPos();
         Vec3 direction = beamTargetPos.subtract(beamStart).normalize();

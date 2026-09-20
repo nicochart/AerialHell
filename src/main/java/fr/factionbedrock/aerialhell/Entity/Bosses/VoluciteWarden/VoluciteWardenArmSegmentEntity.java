@@ -13,6 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity implements BeamAttackEntity
 {
@@ -77,6 +78,45 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
     @Override public boolean isBeamSilent() {return true;}
 
     /* ---------- Warden arm beam specificities ---------- */
+
+    //custom calculation to make a circle around x axis (relative to master)
+    @Override public void updateBeamPositions()
+    {
+        Vec3 beamTargetPos = this.getBeamTargetPos();
+        Vec3 beamEndPos = this.getBeamEndPos();
+
+        if (beamTargetPos == null) {return;}
+
+        this.setPrevBeamTargetPos(beamTargetPos);
+        this.setPrevBeamEndPos(beamEndPos);
+
+        Vec3 startPos = this.getBeamStartPos();
+        LivingEntity referenceEntity = this.getMaster() != null ? this.getMaster().getSelf() : this.getSelf();
+
+        float yaw = referenceEntity.yBodyRot;
+        float pitch = 0.0F;
+
+        Vec3 forwardVec = Vec3.directionFromRotation(pitch, yaw);
+        Vec3 rightVec = forwardVec.cross(new Vec3(0, 1, 0)).normalize();
+        Vec3 upVec = rightVec.cross(forwardVec).normalize();
+
+        int ticks = this.getSelf().tickCount;
+
+        double rotationSpeed = 0.01D;
+        double beamAngle = ticks * rotationSpeed;
+        double radius = 8.0D;
+
+        Vec3 patternTargetPos = startPos.add(forwardVec.scale(Math.cos(beamAngle) * radius)).add(upVec.scale(Math.sin(beamAngle) * radius));
+
+        // ------- Shaking -------
+        double shakeAmplitude = 1.0D;
+        Vec3 shake = rightVec.scale(Math.cos(beamAngle * 0.8D) * shakeAmplitude).add(upVec.scale(Math.sin(beamAngle * 0.7D) * shakeAmplitude));
+        patternTargetPos = patternTargetPos.add(shake);
+        // -----------------------
+
+        this.setBeamTargetPos(patternTargetPos);
+        this.updateBeamEndPos(this.getBeamTargetPos(), this.getMaxBeamLength());
+    }
 
     @Override public void beamAttackTick()
     {
