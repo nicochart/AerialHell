@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.BeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
+import fr.factionbedrock.aerialhell.Util.DebugHelper;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity implements BeamAttackEntity
 {
@@ -52,7 +54,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         //this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         super.registerGoals();
         this.goalSelector.addGoal(4, BEAM_ATTACK_GOAL);
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        //this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
     @Override public void tick()
@@ -80,16 +82,27 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
 
     /* ---------- Warden arm beam specificities ---------- */
 
-    //custom calculation to make a circle around x axis (relative to master)
-    //the beam target position rotates around the x-axis centered on the master, and beamEnabledTicks is used for angle calculation.
-    //below setting allows (each time the beam is activated) to follow a semicircle starting horizontally from the back of the master to the front (horizontally).
     @Override public void updateBeamPositions()
     {
+        //default behavior if there is a target
+        LivingEntity target = this.getSyncedTarget();
+        if (target != null && target.isAlive())
+        {
+            BeamAttackEntity.super.updateBeamPositions();
+            return;
+        }
+
+        //fallback (if no available target)
+        //custom calculation to make a circle around x axis (relative to master)
+        //the beam target position rotates around the x-axis centered on the master, and beamEnabledTicks is used for angle calculation.
+        //below setting allows (each time the beam is activated) to follow a semicircle starting horizontally from the back of the master to the front (horizontally).
         boolean lowHalfCircle = true;
 
         Vec3 beamTargetPos = this.getBeamTargetPos();
         Vec3 beamEndPos = this.getBeamEndPos();
 
+        //TODO fix initialisation problem (beamTargetPos is never initialized in super beamAttackTick because target is null)
+        //+fix beam jumping from pos to another pos on target change (I think it's either due to "beamingTargetPosNeedsSync" or "needsInitialization")
         if (beamTargetPos == null) {return;}
 
         this.setPrevBeamTargetPos(beamTargetPos);
@@ -124,10 +137,36 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
     @Override public void beamAttackTick()
     {
         BeamAttackEntity.super.beamAttackTick();
-        if (this.isBeaming()) {this.beamEnabledTicks++;}
-        else {this.beamEnabledTicks = 0;}
 
-        //Warden arm beam specificities (delay)
+        //target evaluation
+        if (this.isBeaming())
+        {
+            this.beamEnabledTicks++;
+
+            if (!this.level().isClientSide())
+            {
+                LivingEntity currentTarget = this.getSyncedTarget();
+
+                if (this.getMaster() != null && this.getMaster().getSelf() instanceof VoluciteWardenEntity master)
+                {
+                    //master evaluate current target (and maybe assign a new target)
+                    LivingEntity assignedTarget = master.evaluateSegmentTarget(this, currentTarget);
+                    if (assignedTarget != currentTarget) {this.setTarget(assignedTarget);}
+                }
+                else
+                {
+                    //security if part is detached from master
+                    this.disableBeam();
+                }
+            }
+        }
+        else
+        {
+            this.beamEnabledTicks = 0;
+            if (!this.level().isClientSide()) {this.setTarget(null);}
+        }
+
+        //delay after activation
         if (this.beamEnableDelay > 0) {this.beamEnableDelay--;}
         else if (this.beamEnableDelay == 0)
         {
@@ -183,7 +222,12 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
             }
         }
 
-        @Override public boolean canUse() {return this.enabled && super.canUse();}
-        @Override public boolean canContinueToUse() {return this.enabled && super.canContinueToUse();}
+        @Override public boolean canUse()
+        {
+            if (!this.decreaseAndCheckCooldown()) {return false;}
+            return this.enabled; //&& super.canUse();} currently ignoring target condition because beam can do a pattern instead of focusing a living entity
+        }
+
+        @Override public boolean canContinueToUse() {return this.enabled;} // && super.canContinueToUse();} currently ignoring target condition because beam can do a pattern instead of focusing a living entity
     }
 }

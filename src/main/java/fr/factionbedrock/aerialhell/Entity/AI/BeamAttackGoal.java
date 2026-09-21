@@ -42,7 +42,7 @@ public class BeamAttackGoal extends Goal
 
     @Override public boolean canUse()
     {
-        if (this.beamingCooldown > 0) {this.beamingCooldown--; return false;}
+        if (!this.decreaseAndCheckCooldown()) {return false;}
         LivingEntity target = this.entity.getTarget();
         return target != null && target.isAlive() && this.entity.getSelf().distanceToSqr(target) <= this.entity.getMaxBeamLength() * this.entity.getMaxBeamLength();
     }
@@ -51,6 +51,14 @@ public class BeamAttackGoal extends Goal
     {
         LivingEntity target = this.entity.getTarget();
         return super.canContinueToUse() && (target != null && this.entity.getSelf().distanceToSqr(target) <= this.entity.getMaxBeamLength() * this.entity.getMaxBeamLength());
+    }
+
+    //if beam is under cooldown : decreases the cooldown and return false
+    //else : return true
+    public boolean decreaseAndCheckCooldown()
+    {
+        if (this.beamingCooldown > 0) {this.beamingCooldown--; return false;}
+        return true;
     }
 
     @Override public void start()
@@ -88,41 +96,37 @@ public class BeamAttackGoal extends Goal
     {
         ++this.currentBeamingTime;
         this.makeBeamSound();
-        LivingEntity livingentity = this.entity.getBeamAttackTarget();
-        if (livingentity != null)
+        Vec3 beamTargetPos = this.entity.getBeamTargetPos();
+        if (beamTargetPos == null)
         {
-            Vec3 beamTargetPos = this.entity.getBeamTargetPos();
-            if (beamTargetPos == null)
-            {
-                //search new target ?
-            }
-            else
-            {
-                this.entity.getLookControl().setLookAt(beamTargetPos.x, beamTargetPos.y, beamTargetPos.z, 90.0F, 90.0F);
-                float hardDifficultyDamageBonus = this.entity.getLevel().getDifficulty() == Difficulty.HARD ? 2.0F : 0.0F;
+            //search new target ?
+        }
+        else
+        {
+            this.entity.getLookControl().setLookAt(beamTargetPos.x, beamTargetPos.y, beamTargetPos.z, 90.0F, 90.0F);
+            float hardDifficultyDamageBonus = this.entity.getLevel().getDifficulty() == Difficulty.HARD ? 2.0F : 0.0F;
 
-                if (this.currentBeamingTime < this.beamingLoadDuration)
-                {
-                    //beam loading
-                }
-                else if (this.currentBeamingTime < this.beamingTotalDuration - this.beamingOverheatDuration)
-                {
-                    //normal power
-                    if (!this.entity.isBeamingNormalPhase()) {this.entity.setBeamingPhaseToNormal();}
-                    this.hitEntities(4.0F + hardDifficultyDamageBonus);
-                }
-                else if (this.currentBeamingTime < this.beamingTotalDuration)
-                {
-                    //full power
-                    if (!this.entity.isBeamingOverheatPhase()) {this.entity.setBeamingPhaseToOverheat();}
-                    this.hitEntities(6.0F + hardDifficultyDamageBonus);
-                }
-                else //if (this.currentBeamingTime >= this.beamingDuration)
-                {
-                    this.stop();
-                }
-                super.tick();
+            if (this.currentBeamingTime < this.beamingLoadDuration)
+            {
+                //beam loading
             }
+            else if (this.currentBeamingTime < this.beamingTotalDuration - this.beamingOverheatDuration)
+            {
+                //normal power
+                if (!this.entity.isBeamingNormalPhase()) {this.entity.setBeamingPhaseToNormal();}
+                this.hitEntities(4.0F + hardDifficultyDamageBonus);
+            }
+            else if (this.currentBeamingTime < this.beamingTotalDuration)
+            {
+                //full power
+                if (!this.entity.isBeamingOverheatPhase()) {this.entity.setBeamingPhaseToOverheat();}
+                this.hitEntities(6.0F + hardDifficultyDamageBonus);
+            }
+            else //if (this.currentBeamingTime >= this.beamingDuration)
+            {
+                this.stop();
+            }
+            super.tick();
         }
     }
 

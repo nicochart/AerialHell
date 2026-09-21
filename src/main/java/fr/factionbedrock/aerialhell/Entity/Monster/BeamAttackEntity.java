@@ -102,7 +102,7 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     default void playBeamSound(boolean start) {this.getLevel().playSound(null, this.getX(), this.getY(), this.getZ(), this.getBeamSound(start), this.getSelf().getSoundSource(), 0.078125F * this.getMaxBeamLength(), 1.0F);} //volume = 1.25F * this.getMaxBeamLength() / 16.0F because this.getMaxBeamLength() / 16.0F = can be hear up to laser max length. adding 25%
     default boolean shouldPlayBeamSound(int currentBeamingTime) {return !this.isBeamSilent() && currentBeamingTime % this.getBeamSoundLength() == 0;}
 
-    default SyncedTargetEntityInfo getSyncedTargetEntityInfo() {return this.getBeamAttackEntityInfo();}
+    @Override default SyncedTargetEntityInfo getSyncedTargetEntityInfo() {return this.getBeamAttackEntityInfo();}
 
     default @Nullable Vec3 getBeamTargetPos() {return this.getBeamAttackEntityInfo().beamTargetPos;}
     default @Nullable Vec3 getPrevBeamTargetPos() {return this.getBeamAttackEntityInfo().prevBeamTargetPos;}

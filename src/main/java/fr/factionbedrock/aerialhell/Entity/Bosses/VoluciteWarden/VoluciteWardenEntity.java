@@ -22,6 +22,8 @@ import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Util.DebugHelper;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -53,6 +55,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPartEntity, StagedActivableEntity, StrikeAttackEntity
 {
@@ -641,6 +644,60 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ---------------------------------------------------- */
 	/* ---------------------------------------------------- */
 	/* ---------------------------------------------------- */
+
+	/* --------------------------------------------------------------------------- */
+	/* -------------------- Arm Beam Target Assignment --------------------------- */
+	/* --------------------------------------------------------------------------- */
+
+	public LivingEntity evaluateSegmentTarget(VoluciteWardenArmSegmentEntity requestingSegment, LivingEntity currentTarget)
+	{
+		//TODO update target condition
+		Predicate<Entity> targetCondition = entity -> entity instanceof LivingEntity living && living.isAlive() && this.canAttack(living) && !entity.is(this) && requestingSegment.distanceToSqr(living) <= VoluciteWardenArmSegmentEntity.MAX_BEAM_LENGTH * VoluciteWardenArmSegmentEntity.MAX_BEAM_LENGTH;
+
+		Map<Integer, Integer> targetCounts = Maps.newHashMap();
+		//Map<TargetID, Count>
+		//count starts to 0. if there is an entry in the list, then there is at least one segment targeting the entry. 0 means 1 targeting.
+		this.countTargetsFromArm(this.getRightArm(), targetCounts, requestingSegment);
+		this.countTargetsFromArm(this.getLeftArm(), targetCounts, requestingSegment);
+
+		//verifying segment can keep target
+		if (currentTarget != null && targetCondition.test(currentTarget))
+		{
+			//if there is not too many segments targeting
+			if (targetCounts.getOrDefault(currentTarget.getId(), 0) < 2) {return currentTarget;}
+		}
+
+		//else (too many segments targeting, dead target or any other target condition not respected), searching a new target
+		List<LivingEntity> potentialTargets = EntityHelper.getTargetableLivingEntitiesInInflatedBoundingBox(this, VoluciteWardenArmSegmentEntity.MAX_BEAM_LENGTH, targetCondition);
+
+		for (LivingEntity potentialTarget : potentialTargets)
+		{
+			if (targetCounts.getOrDefault(potentialTarget.getId(), 0) < 2) {return potentialTarget;}
+		}
+
+		//target not found
+		return null;
+	}
+
+	private void countTargetsFromArm(List<ArmPartInfo> arm, Map<Integer, Integer> targetCounts, VoluciteWardenArmSegmentEntity requestingSegment)
+	{
+		for (ArmPartInfo info : arm)
+		{
+			if (info.getPart() != null && info.getPart().getSelf() instanceof VoluciteWardenArmSegmentEntity segment && segment != requestingSegment)
+			{
+				LivingEntity target = segment.getTarget();
+				if (target != null)
+				{
+					int targetId = target.getId();
+					targetCounts.put(targetId, targetCounts.getOrDefault(targetId, 0) + 1);
+				}
+			}
+		}
+	}
+
+	/* --------------------------------------------------------------------------- */
+	/* --------------------------------------------------------------------------- */
+	/* --------------------------------------------------------------------------- */
 
 	private Vec3 getRelativePreparePos0(int sideFactor) {return new Vec3(sideFactor * 12.0F, 10.0F, 0.0F);}
 	private Vec3 getRelativePreparePos1(int sideFactor) {return new Vec3(sideFactor * 18.0F, 17.0F, 2.0F);}

@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 
 public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity, VoluciteGolemRenderState, VoluciteGolemHeadModel>
@@ -32,8 +31,7 @@ public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity
         super.extractRenderState(entity, renderState, partialTick);
         renderState.attackTimer = entity.getMaster() != null ? entity.getMaster().attackTimer : 0;
 
-        LivingEntity target = entity.getBeamAttackTarget();
-        if (entity.isBeaming() && target != null && entity.getBeamEndPos() != null && entity.getPrevBeamEndPos() != null)
+        if (entity.isBeaming() && entity.getBeamEndPos() != null && entity.getPrevBeamEndPos() != null)
         {
             renderState.beamStartPosition = entity.toRelativePos(entity.getBeamStartPos(partialTick));
             renderState.beamTargetPosition = entity.toRelativePos(BeamRenderHelper.getBeamTargetPosition(entity.getBeamEndPos(), entity.getPrevBeamEndPos(), partialTick));
