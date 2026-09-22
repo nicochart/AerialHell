@@ -40,8 +40,7 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
     public static final int BEAMING_COOLDOWN = 40;
     private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> BEAM_TARGET_POS_NEEDS_SYNC = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.BOOLEAN);
-    private final BeamAttackEntityInfo BEAM_ATTACK_ENTITY_INFO = new BeamAttackEntityInfo(ATTACK_TARGET_ID, BEAMING_PHASE, BEAM_TARGET_POS_NEEDS_SYNC);
+    private final BeamAttackEntityInfo BEAM_ATTACK_ENTITY_INFO = new BeamAttackEntityInfo(ATTACK_TARGET_ID, BEAMING_PHASE);
     /* ----------------------------- */
 
     public VoluciteGolemHeadEntity(EntityType<? extends Monster> type, Level level)
@@ -55,7 +54,6 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
         /* -- BeamAttackEntity synched data -- */
         builder.define(ATTACK_TARGET_ID, 0);
         builder.define(BEAMING_PHASE, BeamingPhases.OFF);
-        builder.define(BEAM_TARGET_POS_NEEDS_SYNC, false);
         /* ----------------------------------- */
 
         /* -- PartEntity synched data -- */

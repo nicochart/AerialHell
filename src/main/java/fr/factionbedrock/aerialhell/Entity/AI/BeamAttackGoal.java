@@ -75,19 +75,16 @@ public class BeamAttackGoal extends Goal
 
         this.makeBeamStartSound();
         this.entity.setNeedsSync();
-        this.entity.setBeamingTargetPosNeedsSync();
     }
 
     @Override public void stop()
     {
-        this.entity.setBeamTargetEntityId(0);
         this.entity.setBeamingPhaseToOff();
         this.entity.onStopBeaming();
         //this.entity.setTarget((LivingEntity)null);
         this.beamingCooldown = beamingCooldownDuration;
         this.currentBeamingTime = 0;
         //this.entity.randomStrollGoal.trigger();
-        this.entity.setBeamingTargetPosNeedsSync();
     }
 
     @Override public boolean requiresUpdateEveryTick() {return true;}

@@ -4,18 +4,15 @@ import fr.factionbedrock.aerialhell.Entity.AI.BeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
-import fr.factionbedrock.aerialhell.Util.DebugHelper;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity implements BeamAttackEntity
 {
@@ -30,8 +27,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
     public static final int BEAMING_COOLDOWN = 20;
     private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteWardenArmSegmentEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteWardenArmSegmentEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> BEAM_TARGET_POS_NEEDS_SYNC = SynchedEntityData.defineId(VoluciteWardenArmSegmentEntity.class, EntityDataSerializers.BOOLEAN);
-    private final BeamAttackEntityInfo BEAM_ATTACK_ENTITY_INFO = new BeamAttackEntityInfo(ATTACK_TARGET_ID, BEAMING_PHASE, BEAM_TARGET_POS_NEEDS_SYNC);
+    private final BeamAttackEntityInfo BEAM_ATTACK_ENTITY_INFO = new BeamAttackEntityInfo(ATTACK_TARGET_ID, BEAMING_PHASE);
     /* ----------------------------- */
 
     private VoluciteWardenArmBeamAttackGoal BEAM_ATTACK_GOAL;
@@ -44,7 +40,6 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         /* -- BeamAttackEntity synched data -- */
         builder.define(ATTACK_TARGET_ID, 0);
         builder.define(BEAMING_PHASE, BeamingPhases.OFF);
-        builder.define(BEAM_TARGET_POS_NEEDS_SYNC, false);
         /* ----------------------------------- */
     }
 
@@ -173,6 +168,27 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
             this.enableBeam();
             this.beamEnableDelay = -1;
         }
+    }
+
+    @Override @NotNull public Vec3 getBeamTargetDefaultInitialPos()
+    {
+        boolean lowHalfCircle = true;
+        double beamInitialAngle = lowHalfCircle ? Math.PI : 0;
+
+        LivingEntity referenceEntity = this.getMaster() != null ? this.getMaster().getSelf() : this.getSelf();
+
+        float yaw = referenceEntity.yBodyRot;
+        float pitch = 0.0F;
+        double radius = 8.0D;
+
+        Vec3 forwardVec = Vec3.directionFromRotation(pitch, yaw);
+        Vec3 rightVec = forwardVec.cross(new Vec3(0, 1, 0)).normalize();
+        Vec3 upVec = rightVec.cross(forwardVec).normalize();
+
+        //initial pos of semi-circular pattern
+        Vec3 beamTargetInitialPos = this.getBeamStartPos().add(forwardVec.scale(Math.cos(beamInitialAngle) * radius)).add(upVec.scale(Math.sin(beamInitialAngle) * radius));
+
+        return beamTargetInitialPos;
     }
 
     public void queueBeamEnable(int delayTicks)

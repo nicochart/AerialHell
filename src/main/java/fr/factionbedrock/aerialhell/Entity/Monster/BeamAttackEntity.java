@@ -14,6 +14,7 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
 public interface BeamAttackEntity extends SyncedTargetEntity
@@ -33,28 +34,21 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     {
         this.syncedTargetEntityTick();
 
-        boolean beamingSyncFlag = this.beamingTargetPosNeedsSync();
-        if (beamingSyncFlag)
+        if (!this.isBeaming())
         {
-            this.getEntityData().set(this.getBeamTargetPosNeedsSyncData(), false);
-
-            //forcing client side beam target pos update
+            //forcing client side beam target pos reinitialization on next beam use
             this.setBeamTargetPos(null);
             this.setPrevBeamTargetPos(null);
             this.setBeamEndPos(null);
             this.setPrevBeamEndPos(null);
-            if (!this.getLevel().isClientSide() && this.getTarget() != null)
-            {
-                this.setBeamTargetEntityId(this.getTarget().getId());
-            }
         }
-        else if (this.isBeaming())
+        else //if (this.isBeaming())
         {
             //initializing beam pos if not done yet
-            boolean needsInitialization = this.getBeamTargetPos() == null;
-            if (needsInitialization && this.getBeamAttackTarget() != null && this.hasBeamTargetEntityId())
+            boolean needsInitialization = this.beamTargetPosNeedsInit();
+            if (needsInitialization)
             {
-                Vec3 targetInitialPos = this.getBeamAttackTarget().position().add(getBeamTargetPosOffset(this.getBeamAttackTarget()));
+                Vec3 targetInitialPos = this.getBeamTargetInitialPos();
                 this.setBeamTargetPos(targetInitialPos);
                 this.setPrevBeamTargetPos(targetInitialPos);
             }
@@ -70,6 +64,21 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     /* ---------------------------------------------------------------------------- */
     /* -------- Other methods to eventually override for specific behavior -------- */
     /* ---------------------------------------------------------------------------- */
+    default boolean beamTargetPosNeedsInit() {return this.getBeamTargetPos() == null;}
+    @NotNull default Vec3 getBeamTargetInitialPos()
+    {
+        if (this.getBeamAttackTarget() != null)
+        {
+            return this.getBeamAttackTarget().position().add(getBeamTargetPosOffset(this.getBeamAttackTarget()));
+        }
+        else {return this.getBeamTargetDefaultInitialPos();}
+    }
+
+    @NotNull default Vec3 getBeamTargetDefaultInitialPos()
+    {
+        return this.getSelf().getEyePosition().add(this.getSelf().getLookAngle().scale(5));
+    }
+
     default SoundEvent getBeamSound(boolean beamStart) {return beamStart ? AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get() : AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get();}
     default int getBeamSoundLength() {return 35;}
     default boolean isBeamSilent() {return this.getSelf().isSilent();}
@@ -116,16 +125,10 @@ public interface BeamAttackEntity extends SyncedTargetEntity
 
     default EntityDataAccessor<Integer> getBeamTargetEntityIdData() {return this.getBeamAttackEntityInfo().beamTargetEntityIdData;}
     default EntityDataAccessor<Integer> getBeamingPhaseData() {return this.getBeamAttackEntityInfo().beamingPhaseData;}
-    default EntityDataAccessor<Boolean> getBeamTargetPosNeedsSyncData() {return this.getBeamAttackEntityInfo().beamTargetPosNeedsSyncData;}
 
-    default int getBeamTargetEntityId() {return this.getEntityData().get(this.getBeamTargetEntityIdData());}
-    default boolean hasBeamTargetEntityId() {return this.getEntityData().get(this.getBeamTargetEntityIdData()) != 0;}
-    default void setBeamTargetEntityId(int entityTargetId) {this.getEntityData().set(this.getBeamTargetEntityIdData(), entityTargetId);}
     default boolean isBeaming() {return this.getEntityData().get(this.getBeamingPhaseData()) != 0;}
     default int getBeamingPhase() {return this.getEntityData().get(this.getBeamingPhaseData());}
     default void setBeamingPhase(int phaseId) {this.getEntityData().set(this.getBeamingPhaseData(), phaseId);}
-    default boolean beamingTargetPosNeedsSync() {return this.getEntityData().get(this.getBeamTargetPosNeedsSyncData());}
-    default void setBeamingTargetPosNeedsSync() {this.getEntityData().set(this.getBeamTargetPosNeedsSyncData(), true);}
 
     @Nullable default LivingEntity getBeamAttackTarget() //must be client-server sync
     {
@@ -234,18 +237,16 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     {
         private final EntityDataAccessor<Integer> beamTargetEntityIdData;
         private final EntityDataAccessor<Integer> beamingPhaseData;
-        private final EntityDataAccessor<Boolean> beamTargetPosNeedsSyncData;
         @Nullable private Vec3 beamTargetPos;
         @Nullable private Vec3 prevBeamTargetPos;
         @Nullable private Vec3 beamEndPos;
         @Nullable private Vec3 prevBeamEndPos;
 
-        public BeamAttackEntityInfo(EntityDataAccessor<Integer> beamTargetEntityIdData, EntityDataAccessor<Integer> beamingPhaseData, EntityDataAccessor<Boolean> beamTargetPosNeedsSyncData)
+        public BeamAttackEntityInfo(EntityDataAccessor<Integer> beamTargetEntityIdData, EntityDataAccessor<Integer> beamingPhaseData)
         {
             super(beamTargetEntityIdData);
             this.beamTargetEntityIdData = beamTargetEntityIdData;
             this.beamingPhaseData = beamingPhaseData;
-            this.beamTargetPosNeedsSyncData = beamTargetPosNeedsSyncData;
         }
     }
 }
