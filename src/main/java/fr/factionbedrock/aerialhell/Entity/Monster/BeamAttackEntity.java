@@ -64,7 +64,7 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     /* ---------------------------------------------------------------------------- */
     /* -------- Other methods to eventually override for specific behavior -------- */
     /* ---------------------------------------------------------------------------- */
-    default boolean beamTargetPosNeedsInit() {return this.getBeamTargetPos() == null;}
+    default boolean beamTargetPosNeedsInit() {return this.getPrevBeamTargetPos() == null || this.getBeamTargetPos() == null;}
     @NotNull default Vec3 getBeamTargetInitialPos()
     {
         if (this.getBeamAttackTarget() != null)
@@ -135,6 +135,7 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         return this.getSyncedTarget();
     }
 
+    //both beamTargetPos and prevBeamTargetPos must be initialized on call (must be not null)
     default void updateBeamPositions() //must be deterministic to be calculated the same way on both client and server sides
     {
         LivingEntity beamTarget = this.getBeamAttackTarget(); //the active target is the only synchronized thing
@@ -170,13 +171,13 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         this.updateBeamEndPos(this.getBeamTargetPos(), this.getMaxBeamLength());
     }
 
-    private void updateBeamTargetPosLinearWithMaxDistance(Vec3 targetEntityPos, Vec3 prevBeamTargetPos, float maxVelocity)
+    default void updateBeamTargetPosLinearWithMaxDistance(Vec3 targetEntityPos, Vec3 prevBeamTargetPos, float maxVelocity)
     {
         Vec3 velocity = targetEntityPos.subtract(prevBeamTargetPos);
         this.setBeamTargetPos(velocity.length() <= maxVelocity ? targetEntityPos : prevBeamTargetPos.add(velocity.normalize().scale(maxVelocity)));
     }
 
-    private void updateBeamTargetPosRealisticWithInertia(Vec3 previousVelocity, Vec3 targetEntityPos, Vec3 prevBeamTargetPos, float inertiaFactor, float attractionFactor, float maxVelocity)
+    default void updateBeamTargetPosRealisticWithInertia(Vec3 previousVelocity, Vec3 targetEntityPos, Vec3 prevBeamTargetPos, float inertiaFactor, float attractionFactor, float maxVelocity)
     {
         Vec3 linearVelocity = targetEntityPos.subtract(prevBeamTargetPos);
         Vec3 acceleration = linearVelocity.scale(attractionFactor);

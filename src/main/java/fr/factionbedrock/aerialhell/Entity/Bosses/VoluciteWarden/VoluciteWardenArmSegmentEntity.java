@@ -96,9 +96,13 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         Vec3 beamTargetPos = this.getBeamTargetPos();
         Vec3 beamEndPos = this.getBeamEndPos();
 
+
         //TODO fix initialisation problem (beamTargetPos is never initialized in super beamAttackTick because target is null)
         //+fix beam jumping from pos to another pos on target change (I think it's either due to "beamingTargetPosNeedsSync" or "needsInitialization")
         if (beamTargetPos == null) {return;}
+
+        Vec3 prevBeamTargetPos = this.getPrevBeamTargetPos();
+        Vec3 previousStep = beamTargetPos.subtract(prevBeamTargetPos);
 
         this.setPrevBeamTargetPos(beamTargetPos);
         this.setPrevBeamEndPos(beamEndPos);
@@ -125,7 +129,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         patternTargetPos = patternTargetPos.add(shake);
         // -----------------------
 
-        this.setBeamTargetPos(patternTargetPos);
+        this.updateBeamTargetPosRealisticWithInertia(previousStep, patternTargetPos, prevBeamTargetPos, 0.95F, 0.05F , 0.8F);
         this.updateBeamEndPos(this.getBeamTargetPos(), this.getMaxBeamLength());
     }
 
