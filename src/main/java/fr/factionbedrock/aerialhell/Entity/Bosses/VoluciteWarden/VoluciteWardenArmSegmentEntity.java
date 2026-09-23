@@ -96,9 +96,6 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         Vec3 beamTargetPos = this.getBeamTargetPos();
         Vec3 beamEndPos = this.getBeamEndPos();
 
-
-        //TODO fix initialisation problem (beamTargetPos is never initialized in super beamAttackTick because target is null)
-        //+fix beam jumping from pos to another pos on target change (I think it's either due to "beamingTargetPosNeedsSync" or "needsInitialization")
         if (beamTargetPos == null) {return;}
 
         Vec3 prevBeamTargetPos = this.getPrevBeamTargetPos();
@@ -138,31 +135,12 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         BeamAttackEntity.super.beamAttackTick();
 
         //target evaluation
-        if (this.isBeaming())
-        {
-            this.beamEnabledTicks++;
-
-            if (!this.level().isClientSide())
-            {
-                LivingEntity currentTarget = this.getSyncedTarget();
-
-                if (this.getMaster() != null && this.getMaster().getSelf() instanceof VoluciteWardenEntity master)
-                {
-                    //master evaluate current target (and maybe assign a new target)
-                    LivingEntity assignedTarget = master.evaluateSegmentTarget(this, currentTarget);
-                    if (assignedTarget != currentTarget) {this.setTarget(assignedTarget);}
-                }
-                else
-                {
-                    //security if part is detached from master
-                    this.disableBeam();
-                }
-            }
-        }
+        if (this.isBeaming()) {this.beamEnabledTicks++;}
         else
         {
             this.beamEnabledTicks = 0;
-            if (!this.level().isClientSide()) {this.setTarget(null);}
+            //can't set target null here because target is updated on queue enable beam. set target to null on beam disable
+            //if (!this.level().isClientSide()) {this.setTarget(null);}
         }
 
         //delay after activation
@@ -174,6 +152,8 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         }
     }
 
+    //temporarily removed this to avoid the segment "jump" between the "looking forward" position and the "looking to initial pos"
+    /*
     @Override @NotNull public Vec3 getBeamTargetDefaultInitialPos()
     {
         boolean lowHalfCircle = true;
@@ -193,7 +173,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         Vec3 beamTargetInitialPos = this.getBeamStartPos().add(forwardVec.scale(Math.cos(beamInitialAngle) * radius)).add(upVec.scale(Math.sin(beamInitialAngle) * radius));
 
         return beamTargetInitialPos;
-    }
+    }*/
 
     public void queueBeamEnable(int delayTicks)
     {
@@ -211,6 +191,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         if (this.BEAM_ATTACK_GOAL != null) {this.BEAM_ATTACK_GOAL.enabled = false;}
         this.beamEnableDelay = -1;
         this.beamEnabledTicks = 0;
+        if (!this.level().isClientSide()) {this.setTarget(null);}
     }
 
     @Override public float getMaxBeamLength() {return MAX_BEAM_LENGTH;}

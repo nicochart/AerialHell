@@ -9,6 +9,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.ArmBeamAttack.ArmBeamAttackInactivePhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.ArmBeamAttack.ArmBeamAttackPhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.ArmBeamAttack.ArmBeamAttackPhaseType;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.ArmBeamAttack.SegmentBeamTargetManager;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackInactivePhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhaseType;
@@ -22,8 +23,6 @@ import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
-import fr.factionbedrock.aerialhell.Util.DebugHelper;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -69,6 +68,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	private VoluciteWardenArmBeamAttackGoal RIGHT_ARM_BEAM_ATTACK_GOAL;
 	private VoluciteWardenArmBeamAttackGoal LEFT_ARM_BEAM_ATTACK_GOAL;
+	private final SegmentBeamTargetManager segmentBeamTargetManager;
 
 	/* -- MasterPartEntity fields -- */
 	private static final EntityDataAccessor<Integer> RIGHT_ARM_SEGMENT_1_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
@@ -148,6 +148,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.hurtTime = 0;
 		bossInfo.setColor(BossEvent.BossBarColor.BLUE);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
+		//TODO update (below) target condition
+		this.segmentBeamTargetManager = new SegmentBeamTargetManager(this,  entity -> entity instanceof LivingEntity living && !living.isRemoved() && living.isAlive() && this.canAttack(living) && !entity.is(this));
 	}
 
 	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
@@ -474,15 +476,15 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override public void tickNonHeadPartRotation(PartInfo partInfo)
 	{
-		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && (this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive() || this.RIGHT_ARM_BEAM_ATTACK_GOAL.isActive())) {return;}
-		else if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isLeftArm() && (this.LEFT_ARM_STRIKE_ATTACK_GOAL.isActive() || this.LEFT_ARM_BEAM_ATTACK_GOAL.isActive())) {return;}
+		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && this.isArmActive(this.getRightArm())) {return;}
+		else if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isLeftArm() && this.isArmActive(this.getLeftArm())) {return;}
 		else {MasterPartEntity.super.tickNonHeadPartRotation(partInfo);}
 	}
 
 	@Override @Nullable public Vec3 calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
 	{
-		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && (this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive() || this.RIGHT_ARM_BEAM_ATTACK_GOAL.isActive())) {return null;}
-		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isLeftArm() && (this.LEFT_ARM_STRIKE_ATTACK_GOAL.isActive() || this.LEFT_ARM_BEAM_ATTACK_GOAL.isActive())) {return null;}
+		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && (this.isRightArmStriking() || this.isRightArmBeaming())) {return null;}
+		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isLeftArm() && (this.isLeftArmStriking() || this.isLeftArmBeaming())) {return null;}
 		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
 	}
 
@@ -490,17 +492,20 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		if (arm.getFirst().isRightArm)
 		{
-			return this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive() || this.RIGHT_ARM_BEAM_ATTACK_GOAL.isActive();
+			return this.isRightArmStriking() || this.isRightArmBeaming();
 		}
 		else
 		{
-			return this.LEFT_ARM_STRIKE_ATTACK_GOAL.isActive() || this.LEFT_ARM_BEAM_ATTACK_GOAL.isActive();
+			return this.isLeftArmStriking() || this.isLeftArmBeaming();
 		}
 	}
 
 	/* ---------------------------------------------------- */
 	/* ---------- Arm Beam Attack : Goal methods ---------- */
 	/* ---------------------------------------------------- */
+	public boolean isRightArmBeaming() {return this.RIGHT_ARM_BEAM_ATTACK_GOAL.isActive();}
+	public boolean isLeftArmBeaming() {return this.LEFT_ARM_BEAM_ATTACK_GOAL.isActive();}
+
 	private int ticksSinceLastArmBeamSound = getBeamSoundLength();
 
 	private int inactiveRightArmBeamAttackTicks;
@@ -512,6 +517,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	private void tickArmBeamAttack()
 	{
+		if (!this.level().isClientSide())
+		{
+			this.segmentBeamTargetManager.tick();
+		}
+
 		if (this.tickCount % 200 == 0)
 		{
 			this.rightArmBeamCooldown = this.getRandom().nextInt(this.armBeamCooldownMaxOffset);
@@ -525,7 +535,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			PartEntity rightHand = this.RIGHT_ARM_SEGMENT_7.getPart();
 			if (rightHand != null)
 			{
-				if (this.RIGHT_ARM_BEAM_ATTACK_GOAL.isActive())
+				if (this.isRightArmBeaming())
 				{
 					this.inactiveRightArmBeamAttackTicks = 0;
 				}
@@ -542,7 +552,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			PartEntity leftHand = this.LEFT_ARM_SEGMENT_7.getPart();
 			if (leftHand != null)
 			{
-				if (this.LEFT_ARM_BEAM_ATTACK_GOAL.isActive())
+				if (this.isLeftArmBeaming())
 				{
 					this.inactiveLeftArmBeamAttackTicks = 0;
 				}
@@ -601,29 +611,30 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		if (nextPhaseType == ArmBeamAttackPhaseType.BEAM)
 		{
 			//enabling beam
-			setArmBeam(isRightArm ? this.getRightArm() : this.getLeftArm(), true);
+			setArmBeam(isRightArm, true);
 		}
 
 		if (nextPhaseType == ArmBeamAttackPhaseType.RECOVERY)
 		{
 			//disabling beam
-			setArmBeam(isRightArm ? this.getRightArm() : this.getLeftArm(), false);
+			setArmBeam(isRightArm, false);
 		}
 	}
 
 	public void setArmBeam(boolean isRightArm, boolean enable)
 	{
-		setArmBeam(isRightArm ? this.getRightArm() : this.getLeftArm(), enable);
-	}
+		List<ArmPartInfo> arm = isRightArm ? this.getRightArm() : this.getLeftArm();
 
-	public void setArmBeam(List<ArmPartInfo> arm, boolean enable)
-	{
 		for (ArmPartInfo armSegmentInfo : arm)
 		{
 			if (armSegmentInfo.getPart() != null && armSegmentInfo.getPart().getSelf() instanceof VoluciteWardenArmSegmentEntity armSegment)
 			{
 				if (enable) {armSegment.queueBeamEnable(armSegmentInfo.segmentIndex * 5);}
-				else {armSegment.disableBeam();}
+				else
+				{
+					armSegment.disableBeam();
+					this.segmentBeamTargetManager.clearArmTargets(isRightArm);
+				}
 			}
 		}
 	}
@@ -645,60 +656,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ---------------------------------------------------- */
 	/* ---------------------------------------------------- */
 
-	/* --------------------------------------------------------------------------- */
-	/* -------------------- Arm Beam Target Assignment --------------------------- */
-	/* --------------------------------------------------------------------------- */
-
-	public LivingEntity evaluateSegmentTarget(VoluciteWardenArmSegmentEntity requestingSegment, LivingEntity currentTarget)
-	{
-		//TODO update target condition
-		Predicate<Entity> targetCondition = entity -> entity instanceof LivingEntity living && living.isAlive() && this.canAttack(living) && !entity.is(this) && requestingSegment.distanceToSqr(living) <= VoluciteWardenArmSegmentEntity.MAX_BEAM_LENGTH * VoluciteWardenArmSegmentEntity.MAX_BEAM_LENGTH;
-
-		Map<Integer, Integer> targetCounts = Maps.newHashMap();
-		//Map<TargetID, Count>
-		//count starts to 0. if there is an entry in the list, then there is at least one segment targeting the entry. 0 means 1 targeting.
-		this.countTargetsFromArm(this.getRightArm(), targetCounts, requestingSegment);
-		this.countTargetsFromArm(this.getLeftArm(), targetCounts, requestingSegment);
-
-		//verifying segment can keep target
-		if (currentTarget != null && targetCondition.test(currentTarget))
-		{
-			//if there is not too many segments targeting
-			if (targetCounts.getOrDefault(currentTarget.getId(), 0) < 2) {return currentTarget;}
-		}
-
-		//else (too many segments targeting, dead target or any other target condition not respected), searching a new target
-		List<LivingEntity> potentialTargets = EntityHelper.getTargetableLivingEntitiesInInflatedBoundingBox(this, VoluciteWardenArmSegmentEntity.MAX_BEAM_LENGTH, targetCondition);
-
-		for (LivingEntity potentialTarget : potentialTargets)
-		{
-			if (targetCounts.getOrDefault(potentialTarget.getId(), 0) < 2) {return potentialTarget;}
-		}
-
-		//target not found
-		return null;
-	}
-
-	private void countTargetsFromArm(List<ArmPartInfo> arm, Map<Integer, Integer> targetCounts, VoluciteWardenArmSegmentEntity requestingSegment)
-	{
-		for (ArmPartInfo info : arm)
-		{
-			if (info.getPart() != null && info.getPart().getSelf() instanceof VoluciteWardenArmSegmentEntity segment && segment != requestingSegment)
-			{
-				LivingEntity target = segment.getTarget();
-				if (target != null)
-				{
-					int targetId = target.getId();
-					targetCounts.put(targetId, targetCounts.getOrDefault(targetId, 0) + 1);
-				}
-			}
-		}
-	}
-
-	/* --------------------------------------------------------------------------- */
-	/* --------------------------------------------------------------------------- */
-	/* --------------------------------------------------------------------------- */
-
 	private Vec3 getRelativePreparePos0(int sideFactor) {return new Vec3(sideFactor * 12.0F, 10.0F, 0.0F);}
 	private Vec3 getRelativePreparePos1(int sideFactor) {return new Vec3(sideFactor * 18.0F, 17.0F, 2.0F);}
 	private Vec3 getRelativePreparePos2(int sideFactor) {return new Vec3(sideFactor * 24.0F, 23.0F, 4.0F);}
@@ -710,6 +667,9 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ---------- StrikeAttackEntity : Interface methods implementation ---------- */
 	/* ---- except tickStrikeAttack() and canTriggerStrike() that are specific --- */
 	/* --------------------------------------------------------------------------- */
+
+	public boolean isRightArmStriking() {return this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive();}
+	public boolean isLeftArmStriking() {return this.LEFT_ARM_STRIKE_ATTACK_GOAL.isActive();}
 
 	private Vec3 strikeTargetPos;
 	private int inactiveRightArmStrikeAttackTicks;
@@ -730,7 +690,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		//updating hasStrikeActive and isStriking sync data
 		if (!this.level().isClientSide())
 		{
-			this.getEntityData().set(HAS_STRIKE_ACTIVE, this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive() || this.LEFT_ARM_STRIKE_ATTACK_GOAL.isActive());
+			this.getEntityData().set(HAS_STRIKE_ACTIVE, this.isRightArmStriking() || this.isLeftArmStriking());
 			this.getEntityData().set(IS_STRIKING, this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isStriking() || this.LEFT_ARM_STRIKE_ATTACK_GOAL.isStriking());
 		}
 
@@ -751,7 +711,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			PartEntity rightHand = this.RIGHT_ARM_SEGMENT_7.getPart();
 			if (rightHand != null)
 			{
-				if (this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive())
+				if (this.isRightArmStriking())
 				{
 					this.inactiveRightArmStrikeAttackTicks = 0;
 				}
@@ -768,7 +728,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			PartEntity leftHand = this.LEFT_ARM_SEGMENT_7.getPart();
 			if (leftHand != null)
 			{
-				if (this.LEFT_ARM_STRIKE_ATTACK_GOAL.isActive())
+				if (this.isLeftArmStriking())
 				{
 					this.inactiveLeftArmStrikeAttackTicks = 0;
 				}
