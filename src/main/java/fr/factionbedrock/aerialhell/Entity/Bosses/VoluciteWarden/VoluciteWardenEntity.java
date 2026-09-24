@@ -532,37 +532,29 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 		if (!this.level().isClientSide())
 		{
-			PartEntity rightHand = this.RIGHT_ARM_SEGMENT_7.getPart();
-			if (rightHand != null)
+			if (this.isRightArmBeaming())
 			{
-				if (this.isRightArmBeaming())
+				this.inactiveRightArmBeamAttackTicks = 0;
+			}
+			else
+			{
+				this.inactiveRightArmBeamAttackTicks++;
+				if (this.canTriggerArmBeam(this.RIGHT_ARM_BEAM_ATTACK_GOAL))
 				{
-					this.inactiveRightArmBeamAttackTicks = 0;
-				}
-				else
-				{
-					this.inactiveRightArmBeamAttackTicks++;
-					if (this.canTriggerArmBeam(this.RIGHT_ARM_BEAM_ATTACK_GOAL))
-					{
-						this.RIGHT_ARM_BEAM_ATTACK_GOAL.trigger();
-					}
+					this.RIGHT_ARM_BEAM_ATTACK_GOAL.trigger();
 				}
 			}
 
-			PartEntity leftHand = this.LEFT_ARM_SEGMENT_7.getPart();
-			if (leftHand != null)
+			if (this.isLeftArmBeaming())
 			{
-				if (this.isLeftArmBeaming())
+				this.inactiveLeftArmBeamAttackTicks = 0;
+			}
+			else
+			{
+				this.inactiveLeftArmBeamAttackTicks++;
+				if (this.canTriggerArmBeam(this.LEFT_ARM_BEAM_ATTACK_GOAL))
 				{
-					this.inactiveLeftArmBeamAttackTicks = 0;
-				}
-				else
-				{
-					this.inactiveLeftArmBeamAttackTicks++;
-					if (this.canTriggerArmBeam(this.LEFT_ARM_BEAM_ATTACK_GOAL))
-					{
-						this.LEFT_ARM_BEAM_ATTACK_GOAL.trigger();
-					}
+					this.LEFT_ARM_BEAM_ATTACK_GOAL.trigger();
 				}
 			}
 		}
@@ -708,37 +700,29 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 		if (!this.level().isClientSide())
 		{
-			PartEntity rightHand = this.RIGHT_ARM_SEGMENT_7.getPart();
-			if (rightHand != null)
+			if (this.isRightArmStriking())
 			{
-				if (this.isRightArmStriking())
+				this.inactiveRightArmStrikeAttackTicks = 0;
+			}
+			else
+			{
+				this.inactiveRightArmStrikeAttackTicks++;
+				if (this.canTriggerStrike(this.RIGHT_ARM_STRIKE_ATTACK_GOAL))
 				{
-					this.inactiveRightArmStrikeAttackTicks = 0;
-				}
-				else
-				{
-					this.inactiveRightArmStrikeAttackTicks++;
-					if (this.canTriggerStrike(this.RIGHT_ARM_STRIKE_ATTACK_GOAL))
-					{
-						this.RIGHT_ARM_STRIKE_ATTACK_GOAL.trigger();
-					}
+					this.RIGHT_ARM_STRIKE_ATTACK_GOAL.trigger();
 				}
 			}
 
-			PartEntity leftHand = this.LEFT_ARM_SEGMENT_7.getPart();
-			if (leftHand != null)
+			if (this.isLeftArmStriking())
 			{
-				if (this.isLeftArmStriking())
+				this.inactiveLeftArmStrikeAttackTicks = 0;
+			}
+			else
+			{
+				this.inactiveLeftArmStrikeAttackTicks++;
+				if (this.canTriggerStrike(this.LEFT_ARM_STRIKE_ATTACK_GOAL))
 				{
-					this.inactiveLeftArmStrikeAttackTicks = 0;
-				}
-				else
-				{
-					this.inactiveLeftArmStrikeAttackTicks++;
-					if (this.canTriggerStrike(this.LEFT_ARM_STRIKE_ATTACK_GOAL))
-					{
-						this.LEFT_ARM_STRIKE_ATTACK_GOAL.trigger();
-					}
+					this.LEFT_ARM_STRIKE_ATTACK_GOAL.trigger();
 				}
 			}
 		}
@@ -747,10 +731,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private boolean canTriggerStrike(VoluciteWardenStrikeAttackGoal armToTrigger)
 	{
 		boolean targetNotNull = this.getTarget() != null;
+		boolean handNotNull = armToTrigger == this.RIGHT_ARM_STRIKE_ATTACK_GOAL ? this.RIGHT_ARM_SEGMENT_7.getPart() != null : this.LEFT_ARM_SEGMENT_7.getPart() != null;
 		boolean timerCondition = armToTrigger == this.RIGHT_ARM_STRIKE_ATTACK_GOAL ? this.inactiveRightArmStrikeAttackTicks > this.rightArmStrikeCooldown : this.inactiveLeftArmStrikeAttackTicks > this.leftArmStrikeCooldown;
 		boolean otherIsNotInWindupPhase = armToTrigger == this.RIGHT_ARM_STRIKE_ATTACK_GOAL ? this.LEFT_ARM_STRIKE_ATTACK_GOAL.getPhaseType() != StrikeAttackPhaseType.WINDUP : this.RIGHT_ARM_STRIKE_ATTACK_GOAL.getPhaseType() != StrikeAttackPhaseType.WINDUP;
 		boolean selfIsNotAlreadyAttacking = !this.isArmActive(armToTrigger == this.RIGHT_ARM_STRIKE_ATTACK_GOAL ? this.getRightArm() : this.getLeftArm());
-		return targetNotNull && timerCondition && otherIsNotInWindupPhase && selfIsNotAlreadyAttacking;
+		return targetNotNull && handNotNull && timerCondition && otherIsNotInWindupPhase && selfIsNotAlreadyAttacking;
 	}
 
 	private final List<StrikeAttackPhase> leftArmStrikeAttackSequence = List.of(
