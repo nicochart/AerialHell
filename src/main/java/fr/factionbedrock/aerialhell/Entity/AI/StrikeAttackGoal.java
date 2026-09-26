@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhaseType;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhase;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhaseType;
 import fr.factionbedrock.aerialhell.Entity.StrikeAttackEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;

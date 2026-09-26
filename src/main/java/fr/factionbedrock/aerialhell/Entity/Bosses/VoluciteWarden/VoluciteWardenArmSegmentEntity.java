@@ -211,7 +211,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         {
             if (this.getGoalOwner() instanceof PartEntity armSegment && armSegment.getMaster() != null && armSegment.getMaster().getSelf() instanceof VoluciteWardenEntity master)
             {
-                master.makeBeamSound();
+                master.armsBeamAttackHandler.makeBeamSound();
             }
         }
 
@@ -219,7 +219,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         {
             if (this.getGoalOwner() instanceof PartEntity armSegment && armSegment.getMaster() != null && armSegment.getMaster().getSelf() instanceof VoluciteWardenEntity master)
             {
-                master.makeBeamStartSound();
+                master.armsBeamAttackHandler.makeBeamStartSound();
             }
         }
 

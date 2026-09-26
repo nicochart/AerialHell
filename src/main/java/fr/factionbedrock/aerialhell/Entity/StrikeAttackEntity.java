@@ -1,8 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity;
 
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackInactivePhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhaseType;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackInactivePhase;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhase;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhaseType;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;

@@ -6,13 +6,14 @@ import fr.factionbedrock.aerialhell.Entity.AI.StrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmBeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenStrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.ArmBeamAttack.ArmBeamAttackInactivePhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.ArmBeamAttack.ArmBeamAttackPhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.ArmBeamAttack.ArmBeamAttackPhaseType;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.ArmBeamAttack.SegmentBeamTargetManager;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackInactivePhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack.StrikeAttackPhaseType;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.ArmBeamAttackInactivePhase;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.ArmBeamAttackPhase;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.ArmBeamAttackPhaseType;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.SegmentBeamTargetManager;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsBeamAttackHandler;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackInactivePhase;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhase;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhaseType;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
@@ -54,7 +55,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPartEntity, StagedActivableEntity, StrikeAttackEntity
 {
@@ -68,7 +68,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	private VoluciteWardenArmBeamAttackGoal RIGHT_ARM_BEAM_ATTACK_GOAL;
 	private VoluciteWardenArmBeamAttackGoal LEFT_ARM_BEAM_ATTACK_GOAL;
-	private final SegmentBeamTargetManager segmentBeamTargetManager;
+	public final ArmsBeamAttackHandler armsBeamAttackHandler;
 
 	/* -- MasterPartEntity fields -- */
 	private static final EntityDataAccessor<Integer> RIGHT_ARM_SEGMENT_1_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
@@ -148,8 +148,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.hurtTime = 0;
 		bossInfo.setColor(BossEvent.BossBarColor.BLUE);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
-		//TODO update (below) target condition
-		this.segmentBeamTargetManager = new SegmentBeamTargetManager(this,  entity -> entity instanceof LivingEntity living && !living.isRemoved() && living.isAlive() && this.canAttack(living) && !entity.is(this));
+
+		this.armsBeamAttackHandler = new ArmsBeamAttackHandler(this, this.getRightArm(), this.RIGHT_ARM_BEAM_ATTACK_GOAL, this.getLeftArm(), this.LEFT_ARM_BEAM_ATTACK_GOAL);
 	}
 
 	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
@@ -212,7 +212,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		super.tick();
 		this.partEntityTick();
-		this.tickArmBeamAttack();
+		this.armsBeamAttackHandler.tick();
 		this.tickStrikeAttack();
 
 		//additional things (specific to the volucite warden)
@@ -425,8 +425,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	public static class ArmPartInfo extends PartInfo
 	{
-		private final int segmentIndex;
-		private final boolean isRightArm;
+		public final int segmentIndex;
+		public final boolean isRightArm;
 
 		public ArmPartInfo(EntityType<?> type, String name, int segmentIndex, EntityDataAccessor<Integer> entityIdDataAccessor, Vec3 relativePositionOffset, boolean isRightArm, Map<String, PartInfo> partsMap)
 		{
@@ -483,91 +483,29 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override @Nullable public Vec3 calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
 	{
-		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && (this.isRightArmStriking() || this.isRightArmBeaming())) {return null;}
-		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isLeftArm() && (this.isLeftArmStriking() || this.isLeftArmBeaming())) {return null;}
+		if (partInfo instanceof ArmPartInfo armPartinfo && this.isArmActive(armPartinfo.isRightArm)) {return null;}
 		return MasterPartEntity.super.calculatePartPos(partInfo, masterX, masterY, masterZ);
 	}
 
-	private boolean isArmActive(List<ArmPartInfo> arm)
+	public boolean isArmActive(List<ArmPartInfo> arm)
 	{
-		if (arm.getFirst().isRightArm)
-		{
-			return this.isRightArmStriking() || this.isRightArmBeaming();
-		}
-		else
-		{
-			return this.isLeftArmStriking() || this.isLeftArmBeaming();
-		}
+		return this.isArmActive(arm.getFirst().isRightArm);
 	}
+
+	public boolean isArmActive(boolean isRightArm)
+	{
+		if (isRightArm) {return this.isRightArmActive();}
+		else {return this.isLeftArmActive();}
+	}
+
+	public boolean isRightArmActive() {return this.isRightArmStriking() || this.isRightArmBeaming();}
+	public boolean isLeftArmActive() {return this.isLeftArmStriking() || this.isLeftArmBeaming();}
 
 	/* ---------------------------------------------------- */
 	/* ---------- Arm Beam Attack : Goal methods ---------- */
 	/* ---------------------------------------------------- */
 	public boolean isRightArmBeaming() {return this.RIGHT_ARM_BEAM_ATTACK_GOAL.isActive();}
 	public boolean isLeftArmBeaming() {return this.LEFT_ARM_BEAM_ATTACK_GOAL.isActive();}
-
-	private int ticksSinceLastArmBeamSound = getBeamSoundLength();
-
-	private int inactiveRightArmBeamAttackTicks;
-	private int inactiveLeftArmBeamAttackTicks;
-	private int minimumArmBeamCooldown = 40;
-	private int armBeamCooldownMaxOffset = 200;
-	private int rightArmBeamCooldown = minimumArmBeamCooldown;
-	private int leftArmBeamCooldown = minimumArmBeamCooldown;
-
-	private void tickArmBeamAttack()
-	{
-		if (!this.level().isClientSide())
-		{
-			this.segmentBeamTargetManager.tick();
-		}
-
-		if (this.tickCount % 200 == 0)
-		{
-			this.rightArmBeamCooldown = this.getRandom().nextInt(this.armBeamCooldownMaxOffset);
-			this.leftArmBeamCooldown = this.getRandom().nextInt(this.armBeamCooldownMaxOffset);
-		}
-
-		this.ticksSinceLastArmBeamSound++;
-
-		if (!this.level().isClientSide())
-		{
-			if (this.isRightArmBeaming())
-			{
-				this.inactiveRightArmBeamAttackTicks = 0;
-			}
-			else
-			{
-				this.inactiveRightArmBeamAttackTicks++;
-				if (this.canTriggerArmBeam(this.RIGHT_ARM_BEAM_ATTACK_GOAL))
-				{
-					this.RIGHT_ARM_BEAM_ATTACK_GOAL.trigger();
-				}
-			}
-
-			if (this.isLeftArmBeaming())
-			{
-				this.inactiveLeftArmBeamAttackTicks = 0;
-			}
-			else
-			{
-				this.inactiveLeftArmBeamAttackTicks++;
-				if (this.canTriggerArmBeam(this.LEFT_ARM_BEAM_ATTACK_GOAL))
-				{
-					this.LEFT_ARM_BEAM_ATTACK_GOAL.trigger();
-				}
-			}
-		}
-	}
-
-	private boolean canTriggerArmBeam(VoluciteWardenArmBeamAttackGoal armToTrigger)
-	{
-		boolean targetNotNull = this.getTarget() != null;
-		boolean timerCondition = armToTrigger == this.RIGHT_ARM_BEAM_ATTACK_GOAL ? this.inactiveRightArmBeamAttackTicks > this.rightArmBeamCooldown : this.inactiveLeftArmBeamAttackTicks > this.leftArmBeamCooldown;
-		boolean otherIsNotInPreparePhase = armToTrigger == this.RIGHT_ARM_BEAM_ATTACK_GOAL ? this.LEFT_ARM_BEAM_ATTACK_GOAL.getPhaseType() != ArmBeamAttackPhaseType.PREPARE : this.RIGHT_ARM_BEAM_ATTACK_GOAL.getPhaseType() != ArmBeamAttackPhaseType.PREPARE;
-		boolean selfIsNotAlreadyAttacking = !this.isArmActive(armToTrigger == this.RIGHT_ARM_BEAM_ATTACK_GOAL ? this.getRightArm() : this.getLeftArm());
-		return targetNotNull && timerCondition && otherIsNotInPreparePhase && selfIsNotAlreadyAttacking;
-	}
 
 	private final List<ArmBeamAttackPhase> leftArmBeamAttackSequence = List.of(
 			new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos0(-1), 1.0D, 1),
@@ -597,52 +535,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public boolean canUseArmBeamAttack() {return this.getTarget() != null;}
 
 	public boolean shouldTriggerArmBeamAttack() {return false;}
-
-	public void onArmBeamPhaseFinish(ArmBeamAttackPhaseType currentPhaseType, ArmBeamAttackPhaseType nextPhaseType, boolean isRightArm) //when arm stayed at target pos for long enough so the sequence updates to next phase
-	{
-		if (nextPhaseType == ArmBeamAttackPhaseType.BEAM)
-		{
-			//enabling beam
-			setArmBeam(isRightArm, true);
-		}
-
-		if (nextPhaseType == ArmBeamAttackPhaseType.RECOVERY)
-		{
-			//disabling beam
-			setArmBeam(isRightArm, false);
-		}
-	}
-
-	public void setArmBeam(boolean isRightArm, boolean enable)
-	{
-		List<ArmPartInfo> arm = isRightArm ? this.getRightArm() : this.getLeftArm();
-
-		for (ArmPartInfo armSegmentInfo : arm)
-		{
-			if (armSegmentInfo.getPart() != null && armSegmentInfo.getPart().getSelf() instanceof VoluciteWardenArmSegmentEntity armSegment)
-			{
-				if (enable) {armSegment.queueBeamEnable(armSegmentInfo.segmentIndex * 5);}
-				else
-				{
-					armSegment.disableBeam();
-					this.segmentBeamTargetManager.clearArmTargets(isRightArm);
-				}
-			}
-		}
-	}
-
-	//copy of methods from BeamAttackEntity, edited for arm segments. arms segments beam sound is emitted from master to avoid multiple beam sound to play at once
-	public void makeBeamStartSound() {this.makeBeamSound(true);}
-	public void makeBeamSound() {this.makeBeamSound(false);}
-	public void makeBeamSound(boolean beamStart) {if (this.shouldPlayBeamSound()) {this.playBeamSound(beamStart);}}
-	public void playBeamSound(boolean start) //volume = 1.5F * this.getMaxBeamLength() / 16.0F because this.getMaxBeamLength() / 16.0F = can be hear up to laser max length. adding 50%
-	{
-		this.ticksSinceLastArmBeamSound = 0;
-		this.getLevel().playSound(null, this.getX(), this.getY(), this.getZ(), this.getArmBeamSound(start), this.getSelf().getSoundSource(), 0.09375F * VoluciteWardenArmSegmentEntity.MAX_BEAM_LENGTH, 1.0F);
-	}
-	public boolean shouldPlayBeamSound() {return this.ticksSinceLastArmBeamSound >= this.getBeamSoundLength();}
-	public int getBeamSoundLength() {return 35;}
-	public SoundEvent getArmBeamSound(boolean beamStart) {return beamStart ? AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get() : AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get();}
 
 	/* ---------------------------------------------------- */
 	/* ---------------------------------------------------- */

@@ -1,11 +1,11 @@
-package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.ArmBeamAttack;
+package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack;
 
-public enum ArmBeamAttackPhaseType
+public enum StrikeAttackPhaseType
 {
     //"mandatory" phase types
     //should always have at least one of those all in your sequence
-    PREPARE,
-    BEAM,
+    WINDUP,
+    STRIKE,
     RECOVERY,
 
     //"optional" phase type

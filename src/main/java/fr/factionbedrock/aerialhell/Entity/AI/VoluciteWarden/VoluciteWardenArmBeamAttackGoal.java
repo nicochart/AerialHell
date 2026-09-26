@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden;
 
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.ArmBeamAttack.ArmBeamAttackPhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.ArmBeamAttack.ArmBeamAttackPhaseType;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.ArmBeamAttackPhase;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.ArmBeamAttackPhaseType;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import net.minecraft.util.Mth;
@@ -67,7 +67,7 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
             ArmBeamAttackPhaseType currentType = this.getCurrentPhase().getType();
             this.startNextPhase();
             ArmBeamAttackPhaseType nextType = this.getCurrentPhase().getType();
-            this.goalOwner.onArmBeamPhaseFinish(currentType, nextType, this.isRightArm);
+            this.goalOwner.armsBeamAttackHandler.onArmBeamPhaseFinish(currentType, nextType, this.isRightArm);
         }
     }
 
@@ -121,7 +121,7 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
     {
         if (this.getCurrentPhase().getType() == phaseType) {return;}
         //disabling beam
-        if (phaseType != ArmBeamAttackPhaseType.BEAM) {this.goalOwner.setArmBeam(this.isRightArm, false);}
+        if (phaseType != ArmBeamAttackPhaseType.BEAM) {this.goalOwner.armsBeamAttackHandler.setArmBeam(this.isRightArm, false);}
 
         int previousPhaseIndex = this.phaseIndex;
         int newPhaseIndex = this.getNextPhaseIndex(previousPhaseIndex);

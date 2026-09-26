@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.StrikeAttack;
+package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack;
 
 import net.minecraft.world.phys.Vec3;
 

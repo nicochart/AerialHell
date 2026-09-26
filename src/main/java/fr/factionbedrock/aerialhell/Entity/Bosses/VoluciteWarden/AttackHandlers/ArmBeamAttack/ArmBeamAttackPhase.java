@@ -1,4 +1,4 @@
-package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.ArmBeamAttack;
+package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack;
 
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmBeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
