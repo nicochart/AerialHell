@@ -12,24 +12,25 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class VoluciteWardenArmBeamAttackGoal extends Goal
 {
     public final VoluciteWardenEntity goalOwner;
-    private final boolean isRightArm;
+    public final Supplier<List<VoluciteWardenEntity.ArmPartInfo>> arm;
     private final float distanceOffsetTolerance; //used to avoid float imprecision. goal can skip to next phase only if distance to target < distanceOffsetTolerance for some (parametrized) ticks
     private int phaseIndex;
     private Vec3 cachedUnrotatedRelativePos; //guide pos
 
-    public VoluciteWardenArmBeamAttackGoal(VoluciteWardenEntity entity, float distanceOffsetTolerance, boolean isRightArm)
+    public VoluciteWardenArmBeamAttackGoal(VoluciteWardenEntity entity, Supplier<List<VoluciteWardenEntity.ArmPartInfo>> arm, float distanceOffsetTolerance)
     {
         this.goalOwner = entity;
-        this.isRightArm = isRightArm;
+        this.arm = arm;
         this.distanceOffsetTolerance = distanceOffsetTolerance;
         this.phaseIndex = 0;
     }
 
-    public List<ArmBeamAttackPhase> getPhases() {return this.goalOwner.getArmBeamAttackSequence(this.isRightArm);}
+    public List<ArmBeamAttackPhase> getPhases() {return this.goalOwner.armsBeamAttackHandler.getAttackSequence(this.arm.get().getFirst().isRightArm);}
 
     public ArmBeamAttackPhase getCurrentPhase() {return this.getPhase(this.phaseIndex);}
     public ArmBeamAttackPhase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
@@ -39,7 +40,7 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
 
     @Override public boolean canUse()
     {
-        if (this.goalOwner.canUseArmBeamAttack() && this.goalOwner.shouldTriggerArmBeamAttack()) {this.trigger();}
+        if (this.goalOwner.getTarget() != null && this.goalOwner.shouldTriggerArmBeamAttack()) {this.trigger();}
         return this.isActive();
     }
 
@@ -52,7 +53,7 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
 
     @Override public void tick()
     {
-        if (!this.goalOwner.canUseArmBeamAttack()) {this.skipToRecoveryPhase();}
+        if (this.goalOwner.getTarget() == null) {this.skipToRecoveryPhase();}
         if (!this.guideIsValid()) {this.skipToInactivePhase(); return;}
         if (this.getGuide() != null && this.cachedUnrotatedRelativePos == null) {this.cachedUnrotatedRelativePos = this.goalOwner.toUnrotatedRelativePos(this.getGuide().position());}
 
@@ -67,7 +68,7 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
             ArmBeamAttackPhaseType currentType = this.getCurrentPhase().getType();
             this.startNextPhase();
             ArmBeamAttackPhaseType nextType = this.getCurrentPhase().getType();
-            this.goalOwner.armsBeamAttackHandler.onArmBeamPhaseFinish(currentType, nextType, this.isRightArm);
+            this.goalOwner.armsBeamAttackHandler.onArmBeamPhaseFinish(currentType, nextType, this.arm.get().getFirst().isRightArm);
         }
     }
 
@@ -75,8 +76,7 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
 
     @Nullable public LivingEntity getGuide()
     {
-        List<VoluciteWardenEntity.ArmPartInfo> arm = this.isRightArm ? this.goalOwner.getRightArm() : this.goalOwner.getLeftArm();
-        return arm.getLast().getPart() != null ? arm.getLast().getPart().getSelf() : null;
+        return this.arm.get().getLast().getPart() != null ? this.arm.get().getLast().getPart().getSelf() : null;
     }
 
     protected void setMasterLookAt()
@@ -121,7 +121,7 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
     {
         if (this.getCurrentPhase().getType() == phaseType) {return;}
         //disabling beam
-        if (phaseType != ArmBeamAttackPhaseType.BEAM) {this.goalOwner.armsBeamAttackHandler.setArmBeam(this.isRightArm, false);}
+        if (phaseType != ArmBeamAttackPhaseType.BEAM) {this.goalOwner.armsBeamAttackHandler.setArmBeam(this.arm.get().getFirst().isRightArm, false);}
 
         int previousPhaseIndex = this.phaseIndex;
         int newPhaseIndex = this.getNextPhaseIndex(previousPhaseIndex);
@@ -191,13 +191,12 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
 
     protected void setSegmentsPos()
     {
-        List<VoluciteWardenEntity.ArmPartInfo> arm = this.isRightArm ? this.goalOwner.getRightArm() : this.goalOwner.getLeftArm();
-        int totalSegments = arm.size();
-        Vec3 armStartPos = arm.getFirst().getUnrotatedRelativePositionOffset();
+        int totalSegments = this.arm.get().size();
+        Vec3 armStartPos = this.arm.get().getFirst().getUnrotatedRelativePositionOffset();
         Vec3 armEndPos = this.getCachedUnrotatedRelativePos();
         double curveStrengthFactor = this.getPhaseType() == ArmBeamAttackPhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.getDistanceToTarget()) : 1.0D;
 
-        for (VoluciteWardenEntity.ArmPartInfo partInfo : arm)
+        for (VoluciteWardenEntity.ArmPartInfo partInfo : this.arm.get())
         {
             PartEntity part = partInfo.getPart();
             if (part != null)
@@ -222,7 +221,7 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
 
     private void setPartRot(@NotNull PartEntity part, Vec3 armStartPos, Vec3 armEndPos)
     {
-        float relativeYRot = (this.isRightArm ? 1 : -1) * computeRelativeYRot(armStartPos, armEndPos, 1.0F, 1.0F);
+        float relativeYRot = (this.arm.get().getFirst().isRightArm ? 1 : -1) * computeRelativeYRot(armStartPos, armEndPos, 1.0F, 1.0F);
         float yRot = this.goalOwner.toLevelYRot(relativeYRot);
         part.getSelf().setYRot(yRot);
         part.getSelf().yBodyRot = yRot;
@@ -258,7 +257,7 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
 
     private Vec3 interpolateArmPos(Vec3 start, Vec3 end, double curveStrengthFactor, int index, int totalSegments)
     {
-        int rightLeftfactor = this.isRightArm ? 1 : -1;
+        int rightLeftfactor = this.arm.get().getFirst().isRightArm ? 1 : -1;
         double progress = (double)(index - 1) / (totalSegments - 1);
 
         Vec3 armMiddle = start.add(end).scale(0.5);

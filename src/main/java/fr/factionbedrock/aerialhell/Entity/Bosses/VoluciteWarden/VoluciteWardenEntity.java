@@ -334,8 +334,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
     {
 		this.RIGHT_ARM_STRIKE_ATTACK_GOAL = new VoluciteWardenStrikeAttackGoal(this, 0.2F, new StrikeAttackGoal.StrikeInfo(this::getRightArmSegment7, 0.0F, 10.0F, 4.0F, 3.5F, false), true);
 		this.LEFT_ARM_STRIKE_ATTACK_GOAL = new VoluciteWardenStrikeAttackGoal(this, 0.2F, new StrikeAttackGoal.StrikeInfo(this::getLeftArmSegment7, 0.0F, 10.0F, 4.0F, 3.5F, false), false);
-		this.RIGHT_ARM_BEAM_ATTACK_GOAL = new VoluciteWardenArmBeamAttackGoal(this, 0.2F, true);
-		this.LEFT_ARM_BEAM_ATTACK_GOAL = new VoluciteWardenArmBeamAttackGoal(this, 0.2F, false);
+		this.RIGHT_ARM_BEAM_ATTACK_GOAL = new VoluciteWardenArmBeamAttackGoal(this, this::getRightArm, 0.2F);
+		this.LEFT_ARM_BEAM_ATTACK_GOAL = new VoluciteWardenArmBeamAttackGoal(this, this::getLeftArm, 0.2F);
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
@@ -507,45 +507,10 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public boolean isRightArmBeaming() {return this.RIGHT_ARM_BEAM_ATTACK_GOAL.isActive();}
 	public boolean isLeftArmBeaming() {return this.LEFT_ARM_BEAM_ATTACK_GOAL.isActive();}
 
-	private final List<ArmBeamAttackPhase> leftArmBeamAttackSequence = List.of(
-			new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos0(-1), 1.0D, 1),
-			new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos1(-1), 1.0D, 1),
-			new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos2(-1), 1.0D, 1),
-			new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos3(-1), 1.0D, 1),
-			new ArmBeamAttackPhase(ArmBeamAttackPhaseType.BEAM, () -> this.getRelativeBeamingPos(-1), 2.0D, VoluciteWardenArmSegmentEntity.BEAMING_TOTAL_DURATION + 20),
-			new ArmBeamAttackPhase(ArmBeamAttackPhaseType.RECOVERY, () -> this.getRelativeBeamRecoveryPos(-1), 0.4D, 1),
-			new ArmBeamAttackInactivePhase()
-	);
-
-	private final List<ArmBeamAttackPhase> rightArmBeamAttackSequence = List.of(
-			new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos0(1), 1.0D, 1),
-			new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos1(1), 1.0D, 1),
-			new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos2(1), 1.0D, 1),
-			new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos3(1), 1.0D, 1),
-			new ArmBeamAttackPhase(ArmBeamAttackPhaseType.BEAM, () -> this.getRelativeBeamingPos(1), 2.0D, VoluciteWardenArmSegmentEntity.BEAMING_TOTAL_DURATION + 20),
-			new ArmBeamAttackPhase(ArmBeamAttackPhaseType.RECOVERY, () -> this.getRelativeBeamRecoveryPos(1), 0.4D, 1),
-			new ArmBeamAttackInactivePhase()
-	);
-
-	public List<ArmBeamAttackPhase> getArmBeamAttackSequence(boolean isRightArm)
-	{
-		return isRightArm ? this.rightArmBeamAttackSequence : this.leftArmBeamAttackSequence;
-	}
-
-	public boolean canUseArmBeamAttack() {return this.getTarget() != null;}
-
 	public boolean shouldTriggerArmBeamAttack() {return false;}
-
 	/* ---------------------------------------------------- */
 	/* ---------------------------------------------------- */
 	/* ---------------------------------------------------- */
-
-	private Vec3 getRelativePreparePos0(int sideFactor) {return new Vec3(sideFactor * 12.0F, 10.0F, 0.0F);}
-	private Vec3 getRelativePreparePos1(int sideFactor) {return new Vec3(sideFactor * 18.0F, 17.0F, 2.0F);}
-	private Vec3 getRelativePreparePos2(int sideFactor) {return new Vec3(sideFactor * 24.0F, 23.0F, 4.0F);}
-	private Vec3 getRelativePreparePos3(int sideFactor) {return new Vec3(sideFactor * 28.0F, 26.5F, 5.0F);}
-	private Vec3 getRelativeBeamingPos(int sideFactor) {return this.getRelativePreparePos3(sideFactor);}
-	private Vec3 getRelativeBeamRecoveryPos(int sideFactor) {return new Vec3(sideFactor * 9.5F, 5.5F, 0.0F);}
 
 	/* --------------------------------------------------------------------------- */
 	/* ---------- StrikeAttackEntity : Interface methods implementation ---------- */

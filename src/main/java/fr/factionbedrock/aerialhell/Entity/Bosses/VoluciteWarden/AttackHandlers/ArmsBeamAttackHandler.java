@@ -1,14 +1,13 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers;
 
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmBeamAttackGoal;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.ArmBeamAttackHandler;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.ArmBeamAttackPhaseType;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.SegmentBeamTargetManager;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenArmSegmentEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -97,6 +96,32 @@ public class ArmsBeamAttackHandler
             }
         }
     }
+
+    public List<ArmBeamAttackPhase> getAttackSequence(boolean isRightArm)
+    {
+        return isRightArm ? this.rightArmHandler.attackSequence : this.leftArmHandler.attackSequence;
+    }
+
+    public List<ArmBeamAttackPhase> createAttackSequence(List<VoluciteWardenEntity.ArmPartInfo> arm)
+    {
+        int sideFactor = arm.getFirst().isRightArm ? 1 : -1;
+        return List.of(
+                new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos0(sideFactor), 1.0D, 1),
+                new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos1(sideFactor), 1.0D, 1),
+                new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos2(sideFactor), 1.0D, 1),
+                new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos3(sideFactor), 1.0D, 1),
+                new ArmBeamAttackPhase(ArmBeamAttackPhaseType.BEAM, () -> this.getRelativeBeamingPos(sideFactor), 2.0D, VoluciteWardenArmSegmentEntity.BEAMING_TOTAL_DURATION + 20),
+                new ArmBeamAttackPhase(ArmBeamAttackPhaseType.RECOVERY, () -> this.getRelativeBeamRecoveryPos(sideFactor), 0.4D, 1),
+                new ArmBeamAttackInactivePhase()
+        );
+    }
+
+    private Vec3 getRelativePreparePos0(int sideFactor) {return new Vec3(sideFactor * 12.0F, 10.0F, 0.0F);}
+    private Vec3 getRelativePreparePos1(int sideFactor) {return new Vec3(sideFactor * 18.0F, 17.0F, 2.0F);}
+    private Vec3 getRelativePreparePos2(int sideFactor) {return new Vec3(sideFactor * 24.0F, 23.0F, 4.0F);}
+    private Vec3 getRelativePreparePos3(int sideFactor) {return new Vec3(sideFactor * 28.0F, 26.5F, 5.0F);}
+    private Vec3 getRelativeBeamingPos(int sideFactor) {return this.getRelativePreparePos3(sideFactor);}
+    private Vec3 getRelativeBeamRecoveryPos(int sideFactor) {return new Vec3(sideFactor * 9.5F, 5.5F, 0.0F);}
 
     //copy of methods from BeamAttackEntity, edited for arm segments. arms segments beam sound is emitted from master handler to avoid multiple beam sound to play at once
     public void makeBeamStartSound() {this.makeBeamSound(true);}

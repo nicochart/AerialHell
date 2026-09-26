@@ -14,6 +14,7 @@ public class ArmBeamAttackHandler
     public final List<VoluciteWardenEntity.ArmPartInfo> arm;
     public final VoluciteWardenArmBeamAttackGoal goal;
     public final ArmsBeamAttackHandler globalHandler;
+    public final List<ArmBeamAttackPhase> attackSequence;
     private int inactiveTicks;
     private int cooldown = 40;
 
@@ -23,6 +24,7 @@ public class ArmBeamAttackHandler
         this.arm = arm;
         this.goal = goal;
         this.globalHandler = globalHandler;
+        this.attackSequence = globalHandler.createAttackSequence(arm);
     }
 
     @Nullable private ArmBeamAttackHandler getOtherArmHandler()

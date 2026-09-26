@@ -33,15 +33,13 @@ public class SegmentBeamTargetManager
         //validating and cleaning existing targets
         this.validateAndCleanTargets();
 
-        // 3. Affectation automatique si les bras attaquent
-        // (À adapter selon comment tu stockes tes variables d'état de bras)
         if (this.warden.isRightArmBeaming())
         {
-            this.assignTargetsForArm(this.warden.getRightArm(), true);
+            this.assignTargetsForArm(this.warden.getRightArm());
         }
         if (this.warden.isLeftArmBeaming())
         {
-            this.assignTargetsForArm(this.warden.getLeftArm(), false);
+            this.assignTargetsForArm(this.warden.getLeftArm());
         }
     }
 
@@ -77,8 +75,9 @@ public class SegmentBeamTargetManager
         }
     }
 
-    private void assignTargetsForArm(List<VoluciteWardenEntity.ArmPartInfo> arm, boolean isRightArm)
+    private void assignTargetsForArm(List<VoluciteWardenEntity.ArmPartInfo> arm)
     {
+        boolean isRightArm = arm.getFirst().isRightArm;
         for (VoluciteWardenEntity.ArmPartInfo armPartInfo : arm)
         {
             if (armPartInfo.getPart() == null || !(armPartInfo.getPart().getSelf() instanceof VoluciteWardenArmSegmentEntity segment)) {continue;}
