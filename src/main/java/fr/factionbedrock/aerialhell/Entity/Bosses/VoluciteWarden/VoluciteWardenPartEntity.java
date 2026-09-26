@@ -36,6 +36,9 @@ public class VoluciteWardenPartEntity extends Monster implements PartEntity
         /* ----------------------------- */
     }
 
+    @Override public boolean fireImmune() {return true;}
+    @Override public boolean displayFireAnimation() {return false;}
+
     /* ------------------------------------------------------------------- */
     /* ---------- PartEntity : Interface methods implementation ---------- */
     /* ------------------------------------------------------------------- */
