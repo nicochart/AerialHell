@@ -5,32 +5,33 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Supplier;
 
-public class VoluciteWardenStrikeAttackGoal extends StrikeAttackGoal
+public class VoluciteWardenArmStrikeAttackGoal extends StrikeAttackGoal
 {
-    private final boolean isRightArm;
+    public final Supplier<List<VoluciteWardenEntity.ArmPartInfo>> arm;
 
-    public VoluciteWardenStrikeAttackGoal(VoluciteWardenEntity entity, float distanceOffsetTolerance, StrikeInfo strikeInfo, boolean isRightArm)
+    public VoluciteWardenArmStrikeAttackGoal(VoluciteWardenEntity entity, Supplier<List<VoluciteWardenEntity.ArmPartInfo>> arm, Supplier<LivingEntity> entityUsedToStrikeSupplier, float distanceOffsetTolerance)
     {
-        super(entity, distanceOffsetTolerance, strikeInfo);
-        this.isRightArm = isRightArm;
+        super(entity, distanceOffsetTolerance, new StrikeAttackGoal.StrikeInfo(entityUsedToStrikeSupplier, 0.0F, 10.0F, 4.0F, 3.5F, false));
+        this.arm = arm;
     }
 
     private VoluciteWardenEntity getGoalOwner() {return (VoluciteWardenEntity) this.goalOwner;}
 
     @Override protected void setEntityUsedToStrikePos()
     {
-        List<VoluciteWardenEntity.ArmPartInfo> arm = this.isRightArm ? this.getGoalOwner().getRightArm() : this.getGoalOwner().getLeftArm();
-        int totalSegments = arm.size();
-        Vec3 armStartPos = arm.getFirst().getUnrotatedRelativePositionOffset();
+        int totalSegments = this.arm.get().size();
+        Vec3 armStartPos = this.arm.get().getFirst().getUnrotatedRelativePositionOffset();
         Vec3 armEndPos = this.getCachedUnrotatedRelativePos();
         double curveStrengthFactor = this.getPhaseType() == StrikeAttackPhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.getDistanceToTarget()) : 1.0D;
 
-        for (VoluciteWardenEntity.ArmPartInfo partInfo : arm)
+        for (VoluciteWardenEntity.ArmPartInfo partInfo : this.arm.get())
         {
             PartEntity part = partInfo.getPart();
             if (part != null)
@@ -55,7 +56,7 @@ public class VoluciteWardenStrikeAttackGoal extends StrikeAttackGoal
 
     private void setPartRot(@NotNull PartEntity part, Vec3 armStartPos, Vec3 armEndPos)
     {
-        float relativeYRot = (this.isRightArm ? 1 : -1) * computeRelativeYRot(armStartPos, armEndPos, 1.0F, 1.0F);
+        float relativeYRot = (this.arm.get().getFirst().isRightArm ? 1 : -1) * computeRelativeYRot(armStartPos, armEndPos, 1.0F, 1.0F);
         float yRot = this.goalOwner.toLevelYRot(relativeYRot);
         part.getSelf().setYRot(yRot);
         part.getSelf().yBodyRot = yRot;
@@ -91,7 +92,7 @@ public class VoluciteWardenStrikeAttackGoal extends StrikeAttackGoal
 
     private Vec3 interpolateArmPos(Vec3 start, Vec3 end, double curveStrengthFactor, int index, int totalSegments)
     {
-        int rightLeftfactor = this.isRightArm ? 1 : -1;
+        int rightLeftfactor = this.arm.get().getFirst().isRightArm ? 1 : -1;
         double progress = (double)(index - 1) / (totalSegments - 1);
 
         Vec3 armMiddle = start.add(end).scale(0.5);

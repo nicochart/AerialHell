@@ -4,13 +4,10 @@ import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.StrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmBeamAttackGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenStrikeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmStrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.ArmBeamAttackInactivePhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.ArmBeamAttackPhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.ArmBeamAttackPhaseType;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.SegmentBeamTargetManager;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsBeamAttackHandler;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsStrikeAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackInactivePhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhaseType;
@@ -61,10 +58,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public static float EYE_RELATIVE_HEIGHT = 34.50F;
 	public static float CORE_RELATIVE_HEIGHT = 20.50F;
 
-	private VoluciteWardenStrikeAttackGoal RIGHT_ARM_STRIKE_ATTACK_GOAL;
-	private VoluciteWardenStrikeAttackGoal LEFT_ARM_STRIKE_ATTACK_GOAL;
-	private static final EntityDataAccessor<Boolean> HAS_STRIKE_ACTIVE = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN);
-	private static final EntityDataAccessor<Boolean> IS_STRIKING = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN);
+	private VoluciteWardenArmStrikeAttackGoal RIGHT_ARM_STRIKE_ATTACK_GOAL;
+	private VoluciteWardenArmStrikeAttackGoal LEFT_ARM_STRIKE_ATTACK_GOAL;
+	public static final EntityDataAccessor<Boolean> HAS_STRIKE_ACTIVE = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> IS_STRIKING = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN);
+	public final ArmsStrikeAttackHandler armsStrikeAttackHandler;
 
 	private VoluciteWardenArmBeamAttackGoal RIGHT_ARM_BEAM_ATTACK_GOAL;
 	private VoluciteWardenArmBeamAttackGoal LEFT_ARM_BEAM_ATTACK_GOAL;
@@ -149,6 +147,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		bossInfo.setColor(BossEvent.BossBarColor.BLUE);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 
+		this.armsStrikeAttackHandler = new ArmsStrikeAttackHandler(this, this.getRightArm(), this.RIGHT_ARM_STRIKE_ATTACK_GOAL, this.getLeftArm(), this.LEFT_ARM_STRIKE_ATTACK_GOAL);
 		this.armsBeamAttackHandler = new ArmsBeamAttackHandler(this, this.getRightArm(), this.RIGHT_ARM_BEAM_ATTACK_GOAL, this.getLeftArm(), this.LEFT_ARM_BEAM_ATTACK_GOAL);
 	}
 
@@ -212,8 +211,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		super.tick();
 		this.partEntityTick();
+		this.armsStrikeAttackHandler.tick();
 		this.armsBeamAttackHandler.tick();
-		this.tickStrikeAttack();
 
 		//additional things (specific to the volucite warden)
 		if (!this.isInDeadOrDyingPhase()) {this.timeDying = 0;}
@@ -332,8 +331,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override protected void registerGoals()
     {
-		this.RIGHT_ARM_STRIKE_ATTACK_GOAL = new VoluciteWardenStrikeAttackGoal(this, 0.2F, new StrikeAttackGoal.StrikeInfo(this::getRightArmSegment7, 0.0F, 10.0F, 4.0F, 3.5F, false), true);
-		this.LEFT_ARM_STRIKE_ATTACK_GOAL = new VoluciteWardenStrikeAttackGoal(this, 0.2F, new StrikeAttackGoal.StrikeInfo(this::getLeftArmSegment7, 0.0F, 10.0F, 4.0F, 3.5F, false), false);
+		this.RIGHT_ARM_STRIKE_ATTACK_GOAL = new VoluciteWardenArmStrikeAttackGoal(this, this::getRightArm, this::getRightArmSegment7, 0.2F);
+		this.LEFT_ARM_STRIKE_ATTACK_GOAL = new VoluciteWardenArmStrikeAttackGoal(this, this::getLeftArm, this::getLeftArmSegment7, 0.2F);
 		this.RIGHT_ARM_BEAM_ATTACK_GOAL = new VoluciteWardenArmBeamAttackGoal(this, this::getRightArm, 0.2F);
 		this.LEFT_ARM_BEAM_ATTACK_GOAL = new VoluciteWardenArmBeamAttackGoal(this, this::getLeftArm, 0.2F);
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
@@ -516,116 +515,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ---------- StrikeAttackEntity : Interface methods implementation ---------- */
 	/* ---- except tickStrikeAttack() and canTriggerStrike() that are specific --- */
 	/* --------------------------------------------------------------------------- */
-
 	public boolean isRightArmStriking() {return this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive();}
 	public boolean isLeftArmStriking() {return this.LEFT_ARM_STRIKE_ATTACK_GOAL.isActive();}
 
-	private Vec3 strikeTargetPos;
-	private int inactiveRightArmStrikeAttackTicks;
-	private int inactiveLeftArmStrikeAttackTicks;
-	private int minimumStrikeCooldown = 40;
-	private int strikeCooldownMaxOffset = 200;
-	private int rightArmStrikeCooldown = minimumStrikeCooldown;
-	private int leftArmStrikeCooldown = minimumStrikeCooldown;
-
-	private void tickStrikeAttack()
-	{
-		if (this.tickCount % 200 == 0)
-		{
-			this.rightArmStrikeCooldown = this.getRandom().nextInt(this.strikeCooldownMaxOffset);
-			this.leftArmStrikeCooldown = this.getRandom().nextInt(this.strikeCooldownMaxOffset);
-		}
-
-		//updating hasStrikeActive and isStriking sync data
-		if (!this.level().isClientSide())
-		{
-			this.getEntityData().set(HAS_STRIKE_ACTIVE, this.isRightArmStriking() || this.isLeftArmStriking());
-			this.getEntityData().set(IS_STRIKING, this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isStriking() || this.LEFT_ARM_STRIKE_ATTACK_GOAL.isStriking());
-		}
-
-		//updating strike target pos
-		//using hasStrikeActive and isStriking synced data because goals do not exist client side
-		if (this.getEntityData().get(HAS_STRIKE_ACTIVE))
-		{
-			//condition to update target pos
-			//target not null and no arm is already striking
-			if (this.getSyncedTarget()!= null && !this.getEntityData().get(IS_STRIKING))
-			{
-				this.strikeTargetPos = this.toUnrotatedRelativePos(this.getSyncedTarget().position());
-			}
-		}
-
-		if (!this.level().isClientSide())
-		{
-			if (this.isRightArmStriking())
-			{
-				this.inactiveRightArmStrikeAttackTicks = 0;
-			}
-			else
-			{
-				this.inactiveRightArmStrikeAttackTicks++;
-				if (this.canTriggerStrike(this.RIGHT_ARM_STRIKE_ATTACK_GOAL))
-				{
-					this.RIGHT_ARM_STRIKE_ATTACK_GOAL.trigger();
-				}
-			}
-
-			if (this.isLeftArmStriking())
-			{
-				this.inactiveLeftArmStrikeAttackTicks = 0;
-			}
-			else
-			{
-				this.inactiveLeftArmStrikeAttackTicks++;
-				if (this.canTriggerStrike(this.LEFT_ARM_STRIKE_ATTACK_GOAL))
-				{
-					this.LEFT_ARM_STRIKE_ATTACK_GOAL.trigger();
-				}
-			}
-		}
-	}
-
-	private boolean canTriggerStrike(VoluciteWardenStrikeAttackGoal armToTrigger)
-	{
-		boolean targetNotNull = this.getTarget() != null;
-		boolean handNotNull = armToTrigger == this.RIGHT_ARM_STRIKE_ATTACK_GOAL ? this.RIGHT_ARM_SEGMENT_7.getPart() != null : this.LEFT_ARM_SEGMENT_7.getPart() != null;
-		boolean timerCondition = armToTrigger == this.RIGHT_ARM_STRIKE_ATTACK_GOAL ? this.inactiveRightArmStrikeAttackTicks > this.rightArmStrikeCooldown : this.inactiveLeftArmStrikeAttackTicks > this.leftArmStrikeCooldown;
-		boolean otherIsNotInWindupPhase = armToTrigger == this.RIGHT_ARM_STRIKE_ATTACK_GOAL ? this.LEFT_ARM_STRIKE_ATTACK_GOAL.getPhaseType() != StrikeAttackPhaseType.WINDUP : this.RIGHT_ARM_STRIKE_ATTACK_GOAL.getPhaseType() != StrikeAttackPhaseType.WINDUP;
-		boolean selfIsNotAlreadyAttacking = !this.isArmActive(armToTrigger == this.RIGHT_ARM_STRIKE_ATTACK_GOAL ? this.getRightArm() : this.getLeftArm());
-		return targetNotNull && handNotNull && timerCondition && otherIsNotInWindupPhase && selfIsNotAlreadyAttacking;
-	}
-
-	private final List<StrikeAttackPhase> leftArmStrikeAttackSequence = List.of(
-			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos0(-1), 1.0D, 1),
-			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos1(-1), 1.0D, 1),
-			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos2(-1), 1.0D, 1),
-			new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos3(-1), 1.0D, 40),
-			new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, this::getRelativeStrikePos, 2.0D, 5),
-			new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, () -> this.getRelativeRecoveryPos(-1), 0.4D, 1),
-			new StrikeAttackInactivePhase()
-	);
-
-	private final List<StrikeAttackPhase> rightArmStrikeAttackSequence = List.of(
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos0(1), 1.0D, 1),
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos1(1), 1.0D, 1),
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos2(1), 1.0D, 1),
-		new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos3(1), 1.0D, 40),
-		new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, this::getRelativeStrikePos, 2.0D, 5),
-		new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, () -> this.getRelativeRecoveryPos(1), 0.4D, 1),
-		new StrikeAttackInactivePhase()
-	);
-
 	@Override public List<StrikeAttackPhase> getStrikeAttackSequence(@NotNull LivingEntity entityUsedToStrike)
 	{
-		if (this.RIGHT_ARM_SEGMENT_7.getPart() != null && this.RIGHT_ARM_SEGMENT_7.getPart().getSelf() == entityUsedToStrike)
-		{
-			return rightArmStrikeAttackSequence;
-		}
-		else if (this.LEFT_ARM_SEGMENT_7.getPart() != null && this.LEFT_ARM_SEGMENT_7.getPart().getSelf() == entityUsedToStrike)
-		{
-			return leftArmStrikeAttackSequence;
-		}
-		else {return this.getDefaultStrikeAttackSequence();}
+		return this.armsStrikeAttackHandler.getStrikeAttackSequence(entityUsedToStrike);
 	}
 
 	@Override public boolean canUseStrikeAttack() {return this.getTarget() != null;}
@@ -648,20 +543,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* --------------------------------------------------------------------------- */
 	/* --------------------------------------------------------------------------- */
 
-	private Vec3 getRelativeWindupPos0(int sideFactor) {return new Vec3(sideFactor * 12.0F, 8.5F, 4.0F);}
-	private Vec3 getRelativeWindupPos1(int sideFactor) {return new Vec3(sideFactor * 20.0F, 18.0F, 8.0F);}
-	private Vec3 getRelativeWindupPos2(int sideFactor) {return new Vec3(sideFactor * 18.0F, 31.0F, 4.0F);}
-	private Vec3 getRelativeWindupPos3(int sideFactor) {return new Vec3(sideFactor * 10.0F, 37.0F, 0.0F);}
-
-	private Vec3 getRelativeStrikePos() {return this.strikeTargetPos;}
-
-	private Vec3 getRelativeRecoveryPos(int sideFactor) {return new Vec3(sideFactor * 9.5F, 5.5F, 0.0F);}
-
 	@Override public void handleEntityEvent(byte id)
 	{
 		if (id == 68)
 		{
-			Vec3 center = this.fromUnrotatedRelativeToLevelPos(this.getRelativeStrikePos()); //can't use this.getEntityUsedToStrike().position() because client pos is interpolated
+			Vec3 center = this.fromUnrotatedRelativeToLevelPos(this.armsStrikeAttackHandler.getRelativeStrikePos()); //can't use this.getEntityUsedToStrike().position() because client pos is interpolated
 			this.spawnStrikeParticles(center, 0.5F);
 		}
 		else {super.handleEntityEvent(id);}

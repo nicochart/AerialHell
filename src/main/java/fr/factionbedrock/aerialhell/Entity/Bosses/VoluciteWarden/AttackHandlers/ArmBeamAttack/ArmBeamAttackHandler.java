@@ -34,9 +34,9 @@ public class ArmBeamAttackHandler
 
     public void tick()
     {
-        if (warden.tickCount % 200 == 0) {this.cooldown = warden.getRandom().nextInt(200);}
+        if (this.warden.tickCount % 200 == 0) {this.cooldown = this.warden.getRandom().nextInt(200);}
 
-        if (!warden.level().isClientSide())
+        if (!this.warden.level().isClientSide())
         {
             boolean isBeaming = this.goal.isActive();
 
