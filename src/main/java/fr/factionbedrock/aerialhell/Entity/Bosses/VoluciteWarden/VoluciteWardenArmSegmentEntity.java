@@ -12,7 +12,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 
 public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity implements BeamAttackEntity
 {
@@ -30,7 +29,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
     private final BeamAttackEntityInfo BEAM_ATTACK_ENTITY_INFO = new BeamAttackEntityInfo(ATTACK_TARGET_ID, BEAMING_PHASE);
     /* ----------------------------- */
 
-    private VoluciteWardenArmBeamAttackGoal BEAM_ATTACK_GOAL;
+    private ArmSegmentBeamAttackGoal BEAM_ATTACK_GOAL;
 
     public VoluciteWardenArmSegmentEntity(EntityType<? extends VoluciteWardenPartEntity> type, Level level) {super(type, level);}
 
@@ -45,7 +44,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
 
     @Override protected void registerGoals()
     {
-        this.BEAM_ATTACK_GOAL = new VoluciteWardenArmBeamAttackGoal(this, BEAMING_LOAD_DURATION, BEAMING_OVERHEAT_DURATION, BEAMING_TOTAL_DURATION, BEAMING_COOLDOWN);
+        this.BEAM_ATTACK_GOAL = new ArmSegmentBeamAttackGoal(this, BEAMING_LOAD_DURATION, BEAMING_OVERHEAT_DURATION, BEAMING_TOTAL_DURATION, BEAMING_COOLDOWN);
         //this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         super.registerGoals();
         this.goalSelector.addGoal(4, BEAM_ATTACK_GOAL);
@@ -196,11 +195,11 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
 
     @Override public float getMaxBeamLength() {return MAX_BEAM_LENGTH;}
 
-    public static class VoluciteWardenArmBeamAttackGoal extends BeamAttackGoal
+    public static class ArmSegmentBeamAttackGoal extends BeamAttackGoal
     {
         public boolean enabled;
 
-        public VoluciteWardenArmBeamAttackGoal(BeamAttackEntity entity, int beamingLoadDuration, int beamingOverheatDuration, int beamingTotalDuration, int cooldownDuration)
+        public ArmSegmentBeamAttackGoal(BeamAttackEntity entity, int beamingLoadDuration, int beamingOverheatDuration, int beamingTotalDuration, int cooldownDuration)
         {
             super(entity, beamingLoadDuration, beamingOverheatDuration, beamingTotalDuration, cooldownDuration);
             this.enabled = false;

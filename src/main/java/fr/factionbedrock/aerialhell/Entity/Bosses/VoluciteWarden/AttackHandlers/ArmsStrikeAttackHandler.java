@@ -30,8 +30,7 @@ public class ArmsStrikeAttackHandler
 
     public boolean isClientSide() {return this.warden.level().isClientSide();}
 
-    @Nullable
-    public ArmStrikeAttackHandler getOtherArmHandler(ArmStrikeAttackHandler askingHandler)
+    @Nullable public ArmStrikeAttackHandler getOtherArmHandler(ArmStrikeAttackHandler askingHandler)
     {
         if (askingHandler == this.leftArmHandler) {return this.rightArmHandler;}
         else if (askingHandler == this.rightArmHandler) {return this.leftArmHandler;}

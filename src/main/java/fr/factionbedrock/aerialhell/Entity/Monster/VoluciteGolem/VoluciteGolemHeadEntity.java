@@ -167,7 +167,7 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
     /* ------------------------------------------------------------------------------------------- */
     /* ---------- BeamAttackEntity : Interface methods Overridden for specific behavior ---------- */
     /* ------------------------------------------------------------------------------------------- */
-    //@Override public Vec3 getBeamStartPos() {return this.getEyePosition().add(0.0F, -1.0F, 0.0F);} moves the server-side beam but not the render, due to eyeHeight hard-coded usage in render
+    //@Override public Vec3 getBeamStartPos() {return this.getEyePosition().add(0.0F, -1.0F, 0.0F);} do some testing before usage - previously (visually) didn't work client side due to eyeHeight hard-coded usage in render
     @Override public boolean canBeamHitEntity(LivingEntity entity) {return this.getMaster() != null && !this.getMaster().is(entity);}
     @Override public Entity getImmediateBeamSource() {return this;}
     @Override public Entity getTrueBeamSource() {return this.getMaster() != null ? this.getMaster() : this;}

@@ -62,7 +62,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_CORE.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.CORE));
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), EmptyRender::new);
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_NECK.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.NECK));
-        event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_HEAD.get(), (context) -> new VoluciteWardenPartRender(context, VoluciteWardenPartModel.Part.HEAD));
+        event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_HEAD.get(), (context) -> new VoluciteWardenHeadRender(context, VoluciteWardenPartModel.Part.HEAD));
         event.registerEntityRenderer(AerialHellEntities.FLYING_JELLYFISH.get(), FlyingJellyfishRender::new);
         event.registerEntityRenderer(AerialHellEntities.SHADOW_FLYING_SKULL.get(), ShadowFlyingSkullRender::new);
         event.registerEntityRenderer(AerialHellEntities.SHADOW_TROLL.get(), ShadowTrollRender::new);

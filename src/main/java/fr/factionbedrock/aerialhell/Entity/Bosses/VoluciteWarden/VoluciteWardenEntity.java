@@ -2,15 +2,14 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
-import fr.factionbedrock.aerialhell.Entity.AI.StrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmBeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmStrikeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenMainBeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsBeamAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsStrikeAttackHandler;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackInactivePhase;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.MainBeamAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhaseType;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
@@ -52,21 +51,31 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPartEntity, StagedActivableEntity, StrikeAttackEntity
 {
 	public static float EYE_RELATIVE_HEIGHT = 34.50F;
 	public static float CORE_RELATIVE_HEIGHT = 20.50F;
 
+	/* -- Main Beam Attack fields -- */
+	private VoluciteWardenMainBeamAttackGoal MAIN_BEAM_ATTACK_GOAL;
+	public final MainBeamAttackHandler mainBeamAttackHandler;
+	/* ----------------------------- */
+
+	/* -- Arms Strike Attack fields -- */
 	private VoluciteWardenArmStrikeAttackGoal RIGHT_ARM_STRIKE_ATTACK_GOAL;
 	private VoluciteWardenArmStrikeAttackGoal LEFT_ARM_STRIKE_ATTACK_GOAL;
 	public static final EntityDataAccessor<Boolean> HAS_STRIKE_ACTIVE = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> IS_STRIKING = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN);
 	public final ArmsStrikeAttackHandler armsStrikeAttackHandler;
+	/* ------------------------------- */
 
+	/* -- Arms Beam Attack fields -- */
 	private VoluciteWardenArmBeamAttackGoal RIGHT_ARM_BEAM_ATTACK_GOAL;
 	private VoluciteWardenArmBeamAttackGoal LEFT_ARM_BEAM_ATTACK_GOAL;
 	public final ArmsBeamAttackHandler armsBeamAttackHandler;
+	/* ----------------------------- */
 
 	/* -- MasterPartEntity fields -- */
 	private static final EntityDataAccessor<Integer> RIGHT_ARM_SEGMENT_1_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
@@ -147,6 +156,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		bossInfo.setColor(BossEvent.BossBarColor.BLUE);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 
+		this.mainBeamAttackHandler = new MainBeamAttackHandler(this, () -> this.HEAD, this.MAIN_BEAM_ATTACK_GOAL);
 		this.armsStrikeAttackHandler = new ArmsStrikeAttackHandler(this, this.getRightArm(), this.RIGHT_ARM_STRIKE_ATTACK_GOAL, this.getLeftArm(), this.LEFT_ARM_STRIKE_ATTACK_GOAL);
 		this.armsBeamAttackHandler = new ArmsBeamAttackHandler(this, this.getRightArm(), this.RIGHT_ARM_BEAM_ATTACK_GOAL, this.getLeftArm(), this.LEFT_ARM_BEAM_ATTACK_GOAL);
 	}
@@ -211,6 +221,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		super.tick();
 		this.partEntityTick();
+		this.mainBeamAttackHandler.tick();
 		this.armsStrikeAttackHandler.tick();
 		this.armsBeamAttackHandler.tick();
 
@@ -331,6 +342,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override protected void registerGoals()
     {
+		this.MAIN_BEAM_ATTACK_GOAL = new VoluciteWardenMainBeamAttackGoal(this, () -> this.HEAD);
 		this.RIGHT_ARM_STRIKE_ATTACK_GOAL = new VoluciteWardenArmStrikeAttackGoal(this, this::getRightArm, this::getRightArmSegment7, 0.2F);
 		this.LEFT_ARM_STRIKE_ATTACK_GOAL = new VoluciteWardenArmStrikeAttackGoal(this, this::getLeftArm, this::getLeftArmSegment7, 0.2F);
 		this.RIGHT_ARM_BEAM_ATTACK_GOAL = new VoluciteWardenArmBeamAttackGoal(this, this::getRightArm, 0.2F);
@@ -338,10 +350,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
+		this.goalSelector.addGoal(4, MAIN_BEAM_ATTACK_GOAL);
 		this.goalSelector.addGoal(4, RIGHT_ARM_STRIKE_ATTACK_GOAL);
 		this.goalSelector.addGoal(4, LEFT_ARM_STRIKE_ATTACK_GOAL);
 		this.goalSelector.addGoal(4, RIGHT_ARM_BEAM_ATTACK_GOAL);
 		this.goalSelector.addGoal(4, LEFT_ARM_BEAM_ATTACK_GOAL);
+
 		//this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new DirectMeleeAttackGoal(this, 1.25D, 4.0D)));
@@ -500,6 +514,15 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public boolean isRightArmActive() {return this.isRightArmStriking() || this.isRightArmBeaming();}
 	public boolean isLeftArmActive() {return this.isLeftArmStriking() || this.isLeftArmBeaming();}
 
+	/* ----------------------------------------------------- */
+	/* ---------- Main Beam Attack : Goal methods ---------- */
+	/* ----------------------------------------------------- */
+
+	public boolean shouldTriggerMainBeamAttack() {return false;}
+	/* ----------------------------------------------------- */
+	/* ----------------------------------------------------- */
+	/* ----------------------------------------------------- */
+
 	/* ---------------------------------------------------- */
 	/* ---------- Arm Beam Attack : Goal methods ---------- */
 	/* ---------------------------------------------------- */
@@ -513,7 +536,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	/* --------------------------------------------------------------------------- */
 	/* ---------- StrikeAttackEntity : Interface methods implementation ---------- */
-	/* ---- except tickStrikeAttack() and canTriggerStrike() that are specific --- */
 	/* --------------------------------------------------------------------------- */
 	public boolean isRightArmStriking() {return this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive();}
 	public boolean isLeftArmStriking() {return this.LEFT_ARM_STRIKE_ATTACK_GOAL.isActive();}
