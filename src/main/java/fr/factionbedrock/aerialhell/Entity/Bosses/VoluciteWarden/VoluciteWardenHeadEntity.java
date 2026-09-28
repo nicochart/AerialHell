@@ -6,10 +6,12 @@ import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implements BeamAttackEntity
 {
@@ -62,6 +64,32 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
     @Override public BeamAttackEntityInfo getBeamAttackEntityInfo() {return this.BEAM_ATTACK_ENTITY_INFO;}
 
     @Override public float getMaxBeamLength() {return MAX_BEAM_LENGTH;}
+
+    @Override public Vec3 getBeamStartPos(Vec3 eyePos, float partialTick)
+    {
+        Vec3 targetPos = this.getBeamEndPos();
+
+        if (targetPos == null) {return BeamAttackEntity.super.getBeamStartPos(eyePos, partialTick);}
+
+        double eyeHeight = this.getEyeHeight();
+        Vec3 pivot = eyePos.subtract(0.0D, eyeHeight, 0.0D);
+
+        Vec3 dir = targetPos.subtract(eyePos).normalize();
+        double horizontalDist = Math.sqrt(dir.x * dir.x + dir.z * dir.z);
+
+        float pitchRad = (float) Math.atan2(dir.y, horizontalDist);
+        float yawRad = (float) Math.atan2(dir.x, dir.z);
+
+        double offX = 0.0D;
+        double offY = eyeHeight;
+        double offZ = 0.0D;
+
+        Vec3 localEyeOffset = new Vec3(offX, offY, offZ);
+
+        Vec3 rotatedOffset = localEyeOffset.xRot(pitchRad).yRot(yawRad);
+
+        return pivot.add(rotatedOffset);
+    }
 
     @Override public boolean canBeamHitEntity(LivingEntity entity) {return this.getMaster() != null && !this.getMaster().is(entity);}
     @Override public Entity getImmediateBeamSource() {return this;}
