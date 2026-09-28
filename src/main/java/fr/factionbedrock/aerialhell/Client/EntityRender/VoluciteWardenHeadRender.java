@@ -39,11 +39,12 @@ public class VoluciteWardenHeadRender extends VoluciteWardenPartRender<VoluciteW
 		}
 	}
 
+	/*
 	@Override protected void setupRotations(VoluciteWardenPartRenderState renderState, PoseStack poseStack, float bodyYRot, float scale)
 	{
 		if (renderState.beamStartPosition == null || renderState.beamTargetPosition == null) {super.setupRotations(renderState, poseStack, bodyYRot, scale); return;}
 
-		//is beaming : we align the whole segment with beam
+		//is beaming : we align the head with beam
 		Vec3 beamDirection = renderState.beamTargetPosition.subtract(renderState.beamStartPosition).normalize();
 
 		float yaw = (float)(Mth.atan2(beamDirection.z, beamDirection.x) * (180D / Math.PI)) - 90.0F;
@@ -53,13 +54,14 @@ public class VoluciteWardenHeadRender extends VoluciteWardenPartRender<VoluciteW
 		double horizontalDist = Math.sqrt(beamDirection.x * beamDirection.x + beamDirection.z * beamDirection.z);
 		float pitch = (float)(Mth.atan2(beamDirection.y, horizontalDist) * (180D / Math.PI));
 
-		float pivotY = 24.0F / 16.0F; // 24.0F is y of arm segment center of rot
-		float pivotZ = 0.0F / 16.0F; // 0.0F is z of arm segment center of rot
+		float pivotY = 0.0F; //0.0F / 16.0F; // 0.0F is y of head center of rot
+		float pivotZ = 0.0F; //0.0F / 16.0F; // 0.0F is z of head center of rot
 
 		poseStack.translate(0.0F, pivotY, pivotZ);
 		poseStack.mulPose(Axis.XP.rotationDegrees(pitch));
 		poseStack.translate(0.0F, -pivotY, -pivotZ);
 	}
+	*/
 
 	@Override public void submit(VoluciteWardenPartRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState)
 	{

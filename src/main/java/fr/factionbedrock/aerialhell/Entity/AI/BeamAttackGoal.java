@@ -12,6 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,11 +68,6 @@ public class BeamAttackGoal extends Goal
         this.entity.setBeamingPhaseToLoading();
         this.entity.onStartBeaming(this.beamingTotalDuration);
         //this.entity.getNavigation().stop(); slowness for the duration ?
-        LivingEntity livingentity = this.entity.getTarget();
-        if (livingentity != null)
-        {
-            this.entity.getLookControl().setLookAt(livingentity, 90.0F, 90.0F);
-        }
 
         this.makeBeamStartSound();
         this.entity.setNeedsSync();
@@ -100,7 +96,7 @@ public class BeamAttackGoal extends Goal
         }
         else
         {
-            this.entity.getLookControl().setLookAt(beamTargetPos.x, beamTargetPos.y, beamTargetPos.z, 90.0F, 90.0F);
+            this.setLookAt(beamTargetPos);
             float hardDifficultyDamageBonus = this.entity.getLevel().getDifficulty() == Difficulty.HARD ? 2.0F : 0.0F;
 
             if (this.currentBeamingTime < this.beamingLoadDuration)
@@ -125,6 +121,12 @@ public class BeamAttackGoal extends Goal
             }
             super.tick();
         }
+    }
+
+    //it is possible to disable setLookAt by overriding this method
+    public void setLookAt(@NotNull Vec3 beamTargetPos)
+    {
+        this.entity.getLookControl().setLookAt(beamTargetPos.x, beamTargetPos.y, beamTargetPos.z, 90.0F, 90.0F);
     }
 
     public void makeBeamSound()

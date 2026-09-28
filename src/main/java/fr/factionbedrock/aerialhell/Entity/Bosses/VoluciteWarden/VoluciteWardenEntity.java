@@ -10,6 +10,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsStrikeAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.MainBeamAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhase;
+import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemHeadEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
@@ -494,6 +495,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		else {MasterPartEntity.super.tickNonHeadPartRotation(partInfo);}
 	}
 
+	@Override public void tickHeadPartRotation(PartInfo partInfo)
+	{
+		if (partInfo == this.HEAD && this.HEAD.getPart() instanceof VoluciteGolemHeadEntity head && head.isBeaming()) {return;}
+		else {MasterPartEntity.super.tickHeadPartRotation(partInfo);}
+	}
+
 	@Override @Nullable public Vec3 calculatePartPos(PartInfo partInfo, double masterX, double masterY, double masterZ)
 	{
 		if (partInfo instanceof ArmPartInfo armPartinfo && this.isArmActive(armPartinfo.isRightArm)) {return null;}
@@ -517,6 +524,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ----------------------------------------------------- */
 	/* ---------- Main Beam Attack : Goal methods ---------- */
 	/* ----------------------------------------------------- */
+	public boolean isHeadBeaming() {return this.MAIN_BEAM_ATTACK_GOAL.isActive();} //only server side
 
 	public boolean shouldTriggerMainBeamAttack() {return false;}
 	/* ----------------------------------------------------- */

@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -56,19 +57,7 @@ public class VoluciteWardenMainBeamAttackGoal extends Goal
 
     @Override public boolean requiresUpdateEveryTick() {return true;} //TODO is it necessary ?
 
-    @Override public void tick()
-    {
-        this.setMasterLookAt();
-    }
-
-    protected void setMasterLookAt()
-    {
-        LivingEntity lookTarget = this.goalOwner.getTarget();
-        if (lookTarget != null)
-        {
-            this.goalOwner.getSelf().lookAt(lookTarget, 30.0F, 30.0F);
-        }
-    }
+    @Override public void tick() {}
 
     public boolean isActive() {return this.getHeadInfo() instanceof VoluciteWardenHeadEntity head && head.isBeamEnabled();}
     public boolean trigger() //return true if the attack sequence is successfully triggered
