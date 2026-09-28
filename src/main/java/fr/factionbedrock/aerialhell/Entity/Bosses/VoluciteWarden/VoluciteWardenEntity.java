@@ -489,8 +489,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override public void tickNonHeadPartRotation(PartInfo partInfo)
 	{
-		if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isRightArm() && this.isArmActive(this.getRightArm())) {return;}
-		else if (partInfo instanceof ArmPartInfo armPartinfo && armPartinfo.isLeftArm() && this.isArmActive(this.getLeftArm())) {return;}
+		if (partInfo instanceof ArmPartInfo armPartinfo && this.isArmActive(armPartinfo.isRightArm)) {return;}
 		else {MasterPartEntity.super.tickNonHeadPartRotation(partInfo);}
 	}
 

@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.Client.EntityModels.VoluciteWardenPartModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Helper.BeamRenderHelper;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteWardenPartRenderState;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenArmSegmentEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenHeadEntity;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -46,7 +47,9 @@ public class VoluciteWardenHeadRender extends VoluciteWardenPartRender<VoluciteW
 		//is beaming : we align the head with beam
 		Vec3 beamDirection = renderState.beamTargetPosition.subtract(renderState.beamStartPosition).normalize();
 
-		super.setupRotations(renderState, poseStack, bodyYRot, scale);
+		float yaw = (float)(Mth.atan2(beamDirection.z, beamDirection.x) * (180D / Math.PI)) - 90.0F;
+
+		super.setupRotations(renderState, poseStack, yaw, scale);
 
 		double horizontalDist = Math.sqrt(beamDirection.x * beamDirection.x + beamDirection.z * beamDirection.z);
 		float pitch = (float)(Mth.atan2(beamDirection.y, horizontalDist) * (180D / Math.PI));

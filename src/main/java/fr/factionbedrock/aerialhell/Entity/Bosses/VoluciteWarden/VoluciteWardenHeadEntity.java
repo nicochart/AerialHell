@@ -40,8 +40,8 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
         /* ----------------------------------------------- */
     }
 
-    public void enableBeam(boolean enabled) {if (this.BEAM_ATTACK_GOAL != null) {this.BEAM_ATTACK_GOAL.enabled = enabled;}}
-    public boolean isBeamEnabled() {return this.BEAM_ATTACK_GOAL != null && this.BEAM_ATTACK_GOAL.enabled;}
+    public void enableBeam(boolean enabled){if (this.BEAM_ATTACK_GOAL != null) {this.BEAM_ATTACK_GOAL.enabled = enabled;}}
+    public boolean isBeamEnabled(){return this.BEAM_ATTACK_GOAL != null && this.BEAM_ATTACK_GOAL.enabled;}
 
     @Override public void tick()
     {
