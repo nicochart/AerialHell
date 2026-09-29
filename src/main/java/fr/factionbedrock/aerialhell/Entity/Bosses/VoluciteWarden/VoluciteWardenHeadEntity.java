@@ -12,6 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implements BeamAttackEntity
 {
@@ -109,6 +110,8 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
             super(entity, beamingLoadDuration, beamingOverheatDuration, beamingTotalDuration, cooldownDuration);
             this.enabled = false;
         }
+
+        @Override public void setLookAt(@NotNull Vec3 beamTargetPos) {}
 
         @Override public boolean canUse() {return this.enabled && super.canUse();}
         @Override public boolean canContinueToUse() {return this.enabled && super.canContinueToUse();}

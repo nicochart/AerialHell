@@ -137,10 +137,18 @@ public class VoluciteWardenPartModel extends EntityModel<VoluciteWardenPartRende
 		}
 
 		boolean headIsBeaming = renderState.beamTargetPosition != null && renderState.beamStartPosition != null;
-		if (this.head != null && !headIsBeaming) //if head is beaming, rotation is overriden directly in render
+		if (this.head != null)
 		{
-			this.head.yRot = netHeadYaw / 57.29578F;
-			this.head.xRot = headPitch / 57.29578F;
+			if (headIsBeaming) //if head is beaming, rotation is overridden directly in render
+			{
+				this.head.yRot = 0.0F;
+				this.head.xRot = 0.0F;
+			}
+			else
+			{
+				this.head.yRot = netHeadYaw / 57.29578F;
+				this.head.xRot = headPitch / 57.29578F;
+			}
 		}
 
 		if (this.leg != null)

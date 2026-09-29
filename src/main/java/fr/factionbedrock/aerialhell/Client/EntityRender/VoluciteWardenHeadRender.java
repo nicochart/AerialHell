@@ -54,15 +54,11 @@ public class VoluciteWardenHeadRender extends VoluciteWardenPartRender<VoluciteW
 		double horizontalDist = Math.sqrt(beamDirection.x * beamDirection.x + beamDirection.z * beamDirection.z);
 		float pitch = (float)(Mth.atan2(beamDirection.y, horizontalDist) * (180D / Math.PI));
 
-		//head part : compensating pitch double-angle
-		//subtracting xRot to avoid double rot
-		float finalPitch = pitch + renderState.xRot;
-
 		float pivotY = 0.0F; //0.0F / 16.0F; // 0.0F is y of head center of rot
 		float pivotZ = 0.0F; //0.0F / 16.0F; // 0.0F is z of head center of rot
 
 		poseStack.translate(0.0F, pivotY, pivotZ);
-		poseStack.mulPose(Axis.XP.rotationDegrees(finalPitch));
+		poseStack.mulPose(Axis.XP.rotationDegrees(pitch));
 		poseStack.translate(0.0F, -pivotY, -pivotZ);
 	}
 
