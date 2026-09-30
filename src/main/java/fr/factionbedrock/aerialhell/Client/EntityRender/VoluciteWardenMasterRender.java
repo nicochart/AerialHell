@@ -13,6 +13,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenE
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -119,7 +120,7 @@ public class VoluciteWardenMasterRender extends LivingEntityRenderer<VoluciteWar
         poseStack.mulPose(Axis.YP.rotationDegrees(yRot * (180F / (float)Math.PI)));
         poseStack.mulPose(Axis.XP.rotationDegrees(xRot * (180F / (float)Math.PI)));
 
-        nodeCollector.submitCustomGeometry(poseStack, BeamRenderHelper.getBeamRenderType(ARM_SEGMENTS_CONNECTION_TEXTURE), (pose, consumer) ->
+        nodeCollector.submitCustomGeometry(poseStack, RenderTypes.entityCutout(ARM_SEGMENTS_CONNECTION_TEXTURE), (pose, consumer) ->
         {
             float w = ARM_SEGMENTS_CONNECTION_THICKNESS / 2.0F;
             float vMax = length;
