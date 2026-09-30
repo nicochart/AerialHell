@@ -80,13 +80,13 @@ public class BeamRenderHelper
                 Vec3 verticalMaxCoords = new Vec3(0.0F, yMax, size);
 
                 //horizontal bottom
-                rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, -rectangleOffset), horizontalMaxCoords.add(0.0D, 0.0D, -rectangleOffset), r, g, b);
+                rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, -rectangleOffset), horizontalMaxCoords.add(0.0D, 0.0D, -rectangleOffset), r, g, b, false);
                 //horizontal top
-                rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, rectangleOffset), horizontalMaxCoords.add(0.0D, 0.0D, rectangleOffset), r, g, b);
+                rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, rectangleOffset), horizontalMaxCoords.add(0.0D, 0.0D, rectangleOffset), r, g, b, true);
                 //vertical right
-                rectangle(consumer, pose, verticalMinCoords.add(-rectangleOffset, 0.0D, 0.0D), verticalMaxCoords.add(-rectangleOffset, 0.0D, 0.0D), r, g, b);
+                rectangle(consumer, pose, verticalMinCoords.add(-rectangleOffset, 0.0D, 0.0D), verticalMaxCoords.add(-rectangleOffset, 0.0D, 0.0D), r, g, b, true);
                 //vertical left
-                rectangle(consumer, pose, verticalMinCoords.add(rectangleOffset, 0.0D, 0.0D), verticalMaxCoords.add(rectangleOffset, 0.0D, 0.0D), r, g, b);
+                rectangle(consumer, pose, verticalMinCoords.add(rectangleOffset, 0.0D, 0.0D), verticalMaxCoords.add(rectangleOffset, 0.0D, 0.0D), r, g, b, false);
             }
         });
     }
@@ -97,16 +97,17 @@ public class BeamRenderHelper
         return entityBox.minmax(beamBox);
     }
 
-    private static void rectangle(VertexConsumer consumer, PoseStack.Pose pose, Vec3 minCoords, Vec3 maxCoords, int r, int g, int b)
+    private static void rectangle(VertexConsumer consumer, PoseStack.Pose pose, Vec3 minCoords, Vec3 maxCoords, int r, int g, int b, boolean useIdentity)
     {
-        vertex(consumer, pose, (float) minCoords.x, (float) maxCoords.y, (float) minCoords.z, r, g, b, 1.0F, 0.0F);
-        vertex(consumer, pose, (float) minCoords.x, (float) minCoords.y, (float) minCoords.z, r, g, b, 1.0F, 1.0F);
-        vertex(consumer, pose, (float) maxCoords.x, (float) minCoords.y, (float) maxCoords.z, r, g, b, 0.0F, 1.0F);
-        vertex(consumer, pose, (float) maxCoords.x, (float) maxCoords.y, (float) maxCoords.z, r, g, b, 0.0F, 0.0F);
+        vertex(consumer, pose, (float) minCoords.x, (float) maxCoords.y, (float) minCoords.z, r, g, b, 1.0F, 0.0F, useIdentity);
+        vertex(consumer, pose, (float) minCoords.x, (float) minCoords.y, (float) minCoords.z, r, g, b, 1.0F, 1.0F, useIdentity);
+        vertex(consumer, pose, (float) maxCoords.x, (float) minCoords.y, (float) maxCoords.z, r, g, b, 0.0F, 1.0F, useIdentity);
+        vertex(consumer, pose, (float) maxCoords.x, (float) maxCoords.y, (float) maxCoords.z, r, g, b, 0.0F, 0.0F, useIdentity);
     }
 
-    private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z, int red, int green, int blue, float u, float v)
+    private static final PoseStack.Pose IDENTITY_NORMAL = new PoseStack.Pose();
+    private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z, int red, int green, int blue, float u, float v, boolean useIdentity)
     {
-        consumer.addVertex(pose, x, y, z).setColor(red, green, blue, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(LightCoordsUtil.FULL_BRIGHT).setNormal(pose, 0.0F, 1.0F, 0.0F);
+        consumer.addVertex(pose, x, y, z).setColor(red, green, blue, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(LightCoordsUtil.FULL_BRIGHT).setNormal(useIdentity ? IDENTITY_NORMAL : pose, 0.0F, 1.0F, 0.0F);
     }
 }
