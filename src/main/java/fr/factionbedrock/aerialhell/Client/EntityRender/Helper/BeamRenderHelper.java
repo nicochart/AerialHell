@@ -60,7 +60,7 @@ public class BeamRenderHelper
 
         nodeCollector.submitCustomGeometry(poseStack, getBeamRenderType(textureLocation), (pose, consumer) ->
         {
-            float size = 0.2F * finalScale;
+            float size = 0.1F * finalScale;
 
             float segmentPerUnit = 1.0F;
             int maxSegments = (int) (maxBeamLength * segmentPerUnit);

@@ -156,7 +156,7 @@ public class BeamAttackGoal extends Goal
 
     public static List<Entity> getBeamHitEntities(Level level, LivingEntity beamingEntity, Vec3 beamStart, Vec3 beamEnd, float beamScale)
     {
-        float hitRadius = 0.3F * beamScale;
+        float hitRadius = 0.105F * beamScale;
 
         AABB boxFromBeamStartToBeamEnd = new AABB(beamStart, beamEnd).inflate(1.0F + hitRadius);
 
