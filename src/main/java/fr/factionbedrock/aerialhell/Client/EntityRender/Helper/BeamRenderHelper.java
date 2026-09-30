@@ -4,8 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Entity.AI.BeamAttackGoal;
-import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemHeadEntity;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
@@ -26,7 +24,7 @@ public class BeamRenderHelper
 
     public static RenderType getBeamRenderType(Identifier textureLocation)
     {
-        return RenderTypes.entityCutout(textureLocation);
+        return RenderTypes.beaconBeam(textureLocation, false);
     }
 
     public static Vec3 getBeamTargetPosition(Vec3 targetPos, Vec3 prevTargetPos, float partialTick)
@@ -62,7 +60,6 @@ public class BeamRenderHelper
 
         nodeCollector.submitCustomGeometry(poseStack, getBeamRenderType(textureLocation), (pose, consumer) ->
         {
-            float rectangleOffset = 0.05F * finalScale;
             float size = 0.2F * finalScale;
 
             float segmentPerUnit = 1.0F;
@@ -72,21 +69,13 @@ public class BeamRenderHelper
 
             for (int i = 0; i < segmentCount; i++)
             {
-                double yMin = i * segmentLength;
-                double yMax = (i + 1) * segmentLength;
-                Vec3 horizontalMinCoords = new Vec3(-size, yMin, 0.0F);
-                Vec3 horizontalMaxCoords = new Vec3(size, yMax, 0.0F);
-                Vec3 verticalMinCoords = new Vec3(0.0F, yMin, -size);
-                Vec3 verticalMaxCoords = new Vec3(0.0F, yMax, size);
+                float yMin = (float)(i * segmentLength);
+                float yMax = (float)((i + 1) * segmentLength);
 
-                //horizontal bottom
-                rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, -rectangleOffset), horizontalMaxCoords.add(0.0D, 0.0D, -rectangleOffset), r, g, b, false);
-                //horizontal top
-                rectangle(consumer, pose, horizontalMinCoords.add(0.0D, 0.0D, rectangleOffset), horizontalMaxCoords.add(0.0D, 0.0D, rectangleOffset), r, g, b, true);
-                //vertical right
-                rectangle(consumer, pose, verticalMinCoords.add(-rectangleOffset, 0.0D, 0.0D), verticalMaxCoords.add(-rectangleOffset, 0.0D, 0.0D), r, g, b, true);
-                //vertical left
-                rectangle(consumer, pose, verticalMinCoords.add(rectangleOffset, 0.0D, 0.0D), verticalMaxCoords.add(rectangleOffset, 0.0D, 0.0D), r, g, b, false);
+                quad(consumer, pose, -size, -size,  size, -size, yMin, yMax, r, g, b); //north (-Z)
+                quad(consumer, pose,  size, -size,  size,  size, yMin, yMax, r, g, b); //east (+X)
+                quad(consumer, pose,  size,  size, -size,  size, yMin, yMax, r, g, b); //south (+Z)
+                quad(consumer, pose, -size,  size, -size, -size, yMin, yMax, r, g, b); //west (-X)
             }
         });
     }
@@ -97,17 +86,23 @@ public class BeamRenderHelper
         return entityBox.minmax(beamBox);
     }
 
-    private static void rectangle(VertexConsumer consumer, PoseStack.Pose pose, Vec3 minCoords, Vec3 maxCoords, int r, int g, int b, boolean useIdentity)
+    private static void quad(VertexConsumer consumer, PoseStack.Pose pose, float x1, float z1, float x2, float z2, float yMin, float yMax, int r, int g, int b)
     {
-        vertex(consumer, pose, (float) minCoords.x, (float) maxCoords.y, (float) minCoords.z, r, g, b, 1.0F, 0.0F, useIdentity);
-        vertex(consumer, pose, (float) minCoords.x, (float) minCoords.y, (float) minCoords.z, r, g, b, 1.0F, 1.0F, useIdentity);
-        vertex(consumer, pose, (float) maxCoords.x, (float) minCoords.y, (float) maxCoords.z, r, g, b, 0.0F, 1.0F, useIdentity);
-        vertex(consumer, pose, (float) maxCoords.x, (float) maxCoords.y, (float) maxCoords.z, r, g, b, 0.0F, 0.0F, useIdentity);
+        //exterior face
+        vertex(consumer, pose, x1, yMax, z1, r, g, b, 1.0F, 0.0F);
+        vertex(consumer, pose, x1, yMin, z1, r, g, b, 1.0F, 1.0F);
+        vertex(consumer, pose, x2, yMin, z2, r, g, b, 0.0F, 1.0F);
+        vertex(consumer, pose, x2, yMax, z2, r, g, b, 0.0F, 0.0F);
+
+        //interior face
+        vertex(consumer, pose, x2, yMax, z2, r, g, b, 0.0F, 0.0F);
+        vertex(consumer, pose, x2, yMin, z2, r, g, b, 0.0F, 1.0F);
+        vertex(consumer, pose, x1, yMin, z1, r, g, b, 1.0F, 1.0F);
+        vertex(consumer, pose, x1, yMax, z1, r, g, b, 1.0F, 0.0F);
     }
 
-    private static final PoseStack.Pose IDENTITY_NORMAL = new PoseStack.Pose();
-    private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z, int red, int green, int blue, float u, float v, boolean useIdentity)
+    private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z, int red, int green, int blue, float u, float v)
     {
-        consumer.addVertex(pose, x, y, z).setColor(red, green, blue, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(LightCoordsUtil.FULL_BRIGHT).setNormal(useIdentity ? IDENTITY_NORMAL : pose, 0.0F, 1.0F, 0.0F);
+        consumer.addVertex(pose, x, y, z).setColor(red, green, blue, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(LightCoordsUtil.FULL_BRIGHT).setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 }
