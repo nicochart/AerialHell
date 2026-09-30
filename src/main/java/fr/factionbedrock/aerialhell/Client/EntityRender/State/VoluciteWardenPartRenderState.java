@@ -15,5 +15,6 @@ public class VoluciteWardenPartRenderState extends LivingEntityRenderState
     @Nullable public Vec3 beamTargetPosition;
     @Nullable public Vec3 beamStartPosition;
     public float maxBeamLength;
+    public float beamScale;
     @Nullable public Identifier beamTexture;
 }

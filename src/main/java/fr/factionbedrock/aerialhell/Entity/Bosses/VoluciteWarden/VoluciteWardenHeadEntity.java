@@ -66,6 +66,8 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
 
     @Override public float getMaxBeamLength() {return MAX_BEAM_LENGTH;}
 
+    @Override public float getBeamScale() {return 12.0F;}
+
     @Override public Vec3 getBeamStartPos(Vec3 eyePos, float partialTick)
     {
         Vec3 targetPos = this.getBeamEndPos();

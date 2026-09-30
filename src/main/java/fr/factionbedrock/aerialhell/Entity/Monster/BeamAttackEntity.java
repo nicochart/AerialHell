@@ -79,6 +79,8 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         return this.getSelf().getEyePosition().add(this.getSelf().getLookAngle().scale(5));
     }
 
+    default float getBeamScale() {return 1.0F;} //beam size multiplier
+
     default SoundEvent getBeamSound(boolean beamStart) {return beamStart ? AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get() : AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get();}
     default int getBeamSoundLength() {return 35;}
     default boolean isBeamSilent() {return this.getSelf().isSilent();}

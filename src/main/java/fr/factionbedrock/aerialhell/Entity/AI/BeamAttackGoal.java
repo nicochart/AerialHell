@@ -142,7 +142,7 @@ public class BeamAttackGoal extends Goal
     public void hitEntities(float damage)
     {
         ServerLevel serverlevel = getServerLevel(this.entity.getSelf());
-        List<Entity> hitEntities = getBeamHitEntities(this.entity.getLevel(), this.entity.getSelf(), this.entity.getBeamStartPos(), this.entity.getBeamEndPos());
+        List<Entity> hitEntities = getBeamHitEntities(this.entity.getLevel(), this.entity.getSelf(), this.entity.getBeamStartPos(), this.entity.getBeamEndPos(), this.entity.getBeamScale());
 
         for (Entity entity : hitEntities)
         {
@@ -154,17 +154,18 @@ public class BeamAttackGoal extends Goal
         }
     }
 
-    public static List<Entity> getBeamHitEntities(Level level, LivingEntity beamingEntity, Vec3 beamStart, Vec3 beamEnd)
+    public static List<Entity> getBeamHitEntities(Level level, LivingEntity beamingEntity, Vec3 beamStart, Vec3 beamEnd, float beamScale)
     {
-        AABB boxFromBeamStartToBeamEnd = new AABB(beamStart, beamEnd).inflate(1.0);
+        float hitRadius = 0.3F * beamScale;
+
+        AABB boxFromBeamStartToBeamEnd = new AABB(beamStart, beamEnd).inflate(1.0F + hitRadius);
 
         List<Entity> entitiesInBox = level.getEntities(beamingEntity, boxFromBeamStartToBeamEnd, EntitySelector.ENTITY_STILL_ALIVE);
-
         List<Entity> hits = new ArrayList<>();
 
         for (Entity entity : entitiesInBox)
         {
-            AABB hitbox = entity.getBoundingBox().inflate(0.3);
+            AABB hitbox = entity.getBoundingBox().inflate(hitRadius);
             hitbox.clip(beamStart, beamEnd).ifPresent(vec3 -> hits.add(new EntityHitResult(entity, vec3).getEntity()));
         }
 

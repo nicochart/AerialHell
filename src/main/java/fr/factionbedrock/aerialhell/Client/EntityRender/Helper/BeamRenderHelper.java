@@ -48,7 +48,7 @@ public class BeamRenderHelper
         };
     }
 
-    public static void renderBeam(PoseStack poseStack, SubmitNodeCollector nodeCollector, Vec3 beamVector, Identifier textureLocation, float maxBeamLength)
+    public static void renderBeam(PoseStack poseStack, SubmitNodeCollector nodeCollector, Vec3 beamVector, Identifier textureLocation, float maxBeamLength, float entityBeamScale)
     {
         float y = (float)(beamVector.length());
         beamVector = beamVector.normalize();
@@ -57,12 +57,13 @@ public class BeamRenderHelper
         poseStack.mulPose(Axis.YP.rotationDegrees(yRotFactor * (180F / (float)Math.PI)));
         poseStack.mulPose(Axis.XP.rotationDegrees(xRotFactor * (180F / (float)Math.PI)));
         int r = 255, g = 255, b = 255;
-        float scale = textureLocation == BEAM_LOAD ? 0.3F : 1.0F;
+        float phaseScale = textureLocation == BEAM_LOAD ? 0.3F : 1.0F;
+        float finalScale = phaseScale * entityBeamScale;
 
         nodeCollector.submitCustomGeometry(poseStack, getBeamRenderType(textureLocation), (pose, consumer) ->
         {
-            float rectangleOffset = 0.05F * scale;
-            float size = 0.2F * scale;
+            float rectangleOffset = 0.05F * finalScale;
+            float size = 0.2F * finalScale;
 
             float segmentPerUnit = 1.0F;
             int maxSegments = (int) (maxBeamLength * segmentPerUnit);
@@ -90,9 +91,9 @@ public class BeamRenderHelper
         });
     }
 
-    public static AABB calculateBeamCullingBox(AABB entityBox, @NotNull Vec3 beamStart, @NotNull Vec3 beamEnd)
+    public static AABB calculateBeamCullingBox(AABB entityBox, @NotNull Vec3 beamStart, @NotNull Vec3 beamEnd, float beamScale)
     {
-        AABB beamBox = new AABB(beamStart, beamEnd).inflate(1.0);
+        AABB beamBox = new AABB(beamStart, beamEnd).inflate(1.0 + (0.2 * beamScale));
         return entityBox.minmax(beamBox);
     }
 
