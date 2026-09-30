@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.BeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -65,7 +66,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
 
     /* ---------- BeamAttackEntity : Interface implementation ---------- */
     @Override public BeamAttackEntityInfo getBeamAttackEntityInfo() {return this.BEAM_ATTACK_ENTITY_INFO;}
-    @Override public boolean canBeamHitEntity(LivingEntity entity) {return this.getMaster() != null && !this.getMaster().is(entity);}
+    @Override public boolean canBeamHitEntity(LivingEntity entity) {return this.getMaster() != null && !this.getMaster().is(entity) && !entity.is(AerialHellTags.Entities.VOLUCITE);}
     @Override public Entity getImmediateBeamSource() {return this;}
     @Override public Entity getTrueBeamSource() {return this.getMaster() != null ? this.getMaster().getSelf() : this;}
 

@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:volucite_warden",
+    "aerialhell:volucite_warden_arm_segment",
+    "aerialhell:volucite_warden_leg",
+    "aerialhell:volucite_warden_pelvis",
+    "aerialhell:volucite_warden_abdomen",
+    "aerialhell:volucite_warden_chest",
+    "aerialhell:volucite_warden_core",
+    "aerialhell:volucite_warden_core_rib",
+    "aerialhell:volucite_warden_neck",
+    "aerialhell:volucite_warden_head"
+  ]
+}

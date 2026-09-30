@@ -21,6 +21,8 @@ import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -403,6 +405,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.timeDying++;
 		if (this.timeDying > 140) {this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);}
 	}
+
+	@Override protected boolean canDragOrRepulseEntity(Entity entity) {return super.canDragOrRepulseEntity(entity) && !entity.is(AerialHellTags.Entities.VOLUCITE);}
 
 	@Override public void tickDeadPhase() {}
 

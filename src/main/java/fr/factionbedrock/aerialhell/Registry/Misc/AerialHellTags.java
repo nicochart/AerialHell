@@ -204,6 +204,9 @@ public class AerialHellTags
 		public static final TagKey<EntityType<?>> AGGRESSIVE = tag("aggressive");
 		public static final TagKey<EntityType<?>> MUD = tag("mud");
 		public static final TagKey<EntityType<?>> LIGHT = tag("light");
+		public static final TagKey<EntityType<?>> VOLUCITE_GOLEM = tag("volucite_golem");
+		public static final TagKey<EntityType<?>> VOLUCITE_WARDEN = tag("volucite_warden");
+		public static final TagKey<EntityType<?>> VOLUCITE = tag("volucite");
 		public static final TagKey<EntityType<?>> SHADOW = tag("shadow");
 		public static final TagKey<EntityType<?>> TORN = tag("torn");
 		public static final TagKey<EntityType<?>> PIRATE = tag("pirate");

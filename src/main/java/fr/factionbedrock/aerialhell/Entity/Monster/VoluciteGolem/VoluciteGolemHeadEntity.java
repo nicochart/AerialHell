@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.Monster.Mud.MudSoldierEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartInfo;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -168,7 +169,7 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
     /* ---------- BeamAttackEntity : Interface methods Overridden for specific behavior ---------- */
     /* ------------------------------------------------------------------------------------------- */
     //@Override public Vec3 getBeamStartPos() {return this.getEyePosition().add(0.0F, -1.0F, 0.0F);} do some testing before usage - previously (visually) didn't work client side due to eyeHeight hard-coded usage in render
-    @Override public boolean canBeamHitEntity(LivingEntity entity) {return this.getMaster() != null && !this.getMaster().is(entity);}
+    @Override public boolean canBeamHitEntity(LivingEntity entity) {return this.getMaster() != null && !this.getMaster().is(entity) && !entity.is(AerialHellTags.Entities.VOLUCITE);}
     @Override public Entity getImmediateBeamSource() {return this;}
     @Override public Entity getTrueBeamSource() {return this.getMaster() != null ? this.getMaster() : this;}
     @Override public void onStartBeaming(int beamingDuration) {if (this.getMaster() != null) {this.getMaster().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, beamingDuration, 2, false, false));}}

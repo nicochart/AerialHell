@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenArmSegmentEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
@@ -29,7 +30,7 @@ public class ArmsBeamAttackHandler
         this.rightArmHandler = new ArmBeamAttackHandler(warden, rightArm, rightGoal, this);
         this.leftArmHandler = new ArmBeamAttackHandler(warden, leftArm, leftGoal, this);
 
-        this.targetManager = new SegmentBeamTargetManager(this.warden, entity -> entity instanceof LivingEntity living && !living.isRemoved() && living.isAlive() && this.warden.canAttack(living) && !entity.is(this.warden));
+        this.targetManager = new SegmentBeamTargetManager(this.warden, entity -> entity instanceof LivingEntity living && !living.is(AerialHellTags.Entities.VOLUCITE) && !living.isRemoved() && living.isAlive() && this.warden.canAttack(living) && !entity.is(this.warden));
     }
 
     public boolean isClientSide() {return this.warden.level().isClientSide();}
