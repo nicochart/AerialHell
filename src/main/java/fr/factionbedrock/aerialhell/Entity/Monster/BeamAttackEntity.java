@@ -81,8 +81,17 @@ public interface BeamAttackEntity extends SyncedTargetEntity
 
     default float getBeamScale() {return 1.0F;} //beam size multiplier
 
-    default SoundEvent getBeamSound(boolean beamStart) {return beamStart ? AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get() : AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get();}
-    default int getBeamSoundLength() {return 35;}
+    default SoundEvent getBeamLoadSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOAD.get();} //will play on BeamAttackGoal activation. Default sound duration is 42 ticks, so using this sound, beam load duration should be 42 ticks.
+    default SoundEvent getBeamStartSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get();} //will start playing after beamingLoadDuration (first parameter of goal)
+    default SoundEvent getBeamLoopSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get();} //will start playing at same time as start sound and will repeat each beamLoopSoundLength (below) ticks
+
+    //real loop sound length is 78, two loop sounds overlap.
+    //so beam total duration should be (load length) 42 + a multiple of 60 (to align with loop sound) + a bit less than 18 (a bit less than overlap duration because during overlap the volume decreases).
+    //example in VoluciteWardenHeadEntity
+    //real loop duration = repeat interval + overlap
+    default int getBeamLoopSoundRepeatInterval() {return 60;}
+    default int getBeamLoopSoundOverlap() {return 18;} //real duration - repeat interval; currently unused
+
     default boolean isBeamSilent() {return this.getSelf().isSilent();}
 
     default boolean canBeamHitEntity(LivingEntity entity) {return true;}
@@ -107,11 +116,38 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     /* ---------------------------------------------------------------------------- */
     /* ---------------------------------------------------------------------------- */
 
-    default void makeBeamStartSound(int currentBeamingTime) {this.makeBeamSound(true, currentBeamingTime);}
-    default void makeBeamSound(int currentBeamingTime) {this.makeBeamSound(false, currentBeamingTime);}
-    default void makeBeamSound(boolean beamStart, int currentBeamingTime) {if (this.shouldPlayBeamSound(currentBeamingTime)) {this.playBeamSound(beamStart);}}
-    default void playBeamSound(boolean start) {this.getLevel().playSound(null, this.getX(), this.getY(), this.getZ(), this.getBeamSound(start), this.getSelf().getSoundSource(), 0.078125F * this.getMaxBeamLength(), 1.0F);} //volume = 1.25F * this.getMaxBeamLength() / 16.0F because this.getMaxBeamLength() / 16.0F = can be hear up to laser max length. adding 25%
-    default boolean shouldPlayBeamSound(int currentBeamingTime) {return !this.isBeamSilent() && currentBeamingTime % this.getBeamSoundLength() == 0;}
+    default void tickBeamSounds(int currentBeamingTime, int loadDuration, int totalDuration)
+    {
+        if (this.isBeamSilent()) {return;}
+
+        if (currentBeamingTime == 1) //beam load
+        {
+            this.playBeamSound(this.getBeamLoadSound());
+        }
+        else if (currentBeamingTime == loadDuration) //beam start
+        {
+            this.playBeamSound(this.getBeamStartSound());
+            this.playBeamSound(this.getBeamLoopSound());
+        }
+        else if (currentBeamingTime > loadDuration && currentBeamingTime + this.getBeamLoopSoundRepeatInterval() <= totalDuration) //beam loop
+        {
+            int timeInLoop = currentBeamingTime - loadDuration;
+            if (timeInLoop % this.getBeamLoopSoundRepeatInterval() == 0)
+            {
+                this.playBeamSound(this.getBeamLoopSound());
+            }
+        }
+    }
+
+    default void playBeamSound(@Nullable SoundEvent sound)
+    {
+        if (sound == null) return;
+
+        //volume = 1.25F * this.getMaxBeamLength() / 16.0F because this.getMaxBeamLength() / 16.0F = can be hear up to laser max length. adding 25%
+        float volume = 0.078125F * this.getMaxBeamLength();
+
+        this.getLevel().playSound(null, this.getX(), this.getY(), this.getZ(), sound, this.getSelf().getSoundSource(), volume, 1.0F);
+    }
 
     @Override default SyncedTargetEntityInfo getSyncedTargetEntityInfo() {return this.getBeamAttackEntityInfo();}
 

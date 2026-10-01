@@ -3,11 +3,12 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 import fr.factionbedrock.aerialhell.Entity.AI.BeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.util.Mth;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,9 +20,9 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
 {
     /* -- BeamAttackEntity fields -- */
     public static final int MAX_BEAM_LENGTH = 80;
-    public static final int BEAMING_LOAD_DURATION = 35;
-    public static final int BEAMING_OVERHEAT_DURATION = 60;
-    public static final int BEAMING_TOTAL_DURATION = 260;
+    public static final int BEAMING_LOAD_DURATION = 82;
+    public static final int BEAMING_OVERHEAT_DURATION = 118; //59 + 59
+    public static final int BEAMING_TOTAL_DURATION = 260; //load 82 + normal & overheat 59 59 59 + 1 overlap
     public static final int BEAMING_COOLDOWN = 40;
     private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteWardenHeadEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteWardenHeadEntity.class, EntityDataSerializers.INT);
@@ -100,6 +101,12 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
     @Override public Entity getTrueBeamSource() {return this.getMaster() != null ? this.getMaster().getSelf() : this;}
 
     @Override public boolean isBeamSilent() {return false;} //PartEntity is silent but Beam Sound is still played by this part
+
+    @Override public SoundEvent getBeamLoadSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_BEAM_LOAD.get();} //load duration = 82
+    @Override public SoundEvent getBeamStartSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_BEAM_START.get();} //start (useless to know, but 61 ticks)
+    @Override public SoundEvent getBeamLoopSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_BEAM_LOOP.get();} //loop duration = 63 (interval 59 + 4 overlap)
+    @Override public int getBeamLoopSoundRepeatInterval() {return 59;}
+    @Override public int getBeamLoopSoundOverlap() {return 4;} //real duration - repeat interval
     /* -------------------------------------------------------------------------------------------------------- */
     /* -------------------------------------------------------------------------------------------------------- */
     /* -------------------------------------------------------------------------------------------------------- */

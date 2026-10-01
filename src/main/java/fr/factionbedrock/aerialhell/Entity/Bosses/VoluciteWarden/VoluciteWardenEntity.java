@@ -22,7 +22,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
-import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -139,7 +138,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* --- StagedActivableEntity fields --- */
 	private static final EntityDataAccessor<Boolean> AWAKENING = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> AWAKENED = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN);
-	StagedActivableEntityInfo.ActivatingPhaseParameters VOLUCITE_WARDEN_AWAKENING = PLAY_ACTIVATING_PHASE_ONLY_ONCE.copy().activatingThreshold(120).activatingStartSoundHelper(new PlaySoundHelper(AerialHellSoundEvents.ENTITY_WARDEN_VOLUCITE_GOLEM_ACTIVATION.get(), 5.0F, 1.6F));
+	StagedActivableEntityInfo.ActivatingPhaseParameters VOLUCITE_WARDEN_AWAKENING = PLAY_ACTIVATING_PHASE_ONLY_ONCE.copy().activatingThreshold(120).activatingStartSoundHelper(new PlaySoundHelper(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_ACTIVATION.get(), 5.0F, 1.6F));
 	public final ActivableEntityInfo.ActivationMethod VOLUCITE_WARDEN_ACTIVATION_METHOD = this.AERIAL_HELL_ACTIVABLE_ACTIVATION_METHOD.copy().activateOnlyOnHitCondition((entity) -> entity instanceof VoluciteWardenEntity voluciteWarden && !voluciteWarden.alreadyActivatedOnce()); //only on hit for first activation
 	public final ActivableEntityInfo VOLUCITE_WARDEN_ACTIVABLE_INFO = new ActivableEntityInfo(ACTIVE, VOLUCITE_WARDEN_ACTIVATION_METHOD);
 	public final StagedActivableEntityInfo STAGED_ACTIVABLE_INFO = new StagedActivableEntityInfo(this.VOLUCITE_WARDEN_ACTIVABLE_INFO, AWAKENING, AWAKENED, VOLUCITE_WARDEN_AWAKENING);
@@ -419,14 +418,14 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	
 	@Override public boolean isPushable() {return false;}
 	
-	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_WARDEN_VOLUCITE_GOLEM_AMBIENT.get();}
-    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_WARDEN_VOLUCITE_GOLEM_HURT.get();}
-    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_WARDEN_VOLUCITE_GOLEM_DEATH.get();}
-    protected SoundEvent getFastDeathSound() {return AerialHellSoundEvents.ENTITY_WARDEN_VOLUCITE_GOLEM_DEATH.get();}
+	@Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_AMBIENT.get();}
+    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_HURT.get();}
+    @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_DEATH.get();}
+    protected SoundEvent getFastDeathSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_DEATH.get();}
 
 	public void playDeathSound() {this.playSound(this.getDeathSound(), 5.0F, 1.0F);}
 	@Override public void playFastDeathSound() {this.playSound(getFastDeathSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);}
-	public void playTransitionSound() {this.playSound(AerialHellSoundEvents.ENTITY_WARDEN_VOLUCITE_GOLEM_ACTIVATION.get(), 5.0F, 1.0F);}
+	public void playTransitionSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_ACTIVATION.get(), 5.0F, 1.0F);}
 
 	@Override protected void playHurtSound(DamageSource damageSource, boolean died)
 	{

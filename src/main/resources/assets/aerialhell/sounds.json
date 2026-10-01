@@ -202,25 +202,37 @@
     "subtitle": "subtitles.aerialhell.entity.stellar_stone_automaton.death",
     "sounds": ["aerialhell:mob/stellar_stone_automaton/death"]
   },
-  "entity.warden_volucite_golem.death": {
-    "subtitle": "subtitles.aerialhell.entity.warden_volucite_golem.death",
-    "sounds": ["aerialhell:mob/warden_volucite_golem/death"]
+  "entity.volucite_warden.death": {
+    "subtitle": "subtitles.aerialhell.entity.volucite_warden.death",
+    "sounds": ["aerialhell:mob/volucite_warden/death"]
   },
-  "entity.warden_volucite_golem.activation": {
-    "subtitle": "subtitles.aerialhell.entity.warden_volucite_golem.activation",
-    "sounds": ["aerialhell:mob/warden_volucite_golem/activation"]
+  "entity.volucite_warden.activation": {
+    "subtitle": "subtitles.aerialhell.entity.volucite_warden.activation",
+    "sounds": ["aerialhell:mob/volucite_warden/activation"]
   },
-  "entity.warden_volucite_golem.hurt": {
-    "subtitle": "subtitles.aerialhell.entity.warden_volucite_golem.hurt",
-    "sounds": ["aerialhell:mob/warden_volucite_golem/hurt"]
+  "entity.volucite_warden.hurt": {
+    "subtitle": "subtitles.aerialhell.entity.volucite_warden.hurt",
+    "sounds": ["aerialhell:mob/volucite_warden/hurt"]
   },
-  "entity.warden_volucite_golem.ambient": {
-    "subtitle": "subtitles.aerialhell.entity.warden_volucite_golem.ambient",
+  "entity.volucite_warden.ambient": {
+    "subtitle": "subtitles.aerialhell.entity.volucite_warden.ambient",
     "sounds": [
-      "aerialhell:mob/warden_volucite_golem/ambient",
-      "aerialhell:mob/warden_volucite_golem/ambient_2",
-      "aerialhell:mob/warden_volucite_golem/ambient_loud"
+      "aerialhell:mob/volucite_warden/ambient",
+      "aerialhell:mob/volucite_warden/ambient_2",
+      "aerialhell:mob/volucite_warden/ambient_loud"
     ]
+  },
+  "entity.volucite_warden.beam_load": {
+    "subtitle": "subtitles.aerialhell.entity.volucite_warden.beam",
+    "sounds": ["aerialhell:mob/volucite_warden/beam_load"]
+  },
+  "entity.volucite_warden.beam_start": {
+    "subtitle": "subtitles.aerialhell.entity.volucite_warden.beam",
+    "sounds": ["aerialhell:mob/volucite_warden/beam_start"]
+  },
+  "entity.volucite_warden.beam_loop": {
+    "subtitle": "subtitles.aerialhell.entity.volucite_warden.beam",
+    "sounds": ["aerialhell:mob/volucite_warden/beam_loop"]
   },
   "entity.volucite_golem.ambient_alert": {
     "subtitle": "subtitles.aerialhell.entity.volucite_golem.ambient_alert",
@@ -243,6 +255,10 @@
       "aerialhell:mob/volucite_golem/ambient_angry",
       "aerialhell:mob/volucite_golem/ambient_mad"
     ]
+  },
+  "entity.volucite_golem.beam_load": {
+    "subtitle": "subtitles.aerialhell.entity.volucite_golem.beam",
+    "sounds": ["aerialhell:mob/volucite_golem/beam_load"]
   },
   "entity.volucite_golem.beam_start": {
     "subtitle": "subtitles.aerialhell.entity.volucite_golem.beam",

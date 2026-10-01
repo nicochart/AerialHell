@@ -17,7 +17,7 @@ import java.util.List;
 public class ArmsBeamAttackHandler
 {
     private final VoluciteWardenEntity warden;
-    private int ticksSinceLastBeamSound = this.getBeamSoundLength();
+    private int ticksSinceLastBeamLoopSound = this.getBeamLoopSoundRepeatInterval();
 
     private final ArmBeamAttackHandler rightArmHandler;
     private final ArmBeamAttackHandler leftArmHandler;
@@ -52,7 +52,7 @@ public class ArmsBeamAttackHandler
             this.targetManager.tick();
         }
 
-        this.ticksSinceLastBeamSound++;
+        this.ticksSinceLastBeamLoopSound++;
     }
 
     public void onArmBeamPhaseFinish(ArmBeamAttackPhaseType currentPhaseType, ArmBeamAttackPhaseType nextPhaseType, boolean isRightArm) //when arm stayed at target pos for long enough so the sequence updates to next phase
@@ -125,15 +125,54 @@ public class ArmsBeamAttackHandler
     private Vec3 getRelativeBeamRecoveryPos(int sideFactor) {return new Vec3(sideFactor * 9.5F, 5.5F, 0.0F);}
 
     //copy of methods from BeamAttackEntity, edited for arm segments. arms segments beam sound is emitted from master handler to avoid multiple beam sound to play at once
-    public void makeBeamStartSound() {this.makeBeamSound(true);}
-    public void makeBeamSound() {this.makeBeamSound(false);}
-    public void makeBeamSound(boolean beamStart) {if (this.shouldPlayBeamSound()) {this.playBeamSound(beamStart);}}
-    public void playBeamSound(boolean start) //volume = 1.5F * this.getMaxBeamLength() / 16.0F because this.getMaxBeamLength() / 16.0F = can be hear up to laser max length. adding 50%
+    public void tickBeamSounds(int currentBeamingTime, int loadDuration, int totalDuration)
     {
-        this.ticksSinceLastBeamSound = 0;
-        this.warden.getLevel().playSound(null, this.warden.getX(), this.warden.getY(), this.warden.getZ(), this.getArmBeamSound(start), this.warden.getSelf().getSoundSource(), 0.09375F * VoluciteWardenArmSegmentEntity.MAX_BEAM_LENGTH, 1.0F);
+        if (this.isBeamSilent()) {return;}
+
+        if (currentBeamingTime == 1) //beam load
+        {
+            this.playBeamSound(this.getBeamLoadSound());
+        }
+        else if (currentBeamingTime == loadDuration) //beam start
+        {
+            this.playBeamSound(this.getBeamStartSound());
+            if (this.shouldPlayBeamLoopSound()) //loop sound control (avoid multiple plays at a time)
+            {
+                this.ticksSinceLastBeamLoopSound = 0;
+                this.playBeamSound(this.getBeamLoopSound());
+            }
+        }
+        else if (currentBeamingTime > loadDuration && currentBeamingTime + this.getBeamLoopSoundRepeatInterval() <= totalDuration) //beam loop
+        {
+            if (this.shouldPlayBeamLoopSound()) //loop sound control (avoid multiple plays at a time)
+            {
+                int timeInLoop = currentBeamingTime - loadDuration;
+                if (timeInLoop % this.getBeamLoopSoundRepeatInterval() == 0)
+                {
+                    this.ticksSinceLastBeamLoopSound = 0;
+                    this.playBeamSound(this.getBeamLoopSound());
+                }
+            }
+        }
     }
-    public boolean shouldPlayBeamSound() {return this.ticksSinceLastBeamSound >= this.getBeamSoundLength();}
-    public int getBeamSoundLength() {return 35;}
-    public SoundEvent getArmBeamSound(boolean beamStart) {return beamStart ? AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get() : AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get();}
+
+    public void playBeamSound(@Nullable SoundEvent sound)
+    {
+        if (sound == null) return;
+
+        //volume = 1.5F * this.getMaxBeamLength() / 16.0F because this.getMaxBeamLength() / 16.0F = can be hear up to laser max length. adding 50%
+        float volume = 0.09375F * VoluciteWardenArmSegmentEntity.MAX_BEAM_LENGTH;
+
+        this.warden.getLevel().playSound(null, this.warden.getX(), this.warden.getY(), this.warden.getZ(), sound, this.warden.getSelf().getSoundSource(), volume, 1.0F);
+    }
+
+    public boolean shouldPlayBeamLoopSound() {return this.ticksSinceLastBeamLoopSound >= this.getBeamLoopSoundRepeatInterval();}
+
+    public SoundEvent getBeamLoadSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOAD.get();}
+    public SoundEvent getBeamStartSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get();}
+    public SoundEvent getBeamLoopSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOOP.get();}
+    public int getBeamLoopSoundRepeatInterval() {return 60;}
+    public int getBeamLoopSoundOverlap() {return 18;}
+
+    public boolean isBeamSilent() {return false;}
 }

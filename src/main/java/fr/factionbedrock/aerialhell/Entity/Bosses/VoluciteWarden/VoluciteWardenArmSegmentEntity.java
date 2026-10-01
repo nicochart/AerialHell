@@ -21,9 +21,9 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
 
     /* -- BeamAttackEntity fields -- */
     public static final int MAX_BEAM_LENGTH = 50;
-    public static final int BEAMING_LOAD_DURATION = 35;
+    public static final int BEAMING_LOAD_DURATION = 42;
     public static final int BEAMING_OVERHEAT_DURATION = 140;
-    public static final int BEAMING_TOTAL_DURATION = 200;
+    public static final int BEAMING_TOTAL_DURATION = 230; //load 42 + normal & overheat 60 60 60 + 8 (beam overlap)
     public static final int BEAMING_COOLDOWN = 20;
     private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteWardenArmSegmentEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteWardenArmSegmentEntity.class, EntityDataSerializers.INT);
@@ -207,19 +207,11 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         }
 
         //redirect beam sound to master
-        @Override public void makeBeamSound()
+        @Override public void tickBeamSounds(int currentBeamingTime, int loadDuration)
         {
             if (this.getGoalOwner() instanceof PartEntity armSegment && armSegment.getMaster() != null && armSegment.getMaster().getSelf() instanceof VoluciteWardenEntity master)
             {
-                master.armsBeamAttackHandler.makeBeamSound();
-            }
-        }
-
-        @Override public void makeBeamStartSound()
-        {
-            if (this.getGoalOwner() instanceof PartEntity armSegment && armSegment.getMaster() != null && armSegment.getMaster().getSelf() instanceof VoluciteWardenEntity master)
-            {
-                master.armsBeamAttackHandler.makeBeamStartSound();
+                master.armsBeamAttackHandler.tickBeamSounds(this.currentBeamingTime(), this.beamingLoadDuration(), this.beamingTotalDuration());
             }
         }
 

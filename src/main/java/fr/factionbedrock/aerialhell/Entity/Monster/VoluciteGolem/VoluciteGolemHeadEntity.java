@@ -35,9 +35,9 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
     /* ----------------------- */
 
     /* -- BeamAttackEntity fields -- */
-    public static final int BEAMING_LOAD_DURATION = 35;
+    public static final int BEAMING_LOAD_DURATION = 42;
     public static final int BEAMING_OVERHEAT_DURATION = 60;
-    public static final int BEAMING_TOTAL_DURATION = 260;
+    public static final int BEAMING_TOTAL_DURATION = 290; //load 42 + normal 60 60 60 + overheat 60 + 8 (loop overlap duration = 18 but volume decreases, so only 8 is enough)
     public static final int BEAMING_COOLDOWN = 40;
     private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteGolemHeadEntity.class, EntityDataSerializers.INT);

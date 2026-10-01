@@ -39,6 +39,10 @@ public class BeamAttackGoal extends Goal
         //this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK)); //can't disable move and look flags because they are needed to avoid parasite head position change by move controls.. will need to separate head and body.
     }
 
+    public int beamingLoadDuration() {return this.beamingLoadDuration;}
+    public int currentBeamingTime() {return this.currentBeamingTime;}
+    public int beamingTotalDuration() {return this.beamingTotalDuration;}
+
     public BeamAttackEntity getGoalOwner() {return this.entity;}
 
     @Override public boolean canUse()
@@ -69,7 +73,6 @@ public class BeamAttackGoal extends Goal
         this.entity.onStartBeaming(this.beamingTotalDuration);
         //this.entity.getNavigation().stop(); slowness for the duration ?
 
-        this.makeBeamStartSound();
         this.entity.setNeedsSync();
     }
 
@@ -88,7 +91,7 @@ public class BeamAttackGoal extends Goal
     @Override public void tick()
     {
         ++this.currentBeamingTime;
-        this.makeBeamSound();
+        this.tickBeamSounds(this.currentBeamingTime, this.beamingLoadDuration);
         Vec3 beamTargetPos = this.entity.getBeamTargetPos();
         if (beamTargetPos == null)
         {
@@ -129,14 +132,9 @@ public class BeamAttackGoal extends Goal
         this.entity.getLookControl().setLookAt(beamTargetPos.x, beamTargetPos.y, beamTargetPos.z, 90.0F, 90.0F);
     }
 
-    public void makeBeamSound()
+    public void tickBeamSounds(int currentBeamingTime, int loadDuration)
     {
-        this.entity.makeBeamSound(this.currentBeamingTime);
-    }
-
-    public void makeBeamStartSound()
-    {
-        this.entity.makeBeamStartSound(this.currentBeamingTime);
+        this.entity.tickBeamSounds(this.currentBeamingTime, this.beamingLoadDuration, this.beamingTotalDuration);
     }
 
     public void hitEntities(float damage)
