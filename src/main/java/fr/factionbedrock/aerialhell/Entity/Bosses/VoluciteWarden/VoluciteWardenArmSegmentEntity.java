@@ -24,7 +24,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
     public static final int BEAMING_LOAD_DURATION = 42;
     public static final int BEAMING_OVERHEAT_DURATION = 140;
     public static final int BEAMING_TOTAL_DURATION = 230; //load 42 + normal & overheat 60 60 60 + 8 (beam overlap)
-    public static final int BEAMING_COOLDOWN = 20;
+    public static final int BEAMING_COOLDOWN = 100;
     private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteWardenArmSegmentEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteWardenArmSegmentEntity.class, EntityDataSerializers.INT);
     private final BeamAttackEntityInfo BEAM_ATTACK_ENTITY_INFO = new BeamAttackEntityInfo(ATTACK_TARGET_ID, BEAMING_PHASE);
@@ -114,7 +114,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         Vec3 rightVec = forwardVec.cross(new Vec3(0, 1, 0)).normalize();
         Vec3 upVec = rightVec.cross(forwardVec).normalize();
 
-        double rotationSpeed = 0.018D;
+        double rotationSpeed = 0.016D;
         double beamAngle = (lowHalfCircle ? Math.PI : 0) + this.beamEnabledTicks * rotationSpeed;
         double radius = 8.0D;
 

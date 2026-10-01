@@ -55,7 +55,8 @@ public class BeamAttackGoal extends Goal
     @Override public boolean canContinueToUse()
     {
         LivingEntity target = this.entity.getTarget();
-        return super.canContinueToUse() && (target != null && this.entity.getSelf().distanceToSqr(target) <= this.entity.getMaxBeamLength() * this.entity.getMaxBeamLength());
+        boolean isFinished = this.currentBeamingTime >= this.beamingTotalDuration;
+        return !isFinished && super.canContinueToUse() && (target != null && this.entity.getSelf().distanceToSqr(target) <= this.entity.getMaxBeamLength() * this.entity.getMaxBeamLength());
     }
 
     //if beam is under cooldown : decreases the cooldown and return false
@@ -112,15 +113,11 @@ public class BeamAttackGoal extends Goal
                 if (!this.entity.isBeamingNormalPhase()) {this.entity.setBeamingPhaseToNormal();}
                 this.hitEntities(4.0F + hardDifficultyDamageBonus);
             }
-            else if (this.currentBeamingTime < this.beamingTotalDuration)
+            else //(this.currentBeamingTime < this.beamingTotalDuration)
             {
                 //full power
                 if (!this.entity.isBeamingOverheatPhase()) {this.entity.setBeamingPhaseToOverheat();}
                 this.hitEntities(6.0F + hardDifficultyDamageBonus);
-            }
-            else //if (this.currentBeamingTime >= this.beamingDuration)
-            {
-                this.stop();
             }
             super.tick();
         }

@@ -124,7 +124,7 @@ public class ArmsBeamAttackHandler
     private Vec3 getRelativeBeamingPos(int sideFactor) {return this.getRelativePreparePos3(sideFactor);}
     private Vec3 getRelativeBeamRecoveryPos(int sideFactor) {return new Vec3(sideFactor * 9.5F, 5.5F, 0.0F);}
 
-    //copy of methods from BeamAttackEntity, edited for arm segments. arms segments beam sound is emitted from master handler to avoid multiple beam sound to play at once
+    //copy of methods from BeamAttackEntity, edited for arm segments. arms segments beam sound is emitted from master handler to avoid multiple beam loop sound to play at once
     public void tickBeamSounds(int currentBeamingTime, int loadDuration, int totalDuration)
     {
         if (this.isBeamSilent()) {return;}
