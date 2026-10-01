@@ -28,7 +28,8 @@ public class VoluciteWardenHeadRender extends VoluciteWardenPartRender<VoluciteW
 		{
 			renderState.beamStartPosition = entity.toRelativePos(entity.getBeamStartPos(partialTick));
 			renderState.beamTargetPosition = entity.toRelativePos(BeamRenderHelper.getBeamTargetPosition(entity.getBeamEndPos(), entity.getPrevBeamEndPos(), partialTick));
-			renderState.beamTexture = BeamRenderHelper.getBeamTextureLocation(entity.getBeamingPhase());
+			renderState.beamTexture = BeamRenderHelper.getBeamTextureLocation();
+			renderState.beamColor = entity.getBeamColor();
 			renderState.maxBeamLength = entity.getMaxBeamLength();
 			renderState.beamScale = entity.getBeamScale();
 		}
@@ -37,6 +38,7 @@ public class VoluciteWardenHeadRender extends VoluciteWardenPartRender<VoluciteW
 			renderState.beamStartPosition = null;
 			renderState.beamTargetPosition = null;
 			renderState.beamTexture = null;
+			renderState.beamColor = entity.getBeamColor(0);
 			renderState.maxBeamLength = 0.0F;
 			renderState.beamScale = 1.0F;
 		}
@@ -74,7 +76,7 @@ public class VoluciteWardenHeadRender extends VoluciteWardenPartRender<VoluciteW
 			poseStack.pushPose();
 			poseStack.translate(renderState.beamStartPosition);
 
-			BeamRenderHelper.renderBeam(poseStack, submitNodeCollector, renderState.beamTargetPosition.subtract(renderState.beamStartPosition), renderState.beamTexture, renderState.maxBeamLength, renderState.beamScale);
+			BeamRenderHelper.renderBeam(poseStack, submitNodeCollector, renderState.beamTargetPosition.subtract(renderState.beamStartPosition), renderState.beamTexture, renderState.beamColor, renderState.maxBeamLength, renderState.beamScale);
 			poseStack.popPose();
 		}
 	}

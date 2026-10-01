@@ -17,8 +17,15 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
+import java.awt.*;
+
 public interface BeamAttackEntity extends SyncedTargetEntity
 {
+    int DEFAULT_LOAD_COLOR = new Color(253, 0, 0).getRGB(); //red
+    int DEFAULT_NORMAL_COLOR = new Color(255, 251, 0).getRGB(); //yellow
+    int DEFAULT_OVERHEAT_COLOR = new Color(115, 255, 255).getRGB(); //cyan
+    int DEFAULT_COLOR = new Color(255, 255, 255).getRGB(); //white
+
     /* ---------------------------------------------------- */
     /* ---------- Methods needing implementation ---------- */
     /* ---------------------------------------------------- */
@@ -79,7 +86,20 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         return this.getSelf().getEyePosition().add(this.getSelf().getLookAngle().scale(5));
     }
 
-    default float getBeamScale() {return 1.0F;} //beam size multiplier
+    default float getBeamScale() {return this.getBeamScale(this.getBeamingPhase());}
+    default float getBeamScale(int beamingPhase) {return beamingPhase == 1 ? 0.3F : 1.0F;} //beam size multiplier
+
+    default int getBeamColor() {return this.getBeamColor(this.getBeamingPhase());}
+    default int getBeamColor(int beamingPhase)
+    {
+        return switch (beamingPhase)
+        {
+            case 1 -> DEFAULT_LOAD_COLOR;
+            case 2 -> DEFAULT_NORMAL_COLOR;
+            case 3 -> DEFAULT_OVERHEAT_COLOR;
+            default -> DEFAULT_COLOR; //fallback
+        };
+    }
 
     default SoundEvent getBeamLoadSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_LOAD.get();} //will play on BeamAttackGoal activation. Default sound duration is 42 ticks, so using this sound, beam load duration should be 42 ticks.
     default SoundEvent getBeamStartSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_GOLEM_BEAM_START.get();} //will start playing after beamingLoadDuration (first parameter of goal)

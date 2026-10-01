@@ -10,5 +10,6 @@ public class VoluciteGolemRenderState extends AerialHellGolemRenderState
     public Vec3 beamStartPosition;
     public float maxBeamLength;
     public float beamScale;
+    public int beamColor;
     @Nullable public Identifier beamTexture;
 }

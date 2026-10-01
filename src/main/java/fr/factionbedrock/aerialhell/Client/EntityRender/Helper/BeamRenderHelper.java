@@ -18,9 +18,7 @@ import org.jspecify.annotations.Nullable;
 
 public class BeamRenderHelper
 {
-    private static final Identifier BEAM_NORMAL = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/attack/beam.png");
-    private static final Identifier BEAM_LOAD = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/attack/beam_load.png");
-    private static final Identifier BEAM_OVERHEAT = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/attack/beam_overheat.png");
+    private static final Identifier BEAM_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/attack/beam.png");
 
     public static RenderType getBeamRenderType(Identifier textureLocation)
     {
@@ -35,18 +33,9 @@ public class BeamRenderHelper
         return new Vec3(d0, d1, d2);
     }
 
-    @Nullable public static Identifier getBeamTextureLocation(int beamingPhase)
-    {
-        return switch (beamingPhase)
-        {
-            case 1 -> BEAM_LOAD;
-            case 2 -> BEAM_NORMAL;
-            case 3 -> BEAM_OVERHEAT;
-            default -> null;
-        };
-    }
+    public static Identifier getBeamTextureLocation() {return BEAM_TEXTURE;}
 
-    public static void renderBeam(PoseStack poseStack, SubmitNodeCollector nodeCollector, Vec3 beamVector, Identifier textureLocation, float maxBeamLength, float entityBeamScale)
+    public static void renderBeam(PoseStack poseStack, SubmitNodeCollector nodeCollector, Vec3 beamVector, Identifier textureLocation, int color, float maxLength, float scale)
     {
         float y = (float)(beamVector.length());
         beamVector = beamVector.normalize();
@@ -54,16 +43,17 @@ public class BeamRenderHelper
         float yRotFactor = ((float)Math.PI / 2F) - (float)Math.atan2(beamVector.z, beamVector.x);
         poseStack.mulPose(Axis.YP.rotationDegrees(yRotFactor * (180F / (float)Math.PI)));
         poseStack.mulPose(Axis.XP.rotationDegrees(xRotFactor * (180F / (float)Math.PI)));
-        int r = 255, g = 255, b = 255;
-        float phaseScale = textureLocation == BEAM_LOAD ? 0.3F : 1.0F;
-        float finalScale = phaseScale * entityBeamScale;
+
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
 
         nodeCollector.submitCustomGeometry(poseStack, getBeamRenderType(textureLocation), (pose, consumer) ->
         {
-            float size = 0.1F * finalScale;
+            float size = 0.1F * scale;
 
             float segmentPerUnit = 1.0F;
-            int maxSegments = (int) (maxBeamLength * segmentPerUnit);
+            int maxSegments = (int) (maxLength * segmentPerUnit);
             int segmentCount = Mth.clamp((int)(y * segmentPerUnit), 1, maxSegments);
             double segmentLength = y / segmentCount;
 
