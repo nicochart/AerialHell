@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.VoluciteGolemHeadModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Helper.BeamRenderHelper;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteGolemRenderState;
+import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
 import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemHeadEntity;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -36,7 +37,7 @@ public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity
             renderState.beamStartPosition = entity.toRelativePos(entity.getBeamStartPos(partialTick));
             renderState.beamTargetPosition = entity.toRelativePos(BeamRenderHelper.getBeamTargetPosition(entity.getBeamEndPos(), entity.getPrevBeamEndPos(), partialTick));
             renderState.beamTexture = BeamRenderHelper.getBeamTextureLocation();
-            renderState.beamColor = entity.getBeamColor();
+            renderState.beamColor = entity.getBeamColor(partialTick);
             renderState.maxBeamLength = entity.getMaxBeamLength();
             renderState.beamScale = entity.getBeamScale();
         }
@@ -44,7 +45,7 @@ public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity
         {
             renderState.beamTargetPosition = null;
             renderState.beamTexture = null;
-            renderState.beamColor = entity.getBeamColor(0);
+            renderState.beamColor = entity.getBeamColor(BeamingPhases.OFF);
             renderState.maxBeamLength = 0.0F;
             renderState.beamScale = 1.0F;
         }

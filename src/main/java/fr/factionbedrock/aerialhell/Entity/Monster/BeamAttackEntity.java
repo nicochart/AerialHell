@@ -6,6 +6,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -62,6 +63,7 @@ public interface BeamAttackEntity extends SyncedTargetEntity
 
             this.updateBeamPositions();
             this.displayParticles();
+            this.updatePhaseTransitionCount();
         }
     }
     /* ----------------------------------------------- */
@@ -86,10 +88,10 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         return this.getSelf().getEyePosition().add(this.getSelf().getLookAngle().scale(5));
     }
 
-    default float getBeamScale() {return this.getBeamScale(this.getBeamingPhase());}
-    default float getBeamScale(int beamingPhase) {return beamingPhase == 1 ? 0.3F : 1.0F;} //beam size multiplier
+    default float getBeamScale(int beamingPhase) {return beamingPhase == BeamingPhases.BEAMING_LOAD ? 0.3F : 1.0F;} //beam size multiplier
 
-    default int getBeamColor() {return this.getBeamColor(this.getBeamingPhase());}
+    default int getOverheatTransitionDuration() {return 20;}
+
     default int getBeamColor(int beamingPhase)
     {
         return switch (beamingPhase)
@@ -135,6 +137,50 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     /* ---------------------------------------------------------------------------- */
     /* ---------------------------------------------------------------------------- */
     /* ---------------------------------------------------------------------------- */
+    default float getBeamScale() {return this.getBeamScale(this.getBeamingPhase());}
+
+    default int getBeamOverheatTransitionTick() {return this.getBeamAttackEntityInfo().overheatTransitionTick;}
+    default int getBeamPrevOverheatTransitionTick() {return this.getBeamAttackEntityInfo().prevOverheatTransitionTick;}
+
+    default int getBeamColor(float partialTick)
+    {
+        int phase = this.getBeamingPhase();
+
+        //visual transition if overheat phase start
+        if (phase == BeamingPhases.BEAMING_OVERHEAT)
+        {
+            float exactTick = Mth.lerp(partialTick, this.getBeamPrevOverheatTransitionTick(), this.getBeamOverheatTransitionTick());
+            //from 0.0 to 1.0
+            float delta = exactTick / (float) this.getOverheatTransitionDuration();
+
+            if (delta < 1.0F)
+            {
+                //mixing colors
+                return this.lerpColor(delta, this.getBeamColor(BeamingPhases.BEAMING_NORMAL), this.getBeamColor(BeamingPhases.BEAMING_OVERHEAT));
+            }
+
+            return this.getBeamColor(BeamingPhases.BEAMING_OVERHEAT);
+        }
+
+        return this.getBeamColor(phase);
+    }
+
+    default int lerpColor(float delta, int colorA, int colorB)
+    {
+        int r1 = (colorA >> 16) & 0xFF;
+        int g1 = (colorA >> 8) & 0xFF;
+        int b1 = colorA & 0xFF;
+
+        int r2 = (colorB >> 16) & 0xFF;
+        int g2 = (colorB >> 8) & 0xFF;
+        int b2 = colorB & 0xFF;
+
+        int r = (int) Mth.lerp(delta, r1, r2);
+        int g = (int) Mth.lerp(delta, g1, g2);
+        int b = (int) Mth.lerp(delta, b1, b2);
+
+        return (r << 16) | (g << 8) | b;
+    }
 
     default void tickBeamSounds(int currentBeamingTime, int loadDuration, int totalDuration)
     {
@@ -229,6 +275,25 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         this.updateBeamEndPos(this.getBeamTargetPos(), this.getMaxBeamLength());
     }
 
+    default void updatePhaseTransitionCount()
+    {
+        //Normal phase -> Overheat phase transition (tick count used client side)
+        //When in overheat phase, the entity starts counting for transition. The transition starts on overheat phase start
+        this.getBeamAttackEntityInfo().prevOverheatTransitionTick = this.getBeamAttackEntityInfo().overheatTransitionTick;
+
+        if (this.getBeamingPhase() == 3)
+        {
+            if (this.getBeamAttackEntityInfo().overheatTransitionTick < this.getOverheatTransitionDuration())
+            {
+                this.getBeamAttackEntityInfo().overheatTransitionTick++;
+            }
+        }
+        else
+        {
+            this.getBeamAttackEntityInfo().overheatTransitionTick = 0;
+        }
+    }
+
     default void updateBeamTargetPosLinearWithMaxDistance(Vec3 targetEntityPos, Vec3 prevBeamTargetPos, float maxVelocity)
     {
         Vec3 velocity = targetEntityPos.subtract(prevBeamTargetPos);
@@ -300,6 +365,8 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         @Nullable private Vec3 prevBeamTargetPos;
         @Nullable private Vec3 beamEndPos;
         @Nullable private Vec3 prevBeamEndPos;
+        private int overheatTransitionTick;
+        private int prevOverheatTransitionTick;
 
         public BeamAttackEntityInfo(EntityDataAccessor<Integer> beamTargetEntityIdData, EntityDataAccessor<Integer> beamingPhaseData)
         {

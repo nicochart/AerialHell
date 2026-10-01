@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.Client.EntityModels.VoluciteWardenPartModel;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Helper.BeamRenderHelper;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteWardenPartRenderState;
+import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenArmSegmentEntity;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -28,7 +29,7 @@ public class VoluciteWardenArmSegmentRender extends VoluciteWardenPartRender<Vol
 			renderState.beamStartPosition = entity.toRelativePos(entity.getBeamStartPos(partialTick));
 			renderState.beamTargetPosition = entity.toRelativePos(BeamRenderHelper.getBeamTargetPosition(entity.getBeamEndPos(), entity.getPrevBeamEndPos(), partialTick));
 			renderState.beamTexture = BeamRenderHelper.getBeamTextureLocation();
-			renderState.beamColor = entity.getBeamColor();
+			renderState.beamColor = entity.getBeamColor(partialTick);
 			renderState.maxBeamLength = entity.getMaxBeamLength();
 			renderState.beamScale = entity.getBeamScale();
 		}
@@ -37,7 +38,7 @@ public class VoluciteWardenArmSegmentRender extends VoluciteWardenPartRender<Vol
 			renderState.beamStartPosition = null;
 			renderState.beamTargetPosition = null;
 			renderState.beamTexture = null;
-			renderState.beamColor = entity.getBeamColor(0);
+			renderState.beamColor = entity.getBeamColor(BeamingPhases.OFF);
 			renderState.maxBeamLength = 0.0F;
 			renderState.beamScale = 1.0F;
 		}
