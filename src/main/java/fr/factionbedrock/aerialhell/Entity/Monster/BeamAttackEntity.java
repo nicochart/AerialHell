@@ -63,7 +63,8 @@ public interface BeamAttackEntity extends SyncedTargetEntity
 
             this.updateBeamPositions();
             this.displayParticles();
-            this.updatePhaseTransitionCount();
+            this.updatePhaseTransitionTick();
+            this.updateLoadConvergenceTick();
         }
     }
     /* ----------------------------------------------- */
@@ -88,9 +89,13 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         return this.getSelf().getEyePosition().add(this.getSelf().getLookAngle().scale(5));
     }
 
+    default float getMaxConvergenceAngle() {return 30.0F;}
+
     default float getBeamScale(int beamingPhase) {return beamingPhase == BeamingPhases.BEAMING_LOAD ? 0.3F : 1.0F;} //beam size multiplier
 
-    default int getOverheatTransitionDuration() {return 120;}
+    //durations are in ticks
+    default int getLoadConvergenceDuration() {return 0;} //set it to any positive int if you want a load animation (4 little beams converging)
+    default int getOverheatTransitionDuration() {return 120;} //set it to 0 if you want no transition
 
     default int getBeamColor(int beamingPhase)
     {
@@ -139,6 +144,19 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     /* ---------------------------------------------------------------------------- */
     default float getBeamScale() {return this.getBeamScale(this.getBeamingPhase());}
 
+    default int getBeamLoadConvergenceTick() {return this.getBeamAttackEntityInfo().loadConvergenceTick;}
+    default int getBeamPrevLoadConvergenceTick() {return this.getBeamAttackEntityInfo().prevLoadConvergenceTick;}
+
+    default float getBeamConvergenceAngle(float partialTick)
+    {
+        if (!this.isBeamingLoadingPhase() || this.getLoadConvergenceDuration() < 1) {return 0.0F;}
+
+        float exactTick = Mth.lerp(partialTick, this.getBeamPrevLoadConvergenceTick(), this.getBeamLoadConvergenceTick());
+        float progress = Mth.clamp(exactTick / (float) this.getLoadConvergenceDuration(), 0.0F, 1.0F);
+
+        return (1.0F - progress) * this.getMaxConvergenceAngle();
+    }
+
     default int getBeamOverheatTransitionTick() {return this.getBeamAttackEntityInfo().overheatTransitionTick;}
     default int getBeamPrevOverheatTransitionTick() {return this.getBeamAttackEntityInfo().prevOverheatTransitionTick;}
 
@@ -147,7 +165,7 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         int phase = this.getBeamingPhase();
 
         //visual transition if overheat phase start
-        if (phase == BeamingPhases.BEAMING_OVERHEAT)
+        if (phase == BeamingPhases.BEAMING_OVERHEAT && this.getOverheatTransitionDuration() < 1)
         {
             float exactTick = Mth.lerp(partialTick, this.getBeamPrevOverheatTransitionTick(), this.getBeamOverheatTransitionTick());
             //from 0.0 to 1.0
@@ -275,13 +293,15 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         this.updateBeamEndPos(this.getBeamTargetPos(), this.getMaxBeamLength());
     }
 
-    default void updatePhaseTransitionCount()
+    default void updatePhaseTransitionTick()
     {
+        if (this.getOverheatTransitionDuration() < 1) {return;}
+
         //Normal phase -> Overheat phase transition (tick count used client side)
         //When in overheat phase, the entity starts counting for transition. The transition starts on overheat phase start
         this.getBeamAttackEntityInfo().prevOverheatTransitionTick = this.getBeamAttackEntityInfo().overheatTransitionTick;
 
-        if (this.getBeamingPhase() == 3)
+        if (this.getBeamingPhase() == BeamingPhases.BEAMING_OVERHEAT)
         {
             if (this.getBeamAttackEntityInfo().overheatTransitionTick < this.getOverheatTransitionDuration())
             {
@@ -291,6 +311,26 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         else
         {
             this.getBeamAttackEntityInfo().overheatTransitionTick = 0;
+        }
+    }
+
+    default void updateLoadConvergenceTick()
+    {
+        if (this.getLoadConvergenceDuration() < 1) {return;}
+
+        //Load start "transition" (convergence of 4 beams to center)
+        this.getBeamAttackEntityInfo().prevLoadConvergenceTick = this.getBeamAttackEntityInfo().loadConvergenceTick;
+
+        if (this.getBeamingPhase() == BeamingPhases.BEAMING_LOAD)
+        {
+            if (this.getBeamAttackEntityInfo().loadConvergenceTick < this.getLoadConvergenceDuration())
+            {
+                this.getBeamAttackEntityInfo().loadConvergenceTick++;
+            }
+        }
+        else
+        {
+            this.getBeamAttackEntityInfo().loadConvergenceTick = 0;
         }
     }
 
@@ -365,8 +405,10 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         @Nullable private Vec3 prevBeamTargetPos;
         @Nullable private Vec3 beamEndPos;
         @Nullable private Vec3 prevBeamEndPos;
-        private int overheatTransitionTick;
-        private int prevOverheatTransitionTick;
+        private int overheatTransitionTick = 0;
+        private int prevOverheatTransitionTick = 0;
+        private int loadConvergenceTick = 0;
+        private int prevLoadConvergenceTick = 0;
 
         public BeamAttackEntityInfo(EntityDataAccessor<Integer> beamTargetEntityIdData, EntityDataAccessor<Integer> beamingPhaseData)
         {

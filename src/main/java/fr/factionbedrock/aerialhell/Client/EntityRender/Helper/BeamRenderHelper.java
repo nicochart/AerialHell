@@ -34,15 +34,51 @@ public class BeamRenderHelper
 
     public static Identifier getBeamTextureLocation() {return BEAM_TEXTURE;}
 
-    public static void renderBeam(PoseStack poseStack, SubmitNodeCollector nodeCollector, Vec3 beamVector, Identifier textureLocation, int color, float maxLength, float scale)
+    public static void renderBeam(PoseStack poseStack, SubmitNodeCollector nodeCollector, Vec3 beamVector, Identifier textureLocation, int color, float maxLength, float scale, float convergenceAngle)
     {
-        float y = (float)(beamVector.length());
-        beamVector = beamVector.normalize();
-        float xRotFactor = (float)Math.acos(beamVector.y);
-        float yRotFactor = ((float)Math.PI / 2F) - (float)Math.atan2(beamVector.z, beamVector.x);
-        poseStack.mulPose(Axis.YP.rotationDegrees(yRotFactor * (180F / (float)Math.PI)));
-        poseStack.mulPose(Axis.XP.rotationDegrees(xRotFactor * (180F / (float)Math.PI)));
+        float length = (float) beamVector.length();
 
+        if (convergenceAngle > 0.0F) //convergence render
+        {
+            float convergenceScale = scale * 0.5F;
+
+            renderConvergingBeam(poseStack, nodeCollector, beamVector, textureLocation, color, length, maxLength, convergenceScale,  convergenceAngle, 0.0F);
+            renderConvergingBeam(poseStack, nodeCollector, beamVector, textureLocation, color, length, maxLength, convergenceScale, -convergenceAngle, 0.0F);
+            renderConvergingBeam(poseStack, nodeCollector, beamVector, textureLocation, color, length, maxLength, convergenceScale, 0.0F,  convergenceAngle);
+            renderConvergingBeam(poseStack, nodeCollector, beamVector, textureLocation, color, length, maxLength, convergenceScale, 0.0F, -convergenceAngle);
+        }
+        else //normal render
+        {
+            poseStack.pushPose();
+            orientPoseStack(poseStack, beamVector);
+            renderBeamGeometry(poseStack, nodeCollector, textureLocation, color, length, maxLength, scale);
+            poseStack.popPose();
+        }
+    }
+
+    private static void orientPoseStack(PoseStack poseStack, Vec3 beamVector)
+    {
+        beamVector = beamVector.normalize();
+        float xRotFactor = (float) Math.acos(beamVector.y);
+        float yRotFactor = ((float) Math.PI / 2F) - (float) Math.atan2(beamVector.z, beamVector.x);
+        poseStack.mulPose(Axis.YP.rotationDegrees(yRotFactor * (180F / (float) Math.PI)));
+        poseStack.mulPose(Axis.XP.rotationDegrees(xRotFactor * (180F / (float) Math.PI)));
+    }
+
+    private static void renderConvergingBeam(PoseStack poseStack, SubmitNodeCollector nodeCollector, Vec3 beamVector, Identifier textureLocation, int color, float length, float maxLength, float scale, float xRot, float zRot)
+    {
+        poseStack.pushPose();
+        orientPoseStack(poseStack, beamVector);
+
+        if (xRot != 0.0F) { poseStack.mulPose(Axis.XP.rotationDegrees(xRot)); }
+        if (zRot != 0.0F) { poseStack.mulPose(Axis.ZP.rotationDegrees(zRot)); }
+
+        renderBeamGeometry(poseStack, nodeCollector, textureLocation, color, length, maxLength, scale);
+        poseStack.popPose();
+    }
+
+    private static void renderBeamGeometry(PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier textureLocation, int color, float length, float maxLength, float scale)
+    {
         int r = (color >> 16) & 0xFF;
         int g = (color >> 8) & 0xFF;
         int b = color & 0xFF;
@@ -50,11 +86,10 @@ public class BeamRenderHelper
         nodeCollector.submitCustomGeometry(poseStack, getBeamRenderType(textureLocation), (pose, consumer) ->
         {
             float size = 0.1F * scale;
-
             float segmentPerUnit = 1.0F;
             int maxSegments = (int) (maxLength * segmentPerUnit);
-            int segmentCount = Mth.clamp((int)(y * segmentPerUnit), 1, maxSegments);
-            double segmentLength = y / segmentCount;
+            int segmentCount = Mth.clamp((int)(length * segmentPerUnit), 1, maxSegments);
+            double segmentLength = length / segmentCount;
 
             for (int i = 0; i < segmentCount; i++)
             {
@@ -65,6 +100,9 @@ public class BeamRenderHelper
                 quad(consumer, pose,  size, -size,  size,  size, yMin, yMax, r, g, b); //east (+X)
                 quad(consumer, pose,  size,  size, -size,  size, yMin, yMax, r, g, b); //south (+Z)
                 quad(consumer, pose, -size,  size, -size, -size, yMin, yMax, r, g, b); //west (-X)
+
+                if (i == 0) { cap(consumer, pose, -size, -size, size, size, yMin, r, g, b); }
+                cap(consumer, pose, -size, -size, size, size, yMax, r, g, b);
             }
         });
     }
@@ -88,6 +126,22 @@ public class BeamRenderHelper
         vertex(consumer, pose, x2, yMin, z2, r, g, b, 0.0F, 1.0F);
         vertex(consumer, pose, x1, yMin, z1, r, g, b, 1.0F, 1.0F);
         vertex(consumer, pose, x1, yMax, z1, r, g, b, 1.0F, 0.0F);
+    }
+
+    //segment borders (to avoid seeing through the beam when your head in inside)
+    private static void cap(VertexConsumer consumer, PoseStack.Pose pose, float x1, float z1, float x2, float z2, float y, int r, int g, int b)
+    {
+        //exterior face
+        vertex(consumer, pose, x1, y, z1, r, g, b, 0.0F, 0.0F);
+        vertex(consumer, pose, x1, y, z2, r, g, b, 0.0F, 1.0F);
+        vertex(consumer, pose, x2, y, z2, r, g, b, 1.0F, 1.0F);
+        vertex(consumer, pose, x2, y, z1, r, g, b, 1.0F, 0.0F);
+
+        //interior face
+        vertex(consumer, pose, x2, y, z1, r, g, b, 1.0F, 0.0F);
+        vertex(consumer, pose, x2, y, z2, r, g, b, 1.0F, 1.0F);
+        vertex(consumer, pose, x1, y, z2, r, g, b, 0.0F, 1.0F);
+        vertex(consumer, pose, x1, y, z1, r, g, b, 0.0F, 0.0F);
     }
 
     private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z, int red, int green, int blue, float u, float v)
