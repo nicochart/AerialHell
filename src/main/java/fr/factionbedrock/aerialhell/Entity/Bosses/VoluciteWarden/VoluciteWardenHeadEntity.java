@@ -16,6 +16,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implements BeamAttackEntity
 {
     /* -- BeamAttackEntity fields -- */
@@ -68,7 +70,7 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
 
     @Override public float getMaxBeamLength() {return MAX_BEAM_LENGTH;}
 
-    @Override public float getBeamScale() {return 7.0F;}
+    @Override public float getBeamScale(int beamingPhase) {return BeamAttackEntity.super.getBeamScale(beamingPhase) * 7.0F;}
 
     @Override public Vec3 getBeamStartPos(Vec3 eyePos, float partialTick)
     {
@@ -94,6 +96,13 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
         Vec3 rotatedOffset = localEyeOffset.xRot(pitchRad).yRot(yawRad);
 
         return pivot.add(rotatedOffset);
+    }
+
+    public static int MAIN_BEAM_OVERHEAT_COLOR = new Color(0, 255, 255).getRGB();
+    @Override public int getBeamColor(int beamingPhase)
+    {
+        if (beamingPhase == BeamingPhases.BEAMING_OVERHEAT) {return MAIN_BEAM_OVERHEAT_COLOR;}
+        return BeamAttackEntity.super.getBeamColor(beamingPhase);
     }
 
     @Override public boolean canBeamHitEntity(LivingEntity entity) {return this.getMaster() != null && !this.getMaster().is(entity) && !entity.is(AerialHellTags.Entities.VOLUCITE);}

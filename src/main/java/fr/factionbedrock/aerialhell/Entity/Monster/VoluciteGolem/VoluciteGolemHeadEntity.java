@@ -175,7 +175,7 @@ public class VoluciteGolemHeadEntity extends Monster implements PartEntity, Beam
     @Override public void onStartBeaming(int beamingDuration) {if (this.getMaster() != null) {this.getMaster().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, beamingDuration, 2, false, false));}}
     @Override public void onStopBeaming() {if (this.getMaster() != null) {this.getMaster().removeEffect(MobEffects.SLOWNESS);}}
 
-    @Override public float getBeamScale() {return 0.5F;}
+    @Override public float getBeamScale(int beamingPhase) {return BeamAttackEntity.super.getBeamScale(beamingPhase) * 0.5F;}
 
     @Override public boolean isBeamSilent() {return false;} //PartEntity is silent but Beam Sound is still played by this part
     /* ------------------------------------------------------------------------------------------- */

@@ -23,8 +23,8 @@ import java.awt.*;
 public interface BeamAttackEntity extends SyncedTargetEntity
 {
     int DEFAULT_LOAD_COLOR = new Color(253, 0, 0).getRGB(); //red
-    int DEFAULT_NORMAL_COLOR = new Color(255, 251, 0).getRGB(); //yellow
-    int DEFAULT_OVERHEAT_COLOR = new Color(115, 255, 255).getRGB(); //cyan
+    int DEFAULT_NORMAL_COLOR = new Color(115, 255, 255).getRGB(); //cyan
+    int DEFAULT_OVERHEAT_COLOR = new Color(255, 251, 122).getRGB(); //yellow
     int DEFAULT_COLOR = new Color(255, 255, 255).getRGB(); //white
 
     /* ---------------------------------------------------- */
@@ -90,7 +90,7 @@ public interface BeamAttackEntity extends SyncedTargetEntity
 
     default float getBeamScale(int beamingPhase) {return beamingPhase == BeamingPhases.BEAMING_LOAD ? 0.3F : 1.0F;} //beam size multiplier
 
-    default int getOverheatTransitionDuration() {return 20;}
+    default int getOverheatTransitionDuration() {return 120;}
 
     default int getBeamColor(int beamingPhase)
     {
