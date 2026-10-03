@@ -72,7 +72,7 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
 
     @Override public float getBeamScale(int beamingPhase) {return BeamAttackEntity.super.getBeamScale(beamingPhase) * 7.0F;}
 
-    @Override public  int getLoadConvergenceDuration() {return 30;}
+    @Override public  int getLoadConvergenceDuration() {return 40;}
 
     @Override public Vec3 getBeamStartPos(Vec3 eyePos, float partialTick)
     {
