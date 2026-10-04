@@ -165,7 +165,7 @@ public interface BeamAttackEntity extends SyncedTargetEntity
         int phase = this.getBeamingPhase();
 
         //visual transition if overheat phase start
-        if (phase == BeamingPhases.BEAMING_OVERHEAT && this.getOverheatTransitionDuration() < 1)
+        if (phase == BeamingPhases.BEAMING_OVERHEAT && this.getOverheatTransitionDuration() > 0)
         {
             float exactTick = Mth.lerp(partialTick, this.getBeamPrevOverheatTransitionTick(), this.getBeamOverheatTransitionTick());
             //from 0.0 to 1.0
