@@ -4,10 +4,12 @@ import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmBeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmStrikeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmSummonAllyGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenMainBeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsBeamAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsStrikeAttackHandler;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsSummonAllyHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.MainBeamAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhase;
 import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemHeadEntity;
@@ -76,6 +78,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private VoluciteWardenArmBeamAttackGoal RIGHT_ARM_BEAM_ATTACK_GOAL;
 	private VoluciteWardenArmBeamAttackGoal LEFT_ARM_BEAM_ATTACK_GOAL;
 	public final ArmsBeamAttackHandler armsBeamAttackHandler;
+	/* ----------------------------- */
+
+	/* -- Arms Summon Ally fields -- */
+	private VoluciteWardenArmSummonAllyGoal RIGHT_ARM_SUMMON_ALLY_GOAL;
+	private VoluciteWardenArmSummonAllyGoal LEFT_ARM_SUMMON_ALLY_GOAL;
+	public final ArmsSummonAllyHandler armsSummonAllyHandler;
 	/* ----------------------------- */
 
 	/* -- MasterPartEntity fields -- */
@@ -160,6 +168,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.mainBeamAttackHandler = new MainBeamAttackHandler(this, () -> this.HEAD, this.MAIN_BEAM_ATTACK_GOAL);
 		this.armsStrikeAttackHandler = new ArmsStrikeAttackHandler(this, this.getRightArm(), this.RIGHT_ARM_STRIKE_ATTACK_GOAL, this.getLeftArm(), this.LEFT_ARM_STRIKE_ATTACK_GOAL);
 		this.armsBeamAttackHandler = new ArmsBeamAttackHandler(this, this.getRightArm(), this.RIGHT_ARM_BEAM_ATTACK_GOAL, this.getLeftArm(), this.LEFT_ARM_BEAM_ATTACK_GOAL);
+		this.armsSummonAllyHandler = new ArmsSummonAllyHandler(this, this.getRightArm(), this.RIGHT_ARM_SUMMON_ALLY_GOAL, this.getLeftArm(), this.LEFT_ARM_SUMMON_ALLY_GOAL);
 	}
 
 	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
@@ -225,6 +234,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.mainBeamAttackHandler.tick();
 		this.armsStrikeAttackHandler.tick();
 		this.armsBeamAttackHandler.tick();
+		this.armsSummonAllyHandler.tick();
 
 		//additional things (specific to the volucite warden)
 		if (!this.isInDeadOrDyingPhase()) {this.timeDying = 0;}
@@ -348,6 +358,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.LEFT_ARM_STRIKE_ATTACK_GOAL = new VoluciteWardenArmStrikeAttackGoal(this, this::getLeftArm, this::getLeftArmSegment7, 0.2F);
 		this.RIGHT_ARM_BEAM_ATTACK_GOAL = new VoluciteWardenArmBeamAttackGoal(this, this::getRightArm, 0.2F);
 		this.LEFT_ARM_BEAM_ATTACK_GOAL = new VoluciteWardenArmBeamAttackGoal(this, this::getLeftArm, 0.2F);
+		this.RIGHT_ARM_SUMMON_ALLY_GOAL = new VoluciteWardenArmSummonAllyGoal(this, this::getRightArm, 0.2F);
+		this.LEFT_ARM_SUMMON_ALLY_GOAL = new VoluciteWardenArmSummonAllyGoal(this, this::getLeftArm, 0.2F);
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
@@ -356,6 +368,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.goalSelector.addGoal(4, LEFT_ARM_STRIKE_ATTACK_GOAL);
 		this.goalSelector.addGoal(4, RIGHT_ARM_BEAM_ATTACK_GOAL);
 		this.goalSelector.addGoal(4, LEFT_ARM_BEAM_ATTACK_GOAL);
+		this.goalSelector.addGoal(4, RIGHT_ARM_SUMMON_ALLY_GOAL);
+		this.goalSelector.addGoal(4, LEFT_ARM_SUMMON_ALLY_GOAL);
 
 		//this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
@@ -519,8 +533,9 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		else {return this.isLeftArmActive();}
 	}
 
-	public boolean isRightArmActive() {return this.isRightArmStriking() || this.isRightArmBeaming();}
-	public boolean isLeftArmActive() {return this.isLeftArmStriking() || this.isLeftArmBeaming();}
+	public boolean isHeadActive() {return this.isHeadBeaming();}
+	public boolean isRightArmActive() {return this.isRightArmStriking() || this.isRightArmBeaming() || this.isRightArmSummoningAlly();}
+	public boolean isLeftArmActive() {return this.isLeftArmStriking() || this.isLeftArmBeaming() || this.isLeftArmSummoningAlly();}
 
 	/* ----------------------------------------------------- */
 	/* ---------- Main Beam Attack : Goal methods ---------- */
@@ -573,6 +588,17 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* --------------------------------------------------------------------------- */
 	/* --------------------------------------------------------------------------- */
 	/* --------------------------------------------------------------------------- */
+
+	/* ---------------------------------------------------- */
+	/* ---------- Arm Summon Ally : Goal methods ---------- */
+	/* ---------------------------------------------------- */
+	public boolean isRightArmSummoningAlly() {return this.RIGHT_ARM_SUMMON_ALLY_GOAL.isActive();}
+	public boolean isLeftArmSummoningAlly() {return this.LEFT_ARM_SUMMON_ALLY_GOAL.isActive();}
+
+	public boolean shouldTriggerArmSummonAlly() {return false;}
+	/* ---------------------------------------------------- */
+	/* ---------------------------------------------------- */
+	/* ---------------------------------------------------- */
 
 	@Override public void handleEntityEvent(byte id)
 	{
