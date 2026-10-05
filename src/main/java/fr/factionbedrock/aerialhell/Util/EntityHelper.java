@@ -29,6 +29,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.portal.TeleportTransition;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -197,6 +198,35 @@ public class EntityHelper
                 }
             }
         }
+    }
+
+    public static Vec3 calculateNewUnrotatedRelativePos(Vec3 unrotatedRelativeCurrentPos, Vec3 unrotatedRelativeTargetPos, double maxSpeed)
+    {
+        Vec3 direction = unrotatedRelativeTargetPos.subtract(unrotatedRelativeCurrentPos);
+        double distance = direction.length();
+        if (distance < 0.0001F) {return unrotatedRelativeCurrentPos;}
+
+        double speed = Math.min(maxSpeed, distance);
+        Vec3 movement = direction.normalize().scale(speed);
+
+        Vec3 newPos = unrotatedRelativeCurrentPos.add(movement);
+        return new Vec3(newPos.x, newPos.y, newPos.z);
+    }
+
+    //returns the unrotated relative position of levelpos, relative to owner
+    public static Vec3 toUnrotatedRelativePos(LivingEntity owner, Vec3 levelPos)
+    {
+        Vec3 relativePos = levelPos.subtract(owner.position());
+        float rotateAngle = (float) Math.toRadians(owner.yBodyRot);
+        return relativePos.yRot(rotateAngle);
+    }
+
+    //converts a non-rotated relative position into an absolute (level) pos
+    public static Vec3 fromUnrotatedRelativeToLevelPos(LivingEntity owner, Vec3 unrotatedRelativePos)
+    {
+        float rotateAngle = (float) Math.toRadians(owner.yBodyRot);
+        Vec3 rotatedRelativePos = unrotatedRelativePos.yRot(-rotateAngle);
+        return owner.position().add(rotatedRelativePos);
     }
 
     public static void addParticlesOnEntity(int number, SimpleParticleType particleType, Entity entity)

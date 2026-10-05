@@ -5,186 +5,56 @@ import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
 import fr.factionbedrock.aerialhell.Entity.StrikeAttackEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-public class StrikeAttackGoal extends Goal
+public class StrikeAttackGoal extends Goal implements PhaseGoal
 {
     public final StrikeAttackEntity goalOwner;
-    private final float distanceOffsetTolerance; //used to avoid float imprecision. goal can skip to next phase only if distance to target < distanceOffsetTolerance for some (parametrized) ticks
-    private int phaseIndex;
-    private Vec3 cachedUnrotatedRelativePos;
     private final StrikeInfo strikeInfo;
+    public final PhaseInfo phaseInfo;
 
     public StrikeAttackGoal(StrikeAttackEntity goalOwner, float distanceOffsetTolerance, StrikeInfo strikeInfo)
     {
         this.goalOwner = goalOwner;
-        this.distanceOffsetTolerance = distanceOffsetTolerance;
-        this.phaseIndex = 0;
         this.strikeInfo = strikeInfo;
+        this.phaseInfo = new PhaseInfo(distanceOffsetTolerance, this.goalOwner.getSelf());
     }
 
-    public List<Phase> getPhases() {return this.goalOwner.getStrikeAttackSequenceInternal(this.getEntityUsedToStrike());}
+    @Override public Goal getSelf() {return this;}
 
-    public Phase getCurrentPhase() {return this.getPhase(this.phaseIndex);}
-    public Phase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
-    public Phase getPhase(int phaseIndex) {return this.getPhases().get(phaseIndex);}
+    @Override public PhaseInfo getPhaseInfo() {return this.phaseInfo;}
 
-    public PhaseType getPhaseType() {return this.getCurrentPhase().getType();}
+    @Override public List<Phase> getPhases() {return this.goalOwner.getStrikeAttackSequenceInternal(this.getEntityUsedToStrike());}
 
     @Override public boolean canUse()
     {
-        if (this.goalOwner.canUseStrikeAttack() && this.goalOwner.shouldTriggerStrikeAttack()) {this.trigger();}
+        this.onCanUse();
         return this.isActive();
     }
 
-    @Override public boolean canContinueToUse()
+    //can automatically trigger
+    @Override public boolean shouldTrigger()
     {
-        return this.isActive();
+        return this.goalOwner.getTarget() != null && this.goalOwner.shouldTriggerStrikeAttack();
     }
 
-    @Override public void start() {this.startFirstPhase();}
-    @Override public void stop() {this.skipToInactivePhase();}
+    @Override public boolean canContinueToUse() {return this.canContinueToUsePhaseGoal();}
+
+    @Override public void start() {this.onStart();}
+    @Override public void stop() {this.onStop();}
 
     @Override public boolean requiresUpdateEveryTick() {return true;}
 
-    @Override public void tick()
-    {
-        if (!this.goalOwner.canUseStrikeAttack()) {this.skipToRecoveryPhase();}
-        if (!this.entityUsedToStrikeIsValid()) {this.skipToInactivePhase(); return;}
-        if (this.getEntityUsedToStrike() != null && this.cachedUnrotatedRelativePos == null) {this.cachedUnrotatedRelativePos = this.goalOwner.toUnrotatedRelativePos(this.getEntityUsedToStrike().position());}
+    @Override public void tick() {this.tickPhase();}
 
-        this.setEntityUsedToStrikePos();
-        this.setLookAt();
-
-        this.updateUnrotatedRelativePos();
-
-        this.getCurrentPhase().tick(this, this.getCachedUnrotatedRelativePos(), this.distanceOffsetTolerance);
-
-        if (this.getCurrentPhase().isFinished()) {this.startNextPhase();}
-    }
-
-    public boolean entityUsedToStrikeIsValid() {return this.getEntityUsedToStrike() != null && this.getEntityUsedToStrike().isAlive();}
+    @Override public LivingEntity getGuide() {return this.getEntityUsedToStrike();}
 
     @Nullable public LivingEntity getEntityUsedToStrike() {return this.strikeInfo.entityUsedToStrikeSupplier.get();}
 
-    protected void setEntityUsedToStrikePos()
-    {
-        @Nullable LivingEntity strikingEntity = this.getEntityUsedToStrike();
-        if (strikingEntity != null)
-        {
-            strikingEntity.setPos(this.goalOwner.fromUnrotatedRelativeToLevelPos(this.getCachedUnrotatedRelativePos()));
-        }
-    }
-
-    protected void setLookAt()
-    {
-        Vec3 lookTarget = this.getLookAtTarget();
-        if (lookTarget != null)
-        {
-            this.goalOwner.getSelf().getLookControl().setLookAt(lookTarget.x, lookTarget.y, lookTarget.z, 30.0F, 30.0F);
-        }
-    }
-
-    @Nullable public Vec3 getLookAtTarget()
-    {
-        if (this.isStriking())
-        {
-            return this.goalOwner.fromUnrotatedRelativeToLevelPos(this.getCurrentPhase().getUnrotatedRelativeTargetPos());
-        }
-        else if (this.goalOwner.getTarget() != null)
-        {
-            return this.goalOwner.getTarget().position();
-        }
-        else {return null;}
-    }
-
     public boolean isStriking() {return this.getPhaseType() == PhaseType.ACTION;}
-    public boolean isActive() {return this.getPhaseType() != PhaseType.INACTIVE;}
-    public boolean trigger() //return true if the attack sequence is successfully triggered
-    {
-        if (this.isActive()) {return false;}
-        else
-        {
-            this.startFirstPhase();
-            return this.isActive();
-        }
-    }
-
-    public double getDistanceToTarget()
-    {
-        return this.getCurrentPhase().getDistanceToTarget(this.getCachedUnrotatedRelativePos());
-    }
-
-    public void skipToInactivePhase() {this.skipToPhaseType(PhaseType.INACTIVE);}
-    public void skipToRecoveryPhase() {this.skipToPhaseType(PhaseType.RECOVERY);}
-
-    public void skipToPhaseType(PhaseType phaseType)
-    {
-        if (this.getCurrentPhase().getType() == phaseType) {return;}
-
-        this.getCurrentPhase().forceEnd(this);
-
-        int previousPhaseIndex = this.phaseIndex;
-        int newPhaseIndex = this.getNextPhaseIndex(previousPhaseIndex);
-        while (this.getPhase(newPhaseIndex).getType() != phaseType && newPhaseIndex != previousPhaseIndex) //newPhaseIndex != previousPhaseIndex to avoid infinite cycle if there is no phase of this type in sequence (should never happen except for inactive phase)
-        {
-            newPhaseIndex = this.getNextPhaseIndex(newPhaseIndex);
-        }
-        if (newPhaseIndex != previousPhaseIndex) {this.startPhase(newPhaseIndex);}
-    }
-
-    private void startFirstPhase() {this.startPhase(0);}
-    private void startNextPhase() {this.startPhase(this.getNextPhaseIndex());}
-    private void startPhase(int phaseIndex)
-    {
-        this.phaseIndex = phaseIndex;
-        this.getCurrentPhase().reset();
-    }
-
-    private int getNextPhaseIndex()
-    {
-        return this.getNextPhaseIndex(this.phaseIndex);
-    }
-
-    private int getNextPhaseIndex(int phaseIndex)
-    {
-        int nextPhaseIndex = phaseIndex + 1;
-        return nextPhaseIndex >= this.getPhases().size() ? 0 : nextPhaseIndex;
-    }
-
-    private int getPreviousPhaseIndex()
-    {
-        int previousPhaseIndex = this.phaseIndex - 1;
-        return previousPhaseIndex < 0 ? this.getPhases().size() - 1 : previousPhaseIndex;
-    }
-
-    public Vec3 getCachedUnrotatedRelativePos() {return this.cachedUnrotatedRelativePos != null ? this.cachedUnrotatedRelativePos : this.getPreviousPhase().getUnrotatedRelativeTargetPos();}
-
-    public Vec3 updateUnrotatedRelativePos()
-    {
-        Vec3 previousURPos = this.getCachedUnrotatedRelativePos();
-        Phase phase = this.getCurrentPhase();
-        Vec3 newUnrotatedRelativePos = calculateNewUnrotatedRelativePosDuringStrike(previousURPos, phase.getUnrotatedRelativeTargetPos(), phase.getSpeed());
-        this.cachedUnrotatedRelativePos = newUnrotatedRelativePos;
-        return newUnrotatedRelativePos;
-    }
-
-    public static Vec3 calculateNewUnrotatedRelativePosDuringStrike(Vec3 unrotatedRelativeCurrentPos, Vec3 unrotatedRelativeTargetPos, double maxSpeed)
-    {
-        Vec3 direction = unrotatedRelativeTargetPos.subtract(unrotatedRelativeCurrentPos);
-        double distance = direction.length();
-        if (distance < 0.0001F) {return unrotatedRelativeCurrentPos;}
-
-        double speed = Math.min(maxSpeed, distance);
-        Vec3 movement = direction.normalize().scale(speed);
-
-        Vec3 newPos = unrotatedRelativeCurrentPos.add(movement);
-        return new Vec3(newPos.x, newPos.y, newPos.z);
-    }
 
     public void strike()
     {

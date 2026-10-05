@@ -6,7 +6,6 @@ import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -54,8 +53,6 @@ public class VoluciteWardenMainBeamAttackGoal extends Goal
         VoluciteWardenHeadEntity head = this.getHeadInfo();
         if (head != null) {head.setTarget(target);}
     }
-
-    @Override public boolean requiresUpdateEveryTick() {return true;} //TODO is it necessary ?
 
     @Override public void tick() {}
 
