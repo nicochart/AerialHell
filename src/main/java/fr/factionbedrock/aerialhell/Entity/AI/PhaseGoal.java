@@ -39,6 +39,8 @@ public interface PhaseGoal
 
     default void tickPhase()
     {
+        if (!this.isActive()) {return;} //canContinueToUse if only called every 2 ticks. tickPhase() can be called with inactive phase.
+
         if (this.getPhaseInfo().goalOwner.getTarget() == null) {this.skipToRecoveryPhase();}
         if (!this.isGuideValid()) {this.skipToInactivePhase(); return;}
         if (this.getGuide() != null && this.getPhaseInfo().cachedUnrotatedRelativePos == null) {this.initializeGuidePos();}
@@ -116,7 +118,7 @@ public interface PhaseGoal
 
     default void skipToPhaseType(PhaseType phaseType)
     {
-        if (this.getCurrentPhase().getType() == phaseType) { return; }
+        if (this.getCurrentPhase().getType() == phaseType) {return;}
 
         this.getCurrentPhase().forceEnd(this.getSelf());
 
@@ -126,7 +128,7 @@ public interface PhaseGoal
         {
             newPhaseIndex = this.getNextPhaseIndex(newPhaseIndex);
         }
-        if (newPhaseIndex != previousPhaseIndex) { this.startPhase(newPhaseIndex); }
+        if (newPhaseIndex != previousPhaseIndex) {this.startPhase(newPhaseIndex);}
     }
 
     default boolean trigger() //return true if the attack sequence is successfully triggered
@@ -140,14 +142,14 @@ public interface PhaseGoal
     }
 
     default void startFirstPhase() {this.startPhase(0);}
-    default void startNextPhase() { this.startPhase(this.getNextPhaseIndex()); }
+    default void startNextPhase() {this.startPhase(this.getNextPhaseIndex());}
     default void startPhase(int phaseIndex)
     {
         this.getPhaseInfo().phaseIndex = phaseIndex;
         this.getCurrentPhase().reset();
     }
 
-    default int getNextPhaseIndex() {return this.getNextPhaseIndex(this.getPhaseInfo().phaseIndex); }
+    default int getNextPhaseIndex() {return this.getNextPhaseIndex(this.getPhaseInfo().phaseIndex);}
     default int getNextPhaseIndex(int phaseIndex)
     {
         int nextPhaseIndex = phaseIndex + 1;
