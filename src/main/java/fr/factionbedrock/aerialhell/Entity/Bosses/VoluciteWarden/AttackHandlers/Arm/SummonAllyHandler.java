@@ -1,8 +1,8 @@
-package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.SummonAllyAttack;
+package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.Arm;
 
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmSummonAllyGoal;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.ArmBeamAttackPhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.ArmBeamAttackPhaseType;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsSummonAllyHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import org.jetbrains.annotations.Nullable;
@@ -15,7 +15,7 @@ public class SummonAllyHandler
     public final List<VoluciteWardenEntity.ArmPartInfo> arm;
     public final VoluciteWardenArmSummonAllyGoal goal;
     public final ArmsSummonAllyHandler globalHandler;
-    public final List<SummonAllyPhase> attackSequence;
+    public final List<Phase> attackSequence;
     private int inactiveTicks;
     private int cooldown = 40;
 
@@ -36,9 +36,9 @@ public class SummonAllyHandler
 
         if (!this.warden.level().isClientSide())
         {
-            boolean isBeaming = this.goal.isActive();
+            boolean isGoalActive = this.goal.isActive();
 
-            if (isBeaming) {this.inactiveTicks = 0;}
+            if (isGoalActive) {this.inactiveTicks = 0;}
             else
             {
                 this.inactiveTicks++;
@@ -60,6 +60,6 @@ public class SummonAllyHandler
         @Nullable SummonAllyHandler other = this.getOtherArmHandler();
         if (other == null) {return false;}
 
-        return other.goal.getPhaseType() == SummonAllyPhaseType.PREPARE;
+        return other.goal.getPhaseType() == PhaseType.PREPARE;
     }
 }

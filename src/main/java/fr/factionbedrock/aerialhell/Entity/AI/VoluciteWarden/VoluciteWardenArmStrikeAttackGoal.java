@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden;
 
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
 import fr.factionbedrock.aerialhell.Entity.AI.StrikeAttackGoal;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhaseType;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import net.minecraft.util.Mth;
@@ -29,7 +29,7 @@ public class VoluciteWardenArmStrikeAttackGoal extends StrikeAttackGoal
         int totalSegments = this.arm.get().size();
         Vec3 armStartPos = this.arm.get().getFirst().getUnrotatedRelativePositionOffset();
         Vec3 armEndPos = this.getCachedUnrotatedRelativePos();
-        double curveStrengthFactor = this.getPhaseType() == StrikeAttackPhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.getDistanceToTarget()) : 1.0D;
+        double curveStrengthFactor = this.getPhaseType() == PhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.getDistanceToTarget()) : 1.0D;
 
         for (VoluciteWardenEntity.ArmPartInfo partInfo : this.arm.get())
         {
@@ -107,8 +107,8 @@ public class VoluciteWardenArmStrikeAttackGoal extends StrikeAttackGoal
         double curveStrength = curveStrengthFactor * switch (this.getCurrentPhase().getType())
         {
             case INACTIVE -> 0.0D;
-            case WINDUP -> 8.0D * Mth.abs((float)factor);
-            case STRIKE -> 2.0D;
+            case PREPARE -> 8.0D * Mth.abs((float)factor);
+            case ACTION -> 2.0D;
             case RECOVERY -> 5.0D;
         };
 

@@ -11,7 +11,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsStrikeAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsSummonAllyHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.MainBeamAttackHandler;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhase;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
 import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemHeadEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
@@ -564,7 +564,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public boolean isRightArmStriking() {return this.RIGHT_ARM_STRIKE_ATTACK_GOAL.isActive();}
 	public boolean isLeftArmStriking() {return this.LEFT_ARM_STRIKE_ATTACK_GOAL.isActive();}
 
-	@Override public List<StrikeAttackPhase> getStrikeAttackSequence(@NotNull LivingEntity entityUsedToStrike)
+	@Override public List<Phase> getStrikeAttackSequence(@NotNull LivingEntity entityUsedToStrike)
 	{
 		return this.armsStrikeAttackHandler.getStrikeAttackSequence(entityUsedToStrike);
 	}

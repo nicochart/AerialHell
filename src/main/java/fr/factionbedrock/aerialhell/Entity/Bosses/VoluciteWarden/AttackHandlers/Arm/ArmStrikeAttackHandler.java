@@ -1,7 +1,9 @@
-package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack;
+package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.Arm;
 
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmStrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsStrikeAttackHandler;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,7 +15,7 @@ public class ArmStrikeAttackHandler
     public final List<VoluciteWardenEntity.ArmPartInfo> arm;
     public final VoluciteWardenArmStrikeAttackGoal goal;
     public final ArmsStrikeAttackHandler globalHandler;
-    public final List<StrikeAttackPhase> attackSequence;
+    public final List<Phase> attackSequence;
     private int inactiveTicks;
     private int cooldown = 40;
 
@@ -61,7 +63,7 @@ public class ArmStrikeAttackHandler
         @Nullable ArmStrikeAttackHandler other = this.getOtherArmHandler();
         if (other == null) {return false;}
 
-        return other.goal.getPhaseType() == StrikeAttackPhaseType.WINDUP;
+        return other.goal.getPhaseType() == PhaseType.PREPARE;
     }
 
     @Nullable public VoluciteWardenEntity.ArmPartInfo getHandPartInfo()

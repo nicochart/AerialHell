@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.AI;
 
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhaseType;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
 import fr.factionbedrock.aerialhell.Entity.StrikeAttackEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -27,13 +27,13 @@ public class StrikeAttackGoal extends Goal
         this.strikeInfo = strikeInfo;
     }
 
-    public List<StrikeAttackPhase> getPhases() {return this.goalOwner.getStrikeAttackSequenceInternal(this.getEntityUsedToStrike());}
+    public List<Phase> getPhases() {return this.goalOwner.getStrikeAttackSequenceInternal(this.getEntityUsedToStrike());}
 
-    public StrikeAttackPhase getCurrentPhase() {return this.getPhase(this.phaseIndex);}
-    public StrikeAttackPhase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
-    public StrikeAttackPhase getPhase(int phaseIndex) {return this.getPhases().get(phaseIndex);}
+    public Phase getCurrentPhase() {return this.getPhase(this.phaseIndex);}
+    public Phase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
+    public Phase getPhase(int phaseIndex) {return this.getPhases().get(phaseIndex);}
 
-    public StrikeAttackPhaseType getPhaseType() {return this.getCurrentPhase().getType();}
+    public PhaseType getPhaseType() {return this.getCurrentPhase().getType();}
 
     @Override public boolean canUse()
     {
@@ -47,7 +47,7 @@ public class StrikeAttackGoal extends Goal
     }
 
     @Override public void start() {this.startFirstPhase();}
-    @Override public void stop() {}
+    @Override public void stop() {this.skipToInactivePhase();}
 
     @Override public boolean requiresUpdateEveryTick() {return true;}
 
@@ -62,12 +62,9 @@ public class StrikeAttackGoal extends Goal
 
         this.updateUnrotatedRelativePos();
 
-        this.getCurrentPhase().tick(this, this.goalOwner, this.getCachedUnrotatedRelativePos(), this.distanceOffsetTolerance);
-        if (this.getCurrentPhase().isFinished())
-        {
-            this.goalOwner.onStrikePhaseFinish(this.getPhaseType());
-            this.startNextPhase();
-        }
+        this.getCurrentPhase().tick(this, this.getCachedUnrotatedRelativePos(), this.distanceOffsetTolerance);
+
+        if (this.getCurrentPhase().isFinished()) {this.startNextPhase();}
     }
 
     public boolean entityUsedToStrikeIsValid() {return this.getEntityUsedToStrike() != null && this.getEntityUsedToStrike().isAlive();}
@@ -105,8 +102,8 @@ public class StrikeAttackGoal extends Goal
         else {return null;}
     }
 
-    public boolean isStriking() {return this.getPhaseType() == StrikeAttackPhaseType.STRIKE;}
-    public boolean isActive() {return this.getPhaseType() != StrikeAttackPhaseType.INACTIVE;}
+    public boolean isStriking() {return this.getPhaseType() == PhaseType.ACTION;}
+    public boolean isActive() {return this.getPhaseType() != PhaseType.INACTIVE;}
     public boolean trigger() //return true if the attack sequence is successfully triggered
     {
         if (this.isActive()) {return false;}
@@ -122,12 +119,14 @@ public class StrikeAttackGoal extends Goal
         return this.getCurrentPhase().getDistanceToTarget(this.getCachedUnrotatedRelativePos());
     }
 
-    public void skipToInactivePhase() {this.skipToPhaseType(StrikeAttackPhaseType.INACTIVE);}
-    public void skipToRecoveryPhase() {this.skipToPhaseType(StrikeAttackPhaseType.RECOVERY);}
+    public void skipToInactivePhase() {this.skipToPhaseType(PhaseType.INACTIVE);}
+    public void skipToRecoveryPhase() {this.skipToPhaseType(PhaseType.RECOVERY);}
 
-    public void skipToPhaseType(StrikeAttackPhaseType phaseType)
+    public void skipToPhaseType(PhaseType phaseType)
     {
         if (this.getCurrentPhase().getType() == phaseType) {return;}
+
+        this.getCurrentPhase().forceEnd(this);
 
         int previousPhaseIndex = this.phaseIndex;
         int newPhaseIndex = this.getNextPhaseIndex(previousPhaseIndex);
@@ -168,7 +167,7 @@ public class StrikeAttackGoal extends Goal
     public Vec3 updateUnrotatedRelativePos()
     {
         Vec3 previousURPos = this.getCachedUnrotatedRelativePos();
-        StrikeAttackPhase phase = this.getCurrentPhase();
+        Phase phase = this.getCurrentPhase();
         Vec3 newUnrotatedRelativePos = calculateNewUnrotatedRelativePosDuringStrike(previousURPos, phase.getUnrotatedRelativeTargetPos(), phase.getSpeed());
         this.cachedUnrotatedRelativePos = newUnrotatedRelativePos;
         return newUnrotatedRelativePos;

@@ -1,10 +1,11 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers;
 
+import fr.factionbedrock.aerialhell.Entity.AI.StrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmStrikeAttackGoal;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.ArmStrikeAttackHandler;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackInactivePhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhaseType;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.InactivePhase;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.Arm.ArmStrikeAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
@@ -69,24 +70,25 @@ public class ArmsStrikeAttackHandler
 
     public Vec3 getStrikeTargetPos() {return this.strikeTargetPos;}
 
-    public List<StrikeAttackPhase> getStrikeAttackSequence(@NotNull LivingEntity entityUsedToStrike)
+    public List<Phase> getStrikeAttackSequence(@NotNull LivingEntity entityUsedToStrike)
     {
         if (this.rightArmHandler.getHandPart() == entityUsedToStrike) {return this.rightArmHandler.attackSequence;}
         else if (this.leftArmHandler.getHandPart() == entityUsedToStrike) {return this.leftArmHandler.attackSequence;}
         return this.rightArmHandler.attackSequence;
     }
 
-    public List<StrikeAttackPhase> createAttackSequence(List<VoluciteWardenEntity.ArmPartInfo> arm)
+    public List<Phase> createAttackSequence(List<VoluciteWardenEntity.ArmPartInfo> arm)
     {
         int sideFactor = arm.getFirst().isRightArm ? 1 : -1;
         return List.of(
-                new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos0(sideFactor), 1.0D, 1),
-                new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos1(sideFactor), 1.0D, 1),
-                new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos2(sideFactor), 1.0D, 1),
-                new StrikeAttackPhase(StrikeAttackPhaseType.WINDUP, () -> this.getRelativeWindupPos3(sideFactor), 1.0D, 40),
-                new StrikeAttackPhase(StrikeAttackPhaseType.STRIKE, this::getRelativeStrikePos, 2.0D, 5),
-                new StrikeAttackPhase(StrikeAttackPhaseType.RECOVERY, () -> this.getRelativeRecoveryPos(sideFactor), 0.4D, 1),
-                new StrikeAttackInactivePhase()
+                new Phase(PhaseType.PREPARE, () -> this.getRelativeWindupPos0(sideFactor), 1.0D, 1),
+                new Phase(PhaseType.PREPARE, () -> this.getRelativeWindupPos1(sideFactor), 1.0D, 1),
+                new Phase(PhaseType.PREPARE, () -> this.getRelativeWindupPos2(sideFactor), 1.0D, 1),
+                new Phase(PhaseType.PREPARE, () -> this.getRelativeWindupPos3(sideFactor), 1.0D, 40),
+                new Phase(PhaseType.ACTION, this::getRelativeStrikePos, 2.0D, 5)
+                        .onTargetReached((goal) -> {if (goal instanceof StrikeAttackGoal strikeGoal) {strikeGoal.strike();}}),
+                new Phase(PhaseType.RECOVERY, () -> this.getRelativeRecoveryPos(sideFactor), 0.4D, 1),
+                new InactivePhase()
         );
     }
 

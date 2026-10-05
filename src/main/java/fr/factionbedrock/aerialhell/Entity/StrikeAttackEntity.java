@@ -1,8 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity;
 
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackInactivePhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.StrikeAttack.StrikeAttackPhaseType;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.InactivePhase;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -17,9 +16,9 @@ import java.util.List;
 
 public interface StrikeAttackEntity extends BaseMobEntityInterface
 {
-    List<StrikeAttackPhase> DEFAULT_ATTACK_SEQUENCE = List.of(new StrikeAttackInactivePhase());
+    List<Phase> DEFAULT_ATTACK_SEQUENCE = List.of(new InactivePhase());
 
-    List<StrikeAttackPhase> getStrikeAttackSequence(@NotNull LivingEntity entityUsedToStrike);
+    List<Phase> getStrikeAttackSequence(@NotNull LivingEntity entityUsedToStrike);
 
     boolean canUseStrikeAttack();
 
@@ -35,23 +34,13 @@ public interface StrikeAttackEntity extends BaseMobEntityInterface
 
     default boolean shouldTriggerStrikeAttack() {return this.canUseStrikeAttack();} //return false if you want the goal to only be active when manually triggered
 
-    default void onStrikePhaseStartFinishing(Vec3 unrotatedRelativeTargetPos, StrikeAttackPhaseType currentPhaseType) //when entity reaches target pos
-    {
-
-    }
-
-    default void onStrikePhaseFinish(StrikeAttackPhaseType currentPhaseType) //when entity stayed at target pos for long enough so the sequence updates to next phase
-    {
-
-    }
-
-    default List<StrikeAttackPhase> getStrikeAttackSequenceInternal(@Nullable LivingEntity entityUsedToStrike)
+    default List<Phase> getStrikeAttackSequenceInternal(@Nullable LivingEntity entityUsedToStrike)
     {
         if (entityUsedToStrike == null) {return this.getDefaultStrikeAttackSequence();}
         else {return this.getStrikeAttackSequence(entityUsedToStrike);}
     }
 
-    default List<StrikeAttackPhase> getDefaultStrikeAttackSequence() {return DEFAULT_ATTACK_SEQUENCE;}
+    default List<Phase> getDefaultStrikeAttackSequence() {return DEFAULT_ATTACK_SEQUENCE;}
 
     private void damageEntities(List<LivingEntity> entities, float amount, float knockbackScale, LivingEntity source)
     {

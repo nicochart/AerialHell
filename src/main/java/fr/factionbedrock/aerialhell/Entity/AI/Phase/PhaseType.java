@@ -1,11 +1,11 @@
-package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.SummonAllyAttack;
+package fr.factionbedrock.aerialhell.Entity.AI.Phase;
 
-public enum SummonAllyPhaseType
+public enum PhaseType
 {
     //"mandatory" phase types
     //should always have at least one of those all in your sequence
     PREPARE,
-    SUMMON,
+    ACTION,
     RECOVERY,
 
     //"optional" phase type

@@ -1,7 +1,11 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers;
 
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmBeamAttackGoal;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.*;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.Arm.ArmBeamAttackHandler;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.Arm.SegmentBeamTargetManager;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.InactivePhase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenArmSegmentEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
@@ -55,21 +59,6 @@ public class ArmsBeamAttackHandler
         this.ticksSinceLastBeamLoopSound++;
     }
 
-    public void onArmBeamPhaseFinish(ArmBeamAttackPhaseType currentPhaseType, ArmBeamAttackPhaseType nextPhaseType, boolean isRightArm) //when arm stayed at target pos for long enough so the sequence updates to next phase
-    {
-        if (nextPhaseType == ArmBeamAttackPhaseType.BEAM)
-        {
-            //enabling beam
-            setArmBeam(isRightArm, true);
-        }
-
-        if (nextPhaseType == ArmBeamAttackPhaseType.RECOVERY)
-        {
-            //disabling beam
-            setArmBeam(isRightArm, false);
-        }
-    }
-
     public void setArmBeam(boolean isRightArm, boolean enable)
     {
         if (isRightArm)
@@ -98,22 +87,26 @@ public class ArmsBeamAttackHandler
         }
     }
 
-    public List<ArmBeamAttackPhase> getAttackSequence(boolean isRightArm)
+    public List<Phase> getAttackSequence(boolean isRightArm)
     {
         return isRightArm ? this.rightArmHandler.attackSequence : this.leftArmHandler.attackSequence;
     }
 
-    public List<ArmBeamAttackPhase> createAttackSequence(List<VoluciteWardenEntity.ArmPartInfo> arm)
+    public List<Phase> createAttackSequence(List<VoluciteWardenEntity.ArmPartInfo> arm)
     {
-        int sideFactor = arm.getFirst().isRightArm ? 1 : -1;
+        boolean isRightArm = arm.getFirst().isRightArm;
+        int sideFactor = isRightArm ? 1 : -1;
         return List.of(
-                new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos0(sideFactor), 1.0D, 1),
-                new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos1(sideFactor), 1.0D, 1),
-                new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos2(sideFactor), 1.0D, 1),
-                new ArmBeamAttackPhase(ArmBeamAttackPhaseType.PREPARE, () -> this.getRelativePreparePos3(sideFactor), 1.0D, 1),
-                new ArmBeamAttackPhase(ArmBeamAttackPhaseType.BEAM, () -> this.getRelativeBeamingPos(sideFactor), 2.0D, VoluciteWardenArmSegmentEntity.BEAMING_TOTAL_DURATION + 20),
-                new ArmBeamAttackPhase(ArmBeamAttackPhaseType.RECOVERY, () -> this.getRelativeBeamRecoveryPos(sideFactor), 0.4D, 1),
-                new ArmBeamAttackInactivePhase()
+                new Phase(PhaseType.PREPARE, () -> this.getRelativePreparePos0(sideFactor), 1.0D, 1),
+                new Phase(PhaseType.PREPARE, () -> this.getRelativePreparePos1(sideFactor), 1.0D, 1),
+                new Phase(PhaseType.PREPARE, () -> this.getRelativePreparePos2(sideFactor), 1.0D, 1),
+                new Phase(PhaseType.PREPARE, () -> this.getRelativePreparePos3(sideFactor), 1.0D, 1),
+                new Phase(PhaseType.ACTION, () -> this.getRelativeBeamingPos(sideFactor), 2.0D, VoluciteWardenArmSegmentEntity.BEAMING_TOTAL_DURATION + 20)
+                        .onStart((goal) -> this.setArmBeam(isRightArm, true))
+                        .onEnd((goal) -> this.setArmBeam(isRightArm, false))
+                        .onForceEnd((goal) -> this.setArmBeam(isRightArm, false)),
+                new Phase(PhaseType.RECOVERY, () -> this.getRelativeBeamRecoveryPos(sideFactor), 0.4D, 1),
+                new InactivePhase()
         );
     }
 

@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden;
 
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.SummonAllyAttack.SummonAllyPhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.SummonAllyAttack.SummonAllyPhaseType;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
@@ -38,24 +38,24 @@ public class VoluciteWardenArmSummonAllyGoal extends Goal
         this.phaseIndex = 0;
     }
 
-    public List<SummonAllyPhase> getPhases() {return this.goalOwner.armsSummonAllyHandler.getAttackSequence(this.arm.get().getFirst().isRightArm);}
+    public List<Phase> getPhases() {return this.goalOwner.armsSummonAllyHandler.getAttackSequence(this.arm.get().getFirst().isRightArm);}
 
-    public SummonAllyPhase getCurrentPhase() {return this.getPhase(this.phaseIndex);}
-    public SummonAllyPhase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
-    public SummonAllyPhase getPhase(int phaseIndex) {return this.getPhases().get(phaseIndex);}
+    public Phase getCurrentPhase() {return this.getPhase(this.phaseIndex);}
+    public Phase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
+    public Phase getPhase(int phaseIndex) {return this.getPhases().get(phaseIndex);}
 
-    public SummonAllyPhaseType getPhaseType() {return this.getCurrentPhase().getType();}
+    public PhaseType getPhaseType() {return this.getCurrentPhase().getType();}
 
     @Override public boolean canUse()
     {
-        if (this.goalOwner.getTarget() != null && this.goalOwner.shouldTriggerArmBeamAttack()) {this.trigger();}
+        if (this.goalOwner.getTarget() != null && this.goalOwner.shouldTriggerArmSummonAlly()) {this.trigger();}
         return this.isActive();
     }
 
     @Override public boolean canContinueToUse() {return this.isActive();}
 
     @Override public void start() {this.startFirstPhase();}
-    @Override public void stop() {}
+    @Override public void stop() {this.skipToInactivePhase();}
 
     @Override public boolean requiresUpdateEveryTick() {return true;}
 
@@ -63,31 +63,24 @@ public class VoluciteWardenArmSummonAllyGoal extends Goal
     {
         if (this.goalOwner.getTarget() == null) {this.skipToRecoveryPhase();}
         if (!this.guideIsValid()) {this.skipToInactivePhase(); return;}
-        if (this.getGuide() != null && this.cachedUnrotatedRelativePos == null)
-        {
-            this.cachedUnrotatedRelativePos = this.goalOwner.toUnrotatedRelativePos(this.getGuide().position());
-        }
+        if (this.getGuide() != null && this.cachedUnrotatedRelativePos == null) {this.cachedUnrotatedRelativePos = this.goalOwner.toUnrotatedRelativePos(this.getGuide().position());}
 
         this.setSegmentsPos();
         this.setMasterLookAt();
 
         this.updateGuideUnrotatedRelativePos();
 
-        this.getCurrentPhase().tick(this, this.goalOwner, this.getCachedUnrotatedRelativePos(), this.distanceOffsetTolerance);
-        if (this.getCurrentPhase().isFinished())
-        {
-            SummonAllyPhaseType currentType = this.getCurrentPhase().getType();
-            this.startNextPhase();
-            SummonAllyPhaseType nextType = this.getCurrentPhase().getType();
-            this.goalOwner.armsSummonAllyHandler.onSummonAllyPhaseFinish(currentType, nextType, this.arm.get().getFirst().isRightArm);
-        }
+        this.getCurrentPhase().tick(this, this.getCachedUnrotatedRelativePos(), this.distanceOffsetTolerance);
+
+        if (this.getCurrentPhase().isFinished()) {this.startNextPhase();}
     }
 
     public boolean guideIsValid() {return this.getGuide() != null && this.getGuide().isAlive();}
 
     @Nullable public LivingEntity getGuide()
     {
-        return this.arm.get().getLast().getPart() != null ? this.arm.get().getLast().getPart().getSelf() : null;
+        PartEntity part = this.arm.get().getLast().getPart();
+        return part != null ? part.getSelf() : null;
     }
 
     protected void setMasterLookAt()
@@ -101,7 +94,7 @@ public class VoluciteWardenArmSummonAllyGoal extends Goal
 
     @Nullable public Vec3 getLookAtTarget() {return this.goalOwner.getTarget() != null ? this.goalOwner.getTarget().position() : null;}
 
-    public boolean isActive() {return this.getPhaseType() != SummonAllyPhaseType.INACTIVE;}
+    public boolean isActive() {return this.getPhaseType() != PhaseType.INACTIVE;}
 
     public boolean trigger()
     {
@@ -113,14 +106,16 @@ public class VoluciteWardenArmSummonAllyGoal extends Goal
         }
     }
 
-    public double getDistanceToTarget() { return this.getCurrentPhase().getDistanceToTarget(this.getCachedUnrotatedRelativePos()); }
+    public double getDistanceToTarget() {return this.getCurrentPhase().getDistanceToTarget(this.getCachedUnrotatedRelativePos());}
 
-    public void skipToInactivePhase() { this.skipToPhaseType(SummonAllyPhaseType.INACTIVE); }
-    public void skipToRecoveryPhase() { this.skipToPhaseType(SummonAllyPhaseType.RECOVERY); }
+    public void skipToInactivePhase() {this.skipToPhaseType(PhaseType.INACTIVE);}
+    public void skipToRecoveryPhase() {this.skipToPhaseType(PhaseType.RECOVERY);}
 
-    public void skipToPhaseType(SummonAllyPhaseType phaseType)
+    public void skipToPhaseType(PhaseType phaseType)
     {
         if (this.getCurrentPhase().getType() == phaseType) {return;}
+
+        this.getCurrentPhase().forceEnd(this);
 
         int previousPhaseIndex = this.phaseIndex;
         int newPhaseIndex = this.getNextPhaseIndex(previousPhaseIndex);
@@ -158,7 +153,7 @@ public class VoluciteWardenArmSummonAllyGoal extends Goal
     public Vec3 updateGuideUnrotatedRelativePos()
     {
         Vec3 previousURPos = this.getCachedUnrotatedRelativePos();
-        SummonAllyPhase phase = this.getCurrentPhase();
+        Phase phase = this.getCurrentPhase();
         Vec3 newUnrotatedRelativePos = calculateGuideUnrotatedRelativePosDuringArmAttack(previousURPos, phase.getUnrotatedRelativeTargetPos(), phase.getSpeed());
         this.cachedUnrotatedRelativePos = newUnrotatedRelativePos;
         return newUnrotatedRelativePos;
@@ -176,7 +171,7 @@ public class VoluciteWardenArmSummonAllyGoal extends Goal
         return unrotatedRelativeCurrentPos.add(movement);
     }
 
-    public void finishSummonAlly()
+    public void summonAlly()
     {
         if (this.goalOwner.level() instanceof ServerLevel level)
         {
@@ -203,7 +198,7 @@ public class VoluciteWardenArmSummonAllyGoal extends Goal
         int totalSegments = this.arm.get().size();
         Vec3 armStartPos = this.arm.get().getFirst().getUnrotatedRelativePositionOffset();
         Vec3 armEndPos = this.getCachedUnrotatedRelativePos();
-        double curveStrengthFactor = this.getPhaseType() == SummonAllyPhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.getDistanceToTarget()) : 1.0D;
+        double curveStrengthFactor = this.getPhaseType() == PhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.getDistanceToTarget()) : 1.0D;
 
         for (VoluciteWardenEntity.ArmPartInfo partInfo : this.arm.get())
         {
@@ -279,7 +274,7 @@ public class VoluciteWardenArmSummonAllyGoal extends Goal
         {
             case INACTIVE -> 0.0D;
             case PREPARE -> 8.0D * Mth.abs((float)factor);
-            case SUMMON -> 2.0D;
+            case ACTION -> 2.0D;
             case RECOVERY -> 5.0D;
         };
 

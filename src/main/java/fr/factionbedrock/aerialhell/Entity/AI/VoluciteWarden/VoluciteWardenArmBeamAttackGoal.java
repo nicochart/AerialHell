@@ -1,7 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden;
 
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.ArmBeamAttackPhase;
-import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmBeamAttack.ArmBeamAttackPhaseType;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import net.minecraft.util.Mth;
@@ -30,13 +30,13 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
         this.phaseIndex = 0;
     }
 
-    public List<ArmBeamAttackPhase> getPhases() {return this.goalOwner.armsBeamAttackHandler.getAttackSequence(this.arm.get().getFirst().isRightArm);}
+    public List<Phase> getPhases() {return this.goalOwner.armsBeamAttackHandler.getAttackSequence(this.arm.get().getFirst().isRightArm);}
 
-    public ArmBeamAttackPhase getCurrentPhase() {return this.getPhase(this.phaseIndex);}
-    public ArmBeamAttackPhase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
-    public ArmBeamAttackPhase getPhase(int phaseIndex) {return this.getPhases().get(phaseIndex);}
+    public Phase getCurrentPhase() {return this.getPhase(this.phaseIndex);}
+    public Phase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
+    public Phase getPhase(int phaseIndex) {return this.getPhases().get(phaseIndex);}
 
-    public ArmBeamAttackPhaseType getPhaseType() {return this.getCurrentPhase().getType();}
+    public PhaseType getPhaseType() {return this.getCurrentPhase().getType();}
 
     @Override public boolean canUse()
     {
@@ -47,7 +47,7 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
     @Override public boolean canContinueToUse() {return this.isActive();}
 
     @Override public void start() {this.startFirstPhase();}
-    @Override public void stop() {}
+    @Override public void stop() {this.skipToInactivePhase();}
 
     @Override public boolean requiresUpdateEveryTick() {return true;}
 
@@ -62,21 +62,17 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
 
         this.updateGuideUnrotatedRelativePos();
 
-        this.getCurrentPhase().tick(this, this.goalOwner, this.getCachedUnrotatedRelativePos(), this.distanceOffsetTolerance);
-        if (this.getCurrentPhase().isFinished())
-        {
-            ArmBeamAttackPhaseType currentType = this.getCurrentPhase().getType();
-            this.startNextPhase();
-            ArmBeamAttackPhaseType nextType = this.getCurrentPhase().getType();
-            this.goalOwner.armsBeamAttackHandler.onArmBeamPhaseFinish(currentType, nextType, this.arm.get().getFirst().isRightArm);
-        }
+        this.getCurrentPhase().tick(this, this.getCachedUnrotatedRelativePos(), this.distanceOffsetTolerance);
+
+        if (this.getCurrentPhase().isFinished()) {this.startNextPhase();}
     }
 
     public boolean guideIsValid() {return this.getGuide() != null && this.getGuide().isAlive();}
 
     @Nullable public LivingEntity getGuide()
     {
-        return this.arm.get().getLast().getPart() != null ? this.arm.get().getLast().getPart().getSelf() : null;
+        PartEntity part = this.arm.get().getLast().getPart();
+        return part != null ? part.getSelf() : null;
     }
 
     protected void setMasterLookAt()
@@ -97,8 +93,8 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
         else {return null;}
     }
 
-    public boolean isBeaming() {return this.getPhaseType() == ArmBeamAttackPhaseType.BEAM;}
-    public boolean isActive() {return this.getPhaseType() != ArmBeamAttackPhaseType.INACTIVE;}
+    public boolean isBeaming() {return this.getPhaseType() == PhaseType.ACTION;}
+    public boolean isActive() {return this.getPhaseType() != PhaseType.INACTIVE;}
     public boolean trigger() //return true if the attack sequence is successfully triggered
     {
         if (this.isActive()) {return false;}
@@ -114,14 +110,14 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
         return this.getCurrentPhase().getDistanceToTarget(this.getCachedUnrotatedRelativePos());
     }
 
-    public void skipToInactivePhase() {this.skipToPhaseType(ArmBeamAttackPhaseType.INACTIVE);}
-    public void skipToRecoveryPhase() {this.skipToPhaseType(ArmBeamAttackPhaseType.RECOVERY);}
+    public void skipToInactivePhase() {this.skipToPhaseType(PhaseType.INACTIVE);}
+    public void skipToRecoveryPhase() {this.skipToPhaseType(PhaseType.RECOVERY);}
 
-    public void skipToPhaseType(ArmBeamAttackPhaseType phaseType)
+    public void skipToPhaseType(PhaseType phaseType)
     {
         if (this.getCurrentPhase().getType() == phaseType) {return;}
-        //disabling beam
-        if (phaseType != ArmBeamAttackPhaseType.BEAM) {this.goalOwner.armsBeamAttackHandler.setArmBeam(this.arm.get().getFirst().isRightArm, false);}
+
+        this.getCurrentPhase().forceEnd(this);
 
         int previousPhaseIndex = this.phaseIndex;
         int newPhaseIndex = this.getNextPhaseIndex(previousPhaseIndex);
@@ -159,7 +155,7 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
     public Vec3 updateGuideUnrotatedRelativePos() //(actual) position of arm extremity (last segment)
     {
         Vec3 previousURPos = this.getCachedUnrotatedRelativePos();
-        ArmBeamAttackPhase phase = this.getCurrentPhase();
+        Phase phase = this.getCurrentPhase();
         Vec3 newUnrotatedRelativePos = calculateGuideUnrotatedRelativePosDuringArmBeamAttack(previousURPos, phase.getUnrotatedRelativeTargetPos(), phase.getSpeed());
         this.cachedUnrotatedRelativePos = newUnrotatedRelativePos;
         return newUnrotatedRelativePos;
@@ -178,11 +174,6 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
         return new Vec3(newPos.x, newPos.y, newPos.z);
     }
 
-    public void finishArmBeamAttack() //at the end of beaming
-    {
-
-    }
-
     /* ------------------------------------------ */
     /* ---------- Setting segments pos ---------- */
     /* ------------------------------------------ */
@@ -194,7 +185,7 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
         int totalSegments = this.arm.get().size();
         Vec3 armStartPos = this.arm.get().getFirst().getUnrotatedRelativePositionOffset();
         Vec3 armEndPos = this.getCachedUnrotatedRelativePos();
-        double curveStrengthFactor = this.getPhaseType() == ArmBeamAttackPhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.getDistanceToTarget()) : 1.0D;
+        double curveStrengthFactor = this.getPhaseType() == PhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.getDistanceToTarget()) : 1.0D;
 
         for (VoluciteWardenEntity.ArmPartInfo partInfo : this.arm.get())
         {
@@ -273,7 +264,7 @@ public class VoluciteWardenArmBeamAttackGoal extends Goal
         {
             case INACTIVE -> 0.0D;
             case PREPARE -> 8.0D * Mth.abs((float)factor);
-            case BEAM -> 2.0D;
+            case ACTION -> 2.0D;
             case RECOVERY -> 5.0D;
         };
 
