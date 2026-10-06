@@ -79,7 +79,7 @@ public class FeatureHelper
     {
         return level.isStateAtPosition(pos, (state) ->
         {
-            return state.canBeReplaced() || canReplacePlant && state.getMapColor(level, pos) == MapColor.PLANT; //TODO : it works ?
+            return state.canBeReplaced() || state.is(AerialHellTags.Blocks.SHROOMS_REPLACEABLE) || canReplacePlant && state.getMapColor(level, pos) == MapColor.PLANT; //TODO : it works ?
         });
     }
 

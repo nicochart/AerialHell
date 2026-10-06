@@ -5,13 +5,24 @@
       {
         "type": "minecraft:alter_ground",
         "provider": {
-          "type": "minecraft:simple_state_provider",
-          "state": {
-            "Name": "aerialhell:shadow_grass_block",
-            "Properties": {
-              "snowy": "false"
+          "type": "minecraft:rule_based_state_provider",
+          "rules": [
+            {
+              "if_true": {
+                "type": "minecraft:matching_block_tag",
+                "tag": "aerialhell:stellar_plants_may_place_on"
+              },
+              "then": {
+                "type": "minecraft:simple_state_provider",
+                "state": {
+                  "Name": "aerialhell:shadow_grass_block",
+                  "Properties": {
+                    "snowy": "false"
+                  }
+                }
+              }
             }
-          }
+          ]
         }
       }
     ],

@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Util.Ellipsoid;
@@ -72,7 +73,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
         }
     }
     
-    protected boolean canGrow(HugeMushroomFeatureConfiguration config, LevelAccessor world, BlockPos blockPos, int stemSize, int capRadius)
+    protected boolean canGrow(HugeMushroomFeatureConfiguration config, WorldGenLevel world, BlockPos blockPos, int stemSize, int capRadius)
     {
         return this.mayPlaceOn(world, blockPos)
                && canPlaceStem(config, world, blockPos, stemSize)
@@ -103,7 +104,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
             for (int z = 0; z < 2; z++)
             {
                 blockState = world.getBlockState(pos.offset(x, -1, z));
-                if (!(blockState.is(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT))) {return false;}
+                if (!(blockState.is(AerialHellTags.Blocks.STELLAR_PLANTS_MAY_PLACE_ON))) {return false;}
             }
         }
         return true;

@@ -14,6 +14,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
@@ -35,45 +36,54 @@ public class ChestMimicBlock extends ChestBlock
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.valueOf(false)));
 	}
 
-	@Override
-	public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit)
+	@Override public BlockState getStateForPlacement(BlockPlaceContext context)
 	{
-		if (!ChestBlock.isChestBlockedAt(world, pos))
+		BlockState state = super.getStateForPlacement(context);
+
+		if (state.hasProperty(ChestBlock.TYPE) && state.getValue(ChestBlock.TYPE) != ChestType.SINGLE)
 		{
-			if (world.isClientSide()) {addSpawnParticle(world, pos);}
+			return state.setValue(ChestBlock.TYPE, ChestType.SINGLE);
+		}
+		return state;
+	}
+
+	@Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit)
+	{
+		if (!ChestBlock.isChestBlockedAt(level, pos))
+		{
+			if (level.isClientSide()) {addSpawnParticle(level, pos);}
 			else
 			{
-				world.playSound(null, pos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 0.5F, 0.7F + 0.5F * world.getRandom().nextFloat());
-				revealMimic(state, world, pos);
-				world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+				level.playSound(null, pos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 0.5F, 0.7F + 0.5F * level.getRandom().nextFloat());
+				revealMimic(state, level, pos);
+				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			}
 		}
 		return InteractionResult.SUCCESS;
 	}
 
-	@Override
-	public void spawnAfterBreak(BlockState state, ServerLevel world, BlockPos pos, ItemStack stack, boolean dropExperience)
+	@Override public void spawnAfterBreak(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack, boolean dropExperience)
 	{
-		super.spawnAfterBreak(state, world, pos, stack, dropExperience);
-		revealMimic(state, world, pos);
+		super.spawnAfterBreak(state, level, pos, stack, dropExperience);
+		revealMimic(state, level, pos);
 	}
 
-	private void revealMimic(BlockState state, Level world, BlockPos pos)
+	private void revealMimic(BlockState state, Level level, BlockPos pos)
 	{
 		float angle = state.getValue(FACING).toYRot();
-		AbstractChestMimicEntity chestMimic = getNewChestMimicEntity(world);
+		AbstractChestMimicEntity chestMimic = getNewChestMimicEntity(level);
 		chestMimic.absSnapTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, angle, 0.0F);
 		chestMimic.setYHeadRot(angle);
-		world.addFreshEntity(chestMimic);
+		level.addFreshEntity(chestMimic);
 	}
 
-	public void addSpawnParticle(Level world, BlockPos pos)
+	public void addSpawnParticle(Level level, BlockPos pos)
 	{
 		for(int i = 0; i < 20; ++i)
 		{
-			double dx = world.getRandom().nextGaussian() * 0.04D, dy = world.getRandom().nextGaussian() * 0.04D, dz = world.getRandom().nextGaussian() * 0.04D;
+			double dx = level.getRandom().nextGaussian() * 0.04D, dy = level.getRandom().nextGaussian() * 0.04D, dz = level.getRandom().nextGaussian() * 0.04D;
 			double x = pos.getX() + 0.5F + dx * 10.0D, y = pos.getY() + 0.5F + dy * 10.0D, z = pos.getZ() + 0.5F + dz * 10.0D;
-			world.addParticle(this.getMimicSpawnParticle(), x, y, z, dx * 10.0D, dy * 10.0D, dz * 10.0D);
+			level.addParticle(this.getMimicSpawnParticle(), x, y, z, dx * 10.0D, dy * 10.0D, dz * 10.0D);
 		}
 	}
 
@@ -85,12 +95,12 @@ public class ChestMimicBlock extends ChestBlock
 		else /*if (this == AerialHellBlocks.SKY_CACTUS_FIBER_CHEST_MIMIC)*/ {return AerialHellParticleTypes.LUNATIC_PARTICLE;}
 	}
 
-	private AbstractChestMimicEntity getNewChestMimicEntity(Level world)
+	private AbstractChestMimicEntity getNewChestMimicEntity(Level level)
 	{
-		if (this == AerialHellBlocks.AERIAL_TREE_CHEST_MIMIC) {return new AerialTreeChestMimicEntity(AerialHellEntities.AERIAL_TREE_MIMIC, world);}
-		else if (this == AerialHellBlocks.COPPER_PINE_CHEST_MIMIC) {return new CopperPineChestMimicEntity(AerialHellEntities.COPPER_PINE_MIMIC, world);}
-		else if (this == AerialHellBlocks.GOLDEN_BEECH_CHEST_MIMIC) {return new GoldenBeechChestMimicEntity(AerialHellEntities.GOLDEN_BEECH_MIMIC, world);}
-		else /*if (this == AerialHellBlocks.SKY_CACTUS_FIBER_CHEST_MIMIC)*/ {return new SkyCactusFiberChestMimicEntity(AerialHellEntities.SKY_CACTUS_FIBER_MIMIC, world);}
+		if (this == AerialHellBlocks.AERIAL_TREE_CHEST_MIMIC) {return new AerialTreeChestMimicEntity(AerialHellEntities.AERIAL_TREE_MIMIC, level);}
+		else if (this == AerialHellBlocks.COPPER_PINE_CHEST_MIMIC) {return new CopperPineChestMimicEntity(AerialHellEntities.COPPER_PINE_MIMIC, level);}
+		else if (this == AerialHellBlocks.GOLDEN_BEECH_CHEST_MIMIC) {return new GoldenBeechChestMimicEntity(AerialHellEntities.GOLDEN_BEECH_MIMIC, level);}
+		else /*if (this == AerialHellBlocks.SKY_CACTUS_FIBER_CHEST_MIMIC)*/ {return new SkyCactusFiberChestMimicEntity(AerialHellEntities.SKY_CACTUS_FIBER_MIMIC, level);}
 	}
 
 	@Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new ChestMimicBlockEntity(pos, state);}
