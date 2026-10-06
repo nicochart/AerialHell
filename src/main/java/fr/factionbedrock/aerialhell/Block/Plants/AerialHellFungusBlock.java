@@ -21,9 +21,9 @@ public class AerialHellFungusBlock extends NetherFungusBlock
 {
 	public AerialHellFungusBlock(ResourceKey<ConfiguredFeature<?, ?>> fungusFeature, Block requiredBlock, TagKey<Block> supportBlocks, Properties properties) {super(fungusFeature, requiredBlock, supportBlocks, properties);}
 
-	@Override protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos)
+	@Override protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos)
 	{
-		return state.is(AerialHellBlocks.STELLAR_GRASS_BLOCK.get()) || super.mayPlaceOn(state, worldIn, pos);
+		return state.is(AerialHellBlocks.STELLAR_GRASS_BLOCK.get()) || super.mayPlaceOn(state, level, pos);
 	}
 
 	@Override public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state)

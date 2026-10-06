@@ -21,16 +21,17 @@ public class AerialHellMushroomBlock extends MushroomBlock
 {
 	public AerialHellMushroomBlock(ResourceKey<ConfiguredFeature<?, ?>> featureKey, Properties properties) {super(featureKey, properties);}
 
-	@Override
-	public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {}
+	@Override public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {}
 
-	@Override protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
-		return state.is(AerialHellTags.Blocks.STELLAR_DIRT) || state.is(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT);
+	@Override protected boolean mayPlaceOn(BlockState floor, BlockGetter level, BlockPos pos)
+	{
+		return floor.is(AerialHellTags.Blocks.STELLAR_DIRT) || floor.is(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT);
 	}
 
-	@Override public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
-		BlockState blockstate = worldIn.getBlockState(pos.below());
-		if (blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) || blockstate.is(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT)) {return true;} else {return false;}
+	@Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
+	{
+		BlockState blockstate = level.getBlockState(pos.below());
+		return blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) || blockstate.is(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT);
 	}
 
 	public enum HugeGenerationDirections{NONE, NORTH_WEST, NORTH_EAST, SOUTH_WEST, SOUTH_EAST}
