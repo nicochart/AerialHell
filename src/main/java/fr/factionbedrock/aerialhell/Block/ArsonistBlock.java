@@ -26,7 +26,7 @@ public class ArsonistBlock extends Block
 			{
 				entity.hurtServer(serverWorld, world.damageSources().hotFloor(), 1.0F);
 			}
-			entity.igniteForSeconds(2);
+			if (!entity.isInWaterOrRain()) {entity.igniteForSeconds(2);}
 		}
 	}
 }

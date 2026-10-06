@@ -313,19 +313,22 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 	
 	@Override public boolean isPushable() {return false;}
 	
-	@Override public boolean doHurtTarget(ServerLevel serverWorld, Entity attackedEntity)
+	@Override public boolean doHurtTarget(ServerLevel serverLevel, Entity attackedEntity)
 	{
 		DamageSource damagesource = this.damageSources().mobAttack(this);
 		this.level().broadcastEntityEvent(this, (byte)4);
 		float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 		float amount = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
 		float kb = (float)this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
-		boolean flag = attackedEntity.hurtServer(serverWorld, damagesource, amount);
-		if (flag)
+		boolean flag = attackedEntity.hurtServer(serverLevel, damagesource, amount);
+		if (flag && attackedEntity instanceof LivingEntity target)
 		{
-			((LivingEntity)attackedEntity).knockback(kb * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));
+			double kbResistance = target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
+			double kbScale = Math.max(0.0D, (double)1.0D - kbResistance);
+
+			target.knockback(kb * kbScale * 0.5F, (double) Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));
 			attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().x, (double)0.8F, attackedEntity.getDeltaMovement().z);
-			if (level() instanceof ServerLevel svWorld) {EnchantmentHelper.doPostAttackEffects(svWorld, attackedEntity, damagesource);}
+			EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);
 		}
 
 		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);

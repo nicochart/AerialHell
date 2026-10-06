@@ -227,7 +227,7 @@ public class AerialHellBlocks
     public static final Block CHISELED_GOLDEN_BEECH_PLANKS = register(Keys.CHISELED_GOLDEN_BEECH_PLANKS.identifier().getPath(), new Block(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_PLANKS).setId(Keys.CHISELED_GOLDEN_BEECH_PLANKS)));
     public static final ShiftableLeavesBlock GOLDEN_BEECH_LEAVES = register(Keys.GOLDEN_BEECH_LEAVES.identifier().getPath(), new ShiftableLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(Keys.GOLDEN_BEECH_LEAVES), () -> AerialHellBlocks.SHADOW_GOLDEN_BEECH_LEAVES, BiomeShifter.ShiftType.CORRUPT));
     public static final Block GOLDEN_BEECH_BOOKSHELF = register(Keys.GOLDEN_BEECH_BOOKSHELF.identifier().getPath(), new Block(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_PLANKS).setId(Keys.GOLDEN_BEECH_BOOKSHELF)));
-    public static final Block GOLDEN_BEECH_SAPLING = register(Keys.GOLDEN_BEECH_SAPLING.identifier().getPath(), new SaplingBlock(AerialHellTreeGrowers.GOLDEN_BEECH, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING).setId(Keys.GOLDEN_BEECH_SAPLING)));
+    public static final Block GOLDEN_BEECH_SAPLING = register(Keys.GOLDEN_BEECH_SAPLING.identifier().getPath(), new AerialHellSaplingBlock(AerialHellTreeGrowers.GOLDEN_BEECH, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING).setId(Keys.GOLDEN_BEECH_SAPLING), AerialHellConfiguredFeatures.GIANT_GOLDEN_BEECH));
 
     //copper pine
     public static final ShiftableLogBlock COPPER_PINE_LOG = register(Keys.COPPER_PINE_LOG.identifier().getPath(), new ShiftableLogBlock(COPPER_PINE_MATERIAL.setId(Keys.COPPER_PINE_LOG), () -> AerialHellBlocks.SHADOW_COPPER_PINE_LOG, BiomeShifter.ShiftType.CORRUPT));
