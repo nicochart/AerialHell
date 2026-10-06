@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.World.Features;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Util.Ellipsoid;
@@ -43,7 +44,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
             return true;
         }
     }
-    
+
     protected void generateCap(FeaturePlaceContext<HugeMushroomFeatureConfiguration> context, BlockPos blockPos, int stemSize, float yCapFactor, int capRadius)
     {
         HugeMushroomFeatureConfiguration config = context.config();
@@ -53,7 +54,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
         GiantCap cap = new GiantCap(context, createEllipsoidParameters(capRadius, capHeight, 1), config.capProvider(), centerPos);
         cap.generateOutsideBorder();
     }
-    
+
     protected void generateStem(HugeMushroomFeatureConfiguration config, WorldGenLevel level, RandomSource rand, BlockPos blockPos, int stemSize)
     {
         BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
@@ -72,14 +73,14 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
             }
         }
     }
-    
-    protected boolean canGrow(HugeMushroomFeatureConfiguration config, LevelAccessor world, BlockPos blockPos, int stemSize, int capRadius)
+
+    protected boolean canGrow(HugeMushroomFeatureConfiguration config, WorldGenLevel world, BlockPos blockPos, int stemSize, int capRadius)
     {
         return this.mayPlaceOn(world, blockPos)
-               && canPlaceStem(config, world, blockPos, stemSize)
+                && canPlaceStem(config, world, blockPos, stemSize)
                 && blockPos.getY() >= blockPos.getY() && blockPos.getY() + stemSize + 1 < world.getHeight();
     }
-    
+
     protected boolean canPlaceStem(HugeMushroomFeatureConfiguration config, LevelAccessor world, BlockPos blockPos, int stemSize)
     {
         BlockPos.MutableBlockPos placementBlockPos = new BlockPos.MutableBlockPos();
@@ -95,7 +96,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
         }
         return true;
     }
-    
+
     protected boolean mayPlaceOn(LevelAccessor world, BlockPos pos)
     {
         BlockState blockState;
@@ -104,7 +105,7 @@ public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguratio
             for (int z = 0; z < 2; z++)
             {
                 blockState = world.getBlockState(pos.offset(x, -1, z));
-                if (!(blockState.is(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT))) {return false;}
+                if (!(blockState.is(AerialHellTags.Blocks.STELLAR_PLANTS_MAY_PLACE_ON))) {return false;}
             }
         }
         return true;

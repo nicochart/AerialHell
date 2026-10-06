@@ -32,8 +32,7 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
         this.attackTimer = 0;
     }
     
-    @Override
-    protected void registerGoals()
+    @Override protected void registerGoals()
     {
     	this.goalSelector.addGoal(1, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
         this.goalSelector.addGoal(2, new ConditionalGoal(this, new WaterAvoidingRandomStrollGoal(this, 0.6D)));
@@ -47,8 +46,7 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
         return (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
     }
 	
-	@Override
-    public void aiStep()
+	@Override public void aiStep()
     {
 		if (this.attackTimer > 0) {this.attackTimer--;}
 		super.aiStep();
@@ -63,7 +61,11 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
         boolean flag = attackedEntity.hurtServer(serverLevel, damagesource, amount);
         if (flag)
         {
-            attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().add(0.0D, (double)this.getYMotionOnAttack(), 0.0D)); //projection en hauteur
+            double kbResistance = 0.0F;
+            if (attackedEntity instanceof LivingEntity target) {kbResistance = target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);}
+            double kbScale = Math.max(0.0D, (double)1.0D - kbResistance);
+
+            attackedEntity.setDeltaMovement(attackedEntity.getDeltaMovement().add(0.0D, (double)this.getYMotionOnAttack() * kbScale, 0.0D));
             EnchantmentHelper.doPostAttackEffects(serverLevel, attackedEntity, damagesource);
         }
 

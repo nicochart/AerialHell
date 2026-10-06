@@ -22,15 +22,15 @@ public class ArsonistBlock extends Block
 		super(properties);
 	}
 	
-	@Override public void stepOn(Level level, BlockPos pos, BlockState state, Entity entityIn)
+	@Override public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity)
 	{
-		if (entityIn instanceof LivingEntity livingEntity)
+		if (entity instanceof LivingEntity livingEntity)
 		{
-			if (!entityIn.fireImmune() && !EntityHelper.hasEnchantment(livingEntity, Enchantments.FROST_WALKER))
+			if (!entity.fireImmune() && !EntityHelper.hasEnchantment(livingEntity, Enchantments.FROST_WALKER))
 			{
-		         entityIn.hurt(level.damageSources().hotFloor(), 1.0F);
+		         entity.hurt(level.damageSources().hotFloor(), 1.0F);
 			}
-			entityIn.igniteForSeconds(2);
+			if (!livingEntity.isInWaterOrRain()) {livingEntity.igniteForSeconds(2);}
 		}
 	}
 }
