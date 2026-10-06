@@ -30,12 +30,7 @@ public abstract class VoluciteWardenArmGoal extends Goal implements PhaseGoal
 
     @Override public PhaseInfo getPhaseInfo() {return this.phaseInfo;}
 
-    @Override public boolean canUse()
-    {
-        this.onCanUse();
-        return this.isActive();
-    }
-
+    @Override public boolean canUse() {return this.canUsePhaseGoal();}
     @Override public boolean canContinueToUse() {return this.canContinueToUsePhaseGoal();}
 
     @Override public void start() {this.onStart();}

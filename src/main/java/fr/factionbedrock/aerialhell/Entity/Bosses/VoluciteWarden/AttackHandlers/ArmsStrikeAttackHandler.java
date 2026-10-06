@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers;
 
-import fr.factionbedrock.aerialhell.Entity.AI.StrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmStrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
 import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
@@ -86,7 +85,7 @@ public class ArmsStrikeAttackHandler
                 new Phase(PhaseType.PREPARE, () -> this.getRelativeWindupPos2(sideFactor), 1.0D, 1),
                 new Phase(PhaseType.PREPARE, () -> this.getRelativeWindupPos3(sideFactor), 1.0D, 40),
                 new Phase(PhaseType.ACTION, this::getRelativeStrikePos, 2.0D, 5)
-                        .onTargetReached((goal) -> {if (goal instanceof StrikeAttackGoal strikeGoal) {strikeGoal.strike();}}),
+                        .onTargetReached((goal) -> {if (goal instanceof VoluciteWardenArmStrikeAttackGoal strikeGoal) {strikeGoal.strike();}}),
                 new Phase(PhaseType.RECOVERY, () -> this.getRelativeRecoveryPos(sideFactor), 0.4D, 1),
                 new InactivePhase()
         );

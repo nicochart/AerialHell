@@ -13,31 +13,33 @@ import java.util.List;
 
 public interface PhaseGoal
 {
+    /* ---------------------------------------------------- */
+    /* ---------- Methods needing implementation ---------- */
+    /* ---------------------------------------------------- */
     List<Phase> getPhases();
     Goal getSelf();
     PhaseInfo getPhaseInfo();
     boolean shouldTrigger(); //condition to automatically trigger
     LivingEntity getGuide();
+    /* ---------------------------------------------------- */
+    /* ---------------------------------------------------- */
+    /* ---------------------------------------------------- */
 
-    default Phase getCurrentPhase() {return this.getPhase(this.getPhaseInfo().phaseIndex);}
-    default Phase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
-    default Phase getPhase(int phaseIndex) { return this.getPhases().get(phaseIndex); }
-    default PhaseType getPhaseType() {return this.getCurrentPhase().getType();}
-
-    default boolean isActive() {return this.getPhaseType() != PhaseType.INACTIVE;}
-
-    default boolean onCanUse()
+    /* ----------------------------------------------- */
+    /* -------- Delegate methods needing call -------- */
+    /* ----------------------------------------------- */
+    default boolean canUsePhaseGoal() //return result in canUse()
     {
         if (this.shouldTrigger()) {this.trigger();}
         return this.isActive();
     }
 
-    default boolean canContinueToUsePhaseGoal() {return this.isActive();}
+    default boolean canContinueToUsePhaseGoal() {return this.isActive();} //return result in canContinueToUse()
 
-    default void onStart() {this.startFirstPhase();}
-    default void onStop() {this.skipToInactivePhase();}
+    default void onStart() {this.startFirstPhase();} //call in start()
+    default void onStop() {this.skipToInactivePhase();} //call in stop()
 
-    default void tickPhase()
+    default void tickPhase() //call in tick()
     {
         if (!this.isActive()) {return;} //canContinueToUse if only called every 2 ticks. tickPhase() can be called with inactive phase.
 
@@ -54,6 +56,16 @@ public interface PhaseGoal
 
         if (this.getCurrentPhase().isFinished()) {this.startNextPhase();}
     }
+    /* ----------------------------------------------- */
+    /* ----------------------------------------------- */
+    /* ----------------------------------------------- */
+
+    default Phase getCurrentPhase() {return this.getPhase(this.getPhaseInfo().phaseIndex);}
+    default Phase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
+    default Phase getPhase(int phaseIndex) { return this.getPhases().get(phaseIndex); }
+    default PhaseType getPhaseType() {return this.getCurrentPhase().getType();}
+
+    default boolean isActive() {return this.getPhaseType() != PhaseType.INACTIVE;}
 
     private void initializeGuidePos()
     {

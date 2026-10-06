@@ -1,132 +1,38 @@
 package fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden;
 
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
 import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
-import fr.factionbedrock.aerialhell.Entity.AI.StrikeAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.Strike.StrikeInfo;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
-import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-public class VoluciteWardenArmStrikeAttackGoal extends StrikeAttackGoal
+public class VoluciteWardenArmStrikeAttackGoal extends VoluciteWardenArmGoal
 {
-    public final Supplier<List<VoluciteWardenEntity.ArmPartInfo>> arm;
+    private final StrikeInfo strikeInfo;
 
     public VoluciteWardenArmStrikeAttackGoal(VoluciteWardenEntity entity, Supplier<List<VoluciteWardenEntity.ArmPartInfo>> arm, Supplier<LivingEntity> entityUsedToStrikeSupplier, float distanceOffsetTolerance)
     {
-        super(entity, distanceOffsetTolerance, new StrikeAttackGoal.StrikeInfo(entityUsedToStrikeSupplier, 0.0F, 10.0F, 4.0F, 3.5F, false));
-        this.arm = arm;
+        super(entity, arm, distanceOffsetTolerance);
+        this.strikeInfo = new StrikeInfo(entityUsedToStrikeSupplier, 0.0F, 10.0F, 4.0F, 3.5F, false);
     }
 
-    private VoluciteWardenEntity getGoalOwner() {return (VoluciteWardenEntity) this.goalOwner;}
+    @Override public List<Phase> getPhases() {return this.goalOwner.getStrikeAttackSequenceInternal(this.getEntityUsedToStrike());}
 
-    @Override public void setGuidePos() {this.setPartsPos();}
+    @Override public boolean shouldTrigger() {return this.goalOwner.getTarget() != null && this.goalOwner.shouldTriggerStrikeAttack();}
 
-    protected void setPartsPos()
+    @Nullable public LivingEntity getEntityUsedToStrike() {return this.strikeInfo.entityUsedToStrikeSupplier.get();}
+
+    public boolean isStriking() {return this.getPhaseType() == PhaseType.ACTION;}
+
+    public void strike()
     {
-        int totalSegments = this.arm.get().size();
-        Vec3 armStartPos = this.arm.get().getFirst().getUnrotatedRelativePositionOffset();
-        Vec3 armEndPos = this.getCachedUnrotatedRelativePos();
-        double curveStrengthFactor = this.getPhaseType() == PhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(this.getDistanceToTarget()) : 1.0D;
-
-        for (VoluciteWardenEntity.ArmPartInfo partInfo : this.arm.get())
+        if (this.getEntityUsedToStrike() != null)
         {
-            PartEntity part = partInfo.getPart();
-            if (part != null)
-            {
-                this.setPartPos(part, armStartPos, armEndPos, curveStrengthFactor, partInfo.getSegmentIndex(), totalSegments);
-                this.setPartRot(part, armStartPos, armEndPos);
-            }
+            this.goalOwner.strike(this.goalOwner.fromUnrotatedRelativeToLevelPos(this.getCurrentPhase().getUnrotatedRelativeTargetPos()), this.getEntityUsedToStrike(), this.strikeInfo.explosionRadius, this.strikeInfo.bonusDamageAmount, this.strikeInfo.bonusDamageRange, this.strikeInfo.knockbackScale, this.strikeInfo.destroyBlocks);
         }
-    }
-
-    private void setPartPos(@NotNull PartEntity part, Vec3 armStartPos, Vec3 armEndPos, double curveStrengthFactor, int segmentIndex, int totalSegments)
-    {
-        Vec3 armPos = this.interpolateArmPos(armStartPos, armEndPos, curveStrengthFactor, segmentIndex, totalSegments);
-        part.getSelf().setPos(this.getGoalOwner().fromUnrotatedRelativeToLevelPos(armPos));
-
-        if (segmentIndex == 1) //Tiny hack to correct the first segment's rotation when it's not moving. Little movement makes client immediately updates visual rot.
-        {
-            double deltaZ = ((part.getSelf().tickCount & 1) == 0 ? 0.003D : -0.003D);
-            part.setPos(part.getX(), part.getY(), part.getZ() + deltaZ);
-        }
-    }
-
-    private void setPartRot(@NotNull PartEntity part, Vec3 armStartPos, Vec3 armEndPos)
-    {
-        float relativeYRot = (this.arm.get().getFirst().isRightArm ? 1 : -1) * computeRelativeYRot(armStartPos, armEndPos, 1.0F, 1.0F);
-        float yRot = this.goalOwner.toLevelYRot(relativeYRot);
-        part.getSelf().setYRot(yRot);
-        part.getSelf().yBodyRot = yRot;
-        part.getSelf().yHeadRot = yRot;
-    }
-
-    private float computeRelativeYRot(Vec3 start, Vec3 end, float yWeight, float zWeight)
-    {
-        Vec3 delta = end.subtract(start);
-
-        double length = delta.length();
-        if (length < 1e-4) return 0.0F;
-
-        Vec3 dir = delta.scale(1.0 / length);
-
-        float yContribution = (float)Math.max(0, dir.y) * 180.0F;
-        float zContribution = (float)(dir.z * 90.0F);
-
-        float totalWeight = yWeight + zWeight;
-        if (totalWeight <= 0.0001F) return 0.0F;
-
-        float yPart = yContribution * yWeight;
-        float zPart = zContribution * zWeight;
-
-        return (yPart + zPart) / totalWeight;
-    }
-
-    private double calculateRecoveryCurveStrengthFactor(double distanceToTarget)
-    {
-        int maxFactorDistance = 4;
-        return Mth.clamp(distanceToTarget / maxFactorDistance, 0.0F, 1.0F);
-    }
-
-    private Vec3 interpolateArmPos(Vec3 start, Vec3 end, double curveStrengthFactor, int index, int totalSegments)
-    {
-        int rightLeftfactor = this.arm.get().getFirst().isRightArm ? 1 : -1;
-        double progress = (double)(index - 1) / (totalSegments - 1);
-
-        Vec3 armMiddle = start.add(end).scale(0.5);
-
-        Vec3 armDir = end.subtract(start).normalize();
-
-        double heightDiff = end.y - start.y;
-        float heightDiffMaxThreshold = 14.0F;
-        double factor = Mth.clamp(heightDiff / heightDiffMaxThreshold, -1.0, 1.0); // negative if arm down, positive if arm up. 0 if arm is horizontal. (absolute) starting to decrease if diff is <= heightDiffMaxThreshold
-        Vec3 controlDir = new Vec3(rightLeftfactor * armDir.z, 0, rightLeftfactor * factor * armDir.x).normalize(); //orthogonal direction
-
-        double curveStrength = curveStrengthFactor * switch (this.getCurrentPhase().getType())
-        {
-            case INACTIVE -> 0.0D;
-            case PREPARE -> 8.0D * Mth.abs((float)factor);
-            case ACTION -> 2.0D;
-            case RECOVERY -> 5.0D;
-        };
-
-        Vec3 control = armMiddle.add(controlDir.scale(curveStrength));
-
-        return quadraticBezier(start, control, end, progress);
-    }
-
-    private Vec3 quadraticBezier(Vec3 start, Vec3 control, Vec3 end, double progress)
-    {
-        double remainingProgress = 1.0 - progress;
-
-        Vec3 startWeight = start.scale(remainingProgress * remainingProgress);
-        Vec3 controlWeight = control.scale(2 * remainingProgress * progress);
-        Vec3 endWeight = end.scale(progress * progress);
-
-        return startWeight.add(controlWeight).add(endWeight);
     }
 }
