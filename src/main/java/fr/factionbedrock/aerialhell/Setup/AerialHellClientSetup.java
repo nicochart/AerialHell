@@ -2,15 +2,18 @@ package fr.factionbedrock.aerialhell.Setup;
 
 import fr.factionbedrock.aerialhell.Client.AerialHellRendering;
 import fr.factionbedrock.aerialhell.Client.Caches.RecipesCache;
+import fr.factionbedrock.aerialhell.Client.Commands.ClientCommands;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.FluidRenderHandler;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationListener;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Client.Util.PanoramaCaptureHandler;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Event.Listeners.RenderListener;
 import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.BuildContentsEvent;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 
 public class AerialHellClientSetup
@@ -33,5 +36,11 @@ public class AerialHellClientSetup
         modEventBus.addListener(AerialHellRendering::registerScreensMenus);
         NeoForge.EVENT_BUS.addListener(RecipesCache::onRecipesReceived);
         NeoForge.EVENT_BUS.addListener(RenderListener::onRenderOverlayPost);
+
+        if (!FMLEnvironment.isProduction()) //dev tool, used to make title screen panorama
+        {
+            NeoForge.EVENT_BUS.addListener(ClientCommands::registerPanoramaCommand);
+            NeoForge.EVENT_BUS.addListener(PanoramaCaptureHandler::panoramaClientTick);
+        }
     }
 }
