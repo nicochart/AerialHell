@@ -391,6 +391,20 @@ public class AerialHellItemAbilities
                     .build())
             .build();
 
+    public static final ItemAbility VOLUCITE_SPEAR = ItemAbility.builder()
+            .setDescId("volucite_spear")
+            .addOnUseModules(ModuleList.builder()
+                    .addActions(START_USING_ITEM)
+                    .build())
+            .addPassiveModules(ModuleList.builder()
+                    .addActions(
+                            SLOW_FALLING_TO_SELF.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? -1 : 80, (itemOwner) -> 0, TestTarget.ITEM_OWNER),
+                            HEAD_IN_THE_CLOUDS_TO_SELF.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? 40 : -1, (itemOwner) -> 1, TestTarget.ITEM_OWNER),
+                            CLOUD_PARTICLES_ON_SELF.of(2))
+                    .addConditions(TICKS_USED.min(25))
+                    .build())
+            .build();
+
     private static final ItemAbility GLASS_CANNON_SWORD_COMMON = ItemAbility.builder()
             .addOnUseModules(ModuleList.builder()
                     .addActions(EXPLOSION_PARTICLES_ON_SELF.of(20))

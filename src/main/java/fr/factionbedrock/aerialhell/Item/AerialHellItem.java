@@ -3,10 +3,7 @@ package fr.factionbedrock.aerialhell.Item;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.datafixers.util.Pair;
 import fr.factionbedrock.aerialhell.Item.Ability.*;
-import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterial;
-import fr.factionbedrock.aerialhell.Item.Material.AerialHellToolMaterial;
-import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
-import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
+import fr.factionbedrock.aerialhell.Item.Material.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.client.Minecraft;
@@ -409,6 +406,9 @@ public class AerialHellItem extends WithInformationItem
 		{
 			return material.applySwordProperties(this, attackDamage, attackSpeed, additionalAttributes);
 		}
+
+		public AerialHellItem.Properties spear(AerialHellToolMaterial material) {return material.applySpearProperties(this, new AttributeEntryList());}
+		public AerialHellItem.Properties spear(AerialHellToolMaterial material, AttributeEntryList additionalAttributes) {return material.applySpearProperties(this, additionalAttributes);}
 
 		public AerialHellItem.Properties maxUseDuration(int useDuration) {this.maxUseDuration = useDuration; return this;}
 
