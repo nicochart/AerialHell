@@ -25,7 +25,7 @@ public class GlidingTurtleRender extends MobRenderer<GlidingTurtleEntity, Glidin
     @Override public void extractRenderState(GlidingTurtleEntity entity, GlidingTurtleRenderState renderState, float partialTick)
     {
         super.extractRenderState(entity, renderState, partialTick);
-        renderState.isGliding = entity.isGliding();
+        renderState.isGliding = entity.isTurtleGliding();
         renderState.isSaddled = entity.isSaddled();
     }
 

@@ -74,8 +74,8 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity implements Playe
         //when ridden, GlideGoal is disabled : wings are spread as long as the turtle is in the air
         if (!this.level().isClientSide() && this.getControllingPassenger() instanceof Player)
         {
-            if (this.shouldStartGliding()) {this.setGliding(true);}
-            if (this.shouldStopGliding()) {this.setGliding(false);}
+            if (this.shouldStartGliding()) {this.setTurtleGliding(true);}
+            if (this.shouldStopGliding()) {this.setTurtleGliding(false);}
         }
 
         super.tick();
@@ -112,10 +112,10 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity implements Playe
     }
 
     public boolean shouldStartGliding() {return this.getDeltaMovementY() < -0.3D;}
-    public boolean shouldStopGliding() {return this.isGliding() && (this.onGround() || this.isInLiquid()) && this.getDeltaMovementY() >= -0.1F;}
+    public boolean shouldStopGliding() {return this.isTurtleGliding() && (this.onGround() || this.isInLiquid()) && this.getDeltaMovementY() >= -0.1F;}
 
-    public boolean isGliding() {return !this.entityData.get(GLIDING);}
-    public void setGliding(boolean flag) {this.entityData.set(GLIDING, !flag);}
+    public boolean isTurtleGliding() {return !this.entityData.get(GLIDING);}
+    public void setTurtleGliding(boolean flag) {this.entityData.set(GLIDING, !flag);}
 
     private double getDeltaMovementY()
     {
@@ -177,7 +177,7 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity implements Playe
 
     private boolean isRiddenGliding()
     {
-        return this.getControllingPassenger() instanceof Player && this.isGliding() && !this.onGround() && !this.isInWater();
+        return this.getControllingPassenger() instanceof Player && this.isTurtleGliding() && !this.onGround() && !this.isInWater();
     }
 
     private void applyRiddenGlideMotion(Player controller)
@@ -248,14 +248,14 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity implements Playe
     @Override public void addAdditionalSaveData(ValueOutput valueOutput)
     {
         super.addAdditionalSaveData(valueOutput);
-        valueOutput.putBoolean("Glide", this.isGliding());
+        valueOutput.putBoolean("Glide", this.isTurtleGliding());
         valueOutput.putInt("AteTimer", this.ateTimer);
     }
 
     @Override public void readAdditionalSaveData(ValueInput valueInput)
     {
         super.readAdditionalSaveData(valueInput);
-        this.setGliding(valueInput.getBooleanOr("Glide", false));
+        this.setTurtleGliding(valueInput.getBooleanOr("Glide", false));
         if (valueInput.getInt("AteTimer").isPresent()) {this.ateTimer = valueInput.getInt("AteTimer").get();}
     }
 }
