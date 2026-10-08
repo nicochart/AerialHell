@@ -94,7 +94,7 @@ public class AerialHellToolMaterial extends ExtraAttributeModifiersMaterial
                 .component(DataComponents.ATTACK_RANGE, new AttackRange(2.0F, 4.5F, 2.0F, 6.5F, 0.125F, 0.5F))
                 .component(DataComponents.MINIMUM_ATTACK_CHARGE, 1.0F)
                 .component(DataComponents.SWING_ANIMATION, new SwingAnimation(SwingAnimationType.STAB, (int)(attackDuration * 20.0F)))
-                .attributes(this.createSpearAttributes(0.0F, (1.0F / attackDuration) - 4.0F, additionalAttributes))
+                .attributes(this.createAttributes(0.0F, (1.0F / attackDuration) - 4.0F, additionalAttributes))
                 .component(DataComponents.USE_EFFECTS, new UseEffects(true, false, 1.0F))
                 .component(DataComponents.WEAPON, new Weapon(1));
     }
@@ -109,19 +109,6 @@ public class AerialHellToolMaterial extends ExtraAttributeModifiersMaterial
     }
 
     private ItemAttributeModifiers createAttributes(float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
-    {
-        float effectiveAttackDamage = attackDamage + this.vanillaMaterial.attackDamageBonus();
-        ItemAttributeModifiers.Builder modifiers = ItemAttributeModifiers.builder();
-        if (effectiveAttackDamage != 0.0F) {modifiers.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ATTRIBUTE_MODIFIER_ID, effectiveAttackDamage, AttributeModifier.Operation.ADD_VALUE),EquipmentSlotGroup.MAINHAND);}
-        if (attackSpeed != 0.0F) {modifiers.add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ATTRIBUTE_MODIFIER_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);}
-
-        //applying custom attributes
-        this.applyExtraAttributes(modifiers, additionalAttributes, EquipmentSlotGroup.MAINHAND, "tool");
-
-        return modifiers.build();
-    }
-
-    private ItemAttributeModifiers createSpearAttributes(float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
     {
         float effectiveAttackDamage = attackDamage + this.vanillaMaterial.attackDamageBonus();
         ItemAttributeModifiers.Builder modifiers = ItemAttributeModifiers.builder();
