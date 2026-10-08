@@ -73,6 +73,7 @@ public class AerialHellItemAbilities
     private static final ConditionModule IN_MAIN_OR_OFF_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> ItemStack.matches(stack, itemOwner.getMainHandItem()) || ItemStack.matches(stack, itemOwner.getOffhandItem()));
     private static final ConditionModule IN_MAIN_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> ItemStack.matches(stack, itemOwner.getMainHandItem()));
     private static final ConditionModule IN_RIGHT_SLOT = new ConditionModule((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> equipmentSlot == itemOwner.getEquipmentSlotForItem(stack));
+    private static final ConditionModule IN_USE = new ConditionModule((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> itemOwner.getUseItem() == stack);
 
     private static final ActionModule.MobEffectList RANDOM_SWORD_RANDOM_EFFECT = ActionModule.MobEffectList.builder().addEffects((itemOwner) ->
     {
@@ -253,7 +254,9 @@ public class AerialHellItemAbilities
                     .build())
             .addPassiveModules(ModuleList.builder()
                     .addActions(OSCILLATOR_PARTICLES_ON_SELF.of(4))
-                    .addConditions(TICKS_USED.min(RESONATOR_USE_TICKS / 2))
+                    .addConditions(
+                            TICKS_USED.min(RESONATOR_USE_TICKS / 2),
+                            IN_USE)
                     .build())
             .build();
 
@@ -272,7 +275,9 @@ public class AerialHellItemAbilities
                     .build())
             .addPassiveModules(ModuleList.builder()
                     .addActions(OSCILLATOR_PARTICLES_ON_SELF.of(4))
-                    .addConditions(TICKS_USED.min(RESONATOR_USE_TICKS / 2))
+                    .addConditions(
+                            TICKS_USED.min(RESONATOR_USE_TICKS / 2),
+                            IN_USE)
                     .build())
             .build();
 
@@ -401,7 +406,9 @@ public class AerialHellItemAbilities
                             SLOW_FALLING_TO_SELF.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? -1 : 80, (itemOwner) -> 0, TestTarget.ITEM_OWNER),
                             HEAD_IN_THE_CLOUDS_TO_SELF.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? 40 : -1, (itemOwner) -> 1, TestTarget.ITEM_OWNER),
                             CLOUD_PARTICLES_ON_SELF.of(2))
-                    .addConditions(TICKS_USED.min(25))
+                    .addConditions(
+                            TICKS_USED.min(25),
+                            IN_USE)
                     .build())
             .build();
 
