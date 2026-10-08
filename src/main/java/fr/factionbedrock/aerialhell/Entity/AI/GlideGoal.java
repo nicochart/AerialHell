@@ -13,7 +13,7 @@ public class GlideGoal extends Goal
 
     public GlideGoal(GlidingTurtleEntity entity) {this.goalOwner = entity;}
 
-    @Override public boolean canUse() {return true;}
+    @Override public boolean canUse() {return this.goalOwner.canUseGlideGoal();}
     @Override public void start() {this.resetTask();}
     @Override public void stop() {goalOwner.setTurtleGliding(false);}
     @Override public boolean requiresUpdateEveryTick() {return true;}
@@ -74,8 +74,8 @@ public class GlideGoal extends Goal
     }
 
     protected boolean shouldJump() {return this.jumpTimer > this.getJumpTimerTargetValue() && !this.goalOwner.isTurtleGliding() && this.goalOwner.onGround();}
-    protected boolean shouldStartGliding() {return this.goalOwner.getDeltaMovement().y < -0.3D;}
-    protected boolean shouldStopGliding() {return this.goalOwner.isTurtleGliding() && this.goalOwner.onGround() && this.goalOwner.getDeltaMovement().y>=-0.1F;}
+    protected boolean shouldStartGliding() {return this.goalOwner.shouldStartGliding();}
+    protected boolean shouldStopGliding() {return this.goalOwner.shouldStopGliding();}
     protected boolean shouldIncrementJumpTimer() {return this.goalOwner.onGround() && !this.goalOwner.isTurtleGliding();}
     protected boolean shouldPanicBonusIncrementJumpTimer() {return this.goalOwner.getLastHurtByMob() != null && this.goalOwner.tickCount - this.goalOwner.getLastHurtByMobTimestamp() < 40;}
     protected void incrementJumpTimer() {this.jumpTimer += 1 + this.goalOwner.getRandom().nextInt(randomTimerBonus);}

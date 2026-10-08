@@ -1,0 +1,20 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:display_context",
+    "cases": [
+      {
+        "when": ["gui", "ground", "fixed", "on_shelf"],
+        "model": {
+          "type": "minecraft:model",
+          "model": "aerialhell:item/obsidian_spear"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "aerialhell:item/obsidian_spear_in_hand"
+    }
+  },
+  "swap_animation_scale": 1.95
+}

@@ -258,7 +258,12 @@
         {
           "type": "item",
           "name": "aerialhell:health_boost_sword",
-          "weight": 3
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "aerialhell:health_boost_spear",
+          "weight": 1
         },
         {
           "type": "item",

@@ -939,6 +939,19 @@ public class AerialHellItems
 
     public static final Item FORGOTTEN_BATTLE_TRIDENT = register(Keys.FORGOTTEN_BATTLE_TRIDENT.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.FORGOTTEN_BATTLE_TRIDENT).sword(AerialHellToolMaterials.VOLUCITE, 3, -2.9F, new AttributeEntryList().add(AttributeEntry.movementSpeed(0.2F)).add(AttributeEntry.entityInteractionRange(2.0F))).durability(1000).rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.FORGOTTEN_BATTLE_TRIDENT))));
 
+    //spears
+    public static final Item SKY_WOOD_SPEAR = register(Keys.SKY_WOOD_SPEAR.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.SKY_WOOD_SPEAR).spear(AerialHellToolMaterials.SKY_WOOD)));
+    public static final Item STELLAR_STONE_SPEAR = register(Keys.STELLAR_STONE_SPEAR.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.STELLAR_STONE_SPEAR).spear(AerialHellToolMaterials.STELLAR_STONE)));
+    public static final Item RUBY_SPEAR = register(Keys.RUBY_SPEAR.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.RUBY_SPEAR).spear(AerialHellToolMaterials.RUBY)));
+    public static final Item AZURITE_SPEAR = register(Keys.AZURITE_SPEAR.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.AZURITE_SPEAR).spear(AerialHellToolMaterials.AZURITE)));
+    public static final Item MAGMATIC_GEL_SPEAR = register(Keys.MAGMATIC_GEL_SPEAR.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.MAGMATIC_GEL_SPEAR).spear(AerialHellToolMaterials.MAGMATIC_GEL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.MAGMATIC_GEL_TOOL))));
+    public static final Item OBSIDIAN_SPEAR = register(Keys.OBSIDIAN_SPEAR.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.OBSIDIAN_SPEAR).spear(AerialHellToolMaterials.OBSIDIAN).rarity(Rarity.EPIC)));
+    public static final Item VOLUCITE_SPEAR = register(Keys.VOLUCITE_SPEAR.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.VOLUCITE_SPEAR).spear(AerialHellToolMaterials.VOLUCITE).rarity(AerialHellRarities.VIBRANT).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.VOLUCITE_SPEAR))));
+    public static final Item LUNATIC_SPEAR = register(Keys.LUNATIC_SPEAR.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.LUNATIC_SPEAR).spear(AerialHellToolMaterials.LUNATIC).rarity(AerialHellRarities.LEGENDARY).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.LUNAR_TOOL))));
+    public static final Item ARSONIST_SPEAR = register(Keys.ARSONIST_SPEAR.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.ARSONIST_SPEAR).spear(AerialHellToolMaterials.ARSONIST).fireResistant().rarity(AerialHellRarities.MYTHICAL).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.ARSONIST_TOOL))));
+
+    public static final Item HEALTH_BOOST_SPEAR = register(Keys.HEALTH_BOOST_SPEAR.identifier().getPath(), new AerialHellItem(new AerialHellItem.Properties().setId(Keys.HEALTH_BOOST_SPEAR).spear(AerialHellToolMaterials.LUNATIC).fireResistant().rarity(Rarity.EPIC).abilitySelector(AbilitySelector.of(AerialHellItemAbilities.PASSIVE_HEALTH_BOOST))));
+
     //armor
     public static final Item RUBY_HELMET = register(Keys.RUBY_HELMET.identifier().getPath(), new Item(new AerialHellItem.Properties().setId(Keys.RUBY_HELMET).humanoidArmor(AerialHellArmorMaterials.RUBY, ArmorType.HELMET)));
     public static final Item RUBY_CHESTPLATE = register(Keys.RUBY_CHESTPLATE.identifier().getPath(), new Item(new AerialHellItem.Properties().setId(Keys.RUBY_CHESTPLATE).humanoidArmor(AerialHellArmorMaterials.RUBY, ArmorType.CHESTPLATE)));
@@ -1897,6 +1910,17 @@ public class AerialHellItems
         public static final ResourceKey<Item> VOLUCITE_SWORD = createKey("volucite_sword");
         public static final ResourceKey<Item> LUNATIC_SWORD = createKey("lunatic_sword");
         public static final ResourceKey<Item> ARSONIST_SWORD = createKey("arsonist_sword");
+
+        public static final ResourceKey<Item> SKY_WOOD_SPEAR = createKey("sky_wood_spear");
+        public static final ResourceKey<Item> STELLAR_STONE_SPEAR = createKey("stellar_stone_spear");
+        public static final ResourceKey<Item> RUBY_SPEAR = createKey("ruby_spear");
+        public static final ResourceKey<Item> AZURITE_SPEAR = createKey("azurite_spear");
+        public static final ResourceKey<Item> MAGMATIC_GEL_SPEAR = createKey("magmatic_gel_spear");
+        public static final ResourceKey<Item> OBSIDIAN_SPEAR = createKey("obsidian_spear");
+        public static final ResourceKey<Item> VOLUCITE_SPEAR = createKey("volucite_spear");
+        public static final ResourceKey<Item> LUNATIC_SPEAR = createKey("lunatic_spear");
+        public static final ResourceKey<Item> ARSONIST_SPEAR = createKey("arsonist_spear");
+        public static final ResourceKey<Item> HEALTH_BOOST_SPEAR = createKey("health_boost_spear");
 
         public static final ResourceKey<Item> HEAVY_SWORD = createKey("heavy_sword");
         public static final ResourceKey<Item> HEALTH_BOOST_SWORD = createKey("health_boost_sword");

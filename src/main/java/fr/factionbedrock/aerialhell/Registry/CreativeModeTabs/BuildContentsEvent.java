@@ -717,6 +717,18 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.BERSERK_AXE);
             entries.accept(AerialHellItems.REAPER_SCYTHE);
 
+            entries.accept(AerialHellItems.SKY_WOOD_SPEAR);
+            entries.accept(AerialHellItems.STELLAR_STONE_SPEAR);
+            entries.accept(AerialHellItems.RUBY_SPEAR);
+            entries.accept(AerialHellItems.AZURITE_SPEAR);
+            entries.accept(AerialHellItems.MAGMATIC_GEL_SPEAR);
+            entries.accept(AerialHellItems.OBSIDIAN_SPEAR);
+            entries.accept(AerialHellItems.VOLUCITE_SPEAR);
+            entries.accept(AerialHellItems.LUNATIC_SPEAR);
+            entries.accept(AerialHellItems.ARSONIST_SPEAR);
+
+            entries.accept(AerialHellItems.HEALTH_BOOST_SPEAR);
+            
             entries.accept(AerialHellItems.RUBY_HELMET);
             entries.accept(AerialHellItems.RUBY_CHESTPLATE);
             entries.accept(AerialHellItems.RUBY_LEGGINGS);

@@ -31,24 +31,31 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
 
-	@Override public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity)
+	@Override public void stepOn(Level level, BlockPos pos, BlockState state, Entity entitySteppingOn)
 	{
-		if (entity instanceof Player)
+		if (entitySteppingOn instanceof Player player)
 		{
-			boolean protect = this.isProtected(world.getBlockState(pos));
-			world.setBlockAndUpdate(pos, this.getUntrappedBlock(this).defaultBlockState().setValue(CORE_PROTECTED, protect));
-			if (!world.isClientSide())
+			boolean protect = this.isProtected(level.getBlockState(pos));
+			level.setBlockAndUpdate(pos, this.getUntrappedBlock(this).defaultBlockState().setValue(CORE_PROTECTED, protect));
+			if (!level.isClientSide())
 			{
 				EntityType<?> entityType = getEntity(this);
-				Entity creature = entityType.create(world, EntitySpawnReason.MOB_SUMMONED);
-				creature.absSnapTo(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, (rand.nextFloat() - 0.5F) * 180.0F, 0.0F);
-				if (this == AerialHellBlocks.TRAPPED_MUD_BRICKS || this == AerialHellBlocks.TRAPPED_LIGHT_MUD_BRICKS && entity instanceof MudSoldierEntity)
+				Entity summonedEntity = entityType.create(level, EntitySpawnReason.MOB_SUMMONED);
+				if (summonedEntity != null)
 				{
-					((MudSoldierEntity) creature).setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+					summonedEntity.absSnapTo(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, (level.getRandom().nextFloat() - 0.5F) * 180.0F, 0.0F);
+					if (summonedEntity instanceof MudSoldierEntity mudSoldier)
+					{
+						mudSoldier.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+					}
+					level.addFreshEntity(summonedEntity);
 				}
-				world.addFreshEntity(creature);
+				else //entity is null if it can't spawn (monsters in peaceful difficulty)
+				{
+					player.hurt(level.damageSources().generic(), 1.0F);
+				}
 			}
-			world.playSound(null, pos, AerialHellSoundEvents.TRAPPED_BLOCK_STEP, SoundSource.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
+			level.playSound(null, pos, AerialHellSoundEvents.TRAPPED_BLOCK_STEP, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.1F + 0.9F);
 		}
 	}
 	
