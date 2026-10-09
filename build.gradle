@@ -22,6 +22,12 @@ repositories {
 		name = "ModMaven"
 		url = "https://modmaven.dev"
 	}
+	maven {
+		url = "https://www.cursemaven.com"
+		content {
+			includeGroup "curse.maven"
+		}
+	}
 }
 
 loom {
@@ -39,6 +45,12 @@ dependencies {
 	// JEI
 	compileOnly("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
 	runtimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
+
+	// JER
+	//JER project ID = 240630
+	//Current last 26.2 file ID = 9002822
+	compileOnly("curse.maven:just-enough-resources-jer-240630:9002822")
+	runtimeOnly("curse.maven:just-enough-resources-jer-240630:9002822")
 }
 
 processResources {

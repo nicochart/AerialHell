@@ -1642,5 +1642,19 @@
   "aerialhell.guide_book.items_2.volucite_aerial_berry" : "- Volucit Légibogyó\nMiután elfogyasztottad, 4 perc Fellegekben Járás hatást biztosít.",
   "aerialhell.guide_book.items_2.azurite_copper_pine_cone" : "- Azurit Rézfenyőtoboz\nMiután elfogyasztottad, 20 másodperc Sietség hatást biztosít.",
   "aerialhell.guide_book.items_2.gods_volucite_aerial_berry" : "- Isteni Volucit Légibogyó\nMiután elfogyasztottad, különböző pozitív hatásokat biztosít:\nKörülbelül 2 perc Lassú Zuhanás III, Fellegekben Járás III, Árnyimmunitás III, Ellenállás I, Erő II, Sietség II, Elnyelt Életerő IV, 5 perc Istenhatás és Tűzállóság.",
-  "block.aerialhell.full_moon_plant": "Teliholdszár"
+  "block.aerialhell.full_moon_plant": "Teliholdszár",
+
+  "jer.dim.aerialhell:aerial_hell" : "Aerial Hell",
+  "aerialhell.structure.overworld_abandonned_portal": "Elhagyatott Portál",
+  "aerialhell.structure.aerial_hell_abandonned_portal": "Elhagyatott Portál",
+  "aerialhell.structure.copper_pine_cottage": "Rézfenyő házikó",
+  "aerialhell.structure.lapis_robinia_hut": "Lazurit Fehér Akácfa kunyhó",
+  "aerialhell.structure.shadow_pine_tower": "Árnyfenyő Torony",
+  "aerialhell.dungeon.stellar_stone_bricks_tower": "Csillagos Kőtégla Torony",
+  "aerialhell.dungeon.upside_down_pyramid": "Megfordított Piramis",
+  "aerialhell.dungeon.floating_boat": "Lebegő Hajó",
+  "aerialhell.dungeon.mud_dungeon": "Iszapkazamata",
+  "aerialhell.dungeon.lunatic_temple": "Holdtemplom",
+  "aerialhell.dungeon.golden_nether_prison": "Alvilági Aranybörtön",
+  "aerialhell.dungeon.shadow_catacombs": "Árnykatakombák"
 }

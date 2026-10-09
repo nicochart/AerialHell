@@ -1641,5 +1641,19 @@
   "aerialhell.guide_book.items_2.ruby_aerial_berry" : "- Baie Aérienne Rubifiée\nConsommée, procure un boost de vie de 2 minutes",
   "aerialhell.guide_book.items_2.volucite_aerial_berry" : "- Baie Aérienne de Volucite\nConsommée, procure \"Tête dans les Nuages\" pendant 4 minutes.",
   "aerialhell.guide_book.items_2.azurite_copper_pine_cone" : "- Pomme de Pin Cuivrée Azure\nConsommée, procure Célérité pendant 20 secondes",
-  "aerialhell.guide_book.items_2.gods_volucite_aerial_berry" : "- Baie Aérienne de Volucite des Dieux\nConsommée, procure une variété d'effets positifs: Chute lente III, Tête dans les Nuages III, Immunité des Ombres III, Résistance I, Force II, Célérité II, Absorption IV pendant environ 2 minutes, Dieu et Résistance au feu pendant 5 minutes."
+  "aerialhell.guide_book.items_2.gods_volucite_aerial_berry" : "- Baie Aérienne de Volucite des Dieux\nConsommée, procure une variété d'effets positifs: Chute lente III, Tête dans les Nuages III, Immunité des Ombres III, Résistance I, Force II, Célérité II, Absorption IV pendant environ 2 minutes, Dieu et Résistance au feu pendant 5 minutes.",
+
+  "jer.dim.aerialhell:aerial_hell" : "Enfer Aérien",
+  "aerialhell.structure.overworld_abandonned_portal": "Portail abandonné",
+  "aerialhell.structure.aerial_hell_abandonned_portal": "Portail abandonné",
+  "aerialhell.structure.copper_pine_cottage": "Chalet en pin de cuivre",
+  "aerialhell.structure.lapis_robinia_hut": "Cabane en robinier de lapis",
+  "aerialhell.structure.shadow_pine_tower": "Tour en pin d'ombre",
+  "aerialhell.dungeon.stellar_stone_bricks_tower": "Tour en briques de pierre stellaire",
+  "aerialhell.dungeon.upside_down_pyramid": "Pyramide inversée",
+  "aerialhell.dungeon.floating_boat": "Bateau flottant",
+  "aerialhell.dungeon.mud_dungeon": "Donjon de boue",
+  "aerialhell.dungeon.lunatic_temple": "Temple lunaire",
+  "aerialhell.dungeon.golden_nether_prison": "Prison du Nether doré",
+  "aerialhell.dungeon.shadow_catacombs": "Catacombes d'ombre"
 }

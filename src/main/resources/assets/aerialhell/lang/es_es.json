@@ -1602,5 +1602,19 @@
   "aerialhell.guide_book.items_2.ruby_aerial_berry": "- Baya aérea de rubí\nAl consumirla, proporciona una Mejora de salud por 2 minutos",
   "aerialhell.guide_book.items_2.volucite_aerial_berry": "- Baya aérea de volucita\nAl consumirla, proporciona el efecto Cabeza en las nubes por 4 minutos",
   "aerialhell.guide_book.items_2.azurite_copper_pine_cone": "- Piña de cobre azurita\nAl consumirla, proporciona el efecto Prisa por 20 segundos",
-  "aerialhell.guide_book.items_2.gods_volucite_aerial_berry": "- Baya aérea de volucita de los dioses\nAl consumirla, proporciona una variedad de efectos positivos:\nCaída lenta III, Cabeza en las nubes III, Inmunidad a la sombra III, Resistencia I, Fuerza II, Prisa II, Absorción IV por aproximadamente 2 minutos, y Resistencia al fuego y divina por 5 minutos."
+  "aerialhell.guide_book.items_2.gods_volucite_aerial_berry": "- Baya aérea de volucita de los dioses\nAl consumirla, proporciona una variedad de efectos positivos:\nCaída lenta III, Cabeza en las nubes III, Inmunidad a la sombra III, Resistencia I, Fuerza II, Prisa II, Absorción IV por aproximadamente 2 minutos, y Resistencia al fuego y divina por 5 minutos.",
+
+  "jer.dim.aerialhell:aerial_hell" : "Aerial Hell",
+  "aerialhell.structure.overworld_abandonned_portal": "Portal abandonado",
+  "aerialhell.structure.aerial_hell_abandonned_portal": "Portal abandonado",
+  "aerialhell.structure.copper_pine_cottage": "Cabaña de pino de cobre",
+  "aerialhell.structure.lapis_robinia_hut": "Choza de lapis robinia",
+  "aerialhell.structure.shadow_pine_tower": "Torre de pino de las sombras",
+  "aerialhell.dungeon.stellar_stone_bricks_tower": "Torre de ladrillos de piedra estelar",
+  "aerialhell.dungeon.upside_down_pyramid": "Pirámide invertida",
+  "aerialhell.dungeon.floating_boat": "Barco flotante",
+  "aerialhell.dungeon.mud_dungeon": "Mazmorra de lodo",
+  "aerialhell.dungeon.lunatic_temple": "Templo lunar",
+  "aerialhell.dungeon.golden_nether_prison": "Prisión del Nether dorado",
+  "aerialhell.dungeon.shadow_catacombs": "Catacumbas sombrías"
 }
