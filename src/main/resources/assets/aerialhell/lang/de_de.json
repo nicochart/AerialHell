@@ -1643,5 +1643,19 @@
   "aerialhell.guide_book.items_2.ruby_aerial_berry" : "- Ruby Aerial Berry\nWhen consumed, provides a 2-minute Health Boost",
   "aerialhell.guide_book.items_2.volucite_aerial_berry" : "- Volucite Aerial Berry\nWhen consumed, provides a 4-minute Head in the Clouds effect",
   "aerialhell.guide_book.items_2.azurite_copper_pine_cone" : "- Azurite Copper Pine Cone\nWhen consumed, provides a 20-second Haste effect",
-  "aerialhell.guide_book.items_2.gods_volucite_aerial_berry" : "- Gods Volucite Aerial Berry\nWhen consumed, provides a variety of positive effects:\nSlow Falling III, Head in the Clouds III, Shadow Immunity III, Resistance I, Strength II, Haste II, Absorption IV for approximately 2 minutes, God and Fire Resistance for 5 minutes."
+  "aerialhell.guide_book.items_2.gods_volucite_aerial_berry" : "- Gods Volucite Aerial Berry\nWhen consumed, provides a variety of positive effects:\nSlow Falling III, Head in the Clouds III, Shadow Immunity III, Resistance I, Strength II, Haste II, Absorption IV for approximately 2 minutes, God and Fire Resistance for 5 minutes.",
+
+  "jer.dim.aerialhell:aerial_hell" : "Lufthölle",
+  "aerialhell.structure.overworld_abandonned_portal": "Verlassenes Portal",
+  "aerialhell.structure.aerial_hell_abandonned_portal": "Verlassenes Portal",
+  "aerialhell.structure.copper_pine_cottage": "Kupferkiefernhütte",
+  "aerialhell.structure.lapis_robinia_hut": "Lapisrobinienhütte",
+  "aerialhell.structure.shadow_pine_tower": "Schattenkiefernturm",
+  "aerialhell.dungeon.stellar_stone_bricks_tower": "Stellarer Steinziegelturm",
+  "aerialhell.dungeon.upside_down_pyramid": "Umgekehrte Pyramide",
+  "aerialhell.dungeon.floating_boat": "Schwebendes Boot",
+  "aerialhell.dungeon.mud_dungeon": "Schlammverlies",
+  "aerialhell.dungeon.lunatic_temple": "Mondtempel",
+  "aerialhell.dungeon.golden_nether_prison": "Goldenes Nethergefängnis",
+  "aerialhell.dungeon.shadow_catacombs": "Schattenkatakomben"
 }

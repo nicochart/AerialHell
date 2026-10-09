@@ -1603,5 +1603,19 @@
   "aerialhell.guide_book.items_2.ruby_aerial_berry" : "- 红宝石天星浆果\n食用后获得两分钟生命提升效果",
   "aerialhell.guide_book.items_2.volucite_aerial_berry" : "- 蓝辉石天星浆果\n食用后获得四分钟浮云II效果",
   "aerialhell.guide_book.items_2.azurite_copper_pine_cone" : "- 蓝铜水晶铜松果\n食用后获得二十秒急迫效果",
-  "aerialhell.guide_book.items_2.gods_volucite_aerial_berry" : "- 神能蓝辉石天星浆果\n食用后获得多种增益效果：\n缓降III、浮云III、暗影免疫III、抗性提升I、力量II、急迫II、伤害吸收IV，持续约两分钟；魔神之力、抗火持续五分钟。"
+  "aerialhell.guide_book.items_2.gods_volucite_aerial_berry" : "- 神能蓝辉石天星浆果\n食用后获得多种增益效果：\n缓降III、浮云III、暗影免疫III、抗性提升I、力量II、急迫II、伤害吸收IV，持续约两分钟；魔神之力、抗火持续五分钟。",
+
+  "jer.dim.aerialhell:aerial_hell" : "Aerial Hell",
+  "aerialhell.structure.overworld_abandonned_portal": "废弃传送门",
+  "aerialhell.structure.aerial_hell_abandonned_portal": "废弃传送门",
+  "aerialhell.structure.copper_pine_cottage": "铜松小屋",
+  "aerialhell.structure.lapis_robinia_hut": "蓝槐小屋",
+  "aerialhell.structure.shadow_pine_tower": "暗影松塔楼",
+  "aerialhell.dungeon.stellar_stone_bricks_tower": "天星石砖塔楼",
+  "aerialhell.dungeon.upside_down_pyramid": "倒置金字塔",
+  "aerialhell.dungeon.floating_boat": "浮空船",
+  "aerialhell.dungeon.mud_dungeon": "泥泞迷宫",
+  "aerialhell.dungeon.lunatic_temple": "月光神庙",
+  "aerialhell.dungeon.golden_nether_prison": "界炎监狱",
+  "aerialhell.dungeon.shadow_catacombs": "暗影墓穴"
 }
