@@ -1476,7 +1476,7 @@
   "aerialhell.guide_book.bestiary_1.bestiary_sort_desc" : "Entitások típus szerint rendezve:\n- Barátságos állatok\n- Semleges lények\n- Ellenségek\n\nEllenségek közé tartoznak olyan lények, amelyeket megtalálhatsz építményekben.\n\nA Főellenségek nincsenek bemutatva ebben a részben. Ha többet akarsz megtudni a főellenségekről, kérlek, látogass el a \"Főellenségek\" részhez.",
   "aerialhell.guide_book.bestiary_2.friendly" : "- Barátságos Állatok\n\nNem támadnak provokáció esetén sem.\nTenyészteni lehet őket a kedvenc ételükkel, amik a \"Tenyészthetőség\" mellett látható.",
   "aerialhell.guide_book.bestiary_2.gliding_turtle" : "Suhanó Teknős",
-  "aerialhell.guide_book.bestiary_2.gliding_turtle_desc" : "Gyakori állat\nÉtelt ejt\nTenyészthető\nUgrik és suhan!",
+  "aerialhell.guide_book.bestiary_2.gliding_turtle_desc" : "Gyakori állat\nÉtelt ejt\nTenyészthető\nUgrik és suhan!\nMeglovagolható",
   "aerialhell.guide_book.bestiary_2.stellar_boar": "Csillagos Vaddisznó",
   "aerialhell.guide_book.bestiary_2.stellar_boar_desc" : "Gyakori állat\nÉtelt ejt\nTenyészthető",
   "aerialhell.guide_book.bestiary_2.stellar_chicken": "Csillagos Csirke",

@@ -1477,7 +1477,7 @@
   "aerialhell.guide_book.bestiary_1.bestiary_sort_desc" : "Entities are sorted by type:\n- Friendly animals\n- Neutral creatures\n- Hostile enemies\n\nHostile enemies include the creatures you can find in structures.\n\nThe bosses aren't presented in this section. If you want to learn more about bosses, please refer to the \"Bosses\" section.",
   "aerialhell.guide_book.bestiary_2.friendly" : "- Friendly Animals\n\nThey don't attack even if provoked.\n They are breedable and their preferred food is shown next to the \"Breedable\" designation.",
   "aerialhell.guide_book.bestiary_2.gliding_turtle" : "- Gliding Turtle",
-  "aerialhell.guide_book.bestiary_2.gliding_turtle_desc" : "Common animal\nDrops food\nBreedable\nJumps and glides!",
+  "aerialhell.guide_book.bestiary_2.gliding_turtle_desc" : "Common animal\nDrops food\nBreedable\nJumps and glides!\nRideable",
   "aerialhell.guide_book.bestiary_2.stellar_boar": "- Stellar Boar",
   "aerialhell.guide_book.bestiary_2.stellar_boar_desc" : "Common animal\nDrops food\nBreedable",
   "aerialhell.guide_book.bestiary_2.stellar_chicken": "- Stellar Chicken",

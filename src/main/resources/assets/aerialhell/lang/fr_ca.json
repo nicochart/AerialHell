@@ -1476,7 +1476,7 @@
   "aerialhell.guide_book.bestiary_1.bestiary_sort_desc" : "Les entités sont triées par type:\n- Animaux amicaux\n- Créatures Neutres\n- Ennemis hostiles\n\nLes ennemis hostiles incluent les créatures que vous pouvez trouver dans les structures.\n\nLes Bosses ne sont pas présentés dans cette section. Pour cela, référez vous à la section \"Bosses\".",
   "aerialhell.guide_book.bestiary_2.friendly" : "- Animaux Amicaux\n\nIls n'attaquent pas, même s'ils sont provoqués.\n Ils sont reproductibles et leur nourriture préférée est indiquée à côté de la mention \"Reproductible\".",
   "aerialhell.guide_book.bestiary_2.gliding_turtle" : "- Tortue Planeuse",
-  "aerialhell.guide_book.bestiary_2.gliding_turtle_desc" : "Animal commun\nNourriture\nReproductible\nSaute et plane!",
+  "aerialhell.guide_book.bestiary_2.gliding_turtle_desc" : "Animal commun\nNourriture\nReproductible\nSaute et plane!\nChevauchable",
   "aerialhell.guide_book.bestiary_2.stellar_boar": "- Sanglier Stellaire",
   "aerialhell.guide_book.bestiary_2.stellar_boar_desc" : "Animal commun\nNourriture\nReproductible",
   "aerialhell.guide_book.bestiary_2.stellar_chicken": "- Poulet Stellaire",

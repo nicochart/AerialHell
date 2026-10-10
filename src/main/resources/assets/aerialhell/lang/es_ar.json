@@ -1437,7 +1437,7 @@
   "aerialhell.guide_book.bestiary_1.bestiary_sort_desc": "Las entidades están ordenadas por tipo:\n- Animales pacíficos\n- Criaturas neutrales\n- Enemigos hostiles\n\nLos enemigos hostiles incluyen a las criaturas que puedes encontrar en las estructuras.\n\nLos jefes no se presentan en esta sección. Si deseas obtener más información sobre los jefes, consulta la sección \"Jefes\".",
   "aerialhell.guide_book.bestiary_2.friendly": "- Entidades pacíficas\n\nNo atacan aunque se las provoque.\n Se pueden criar y su comida preferida se muestra junto a la indicación \"Criable\".",
   "aerialhell.guide_book.bestiary_2.gliding_turtle": "- Tortuga plan.",
-  "aerialhell.guide_book.bestiary_2.gliding_turtle_desc": "Animal común\nSuelta comida\nCriable\n¡Salta y planea!",
+  "aerialhell.guide_book.bestiary_2.gliding_turtle_desc": "Animal común\nSuelta comida\nCriable\n¡Salta y planea!\nMontable",
   "aerialhell.guide_book.bestiary_2.stellar_boar": "- Oveja de arena",
   "aerialhell.guide_book.bestiary_2.stellar_boar_desc": "Animal común\nSuelta comida\nCriable",
   "aerialhell.guide_book.bestiary_2.stellar_chicken": "- Pollo estelar",

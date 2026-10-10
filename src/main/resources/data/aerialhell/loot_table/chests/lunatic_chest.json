@@ -21,6 +21,11 @@
             }
           ]
         },
+	{
+          "type": "item",
+          "name": "minecraft:saddle",
+          "weight": 2
+        },
         {
           "type": "item",
           "name": "aerialhell:golden_solid_ether_fragment",
