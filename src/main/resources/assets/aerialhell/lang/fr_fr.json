@@ -744,6 +744,15 @@
   "item.aerialhell.lunatic_pickaxe" : "Pioche Lunatique",
   "item.aerialhell.lunatic_shovel" : "Pelle Lunatique",
   "item.aerialhell.arsonist_sword" : "Épée Incendière",
+  "item.aerialhell.sky_wood_spear" : "Lance en Bois du Ciel",
+  "item.aerialhell.stellar_stone_spear" : "Lance en Pierre Stellaire",
+  "item.aerialhell.ruby_spear" : "Lance en Rubis",
+  "item.aerialhell.azurite_spear" : "Lance en Crystal d'Azurite",
+  "item.aerialhell.magmatic_gel_spear" : "Lance en Gel Magmatique",
+  "item.aerialhell.obsidian_spear" : "Lance en Obsidienne",
+  "item.aerialhell.volucite_spear" : "Lance en Volucite",
+  "item.aerialhell.lunatic_spear" : "Lance Lunatique",
+  "item.aerialhell.arsonist_spear" : "Lance Incendiaire",
   "item.aerialhell.arsonist_hoe" : "Houe Incendière",
   "item.aerialhell.arsonist_axe" : "Hache Incendière",
   "item.aerialhell.arsonist_pickaxe" : "Pioche Incendière",
@@ -782,6 +791,8 @@
   "item.aerialhell.god_sword.desc" : "Vous pouvez vous sentir puissant",
 
   "item.aerialhell.forgotten_battle_trident" : "Trident de Guerre Oublié",
+
+  "item.aerialhell.health_boost_spear": "Lance de Vie",
 
   "item.aerialhell.ruby_helmet" : "Casque en Rubis",
   "item.aerialhell.ruby_chestplate" : "Plastron en Rubis",
@@ -1210,6 +1221,10 @@
   "ability.aerialhell.volucite_power.desc_4" : "Tête dans les Nuages II",
   "ability.aerialhell.volucite_power.condition.desc" : "Condition: Ne pas équiper de pièce d'Armure Lourde (en obsidienne)",
   "ability.aerialhell.volucite_power.cooldown.desc" : "Cooldown: 12,5s",
+  "ability.aerialhell.volucite_spear.desc": "Compétence: Lance de Volucite",
+  "ability.aerialhell.volucite_spear.desc_2": "Après l'avoir utilisée un court instant:",
+  "ability.aerialhell.volucite_spear.desc_3": "Avec une Armure Volucite complète: Tête dans les Nuages II pendant 2 secondes",
+  "ability.aerialhell.volucite_spear.desc_4": "Sinon: Chute Lente pendant 4 secondes",
   "ability.aerialhell.glass_cannon_armored_glass.desc" : "Compétence passive: Vous êtes un Canon en Verre",
   "ability.aerialhell.glass_cannon_armored_glass.desc_2" : "Vous infligez et subissez 2x plus de dégats",
   "ability.aerialhell.glass_cannon_armored_glass.desc_3" : "Compétence active (en étant accroupi):",
@@ -1626,5 +1641,19 @@
   "aerialhell.guide_book.items_2.ruby_aerial_berry" : "- Baie Aérienne Rubifiée\nConsommée, procure un boost de vie de 2 minutes",
   "aerialhell.guide_book.items_2.volucite_aerial_berry" : "- Baie Aérienne de Volucite\nConsommée, procure \"Tête dans les Nuages\" pendant 4 minutes.",
   "aerialhell.guide_book.items_2.azurite_copper_pine_cone" : "- Pomme de Pin Cuivrée Azure\nConsommée, procure Célérité pendant 20 secondes",
-  "aerialhell.guide_book.items_2.gods_volucite_aerial_berry" : "- Baie Aérienne de Volucite des Dieux\nConsommée, procure une variété d'effets positifs: Chute lente III, Tête dans les Nuages III, Immunité des Ombres III, Résistance I, Force II, Célérité II, Absorption IV pendant environ 2 minutes, Dieu et Résistance au feu pendant 5 minutes."
+  "aerialhell.guide_book.items_2.gods_volucite_aerial_berry" : "- Baie Aérienne de Volucite des Dieux\nConsommée, procure une variété d'effets positifs: Chute lente III, Tête dans les Nuages III, Immunité des Ombres III, Résistance I, Force II, Célérité II, Absorption IV pendant environ 2 minutes, Dieu et Résistance au feu pendant 5 minutes.",
+
+  "jer.dim.aerialhell:aerial_hell" : "Enfer Aérien",
+  "aerialhell.structure.overworld_abandonned_portal": "Portail abandonné",
+  "aerialhell.structure.aerial_hell_abandonned_portal": "Portail abandonné",
+  "aerialhell.structure.copper_pine_cottage": "Chalet en pin de cuivre",
+  "aerialhell.structure.lapis_robinia_hut": "Cabane en robinier de lapis",
+  "aerialhell.structure.shadow_pine_tower": "Tour en pin d'ombre",
+  "aerialhell.dungeon.stellar_stone_bricks_tower": "Tour en briques de pierre stellaire",
+  "aerialhell.dungeon.upside_down_pyramid": "Pyramide inversée",
+  "aerialhell.dungeon.floating_boat": "Bateau flottant",
+  "aerialhell.dungeon.mud_dungeon": "Donjon de boue",
+  "aerialhell.dungeon.lunatic_temple": "Temple lunaire",
+  "aerialhell.dungeon.golden_nether_prison": "Prison du Nether doré",
+  "aerialhell.dungeon.shadow_catacombs": "Catacombes d'ombre"
 }

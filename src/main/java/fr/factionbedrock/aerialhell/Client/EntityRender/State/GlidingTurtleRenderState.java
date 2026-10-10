@@ -5,4 +5,5 @@ import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 public class GlidingTurtleRenderState extends LivingEntityRenderState
 {
     public boolean isGliding;
+    public boolean isSaddled;
 }

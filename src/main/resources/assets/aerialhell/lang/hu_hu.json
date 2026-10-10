@@ -744,6 +744,15 @@
   "item.aerialhell.lunatic_pickaxe": "Hold Csákány",
   "item.aerialhell.lunatic_shovel": "Hold Ásó",
   "item.aerialhell.arsonist_sword": "Arsonist Kard",
+  "item.aerialhell.sky_wood_spear" : "Sky Wood Spear",
+  "item.aerialhell.stellar_stone_spear" : "Stellar Stone Spear",
+  "item.aerialhell.ruby_spear" : "Ruby Spear",
+  "item.aerialhell.azurite_spear" : "Azurite Crystal Spear",
+  "item.aerialhell.magmatic_gel_spear" : "Magmatic Gel Spear",
+  "item.aerialhell.obsidian_spear" : "Obsidian Spear",
+  "item.aerialhell.volucite_spear" : "Volucite Spear",
+  "item.aerialhell.lunatic_spear" : "Lunar Spear",
+  "item.aerialhell.arsonist_spear" : "Arsonist Spear",
   "item.aerialhell.arsonist_hoe": "Arsonist Kapa",
   "item.aerialhell.arsonist_axe": "Arsonist Fejsze",
   "item.aerialhell.arsonist_pickaxe": "Arsonist Csákány",
@@ -782,6 +791,8 @@
   "item.aerialhell.god_sword.desc": "Most már hatalmasnak érezheted magad",
 
   "item.aerialhell.forgotten_battle_trident": "Elfeledett Harci Szigony",
+
+  "item.aerialhell.health_boost_spear": "Életerősítés Lándzsa",
 
   "item.aerialhell.ruby_helmet": "Rubin Sisak",
   "item.aerialhell.ruby_chestplate": "Rubin Mellvért",
@@ -1210,6 +1221,10 @@
   "ability.aerialhell.volucite_power.desc_4" : "Fellegekben Járás II.",
   "ability.aerialhell.volucite_power.condition.desc" : "Feltétele: Nincs felszerelve Nehéz (Obszidián) Páncél.",
   "ability.aerialhell.volucite_power.cooldown.desc" : "Hátralévő idő: 12,5mp",
+  "ability.aerialhell.volucite_spear.desc": "Ability: Volucite Spear",
+  "ability.aerialhell.volucite_spear.desc_2": "After using it for a short while:",
+  "ability.aerialhell.volucite_spear.desc_3": "With a full Volucite Armor: Head in the Clouds II for 2 seconds",
+  "ability.aerialhell.volucite_spear.desc_4": "Otherwise: Slow Falling for 4 seconds",
   "ability.aerialhell.glass_cannon_armored_glass.desc" : "Passzív képesség: Egy Üveglöveg vagy.",
   "ability.aerialhell.glass_cannon_armored_glass.desc_2" : "2x-es sebzést okozol és kapsz.",
   "ability.aerialhell.glass_cannon_armored_glass.desc_3" : "Aktív képesség (Lopakodás):",
@@ -1627,5 +1642,19 @@
   "aerialhell.guide_book.items_2.volucite_aerial_berry" : "- Volucit Légibogyó\nMiután elfogyasztottad, 4 perc Fellegekben Járás hatást biztosít.",
   "aerialhell.guide_book.items_2.azurite_copper_pine_cone" : "- Azurit Rézfenyőtoboz\nMiután elfogyasztottad, 20 másodperc Sietség hatást biztosít.",
   "aerialhell.guide_book.items_2.gods_volucite_aerial_berry" : "- Isteni Volucit Légibogyó\nMiután elfogyasztottad, különböző pozitív hatásokat biztosít:\nKörülbelül 2 perc Lassú Zuhanás III, Fellegekben Járás III, Árnyimmunitás III, Ellenállás I, Erő II, Sietség II, Elnyelt Életerő IV, 5 perc Istenhatás és Tűzállóság.",
-  "block.aerialhell.full_moon_plant": "Teliholdszár"
+  "block.aerialhell.full_moon_plant": "Teliholdszár",
+
+  "jer.dim.aerialhell:aerial_hell" : "Aerial Hell",
+  "aerialhell.structure.overworld_abandonned_portal": "Elhagyatott Portál",
+  "aerialhell.structure.aerial_hell_abandonned_portal": "Elhagyatott Portál",
+  "aerialhell.structure.copper_pine_cottage": "Rézfenyő házikó",
+  "aerialhell.structure.lapis_robinia_hut": "Lazurit Fehér Akácfa kunyhó",
+  "aerialhell.structure.shadow_pine_tower": "Árnyfenyő Torony",
+  "aerialhell.dungeon.stellar_stone_bricks_tower": "Csillagos Kőtégla Torony",
+  "aerialhell.dungeon.upside_down_pyramid": "Megfordított Piramis",
+  "aerialhell.dungeon.floating_boat": "Lebegő Hajó",
+  "aerialhell.dungeon.mud_dungeon": "Iszapkazamata",
+  "aerialhell.dungeon.lunatic_temple": "Holdtemplom",
+  "aerialhell.dungeon.golden_nether_prison": "Alvilági Aranybörtön",
+  "aerialhell.dungeon.shadow_catacombs": "Árnykatakombák"
 }
