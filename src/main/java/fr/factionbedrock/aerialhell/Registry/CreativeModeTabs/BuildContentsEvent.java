@@ -722,6 +722,17 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellItems.BERSERK_AXE.get());
             itemsToAdd.add(AerialHellItems.REAPER_SCYTHE.get());
 
+            itemsToAdd.add(AerialHellItems.SKY_WOOD_SPEAR.get());
+            itemsToAdd.add(AerialHellItems.STELLAR_STONE_SPEAR.get());
+            itemsToAdd.add(AerialHellItems.RUBY_SPEAR.get());
+            itemsToAdd.add(AerialHellItems.AZURITE_SPEAR.get());
+            itemsToAdd.add(AerialHellItems.MAGMATIC_GEL_SPEAR.get());
+            itemsToAdd.add(AerialHellItems.OBSIDIAN_SPEAR.get());
+            itemsToAdd.add(AerialHellItems.VOLUCITE_SPEAR.get());
+            itemsToAdd.add(AerialHellItems.LUNATIC_SPEAR.get());
+            itemsToAdd.add(AerialHellItems.ARSONIST_SPEAR.get());
+
+            itemsToAdd.add(AerialHellItems.HEALTH_BOOST_SPEAR.get());
             itemsToAdd.add(AerialHellItems.RUBY_HELMET.get());
             itemsToAdd.add(AerialHellItems.RUBY_CHESTPLATE.get());
             itemsToAdd.add(AerialHellItems.RUBY_LEGGINGS.get());

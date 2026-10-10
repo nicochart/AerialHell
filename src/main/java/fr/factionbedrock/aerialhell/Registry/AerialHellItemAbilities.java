@@ -4,8 +4,12 @@ import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Effect.InstanceTemplate.MobEffectTemplate;
 import fr.factionbedrock.aerialhell.Entity.Bosses.ChainedGodEntity;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
-import fr.factionbedrock.aerialhell.Item.Ability.*;
-import fr.factionbedrock.aerialhell.Item.Ability.Module.*;
+import fr.factionbedrock.aerialhell.Item.Ability.ItemAbility;
+import fr.factionbedrock.aerialhell.Item.Ability.Module.ActionModule;
+import fr.factionbedrock.aerialhell.Item.Ability.Module.ConditionModule;
+import fr.factionbedrock.aerialhell.Item.Ability.Module.SideEffectModule;
+import fr.factionbedrock.aerialhell.Item.Ability.Module.TestTarget;
+import fr.factionbedrock.aerialhell.Item.Ability.ModuleList;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
@@ -73,6 +77,7 @@ public class AerialHellItemAbilities
     private static final ConditionModule IN_MAIN_OR_OFF_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> ItemStack.matches(stack, itemOwner.getMainHandItem()) || ItemStack.matches(stack, itemOwner.getOffhandItem()));
     private static final ConditionModule IN_MAIN_HAND = new ConditionModule((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> ItemStack.matches(stack, itemOwner.getMainHandItem()));
     private static final ConditionModule IN_RIGHT_SLOT = new ConditionModule((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> equipmentSlot == itemOwner.getEquipmentSlotForItem(stack));
+    private static final ConditionModule IN_USE = new ConditionModule((stack, itemOwner, equipmentSlot, usingItemInfo, damageInfo, miningInfo) -> itemOwner.getUseItem() == stack);
 
     private static final ActionModule.MobEffectList RANDOM_SWORD_RANDOM_EFFECT = ActionModule.MobEffectList.builder().addEffects((itemOwner) ->
     {
@@ -253,7 +258,9 @@ public class AerialHellItemAbilities
                     .build())
             .addPassiveModules(ModuleList.builder()
                     .addActions(OSCILLATOR_PARTICLES_ON_SELF.of(4))
-                    .addConditions(TICKS_USED.min(RESONATOR_USE_TICKS / 2))
+                    .addConditions(
+                            TICKS_USED.min(RESONATOR_USE_TICKS / 2),
+                            IN_USE)
                     .build())
             .build();
 
@@ -272,7 +279,9 @@ public class AerialHellItemAbilities
                     .build())
             .addPassiveModules(ModuleList.builder()
                     .addActions(OSCILLATOR_PARTICLES_ON_SELF.of(4))
-                    .addConditions(TICKS_USED.min(RESONATOR_USE_TICKS / 2))
+                    .addConditions(
+                            TICKS_USED.min(RESONATOR_USE_TICKS / 2),
+                            IN_USE)
                     .build())
             .build();
 
@@ -388,6 +397,22 @@ public class AerialHellItemAbilities
                             ILLUSIONER_CAST_SPELL_SOUND)
                     .addConditions(HAS_NO_HEAVY_STUFF)
                     .addSideEffects(COOLDOWN.of(250), DAMAGE_ITEM)
+                    .build())
+            .build();
+
+    public static final ItemAbility VOLUCITE_SPEAR = ItemAbility.builder()
+            .setDescId("volucite_spear")
+            .addOnUseModules(ModuleList.builder()
+                    .addActions(START_USING_ITEM)
+                    .build())
+            .addPassiveModules(ModuleList.builder()
+                    .addActions(
+                            SLOW_FALLING_TO_SELF.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? -1 : 80, (itemOwner) -> 0, TestTarget.ITEM_OWNER),
+                            HEAD_IN_THE_CLOUDS_TO_SELF.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? 40 : -1, (itemOwner) -> 1, TestTarget.ITEM_OWNER),
+                            CLOUD_PARTICLES_ON_SELF.of(2))
+                    .addConditions(
+                            TICKS_USED.min(25),
+                            IN_USE)
                     .build())
             .build();
 

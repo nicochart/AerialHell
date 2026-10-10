@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "minecraft:netherite_spear",
+  "addition": "aerialhell:arsonist_ingot",
+  "result": {
+    "id": "aerialhell:arsonist_spear"
+  },
+  "template": "aerialhell:arsonist_upgrade_smithing_template"
+}

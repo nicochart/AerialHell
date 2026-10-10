@@ -1,12 +1,9 @@
 {
   "replace": false,
   "values": [
-    "aerialhell:hell_spider",
-    "aerialhell:crystal_spider",
+    "#aerialhell:aggressive",
     "#aerialhell:passive",
     "#aerialhell:feathery",
-    "aerialhell:mud_soldier",
-    "aerialhell:mummy",
     "#aerialhell:snake_like"
   ]
 }

@@ -128,6 +128,7 @@ public class RenderRegistrationListener
         event.registerLayerDefinition(AerialHellModelLayers.ELEMENT_SPIRIT, ElementSpiritModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.FLYING_JELLYFISH, FlyingJellyfishModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.GLIDING_TURTLE, GlidingTurtleModel::createBodyLayer);
+        event.registerLayerDefinition(AerialHellModelLayers.GLIDING_TURTLE_SADDLE, GlidingTurtleSaddleModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.KODAMA, KodamaModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.LILITH, LilithModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.LUNATIC_PRIEST, LunaticPriestModel::createBodyLayer);

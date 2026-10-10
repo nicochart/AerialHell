@@ -5,8 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.EnumSet;
-
 public class GlideGoal extends Goal
 {
     private final GlidingTurtleEntity goalOwner;
@@ -15,15 +13,15 @@ public class GlideGoal extends Goal
 
     public GlideGoal(GlidingTurtleEntity entity) {this.goalOwner = entity;}
 
-    @Override public boolean canUse() {return true;}
+    @Override public boolean canUse(){return this.goalOwner.canUseGlideGoal();}
     @Override public void start() {this.resetTask();}
-    @Override public void stop() {goalOwner.setGliding(false);}
+    @Override public void stop() {goalOwner.setTurtleGliding(false);}
     @Override public boolean requiresUpdateEveryTick() {return true;}
 
     @Override public void tick()
     {
-        if (this.goalOwner.isGliding()) {this.setGlidingMotion();}
-        else if (this.shouldStartGliding()) {this.goalOwner.setGliding(true);}
+        if (this.goalOwner.isTurtleGliding()) {this.setGlidingMotion();}
+        else if (this.shouldStartGliding()) {this.goalOwner.setTurtleGliding(true);}
 
         if (this.shouldJump())
         {
@@ -33,7 +31,7 @@ public class GlideGoal extends Goal
         if (this.shouldIncrementJumpTimer()) {this.incrementJumpTimer();}
         if (this.shouldPanicBonusIncrementJumpTimer()) {for (int i=0; i<3; i++) {this.incrementJumpTimer();}}
 
-        if (this.shouldStopGliding()) {this.goalOwner.setGliding(false);}
+        if (this.shouldStopGliding()) {this.goalOwner.setTurtleGliding(false);}
     }
 
     private void setGlidingMotion()
@@ -75,10 +73,10 @@ public class GlideGoal extends Goal
         this.goalOwner.setDeltaMovement(this.goalOwner.getDeltaMovement().add(0.0D, jumpPower, 0.0D));
     }
 
-    protected boolean shouldJump() {return this.jumpTimer > this.getJumpTimerTargetValue() && !this.goalOwner.isGliding() && this.goalOwner.onGround();}
-    protected boolean shouldStartGliding() {return this.goalOwner.getDeltaMovement().y < -0.3D;}
-    protected boolean shouldStopGliding() {return this.goalOwner.isGliding() && this.goalOwner.onGround() && this.goalOwner.getDeltaMovement().y>=-0.1F;}
-    protected boolean shouldIncrementJumpTimer() {return this.goalOwner.onGround() && !this.goalOwner.isGliding();}
+    protected boolean shouldJump() {return this.jumpTimer > this.getJumpTimerTargetValue() && !this.goalOwner.isTurtleGliding() && this.goalOwner.onGround();}
+    protected boolean shouldStartGliding() {return this.goalOwner.shouldStartGliding();}
+    protected boolean shouldStopGliding() {return this.goalOwner.shouldStopGliding();}
+    protected boolean shouldIncrementJumpTimer() {return this.goalOwner.onGround() && !this.goalOwner.isTurtleGliding();}
     protected boolean shouldPanicBonusIncrementJumpTimer() {return this.goalOwner.getLastHurtByMob() != null && this.goalOwner.tickCount - this.goalOwner.getLastHurtByMobTimestamp() < 40;}
     protected void incrementJumpTimer() {this.jumpTimer += 1 + this.goalOwner.getRandom().nextInt(randomTimerBonus);}
     protected int getJumpTimerTargetValue() {return 1200;}

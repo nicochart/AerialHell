@@ -744,6 +744,15 @@
   "item.aerialhell.lunatic_pickaxe" : "Mondspitzhacke",
   "item.aerialhell.lunatic_shovel" : "Mondschaufel",
   "item.aerialhell.arsonist_sword" : "Brandstifterschwert",
+  "item.aerialhell.sky_wood_spear" : "Himmelsholzspeer",
+  "item.aerialhell.stellar_stone_spear" : "Stellarer Steinspeer",
+  "item.aerialhell.ruby_spear" : "Rubinspeer",
+  "item.aerialhell.azurite_spear" : "Azuritkristallspeer",
+  "item.aerialhell.magmatic_gel_spear" : "Magmatischer Gelspeer",
+  "item.aerialhell.obsidian_spear" : "Obsidianspeer",
+  "item.aerialhell.volucite_spear" : "Voluzitspeer",
+  "item.aerialhell.lunatic_spear" : "Mondspeer",
+  "item.aerialhell.arsonist_spear" : "Brandstifterspeer",
   "item.aerialhell.arsonist_hoe" : "Brandstifterhacke",
   "item.aerialhell.arsonist_axe" : "Brandstifteraxt",
   "item.aerialhell.arsonist_pickaxe" : "Brandstifterspitzhacke",
@@ -782,6 +791,8 @@
   "item.aerialhell.god_sword.desc" : "Du kannst dich jetzt mächtig fühlen",
 
   "item.aerialhell.forgotten_battle_trident" : "Vergessenes Kampfdreizack",
+
+  "item.aerialhell.health_boost_spear": "Gesundheitstärkender Speer",
 
   "item.aerialhell.ruby_helmet" : "Rubinhelm",
   "item.aerialhell.ruby_chestplate" : "Rubinharnisch",
@@ -1210,6 +1221,10 @@
   "ability.aerialhell.volucite_power.desc_4" : "Kopf in den Wolken II",
   "ability.aerialhell.volucite_power.condition.desc" : "Bedingung: Kein schweres (Obsidian-)Rüstungsstück ausgerüstet",
   "ability.aerialhell.volucite_power.cooldown.desc" : "Abklingzeit: 12,5s",
+  "ability.aerialhell.volucite_spear.desc": "Fähigkeit: Voluzitspeer",
+  "ability.aerialhell.volucite_spear.desc_2": "Nach kurzer Verwendung:",
+  "ability.aerialhell.volucite_spear.desc_3": "Mit vollständiger Voluzitrüstung: Kopf in den Wolken II für 2 Sekunden",
+  "ability.aerialhell.volucite_spear.desc_4": "Andernfalls: Sanfter Fall für 4 Sekunden",
   "ability.aerialhell.glass_cannon_armored_glass.desc" : "Passive Fähigkeit: Du bist eine Glaskanone",
   "ability.aerialhell.glass_cannon_armored_glass.desc_2" : "Du erhältst und richtest den doppelten Schaden an",
   "ability.aerialhell.glass_cannon_armored_glass.desc_3" : "Aktive Fähigkeit (Schleichend):",
@@ -1627,5 +1642,19 @@
   "aerialhell.guide_book.items_2.ruby_aerial_berry" : "- Ruby Aerial Berry\nWhen consumed, provides a 2-minute Health Boost",
   "aerialhell.guide_book.items_2.volucite_aerial_berry" : "- Volucite Aerial Berry\nWhen consumed, provides a 4-minute Head in the Clouds effect",
   "aerialhell.guide_book.items_2.azurite_copper_pine_cone" : "- Azurite Copper Pine Cone\nWhen consumed, provides a 20-second Haste effect",
-  "aerialhell.guide_book.items_2.gods_volucite_aerial_berry" : "- Gods Volucite Aerial Berry\nWhen consumed, provides a variety of positive effects:\nSlow Falling III, Head in the Clouds III, Shadow Immunity III, Resistance I, Strength II, Haste II, Absorption IV for approximately 2 minutes, God and Fire Resistance for 5 minutes."
+  "aerialhell.guide_book.items_2.gods_volucite_aerial_berry" : "- Gods Volucite Aerial Berry\nWhen consumed, provides a variety of positive effects:\nSlow Falling III, Head in the Clouds III, Shadow Immunity III, Resistance I, Strength II, Haste II, Absorption IV for approximately 2 minutes, God and Fire Resistance for 5 minutes.",
+
+  "jer.dim.aerialhell:aerial_hell" : "Lufthölle",
+  "aerialhell.structure.overworld_abandonned_portal": "Verlassenes Portal",
+  "aerialhell.structure.aerial_hell_abandonned_portal": "Verlassenes Portal",
+  "aerialhell.structure.copper_pine_cottage": "Kupferkiefernhütte",
+  "aerialhell.structure.lapis_robinia_hut": "Lapisrobinienhütte",
+  "aerialhell.structure.shadow_pine_tower": "Schattenkiefernturm",
+  "aerialhell.dungeon.stellar_stone_bricks_tower": "Stellarer Steinziegelturm",
+  "aerialhell.dungeon.upside_down_pyramid": "Umgekehrte Pyramide",
+  "aerialhell.dungeon.floating_boat": "Schwebendes Boot",
+  "aerialhell.dungeon.mud_dungeon": "Schlammverlies",
+  "aerialhell.dungeon.lunatic_temple": "Mondtempel",
+  "aerialhell.dungeon.golden_nether_prison": "Goldenes Nethergefängnis",
+  "aerialhell.dungeon.shadow_catacombs": "Schattenkatakomben"
 }

@@ -29,6 +29,12 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
+    maven {
+        url = "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 base {
@@ -127,6 +133,12 @@ dependencies {
     // JEI
     compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
     runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+
+    // JER
+    //JER project ID = 240630
+    //Current last 26.1.2 file ID = 8522652
+    compileOnly("curse.maven:just-enough-resources-jer-240630:8522652")
+    runtimeOnly("curse.maven:just-enough-resources-jer-240630:8522652")
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${minecraft_version}-${coolmod_version}.jar
