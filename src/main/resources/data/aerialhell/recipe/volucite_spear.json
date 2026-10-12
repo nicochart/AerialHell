@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "  X",
+    " # ",
+    "#  "
+  ],
+  "key": {
+    "#": "aerialhell:sky_stick",
+    "X": "aerialhell:volucite_vibrant"
+  },
+  "result": {
+    "id": "aerialhell:volucite_spear"
+  }
+}

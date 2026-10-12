@@ -5,7 +5,10 @@ import com.google.gson.GsonBuilder;
 import fr.factionbedrock.aerialhell.AerialHell;
 import net.neoforged.fml.loading.FMLPaths;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -17,7 +20,7 @@ public class AerialHellConfigLoader
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final File CONFIG_FOLDER = new File(FMLPaths.CONFIGDIR.get().toFile(), AerialHell.MODID);
     private static final File CONFIG_FILE = new File(CONFIG_FOLDER, "config.json");
-    public static final String CONFIG_VERSION = "0.7.3.1";
+    public static final String CONFIG_VERSION = "0.7.8";
 
     public static void loadAndStoreConfigParams()
     {
@@ -43,9 +46,22 @@ public class AerialHellConfigLoader
             if (!config.configVersion.equals(CONFIG_VERSION))
             {
                 AerialHell.LOGGER.warn("Aerial Hell : Outdated config -> backup created, new config file generated.");
+
+                AerialHellConfig newConfig = new AerialHellDefaultConfig();
+                if (config.configVersion.equals("0.7.3.1")) //"0.7.3.1" -> "0.7.8" introduced new parameter "customMainMenuBackground". No other change.
+                {
+                    //newConfig.configVersion = CONFIG_VERSION; //new config version
+                    newConfig.shadowSpreadSpeedMultiplier = config.shadowSpreadSpeedMultiplier; //unchanged
+                    newConfig.enableShadowBindReloadTexture = config.enableShadowBindReloadTexture; //unchanged
+                    newConfig.enableShadowBindTextureShift = config.enableShadowBindTextureShift; //unchanged
+                    newConfig.doBossGriefing = config.doBossGriefing; //unchanged
+                    //newConfig.customMainMenuBackground = true; //missing parameter in 0.7.3.1
+                    newConfig.overworldAbandonnedPortalSpacingOverride = config.overworldAbandonnedPortalSpacingOverride; //unchanged
+                }
+
                 backupOldConfig();
-                config = new AerialHellDefaultConfig();
-                saveConfig(config);
+                config = newConfig;
+                saveConfig(newConfig);
             }
         }
 

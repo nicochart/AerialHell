@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "  X",
+    " # ",
+    "#  "
+  ],
+  "key": {
+    "#": "aerialhell:sky_stick",
+    "X": "aerialhell:stellar_cobblestone"
+  },
+  "result": {
+    "id": "aerialhell:stellar_stone_spear"
+  }
+}

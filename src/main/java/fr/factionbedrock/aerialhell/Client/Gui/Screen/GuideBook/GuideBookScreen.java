@@ -138,7 +138,7 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(32).horizontalOffset(24).build(), 0.8F, AerialHellItems.RUBY_BOOTS, true)
                     .addItemTexture(centered(29).horizontalOffset(-10).build(), 0.85F, AerialHellItems.RUBY_PICKAXE, true)
                     .addItemTexture(centered(30).horizontalOffset(10).build(), 0.85F, AerialHellItems.AZURITE_AXE, true)
-                    .addItemTexture(centered(31).horizontalOffset(-12).build(), 0.85F, AerialHellItems.RUBY_SWORD, true)
+                    .addItemTexture(centered(31).horizontalOffset(-12).build(), 0.85F, AerialHellItems.RUBY_SPEAR, true)
                     .addItemTexture(centered(32).horizontalOffset(12).build(), 0.85F, AerialHellItems.MAGMATIC_GEL_SWORD, true)
                     .addItemTexture(alignedToRight(29).build(), 0.8F, AerialHellItems.AZURITE_HELMET, true)
                     .addItemTexture(alignedToRight(30).horizontalOffset(-8).build(), 0.8F, AerialHellItems.AZURITE_CHESTPLATE, true)
@@ -770,6 +770,7 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(13).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.TURTLE_MEAT, false)
                     .addItemTexture(alignedToLeft(14).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.AERIAL_BERRY, true)
                     .addItemTexture(alignedToLeft(15).centerVerticallyOnLine().build(), 0.7F, () -> Items.FEATHER, false)
+                    .addItemTexture(alignedToLeft(16).centerVerticallyOnLine().build(), 0.7F, () -> Items.SADDLE, false)
 
                     //right
                     .addTextureDisplay(alignedToRight(8).horizontalOffset(-40).build(), 1.1F, "gui/guide_book/content/entities/stellar_boar", 22, 15, "entity.aerialhell.stellar_boar")

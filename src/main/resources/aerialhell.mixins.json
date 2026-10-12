@@ -12,6 +12,9 @@
 		"UseItemInHandRendererMixin",
 		"CactusFlowerMayPlaceOnMixin"
 	],
+	"client": [
+		"CubeMapTextureMixin"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	}

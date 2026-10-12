@@ -4,111 +4,100 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellPOI;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.AxisDirection;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.BlockUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.ai.village.poi.PoiManager.Occupancy;
 import net.minecraft.world.entity.ai.village.poi.PoiRecord;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.border.WorldBorder;
-import net.minecraft.world.level.levelgen.Heightmap;
-//import net.minecraft.world.level.portal.PortalInfo;
-//import net.neoforged.neoforge.common.util.ITeleporter;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
 
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Stream;
 
-/*
- * I followed this tutorial : https://www.youtube.com/watch?v=CYdq8e-zDSo
- * Portal code from quek, The Undergarden mod owner : https://github.com/quek04/The-Undergarden
- */
-/*
- * Copyright (c) 2019 quek
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
+//Copy of net.minecraft.world.level.portal.PortalForcer, edited for Aerial Hell
 public class AerialHellTeleporter
 {
-
     protected final ServerLevel level;
-    private final BlockState frame = AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK.get().defaultBlockState();
+    private final BlockState frameState = AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK.get().defaultBlockState();
 
-    public AerialHellTeleporter(ServerLevel pLevel) {this.level = pLevel;}
+    public AerialHellTeleporter(ServerLevel level) {this.level = level;}
 
-    public Optional<BlockPos> findClosestPortalPosition(BlockPos exitPos, boolean isUndergarden, WorldBorder worldBorder)
+    public Optional<BlockPos> findClosestPortalPosition(BlockPos approximateExitPos, WorldBorder worldBorder)
     {
-        PoiManager poimanager = this.level.getPoiManager();
-        int i = isUndergarden ? 16 : 128;
-        poimanager.ensureLoadedAndValid(this.level, exitPos, i);
-        return poimanager.getInSquare(p_230634_ -> p_230634_.is(AerialHellPOI.AERIAL_HELL_PORTAL_POI), exitPos, i, PoiManager.Occupancy.ANY)
-                .map(PoiRecord::getPos)
-                .filter(worldBorder::isWithinBounds)
-                .filter(p_352047_ -> this.level.getBlockState(p_352047_).hasProperty(BlockStateProperties.HORIZONTAL_AXIS))
-                .min(Comparator.<BlockPos>comparingDouble(p_352046_ -> p_352046_.distSqr(exitPos)).thenComparingInt(Vec3i::getY));
+        PoiManager poiManager = this.level.getPoiManager();
+        int radius = 128;
+        poiManager.ensureLoadedAndValid(this.level, approximateExitPos, radius);
+
+        Stream<PoiRecord> poiStream = poiManager.getInSquare((type) -> type.is(AerialHellPOI.AERIAL_HELL_PORTAL_POI), approximateExitPos, radius, Occupancy.ANY);
+
+        return poiStream.map(PoiRecord::getPos).filter(worldBorder::isWithinBounds).filter((pos) -> this.level.getBlockState(pos).hasProperty(BlockStateProperties.HORIZONTAL_AXIS) && this.level.getBlockState(pos).is(AerialHellBlocks.AERIAL_HELL_PORTAL.get())).min(Comparator.comparingDouble((BlockPos p) -> p.distSqr(approximateExitPos)).thenComparingInt(Vec3i::getY));
     }
 
-    public Optional<BlockUtil.FoundRectangle> createPortal(BlockPos pos, Direction.Axis axis)
+    public Optional<BlockUtil.FoundRectangle> createPortal(BlockPos origin, Direction.Axis portalAxis)
     {
-        Direction direction = Direction.get(Direction.AxisDirection.POSITIVE, axis);
-        double d0 = -1.0;
-        BlockPos blockPos = null;
-        double d1 = -1.0;
-        BlockPos blockPos1 = null;
+        Direction direction = Direction.get(AxisDirection.POSITIVE, portalAxis);
+        double closestFullDistanceSqr = -1.0;
+        BlockPos closestFullPosition = null;
+        double closestPartialDistanceSqr = -1.0;
+        BlockPos closestPartialPosition = null;
         WorldBorder worldBorder = this.level.getWorldBorder();
-        int i = Math.min(this.level.getMaxY(), this.level.getMinY() + this.level.getLogicalHeight()) - 1;
-        BlockPos.MutableBlockPos mutablePos = pos.mutable();
+        int maxPlaceableY = Math.min(this.level.getMaxY(), this.level.getMinY() + this.level.getLogicalHeight() - 1);
+        BlockPos.MutableBlockPos mutable = origin.mutable();
 
-        for (BlockPos.MutableBlockPos mutablePos1 : BlockPos.spiralAround(pos, 16, Direction.EAST, Direction.SOUTH)) {
-            int k = Math.min(i, this.level.getHeight(Heightmap.Types.MOTION_BLOCKING, mutablePos1.getX(), mutablePos1.getZ()));
-            if (worldBorder.isWithinBounds(mutablePos1) && worldBorder.isWithinBounds(mutablePos1.move(direction, 1))) {
-                mutablePos1.move(direction.getOpposite(), 1);
+        int centerChunkX = origin.getX() >> 4;
+        int centerChunkZ = origin.getZ() >> 4;
+        for (int xOffset = -1; xOffset <= 1; xOffset++)
+        {
+            for (int zOffset = -1; zOffset <= 1; zOffset++)
+            {
+                this.level.getChunk(centerChunkX + xOffset, centerChunkZ + zOffset, ChunkStatus.FULL, true);
+            }
+        }
 
-                for (int l = k; l >= this.level.getMinY(); l--) {
-                    mutablePos1.setY(l);
-                    if (this.canPortalReplaceBlock(mutablePos1)) {
-                        int i1 = l;
+        for (BlockPos.MutableBlockPos columnPos : BlockPos.spiralAround(origin, 16, Direction.EAST, Direction.SOUTH))
+        {
+            if (!worldBorder.isWithinBounds(columnPos) || !this.level.hasChunkAt(columnPos)) {continue;}
+            int height = Math.min(maxPlaceableY, this.level.getHeight(Types.MOTION_BLOCKING, columnPos.getX(), columnPos.getZ()));
+            if (worldBorder.isWithinBounds(columnPos) && worldBorder.isWithinBounds(columnPos.move(direction, 1))) {
+                columnPos.move(direction.getOpposite(), 1);
 
-                        while (l > this.level.getMinY() && this.canPortalReplaceBlock(mutablePos1.move(Direction.DOWN))) {
-                            l--;
-                        }
+                for (int y = height; y >= this.level.getMinY(); --y)
+                {
+                    columnPos.setY(y);
+                    if (this.canPortalReplaceBlock(columnPos))
+                    {
+                        int firstEmptyY = y;
+                        while (y > this.level.getMinY() && this.canPortalReplaceBlock(columnPos.move(Direction.DOWN))) {y--;}
 
-                        if (l + 4 <= i) {
-                            int j1 = i1 - l;
-                            if (j1 <= 0 || j1 >= 3) {
-                                mutablePos1.setY(l);
-                                if (this.canHostFrame(mutablePos1, mutablePos, direction, 0)) {
-                                    double d2 = pos.distSqr(mutablePos1);
-                                    if (this.canHostFrame(mutablePos1, mutablePos, direction, -1)
-                                            && this.canHostFrame(mutablePos1, mutablePos, direction, 1)
-                                            && (d0 == -1.0 || d0 > d2)) {
-                                        d0 = d2;
-                                        blockPos = mutablePos1.immutable();
+                        if (y + 4 <= maxPlaceableY)
+                        {
+                            int deltaY = firstEmptyY - y;
+                            if (deltaY <= 0 || deltaY >= 3)
+                            {
+                                columnPos.setY(y);
+                                if (this.canHostFrame(columnPos, mutable, direction, 0))
+                                {
+                                    double distance = origin.distSqr(columnPos);
+                                    if (this.canHostFrame(columnPos, mutable, direction, -1) && this.canHostFrame(columnPos, mutable, direction, 1) && (closestFullDistanceSqr == -1.0 || closestFullDistanceSqr > distance))
+                                    {
+                                        closestFullDistanceSqr = distance;
+                                        closestFullPosition = columnPos.immutable();
                                     }
 
-                                    if (d0 == -1.0 && (d1 == -1.0 || d1 > d2)) {
-                                        d1 = d2;
-                                        blockPos1 = mutablePos1.immutable();
+                                    if (closestFullDistanceSqr == -1.0 && (closestPartialDistanceSqr == -1.0 || closestPartialDistanceSqr > distance))
+                                    {
+                                        closestPartialDistanceSqr = distance;
+                                        closestPartialPosition = columnPos.immutable();
                                     }
                                 }
                             }
@@ -118,78 +107,85 @@ public class AerialHellTeleporter
             }
         }
 
-        if (d0 == -1.0 && d1 != -1.0)
+        if (closestFullDistanceSqr == -1.0 && closestPartialDistanceSqr != -1.0)
         {
-            blockPos = blockPos1;
-            d0 = d1;
+            closestFullPosition = closestPartialPosition;
+            closestFullDistanceSqr = closestPartialDistanceSqr;
         }
 
-        if (d0 == -1.0)
+        if (closestFullDistanceSqr == -1.0)
         {
-            int k1 = Math.max(this.level.getMinY() - -1, 70);
-            int i2 = i - 9;
-            if (i2 < k1) {return Optional.empty();}
+            int minStartY = Math.max(this.level.getMinY() + 1, 70);
+            int maxStartY = maxPlaceableY - 9;
+            if (maxStartY < minStartY) {return Optional.empty();}
 
-            blockPos = new BlockPos(pos.getX() - direction.getStepX() * 1, Mth.clamp(pos.getY(), k1, i2), pos.getZ() - direction.getStepZ() * 1).immutable();
-            blockPos = worldBorder.clampToBounds(blockPos);
-            Direction direction1 = direction.getClockWise();
+            closestFullPosition = (new BlockPos(origin.getX() - direction.getStepX() * 1, Mth.clamp(origin.getY(), minStartY, maxStartY), origin.getZ() - direction.getStepZ() * 1)).immutable();
+            closestFullPosition = worldBorder.clampToBounds(closestFullPosition);
+            Direction clockWise = direction.getClockWise();
 
-            for (int i3 = -1; i3 < 2; i3++)
+            for (int box = -1; box < 2; ++box)
             {
-                for (int j3 = 0; j3 < 2; j3++)
+                for (int width = 0; width < 2; ++width)
                 {
-                    for (int k3 = -1; k3 < 3; k3++)
+                    for (int height = -1; height < 3; ++height)
                     {
-                        BlockState blockstate1 = k3 < 0 ? frame : Blocks.AIR.defaultBlockState();
-                        mutablePos.setWithOffset(blockPos, j3 * direction.getStepX() + i3 * direction1.getStepX(), k3, j3 * direction.getStepZ() + i3 * direction1.getStepZ());
-                        this.level.setBlockAndUpdate(mutablePos, blockstate1);
+                        BlockState blockState = height < 0 ? frameState : Blocks.AIR.defaultBlockState();
+                        mutable.setWithOffset(closestFullPosition, width * direction.getStepX() + box * clockWise.getStepX(), height, width * direction.getStepZ() + box * clockWise.getStepZ());
+                        this.level.setBlockAndUpdate(mutable, blockState);
                     }
                 }
             }
         }
 
-        for (int l1 = -1; l1 < 3; l1++) {
-            for (int j2 = -1; j2 < 4; j2++) {
-                if (l1 == -1 || l1 == 2 || j2 == -1 || j2 == 3) {
-                    mutablePos.setWithOffset(blockPos, l1 * direction.getStepX(), j2, l1 * direction.getStepZ());
-                    this.level.setBlock(mutablePos, frame, 3);
+        for (int width = -1; width < 3; ++width)
+        {
+            for (int height = -1; height < 4; ++height)
+            {
+                if (width == -1 || width == 2 || height == -1 || height == 3)
+                {
+                    mutable.setWithOffset(closestFullPosition, width * direction.getStepX(), height, width * direction.getStepZ());
+                    this.level.setBlockAndUpdate(mutable, frameState);
                 }
             }
         }
 
-        BlockState blockstate = AerialHellBlocks.AERIAL_HELL_PORTAL.get().defaultBlockState().setValue(NetherPortalBlock.AXIS, axis);
+        BlockState portalBlockState = AerialHellBlocks.AERIAL_HELL_PORTAL.get().defaultBlockState().setValue(NetherPortalBlock.AXIS, portalAxis);
 
-        for (int k2 = 0; k2 < 2; k2++)
+        for (int width = 0; width < 2; ++width)
         {
-            for (int l2 = 0; l2 < 3; l2++)
+            for (int height = 0; height < 3; ++height)
             {
-                mutablePos.setWithOffset(blockPos, k2 * direction.getStepX(), l2, k2 * direction.getStepZ());
-                this.level.setBlock(mutablePos, blockstate, 18);
+                mutable.setWithOffset(closestFullPosition, width * direction.getStepX(), height, width * direction.getStepZ());
+                this.level.setBlock(mutable, portalBlockState, 3);
             }
         }
 
-        return Optional.of(new BlockUtil.FoundRectangle(blockPos.immutable(), 2, 3));
+        return Optional.of(new BlockUtil.FoundRectangle(closestFullPosition.immutable(), 2, 3));
     }
 
     private boolean canPortalReplaceBlock(BlockPos.MutableBlockPos pos)
     {
-        BlockState blockstate = this.level.getBlockState(pos);
-        return blockstate.canBeReplaced() && blockstate.getFluidState().isEmpty();
+        if (!this.level.hasChunkAt(pos)) {return false;}
+        BlockState blockState = this.level.getBlockState(pos);
+        return blockState.canBeReplaced() && blockState.getFluidState().isEmpty();
     }
 
-    private boolean canHostFrame(BlockPos originalPos, BlockPos.MutableBlockPos offsetPos, Direction direction, int pOffsetScale)
+    private boolean canHostFrame(BlockPos origin, BlockPos.MutableBlockPos mutable, Direction direction, int offset)
     {
-        Direction directionClockWise = direction.getClockWise();
+        Direction clockWise = direction.getClockWise();
 
-        for (int i = -1; i < 3; i++)
+        for (int width = -1; width < 3; ++width)
         {
-            for (int j = -1; j < 4; j++)
+            for (int height = -1; height < 4; ++height)
             {
-                offsetPos.setWithOffset(originalPos, directionClockWise.getStepX() * i + directionClockWise.getStepX() * pOffsetScale, j, directionClockWise.getStepZ() * i + directionClockWise.getStepZ() * pOffsetScale);
-                if (j < 0 && !this.level.getBlockState(offsetPos).isSolid()) {return false;}
-                if (j >= 0 && !this.canPortalReplaceBlock(offsetPos)) {return false;}
+                mutable.setWithOffset(origin, direction.getStepX() * width + clockWise.getStepX() * offset, height, direction.getStepZ() * width + clockWise.getStepZ() * offset);
+
+                if (!this.level.hasChunkAt(mutable)) {return false;}
+                if (height < 0 && !this.level.getBlockState(mutable).isSolid()) {return false;}
+                if (height >= 0 && !this.canPortalReplaceBlock(mutable)) {return false;}
             }
         }
+
         return true;
     }
 }
