@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Mixin;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
@@ -25,6 +26,7 @@ public class RenderHudOverlayMixin
     private static final Identifier AERIAL_HELL_PORTAL_OVERLAY = AerialHell.id("textures/misc/aerial_hell_portal_overlay.png");
     private static final Identifier LIQUID_OF_THE_GODS_OVERLAY = AerialHell.id("textures/block/liquid_of_the_gods_overlay.png");
 
+    private static int clientPortalTicks = 0;
     @Inject(method = "extractCameraOverlays", at = @At("HEAD"), cancellable = true)
     private void renderMiscOverlays(GuiGraphicsExtractor graphics, DeltaTracker tickCounter, CallbackInfo callbackInfo)
     {
@@ -38,14 +40,24 @@ public class RenderHudOverlayMixin
             float alpha = Math.min(20, player.getEffect(AerialHellMobEffects.VULNERABILITY).getDuration()) / 20.0F;
             renderOverlay(graphics, VULNERABLE_OVERLAY, alpha);
         }
-        if (EntityHelper.isLivingEntityUnderAerialHellPortalEffect(player))
+        if (player.portalProcess != null && player.portalProcess.isInsidePortalThisTick() &&  player.level().getBlockState(player.blockPosition()).is(AerialHellBlocks.AERIAL_HELL_PORTAL))
         {
-            int duration = player.getEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL).getDuration();
-            float alphaToSub = Mth.sin(duration / 5.0F) * 0.2F + 0.2F;
-            float baseAlpha = Math.min(20, duration) / 20.0F;
-            float alpha = Math.max(0.0F, baseAlpha - alphaToSub);
+            clientPortalTicks++;
+
+            //float maxTime = GameRules.PLAYERS_NETHER_PORTAL_DEFAULT_DELAY.defaultValue(); //80.0F
+            //int portalTime = player.portalProcess.getPortalTime(); //always 0 client side
+            float alpha;
+
+            if (clientPortalTicks <= 40) {alpha = clientPortalTicks / 40.0F;}
+            else if (clientPortalTicks <= 200F) //<= 5 x 40.0F
+            {
+                alpha = 0.8F + 0.2F * Mth.cos((clientPortalTicks - 40) * (float)Math.PI / 40.0F);
+            }
+            else {alpha = 1.0F;}
+
             renderOverlay(graphics, AERIAL_HELL_PORTAL_OVERLAY, alpha);
         }
+        else {clientPortalTicks = 0;}
         FluidState fluidState = EntityHelper.getInLiquidFluidState(player);
         if (fluidState != null && fluidState.is(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
         {
