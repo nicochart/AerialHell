@@ -1437,7 +1437,7 @@
   "aerialhell.guide_book.bestiary_1.bestiary_sort_desc" : "生物按照类型划分：\n‑ 友好生物\n‑ 中立生物\n‑ 敌对生物\n\n敌对生物包含结构内生成的生物。\n\nBOSS不在本章节介绍。想要了解BOSS，请查阅【BOSS】章节。",
   "aerialhell.guide_book.bestiary_2.friendly" : "- 友好生物\n\n就算遭到挑衅也不会攻击你。\n可以繁殖，它们喜爱的食物标注在“可繁殖”处。",
   "aerialhell.guide_book.bestiary_2.gliding_turtle" : "- 滑翔龟",
-  "aerialhell.guide_book.bestiary_2.gliding_turtle_desc" : "普通动物\n掉落食物\n可繁殖\n会跳跃并且滑翔！",
+  "aerialhell.guide_book.bestiary_2.gliding_turtle_desc" : "普通动物\n掉落食物\n可繁殖\n会跳跃并且滑翔！\n可骑乘的",
   "aerialhell.guide_book.bestiary_2.stellar_boar": "- 天星野猪",
   "aerialhell.guide_book.bestiary_2.stellar_boar_desc" : "普通动物\n掉落食物\n可繁殖",
   "aerialhell.guide_book.bestiary_2.stellar_chicken": "- 天星鸡",
