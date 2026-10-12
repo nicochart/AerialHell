@@ -1,15 +1,18 @@
 package fr.factionbedrock.aerialhell.Event.Listeners;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
 import java.util.Optional;
@@ -32,6 +35,7 @@ public class RenderListener
     private static final int HEART_ICON_WIDTH = 9;
     private static final int HEART_ICON_HEIGHT = 9;
 
+    private static int clientPortalTicks = 0;
     public static void onRenderOverlayPost(RenderGuiEvent.Post event)
     {
         Minecraft mc = Minecraft.getInstance();
@@ -44,14 +48,25 @@ public class RenderListener
                 float alpha = Math.min(20, player.getEffect(AerialHellMobEffects.VULNERABILITY).getDuration()) / 20.0F;
                 renderTextureOverlay(event.getGuiGraphics(), VULNERABLE_OVERLAY, alpha);
             }
-            if (EntityHelper.isLivingEntityUnderAerialHellPortalEffect(player))
+
+            if (player.portalProcess != null && player.portalProcess.isInsidePortalThisTick() &&  player.level().getBlockState(player.blockPosition()).is(AerialHellBlocks.AERIAL_HELL_PORTAL.get()))
             {
-                int duration = player.getEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL).getDuration();
-                float alphaToSub = Mth.sin(duration / 5.0F) * 0.2F + 0.2F;
-                float baseAlpha = Math.min(20, duration) / 20.0F;
-                float alpha = Math.max(0.0F, baseAlpha - alphaToSub);
+                clientPortalTicks++;
+
+                //float maxTime = GameRules.PLAYERS_NETHER_PORTAL_DEFAULT_DELAY.defaultValue(); //80.0F
+                //int portalTime = player.portalProcess.getPortalTime(); //always 0 client side
+                float alpha;
+
+                if (clientPortalTicks <= 40) {alpha = clientPortalTicks / 40.0F;}
+                else if (clientPortalTicks <= 200F) //<= 5 x 40.0F
+                {
+                    alpha = 0.8F + 0.2F * Mth.cos((clientPortalTicks - 40) * (float)Math.PI / 40.0F);
+                }
+                else {alpha = 1.0F;}
+
                 renderTextureOverlay(event.getGuiGraphics(), AERIAL_HELL_PORTAL_OVERLAY, alpha);
             }
+            else {clientPortalTicks = 0;}
         }
     }
 
