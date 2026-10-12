@@ -40,7 +40,7 @@ public class AerialHellTeleporter
 
         Stream<PoiRecord> poiStream = poiManager.getInSquare((type) -> type.is(AerialHellPOI.AERIAL_HELL_PORTAL_POI), approximateExitPos, radius, Occupancy.ANY);
 
-        return poiStream.map(PoiRecord::getPos).filter(worldBorder::isWithinBounds).filter((pos) -> this.level.hasChunkAt(pos) && this.level.getBlockState(pos).hasProperty(BlockStateProperties.HORIZONTAL_AXIS) && this.level.getBlockState(pos).is(AerialHellBlocks.AERIAL_HELL_PORTAL.get())).min(Comparator.comparingDouble((BlockPos p) -> p.distSqr(approximateExitPos)).thenComparingInt(Vec3i::getY));
+        return poiStream.map(PoiRecord::getPos).filter(worldBorder::isWithinBounds).filter((pos) -> this.level.getBlockState(pos).hasProperty(BlockStateProperties.HORIZONTAL_AXIS) && this.level.getBlockState(pos).is(AerialHellBlocks.AERIAL_HELL_PORTAL.get())).min(Comparator.comparingDouble((BlockPos p) -> p.distSqr(approximateExitPos)).thenComparingInt(Vec3i::getY));
     }
 
     public Optional<BlockUtil.FoundRectangle> createPortal(BlockPos origin, Direction.Axis portalAxis)
