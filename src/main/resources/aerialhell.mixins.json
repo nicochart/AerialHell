@@ -32,7 +32,8 @@
 	"client" : [
 		"ChestVariantMixin",
 		"UseItemFovModifierMixin",
-		"UseItemInHandRendererMixin"
+		"UseItemInHandRendererMixin",
+		"CubeMapTextureMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Block.Mimics;
 
-import fr.factionbedrock.aerialhell.BlockEntity.IntangibleTemporaryBlockEntity;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Entity.Monster.ChestMimic.*;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
@@ -14,6 +13,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
@@ -33,6 +33,17 @@ public class ChestMimicBlock extends ChestBlock
 	{
 		super(() -> AerialHellBlockEntities.CHEST_MIMIC, SoundEvents.CHEST_OPEN, SoundEvents.CHEST_CLOSE, settings);
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.valueOf(false)));
+	}
+
+	@Override public BlockState getStateForPlacement(BlockPlaceContext context)
+	{
+		BlockState state = super.getStateForPlacement(context);
+
+		if (state.hasProperty(ChestBlock.TYPE) && state.getValue(ChestBlock.TYPE) != ChestType.SINGLE)
+		{
+			return state.setValue(ChestBlock.TYPE, ChestType.SINGLE);
+		}
+		return state;
 	}
 
 	@Override
