@@ -770,7 +770,8 @@ public class GuideBookScreen extends Screen
                     .addItemTexture(alignedToLeft(13).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.TURTLE_MEAT, false)
                     .addItemTexture(alignedToLeft(14).centerVerticallyOnLine().build(), 0.7F, AerialHellItems.AERIAL_BERRY, true)
                     .addItemTexture(alignedToLeft(15).centerVerticallyOnLine().build(), 0.7F, () -> Items.FEATHER, false)
-
+                    .addItemTexture(alignedToLeft(16).centerVerticallyOnLine().build(), 0.7F, () -> Items.SADDLE, false)
+                    
                     //right
                     .addTextureDisplay(alignedToRight(8).horizontalOffset(-40).build(), 1.1F, "gui/guide_book/content/entities/stellar_boar", 22, 15, "entity.aerialhell.stellar_boar")
                     .addParagraph(11,MAX_LINES_PER_TECHNICAL_PAGE - 1, 88, 80, Alignment.LEFT, "stellar_boar")

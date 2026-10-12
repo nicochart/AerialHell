@@ -402,9 +402,6 @@ public class AerialHellItemAbilities
 
     public static final ItemAbility VOLUCITE_SPEAR = ItemAbility.builder()
             .setDescId("volucite_spear")
-            .addOnUseModules(ModuleList.builder()
-                    .addActions(START_USING_ITEM)
-                    .build())
             .addPassiveModules(ModuleList.builder()
                     .addActions(
                             SLOW_FALLING_TO_SELF.with((itemOwner) -> EntityHelper.hasFullVoluciteStuff(itemOwner) ? -1 : 80, (itemOwner) -> 0, TestTarget.ITEM_OWNER),
