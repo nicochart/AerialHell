@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.ResourceLocation;
@@ -26,6 +27,7 @@ public class RenderListener
 {
     //TODO work on that
     private static final ResourceLocation VULNERABLE_OVERLAY = new ResourceLocation(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
+    private static final ResourceLocation AERIAL_HELL_PORTAL_OVERLAY = new ResourceLocation(AerialHell.MODID, "textures/misc/aerial_hell_portal_overlay.png");
     private static final ResourceLocation VULNERABLE_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
     private static final ResourceLocation VULNERABLE_HEART_WITH_BORDER = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_hearts_with_border.png");
     private static final ResourceLocation VULNERABLE_HALF_HEART = new ResourceLocation(AerialHell.MODID, "textures/gui/vulnerability_half_hearts.png");
@@ -42,12 +44,21 @@ public class RenderListener
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
-        if (player != null && EntityHelper.isLivingEntityVulnerable(player))
+        if (player != null)
         {
-            if (event.getOverlay().id() == VanillaGuiOverlay.FROSTBITE.id() && mc.options.getCameraType().isFirstPerson())
+            if (EntityHelper.isLivingEntityVulnerable(player) && event.getOverlay().id() == VanillaGuiOverlay.FROSTBITE.id() && mc.options.getCameraType().isFirstPerson())
             {
                 float alpha = Math.min(20, player.getEffect(AerialHellMobEffects.VULNERABILITY.get()).getDuration()) / 20.0F;
                 renderTextureOverlay(event.getGuiGraphics(), VULNERABLE_OVERLAY, alpha);
+            }
+
+            if (EntityHelper.isLivingEntityUnderAerialHellPortalEffect(player) && event.getOverlay().id() == VanillaGuiOverlay.FROSTBITE.id() && mc.options.getCameraType().isFirstPerson())
+            {
+                int duration = player.getEffect(AerialHellMobEffects.AERIAL_HELL_PORTAL.get()).getDuration();
+                float alphaToSub = Mth.sin(duration / 5.0F) * 0.2F + 0.2F;
+                float baseAlpha = Math.min(20, duration) / 20.0F;
+                float alpha = Math.max(0.0F, baseAlpha - alphaToSub);
+                renderTextureOverlay(event.getGuiGraphics(), AERIAL_HELL_PORTAL_OVERLAY, alpha);
             }
         }
     }

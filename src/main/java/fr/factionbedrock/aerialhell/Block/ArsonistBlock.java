@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Block;
 
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,16 +16,16 @@ public class ArsonistBlock extends Block
 	{
 		super(properties);
 	}
-	
-	@Override public void stepOn(Level level, BlockPos pos, BlockState state, Entity entityIn)
+
+	@Override public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity)
 	{
-		if (entityIn instanceof LivingEntity)
+		if (entity instanceof LivingEntity livingEntity)
 		{
-			if (!entityIn.fireImmune() && !EnchantmentHelper.hasFrostWalker((LivingEntity)entityIn))
+			if (!entity.fireImmune() && !EntityHelper.hasEnchantment(livingEntity, Enchantments.FROST_WALKER))
 			{
-		         entityIn.hurt(level.damageSources().hotFloor(), 1.0F);
+				entity.hurt(level.damageSources().hotFloor(), 1.0F);
 			}
-			entityIn.setSecondsOnFire(2);
+			if (!livingEntity.isInWaterOrRain()) {livingEntity.setSecondsOnFire(2);}
 		}
 	}
 }

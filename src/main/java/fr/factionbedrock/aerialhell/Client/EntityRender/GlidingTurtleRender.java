@@ -3,6 +3,8 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.AerialHellModelLayers;
 import fr.factionbedrock.aerialhell.Client.EntityModels.GlidingTurtleModel;
+import fr.factionbedrock.aerialhell.Client.EntityModels.GlidingTurtleSaddleModel;
+import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.GlidingTurtleSaddleLayer;
 import fr.factionbedrock.aerialhell.Entity.Passive.GlidingTurtleEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -16,6 +18,7 @@ public class GlidingTurtleRender extends MobRenderer<GlidingTurtleEntity, Glidin
     public GlidingTurtleRender(EntityRendererProvider.Context context)
     {
         super(context, new GlidingTurtleModel(context.bakeLayer(AerialHellModelLayers.GLIDING_TURTLE)), 0.75F);
+        this.addLayer(new GlidingTurtleSaddleLayer(this, new GlidingTurtleSaddleModel(context.bakeLayer(AerialHellModelLayers.GLIDING_TURTLE_SADDLE))));
     }
 
     @Override

@@ -20,8 +20,9 @@ public class AerialHell
 
     public AerialHell()
     {
+		AerialHellSetup.loadConfig();
     	AerialHellSetup.registration();
-    	
+
     	IEventBus forgeBus = MinecraftForge.EVENT_BUS;
     	
         // Register the setup method for modloading

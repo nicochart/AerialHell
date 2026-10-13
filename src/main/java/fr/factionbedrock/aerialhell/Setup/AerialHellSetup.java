@@ -19,11 +19,15 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod.EventBusSubscriber(modid = AerialHell.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class AerialHellSetup
 {
+    public static void loadConfig()
+    {
+        AerialHellConfigLoader.loadAndStoreConfigParams();
+    }
+
 	public static void init(final FMLCommonSetupEvent event)
     {
         event.enqueueWork(() ->
         {
-            AerialHellConfigLoader.loadAndStoreConfigParams();
         	AerialHellBlocksAndItems.registerCompostableItems();
         	AerialHellEntities.entitySpawnPlacements();
         	AerialHellBlocksAndItems.registerPots();
