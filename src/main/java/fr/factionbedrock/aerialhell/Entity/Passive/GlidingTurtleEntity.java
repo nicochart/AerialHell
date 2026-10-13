@@ -44,7 +44,7 @@ public class GlidingTurtleEntity extends AerialHellAnimalEntity implements Playe
 
     public GlidingTurtleEntity(Level worldIn) {this(AerialHellEntities.GLIDING_TURTLE, worldIn);}
 
-    public InteractionResult mobInteract(Player player, InteractionHand hand)
+    @Override public InteractionResult mobInteract(Player player, InteractionHand hand)
     {
         ItemStack stack = player.getItemInHand(hand);
         if (this.isFood(stack))
