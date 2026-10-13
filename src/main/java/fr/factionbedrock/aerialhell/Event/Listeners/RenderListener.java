@@ -2,10 +2,12 @@ package fr.factionbedrock.aerialhell.Event.Listeners;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
@@ -18,6 +20,7 @@ import java.util.Optional;
 public class RenderListener
 {
     //TODO work on that
+    private static final ResourceLocation AERIAL_HELL_PORTAL_OVERLAY = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/misc/aerial_hell_portal_overlay.png");
     private static final ResourceLocation VULNERABLE_OVERLAY = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
     private static final ResourceLocation VULNERABLE_HEART = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");
     private static final ResourceLocation VULNERABLE_HEART_WITH_BORDER = ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, "textures/gui/vulnerability_hearts_with_border.png");
@@ -29,6 +32,7 @@ public class RenderListener
     private static final int HEART_ICON_WIDTH = 9;
     private static final int HEART_ICON_HEIGHT = 9;
 
+    private static int clientPortalTicks = 0;
     public static void onRenderOverlayPost(RenderGuiEvent.Post event)
     {
         Minecraft mc = Minecraft.getInstance();
@@ -39,6 +43,25 @@ public class RenderListener
             float alpha = Math.min(20, player.getEffect(AerialHellMobEffects.VULNERABILITY).getDuration()) / 20.0F;
             renderTextureOverlay(event.getGuiGraphics(), VULNERABLE_OVERLAY, alpha);
         }
+
+        if (player.portalProcess != null && player.portalProcess.isInsidePortalThisTick() &&  player.level().getBlockState(player.blockPosition()).is(AerialHellBlocksAndItems.AERIAL_HELL_PORTAL.get()))
+        {
+            clientPortalTicks++;
+
+            //float maxTime = GameRules.PLAYERS_NETHER_PORTAL_DEFAULT_DELAY.defaultValue(); //80.0F
+            //int portalTime = player.portalProcess.getPortalTime(); //always 0 client side
+            float alpha;
+
+            if (clientPortalTicks <= 40) {alpha = clientPortalTicks / 40.0F;}
+            else if (clientPortalTicks <= 200F) //<= 5 x 40.0F
+            {
+                alpha = 0.8F + 0.2F * Mth.cos((clientPortalTicks - 40) * (float)Math.PI / 40.0F);
+            }
+            else {alpha = 1.0F;}
+
+            renderTextureOverlay(event.getGuiGraphics(), AERIAL_HELL_PORTAL_OVERLAY, alpha);
+        }
+        else {clientPortalTicks = 0;}
     }
 
     /* @SubscribeEvent TODO

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#aerialhell:aggressive",
+    "#aerialhell:passive",
+    "#aerialhell:feathery",
+    "#aerialhell:snake_like"
+  ]
+}

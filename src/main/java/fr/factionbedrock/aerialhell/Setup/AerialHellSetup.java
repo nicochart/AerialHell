@@ -21,6 +21,7 @@ public class AerialHellSetup
 {
     public static void init(IEventBus bus)
     {
+        AerialHellConfigLoader.loadAndStoreConfigParams();
         registration(bus);
         bus.addListener(AerialHellSetup::additionalRegistration);
         listen(bus);
@@ -31,7 +32,6 @@ public class AerialHellSetup
     {
         event.enqueueWork(() ->
         {
-            AerialHellConfigLoader.loadAndStoreConfigParams();
         	AerialHellBlocksAndItems.registerCompostableItems();
         	AerialHellBlocksAndItems.registerPots();
         	AerialHellBlocksAndItems.registerAxeStrippingBlocks();

@@ -8,6 +8,9 @@
 		"UseItemFovModifierMixin",
 		"UseItemInHandRendererMixin"
 	],
+	"client": [
+		"CubeMapTextureMixin"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	}

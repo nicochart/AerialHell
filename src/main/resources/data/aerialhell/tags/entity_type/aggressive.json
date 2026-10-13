@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "aerialhell:cortinarius_cow",
+    "#aerialhell:light",
+    "aerialhell:evil_cow",
+    "#aerialhell:spirit",
+    "aerialhell:flying_jellyfish",
+    "aerialhell:forest_caterpillar",
+    "#aerialhell:pirate",
+    "#aerialhell:mimic",
+    "#aerialhell:boss",
+    "#aerialhell:mud",
+    "aerialhell:mummy",
+    "#aerialhell:shadow",
+    "#aerialhell:snake_like",
+    "aerialhell:stellar_ent",
+    "aerialhell:stellar_stone_automaton",
+    "#aerialhell:torn",
+    "aerialhell:verdigris_zombie"
+  ]
+}

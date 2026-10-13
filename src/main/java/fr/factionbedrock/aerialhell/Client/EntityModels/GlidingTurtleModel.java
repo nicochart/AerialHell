@@ -75,7 +75,7 @@ public class GlidingTurtleModel extends EntityModel<GlidingTurtleEntity>
 
 	@Override public void setupAnim(GlidingTurtleEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		this.isGliding = entity.isGliding(); this.isChild = entity.isBaby();
+		this.isGliding = entity.isTurtleGliding(); this.isChild = entity.isBaby();
 		this.Head.yRot = netHeadYaw / 57.29578F;
 		this.Head.xRot = headPitch / 57.29578F;
 
