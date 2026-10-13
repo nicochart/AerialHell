@@ -24,6 +24,8 @@ public class AerialHellTags
 
 		public static final TagKey<Block> STELLAR_PLANTS_MAY_PLACE_ON = tag("stellar_plants_may_place_on");
 
+		public static final TagKey<Block> SHROOMS_REPLACEABLE = tag("shrooms_replaceable");
+
 		public static final TagKey<Block> WOODEN_GHOST_BLOCK = tag("wooden_ghost_blocks");
 
 		public static final TagKey<Block> STONE_GHOST_BLOCK = tag("stone_ghost_blocks");
@@ -193,8 +195,22 @@ public class AerialHellTags
 
 	public static class Entities
 	{
+		public static final TagKey<EntityType<?>> PASSIVE = tag("passive");
+		public static final TagKey<EntityType<?>> AGGRESSIVE = tag("aggressive");
+
 		public static final TagKey<EntityType<?>> LIGHT = tag("light");
 		public static final TagKey<EntityType<?>> SHADOW = tag("shadow");
+
+		public static final TagKey<EntityType<?>> MUD = tag("mud");
+		public static final TagKey<EntityType<?>> BOSS = tag("boss");
+
+		public static final TagKey<EntityType<?>> GHOST_PIRATE = tag("ghost_pirate");
+
+		public static final TagKey<EntityType<?>> FEATHERY = tag("feathery");
+
+		public static final TagKey<EntityType<?>> SKY_CACTUS_COLLISION_IMMUNE = tag("sky_cactus_collision_immune");
+
+		public static final TagKey<EntityType<?>> CHAINED_GOD_DRAG_IMMUNE = tag("chained_god_drag_immune");
 
 		private static TagKey<EntityType<?>> tag(String name) {return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(AerialHell.MODID, name));}
 	}

@@ -19,7 +19,7 @@ public class AerialHellConfigLoader
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Path CONFIG_FOLDER = FabricLoader.getInstance().getConfigDir().resolve(AerialHell.MODID);
     private static final Path CONFIG_PATH = CONFIG_FOLDER.resolve("config.json");
-    public static final String CONFIG_VERSION = "0.7.3.1";
+    public static final String CONFIG_VERSION = "0.7.8";
 
     public static void loadAndStoreConfigParams()
     {
@@ -43,9 +43,22 @@ public class AerialHellConfigLoader
             if (!config.configVersion.equals(CONFIG_VERSION))
             {
                 AerialHell.LOGGER.warn("Aerial Hell : Outdated config -> backup created, new config file generated.");
+
+                AerialHellConfig newConfig = new AerialHellDefaultConfig();
+                if (config.configVersion.equals("0.7.3.1")) //"0.7.3.1" -> "0.7.8" introduced new parameter "customMainMenuBackground". No other change.
+                {
+                    //newConfig.configVersion = CONFIG_VERSION; //new config version
+                    newConfig.shadowSpreadSpeedMultiplier = config.shadowSpreadSpeedMultiplier; //unchanged
+                    newConfig.enableShadowBindReloadTexture = config.enableShadowBindReloadTexture; //unchanged
+                    newConfig.enableShadowBindTextureShift = config.enableShadowBindTextureShift; //unchanged
+                    newConfig.doBossGriefing = config.doBossGriefing; //unchanged
+                    //newConfig.customMainMenuBackground = true; //missing parameter in 0.7.3.1
+                    newConfig.overworldAbandonnedPortalSpacingOverride = config.overworldAbandonnedPortalSpacingOverride; //unchanged
+                }
+
                 backupOldConfig();
-                config = new AerialHellDefaultConfig();
-                saveConfig(config);
+                config = newConfig;
+                saveConfig(newConfig);
             }
         }
 

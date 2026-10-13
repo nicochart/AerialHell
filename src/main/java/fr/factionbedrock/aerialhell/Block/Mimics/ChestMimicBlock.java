@@ -14,6 +14,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
@@ -35,27 +36,36 @@ public class ChestMimicBlock extends ChestBlock
 		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.valueOf(false)));
 	}
 
-	@Override
-	public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit)
+	@Override public BlockState getStateForPlacement(BlockPlaceContext context)
 	{
-		if (!ChestBlock.isChestBlockedAt(world, pos))
+		BlockState state = super.getStateForPlacement(context);
+
+		if (state.hasProperty(ChestBlock.TYPE) && state.getValue(ChestBlock.TYPE) != ChestType.SINGLE)
 		{
-			if (world.isClientSide()) {addSpawnParticle(world, pos);}
+			return state.setValue(ChestBlock.TYPE, ChestType.SINGLE);
+		}
+		return state;
+	}
+
+	@Override public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit)
+	{
+		if (!ChestBlock.isChestBlockedAt(level, pos))
+		{
+			if (level.isClientSide()) {addSpawnParticle(level, pos);}
 			else
 			{
-				world.playSound(null, pos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 0.5F, 0.7F + 0.5F * world.random.nextFloat());
-				revealMimic(state, world, pos);
-				world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+				level.playSound(null, pos, SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 0.5F, 0.7F + 0.5F * level.getRandom().nextFloat());
+				revealMimic(state, level, pos);
+				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			}
 		}
 		return InteractionResult.SUCCESS;
 	}
 
-	@Override
-	public void spawnAfterBreak(BlockState state, ServerLevel world, BlockPos pos, ItemStack stack, boolean dropExperience)
+	@Override public void spawnAfterBreak(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack, boolean bool)
 	{
-		super.spawnAfterBreak(state, world, pos, stack, dropExperience);
-		revealMimic(state, world, pos);
+		super.spawnAfterBreak(state, level, pos, stack, bool);
+		revealMimic(state, level, pos);
 	}
 
 	private void revealMimic(BlockState state, Level world, BlockPos pos)

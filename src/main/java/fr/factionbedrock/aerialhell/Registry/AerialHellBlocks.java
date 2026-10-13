@@ -223,7 +223,7 @@ public class AerialHellBlocks
     public static final Block CHISELED_GOLDEN_BEECH_PLANKS = register("chiseled_golden_beech_planks", new Block(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_PLANKS)));
     public static final ShiftableLeavesBlock GOLDEN_BEECH_LEAVES = register("golden_beech_leaves", new ShiftableLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES), () -> AerialHellBlocks.SHADOW_GOLDEN_BEECH_LEAVES, BiomeShifter.ShiftType.CORRUPT));
     public static final Block GOLDEN_BEECH_BOOKSHELF = register("golden_beech_bookshelf", new Block(BlockBehaviour.Properties.ofFullCopy(GOLDEN_BEECH_PLANKS)));
-    public static final Block GOLDEN_BEECH_SAPLING = register("golden_beech_sapling", new SaplingBlock(AerialHellTreeGrowers.GOLDEN_BEECH, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING)));
+    public static final SaplingBlock GOLDEN_BEECH_SAPLING = register("golden_beech_sapling", new AerialHellSaplingBlock(AerialHellTreeGrowers.GOLDEN_BEECH, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING), AerialHellConfiguredFeatures.GIANT_GOLDEN_BEECH));
 
     //copper pine
     public static final ShiftableLogBlock COPPER_PINE_LOG = register("copper_pine_log", new ShiftableLogBlock(COPPER_PINE_MATERIAL, () -> AerialHellBlocks.SHADOW_COPPER_PINE_LOG, BiomeShifter.ShiftType.CORRUPT));

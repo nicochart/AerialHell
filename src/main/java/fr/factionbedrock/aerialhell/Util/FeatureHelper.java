@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Util;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
@@ -41,7 +42,7 @@ public class FeatureHelper
     {
         return level.isStateAtPosition(pos, (state) ->
         {
-            return state.canBeReplaced() || canReplacePlant && state.getMapColor(level, pos) == MapColor.COLOR_GREEN; //TODO : it works ?
+            return state.canBeReplaced() || state.is(AerialHellTags.Blocks.SHROOMS_REPLACEABLE) || canReplacePlant && state.getMapColor(level, pos) == MapColor.PLANT; //TODO : it works ?
         });
     }
 

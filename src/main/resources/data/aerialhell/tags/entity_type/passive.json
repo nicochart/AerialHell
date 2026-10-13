@@ -1,6 +1,11 @@
 {
   "replace": false,
   "values": [
-    
+    "aerialhell:fat_phantom",
+    "aerialhell:gliding_turtle",
+    "aerialhell:kodama",
+    "aerialhell:sandy_sheep",
+    "aerialhell:stellar_boar",
+    "aerialhell:stellar_chicken"
   ]
 }

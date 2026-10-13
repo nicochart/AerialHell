@@ -16,16 +16,16 @@ public class ArsonistBlock extends Block
 	{
 		super(settings);
 	}
-	
-	@Override public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity)
+
+	@Override public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity)
 	{
 		if (entity instanceof LivingEntity livingEntity)
 		{
 			if (!entity.fireImmune() && !EntityHelper.hasEnchantment(livingEntity, Enchantments.FROST_WALKER))
 			{
-				entity.hurt(world.damageSources().hotFloor(), 1.0F);
+				entity.hurt(level.damageSources().hotFloor(), 1.0F);
 			}
-			entity.igniteForSeconds(2);
+			if (!livingEntity.isInWaterOrRain()) {livingEntity.igniteForSeconds(2);}
 		}
 	}
 }

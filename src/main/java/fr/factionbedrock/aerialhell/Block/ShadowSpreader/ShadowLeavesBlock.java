@@ -22,19 +22,20 @@ public class ShadowLeavesBlock extends ShiftableLeavesBlock implements ShadowSpr
 
 	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {super.createBlockStateDefinition(builder); builder.add(CAN_SPREAD);}
 
-	@Override protected boolean isRandomlyTicking(BlockState state) {return state.getValue(CAN_SPREAD);}
+	@Override protected boolean isRandomlyTicking(BlockState state) {return super.isRandomlyTicking(state) || state.getValue(CAN_SPREAD);}
 
-	@Override protected void neighborChanged(BlockState state, Level world, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston)
+	@Override protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston)
 	{
-		super.neighborChanged(state, world, pos, neighborBlock, neighborPos, movedByPiston);
-		if (BlockHelper.canBeCorrupted(world, neighborPos, BlockHelper.CorruptionType.ANY))
+		super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
+		if (BlockHelper.canBeCorrupted(level, neighborPos, BlockHelper.CorruptionType.ANY))
 		{
-			world.setBlock(pos, state.setValue(CAN_SPREAD, true), 2);
+			level.setBlock(pos, state.setValue(CAN_SPREAD, true), 2);
 		}
 	}
 
-	@Override public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand)
+	@Override public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
 	{
-		ShadowSpreaderBlock.trySpreading(state, world, pos, rand);
+		ShadowSpreaderBlock.trySpreading(state, level, pos, rand);
+		super.randomTick(state, level, pos, rand);
 	}
 }

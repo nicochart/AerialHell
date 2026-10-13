@@ -319,6 +319,7 @@ public class RenderRegistrationListener
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.ELEMENT_SPIRIT, ElementSpiritModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.FLYING_JELLYFISH, FlyingJellyfishModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.GLIDING_TURTLE, GlidingTurtleModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.GLIDING_TURTLE_SADDLE, GlidingTurtleSaddleModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.KODAMA, KodamaModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.LILITH, LilithModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(AerialHellModelLayers.LUNATIC_PRIEST, LunaticPriestModel::createBodyLayer);
