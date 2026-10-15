@@ -7,11 +7,11 @@
 		"LivingEntityGravityMixin",
 		"ServerPlayerGameModeMixin",
 		"ServerPlayerTickMixin",
-		"RenderSkyMixin",
-		"UseItemFovModifierMixin",
-		"UseItemInHandRendererMixin"
+		"RenderSkyMixin"
 	],
 	"client": [
+		"UseItemFovModifierMixin",
+		"UseItemInHandRendererMixin",
 		"CubeMapTextureMixin"
 	],
 	"injectors": {
