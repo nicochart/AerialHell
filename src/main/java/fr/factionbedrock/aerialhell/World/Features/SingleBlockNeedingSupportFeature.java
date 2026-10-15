@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.SingleBlockNeedingSupportConfig;
@@ -8,20 +8,23 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class SingleBlockNeedingSupportFeature extends Feature<SingleBlockNeedingSupportConfig> implements DungeonSensitiveFeatureCheck
+public class SingleBlockNeedingSupportFeature extends AerialHellFeature<SingleBlockNeedingSupportConfig> implements DungeonSensitiveFeatureCheck
 {
 	private static final int MAX_TRIES = 25;
-	public SingleBlockNeedingSupportFeature(Codec<SingleBlockNeedingSupportConfig> codec) {super(codec);}
+	public static final MapCodec<SingleBlockNeedingSupportFeature> CODEC = SingleBlockNeedingSupportConfig.CODEC.xmap(SingleBlockNeedingSupportFeature::new, SingleBlockNeedingSupportFeature::config);
 
-	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.SINGLE_BLOCK_NEEDING_SUPPORT_LIST;}
+	public SingleBlockNeedingSupportFeature(SingleBlockNeedingSupportConfig config) {super(config);}
+
+	@Override public MapCodec<? extends Feature> codec() {return CODEC;}
+
+	@Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.SINGLE_BLOCK_NEEDING_SUPPORT_LIST;}
 
 	@Override public boolean place(FeaturePlaceContext<SingleBlockNeedingSupportConfig> context)
 	{

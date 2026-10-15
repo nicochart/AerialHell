@@ -39,7 +39,7 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
         PaintingVariant paintingvariant = renderState.variant;
         if (paintingvariant != null) {
             poseStack.pushPose();
-            poseStack.mulPose(Axis.YP.rotationDegrees((float)(180 - renderState.direction.get2DDataValue() * 90)));
+            poseStack.rotate(Axis.YP.rotationDegrees((float)(180 - renderState.direction.get2DDataValue() * 90)));
             TextureAtlasSprite textureatlassprite = this.paintingsAtlas.getSprite(paintingvariant.assetId());
             TextureAtlasSprite textureatlassprite1 = this.paintingsAtlas.getSprite(BACK_SPRITE_LOCATION);
             this.renderPainting(poseStack, submitNodeCollector, RenderTypes.entitySolidZOffsetForward(textureatlassprite1.atlasLocation()), renderState.lightCoordsPerBlock, paintingvariant.width(), paintingvariant.height(), textureatlassprite, textureatlassprite1);

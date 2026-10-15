@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
@@ -16,19 +16,22 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 import java.util.List;
 
 //copy of TwistingVinesFeature class ; editing placeWeepingVinesColumn and isInvalidPlacementLocation to adapt to Aerial Hell
-public class AerialHellTwistingVinesFeature extends Feature<AerialHellTwistingVinesConfig> implements DungeonSensitiveFeatureCheck
+public class AerialHellTwistingVinesFeature extends AerialHellFeature<AerialHellTwistingVinesConfig> implements DungeonSensitiveFeatureCheck
 {
-    public AerialHellTwistingVinesFeature(Codec<AerialHellTwistingVinesConfig> codec) {super(codec);}
+    public static final MapCodec<AerialHellTwistingVinesFeature> CODEC = AerialHellTwistingVinesConfig.CODEC.xmap(AerialHellTwistingVinesFeature::new, AerialHellTwistingVinesFeature::config);
 
-    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.TWISTING_ROOTS_LIST;}
+    public AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig config) {super(config);}
+
+    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+
+    @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.TWISTING_ROOTS_LIST;}
 
     public boolean place(FeaturePlaceContext<AerialHellTwistingVinesConfig> context)
     {

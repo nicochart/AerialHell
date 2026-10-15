@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 
 public class StellarFarmBlock extends FarmlandBlock
 {
-    public StellarFarmBlock(Properties prop) {super(prop);}
+    public StellarFarmBlock(Properties prop) {super(AerialHellBlocks.STELLAR_DIRT.get(), prop);}
 
     @Override public BlockState getStateForPlacement(BlockPlaceContext context)
     {
@@ -70,7 +70,7 @@ public class StellarFarmBlock extends FarmlandBlock
         BlockState state = level.getBlockState(pos);
         for(BlockPos blockpos : BlockPos.betweenClosed(pos.offset(-4, 0, -4), pos.offset(4, 1, 4)))
         {
-            if (state.canBeHydrated(level, pos, level.getFluidState(blockpos), blockpos)) {return true;}
+            if (state.canBeHydrated(level, pos, level.getFluidState(blockpos))) {return true;}
         }
         return net.neoforged.neoforge.common.FarmlandWaterManager.hasBlockWaterTicket(level, pos);
     }

@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 
-import com.mojang.serialization.Codec;
+import fr.factionbedrock.aerialhell.World.Features.AerialHellFeature;
 
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.DungeonSensitiveFeatureCheck;
@@ -11,10 +11,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
+import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
 
-public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
+public abstract class AbstractSolidEtherCloudFeature extends AerialHellFeature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
     public BlockPos getRandomHeighGenerationPos(int x, int minY, int maxY, int z, RandomSource rand) {return new BlockPos(x, minY + rand.nextInt(maxY- minY), z);}
 	protected abstract int getBasicMinSize(); protected abstract int getBasicMaxSize();
@@ -27,9 +27,9 @@ public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeature
 		return minSize + (int)(rand.nextDouble() * ((minSize - maxSize) + 1));
 	}
 	
-    public AbstractSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec)
+    public AbstractSolidEtherCloudFeature(NoneFeatureConfiguration config)
     {
-        super(codec);
+        super(config);
     }
     
     protected void generateFourLayersFirstEllipsis(FeaturePlaceContext<NoneFeatureConfiguration> context, int sizeX, int sizeZ, BlockPos pos)

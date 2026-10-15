@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.World.Features.Util;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 import java.util.function.Supplier;
 

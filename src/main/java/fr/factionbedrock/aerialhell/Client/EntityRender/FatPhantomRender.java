@@ -43,7 +43,7 @@ public class FatPhantomRender extends MobRenderer<FatPhantomEntity, PhantomRende
     @Override protected void setupRotations(PhantomRenderState renderState, PoseStack poseStack, float partialTick, float scale)
     {
         super.setupRotations(renderState, poseStack, partialTick, scale);
-        poseStack.mulPose(Axis.XP.rotationDegrees(renderState.xRot));
+        poseStack.rotate(Axis.XP.rotationDegrees(renderState.xRot));
     }
 
     @Override public Identifier getTextureLocation(PhantomRenderState renderState) {return FAT_PHANTOM_TEXTURE;}

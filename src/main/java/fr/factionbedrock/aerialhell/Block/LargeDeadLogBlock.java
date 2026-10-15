@@ -1,13 +1,10 @@
 package fr.factionbedrock.aerialhell.Block;
 
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.*;
@@ -24,10 +21,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class LargeDeadLogBlock extends Block
 {
-    public static final MapCodec<LargeDeadLogBlock> CODEC = RecordCodecBuilder.mapCodec((instance) -> {
-        return instance.group(BlockState.CODEC.fieldOf("base_state").forGetter((largeDeadLogBlock) -> {return largeDeadLogBlock.baseState;}), propertiesCodec()).apply(instance, LargeDeadLogBlock::new);
-    });
-
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<Half> HALF = BlockStateProperties.HALF;
     protected static final VoxelShape TOP = Block.box(0.0D, 14.0D, 0.0D, 16.0D, 16.0D, 16.0D);
@@ -38,8 +31,6 @@ public class LargeDeadLogBlock extends Block
     protected static final VoxelShape WEST = Block.box(0.0D, 0.0D, 0.0D, 2.0D, 16.0D, 16.0D);
     private final Block base;
     protected final BlockState baseState;
-
-    @Override public MapCodec<? extends LargeDeadLogBlock> codec() {return CODEC;}
 
     public LargeDeadLogBlock(BlockState state, BlockBehaviour.Properties prop)
     {

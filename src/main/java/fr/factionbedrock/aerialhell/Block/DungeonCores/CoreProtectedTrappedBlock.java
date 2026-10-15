@@ -109,5 +109,5 @@ public class CoreProtectedTrappedBlock extends CoreProtectedBlock
 		}
 	}
 
-	@Override public @Nullable PushReaction getPistonPushReaction(BlockState state) {return this.isProtected(state) ? PushReaction.BLOCK : super.getPistonPushReaction(state);}
+	@Override public @Nullable PushReaction getPistonPushReaction(BlockState state) {return this.isProtected(state) ? PushReaction.IMMOVEABLE : super.getPistonPushReaction(state);}
 }

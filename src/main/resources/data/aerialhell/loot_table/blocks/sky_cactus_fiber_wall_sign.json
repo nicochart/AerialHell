@@ -9,11 +9,9 @@
           "name": "aerialhell:sky_cactus_fiber_sign"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ]
 }

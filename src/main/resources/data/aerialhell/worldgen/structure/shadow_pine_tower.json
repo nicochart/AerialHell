@@ -9,8 +9,11 @@
         {
           "type": "aerialhell:shadow_automaton",
           "weight": 1,
-          "minCount": 1,
-          "maxCount": 2
+          "count": {
+            "type": "minecraft:uniform",
+            "max_inclusive": 2,
+            "min_inclusive": 1
+          }
         }
       ]
     }

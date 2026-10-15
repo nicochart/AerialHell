@@ -1,22 +1,17 @@
 {
   "type": "minecraft:block",
-  "pools":
-  [
+  "pools": [
     {
       "rolls": 1,
-      "entries":
-      [
+      "entries": [
         {
           "type": "minecraft:item",
           "name": "aerialhell:stripped_giant_verdigris_agaric_stem"
         }
       ],
-      "conditions":
-      [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ]
 }

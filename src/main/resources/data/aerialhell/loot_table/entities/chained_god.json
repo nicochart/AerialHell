@@ -6,16 +6,14 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 2.0,
-                "type": "minecraft:uniform"
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "min": 1,
+              "max": 2,
+              "type": "minecraft:uniform"
             }
-          ],
+          },
           "name": "aerialhell:golden_nether_steak"
         }
       ]
@@ -25,16 +23,14 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 5.0,
-                "max": 10.0,
-                "type": "minecraft:uniform"
-              }
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": {
+              "min": 5,
+              "max": 10,
+              "type": "minecraft:uniform"
             }
-          ],
+          },
           "name": "aerialhell:arsonist_ingot"
         }
       ]

@@ -1,0 +1,20 @@
+{
+  "type": "aerialhell:vertical_growing_plant",
+  "plant_state_provider": {
+    "type": "minecraft:weighted",
+    "entries": [
+      {
+        "weight": 1,
+        "data": {
+          "id": "aerialhell:stellar_very_tall_grass"
+        }
+      }
+    ]
+  },
+  "spread_width": 16,
+  "spread_height": 4,
+  "min_height": 3,
+  "max_height": 3,
+  "min_tries": 100,
+  "max_tries": 200
+}

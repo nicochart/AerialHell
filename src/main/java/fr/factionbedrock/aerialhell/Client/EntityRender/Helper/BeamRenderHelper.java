@@ -61,8 +61,8 @@ public class BeamRenderHelper
         beamVector = beamVector.normalize();
         float xRotFactor = (float) Math.acos(beamVector.y);
         float yRotFactor = ((float) Math.PI / 2F) - (float) Math.atan2(beamVector.z, beamVector.x);
-        poseStack.mulPose(Axis.YP.rotationDegrees(yRotFactor * (180F / (float) Math.PI)));
-        poseStack.mulPose(Axis.XP.rotationDegrees(xRotFactor * (180F / (float) Math.PI)));
+        poseStack.rotate(Axis.YP.rotationDegrees(yRotFactor * (180F / (float) Math.PI)));
+        poseStack.rotate(Axis.XP.rotationDegrees(xRotFactor * (180F / (float) Math.PI)));
     }
 
     private static void renderConvergingBeam(PoseStack poseStack, SubmitNodeCollector nodeCollector, Vec3 beamVector, Identifier textureLocation, int color, float length, float maxLength, float scale, float xRot, float zRot)
@@ -70,8 +70,8 @@ public class BeamRenderHelper
         poseStack.pushPose();
         orientPoseStack(poseStack, beamVector);
 
-        if (xRot != 0.0F) { poseStack.mulPose(Axis.XP.rotationDegrees(xRot)); }
-        if (zRot != 0.0F) { poseStack.mulPose(Axis.ZP.rotationDegrees(zRot)); }
+        if (xRot != 0.0F) { poseStack.rotate(Axis.XP.rotationDegrees(xRot)); }
+        if (zRot != 0.0F) { poseStack.rotate(Axis.ZP.rotationDegrees(zRot)); }
 
         renderBeamGeometry(poseStack, nodeCollector, textureLocation, color, length, maxLength, scale);
         poseStack.popPose();

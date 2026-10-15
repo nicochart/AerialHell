@@ -9,7 +9,7 @@ import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.material.Fluid;
 
@@ -248,11 +248,11 @@ public class AerialHellTags
 
 	public static class ConfiguredFeatures
 	{
-		public static final TagKey<ConfiguredFeature<?, ?>> CANT_PLACE_IN_DUNGEONS = tag("cant_place_in_dungeons");
+		public static final TagKey<Feature> CANT_PLACE_IN_DUNGEONS = tag("cant_place_in_dungeons");
 
-		private static TagKey<ConfiguredFeature<?, ?>> tag(String name)
+		private static TagKey<Feature> tag(String name)
 		{
-			return TagKey.create(Registries.CONFIGURED_FEATURE, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));
+			return TagKey.create(Registries.FEATURE, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));
 		}
 	}
 

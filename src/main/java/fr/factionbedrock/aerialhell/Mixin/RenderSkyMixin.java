@@ -1,10 +1,10 @@
 package fr.factionbedrock.aerialhell.Mixin;
 
-import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
 import com.mojang.blaze3d.framegraph.FramePass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSkyRenderer;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import net.minecraft.client.Minecraft;
@@ -20,7 +20,6 @@ import net.minecraft.client.resources.model.sprite.AtlasManager;
 import net.minecraft.util.profiling.Profiler;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.material.FogType;
-import org.joml.Matrix4fc;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LevelRenderer.class)
 public class RenderSkyMixin
 {
-    @Shadow @Final public LevelRenderState levelRenderState;
+    @Shadow @Final LevelRenderState levelRenderState;
     @Shadow private @Nullable SkyRenderer skyRenderer;
     @Shadow private LevelTargetBundle targets;
     @Shadow private TextureManager textureManager;
@@ -41,8 +40,8 @@ public class RenderSkyMixin
 
     private static boolean VANILLA_RENDER = false;
 
-    @Inject(method = "addSkyPass(Lcom/mojang/blaze3d/framegraph/FrameGraphBuilder;Lnet/minecraft/client/renderer/state/level/CameraRenderState;Lcom/mojang/blaze3d/buffers/GpuBufferSlice;Lorg/joml/Matrix4fc;)V", at = @At("HEAD"), cancellable = true)
-    private void addSkyPass(FrameGraphBuilder frameGraphBuilder, CameraRenderState cameraState, GpuBufferSlice shaderFog, Matrix4fc modelViewMatrix, CallbackInfo callbackInfo)
+    @Inject(method = "addSkyPass(Lcom/mojang/blaze3d/framegraph/FrameGraphBuilder;Lnet/minecraft/client/renderer/state/level/CameraRenderState;Lcom/mojang/renderpearl/api/buffers/GpuBufferSlice;)V", at = @At("HEAD"), cancellable = true)
+    private void addSkyPass(FrameGraphBuilder frameGraphBuilder, CameraRenderState cameraState, GpuBufferSlice shaderFog, CallbackInfo callbackInfo)
     {
         LevelRenderer levelRenderer = (LevelRenderer) (Object) this;
         ClientLevel level = Minecraft.getInstance().level;

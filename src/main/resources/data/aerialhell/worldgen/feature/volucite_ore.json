@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:ore",
+  "discard_chance_on_air_exposure": 0,
+  "size": 7,
+  "targets": [
+    {
+      "state": {
+        "id": "aerialhell:volucite_ore"
+      },
+      "target": {
+        "predicate_type": "minecraft:tag_match",
+        "tag": "aerialhell:stellar_stone"
+      }
+    }
+  ]
+}

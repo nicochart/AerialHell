@@ -4,9 +4,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItemAbilities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.ItemInHandRenderer;
+import net.minecraft.client.renderer.FirstPersonHandsAndItemsRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.state.AvatarRenderState;
+import net.minecraft.client.renderer.state.level.FirstPersonHandsAndItemsRenderState;
+import net.minecraft.client.renderer.state.level.PlayerRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
@@ -16,15 +19,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ItemInHandRenderer.class)
+//since 26.3, first person item rendering moved from ItemInHandRenderer to FirstPersonHandsAndItemsRenderer, using render states
+@Mixin(FirstPersonHandsAndItemsRenderer.class)
 public class UseItemInHandRendererMixin
 {
     //modifies the arms position when using aerial hell ranged weapon
     @Inject(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getUseAnimation()Lnet/minecraft/world/item/ItemUseAnimation;"), cancellable = true)
-    private void modifyItemInHandRender(AbstractClientPlayer player, float frameInterp, float xRot, InteractionHand hand, float attack, ItemStack itemStack, float inverseArmHeight, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo callbackInfo)
+    private void modifyItemInHandRender(PlayerRenderState playerState, FirstPersonHandsAndItemsRenderState state, float partialTicks, float xRot, InteractionHand hand, float attack, ItemStack itemStack, float inverseArmHeight, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo callbackInfo)
     {
-        ItemInHandRenderer itemInHandRenderer = (ItemInHandRenderer) (Object) this;
-
         int itemUseDuration = 20;
         if (itemStack.is(AerialHellItems.RUBY_RESONATOR) || itemStack.is(AerialHellItems.VOLUCITE_RESONATOR))
         {
@@ -32,26 +34,28 @@ public class UseItemInHandRendererMixin
         }
         else {return;} //if the item is none of the Aerial Hell ranged weapons, return (and execute vanilla code)
 
+        AvatarRenderState avatarRenderState = playerState.avatarRenderState;
         //copy of BOW part, only editing charge time (itemUseDuration)
-        if (!player.isScoping())
+        if (!state.isScoping && avatarRenderState != null)
         {
             boolean isMainHand = hand == InteractionHand.MAIN_HAND;
-            HumanoidArm arm = isMainHand ? player.getMainArm() : player.getMainArm().getOpposite();
+            HumanoidArm arm = isMainHand ? avatarRenderState.mainArm : avatarRenderState.mainArm.getOpposite();
+            int useDuration = isMainHand ? state.mainHandUseDuration : state.offHandUseDuration;
             poseStack.pushPose();
 
             boolean isRightArm = arm == HumanoidArm.RIGHT;
             int invert = isRightArm ? 1 : -1;
-            if (player.isUsingItem() && player.getUseItemRemainingTicks() > 0 && player.getUsedItemHand() == hand)
+            if (avatarRenderState.isUsingItem && state.useItemRemainingTicks > 0 && avatarRenderState.useItemHand == hand)
             {
                 if (!itemStack.getUseAnimation().hasCustomArmTransform()) {this.doApplyItemArmTransform(poseStack, arm, inverseArmHeight);}
 
                 if (itemStack.getUseAnimation() == ItemUseAnimation.BOW)
                 {
                     poseStack.translate(invert * -0.2785682F, 0.18344387F, 0.15731531F);
-                    poseStack.mulPose(Axis.XP.rotationDegrees(-13.935F));
-                    poseStack.mulPose(Axis.YP.rotationDegrees(invert * 35.3F));
-                    poseStack.mulPose(Axis.ZP.rotationDegrees(invert * -9.785F));
-                    float timeHeld = itemStack.getUseDuration(player) - (player.getUseItemRemainingTicks() - frameInterp + 1.0F);
+                    poseStack.rotate(Axis.XP.rotationDegrees(-13.935F));
+                    poseStack.rotate(Axis.YP.rotationDegrees(invert * 35.3F));
+                    poseStack.rotate(Axis.ZP.rotationDegrees(invert * -9.785F));
+                    float timeHeld = useDuration - (state.useItemRemainingTicks - partialTicks + 1.0F);
                     float power = timeHeld / itemUseDuration;
                     power = (power * power + power * 2.0F) / 3.0F;
                     if (power > 1.0F) {
@@ -67,18 +71,18 @@ public class UseItemInHandRendererMixin
 
                     poseStack.translate(power * 0.0F, power * 0.0F, power * 0.04F);
                     poseStack.scale(1.0F, 1.0F, 1.0F + power * 0.2F);
-                    poseStack.mulPose(Axis.YN.rotationDegrees(invert * 45.0F));
+                    poseStack.rotate(Axis.YN.rotationDegrees(invert * 45.0F));
                 }
             }
 
-            itemInHandRenderer.renderItem(player, itemStack, isRightArm ? ItemDisplayContext.FIRST_PERSON_RIGHT_HAND : ItemDisplayContext.FIRST_PERSON_LEFT_HAND, poseStack, submitNodeCollector, lightCoords);
+            (isMainHand ? state.mainHandRenderState : state.offHandRenderState).submit(poseStack, submitNodeCollector, lightCoords, OverlayTexture.NO_OVERLAY, 0);
 
             poseStack.popPose();
             callbackInfo.cancel();
         }
     }
 
-    //copy of net.minecraft.client.renderer.ItemInHandRenderer method "applyItemArmTransform"
+    //copy of net.minecraft.client.renderer.FirstPersonHandsAndItemsRenderer method "applyItemArmTransform"
     private void doApplyItemArmTransform(PoseStack poseStack, HumanoidArm arm, float inverseArmHeight)
     {
         int invert = arm == HumanoidArm.RIGHT ? 1 : -1;

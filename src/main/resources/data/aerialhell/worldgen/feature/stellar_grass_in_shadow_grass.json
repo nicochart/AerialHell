@@ -1,0 +1,20 @@
+{
+  "type": "aerialhell:floor_transformation",
+  "size": 7,
+  "random_spread": 4,
+  "inner_chance": 0.5,
+  "outer_chance": 0.2,
+  "inner_state_provider": {
+    "type": "minecraft:simple",
+    "state": {
+      "id": "aerialhell:stellar_grass_block"
+    }
+  },
+  "outer_state_provider": {
+    "type": "minecraft:simple",
+    "state": {
+      "id": "aerialhell:stellar_grass_block"
+    }
+  },
+  "needs_roof": "false"
+}

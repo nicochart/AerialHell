@@ -22,7 +22,7 @@ public class LeavesWithAmbientParticlesBlock extends ShiftableLeavesBlock
 {
 	public LeavesWithAmbientParticlesBlock(BlockBehaviour.Properties properties, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
 	{
-		super(properties.isValidSpawn((state, reader, pos, entity) -> (entity == EntityTypes.OCELOT || entity == EntityTypes.PARROT)).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false), shiftedVariant, shiftType);
+		super(properties.isValidSpawn((state, reader, pos, entity) -> (entity == EntityTypes.OCELOT || entity == EntityTypes.PARROT)).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos, aabb) -> false), shiftedVariant, shiftType);
 	}
 
 	@Nullable protected SimpleParticleType getParticle()

@@ -44,7 +44,7 @@ public class HumanoidTwoLayerRender extends MobRenderer<AbstractHumanoidMonster,
         renderState.texture = getTextureLocation(entity);
         renderState.isBaby = entity.isBaby();
         renderState.isAggressive = entity.isAggressive();
-        renderState.attackTime = entity.getAttackAnim(partialTick);
+        renderState.swingAnimation = entity.getSwingAnimation(partialTick);
         ArmedEntityRenderState.extractArmedEntityRenderState(entity, renderState, this.itemModelResolver, partialTick);
     }
 

@@ -1,0 +1,18 @@
+{
+  "type": "aerialhell:lake",
+  "fluid": {
+    "type": "minecraft:simple",
+    "state": {
+      "id": "minecraft:water",
+      "properties": {
+        "level": "0"
+      }
+    }
+  },
+  "barrier": {
+    "type": "minecraft:simple",
+    "state": {
+      "id": "aerialhell:stellar_stone"
+    }
+  }
+}

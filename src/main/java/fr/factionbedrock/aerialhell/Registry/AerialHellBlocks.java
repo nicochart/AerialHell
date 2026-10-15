@@ -4,7 +4,6 @@ import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 
 import java.util.function.ToIntFunction;
 
-import com.google.common.collect.ImmutableMap;
 
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Block.*;
@@ -36,6 +35,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.sounds.AmbientLeavesBlockSoundPlayer;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -47,51 +47,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class AerialHellBlocks
 {
 	public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
-
-	public static void registerPots() {
-		FlowerPotBlock pot = (FlowerPotBlock) Blocks.FLOWER_POT;
-
-		pot.addPlant(BLUE_FLOWER.getId(), POTTED_BLUE_FLOWER);
-		pot.addPlant(BLACK_ROSE.getId(), POTTED_BLACK_ROSE);
-		pot.addPlant(BELLFLOWER.getId(), POTTED_BELLFLOWER);
-		pot.addPlant(STELLAR_FERN.getId(), POTTED_STELLAR_FERN);
-		pot.addPlant(STELLAR_DEAD_BUSH.getId(), POTTED_STELLAR_DEAD_BUSH);
-		pot.addPlant(SKY_CACTUS.getId(), POTTED_SKY_CACTUS);
-		pot.addPlant(VIBRANT_SKY_CACTUS.getId(), POTTED_VIBRANT_SKY_CACTUS);
-		pot.addPlant(AERIAL_TREE_SAPLING.getId(), POTTED_AERIAL_TREE_SAPLING);
-		pot.addPlant(GOLDEN_BEECH_SAPLING.getId(), POTTED_GOLDEN_BEECH_SAPLING);
-		pot.addPlant(COPPER_PINE_SAPLING.getId(), POTTED_COPPER_PINE_SAPLING);
-		pot.addPlant(LAPIS_ROBINIA_SAPLING.getId(), POTTED_LAPIS_ROBINIA_SAPLING);
-		pot.addPlant(SHADOW_PINE_SAPLING.getId(), POTTED_SHADOW_PINE_SAPLING);
-		pot.addPlant(PURPLE_SHADOW_PINE_SAPLING.getId(), POTTED_PURPLE_SHADOW_PINE_SAPLING);
-		pot.addPlant(STELLAR_JUNGLE_TREE_SAPLING.getId(), POTTED_STELLAR_JUNGLE_TREE_SAPLING);
-		pot.addPlant(CORTINARIUS_VIOLACEUS.getId(), POTTED_CORTINARIUS_VIOLACEUS);
-		pot.addPlant(VERDIGRIS_AGARIC.getId(), POTTED_VERDIGRIS_AGARIC);
-		pot.addPlant(BLOSSOMING_VINES.getId(), POTTED_VINE_BLOSSOM);
-		pot.addPlant(GLOWING_BOLETUS.getId(), POTTED_GLOWING_BOLETUS);
-	}
-
-	public static void registerAxeStrippingBlocks() {
-		AxeItem.STRIPPABLES = ImmutableMap.<Block, Block>builder()
-				.putAll(AxeItem.STRIPPABLES)
-				.put(AERIAL_TREE_LOG.get(), STRIPPED_AERIAL_TREE_LOG.get())
-				.put(AERIAL_TREE_WOOD.get(), STRIPPED_AERIAL_TREE_WOOD.get())
-				.put(GOLDEN_BEECH_LOG.get(), STRIPPED_GOLDEN_BEECH_LOG.get())
-				.put(GOLDEN_BEECH_WOOD.get(), STRIPPED_GOLDEN_BEECH_WOOD.get())
-				.put(COPPER_PINE_LOG.get(), STRIPPED_COPPER_PINE_LOG.get())
-				.put(COPPER_PINE_WOOD.get(), STRIPPED_COPPER_PINE_WOOD.get())
-				.put(LAPIS_ROBINIA_LOG.get(), STRIPPED_LAPIS_ROBINIA_LOG.get())
-				.put(LAPIS_ROBINIA_WOOD.get(), STRIPPED_LAPIS_ROBINIA_WOOD.get())
-				.put(SHADOW_PINE_LOG.get(), STRIPPED_SHADOW_PINE_LOG.get())
-				.put(SHADOW_PINE_WOOD.get(), STRIPPED_SHADOW_PINE_WOOD.get())
-				.put(STELLAR_JUNGLE_TREE_LOG.get(), STRIPPED_STELLAR_JUNGLE_TREE_LOG.get())
-				.put(STELLAR_JUNGLE_TREE_WOOD.get(), STRIPPED_STELLAR_JUNGLE_TREE_WOOD.get())
-				.put(GIANT_CORTINARIUS_VIOLACEUS_STEM.get(), STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM.get())
-				.put(GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM.get(), STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM.get())
-				.put(GIANT_VERDIGRIS_AGARIC_STEM.get(), STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM.get())
-				.put(GIANT_VERDIGRIS_AGARIC_BARK_STEM.get(), STRIPPED_GIANT_VERDIGRIS_AGARIC_BARK_STEM.get())
-				.build();
-	}
 
 	//materials
 	public static BlockBehaviour.Properties AERIAL_TREE_MATERIAL = BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).strength(2.5F, 2.5F).sound(SoundType.WOOD);
@@ -147,13 +102,13 @@ public class AerialHellBlocks
 	//grass & dirt
 	public static final DeferredBlock<StellarGrassBlock> STELLAR_GRASS_BLOCK = BLOCKS.register(Keys.STELLAR_GRASS_BLOCK.identifier().getPath(), () -> new StellarGrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).setId(Keys.STELLAR_GRASS_BLOCK)));
 	public static final DeferredBlock<Block> CHISELED_STELLAR_GRASS_BLOCK = BLOCKS.register(Keys.CHISELED_STELLAR_GRASS_BLOCK.identifier().getPath(), () -> new StellarGrassBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_GRASS_BLOCK.get()).setId(Keys.CHISELED_STELLAR_GRASS_BLOCK)));
-	public static final DeferredBlock<Block> STELLAR_DIRT = BLOCKS.register(Keys.STELLAR_DIRT.identifier().getPath(), () -> new StellarDirtBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).setId(Keys.STELLAR_DIRT)));
-	public static final DeferredBlock<Block> STELLAR_COARSE_DIRT = BLOCKS.register(Keys.STELLAR_COARSE_DIRT.identifier().getPath(), () -> new StellarDirtBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COARSE_DIRT).setId(Keys.STELLAR_COARSE_DIRT)));
-	public static final DeferredBlock<Block> STELLAR_FARMLAND = BLOCKS.register(Keys.STELLAR_FARMLAND.identifier().getPath(), () -> new StellarFarmBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).setId(Keys.STELLAR_FARMLAND).randomTicks().strength(0.6F).sound(SoundType.GRAVEL).isViewBlocking((state, blockgetter, pos) -> true).isSuffocating((state, blockgetter, pos) -> true)));
+	public static final DeferredBlock<Block> STELLAR_DIRT = BLOCKS.register(Keys.STELLAR_DIRT.identifier().getPath(), () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).setId(Keys.STELLAR_DIRT)));
+	public static final DeferredBlock<Block> STELLAR_COARSE_DIRT = BLOCKS.register(Keys.STELLAR_COARSE_DIRT.identifier().getPath(), () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COARSE_DIRT).setId(Keys.STELLAR_COARSE_DIRT)));
+	public static final DeferredBlock<Block> STELLAR_FARMLAND = BLOCKS.register(Keys.STELLAR_FARMLAND.identifier().getPath(), () -> new StellarFarmBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).setId(Keys.STELLAR_FARMLAND).randomTicks().strength(0.6F).sound(SoundType.GRAVEL).isViewBlocking((state, blockgetter, pos, aabb) -> true).isSuffocating((state, blockgetter, pos) -> true)));
 	public static final DeferredBlock<Block> STELLAR_DIRT_PATH = BLOCKS.register(Keys.STELLAR_DIRT_PATH.identifier().getPath(), () -> new StellarDirtPathBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT_PATH).setId(Keys.STELLAR_DIRT_PATH)));
-	public static final DeferredBlock<Block> STELLAR_PODZOL = BLOCKS.register(Keys.STELLAR_PODZOL.identifier().getPath(), () -> new StellarDirtBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PODZOL).setId(Keys.STELLAR_PODZOL)));
-	public static final DeferredBlock<Block> STELLAR_CRYSTAL_PODZOL = BLOCKS.register(Keys.STELLAR_CRYSTAL_PODZOL.identifier().getPath(), () -> new StellarDirtBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PODZOL).setId(Keys.STELLAR_CRYSTAL_PODZOL)));
-	public static final DeferredBlock<Block> CHISELED_STELLAR_DIRT = BLOCKS.register(Keys.CHISELED_STELLAR_DIRT.identifier().getPath(), () -> new StellarDirtBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_DIRT.get()).setId(Keys.CHISELED_STELLAR_DIRT)));
+	public static final DeferredBlock<Block> STELLAR_PODZOL = BLOCKS.register(Keys.STELLAR_PODZOL.identifier().getPath(), () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PODZOL).setId(Keys.STELLAR_PODZOL)));
+	public static final DeferredBlock<Block> STELLAR_CRYSTAL_PODZOL = BLOCKS.register(Keys.STELLAR_CRYSTAL_PODZOL.identifier().getPath(), () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PODZOL).setId(Keys.STELLAR_CRYSTAL_PODZOL)));
+	public static final DeferredBlock<Block> CHISELED_STELLAR_DIRT = BLOCKS.register(Keys.CHISELED_STELLAR_DIRT.identifier().getPath(), () -> new Block(BlockBehaviour.Properties.ofFullCopy(STELLAR_DIRT.get()).setId(Keys.CHISELED_STELLAR_DIRT)));
 	public static final DeferredBlock<ShadowGrassBlock> SHADOW_GRASS_BLOCK = BLOCKS.register(Keys.SHADOW_GRASS_BLOCK.identifier().getPath(), () -> new ShadowGrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).setId(Keys.SHADOW_GRASS_BLOCK)));
 
 	//slippery sand
@@ -298,15 +253,15 @@ public class AerialHellBlocks
 	public static final DeferredBlock<WallBlock> CRYSTAL_BRICKS_WALL = BLOCKS.register(Keys.CRYSTAL_BRICKS_WALL.identifier().getPath(), () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BRICKS.get()).setId(Keys.CRYSTAL_BRICKS_WALL)));
 	public static final DeferredBlock<Block> STELLAR_STONE_CRYSTAL_BLOCK = BLOCKS.register(Keys.STELLAR_STONE_CRYSTAL_BLOCK.identifier().getPath(), () -> new BasicShiftableRenderBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BLOCK.get()).setId(Keys.STELLAR_STONE_CRYSTAL_BLOCK).lightLevel((state) -> 13)));
 	public static final DeferredBlock<Block> SHADOW_CRYSTAL_BLOCK = BLOCKS.register(Keys.SHADOW_CRYSTAL_BLOCK.identifier().getPath(), () -> new BasicShadowSpreaderBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BLOCK.get()).setId(Keys.SHADOW_CRYSTAL_BLOCK).lightLevel((state) -> 12)));
-	public static final DeferredBlock<Block> CRYSTALLIZED_LEAVES = BLOCKS.register(Keys.CRYSTALLIZED_LEAVES.identifier().getPath(), () -> new UntintedParticleLeavesBlock(0.1F, AerialHellParticleTypes.FALLING_CRYSTALLIZED_LEAVES.get(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(Keys.CRYSTALLIZED_LEAVES).lightLevel((state) -> 12)));
+	public static final DeferredBlock<Block> CRYSTALLIZED_LEAVES = BLOCKS.register(Keys.CRYSTALLIZED_LEAVES.identifier().getPath(), () -> new UntintedParticleLeavesBlock(0.1F, AerialHellParticleTypes.FALLING_CRYSTALLIZED_LEAVES.get(), AmbientLeavesBlockSoundPlayer.noAmbientSound(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(Keys.CRYSTALLIZED_LEAVES).lightLevel((state) -> 12)));
 	public static final DeferredBlock<Block> CRYSTALLIZED_FIRE = BLOCKS.register(Keys.CRYSTALLIZED_FIRE.identifier().getPath(), () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.CRYSTALLIZED_FIRE).lightLevel((state) -> 12).instabreak()));
 
 	//glass and glass pane
-	public static final DeferredBlock<Block> SLIPPERY_SAND_GLASS = BLOCKS.register(Keys.SLIPPERY_SAND_GLASS.identifier().getPath(), () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false)));
-	public static final DeferredBlock<Block> RED_SLIPPERY_SAND_GLASS = BLOCKS.register(Keys.RED_SLIPPERY_SAND_GLASS.identifier().getPath(), () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.RED_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false)));
-	public static final DeferredBlock<Block> BLACK_SLIPPERY_SAND_GLASS = BLOCKS.register(Keys.BLACK_SLIPPERY_SAND_GLASS.identifier().getPath(), () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.BLACK_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false)));
-	public static final DeferredBlock<Block> BLUE_SLIPPERY_SAND_GLASS = BLOCKS.register(Keys.BLUE_SLIPPERY_SAND_GLASS.identifier().getPath(), () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.BLUE_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false)));
-	public static final DeferredBlock<Block> GREEN_SLIPPERY_SAND_GLASS = BLOCKS.register(Keys.GREEN_SLIPPERY_SAND_GLASS.identifier().getPath(), () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.GREEN_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false)));
+	public static final DeferredBlock<Block> SLIPPERY_SAND_GLASS = BLOCKS.register(Keys.SLIPPERY_SAND_GLASS.identifier().getPath(), () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos, aabb) -> false)));
+	public static final DeferredBlock<Block> RED_SLIPPERY_SAND_GLASS = BLOCKS.register(Keys.RED_SLIPPERY_SAND_GLASS.identifier().getPath(), () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.RED_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos, aabb) -> false)));
+	public static final DeferredBlock<Block> BLACK_SLIPPERY_SAND_GLASS = BLOCKS.register(Keys.BLACK_SLIPPERY_SAND_GLASS.identifier().getPath(), () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.BLACK_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos, aabb) -> false)));
+	public static final DeferredBlock<Block> BLUE_SLIPPERY_SAND_GLASS = BLOCKS.register(Keys.BLUE_SLIPPERY_SAND_GLASS.identifier().getPath(), () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.BLUE_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos, aabb) -> false)));
+	public static final DeferredBlock<Block> GREEN_SLIPPERY_SAND_GLASS = BLOCKS.register(Keys.GREEN_SLIPPERY_SAND_GLASS.identifier().getPath(), () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.GREEN_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos, aabb) -> false)));
 	public static final DeferredBlock<Block> SLIPPERY_SAND_GLASS_PANE = BLOCKS.register(Keys.SLIPPERY_SAND_GLASS_PANE.identifier().getPath(), () -> new StainedGlassPaneBlock(DyeColor.YELLOW, BlockBehaviour.Properties.of().setId(Keys.SLIPPERY_SAND_GLASS_PANE).friction(1.01F).strength(0.3F).sound(SoundType.GLASS).noOcclusion()));
 	public static final DeferredBlock<Block> RED_SLIPPERY_SAND_GLASS_PANE = BLOCKS.register(Keys.RED_SLIPPERY_SAND_GLASS_PANE.identifier().getPath(), () -> new StainedGlassPaneBlock(DyeColor.RED, BlockBehaviour.Properties.of().setId(Keys.RED_SLIPPERY_SAND_GLASS_PANE).friction(1.01F).strength(0.3F).sound(SoundType.GLASS).noOcclusion()));
 	public static final DeferredBlock<Block> BLACK_SLIPPERY_SAND_GLASS_PANE = BLOCKS.register(Keys.BLACK_SLIPPERY_SAND_GLASS_PANE.identifier().getPath(), () -> new StainedGlassPaneBlock(DyeColor.BLACK, BlockBehaviour.Properties.of().setId(Keys.BLACK_SLIPPERY_SAND_GLASS_PANE).friction(1.01F).strength(0.3F).sound(SoundType.GLASS).noOcclusion()));
@@ -336,13 +291,13 @@ public class AerialHellBlocks
 	public static final DeferredBlock<Block> GHOST_LANTERN = BLOCKS.register(Keys.GHOST_LANTERN.identifier().getPath(), () -> new GhostLanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).setId(Keys.GHOST_LANTERN)));
 
 	//other condition condition blocks
-	public static final DeferredBlock<Block> INTANGIBLE_TEMPORARY_BLOCK = BLOCKS.register(Keys.INTANGIBLE_TEMPORARY_BLOCK.identifier().getPath(), () -> new IntangibleTemporaryBlock(BlockBehaviour.Properties.of().setId(Keys.INTANGIBLE_TEMPORARY_BLOCK).strength(2.0F, 3600000.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion()));
+	public static final DeferredBlock<Block> INTANGIBLE_TEMPORARY_BLOCK = BLOCKS.register(Keys.INTANGIBLE_TEMPORARY_BLOCK.identifier().getPath(), () -> new IntangibleTemporaryBlock(BlockBehaviour.Properties.of().setId(Keys.INTANGIBLE_TEMPORARY_BLOCK).strength(2.0F, 3600000.0F).noLootTable().pushReaction(PushReaction.IGNORE_ENTITY).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion()));
 
 	//reactors
-	public static final DeferredBlock<Block> WEAK_LIGHT_REACTOR = BLOCKS.register(Keys.WEAK_LIGHT_REACTOR.identifier().getPath(), () -> new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.WEAK_LIGHT_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 32, BiomeShifter.ShiftType.UNCORRUPT, () -> AerialHellBlocks.BROKEN_WEAK_LIGHT_REACTOR.get()));
-	public static final DeferredBlock<Block> HIGH_POWER_LIGHT_REACTOR = BLOCKS.register(Keys.HIGH_POWER_LIGHT_REACTOR.identifier().getPath(), () -> new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.HIGH_POWER_LIGHT_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 58, BiomeShifter.ShiftType.UNCORRUPT, () -> AerialHellBlocks.BROKEN_HIGH_POWER_LIGHT_REACTOR.get()));
-	public static final DeferredBlock<Block> WEAK_SHADOW_REACTOR = BLOCKS.register(Keys.WEAK_SHADOW_REACTOR.identifier().getPath(), () -> new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.WEAK_SHADOW_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 26, BiomeShifter.ShiftType.CORRUPT, () -> AerialHellBlocks.BROKEN_WEAK_SHADOW_REACTOR.get()));
-	public static final DeferredBlock<Block> HIGH_POWER_SHADOW_REACTOR = BLOCKS.register(Keys.HIGH_POWER_SHADOW_REACTOR.identifier().getPath(), () -> new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.HIGH_POWER_SHADOW_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 60, BiomeShifter.ShiftType.CORRUPT, () -> AerialHellBlocks.BROKEN_HIGH_POWER_SHADOW_REACTOR.get()));
+	public static final DeferredBlock<Block> WEAK_LIGHT_REACTOR = BLOCKS.register(Keys.WEAK_LIGHT_REACTOR.identifier().getPath(), () -> new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.WEAK_LIGHT_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE_ENTITY).sound(SoundType.STONE).noOcclusion(), 32, BiomeShifter.ShiftType.UNCORRUPT, () -> AerialHellBlocks.BROKEN_WEAK_LIGHT_REACTOR.get()));
+	public static final DeferredBlock<Block> HIGH_POWER_LIGHT_REACTOR = BLOCKS.register(Keys.HIGH_POWER_LIGHT_REACTOR.identifier().getPath(), () -> new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.HIGH_POWER_LIGHT_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE_ENTITY).sound(SoundType.STONE).noOcclusion(), 58, BiomeShifter.ShiftType.UNCORRUPT, () -> AerialHellBlocks.BROKEN_HIGH_POWER_LIGHT_REACTOR.get()));
+	public static final DeferredBlock<Block> WEAK_SHADOW_REACTOR = BLOCKS.register(Keys.WEAK_SHADOW_REACTOR.identifier().getPath(), () -> new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.WEAK_SHADOW_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE_ENTITY).sound(SoundType.STONE).noOcclusion(), 26, BiomeShifter.ShiftType.CORRUPT, () -> AerialHellBlocks.BROKEN_WEAK_SHADOW_REACTOR.get()));
+	public static final DeferredBlock<Block> HIGH_POWER_SHADOW_REACTOR = BLOCKS.register(Keys.HIGH_POWER_SHADOW_REACTOR.identifier().getPath(), () -> new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.HIGH_POWER_SHADOW_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE_ENTITY).sound(SoundType.STONE).noOcclusion(), 60, BiomeShifter.ShiftType.CORRUPT, () -> AerialHellBlocks.BROKEN_HIGH_POWER_SHADOW_REACTOR.get()));
 
 	public static final DeferredBlock<Block> BROKEN_WEAK_LIGHT_REACTOR = BLOCKS.register(Keys.BROKEN_WEAK_LIGHT_REACTOR.identifier().getPath(), () -> new Block(BlockBehaviour.Properties.ofFullCopy(WEAK_LIGHT_REACTOR.get()).setId(Keys.BROKEN_WEAK_LIGHT_REACTOR)));
 	public static final DeferredBlock<Block> BROKEN_HIGH_POWER_LIGHT_REACTOR = BLOCKS.register(Keys.BROKEN_HIGH_POWER_LIGHT_REACTOR.identifier().getPath(), () -> new Block(BlockBehaviour.Properties.ofFullCopy(HIGH_POWER_LIGHT_REACTOR.get()).setId(Keys.BROKEN_HIGH_POWER_LIGHT_REACTOR)));
@@ -393,11 +348,11 @@ public class AerialHellBlocks
 	public static final DeferredBlock<Block> CRACKED_LIGHT_VOLUCITE_STONE = BLOCKS.register(Keys.CRACKED_LIGHT_VOLUCITE_STONE.identifier().getPath(), () -> new CoreProtectedBlock(Block.Properties.of().setId(Keys.CRACKED_LIGHT_VOLUCITE_STONE).strength(2.0F, 6.0F).sound(SoundType.STONE)));
 
 	//dungeon cores
-	public static final DeferredBlock<Block> MUD_DUNGEON_CORE = BLOCKS.register(Keys.MUD_DUNGEON_CORE.identifier().getPath(), () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.MUD_DUNGEON_CORE).strength(30.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
-	public static final DeferredBlock<Block> LUNATIC_DUNGEON_CORE = BLOCKS.register(Keys.LUNATIC_DUNGEON_CORE.identifier().getPath(), () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.LUNATIC_DUNGEON_CORE).strength(40.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
-	public static final DeferredBlock<Block> SHADOW_CATACOMBS_DUNGEON_CORE = BLOCKS.register(Keys.SHADOW_CATACOMBS_DUNGEON_CORE.identifier().getPath(), () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.SHADOW_CATACOMBS_DUNGEON_CORE).strength(30.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
-	public static final DeferredBlock<Block> GOLDEN_NETHER_DUNGEON_CORE = BLOCKS.register(Keys.GOLDEN_NETHER_DUNGEON_CORE.identifier().getPath(), () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.GOLDEN_NETHER_DUNGEON_CORE).strength(50.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
-	public static final DeferredBlock<Block> VOLUCITE_DUNGEON_CORE = BLOCKS.register(Keys.VOLUCITE_DUNGEON_CORE.identifier().getPath(), () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.VOLUCITE_DUNGEON_CORE).strength(50.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
+	public static final DeferredBlock<Block> MUD_DUNGEON_CORE = BLOCKS.register(Keys.MUD_DUNGEON_CORE.identifier().getPath(), () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.MUD_DUNGEON_CORE).strength(30.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
+	public static final DeferredBlock<Block> LUNATIC_DUNGEON_CORE = BLOCKS.register(Keys.LUNATIC_DUNGEON_CORE.identifier().getPath(), () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.LUNATIC_DUNGEON_CORE).strength(40.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
+	public static final DeferredBlock<Block> SHADOW_CATACOMBS_DUNGEON_CORE = BLOCKS.register(Keys.SHADOW_CATACOMBS_DUNGEON_CORE.identifier().getPath(), () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.SHADOW_CATACOMBS_DUNGEON_CORE).strength(30.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
+	public static final DeferredBlock<Block> GOLDEN_NETHER_DUNGEON_CORE = BLOCKS.register(Keys.GOLDEN_NETHER_DUNGEON_CORE.identifier().getPath(), () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.GOLDEN_NETHER_DUNGEON_CORE).strength(50.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
+	public static final DeferredBlock<Block> VOLUCITE_DUNGEON_CORE = BLOCKS.register(Keys.VOLUCITE_DUNGEON_CORE.identifier().getPath(), () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.VOLUCITE_DUNGEON_CORE).strength(50.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
 
 	//dungeons slabs, stairs & walls
 	public static final DeferredBlock<SlabBlock> MUD_BRICKS_SLAB = BLOCKS.register(Keys.MUD_BRICKS_SLAB.identifier().getPath(), () -> new CoreProtectedSlabBlock(BlockBehaviour.Properties.ofFullCopy(MUD_BRICKS.get()).setId(Keys.MUD_BRICKS_SLAB)));
@@ -506,7 +461,7 @@ public class AerialHellBlocks
 	public static final DeferredBlock<Block> RAW_VOLUCITE_BLOCK = BLOCKS.register(Keys.RAW_VOLUCITE_BLOCK.identifier().getPath(), () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIAMOND_BLOCK).setId(Keys.RAW_VOLUCITE_BLOCK).requiresCorrectToolForDrops()));
 
 	public static final DeferredBlock<Block> FLUORITE_BLOCK = BLOCKS.register(Keys.FLUORITE_BLOCK.identifier().getPath(), () -> new BiomeShifterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).setId(Keys.FLUORITE_BLOCK).requiresCorrectToolForDrops(), 7, BiomeShifter.ShiftType.UNCORRUPT, () -> AerialHellBlocks.SMOKY_QUARTZ_BLOCK.get()));
-	public static final DeferredBlock<Block> MAGMATIC_GEL_BLOCK = BLOCKS.register(Keys.MAGMATIC_GEL_BLOCK.identifier().getPath(), () -> new MagmaticGelBlock(BlockBehaviour.Properties.of().setId(Keys.MAGMATIC_GEL_BLOCK).strength(1.0F, 1600.0F).randomTicks().sound(SoundType.GLASS).noOcclusion().requiresCorrectToolForDrops().isViewBlocking((state, reader, pos) -> false)));
+	public static final DeferredBlock<Block> MAGMATIC_GEL_BLOCK = BLOCKS.register(Keys.MAGMATIC_GEL_BLOCK.identifier().getPath(), () -> new MagmaticGelBlock(BlockBehaviour.Properties.of().setId(Keys.MAGMATIC_GEL_BLOCK).strength(1.0F, 1600.0F).randomTicks().sound(SoundType.GLASS).noOcclusion().requiresCorrectToolForDrops().isViewBlocking((state, reader, pos, aabb) -> false)));
 	public static final DeferredBlock<Block> RUBY_BLOCK = BLOCKS.register(Keys.RUBY_BLOCK.identifier().getPath(), () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).setId(Keys.RUBY_BLOCK).requiresCorrectToolForDrops()));
 	public static final DeferredBlock<Block> AZURITE_BLOCK = BLOCKS.register(Keys.AZURITE_BLOCK.identifier().getPath(), () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).setId(Keys.AZURITE_BLOCK).requiresCorrectToolForDrops()));
 	public static final DeferredBlock<Block> VOLUCITE_BLOCK = BLOCKS.register(Keys.VOLUCITE_BLOCK.identifier().getPath(), () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIAMOND_BLOCK).setId(Keys.VOLUCITE_BLOCK).requiresCorrectToolForDrops()));
@@ -536,8 +491,8 @@ public class AerialHellBlocks
 	public static final DeferredBlock<VerticalGrowingPlantBlock> STELLAR_SUGAR_CANE = BLOCKS.register(Keys.STELLAR_SUGAR_CANE.identifier().getPath(), () -> new VerticalGrowingPlantBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SUGAR_CANE).setId(Keys.STELLAR_SUGAR_CANE), 5));
 
 	//chorus like
-	public static final DeferredBlock<ChorusPlantLikeBlock> FULL_MOON_PLANT = BLOCKS.register(Keys.FULL_MOON_PLANT.identifier().getPath(), () -> new ChorusPlantLikeBlock(BlockBehaviour.Properties.of().setId(Keys.FULL_MOON_PLANT).mapColor(MapColor.COLOR_PURPLE).forceSolidOff().strength(0.4F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY).lightLevel((state) -> 10)));
-	public static final DeferredBlock<ChorusFlowerLikeBlock> FULL_MOON_FLOWER = BLOCKS.register(Keys.FULL_MOON_FLOWER.identifier().getPath(), () -> new ChorusFlowerLikeBlock(FULL_MOON_PLANT.get(), BlockBehaviour.Properties.of().setId(Keys.FULL_MOON_FLOWER).mapColor(MapColor.COLOR_PURPLE).forceSolidOff().randomTicks().strength(0.4F).sound(SoundType.WOOD).noOcclusion().isValidSpawn((state, blockGetter, pos, entitytype) -> false).pushReaction(PushReaction.DESTROY).isRedstoneConductor((state, blockGetter, pos) -> false).lightLevel((state) -> 15)));
+	public static final DeferredBlock<ChorusPlantLikeBlock> FULL_MOON_PLANT = BLOCKS.register(Keys.FULL_MOON_PLANT.identifier().getPath(), () -> new ChorusPlantLikeBlock(BlockBehaviour.Properties.of().setId(Keys.FULL_MOON_PLANT).mapColor(MapColor.COLOR_PURPLE).forceSolidOff().strength(0.4F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.POPPED).lightLevel((state) -> 10)));
+	public static final DeferredBlock<ChorusFlowerLikeBlock> FULL_MOON_FLOWER = BLOCKS.register(Keys.FULL_MOON_FLOWER.identifier().getPath(), () -> new ChorusFlowerLikeBlock(FULL_MOON_PLANT.get(), BlockBehaviour.Properties.of().setId(Keys.FULL_MOON_FLOWER).mapColor(MapColor.COLOR_PURPLE).forceSolidOff().randomTicks().strength(0.4F).sound(SoundType.WOOD).noOcclusion().isValidSpawn((state, blockGetter, pos, entitytype) -> false).pushReaction(PushReaction.POPPED).isRedstoneConductor((state, blockGetter, pos) -> false).lightLevel((state) -> 15)));
 
 	//vines
 	public static final DeferredBlock<CaveVinesBlock> GLOWING_STICK_FRUIT_VINES = BLOCKS.register(Keys.GLOWING_STICK_FRUIT_VINES.identifier().getPath(), () -> new AerialHellCaveVinesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAVE_VINES).setId(Keys.GLOWING_STICK_FRUIT_VINES)));
@@ -825,14 +780,14 @@ public class AerialHellBlocks
 	public static final DeferredBlock<ComposterBlock> GRAY_SHROOM_COMPOSTER = BLOCKS.register(Keys.GRAY_SHROOM_COMPOSTER.identifier().getPath(), () -> new ComposterBlock(SHROOM_MATERIAL.setId(Keys.GRAY_SHROOM_COMPOSTER)));
 
 	//decorative
-	public static final DeferredBlock<RotatedPillarBlock> AERIAL_TREE_VINE_ROPE_SPOOL = BLOCKS.register(Keys.AERIAL_TREE_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.AERIAL_TREE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
-	public static final DeferredBlock<RotatedPillarBlock> GOLDEN_BEECH_VINE_ROPE_SPOOL = BLOCKS.register(Keys.GOLDEN_BEECH_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.GOLDEN_BEECH_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
-	public static final DeferredBlock<RotatedPillarBlock> COPPER_PINE_VINE_ROPE_SPOOL = BLOCKS.register(Keys.COPPER_PINE_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.COPPER_PINE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
-	public static final DeferredBlock<RotatedPillarBlock> LAPIS_ROBINIA_VINE_ROPE_SPOOL = BLOCKS.register(Keys.LAPIS_ROBINIA_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.LAPIS_ROBINIA_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
-	public static final DeferredBlock<RotatedPillarBlock> SHADOW_PINE_VINE_ROPE_SPOOL = BLOCKS.register(Keys.SHADOW_PINE_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.SHADOW_PINE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
-	public static final DeferredBlock<RotatedPillarBlock> STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL = BLOCKS.register(Keys.STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
-	public static final DeferredBlock<RotatedPillarBlock> SKY_CACTUS_FIBER_VINE_ROPE_SPOOL = BLOCKS.register(Keys.SKY_CACTUS_FIBER_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.SKY_CACTUS_FIBER_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
-	public static final DeferredBlock<RotatedPillarBlock> GRAY_SHROOM_VINE_ROPE_SPOOL = BLOCKS.register(Keys.GRAY_SHROOM_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.GRAY_SHROOM_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+	public static final DeferredBlock<RotatedPillarBlock> AERIAL_TREE_VINE_ROPE_SPOOL = BLOCKS.register(Keys.AERIAL_TREE_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.AERIAL_TREE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+	public static final DeferredBlock<RotatedPillarBlock> GOLDEN_BEECH_VINE_ROPE_SPOOL = BLOCKS.register(Keys.GOLDEN_BEECH_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.GOLDEN_BEECH_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+	public static final DeferredBlock<RotatedPillarBlock> COPPER_PINE_VINE_ROPE_SPOOL = BLOCKS.register(Keys.COPPER_PINE_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.COPPER_PINE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+	public static final DeferredBlock<RotatedPillarBlock> LAPIS_ROBINIA_VINE_ROPE_SPOOL = BLOCKS.register(Keys.LAPIS_ROBINIA_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.LAPIS_ROBINIA_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+	public static final DeferredBlock<RotatedPillarBlock> SHADOW_PINE_VINE_ROPE_SPOOL = BLOCKS.register(Keys.SHADOW_PINE_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.SHADOW_PINE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+	public static final DeferredBlock<RotatedPillarBlock> STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL = BLOCKS.register(Keys.STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+	public static final DeferredBlock<RotatedPillarBlock> SKY_CACTUS_FIBER_VINE_ROPE_SPOOL = BLOCKS.register(Keys.SKY_CACTUS_FIBER_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.SKY_CACTUS_FIBER_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+	public static final DeferredBlock<RotatedPillarBlock> GRAY_SHROOM_VINE_ROPE_SPOOL = BLOCKS.register(Keys.GRAY_SHROOM_VINE_ROPE_SPOOL.identifier().getPath(), () -> new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.GRAY_SHROOM_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
 
 	//fluids
 	public static final DeferredBlock<LiquidBlock> LIQUID_OF_THE_GODS = BLOCKS.register(Keys.LIQUID_OF_THE_GODS.identifier().getPath(), () -> new AerialHellFluidBlock(AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE.get(), BlockBehaviour.Properties.of().setId(Keys.LIQUID_OF_THE_GODS).replaceable().lightLevel((state) -> 8)));

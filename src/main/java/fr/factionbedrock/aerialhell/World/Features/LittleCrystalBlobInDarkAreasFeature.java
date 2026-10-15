@@ -2,7 +2,7 @@ package fr.factionbedrock.aerialhell.World.Features;
 
 import java.util.List;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -14,16 +14,19 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
-public class LittleCrystalBlobInDarkAreasFeature extends Feature<CrystalBlobConfig> implements DungeonSensitiveFeatureCheck
+public class LittleCrystalBlobInDarkAreasFeature extends AerialHellFeature<CrystalBlobConfig> implements DungeonSensitiveFeatureCheck
 {
-	public LittleCrystalBlobInDarkAreasFeature(Codec<CrystalBlobConfig> codec) {super(codec);}
+	public static final MapCodec<LittleCrystalBlobInDarkAreasFeature> CODEC = CrystalBlobConfig.CODEC.xmap(LittleCrystalBlobInDarkAreasFeature::new, LittleCrystalBlobInDarkAreasFeature::config);
 
-	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LITTLE_CRYSTAL_BLOB_IN_DARK_AREAS_LIST;}
+	public LittleCrystalBlobInDarkAreasFeature(CrystalBlobConfig config) {super(config);}
+
+	@Override public MapCodec<? extends Feature> codec() {return CODEC;}
+
+	@Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LITTLE_CRYSTAL_BLOB_IN_DARK_AREAS_LIST;}
 
 	@Override public boolean place(FeaturePlaceContext<CrystalBlobConfig> context)
 	{

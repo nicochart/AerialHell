@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:random_selector",
+  "features": [
+    {
+      "chance": 1,
+      "feature": "aerialhell:crystallized_tree_checked"
+    }
+  ],
+  "default": {
+    "feature": "aerialhell:crystallized_tree",
+    "placement": []
+  }
+}

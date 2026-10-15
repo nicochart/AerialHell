@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Config.ClassicGiantTreeConfig;
@@ -13,8 +13,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 
 import java.util.List;
 
@@ -23,9 +23,13 @@ public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGia
     private static final SplineKnotsDeformedStraightLine.KnotsParameters TRUNK_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 16, 0.3F, 5, 20);
     private static final SplineKnotsDeformedStraightLine.KnotsParameters FOLIAGE_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 18, 0.4F, 6, 19);
 
-    public ClassicGiantTreeFeature(Codec<ClassicGiantTreeConfig> codec) {super(codec);}
+    public static final MapCodec<ClassicGiantTreeFeature> CODEC = ClassicGiantTreeConfig.CODEC.xmap(ClassicGiantTreeFeature::new, ClassicGiantTreeFeature::config);
 
-    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.CLASSIC_GIANT_TREE_LIST;}
+    public ClassicGiantTreeFeature(ClassicGiantTreeConfig config) {super(config);}
+
+    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+
+    @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.CLASSIC_GIANT_TREE_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<ClassicGiantTreeConfig> context)
     {

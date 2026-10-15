@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Block.Plants.VerticalGrowingPlantBlock;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
@@ -13,19 +13,22 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 import java.util.List;
 
 //copy of TwistingVinesFeature class with some customizations and a config with one more parameter; editing placeWeepingVinesColumn and isInvalidPlacementLocation to adapt to Aerial Hell
-public class VerticalGrowingPlantFeature extends Feature<VerticalGrowingPlantConfig> implements DungeonSensitiveFeatureCheck
+public class VerticalGrowingPlantFeature extends AerialHellFeature<VerticalGrowingPlantConfig> implements DungeonSensitiveFeatureCheck
 {
-    public VerticalGrowingPlantFeature(Codec<VerticalGrowingPlantConfig> codec) {super(codec);}
+    public static final MapCodec<VerticalGrowingPlantFeature> CODEC = VerticalGrowingPlantConfig.CODEC.xmap(VerticalGrowingPlantFeature::new, VerticalGrowingPlantFeature::config);
 
-    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.VERTICAL_GROWING_PLANT_LIST;}
+    public VerticalGrowingPlantFeature(VerticalGrowingPlantConfig config) {super(config);}
+
+    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+
+    @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.VERTICAL_GROWING_PLANT_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<VerticalGrowingPlantConfig> context)
     {

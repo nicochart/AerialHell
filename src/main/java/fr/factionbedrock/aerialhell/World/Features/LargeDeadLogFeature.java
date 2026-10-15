@@ -1,10 +1,11 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Block.LargeDeadLogBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,21 +14,22 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Half;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
+import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class LargeDeadLogFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
+public class LargeDeadLogFeature extends AerialHellFeature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
 	private final Supplier<LargeDeadLogBlock> block;
-	public LargeDeadLogFeature(Codec<NoneFeatureConfiguration> codec, Supplier<LargeDeadLogBlock> block) {super(codec); this.block = block;}
+	public LargeDeadLogFeature(NoneFeatureConfiguration config, Supplier<LargeDeadLogBlock> block) {super(config); this.block = block;}
 
-	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG_LIST;}
+	@Override public MapCodec<? extends Feature> codec() {return AerialHellFeatures.LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG.get();}
+
+	@Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG_LIST;}
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{

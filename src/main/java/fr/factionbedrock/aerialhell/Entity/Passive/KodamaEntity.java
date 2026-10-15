@@ -51,7 +51,7 @@ public class KodamaEntity extends AerialHellAnimalEntity
     public long getDayTime()
     {
         Optional<Holder<WorldClock>> defaultClock = this.level().dimensionType().defaultClock();
-        return defaultClock.isEmpty() ? 0 : this.level().clockManager().getTotalTicks(defaultClock.get()) % 24000;
+        return defaultClock.isEmpty() ? 0 : this.level().clockManager().getInstance(defaultClock.get()).totalTicks() % 24000;
     }
 
     @Override public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficulty, EntitySpawnReason mobSpawnType, @Nullable SpawnGroupData spawnGroupData)

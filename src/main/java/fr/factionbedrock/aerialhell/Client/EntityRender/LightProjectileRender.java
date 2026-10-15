@@ -32,7 +32,7 @@ public class LightProjectileRender<T extends AbstractLightProjectileEntity> exte
     {
         poseStack.pushPose();
         poseStack.scale(2.0F, 2.0F, 2.0F);
-        poseStack.mulPose(cameraRenderState.orientation);
+        poseStack.rotate(cameraRenderState.orientation);
         RenderType type = getRenderType(renderState.texture);
         submitNodeCollector.submitCustomGeometry(poseStack, type, (posestack$pose, vertexConsumer) ->
         {

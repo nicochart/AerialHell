@@ -6,9 +6,9 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import net.minecraft.core.Vec3i;
+import net.minecraft.world.level.levelgen.structure.placement.AbstractSpreadingStructurePlacement;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
-import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
 
 import java.util.Optional;
 
@@ -31,7 +31,7 @@ public class ConfigSpacingStructurePlacement extends RandomSpreadStructurePlacem
 
     private static DataResult<ConfigSpacingStructurePlacement> validate(ConfigSpacingStructurePlacement placement) {return placement.spacing() <= placement.separation() ? DataResult.error(() -> "Spacing has to be larger than separation") : DataResult.success(placement);}
 
-    public ConfigSpacingStructurePlacement(Vec3i locateOffset, StructurePlacement.FrequencyReductionMethod frequencyReductionMethod, float frequency, int salt, Optional<ExclusionZone> exclusionZone, int separation, RandomSpreadType spreadType)
+    public ConfigSpacingStructurePlacement(Vec3i locateOffset, AbstractSpreadingStructurePlacement.FrequencyReductionMethod frequencyReductionMethod, float frequency, int salt, Optional<ExclusionZone> exclusionZone, int separation, RandomSpreadType spreadType)
     {
         super(locateOffset, frequencyReductionMethod, frequency, salt, exclusionZone, LoadedConfigParams.OVERWORLD_ABANDONNED_PORTAL_SPACING_OVERRIDE, separation, spreadType);
     }

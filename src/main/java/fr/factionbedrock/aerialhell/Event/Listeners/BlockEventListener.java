@@ -22,7 +22,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.client.event.RenderBlockScreenEffectEvent;
+import net.neoforged.neoforge.client.event.ExtractBlockScreenEffectEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import org.joml.Matrix4f;
@@ -108,22 +108,19 @@ public class BlockEventListener
         }
     }
 
-    public static void onOverlay(RenderBlockScreenEffectEvent event)
+    public static void onOverlay(ExtractBlockScreenEffectEvent event)
     {
-    	if (event.getOverlayType() == RenderBlockScreenEffectEvent.OverlayType.BLOCK)
+    	if (event.getOverlayType() == ExtractBlockScreenEffectEvent.OverlayType.BLOCK)
     	{
-    		Player player = event.getPlayer();
-	    	PoseStack matrixStack = event.getPoseStack();
-            SubmitNodeCollector submitNodeCollector = event.getSubmitNodeCollector();
-            BlockState state = event.getBlockState();
-    		if (event.getBlockState().is(AerialHellTags.Blocks.SOLID_ETHER))
+            BlockState state = event.getState();
+    		if (state.is(AerialHellTags.Blocks.SOLID_ETHER))
     		{
     			event.setCanceled(true);
-    			if (state.is(AerialHellBlocks.WHITE_SOLID_ETHER.get())) {renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.WHITE_SOLID_ETHER));}
-    			else if (state.is(AerialHellBlocks.BLUE_SOLID_ETHER.get())) {renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.BLUE_SOLID_ETHER));}
-    			else if (state.is(AerialHellBlocks.GOLDEN_SOLID_ETHER.get())) {renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.GOLDEN_SOLID_ETHER));}
-                else if (state.is(AerialHellBlocks.GREEN_SOLID_ETHER.get())) {renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.GREEN_SOLID_ETHER));}
-                else if (state.is(AerialHellBlocks.PURPLE_SOLID_ETHER.get())) {renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.PURPLE_SOLID_ETHER));}
+    			if (state.is(AerialHellBlocks.WHITE_SOLID_ETHER.get())) {setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.WHITE_SOLID_ETHER));}
+    			else if (state.is(AerialHellBlocks.BLUE_SOLID_ETHER.get())) {setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.BLUE_SOLID_ETHER));}
+    			else if (state.is(AerialHellBlocks.GOLDEN_SOLID_ETHER.get())) {setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.GOLDEN_SOLID_ETHER));}
+                else if (state.is(AerialHellBlocks.GREEN_SOLID_ETHER.get())) {setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.GREEN_SOLID_ETHER));}
+                else if (state.is(AerialHellBlocks.PURPLE_SOLID_ETHER.get())) {setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.PURPLE_SOLID_ETHER));}
     		}
 
             else if (state.is(AerialHellTags.Blocks.GHOST_BLOCK) && !state.is(AerialHellTags.Blocks.GHOST_BLOCK_NO_OVERLAY))
@@ -131,27 +128,33 @@ public class BlockEventListener
                 event.setCanceled(true);
                 if (state.is(AerialHellTags.Blocks.STONE_GHOST_BLOCK))
                 {
-                    if (state.is(AerialHellBlocks.GHOST_RUBY_BLOCK.get())) {renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.GHOST_RUBY_BLOCK));}
-                    else if (state.is(AerialHellBlocks.GHOST_FLUORITE_BLOCK.get())) {renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.GHOST_FLUORITE_BLOCK));}
-                    else if (state.is(AerialHellBlocks.GHOST_AZURITE_BLOCK.get())) {renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.GHOST_AZURITE_BLOCK));}
-                    else if (state.is(AerialHellBlocks.GHOST_GOLD_BLOCK.get())) {renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.GHOST_GOLD_BLOCK));}
-                    else if (state.is(AerialHellBlocks.GHOST_STELLAR_COBBLESTONE.get()) || state.is(AerialHellBlocks.GHOST_STELLAR_FURNACE.get())) {renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.GHOST_STELLAR_COBBLESTONE));}
-                    else {renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.GHOST_STELLAR_COBBLESTONE));}
+                    if (state.is(AerialHellBlocks.GHOST_RUBY_BLOCK.get())) {setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.GHOST_RUBY_BLOCK));}
+                    else if (state.is(AerialHellBlocks.GHOST_FLUORITE_BLOCK.get())) {setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.GHOST_FLUORITE_BLOCK));}
+                    else if (state.is(AerialHellBlocks.GHOST_AZURITE_BLOCK.get())) {setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.GHOST_AZURITE_BLOCK));}
+                    else if (state.is(AerialHellBlocks.GHOST_GOLD_BLOCK.get())) {setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.GHOST_GOLD_BLOCK));}
+                    else if (state.is(AerialHellBlocks.GHOST_STELLAR_COBBLESTONE.get()) || state.is(AerialHellBlocks.GHOST_STELLAR_FURNACE.get())) {setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.GHOST_STELLAR_COBBLESTONE));}
+                    else {setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.GHOST_STELLAR_COBBLESTONE));}
                 }
-                else if (state.is(AerialHellBlocks.GHOST_BOAT_WOOL.get())) {renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.GHOST_BOAT_WOOL));}
+                else if (state.is(AerialHellBlocks.GHOST_BOAT_WOOL.get())) {setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.GHOST_BOAT_WOOL));}
                 else //if (state.is(AerialHellTags.Blocks.WOODEN_GHOST_BLOCK))
                 {
-                    if (state.is(AerialHellBlocks.GHOST_BOAT_WOOD.get()) || state.is(AerialHellBlocks.GHOST_BOAT_LOG.get())) {renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.GHOST_BOAT_LOG));}
-                    else {renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.GHOST_BOAT_PLANKS));}
+                    if (state.is(AerialHellBlocks.GHOST_BOAT_WOOD.get()) || state.is(AerialHellBlocks.GHOST_BOAT_LOG.get())) {setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.GHOST_BOAT_LOG));}
+                    else {setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.GHOST_BOAT_PLANKS));}
                 }
             }
 
             else if (state.is(AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK.get()))
             {
                 event.setCanceled(true);
-                renderCustomOverlay(player, submitNodeCollector, matrixStack, getBlockTextureLocation(AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK));
+                setCustomOverlay(event, getBlockTextureLocation(AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK));
             }
     	}
+    }
+
+    private static void setCustomOverlay(ExtractBlockScreenEffectEvent event, Identifier texture)
+    {
+        Player player = event.getPlayer();
+        event.setCustomRenderer((playerRenderState, cameraRenderState, submitNodeCollector, poseStack, sprites, partialTicks, hideGui) -> {renderCustomOverlay(player, submitNodeCollector, poseStack, texture); return true;});
     }
 
     //function from net.minecraft.client.renderer.ScreenEffectRenderer

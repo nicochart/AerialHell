@@ -1,0 +1,48 @@
+{
+  "type": "aerialhell:floor_transformation",
+  "size": 9,
+  "random_spread": 3,
+  "inner_chance": 0.8,
+  "outer_chance": 0.3,
+  "inner_state_provider": {
+    "type": "minecraft:weighted",
+    "entries": [
+      {
+        "weight": 2,
+        "data": {
+          "id": "aerialhell:stellar_coarse_dirt"
+        }
+      },
+      {
+        "weight": 1,
+        "data": {
+          "id": "aerialhell:mossy_stellar_cobblestone"
+        }
+      },
+      {
+        "weight": 2,
+        "data": {
+          "id": "aerialhell:stellar_cobblestone"
+        }
+      }
+    ]
+  },
+  "outer_state_provider": {
+    "type": "minecraft:weighted",
+    "entries": [
+      {
+        "weight": 1,
+        "data": {
+          "id": "aerialhell:stellar_coarse_dirt"
+        }
+      },
+      {
+        "weight": 4,
+        "data": {
+          "id": "aerialhell:mossy_stellar_cobblestone"
+        }
+      }
+    ]
+  },
+  "needs_roof": "true"
+}

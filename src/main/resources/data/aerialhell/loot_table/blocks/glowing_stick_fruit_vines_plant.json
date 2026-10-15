@@ -2,23 +2,21 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
-      "bonus_rolls": 0.0,
+      "rolls": 1,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
           "name": "aerialhell:glowing_stick_fruit"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "aerialhell:glowing_stick_fruit_vines_plant",
-          "properties": {
-            "berries": "true"
-          }
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "aerialhell:glowing_stick_fruit_vines_plant",
+        "state": {
+          "berries": "true"
         }
-      ]
+      }
     }
   ]
 }

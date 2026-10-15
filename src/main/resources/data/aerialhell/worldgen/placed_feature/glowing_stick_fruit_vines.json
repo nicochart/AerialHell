@@ -34,16 +34,17 @@
       }
     },
     {
-      "type": "minecraft:random_offset",
-      "xz_spread": 0,
-      "y_spread": -1
+      "type": "minecraft:offset",
+      "x": 0,
+      "y": -1,
+      "z": 0
     },
     {
       "type": "minecraft:block_predicate_filter",
       "predicate": {
         "type": "minecraft:would_survive",
         "state": {
-          "Name": "aerialhell:glowing_stick_fruit_vines"
+          "id": "aerialhell:glowing_stick_fruit_vines"
         }
       }
     },

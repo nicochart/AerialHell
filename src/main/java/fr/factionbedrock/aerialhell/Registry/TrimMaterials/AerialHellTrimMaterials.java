@@ -7,7 +7,6 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
-import net.minecraft.world.item.equipment.trim.MaterialAssetGroup;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -26,15 +25,15 @@ public class AerialHellTrimMaterials
     public static final DeferredHolder<TrimMaterial, TrimMaterial> RUBY = register(Keys.RUBY, Style.EMPTY.withColor(12329506), AerialHellMaterialAssetGroup.RUBY);
     public static final DeferredHolder<TrimMaterial, TrimMaterial> VOLUCITE_VIBRANT = register(Keys.VOLUCITE_VIBRANT, Style.EMPTY.withColor(12329506), AerialHellMaterialAssetGroup.VOLUCITE_VIBRANT);
 
-    private static DeferredHolder<TrimMaterial, TrimMaterial> register(ResourceKey<TrimMaterial> key, Style style, MaterialAssetGroup assets)
+    private static DeferredHolder<TrimMaterial, TrimMaterial> register(ResourceKey<TrimMaterial> key, Style style, Identifier palette)
     {
         Component trimMaterialComponent = Component.translatable(Util.makeDescriptionId("trim_material", key.identifier())).withStyle(style);;
-        return register(key.identifier().getPath(), trimMaterialComponent, assets);
+        return register(key.identifier().getPath(), trimMaterialComponent, palette);
     }
 
-    private static DeferredHolder<TrimMaterial, TrimMaterial> register(String name, Component trimMaterialComponent, MaterialAssetGroup assets)
+    private static DeferredHolder<TrimMaterial, TrimMaterial> register(String name, Component trimMaterialComponent, Identifier palette)
     {
-        return TRIM_MATERIALS.register(name, () -> new TrimMaterial(assets, trimMaterialComponent));
+        return TRIM_MATERIALS.register(name, () -> new TrimMaterial(palette, trimMaterialComponent));
     }
 
     public static class Keys

@@ -1,0 +1,26 @@
+{
+  "type": "aerialhell:random_patch",
+  "tries": 16,
+  "xz_spread": 8,
+  "y_spread": 4,
+  "feature": {
+    "feature": {
+      "type": "minecraft:simple_block",
+      "to_place": {
+        "type": "minecraft:simple",
+        "state": {
+          "id": "aerialhell:stellar_grass"
+        }
+      }
+    },
+    "placement": [
+      {
+        "type": "minecraft:block_predicate_filter",
+        "predicate": {
+          "type": "minecraft:matching_blocks",
+          "blocks": "minecraft:air"
+        }
+      }
+    ]
+  }
+}

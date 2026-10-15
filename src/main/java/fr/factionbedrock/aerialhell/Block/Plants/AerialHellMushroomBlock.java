@@ -14,12 +14,12 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.server.level.ServerLevel;
 
 public class AerialHellMushroomBlock extends MushroomBlock
 {
-	public AerialHellMushroomBlock(ResourceKey<ConfiguredFeature<?, ?>> featureKey, Properties properties) {super(featureKey, properties);}
+	public AerialHellMushroomBlock(ResourceKey<Feature> featureKey, Properties properties) {super(featureKey, properties);}
 
 	@Override public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {}
 
@@ -39,16 +39,16 @@ public class AerialHellMushroomBlock extends MushroomBlock
 	@Override public boolean growMushroom(ServerLevel world, BlockPos pos, BlockState state, RandomSource rand)
 	{
 		BlockPos generationPos = pos;
-		ConfiguredFeature<?, ?> configuredfeature;
+		Feature configuredfeature;
 		HugeGenerationDirections hugeShroomDirection = getHugeShroomDirection(world, pos, this.asBlock());
 		if (state.is(AerialHellBlocks.VERDIGRIS_AGARIC.get()))
 		{
 			if (hugeShroomDirection != HugeGenerationDirections.NONE)
 			{
 				generationPos = getOffsetPosForHugeShroom(pos, hugeShroomDirection);
-				configuredfeature = world.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).get(AerialHellConfiguredFeatures.HUGE_VERDIGRIS_AGARIC).orElse(null).value();
+				configuredfeature = world.registryAccess().lookupOrThrow(Registries.FEATURE).get(AerialHellConfiguredFeatures.HUGE_VERDIGRIS_AGARIC).orElse(null).value();
 			}
-			else {configuredfeature = world.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).get(AerialHellConfiguredFeatures.GIANT_VERDIGRIS_AGARIC).orElse(null).value();}
+			else {configuredfeature = world.registryAccess().lookupOrThrow(Registries.FEATURE).get(AerialHellConfiguredFeatures.GIANT_VERDIGRIS_AGARIC).orElse(null).value();}
 		}
 		else {return false;}
 

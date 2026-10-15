@@ -3,7 +3,7 @@
     {
       "rolls": 1,
       "entries": [
-	{
+        {
           "type": "item",
           "name": "aerialhell:stellar_lighter",
           "weight": 1
@@ -13,7 +13,7 @@
     {
       "rolls": 2,
       "entries": [
-	{
+        {
           "type": "item",
           "name": "aerialhell:aerial_hell_guide_book",
           "weight": 1
@@ -23,47 +23,44 @@
     {
       "rolls": 2,
       "entries": [
-	{
+        {
           "type": "item",
           "name": "minecraft:iron_ingot",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 3,
-                "max": 6
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 3,
+              "max": 6
             }
-          ]
+          }
         },
-	{
+        {
           "type": "item",
           "name": "minecraft:gold_ingot",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 4
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 4
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:white_solid_ether_fragment",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 4,
-                "max": 6
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 4,
+              "max": 6
             }
-          ]
+          }
         }
       ]
     }

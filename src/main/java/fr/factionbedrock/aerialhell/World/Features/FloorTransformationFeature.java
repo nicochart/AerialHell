@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
@@ -10,17 +10,20 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 
 import java.util.List;
 
-public class FloorTransformationFeature extends Feature<FloorTransformationConfig> implements DungeonSensitiveFeatureCheck
+public class FloorTransformationFeature extends AerialHellFeature<FloorTransformationConfig> implements DungeonSensitiveFeatureCheck
 {
-	public FloorTransformationFeature(Codec<FloorTransformationConfig> codec) {super(codec);}
+	public static final MapCodec<FloorTransformationFeature> CODEC = FloorTransformationConfig.CODEC.xmap(FloorTransformationFeature::new, FloorTransformationFeature::config);
 
-	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FLOOR_TRANSFORMATION_LIST;}
+	public FloorTransformationFeature(FloorTransformationConfig config) {super(config);}
+
+	@Override public MapCodec<? extends Feature> codec() {return CODEC;}
+
+	@Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FLOOR_TRANSFORMATION_LIST;}
 
 	@Override public boolean place(FeaturePlaceContext<FloorTransformationConfig> context)
 	{

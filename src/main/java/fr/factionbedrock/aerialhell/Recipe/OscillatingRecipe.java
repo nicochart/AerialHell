@@ -16,7 +16,7 @@ import java.util.List;
 //vanilla copy : net.minecraft.world.item.crafting.SmeltingRecipe
 public class OscillatingRecipe extends AbstractCookingRecipe
 {
-	public static final MapCodec<OscillatingRecipe> MAP_CODEC = cookingMapCodec(OscillatingRecipe::new, 200);
+	public static final MapCodec<OscillatingRecipe> MAP_CODEC = cookingMapCodec(OscillatingRecipe::new);
 	public static final StreamCodec<RegistryFriendlyByteBuf, OscillatingRecipe> STREAM_CODEC = cookingStreamCodec(OscillatingRecipe::new);
 	public static final RecipeSerializer<OscillatingRecipe> SERIALIZER = new RecipeSerializer(MAP_CODEC, STREAM_CODEC);
 

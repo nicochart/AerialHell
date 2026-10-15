@@ -207,7 +207,7 @@ public class BlockHelper
 
             for (ChunkAccess chunk : list)
             {
-                chunk.fillBiomesFromNoise(makeBiomeResolver(new MutableInt(0), chunk, boundingbox, biome, b -> true), level.getChunkSource().randomState().sampler());
+                chunk.fillBiomesFromNoise(makeBiomeResolver(new MutableInt(0), chunk, boundingbox, biome, b -> true));
                 chunk.markUnsaved();
             }
 
@@ -294,7 +294,7 @@ public class BlockHelper
 
             for (ChunkAccess chunk : list)
             {
-                chunk.fillBiomesFromNoise(makeBiomeResolver(new MutableInt(0), chunk, boundingbox, biome, b -> true), level.getChunkSource().randomState().sampler());
+                chunk.fillBiomesFromNoise(makeBiomeResolver(new MutableInt(0), chunk, boundingbox, biome, b -> true));
                 chunk.markUnsaved();
             }
 
@@ -417,13 +417,13 @@ public class BlockHelper
 
     public static Holder<Biome> getInitialBiomeAtPos(ServerLevel level, BlockPos pos) //return the worldgen biome, before any corruption
     {
-        return level.getChunkSource().getGenerator().getBiomeSource().getNoiseBiome(pos.getX() >> 2, pos.getY() >> 2, pos.getZ() >> 2,level.getChunkSource().randomState().sampler());
+        return level.getChunkSource().getGenerator().getBiomeSource().createUncachedResolver(level.getChunkSource().randomState()).getNoiseBiome(pos.getX() >> 2, pos.getY() >> 2, pos.getZ() >> 2);
     }
 
     //copy of net.minecraft.server.commands.FillBiomeCommand makeResolver method
     private static BiomeResolver makeBiomeResolver(MutableInt biomeEntries, ChunkAccess chunk, BoundingBox targetRegion, Holder<Biome> replacementBiome, Predicate<Holder<Biome>> filter)
     {
-        return (x, y, z, sampler) ->
+        return (x, y, z) ->
         {
             int i = QuartPos.toBlock(x);
             int j = QuartPos.toBlock(y);

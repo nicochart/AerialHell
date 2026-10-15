@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,7 +18,7 @@ public class AerialHellTallGrassBlock extends TallGrassBlock
 		super(properties);
 	}
 	
-	@Override public void performBonemeal(ServerLevel level, RandomSource rand, BlockPos pos, BlockState state)
+	@Override public void performBonemeal(ServerLevel level, RandomSource rand, BlockPos pos, BlockState state, BonemealSource source)
 	{
 	    DoublePlantBlock tall_plant;
 	    if (this == AerialHellBlocks.STELLAR_FERN.get())
@@ -46,13 +47,13 @@ public class AerialHellTallGrassBlock extends TallGrassBlock
 		}
 	}
 
-	@Override public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state)
+	@Override public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, BonemealSource source)
 	{
 		if (this == AerialHellBlocks.STELLAR_CLOVERS.get())
 		{
 			return BonemealableBlock.hasSpreadableNeighbourPos(level, pos, state);
 		}
-		return super.isValidBonemealTarget(level, pos, state);
+		return super.isValidBonemealTarget(level, pos, state, source);
 	}
 
 	protected void placePlant(ServerLevel worldIn, BlockPos pos, DoublePlantBlock plantIn)

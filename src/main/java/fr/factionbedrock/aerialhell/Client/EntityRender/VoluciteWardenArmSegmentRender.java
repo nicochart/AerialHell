@@ -64,7 +64,7 @@ public class VoluciteWardenArmSegmentRender extends VoluciteWardenPartRender<Vol
 		float pivotZ = 0.0F / 16.0F; // 0.0F is z of arm segment center of rot
 
 		poseStack.translate(0.0F, pivotY, pivotZ);
-		poseStack.mulPose(Axis.XP.rotationDegrees(pitch));
+		poseStack.rotate(Axis.XP.rotationDegrees(pitch));
 		poseStack.translate(0.0F, -pivotY, -pivotZ);
 	}
 
@@ -83,9 +83,9 @@ public class VoluciteWardenArmSegmentRender extends VoluciteWardenPartRender<Vol
 		}
 	}
 
-	@Override public AABB getBoundingBoxForCulling(VoluciteWardenArmSegmentEntity entity)
+	@Override public AABB getBoundingBoxForCulling(VoluciteWardenArmSegmentEntity entity, float partialTicks)
 	{
-		AABB box = super.getBoundingBoxForCulling(entity);
+		AABB box = super.getBoundingBoxForCulling(entity, partialTicks);
 
 		//-- adapting culling bounding box to beam --
 		if (entity.isBeaming() && entity.getBeamEndPos() != null)

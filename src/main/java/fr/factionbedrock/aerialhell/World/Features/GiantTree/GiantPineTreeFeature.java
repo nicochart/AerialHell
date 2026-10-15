@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
@@ -15,8 +15,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 
 import java.util.List;
 
@@ -24,9 +24,13 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
 {
     private static final SplineKnotsDeformedStraightLine.KnotsParameters TRUNK_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 16, 0.3F, 5, 20);
 
-    public GiantPineTreeFeature(Codec<GiantPineTreeConfig> codec) {super(codec);}
+    public static final MapCodec<GiantPineTreeFeature> CODEC = GiantPineTreeConfig.CODEC.xmap(GiantPineTreeFeature::new, GiantPineTreeFeature::config);
 
-    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.GIANT_PINE_TREE_LIST;}
+    public GiantPineTreeFeature(GiantPineTreeConfig config) {super(config);}
+
+    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+
+    @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.GIANT_PINE_TREE_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<GiantPineTreeConfig> context)
     {
@@ -79,7 +83,7 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
 
                 if (branchCooldown-- <= 0 && i <= maxAbsOffset * straightLineParams.getPrecisionMultiplicator() * 7 / 8)
                 {
-                    generateBranches(new BlockPos(placementPos), i, maxAbsOffset * straightLineParams.getPrecisionMultiplicator());
+                    generateBranches(placementPos.immutable(), i, maxAbsOffset * straightLineParams.getPrecisionMultiplicator());
                     branchCooldown = branchDistance;
                 }
 
@@ -87,7 +91,7 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
                 i++;
             }
             if (generateDebug) {this.generateDebug();}
-            return new BlockPos(placementPos);
+            return placementPos.immutable();
         }
 
         private void generateBranches(BlockPos startPos, int step, int maxStep)
@@ -266,7 +270,7 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
 
         @Override protected boolean tryPlacingBlock(BlockPos.MutableBlockPos pos)
         {
-            boolean isThisBlockAlready = context.level().getBlockState(pos).is(getStateForPlacement(pos).getBlock()) || (this.generatePosList != null && this.generatePosList.contains(new BlockPos(pos)));
+            boolean isThisBlockAlready = context.level().getBlockState(pos).is(getStateForPlacement(pos).getBlock()) || (this.generatePosList != null && this.generatePosList.contains(pos.immutable()));
             boolean placed = super.tryPlacingBlock(pos);
             return placed || isThisBlockAlready;
         }

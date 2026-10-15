@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.Item.Bucket;
 
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import net.minecraft.util.Prediction;
 import fr.factionbedrock.aerialhell.Registry.AerialHellFluids;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.core.BlockPos;
@@ -10,7 +10,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
@@ -75,7 +74,7 @@ public class RubyBucketItem extends Item
         if (emptyBucket.getCount() > 1)
         {
             emptyBucket.shrink(1);
-            if (!player.getInventory().add(filledBucket)) {player.drop(filledBucket, false);}
+            if (!player.getInventory().add(filledBucket)) {player.drop(filledBucket, false, Prediction.PREDICTED);}
             return InteractionResult.SUCCESS;
         }
         else

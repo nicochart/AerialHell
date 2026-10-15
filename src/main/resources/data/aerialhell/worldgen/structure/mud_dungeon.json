@@ -9,8 +9,11 @@
         {
           "type": "aerialhell:mud_soldier",
           "weight": 1,
-          "minCount": 5,
-          "maxCount": 15
+          "count": {
+            "type": "minecraft:uniform",
+            "max_inclusive": 15,
+            "min_inclusive": 5
+          }
         }
       ]
     }

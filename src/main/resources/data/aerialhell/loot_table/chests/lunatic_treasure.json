@@ -2,6 +2,7 @@
   "pools": [
     {
       "rolls": {
+        "type": "minecraft:uniform",
         "min": 1,
         "max": 2
       },
@@ -11,87 +12,81 @@
           "type": "item",
           "name": "aerialhell:volucite_vibrant",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 2
             }
-          ]
+          }
         },
-	{
-    	  "type": "item",
+        {
+          "type": "item",
           "name": "minecraft:book",
-    	  "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly",
-              "options": "aerialhell:solid_ether_walker"
-            }
-          ]
+          "weight": 1,
+          "modifier": {
+            "type": "minecraft:enchant_randomly",
+            "options": "aerialhell:solid_ether_walker"
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:ruby_aerial_berry",
           "weight": 2,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 5,
-                "max": 10
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 5,
+              "max": 10
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_crystal_shuriken",
           "weight": 2,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 3
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 3
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:vibrant_phantom_meat",
           "weight": 2,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 3,
-                "max": 7
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 3,
+              "max": 7
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "minecraft:golden_apple",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 3
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 3
             }
-          ]
+          }
         }
       ]
     },
     {
       "rolls": {
+        "type": "minecraft:uniform",
         "min": 2,
         "max": 3
       },
@@ -101,158 +96,139 @@
           "type": "item",
           "name": "aerialhell:lunatic_crystal",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 5
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 5
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_shovel",
-          "functions": [
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": {
-                "min": 8.0,
-                "max": 15.0,
-                "type": "minecraft:uniform"
-              },
-              "treasure": true
-            }
-          ],
+          "modifier": {
+            "type": "minecraft:enchant_with_levels",
+            "levels": {
+              "min": 8,
+              "max": 15,
+              "type": "minecraft:uniform"
+            },
+            "treasure": true
+          },
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_sword",
-          "functions": [
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": {
-                "min": 8.0,
-                "max": 15.0,
-                "type": "minecraft:uniform"
-              },
-              "treasure": true
-            }
-          ],
+          "modifier": {
+            "type": "minecraft:enchant_with_levels",
+            "levels": {
+              "min": 8,
+              "max": 15,
+              "type": "minecraft:uniform"
+            },
+            "treasure": true
+          },
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_axe",
-          "functions": [
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": {
-                "min": 8.0,
-                "max": 15.0,
-                "type": "minecraft:uniform"
-              },
-              "treasure": true
-            }
-          ],
+          "modifier": {
+            "type": "minecraft:enchant_with_levels",
+            "levels": {
+              "min": 8,
+              "max": 15,
+              "type": "minecraft:uniform"
+            },
+            "treasure": true
+          },
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_pickaxe",
-          "functions": [
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": {
-                "min": 8.0,
-                "max": 15.0,
-                "type": "minecraft:uniform"
-              },
-              "treasure": true
-            }
-          ],
+          "modifier": {
+            "type": "minecraft:enchant_with_levels",
+            "levels": {
+              "min": 8,
+              "max": 15,
+              "type": "minecraft:uniform"
+            },
+            "treasure": true
+          },
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_hoe",
-          "functions": [
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": {
-                "min": 8.0,
-                "max": 15.0,
-                "type": "minecraft:uniform"
-              },
-              "treasure": true
-            }
-          ],
+          "modifier": {
+            "type": "minecraft:enchant_with_levels",
+            "levels": {
+              "min": 8,
+              "max": 15,
+              "type": "minecraft:uniform"
+            },
+            "treasure": true
+          },
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_helmet",
-          "functions": [
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": {
-                "min": 8.0,
-                "max": 15.0,
-                "type": "minecraft:uniform"
-              },
-              "treasure": true
-            }
-          ],
+          "modifier": {
+            "type": "minecraft:enchant_with_levels",
+            "levels": {
+              "min": 8,
+              "max": 15,
+              "type": "minecraft:uniform"
+            },
+            "treasure": true
+          },
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_chestplate",
-          "functions": [
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": {
-                "min": 8.0,
-                "max": 15.0,
-                "type": "minecraft:uniform"
-              },
-              "treasure": true
-            }
-          ],
+          "modifier": {
+            "type": "minecraft:enchant_with_levels",
+            "levels": {
+              "min": 8,
+              "max": 15,
+              "type": "minecraft:uniform"
+            },
+            "treasure": true
+          },
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_leggings",
-          "functions": [
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": {
-                "min": 8.0,
-                "max": 15.0,
-                "type": "minecraft:uniform"
-              },
-              "treasure": true
-            }
-          ],
+          "modifier": {
+            "type": "minecraft:enchant_with_levels",
+            "levels": {
+              "min": 8,
+              "max": 15,
+              "type": "minecraft:uniform"
+            },
+            "treasure": true
+          },
           "weight": 1
         },
         {
           "type": "item",
           "name": "aerialhell:lunatic_boots",
-          "functions": [
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": {
-                "min": 8.0,
-                "max": 15.0,
-                "type": "minecraft:uniform"
-              },
-              "treasure": true
-            }
-          ],
+          "modifier": {
+            "type": "minecraft:enchant_with_levels",
+            "levels": {
+              "min": 8,
+              "max": 15,
+              "type": "minecraft:uniform"
+            },
+            "treasure": true
+          },
           "weight": 1
         },
         {
@@ -302,13 +278,11 @@
         },
         {
           "type": "item",
-	      "name": "minecraft:book",
+          "name": "minecraft:book",
           "weight": 3,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ]
+          "modifier": {
+            "type": "minecraft:enchant_randomly"
+          }
         },
         {
           "type": "item",
@@ -326,19 +300,18 @@
       "rolls": 1,
       "bonus_rolls": 0,
       "entries": [
-	{
+        {
           "type": "item",
           "name": "aerialhell:volucite_shard",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 6
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 6
             }
-          ]
+          }
         },
         {
           "type": "item",

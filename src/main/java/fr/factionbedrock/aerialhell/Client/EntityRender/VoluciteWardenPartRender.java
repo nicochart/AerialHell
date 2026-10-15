@@ -51,9 +51,9 @@ public class VoluciteWardenPartRender<P extends VoluciteWardenPartEntity> extend
 		super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
 	}
 
-	@Override public AABB getBoundingBoxForCulling(P entity)
+	@Override public AABB getBoundingBoxForCulling(P entity, float partialTicks)
 	{
-		AABB box = super.getBoundingBoxForCulling(entity);
+		AABB box = super.getBoundingBoxForCulling(entity, partialTicks);
 
 		//specific to Chest part
 		if (entity instanceof VoluciteWardenChestPartEntity chestPartEntity && chestPartEntity.shouldRender())

@@ -1,5 +1,5 @@
 {
-  "asset_name": "magmatic_gel",
+  "palette_id": "aerialhell:trim/magmatic_gel",
   "description": {
     "color": "#65f1ff",
     "translate": "trim_material.aerialhell.magmatic_gel"

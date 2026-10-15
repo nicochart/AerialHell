@@ -27,7 +27,7 @@ public class EntRender<E extends EntEntity> extends MobRenderer<E, EntRenderStat
         super.extractRenderState(entity, renderState, partialTick);
         renderState.isAggressive = entity.isAggressive();
         renderState.color = entity.level() instanceof ClientLevel level ? new Color(BiomeColors.getAverageFoliageColor(level, entity.getOnPos())).getRGB() : 0;
-        renderState.attackTime = entity.getAttackAnim(partialTick);
+        renderState.swingAnimation = entity.getSwingAnimation(partialTick);
     }
 
     @Override public EntRenderState createRenderState() {return new EntRenderState();}

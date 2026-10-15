@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition;
 
-import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.BlockEntity.IntangibleTemporaryBlockEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
@@ -34,11 +33,7 @@ import java.util.function.Supplier;
 
 public class IntangibleTemporaryBlock extends CollisionConditionHalfTransparentBlockEntity
 {
-    public static final MapCodec<IntangibleTemporaryBlock> CODEC = simpleCodec(IntangibleTemporaryBlock::new);
-
     public IntangibleTemporaryBlock(Properties properties) {super(properties);}
-
-    @Override protected MapCodec<? extends IntangibleTemporaryBlock> codec() {return CODEC;}
 
     @Nullable @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new IntangibleTemporaryBlockEntity(pos, state);}
 

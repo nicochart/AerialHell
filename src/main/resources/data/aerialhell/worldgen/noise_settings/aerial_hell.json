@@ -1,358 +1,376 @@
 {
   "sea_level": -64,
   "disable_mob_generation": false,
-  "aquifers_enabled": false,
-  "ore_veins_enabled": false,
   "legacy_random_source": true,
   "default_block": {
-    "Name": "aerialhell:stellar_stone"
+    "id": "aerialhell:stellar_stone"
   },
   "default_fluid": {
-    "Name": "minecraft:water",
-    "Properties": {
+    "id": "minecraft:water",
+    "properties": {
       "level": "0"
     }
   },
   "noise": {
     "min_y": 0,
-    "height": 256,
-    "size_horizontal": 2,
-    "size_vertical": 1
+    "height": 256
   },
   "noise_router": {
-    "barrier": 0,
-    "fluid_level_floodedness": 0,
-    "fluid_level_spread": 0,
-    "lava": 0,
     "temperature": {
-      "type": "minecraft:shifted_noise",
+      "type": "minecraft:noise",
       "noise": "minecraft:temperature",
-      "xz_scale": 0.25,
-      "y_scale": 0,
       "shift_x": "minecraft:shift_x",
-      "shift_y": 0,
-      "shift_z": "minecraft:shift_z"
+      "shift_z": "minecraft:shift_z",
+      "xz_scale": 0.25,
+      "y_scale": 0
     },
     "vegetation": {
-      "type": "minecraft:shifted_noise",
+      "type": "minecraft:noise",
       "noise": "minecraft:vegetation",
-      "xz_scale": 0.25,
-      "y_scale": 0,
       "shift_x": "minecraft:shift_x",
-      "shift_y": 0,
-      "shift_z": "minecraft:shift_z"
+      "shift_z": "minecraft:shift_z",
+      "xz_scale": 0.25,
+      "y_scale": 0
     },
     "continents": {
       "type": "minecraft:mul",
-      "argument1": 1,
-      "argument2": "minecraft:overworld/continents"
+      "left": 1,
+      "right": "minecraft:overworld/continents"
     },
     "erosion": {
       "type": "minecraft:mul",
-      "argument1": 1,
-      "argument2": "minecraft:overworld/erosion"
+      "left": 1,
+      "right": "minecraft:overworld/erosion"
     },
     "depth": {
       "type": "minecraft:mul",
-      "argument1": 1,
-      "argument2": "minecraft:overworld/depth"
+      "left": 1,
+      "right": "minecraft:overworld/depth"
     },
     "ridges": {
       "type": "minecraft:mul",
-      "argument1": 1,
-      "argument2": "minecraft:overworld/ridges"
+      "left": 1,
+      "right": "minecraft:overworld/ridges"
     },
-    "initial_density_without_jaggedness": {
-      "type": "minecraft:mul",
-      "argument1": 4,
-      "argument2": {
-        "type": "minecraft:quarter_negative",
-        "argument": {
-          "type": "minecraft:mul",
-          "argument1": "minecraft:overworld/depth",
-          "argument2": {
-            "type": "minecraft:cache_2d",
-            "argument": "minecraft:overworld/factor"
-          }
-        }
-      }
-    },
-    "preliminary_surface_level": 0,
+    "chunk_surface_level": 0,
     "final_density": {
       "type": "minecraft:add",
-      "argument1": {
+      "left": {
         "type": "minecraft:add",
-        "argument1": {
-          "type": "minecraft:squeeze",
-          "argument": {
-            "type": "minecraft:mul",
-            "argument1": {
-              "type": "minecraft:blend_density",
-              "argument": {
-                "type": "minecraft:add",
-                "argument1": {
-                  "type": "minecraft:interpolated",
-                  "argument": "minecraft:overworld/base_3d_noise"
-                },
-                "argument2": {
-                  "type": "minecraft:mul",
-                  "argument1": {
-                    "type": "minecraft:range_choice",
-                    "input": {
-                      "type": "minecraft:blend_density",
-                      "argument": {
-                        "type": "minecraft:mul",
-                        "argument1": {
-                          "type": "minecraft:range_choice",
-                          "input": "minecraft:overworld/caves/noodle",
-                          "min_inclusive": 64,
-                          "max_exclusive": 65,
-                          "when_in_range": 1,
-                          "when_out_of_range": 0
-                        },
-                        "argument2": {
-                          "type": "minecraft:range_choice",
-                          "input": {
-                            "type": "minecraft:y_clamped_gradient",
-                            "from_y": 0,
-                            "to_y": 320,
-                            "from_value": 0,
-                            "to_value": 320
+        "left": {
+          "type": "minecraft:add",
+          "left": {
+            "type": "minecraft:squeeze",
+            "input": {
+              "type": "minecraft:mul",
+              "left": {
+                "type": "minecraft:blend_density",
+                "input": {
+                  "type": "minecraft:add",
+                  "left": {
+                    "type": "minecraft:interpolated",
+                    "cell_size_xz": 8,
+                    "cell_size_y": 4,
+                    "input": "minecraft:overworld/base_3d_noise"
+                  },
+                  "right": {
+                    "type": "minecraft:mul",
+                    "left": {
+                      "type": "minecraft:range_choice",
+                      "input": {
+                        "type": "minecraft:blend_density",
+                        "input": {
+                          "type": "minecraft:mul",
+                          "left": {
+                            "type": "minecraft:range_choice",
+                            "input": "minecraft:overworld/caves/noodle",
+                            "min_inclusive": 64,
+                            "max_exclusive": 65,
+                            "when_in_range": 1,
+                            "when_out_of_range": 0
                           },
-                          "min_inclusive": 65,
-                          "max_exclusive": 400,
-                          "when_in_range": 1,
-                          "when_out_of_range": 0
+                          "right": {
+                            "type": "minecraft:range_choice",
+                            "input": {
+                              "type": "minecraft:gradient",
+                              "axis": "y",
+                              "tiling": "clamp_to_edge",
+                              "from_coordinate": 0,
+                              "to_coordinate": 320,
+                              "from_value": 0,
+                              "to_value": 320
+                            },
+                            "min_inclusive": 65,
+                            "max_exclusive": 400,
+                            "when_in_range": 1,
+                            "when_out_of_range": 0
+                          }
+                        }
+                      },
+                      "min_inclusive": 1,
+                      "max_exclusive": 2,
+                      "when_in_range": {
+                        "type": "minecraft:gradient",
+                        "axis": "y",
+                        "tiling": "clamp_to_edge",
+                        "from_coordinate": 0,
+                        "to_coordinate": 320,
+                        "from_value": 130,
+                        "to_value": -120
+                      },
+                      "when_out_of_range": {
+                        "type": "minecraft:mul",
+                        "left": {
+                          "type": "minecraft:gradient",
+                          "axis": "y",
+                          "tiling": "clamp_to_edge",
+                          "from_coordinate": 0,
+                          "to_coordinate": 320,
+                          "from_value": -42,
+                          "to_value": 230
+                        },
+                        "right": {
+                          "type": "minecraft:gradient",
+                          "axis": "y",
+                          "tiling": "clamp_to_edge",
+                          "from_coordinate": 0,
+                          "to_coordinate": 20,
+                          "from_value": 0,
+                          "to_value": 1
                         }
                       }
                     },
-                    "min_inclusive": 1,
-                    "max_exclusive": 2,
-                    "when_in_range": {
-                      "type": "minecraft:y_clamped_gradient",
-                      "from_y": 0,
-                      "to_y": 320,
-                      "from_value": 130,
-                      "to_value": -120
-                    },
-                    "when_out_of_range": {
-                      "type": "minecraft:mul",
-                      "argument1": {
-                        "type": "minecraft:y_clamped_gradient",
-                        "from_y": 0,
-                        "to_y": 320,
-                        "from_value": -42,
-                        "to_value": 230
-                      },
-                      "argument2": {
-                        "type": "minecraft:y_clamped_gradient",
-                        "from_y": 0,
-                        "to_y": 20,
-                        "from_value": 0,
-                        "to_value": 1
-                      }
-                    }
-                  },
-                  "argument2": -0.009
+                    "right": -0.009
+                  }
                 }
-              }
-            },
-            "argument2": {
-              "type": "minecraft:mul",
-              "argument1": {
-                "type": "minecraft:range_choice",
-                "input": "minecraft:overworld/caves/noodle",
-                "min_inclusive": 64,
-                "max_exclusive": 65,
-                "when_in_range": {
+              },
+              "right": {
+                "type": "minecraft:mul",
+                "left": {
                   "type": "minecraft:range_choice",
-                  "input": {
-                    "type": "minecraft:y_clamped_gradient",
-                    "from_y": 0,
-                    "to_y": 256,
-                    "from_value": 0,
-                    "to_value": 256
-                  },
-                  "min_inclusive": 55,
-                  "max_exclusive": 71,
+                  "input": "minecraft:overworld/caves/noodle",
+                  "min_inclusive": 64,
+                  "max_exclusive": 65,
                   "when_in_range": {
-                    "type": "minecraft:mul",
-                    "argument1": {
-                      "type": "minecraft:range_choice",
-                      "input": {
-                        "type": "minecraft:y_clamped_gradient",
-                        "from_y": 55,
-                        "to_y": 71,
-                        "from_value": 55,
-                        "to_value": 71
-                      },
-                      "min_inclusive": 55,
-                      "max_exclusive": 64,
-                      "when_in_range": {
-                        "type": "minecraft:y_clamped_gradient",
-                        "from_y": 55,
-                        "to_y": 64,
-                        "from_value": 1,
-                        "to_value": 0
-                      },
-                      "when_out_of_range": 1
+                    "type": "minecraft:range_choice",
+                    "input": {
+                      "type": "minecraft:gradient",
+                      "axis": "y",
+                      "tiling": "clamp_to_edge",
+                      "from_coordinate": 0,
+                      "to_coordinate": 256,
+                      "from_value": 0,
+                      "to_value": 256
                     },
-                    "argument2": {
-                      "type": "minecraft:range_choice",
-                      "input": {
-                        "type": "minecraft:y_clamped_gradient",
-                        "from_y": 55,
-                        "to_y": 71,
-                        "from_value": 55,
-                        "to_value": 71
+                    "min_inclusive": 55,
+                    "max_exclusive": 71,
+                    "when_in_range": {
+                      "type": "minecraft:mul",
+                      "left": {
+                        "type": "minecraft:range_choice",
+                        "input": {
+                          "type": "minecraft:gradient",
+                          "axis": "y",
+                          "tiling": "clamp_to_edge",
+                          "from_coordinate": 55,
+                          "to_coordinate": 71,
+                          "from_value": 55,
+                          "to_value": 71
+                        },
+                        "min_inclusive": 55,
+                        "max_exclusive": 64,
+                        "when_in_range": {
+                          "type": "minecraft:gradient",
+                          "axis": "y",
+                          "tiling": "clamp_to_edge",
+                          "from_coordinate": 55,
+                          "to_coordinate": 64,
+                          "from_value": 1,
+                          "to_value": 0
+                        },
+                        "when_out_of_range": 1
                       },
-                      "min_inclusive": 64,
-                      "max_exclusive": 71,
-                      "when_in_range": {
-                        "type": "minecraft:y_clamped_gradient",
-                        "from_y": 64,
-                        "to_y": 71,
-                        "from_value": 0,
-                        "to_value": 1
-                      },
-                      "when_out_of_range": 1
-                    }
+                      "right": {
+                        "type": "minecraft:range_choice",
+                        "input": {
+                          "type": "minecraft:gradient",
+                          "axis": "y",
+                          "tiling": "clamp_to_edge",
+                          "from_coordinate": 55,
+                          "to_coordinate": 71,
+                          "from_value": 55,
+                          "to_value": 71
+                        },
+                        "min_inclusive": 64,
+                        "max_exclusive": 71,
+                        "when_in_range": {
+                          "type": "minecraft:gradient",
+                          "axis": "y",
+                          "tiling": "clamp_to_edge",
+                          "from_coordinate": 64,
+                          "to_coordinate": 71,
+                          "from_value": 0,
+                          "to_value": 1
+                        },
+                        "when_out_of_range": 1
+                      }
+                    },
+                    "when_out_of_range": 1
                   },
                   "when_out_of_range": 1
                 },
-                "when_out_of_range": 1
-              },
-              "argument2": {
-                "type": "minecraft:range_choice",
-                "input": {
-                  "type": "minecraft:y_clamped_gradient",
-                  "from_y": 0,
-                  "to_y": 256,
-                  "from_value": 0,
-                  "to_value": 256
-                },
-                "min_inclusive": 240,
-                "max_exclusive": 257,
-                "when_in_range": {
-                  "type": "minecraft:y_clamped_gradient",
-                  "from_y": 240,
-                  "to_y": 258,
-                  "from_value": 1,
-                  "to_value": 0
-                },
-                "when_out_of_range": 1
+                "right": {
+                  "type": "minecraft:range_choice",
+                  "input": {
+                    "type": "minecraft:gradient",
+                    "axis": "y",
+                    "tiling": "clamp_to_edge",
+                    "from_coordinate": 0,
+                    "to_coordinate": 256,
+                    "from_value": 0,
+                    "to_value": 256
+                  },
+                  "min_inclusive": 240,
+                  "max_exclusive": 257,
+                  "when_in_range": {
+                    "type": "minecraft:gradient",
+                    "axis": "y",
+                    "tiling": "clamp_to_edge",
+                    "from_coordinate": 240,
+                    "to_coordinate": 258,
+                    "from_value": 1,
+                    "to_value": 0
+                  },
+                  "when_out_of_range": 1
+                }
               }
+            }
+          },
+          "right": {
+            "type": "minecraft:add",
+            "left": {
+              "type": "minecraft:interpolated",
+              "cell_size_xz": 8,
+              "cell_size_y": 4,
+              "input": {
+                "type": "minecraft:mul",
+                "left": {
+                  "type": "minecraft:add",
+                  "left": "minecraft:overworld/caves/spaghetti_roughness_function",
+                  "right": "minecraft:overworld/caves/spaghetti_2d"
+                },
+                "right": -0.065
+              }
+            },
+            "right": {
+              "type": "minecraft:range_choice",
+              "input": {
+                "type": "minecraft:noise",
+                "noise": "minecraft:cave_entrance",
+                "xz_scale": 1.2,
+                "y_scale": 1.2
+              },
+              "min_inclusive": 0.2,
+              "max_exclusive": 0.38,
+              "when_in_range": -1,
+              "when_out_of_range": 0
             }
           }
         },
-        "argument2": {
-          "type": "minecraft:add",
-          "argument1": {
-            "type": "minecraft:interpolated",
-            "argument": {
-              "type": "minecraft:mul",
-              "argument1": {
-                "type": "minecraft:add",
-                "argument1": "minecraft:overworld/caves/spaghetti_roughness_function",
-                "argument2": "minecraft:overworld/caves/spaghetti_2d"
-              },
-              "argument2": -0.065
-            }
+        "right": {
+          "type": "minecraft:range_choice",
+          "input": {
+            "type": "minecraft:gradient",
+            "axis": "y",
+            "tiling": "clamp_to_edge",
+            "from_coordinate": 0,
+            "to_coordinate": 300,
+            "from_value": 0,
+            "to_value": 300
           },
-          "argument2": {
+          "min_inclusive": 0,
+          "max_exclusive": 40,
+          "when_in_range": {
+            "type": "minecraft:gradient",
+            "axis": "y",
+            "tiling": "clamp_to_edge",
+            "from_coordinate": 0,
+            "to_coordinate": 40,
+            "from_value": -0.25,
+            "to_value": 0
+          },
+          "when_out_of_range": {
             "type": "minecraft:range_choice",
             "input": {
-              "type": "minecraft:noise",
-              "noise": "minecraft:cave_entrance",
-              "xz_scale": 1.2,
-              "y_scale": 1.2
+              "type": "minecraft:gradient",
+              "axis": "y",
+              "tiling": "clamp_to_edge",
+              "from_coordinate": 0,
+              "to_coordinate": 300,
+              "from_value": 0,
+              "to_value": 300
             },
-            "min_inclusive": 0.2,
-            "max_exclusive": 0.38,
-            "when_in_range": -1,
+            "min_inclusive": 200,
+            "max_exclusive": 256,
+            "when_in_range": {
+              "type": "minecraft:add",
+              "left": {
+                "type": "minecraft:gradient",
+                "axis": "y",
+                "tiling": "clamp_to_edge",
+                "from_coordinate": 200,
+                "to_coordinate": 256,
+                "from_value": 0,
+                "to_value": -0.4
+              },
+              "right": {
+                "type": "minecraft:mul",
+                "left": {
+                  "type": "minecraft:gradient",
+                  "axis": "y",
+                  "tiling": "clamp_to_edge",
+                  "from_coordinate": 200,
+                  "to_coordinate": 256,
+                  "from_value": -0.1,
+                  "to_value": 0.1
+                },
+                "right": {
+                  "type": "minecraft:range_choice",
+                  "input": {
+                    "type": "minecraft:gradient",
+                    "axis": "y",
+                    "tiling": "clamp_to_edge",
+                    "from_coordinate": 200,
+                    "to_coordinate": 256,
+                    "from_value": 200,
+                    "to_value": 256
+                  },
+                  "min_inclusive": 200,
+                  "max_exclusive": 220,
+                  "when_in_range": {
+                    "type": "minecraft:gradient",
+                    "axis": "y",
+                    "tiling": "clamp_to_edge",
+                    "from_coordinate": 200,
+                    "to_coordinate": 220,
+                    "from_value": 0,
+                    "to_value": 1
+                  },
+                  "when_out_of_range": 1
+                }
+              }
+            },
             "when_out_of_range": 0
           }
         }
       },
-      "argument2": {
-        "type": "minecraft:range_choice",
-        "input": {
-          "type": "minecraft:y_clamped_gradient",
-          "from_y": 0,
-          "to_y": 300,
-          "from_value": 0,
-          "to_value": 300
-        },
-        "min_inclusive": 0,
-        "max_exclusive": 40,
-        "when_in_range": {
-          "type": "minecraft:y_clamped_gradient",
-          "from_y": 0,
-          "to_y": 40,
-          "from_value": -0.25,
-          "to_value": 0
-        },
-        "when_out_of_range": {
-          "type": "minecraft:range_choice",
-          "input": {
-            "type": "minecraft:y_clamped_gradient",
-            "from_y": 0,
-            "to_y": 300,
-            "from_value": 0,
-            "to_value": 300
-          },
-          "min_inclusive": 200,
-          "max_exclusive": 256,
-          "when_in_range": {
-            "type": "minecraft:add",
-            "argument1": {
-              "type": "minecraft:y_clamped_gradient",
-              "from_y": 200,
-              "to_y": 256,
-              "from_value": 0,
-              "to_value": -0.4
-            },
-            "argument2": {
-              "type": "minecraft:mul",
-              "argument1": {
-                "type": "minecraft:y_clamped_gradient",
-                "from_y": 200,
-                "to_y": 256,
-                "from_value": -0.1,
-                "to_value": 0.1
-              },
-              "argument2": {
-                "type": "minecraft:range_choice",
-                "input": {
-                  "type": "minecraft:y_clamped_gradient",
-                  "from_y": 200,
-                  "to_y": 256,
-                  "from_value": 200,
-                  "to_value": 256
-                },
-                "min_inclusive": 200,
-                "max_exclusive": 220,
-                "when_in_range": {
-                  "type": "minecraft:y_clamped_gradient",
-                  "from_y": 200,
-                  "to_y": 220,
-                  "from_value": 0,
-                  "to_value": 1
-                },
-                "when_out_of_range": 1
-              }
-            }
-          },
-          "when_out_of_range": 0
-        }
+      "right": {
+        "type": "minecraft:beardifier"
       }
-    },
-    "vein_toggle": 0,
-    "vein_ridged": 0,
-    "vein_gap": 0
+    }
   },
   "spawn_target": [],
-  "surface_rule": {
+  "material_rule": {
     "type": "minecraft:sequence",
     "sequence": [
       {
@@ -388,7 +406,7 @@
               "then_run": {
                 "type": "minecraft:block",
                 "result_state": {
-                  "Name": "aerialhell:stellar_grass_block"
+                  "id": "aerialhell:stellar_grass_block"
                 }
               }
             },
@@ -404,7 +422,7 @@
               "then_run": {
                 "type": "minecraft:block",
                 "result_state": {
-                  "Name": "aerialhell:shadow_grass_block"
+                  "id": "aerialhell:shadow_grass_block"
                 }
               }
             },
@@ -419,7 +437,7 @@
               "then_run": {
                 "type": "minecraft:block",
                 "result_state": {
-                  "Name": "aerialhell:slippery_sand"
+                  "id": "aerialhell:slippery_sand"
                 }
               }
             }
@@ -452,7 +470,7 @@
               "then_run": {
                 "type": "minecraft:block",
                 "result_state": {
-                  "Name": "aerialhell:stellar_dirt"
+                  "id": "aerialhell:stellar_dirt"
                 }
               }
             },
@@ -467,7 +485,7 @@
               "then_run": {
                 "type": "minecraft:block",
                 "result_state": {
-                  "Name": "aerialhell:slippery_sand"
+                  "id": "aerialhell:slippery_sand"
                 }
               }
             }
@@ -495,7 +513,7 @@
             "then_run": {
               "type": "minecraft:block",
               "result_state": {
-                "Name": "aerialhell:stellar_dirt"
+                "id": "aerialhell:stellar_dirt"
               }
             }
           },
@@ -522,7 +540,7 @@
               "then_run": {
                 "type": "minecraft:block",
                 "result_state": {
-                  "Name": "aerialhell:slippery_sand_stone"
+                  "id": "aerialhell:slippery_sand_stone"
                 }
               }
             }

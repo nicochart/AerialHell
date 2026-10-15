@@ -1,0 +1,14 @@
+{
+  "type": "aerialhell:crystal_blob",
+  "crystal_state_provider": {
+    "type": "minecraft:weighted",
+    "entries": [
+      {
+        "weight": 1,
+        "data": {
+          "id": "aerialhell:crystal_block"
+        }
+      }
+    ]
+  }
+}

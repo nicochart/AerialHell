@@ -6,21 +6,20 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 
 import java.util.List;
 
 public interface DungeonSensitiveFeatureCheck
 {
-    default boolean isDungeonSensitiveValid(FeaturePlaceContext<? extends FeatureConfiguration> context)
+    default boolean isDungeonSensitiveValid(FeaturePlaceContext<?> context)
     {
-        Registry<ConfiguredFeature<?, ?>> registry = context.level().registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE);
+        Registry<Feature> registry = context.level().registryAccess().lookupOrThrow(Registries.FEATURE);
 
-        for (ResourceKey<ConfiguredFeature<?, ?>> key : this.getAssociatedConfiguredFeatures())
+        for (ResourceKey<Feature> key : this.getAssociatedConfiguredFeatures())
         {
-            Holder<ConfiguredFeature<?, ?>> holder = registry.getOrThrow(key);
+            Holder<Feature> holder = registry.getOrThrow(key);
             if (holder.is(AerialHellTags.ConfiguredFeatures.CANT_PLACE_IN_DUNGEONS))
             {
                 if (FeatureHelper.isFeatureGeneratingNextToDungeon(context)) {return false;}
@@ -30,5 +29,5 @@ public interface DungeonSensitiveFeatureCheck
         return true;
     }
 
-    List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures();
+    List<ResourceKey<Feature>> getAssociatedConfiguredFeatures();
 }

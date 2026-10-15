@@ -1,8 +1,9 @@
 package fr.factionbedrock.aerialhell.Registry.Worldgen;
 
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.block.grower.TreeGrower;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 
 import java.util.Optional;
 
@@ -16,18 +17,19 @@ public class AerialHellTreeGrowers
     public static final TreeGrower SHADOW_PINE = createSimpleMegaTreeGrower("shadow_pine", Optional.of(AerialHellConfiguredFeatures.MEGA_SHADOW_PINE), Optional.of(AerialHellConfiguredFeatures.SHADOW_PINE));
     public static final TreeGrower STELLAR_JUNGLE_TREE = createSimpleMegaTreeGrower("stellar_jungle_tree", Optional.of(AerialHellConfiguredFeatures.MEGA_STELLAR_JUNGLE_TREE), Optional.of(AerialHellConfiguredFeatures.STELLAR_JUNGLE_TREE));
 
-    private static TreeGrower createSimpleTreeGrower(String name, Optional<ResourceKey<ConfiguredFeature<?, ?>>> tree)
+    private static TreeGrower createSimpleTreeGrower(String name, Optional<ResourceKey<Feature>> tree)
     {
         return createSimpleMegaTreeGrower(name, Optional.empty(), tree);
     }
 
-    private static TreeGrower createSimpleMegaTreeGrower(String name, Optional<ResourceKey<ConfiguredFeature<?, ?>>> megaTree, Optional<ResourceKey<ConfiguredFeature<?, ?>>> tree)
+    private static TreeGrower createSimpleMegaTreeGrower(String name, Optional<ResourceKey<Feature>> megaTree, Optional<ResourceKey<Feature>> tree)
     {
-        return createTreeGrower(name, 0.0F, megaTree,Optional.empty(), tree, Optional.empty(), Optional.empty(), Optional.empty());
+        //26.3 : TreeGrower takes weighted lists of trees (no more secondary trees with a secondary chance)
+        return new TreeGrower(name, toWeightedList(tree), toWeightedList(megaTree), WeightedList.of(), tree.orElse(null));
     }
 
-    private static TreeGrower createTreeGrower(String name, float secondaryChance, Optional<ResourceKey<ConfiguredFeature<?, ?>>> megaTree, Optional<ResourceKey<ConfiguredFeature<?, ?>>> secondaryMegaTree, Optional<ResourceKey<ConfiguredFeature<?, ?>>> tree, Optional<ResourceKey<ConfiguredFeature<?, ?>>> secondaryTree, Optional<ResourceKey<ConfiguredFeature<?, ?>>> flowers, Optional<ResourceKey<ConfiguredFeature<?, ?>>> secondaryFlowers)
+    private static WeightedList<ResourceKey<Feature>> toWeightedList(Optional<ResourceKey<Feature>> feature)
     {
-        return new TreeGrower(name, secondaryChance, megaTree, secondaryMegaTree, tree, secondaryTree, flowers, secondaryFlowers);
+        return feature.isPresent() ? WeightedList.of(feature.get()) : WeightedList.of();
     }
 }

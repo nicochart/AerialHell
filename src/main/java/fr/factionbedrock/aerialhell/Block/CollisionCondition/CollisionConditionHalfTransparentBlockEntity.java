@@ -24,7 +24,7 @@ public abstract class CollisionConditionHalfTransparentBlockEntity extends BaseE
 
     protected CollisionConditionHalfTransparentBlockEntity(Properties properties)
     {
-        super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true).isValidSpawn(Blocks::never));
+        super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos, aabb) -> true).isValidSpawn(Blocks::never));
     }
 
     @Override protected RenderShape getRenderShape(BlockState pState) {return RenderShape.MODEL;}

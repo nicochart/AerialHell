@@ -1,0 +1,16 @@
+{
+  "type": "aerialhell:dead_giant_tree",
+  "trunk_max_horizontal_offset": 3,
+  "trunk_min_vertical_offset": 15,
+  "trunk_max_vertical_offset": 30,
+  "chance_to_not_place_block": 0.1,
+  "trunk_provider": {
+    "type": "minecraft:simple",
+    "state": {
+      "id": "aerialhell:petrified_aerial_tree_log",
+      "properties": {
+        "axis": "y"
+      }
+    }
+  }
+}

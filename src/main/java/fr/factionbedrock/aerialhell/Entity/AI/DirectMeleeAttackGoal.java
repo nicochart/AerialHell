@@ -76,7 +76,7 @@ public class DirectMeleeAttackGoal extends Goal
         if (this.attackCooldown <= 0 && horizontalDistSqr <= this.attackReach * this.attackReach)
         {
             this.attackCooldown = 20;
-            this.goalOwner.swing(InteractionHand.MAIN_HAND);
+            this.goalOwner.swingForAttack(InteractionHand.MAIN_HAND);
             this.goalOwner.doHurtTarget(getServerLevel(this.goalOwner), this.target);
         }
     }

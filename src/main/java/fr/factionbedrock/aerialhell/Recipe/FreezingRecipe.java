@@ -12,7 +12,7 @@ import net.minecraft.world.item.crafting.*;
 
 public class FreezingRecipe extends AbstractCookingRecipe
 {
-	public static final MapCodec<FreezingRecipe> MAP_CODEC = cookingMapCodec(FreezingRecipe::new, 200);
+	public static final MapCodec<FreezingRecipe> MAP_CODEC = cookingMapCodec(FreezingRecipe::new);
 	public static final StreamCodec<RegistryFriendlyByteBuf, FreezingRecipe> STREAM_CODEC = cookingStreamCodec(FreezingRecipe::new);
 	public static final RecipeSerializer<FreezingRecipe> SERIALIZER = new RecipeSerializer(MAP_CODEC, STREAM_CODEC);
 

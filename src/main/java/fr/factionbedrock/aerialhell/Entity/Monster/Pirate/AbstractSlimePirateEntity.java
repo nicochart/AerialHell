@@ -31,7 +31,7 @@ public abstract class AbstractSlimePirateEntity extends AbstractHumanoidMonster
                     if (this.isPersistenceRequired()) {littlePirate.setPersistenceRequired();}
                     littlePirate.setCustomName(this.getCustomName());
                     littlePirate.setNoAi(this.isNoAi());
-                    littlePirate.setInvulnerable(this.isInvulnerable());
+                    littlePirate.setPermanentlyInvulnerable(this.isPermanentlyInvulnerable());
                     littlePirate.setBaby(true);
                     littlePirate.snapTo(this.getX() + (double) x, this.getY() + 0.5D, this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
                     this.level().addFreshEntity(littlePirate);

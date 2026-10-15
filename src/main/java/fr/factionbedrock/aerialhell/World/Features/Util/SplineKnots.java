@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.World.Features.Util;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import org.joml.Vector3f;
 
 public interface SplineKnots

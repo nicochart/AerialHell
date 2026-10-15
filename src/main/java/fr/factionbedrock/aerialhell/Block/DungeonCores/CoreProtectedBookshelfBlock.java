@@ -16,5 +16,5 @@ public class CoreProtectedBookshelfBlock extends CoreProtectedBlock
 
 	@Override public float getEnchantPowerBonus(BlockState state, BlockGetter level, BlockPos pos) {return 1.0F;}
 
-	@Override public @Nullable PushReaction getPistonPushReaction(BlockState state) {return this.isProtected(state) ? PushReaction.BLOCK : super.getPistonPushReaction(state);}
+	@Override public @Nullable PushReaction getPistonPushReaction(BlockState state) {return this.isProtected(state) ? PushReaction.IMMOVEABLE : super.getPistonPushReaction(state);}
 }

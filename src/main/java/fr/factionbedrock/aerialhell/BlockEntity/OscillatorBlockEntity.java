@@ -15,7 +15,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.FuelValues;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class OscillatorBlockEntity extends AbstractFurnaceBlockEntity
@@ -31,7 +31,7 @@ public class OscillatorBlockEntity extends AbstractFurnaceBlockEntity
 
 	@Override protected AbstractContainerMenu createMenu(int id, Inventory inv) {return new OscillatorMenu(id, inv, this, this.dataAccess);}
 
-	@Override protected int getBurnDuration(FuelValues fuelValues, ItemStack fuel)
+	@Override protected int getBurnDuration(ServerLevel level, ItemStack fuel)
 	{
 		if (fuel.isEmpty() || !ItemHelper.getOscillatingMap().containsKey(fuel.getItem())) {return 0;}
 		else {return ItemHelper.getOscillatingMap().get(fuel.getItem());}

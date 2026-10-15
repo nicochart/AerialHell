@@ -315,7 +315,7 @@ public abstract class AbstractSnakeEntity extends AbstractCustomHurtMonsterEntit
             if (this.isPersistenceRequired()) {nextBodyPart.setPersistenceRequired();}
             nextBodyPart.setCustomName(this.getCustomName());
             nextBodyPart.setNoAi(this.isNoAi());
-            nextBodyPart.setInvulnerable(this.isInvulnerable());
+            nextBodyPart.setPermanentlyInvulnerable(this.isInvulnerable());
             nextBodyPart.snapTo(this.getX() + (double) x, this.getY(), this.getZ() + (double) z, this.random.nextFloat() * 360.0F, 0.0F);
             nextBodyPart.setBodyPartId(this.getBodyPartId() + 1);
             nextBodyPart.setPreviousBodyPart(this);

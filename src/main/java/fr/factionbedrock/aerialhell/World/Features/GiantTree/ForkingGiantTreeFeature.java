@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
@@ -18,8 +18,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -29,9 +29,13 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
     private static final SplineKnotsDeformedStraightLine.KnotsParameters TRUNK_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 16, 0.3F, 5, 20);
     private static final SplineKnotsDeformedStraightLine.KnotsParameters FOLIAGE_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 18, 0.4F, 6, 19);
 
-    public ForkingGiantTreeFeature(Codec<ForkingGiantTreeConfig> codec) {super(codec);}
+    public static final MapCodec<ForkingGiantTreeFeature> CODEC = ForkingGiantTreeConfig.CODEC.xmap(ForkingGiantTreeFeature::new, ForkingGiantTreeFeature::config);
 
-    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FORKING_GIANT_TREE_TREE;}
+    public ForkingGiantTreeFeature(ForkingGiantTreeConfig config) {super(config);}
+
+    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+
+    @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FORKING_GIANT_TREE_TREE;}
 
     @Override public boolean place(FeaturePlaceContext<ForkingGiantTreeConfig> context)
     {
@@ -173,20 +177,20 @@ public class ForkingGiantTreeFeature extends AbstractGiantTreeFeature<ForkingGia
             {
                 placementPos.set(getKnotsDeformedPos(getOffsetPosFromStart(i), this.getKnots(), this.getKnotsNumber(), this.getKnotsParameters()));
 
-                if (this.isFork && i==0) {generateForkToSupportTrunkJonction(this.straightLineParams.getStart(), new BlockPos(placementPos));}
+                if (this.isFork && i==0) {generateForkToSupportTrunkJonction(this.straightLineParams.getStart(), placementPos.immutable());}
 
                 if (isStepFor1stFork(i, maxAbsOffset * straightLineParams.getPrecisionMultiplicator()))
                 {
-                    if (forkPos1 == null) {forkPos1 = new BlockPos(placementPos);}
-                    else if (randomPlaceForkPos(1)) {forkPos1 = new BlockPos(placementPos);}
+                    if (forkPos1 == null) {forkPos1 = placementPos.immutable();}
+                    else if (randomPlaceForkPos(1)) {forkPos1 = placementPos.immutable();}
                 }
-                else if (isStepFor2ndFork(i, maxAbsOffset * straightLineParams.getPrecisionMultiplicator()) && randomPlaceForkPos(2)) {forkPos2 = new BlockPos(placementPos);}
+                else if (isStepFor2ndFork(i, maxAbsOffset * straightLineParams.getPrecisionMultiplicator()) && randomPlaceForkPos(2)) {forkPos2 = placementPos.immutable();}
 
                 tryPlacingBlocks(placementPos, i, maxAbsOffset * straightLineParams.getPrecisionMultiplicator());
                 i++;
             }
             if (generateDebug) {this.generateDebug();}
-            return new ForkingTrunkBlockPosList(forkPos1, forkPos2, new BlockPos(placementPos));
+            return new ForkingTrunkBlockPosList(forkPos1, forkPos2, placementPos.immutable());
         }
 
         private void generateForkToSupportTrunkJonction(BlockPos supportStart, BlockPos supportEnd)

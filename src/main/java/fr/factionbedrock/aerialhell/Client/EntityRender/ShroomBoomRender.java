@@ -26,7 +26,7 @@ public class ShroomBoomRender extends MobRenderer<ShroomBoomEntity, ShroomBoomRe
 		super.extractRenderState(entity, renderState, partialTick);
 		renderState.texture = TEXTURE;
 		renderState.swelling = entity.getSwelling(partialTick);
-		renderState.attackTime = entity.swingTime; //TODO
+		renderState.attackTime = (int) (entity.getSwingAnimation(partialTick) * 6.0F); //TODO (swingTime field was removed in 26.3, approximated with swing animation progress * default swing duration)
 		renderState.isAggressive = entity.isAggressive();
 	}
 

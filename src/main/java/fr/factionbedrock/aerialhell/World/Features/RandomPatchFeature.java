@@ -1,17 +1,21 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.World.Features.Config.RandomPatchConfiguration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
-public class RandomPatchFeature extends Feature<RandomPatchConfiguration>
+public class RandomPatchFeature extends AerialHellFeature<RandomPatchConfiguration>
 {
-    public RandomPatchFeature(Codec<RandomPatchConfiguration> codec) {super(codec);}
+    public static final MapCodec<RandomPatchFeature> CODEC = RandomPatchConfiguration.CODEC.xmap(RandomPatchFeature::new, RandomPatchFeature::config);
+
+    public RandomPatchFeature(RandomPatchConfiguration config) {super(config);}
+
+    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
 
     public boolean place(FeaturePlaceContext<RandomPatchConfiguration> context)
     {

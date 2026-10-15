@@ -27,7 +27,7 @@ public class ShadowAutomatonShadowLayer<S extends AutomatonRenderState, M extend
       if (!renderState.isInvisible)
       {
          this.shadowAutomatonModel.setupAnim(renderState);
-         submitNodeCollector.submitModel(this.shadowAutomatonModel, renderState, poseStack, RenderTypes.entityTranslucent(renderState.texture), packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
+         submitNodeCollector.submitModel(this.shadowAutomatonModel, renderState, poseStack, RenderTypes.entityTranslucent(renderState.texture), packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor);
       }
    }
 }

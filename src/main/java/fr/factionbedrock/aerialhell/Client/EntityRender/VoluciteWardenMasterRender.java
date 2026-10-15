@@ -117,8 +117,8 @@ public class VoluciteWardenMasterRender extends LivingEntityRenderer<VoluciteWar
 
         float xRot = (float)Math.acos(dir.y);
         float yRot = ((float)Math.PI / 2F) - (float)Math.atan2(dir.z, dir.x);
-        poseStack.mulPose(Axis.YP.rotationDegrees(yRot * (180F / (float)Math.PI)));
-        poseStack.mulPose(Axis.XP.rotationDegrees(xRot * (180F / (float)Math.PI)));
+        poseStack.rotate(Axis.YP.rotationDegrees(yRot * (180F / (float)Math.PI)));
+        poseStack.rotate(Axis.XP.rotationDegrees(xRot * (180F / (float)Math.PI)));
 
         nodeCollector.submitCustomGeometry(poseStack, RenderTypes.entityCutout(ARM_SEGMENTS_CONNECTION_TEXTURE), (pose, consumer) ->
         {

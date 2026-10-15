@@ -11,19 +11,16 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.Util;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +39,7 @@ public abstract class AerialHellGrassBlock extends GrassBlock implements Bonemea
 		builder.add(AerialHellStateProperties.SHIFTED_RENDER);
 	}
 
-	@Override public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state)
+	@Override public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state, BonemealSource source)
 	{
 		BlockPos above = pos.above();
 		BlockState grass = Blocks.SHORT_GRASS.defaultBlockState();
@@ -63,9 +60,9 @@ public abstract class AerialHellGrassBlock extends GrassBlock implements Bonemea
 			if (testState.is(grass.getBlock()) && random.nextInt(10) == 0)
 			{
 				BonemealableBlock bonemealableBlock = (BonemealableBlock)grass.getBlock();
-				if (bonemealableBlock.isValidBonemealTarget(level, testPos, testState))
+				if (bonemealableBlock.isValidBonemealTarget(level, testPos, testState, source))
 				{
-					bonemealableBlock.performBonemeal(level, random, testPos, testState);
+					bonemealableBlock.performBonemeal(level, random, testPos, testState, source);
 				}
 			}
 
@@ -73,10 +70,10 @@ public abstract class AerialHellGrassBlock extends GrassBlock implements Bonemea
 			{
 				if (random.nextInt(8) == 0)
 				{
-					List<ConfiguredFeature<?, ?>> features = (level.getBiome(testPos).value()).getGenerationSettings().getBoneMealFeatures();
+					List<Feature> features = (level.getBiome(testPos).value()).getGenerationSettings().getBoneMealFeatures();
 					if (!features.isEmpty())
 					{
-						ConfiguredFeature<?, ?> placementFeature = Util.getRandom(features, random);
+						Feature placementFeature = Util.getRandom(features, random);
 						placementFeature.place(level, level.getChunkSource().getGenerator(), random, testPos);
 					}
 				} else if (grassFeature.isPresent())
@@ -89,16 +86,4 @@ public abstract class AerialHellGrassBlock extends GrassBlock implements Bonemea
 	}
 
 	protected abstract ResourceKey<PlacedFeature> getBonemealFeature();
-
-	@Override @Nullable
-	public BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate)
-	{
-		if (!context.getItemInHand().canPerformAction(itemAbility)) {return null;}
-		if (state.getBlock() == AerialHellBlocks.STELLAR_GRASS_BLOCK.get() || state.getBlock() == AerialHellBlocks.CHISELED_STELLAR_GRASS_BLOCK.get())
-		{
-			if (ItemAbilities.HOE_TILL == itemAbility) {return AerialHellBlocks.STELLAR_FARMLAND.get().defaultBlockState();}
-			if (ItemAbilities.SHOVEL_FLATTEN == itemAbility) {return AerialHellBlocks.STELLAR_DIRT_PATH.get().defaultBlockState();}
-		}
-		return super.getToolModifiedState(state, context, itemAbility, simulate);
-	}
 }

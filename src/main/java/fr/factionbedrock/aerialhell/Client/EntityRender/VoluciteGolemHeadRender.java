@@ -68,9 +68,9 @@ public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity
         }
     }
 
-    @Override public AABB getBoundingBoxForCulling(VoluciteGolemHeadEntity entity)
+    @Override public AABB getBoundingBoxForCulling(VoluciteGolemHeadEntity entity, float partialTicks)
     {
-        AABB box = super.getBoundingBoxForCulling(entity);
+        AABB box = super.getBoundingBoxForCulling(entity, partialTicks);
         if (entity.isBeaming() && entity.getBeamEndPos() != null)
         {
             return BeamRenderHelper.calculateBeamCullingBox(box, entity.getBeamStartPos(), entity.getBeamEndPos(), entity.getBeamScale());

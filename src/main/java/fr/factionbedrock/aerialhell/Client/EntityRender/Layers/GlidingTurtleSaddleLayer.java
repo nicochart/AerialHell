@@ -30,7 +30,7 @@ public class GlidingTurtleSaddleLayer extends RenderLayer<GlidingTurtleRenderSta
       if (renderState.isSaddled && !renderState.isInvisible)
       {
          this.saddleModel.setupAnim(renderState);
-         submitNodeCollector.submitModel(this.saddleModel, renderState, poseStack, RenderTypes.entityCutout(GLIDING_TURTLE_SADDLE), packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
+         submitNodeCollector.submitModel(this.saddleModel, renderState, poseStack, RenderTypes.entityCutout(GLIDING_TURTLE_SADDLE), packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor);
       }
    }
 }

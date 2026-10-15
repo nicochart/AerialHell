@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Block.Plants.ChorusFlowerLikeBlock;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
@@ -10,17 +10,20 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 
 import java.util.List;
 
-public class ChorusLikeFeature extends Feature<ChorusLikePlantConfig> implements DungeonSensitiveFeatureCheck
+public class ChorusLikeFeature extends AerialHellFeature<ChorusLikePlantConfig> implements DungeonSensitiveFeatureCheck
 {
-    public ChorusLikeFeature(Codec<ChorusLikePlantConfig> config) {super(config);}
+    public static final MapCodec<ChorusLikeFeature> CODEC = ChorusLikePlantConfig.CODEC.xmap(ChorusLikeFeature::new, ChorusLikeFeature::config);
 
-    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FULL_MOON_PLANT_LIST;}
+    public ChorusLikeFeature(ChorusLikePlantConfig config) {super(config);}
+
+    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+
+    @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FULL_MOON_PLANT_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<ChorusLikePlantConfig> context)
     {

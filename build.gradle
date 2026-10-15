@@ -136,9 +136,9 @@ dependencies {
 
     // JER
     //JER project ID = 240630
-    //Current last 26.2 file ID = 9002821
-    compileOnly("curse.maven:just-enough-resources-jer-240630:9002821")
-    runtimeOnly("curse.maven:just-enough-resources-jer-240630:9002821")
+    //Current last 26.3 file ID = 9003171
+    //compileOnly("curse.maven:just-enough-resources-jer-240630:9003171")
+    //runtimeOnly("curse.maven:just-enough-resources-jer-240630:9003171")
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${minecraft_version}-${coolmod_version}.jar

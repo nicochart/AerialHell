@@ -65,7 +65,7 @@ public class VoluciteWardenHeadRender extends VoluciteWardenPartRender<VoluciteW
 		float pivotZ = 0.0F; //0.0F / 16.0F; // 0.0F is z of head center of rot
 
 		poseStack.translate(0.0F, pivotY, pivotZ);
-		poseStack.mulPose(Axis.XP.rotationDegrees(pitch));
+		poseStack.rotate(Axis.XP.rotationDegrees(pitch));
 		poseStack.translate(0.0F, -pivotY, -pivotZ);
 	}
 
@@ -84,9 +84,9 @@ public class VoluciteWardenHeadRender extends VoluciteWardenPartRender<VoluciteW
 		}
 	}
 
-	@Override public AABB getBoundingBoxForCulling(VoluciteWardenHeadEntity entity)
+	@Override public AABB getBoundingBoxForCulling(VoluciteWardenHeadEntity entity, float partialTicks)
 	{
-		AABB box = super.getBoundingBoxForCulling(entity);
+		AABB box = super.getBoundingBoxForCulling(entity, partialTicks);
 
 		//-- adapting culling bounding box to beam --
 		if (entity.isBeaming() && entity.getBeamEndPos() != null)

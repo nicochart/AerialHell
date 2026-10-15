@@ -37,5 +37,5 @@ public class CoreProtectedRotatedPillarBlock extends RotatedPillarBlock implemen
 		return this.getModifiedDestroyProgress(state, player, level, pos);
 	}
 
-	@Override public @Nullable PushReaction getPistonPushReaction(BlockState state) {return this.isProtected(state) ? PushReaction.BLOCK : super.getPistonPushReaction(state);}
+	@Override public @Nullable PushReaction getPistonPushReaction(BlockState state) {return this.isProtected(state) ? PushReaction.IMMOVEABLE : super.getPistonPushReaction(state);}
 }

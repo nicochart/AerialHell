@@ -1,14 +1,15 @@
 package fr.factionbedrock.aerialhell.Client.World;
 
-import com.mojang.blaze3d.PrimitiveTopology;
-import com.mojang.blaze3d.buffers.GpuBuffer;
-import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.pipeline.RenderTarget;
-import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.*;
+import com.mojang.renderpearl.api.buffers.GpuBuffer;
+import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
+import com.mojang.renderpearl.api.commands.RenderPass;
+import com.mojang.renderpearl.api.pipeline.PrimitiveTopology;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
+import com.mojang.renderpearl.api.textures.GpuTextureView;
+import com.mojang.renderpearl.api.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.Util.SkyRendererHelper;
@@ -25,8 +26,9 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;
-import org.joml.Vector3f;
+import org.joml.Vector3fc;
 import org.joml.Vector4f;
+import org.joml.Vector4fc;
 
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -188,15 +190,15 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
         return gpubuffer;
     }
 
-    public void renderSkyDisc(int skyColor)
+    public void renderSkyDisc(Vector3fc skyColor)
     {
-        GpuBufferSlice dynamicTransforms = RenderSystem.getDynamicUniforms().writeTransform(RenderSystem.getModelViewMatrixCopy(), ARGB.vector4fFromARGB32(skyColor));
+        GpuBufferSlice dynamicTransforms = RenderSystem.getDynamicUniforms().writeTransform(RenderSystem.getModelViewMatrixCopy(), new Vector4f(skyColor, 1.0F));
         GpuTextureView colorTexture = this.renderTarget.getColorTextureView();
         GpuTextureView depthTexture = this.renderTarget.getDepthTextureView();
 
         try (RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(() -> "Sky disc", colorTexture, Optional.empty(), depthTexture, OptionalDouble.empty()))
         {
-            renderPass.setPipeline(RenderPipelines.SKY);
+            renderPass.setPipeline(RenderSystem.getCompiledPipeline(RenderPipelines.SKY));
             RenderSystem.bindDefaultUniforms(renderPass);
             renderPass.setUniform("DynamicTransforms", dynamicTransforms);
             renderPass.setVertexBuffer(0, this.topSkyBuffer.slice());
@@ -215,7 +217,7 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
 
         try (RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(() -> "Sky dark", colorTexture, Optional.empty(), depthTexture, OptionalDouble.empty()))
         {
-            renderPass.setPipeline(RenderPipelines.SKY);
+            renderPass.setPipeline(RenderSystem.getCompiledPipeline(RenderPipelines.SKY));
             RenderSystem.bindDefaultUniforms(renderPass);
             renderPass.setUniform("DynamicTransforms", dynamicTransforms);
             renderPass.setVertexBuffer(0, this.bottomSkyBuffer.slice());
@@ -228,19 +230,19 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
     public void renderSunMoonAndStars(PoseStack poseStack, float sunAngle, float moonAngle, float starAngle, MoonPhase moonPhase, float sunAlpha, float moonAlpha, float starAlpha)
     {
         poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+        poseStack.rotate(Axis.YP.rotationDegrees(-90.0F));
         poseStack.pushPose();
-        poseStack.mulPose(Axis.XP.rotation(sunAngle));
+        poseStack.rotate(Axis.XP.rotation(sunAngle));
         this.renderSun(sunAlpha, poseStack);
         poseStack.popPose();
         poseStack.pushPose();
-        poseStack.mulPose(Axis.XP.rotation(moonAngle));
+        poseStack.rotate(Axis.XP.rotation(moonAngle));
         this.renderMoon(moonPhase, moonAlpha, poseStack);
         poseStack.popPose();
         if (starAlpha > 0.0F)
         {
             poseStack.pushPose();
-            poseStack.mulPose(Axis.XP.rotation(starAngle));
+            poseStack.rotate(Axis.XP.rotation(starAngle));
             this.renderStars(starAlpha, poseStack);
             poseStack.popPose();
         }
@@ -262,10 +264,10 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
 
         try (RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(() -> "Sky sun", color, Optional.empty(), depth, OptionalDouble.empty()))
         {
-            renderPass.setPipeline(RenderPipelines.CELESTIAL);
+            renderPass.setPipeline(RenderSystem.getCompiledPipeline(RenderPipelines.CELESTIAL));
             RenderSystem.bindDefaultUniforms(renderPass);
             renderPass.setUniform("DynamicTransforms", dynamicTransforms);
-            renderPass.bindTexture("Sampler0", this.celestialsAtlas.getTextureView(), this.celestialsAtlas.getSampler());
+            renderPass.setUniform("Sampler0", this.celestialsAtlas.getTextureView(), this.celestialsAtlas.getSampler());
             renderPass.setVertexBuffer(0, this.sunBuffer.slice());
             renderPass.setIndexBuffer(indexBuffer, this.quadIndices.type());
             renderPass.drawIndexed(6, 1, 0, 0, 0);
@@ -289,10 +291,10 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
 
         try (RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(() -> "Sky moon", color, Optional.empty(), depth, OptionalDouble.empty()))
         {
-            renderPass.setPipeline(RenderPipelines.CELESTIAL);
+            renderPass.setPipeline(RenderSystem.getCompiledPipeline(RenderPipelines.CELESTIAL));
             RenderSystem.bindDefaultUniforms(renderPass);
             renderPass.setUniform("DynamicTransforms", dynamicTransforms);
-            renderPass.bindTexture("Sampler0", this.celestialsAtlas.getTextureView(), this.celestialsAtlas.getSampler());
+            renderPass.setUniform("Sampler0", this.celestialsAtlas.getTextureView(), this.celestialsAtlas.getSampler());
             renderPass.setVertexBuffer(0, this.moonBuffer.slice());
             renderPass.setIndexBuffer(indexBuffer, this.quadIndices.type());
             renderPass.drawIndexed(6, 1, 0, baseVertex, 0);
@@ -314,7 +316,7 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
 
         try (RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(() -> "Stars", colorTexture, Optional.empty(), depthTexture, OptionalDouble.empty()))
         {
-            renderPass.setPipeline(renderPipeline);
+            renderPass.setPipeline(RenderSystem.getCompiledPipeline(renderPipeline));
             RenderSystem.bindDefaultUniforms(renderPass);
             renderPass.setUniform("DynamicTransforms", dynamicTransforms);
             renderPass.setVertexBuffer(0, this.starBuffer.slice());
@@ -325,25 +327,25 @@ public class AerialHellDimensionSkyRenderer implements AutoCloseable
         modelViewStack.popMatrix();
     }
 
-    public void renderSunriseAndSunset(PoseStack poseStack, float sunAngle, int sunriseAndSunsetColor)
+    public void renderSunriseAndSunset(PoseStack poseStack, float sunAngle, Vector4fc sunriseAndSunsetColor)
     {
-        float alpha = ARGB.alphaFloat(sunriseAndSunsetColor);
+        float alpha = sunriseAndSunsetColor.w();
         if (!(alpha <= 0.001F)) {
             poseStack.pushPose();
-            poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
-            float angle = Mth.sin((double)sunAngle) < 0.0F ? 180.0F : 0.0F;
-            poseStack.mulPose(Axis.ZP.rotationDegrees(angle + 90.0F));
+            poseStack.rotate(Axis.XP.rotationDegrees(90.0F));
+            float angle = Mth.sin(sunAngle) < 0.0F ? 180.0F : 0.0F;
+            poseStack.rotate(Axis.ZP.rotationDegrees(angle + 90.0F));
             Matrix4fStack modelViewStack = RenderSystem.getModelViewStack();
             modelViewStack.pushMatrix();
             modelViewStack.mul(poseStack.last().pose());
             modelViewStack.scale(1.0F, 1.0F, alpha);
-            GpuBufferSlice dynamicTransforms = RenderSystem.getDynamicUniforms().writeTransform(new Matrix4f(modelViewStack), ARGB.vector4fFromARGB32(sunriseAndSunsetColor));
+            GpuBufferSlice dynamicTransforms = RenderSystem.getDynamicUniforms().writeTransform(new Matrix4f(modelViewStack), new Vector4f(sunriseAndSunsetColor));
             GpuTextureView color = this.renderTarget.getColorTextureView();
             GpuTextureView depth = this.renderTarget.getDepthTextureView();
 
             try (RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(() -> "Sunrise sunset", color, Optional.empty(), depth, OptionalDouble.empty()))
             {
-                renderPass.setPipeline(RenderPipelines.SUNRISE_SUNSET);
+                renderPass.setPipeline(RenderSystem.getCompiledPipeline(RenderPipelines.SUNRISE_SUNSET));
                 RenderSystem.bindDefaultUniforms(renderPass);
                 renderPass.setUniform("DynamicTransforms", dynamicTransforms);
                 renderPass.setVertexBuffer(0, this.sunriseBuffer.slice());

@@ -93,7 +93,7 @@ public class AerialHellToolMaterial extends ExtraAttributeModifiersMaterial
                 .component(DataComponents.PIERCING_WEAPON, new PiercingWeapon(true, false, sound, hitSound))
                 .component(DataComponents.ATTACK_RANGE, new AttackRange(2.0F, 4.5F, 2.0F, 6.5F, 0.125F, 0.5F))
                 .component(DataComponents.MINIMUM_ATTACK_CHARGE, 1.0F)
-                .component(DataComponents.SWING_ANIMATION, new SwingAnimation(SwingAnimationType.STAB, (int)(attackDuration * 20.0F)))
+                .component(DataComponents.ATTACK_ANIMATION, new SwingAnimation(SwingAnimationType.STAB, (int)(attackDuration * 20.0F)))
                 .attributes(this.createAttributes(0.0F, (1.0F / attackDuration) - 4.0F, additionalAttributes))
                 .component(DataComponents.USE_EFFECTS, new UseEffects(true, false, 1.0F))
                 .component(DataComponents.WEAPON, new Weapon(1));

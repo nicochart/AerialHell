@@ -62,9 +62,9 @@ public class ShurikenRender<T extends ShurikenEntity> extends EntityRenderer<T, 
 		{
 			renderState.shurikenZRot = 360;
 		}
-		poseStack.mulPose(Axis.YP.rotationDegrees(renderState.YRot)); /*Vertical plane rotation*/
-		poseStack.mulPose(Axis.XP.rotationDegrees(- 90.0f - renderState.xRotO)); /*Pointing to forward*/
-		poseStack.mulPose(Axis.ZP.rotationDegrees(renderState.shurikenZRot)); /*Horizontal plane rotation*/
+		poseStack.rotate(Axis.YP.rotationDegrees(renderState.YRot)); /*Vertical plane rotation*/
+		poseStack.rotate(Axis.XP.rotationDegrees(- 90.0f - renderState.xRotO)); /*Pointing to forward*/
+		poseStack.rotate(Axis.ZP.rotationDegrees(renderState.shurikenZRot)); /*Horizontal plane rotation*/
 
 		renderState.item.submit(poseStack, submitNodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, renderState.outlineColor);
 

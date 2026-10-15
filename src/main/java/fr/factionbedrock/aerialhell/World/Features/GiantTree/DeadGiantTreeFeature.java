@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
@@ -13,8 +13,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 
 import java.util.List;
 
@@ -22,9 +22,13 @@ public class DeadGiantTreeFeature extends AbstractGiantTreeFeature<DeadGiantTree
 {
     private static final SplineKnotsDeformedStraightLine.KnotsParameters TRUNK_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 16, 0.3F, 5, 20);
 
-    public DeadGiantTreeFeature(Codec<DeadGiantTreeConfig> codec) {super(codec);}
+    public static final MapCodec<DeadGiantTreeFeature> CODEC = DeadGiantTreeConfig.CODEC.xmap(DeadGiantTreeFeature::new, DeadGiantTreeFeature::config);
 
-    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.DEAD_GIANT_TREE_TREE_LIST;}
+    public DeadGiantTreeFeature(DeadGiantTreeConfig config) {super(config);}
+
+    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+
+    @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.DEAD_GIANT_TREE_TREE_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<DeadGiantTreeConfig> context)
     {

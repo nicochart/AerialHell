@@ -55,7 +55,7 @@ public class HellSpiderSpikesLayer<S extends HellSpiderRenderState, M extends Sp
         if (!renderState.isInvisible)
         {
             this.spiderSpikeModel.setupAnim(renderState);
-            submitNodeCollector.submitModel(this.spiderSpikeModel, renderState, poseStack, getRenderType(renderState), packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
+            submitNodeCollector.submitModel(this.spiderSpikeModel, renderState, poseStack, getRenderType(renderState), packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor);
         }
     }
 }
