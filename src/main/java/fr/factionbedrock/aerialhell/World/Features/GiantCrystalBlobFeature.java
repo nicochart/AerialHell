@@ -14,33 +14,29 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
-import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
 
 import java.util.List;
 
-public class GiantCrystalBlobFeature extends AerialHellFeature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
+public record GiantCrystalBlobFeature() implements Feature, DungeonSensitiveFeatureCheck
 {
-	public static final MapCodec<GiantCrystalBlobFeature> CODEC = NoneFeatureConfiguration.CODEC.xmap(GiantCrystalBlobFeature::new, GiantCrystalBlobFeature::config);
+	public static final MapCodec<GiantCrystalBlobFeature> CODEC = MapCodec.unit(GiantCrystalBlobFeature::new);
 
-	public GiantCrystalBlobFeature(NoneFeatureConfiguration config) {super(config);}
-
-	@Override public MapCodec<? extends Feature> codec() {return CODEC;}
+	@Override public MapCodec<GiantCrystalBlobFeature> codec() {return CODEC;}
 
 	@Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.GIANT_CRYSTAL_BLOB_LIST;}
 
-	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+	@Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
 	{
-		BlockPos pos = context.origin(); WorldGenLevel world = context.level(); RandomSource rand = context.random();
-		if (!world.isEmptyBlock(pos)) {return false;}
+		if (!level.isEmptyBlock(origin)) {return false;}
 		else
 		{
-			BlockState blockstate = world.getBlockState(pos.below());
-		    if (!blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) || !this.isDungeonSensitiveValid(context)) {return false;}
+			BlockState blockstate = level.getBlockState(origin.below());
+		    if (!blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) || !this.isDungeonSensitiveValid(level, origin)) {return false;}
 		    else
 		    {
-				place(pos, world, rand);
+				place(origin, level, random);
 		    	return true;
 		    }
 		}

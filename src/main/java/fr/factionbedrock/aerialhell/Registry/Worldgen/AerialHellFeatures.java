@@ -2,9 +2,7 @@ package fr.factionbedrock.aerialhell.Registry.Worldgen;
 
 import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.World.Features.*;
-import fr.factionbedrock.aerialhell.World.Features.Config.*;
 import fr.factionbedrock.aerialhell.World.Features.GiantTree.ClassicGiantTreeFeature;
 import fr.factionbedrock.aerialhell.World.Features.GiantTree.DeadGiantTreeFeature;
 import fr.factionbedrock.aerialhell.World.Features.GiantTree.ForkingGiantTreeFeature;
@@ -12,10 +10,7 @@ import fr.factionbedrock.aerialhell.World.Features.GiantTree.GiantPineTreeFeatur
 import fr.factionbedrock.aerialhell.World.Features.SolidEther.*;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.util.random.WeightedList;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 
 //Since 26.3, the feature type registry contains feature codecs (each feature instance holds its own configuration)
 public class AerialHellFeatures
@@ -29,7 +24,7 @@ public class AerialHellFeatures
 	public static final MapCodec<HugeMushroomFeature> HUGE_MUSHROOM = register("huge_mushroom", HugeMushroomFeature.CODEC);
 	public static final MapCodec<AerialHellTwistingVinesFeature> TWISTING_ROOTS = register("twisting_roots", AerialHellTwistingVinesFeature.CODEC);
 
-	public static final MapCodec<LargeDeadLogFeature> LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG = register("large_dead_stellar_jungle_tree_log", MapCodec.unit(() -> new LargeDeadLogFeature(NoneFeatureConfiguration.INSTANCE, () -> AerialHellBlocks.DEAD_STELLAR_JUNGLE_TREE_LOG)));
+	public static final MapCodec<LargeDeadLogFeature> LARGE_DEAD_LOG = register("large_dead_log", LargeDeadLogFeature.CODEC);
 
 	public static final MapCodec<ChorusLikeFeature> FULL_MOON_PLANT = register("full_moon_plant", ChorusLikeFeature.CODEC);
 
@@ -49,12 +44,12 @@ public class AerialHellFeatures
 	public static final MapCodec<MushroomCapsColumnFeature> MUSHROOM_CAPS_COLUMN = register("mushroom_caps_column", MushroomCapsColumnFeature.CODEC);
 
 	public static final MapCodec<FloorTransformationFeature> FLOOR_TRANSFORMATION = register("floor_transformation", FloorTransformationFeature.CODEC);
-	public static final MapCodec<RockFeature> MOSSY_STELLAR_COBBLESTONE_ROCK = register("mossy_stellar_cobblestone_rock", MapCodec.unit(() -> new RockFeature(NoneFeatureConfiguration.INSTANCE, new WeightedStateProvider(WeightedList.<BlockState>builder().add(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE.defaultBlockState(), 1).add(AerialHellBlocks.STELLAR_COBBLESTONE.defaultBlockState(), 1)))));
+	public static final MapCodec<RockFeature> ROCK = register("rock", RockFeature.CODEC);
 	public static final MapCodec<DanglingChainFeature> DANGLING_CHAIN = register("dangling_chain", DanglingChainFeature.CODEC);
 	public static final MapCodec<SlipperySandFeature> SLIPPERY_SAND = register("slippery_sand", SlipperySandFeature.CODEC);
 	public static final MapCodec<NaturalFieldFeature> NATURAL_FIELD = register("natural_field", NaturalFieldFeature.CODEC);
 	public static final MapCodec<CrystalBlobFeature> CRYSTAL_BLOB = register("crystal_blob", CrystalBlobFeature.CODEC);
-	public static final MapCodec<LittleCrystalBlobInDarKAreasFeature> STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS = register("little_crystal_blob_in_dark_areas", LittleCrystalBlobInDarKAreasFeature.CODEC);
+	public static final MapCodec<LittleCrystalBlobInDarkAreasFeature> STELLAR_STONE_CRYSTAL_BLOB_IN_DARK_AREAS = register("little_crystal_blob_in_dark_areas", LittleCrystalBlobInDarkAreasFeature.CODEC);
 	public static final MapCodec<CrystallizedFireFeature> CRYSTALLIZED_FIRE = register("cristallized_fire", CrystallizedFireFeature.CODEC);
 	public static final MapCodec<GiantCrystalBlobFeature> GIANT_CRYSTAL_BLOB = register("giant_crystal_blob", GiantCrystalBlobFeature.CODEC);
 

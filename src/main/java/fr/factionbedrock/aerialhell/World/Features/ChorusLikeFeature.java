@@ -1,42 +1,42 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.factionbedrock.aerialhell.Block.Plants.ChorusFlowerLikeBlock;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
-import fr.factionbedrock.aerialhell.World.Features.Config.ChorusLikePlantConfig;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 
 import java.util.List;
 
-public class ChorusLikeFeature extends AerialHellFeature<ChorusLikePlantConfig> implements DungeonSensitiveFeatureCheck
+public record ChorusLikeFeature(String needsRoof) implements Feature, DungeonSensitiveFeatureCheck
 {
-    public static final MapCodec<ChorusLikeFeature> CODEC = ChorusLikePlantConfig.CODEC.xmap(ChorusLikeFeature::new, ChorusLikeFeature::config);
+    public static final MapCodec<ChorusLikeFeature> CODEC = RecordCodecBuilder.mapCodec(
+        i -> i.group(
+                ExtraCodecs.NON_EMPTY_STRING.fieldOf("needs_roof").forGetter(ChorusLikeFeature::needsRoof)
+            )
+            .apply(i, ChorusLikeFeature::new)
+    );
 
-    public ChorusLikeFeature(ChorusLikePlantConfig config) {super(config);}
-
-    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+    @Override public MapCodec<ChorusLikeFeature> codec() {return CODEC;}
 
     @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.FULL_MOON_PLANT_LIST;}
 
-    @Override public boolean place(FeaturePlaceContext<ChorusLikePlantConfig> context)
+    @Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
     {
-        boolean needsRoof =  context.config().needsRoof().equals("true");
-        WorldGenLevel level = context.level();
-        BlockPos pos = context.origin();
-        RandomSource random = context.random();
-        if (needsRoof && !BlockHelper.hasAnySolidSurfaceAbove(level, pos, 3)) {return false;}
-        if (level.isEmptyBlock(pos) && level.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT))
+        if (this.needsRoof.equals("true") && !BlockHelper.hasAnySolidSurfaceAbove(level, origin, 3)) {return false;}
+        if (level.isEmptyBlock(origin) && level.getBlockState(origin.below()).is(AerialHellTags.Blocks.STELLAR_DIRT))
         {
-            if (!this.isDungeonSensitiveValid(context)) {return false;}
-            ChorusFlowerLikeBlock.generatePlant(level, pos, random, 8);
+            if (!this.isDungeonSensitiveValid(level, origin)) {return false;}
+            ChorusFlowerLikeBlock.generatePlant(level, origin, random, 8);
             return true;
         }
         else {return false;}

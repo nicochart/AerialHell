@@ -10,36 +10,34 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
-import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
 
-public class BlueSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
+import java.util.List;
+
+public record BlueSolidEtherCloudFeature() implements AbstractSolidEtherCloudFeature
 {
 	public static int getMinGenHeigh() {return 80;} public static int getMaxGenHeigh() {return 180;}
-	protected int getBasicMinSize() {return 5;} protected int getBasicMaxSize() {return 8;}
-	protected int getSmallMinSize() {return 3;} protected int getSmallMaxSize() {return 5;}
+	@Override public int getBasicMinSize() {return 5;} @Override public int getBasicMaxSize() {return 8;}
+	@Override public int getSmallMinSize() {return 3;} @Override public int getSmallMaxSize() {return 5;}
 
-	protected Block getEtherBlock() {return AerialHellBlocks.BLUE_SOLID_ETHER;}
+	@Override public Block getEtherBlock() {return AerialHellBlocks.BLUE_SOLID_ETHER;}
 
-	public static final MapCodec<BlueSolidEtherCloudFeature> CODEC = NoneFeatureConfiguration.CODEC.xmap(BlueSolidEtherCloudFeature::new, BlueSolidEtherCloudFeature::config);
+	public static final MapCodec<BlueSolidEtherCloudFeature> CODEC = MapCodec.unit(BlueSolidEtherCloudFeature::new);
 
-	public BlueSolidEtherCloudFeature(NoneFeatureConfiguration config) {super(config);}
-
-	@Override public MapCodec<? extends Feature> codec() {return CODEC;}
+	@Override public MapCodec<BlueSolidEtherCloudFeature> codec() {return CODEC;}
 
 	@Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.BLUE_SOLID_ETHER_LIST;}
 
-	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+	@Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
     {
-		if (!this.isDungeonSensitiveValid(context)) {return false;}
-		BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random();
+		if (!this.isDungeonSensitiveValid(level, origin)) {return false;}
 
-		BlockPos generatePos = pos;
-		if (pos.getY() < getMinGenHeigh() || pos.getY() > getMaxGenHeigh()) {generatePos = getRandomHeighGenerationPos(pos.getX(), getMinGenHeigh(), getMaxGenHeigh(), pos.getZ(), rand);}
-		int sizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
-        int sizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
-		generateFirstEllipsis(context, sizeX, sizeZ, generatePos);
+		BlockPos generatePos = origin;
+		if (origin.getY() < getMinGenHeigh() || origin.getY() > getMaxGenHeigh()) {generatePos = getRandomHeighGenerationPos(origin.getX(), getMinGenHeigh(), getMaxGenHeigh(), origin.getZ(), random);}
+		int sizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), random);
+        int sizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), random);
+		generateFirstEllipsis(level, random, origin, sizeX, sizeZ, generatePos);
 		return true;
     }
 }

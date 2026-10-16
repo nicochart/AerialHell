@@ -5,11 +5,12 @@ import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedEllip
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
 
 public class ClassicGiantFoliage extends SplineKnotsDeformedEllipsoid
 {
-    public ClassicGiantFoliage(FeaturePlaceContext<?> context, Supplier<Block> block, EllipsoidParameters ellipsoidParams, BlockPos centerPos, Types.EllipsoidType type, int knotsNumber, KnotsParameters knotsParams, boolean generateBothDeformedAndNonDeformed) {super(context, block, ellipsoidParams, centerPos, type, knotsNumber, knotsParams, generateBothDeformedAndNonDeformed);}
+    public ClassicGiantFoliage(WorldGenLevel level, RandomSource random, BlockPos origin, Supplier<Block> block, EllipsoidParameters ellipsoidParams, BlockPos centerPos, Types.EllipsoidType type, int knotsNumber, KnotsParameters knotsParams, boolean generateBothDeformedAndNonDeformed) {super(level, random, origin, block, ellipsoidParams, centerPos, type, knotsNumber, knotsParams, generateBothDeformedAndNonDeformed);}
 
     public void generateFoliage()
     {

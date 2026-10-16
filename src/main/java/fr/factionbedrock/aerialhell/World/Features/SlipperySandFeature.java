@@ -15,31 +15,26 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
-import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
 
 import java.util.List;
 
-public class SlipperySandFeature extends AerialHellFeature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
+public record SlipperySandFeature() implements Feature, DungeonSensitiveFeatureCheck
 {
-    public static final MapCodec<SlipperySandFeature> CODEC = NoneFeatureConfiguration.CODEC.xmap(SlipperySandFeature::new, SlipperySandFeature::config);
+    public static final MapCodec<SlipperySandFeature> CODEC = MapCodec.unit(SlipperySandFeature::new);
 
-    public SlipperySandFeature(NoneFeatureConfiguration config) {super(config);}
-
-    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+    @Override public MapCodec<SlipperySandFeature> codec() {return CODEC;}
 
     @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.SLIPPERY_SAND_LIST;}
 
-    @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+    @Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
     {
-        BlockPos blockPos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
 		boolean canGenerate = (
-                (reader.getBlockState(blockPos.north(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.south(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.west(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.east(3)).getBlock().equals(Blocks.AIR)) &&
-                (reader.getBlockState(blockPos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(blockPos).getBlock() == AerialHellBlocks.STELLAR_DIRT));
+                (level.getBlockState(origin.north(3)).getBlock().equals(Blocks.AIR) || level.getBlockState(origin.south(3)).getBlock().equals(Blocks.AIR) || level.getBlockState(origin.west(3)).getBlock().equals(Blocks.AIR) || level.getBlockState(origin.east(3)).getBlock().equals(Blocks.AIR)) &&
+                (level.getBlockState(origin).is(AerialHellTags.Blocks.STELLAR_STONE) || level.getBlockState(origin).getBlock() == AerialHellBlocks.STELLAR_DIRT));
 
-        if (canGenerate && this.isDungeonSensitiveValid(context))
+        if (canGenerate && this.isDungeonSensitiveValid(level, origin))
         {
-        	generateSlipperySand(reader, rand, blockPos);
+        	generateSlipperySand(level, random, origin);
         	return true;
         }
         return false;

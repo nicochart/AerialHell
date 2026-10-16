@@ -1,151 +1,166 @@
 package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import fr.factionbedrock.aerialhell.World.Features.Config.ClassicGiantTreeConfig;
 import fr.factionbedrock.aerialhell.World.Features.Util.*;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantBranch;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantFoliage;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantTrunk;
 import java.util.List;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
-public class ClassicGiantTreeFeature extends AbstractGiantTreeFeature<ClassicGiantTreeConfig>
+import java.util.List;
+
+public record ClassicGiantTreeFeature(int trunkMaxHorizontalOffset, int trunkMinVerticalOffset, int trunkMaxVerticalOffset, float xzFoliageSizeFactor, float yFoliageSizeFactor, Holder<BlockStateProvider> trunkProvider, Holder<BlockStateProvider> foliageProvider) implements AbstractGiantTreeFeature
 {
     private static final SplineKnotsDeformedStraightLine.KnotsParameters TRUNK_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 16, 0.3F, 5, 20);
     private static final SplineKnotsDeformedStraightLine.KnotsParameters FOLIAGE_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 18, 0.4F, 6, 19);
 
-    public static final MapCodec<ClassicGiantTreeFeature> CODEC = ClassicGiantTreeConfig.CODEC.xmap(ClassicGiantTreeFeature::new, ClassicGiantTreeFeature::config);
+    public static final MapCodec<ClassicGiantTreeFeature> CODEC = RecordCodecBuilder.mapCodec(
+        i -> i.group(
+                ExtraCodecs.POSITIVE_INT.fieldOf("trunk_max_horizontal_offset").forGetter(ClassicGiantTreeFeature::trunkMaxHorizontalOffset),
+                ExtraCodecs.POSITIVE_INT.fieldOf("trunk_min_vertical_offset").forGetter(ClassicGiantTreeFeature::trunkMinVerticalOffset),
+                ExtraCodecs.POSITIVE_INT.fieldOf("trunk_max_vertical_offset").forGetter(ClassicGiantTreeFeature::trunkMaxVerticalOffset),
+                ExtraCodecs.POSITIVE_FLOAT.fieldOf("xz_foliage_size_factor").forGetter(ClassicGiantTreeFeature::xzFoliageSizeFactor),
+                ExtraCodecs.POSITIVE_FLOAT.fieldOf("y_foliage_size_factor").forGetter(ClassicGiantTreeFeature::yFoliageSizeFactor),
+                BlockStateProvider.CODEC.fieldOf("trunk_provider").forGetter(ClassicGiantTreeFeature::trunkProvider),
+                BlockStateProvider.CODEC.fieldOf("foliage_provider").forGetter(ClassicGiantTreeFeature::foliageProvider)
+            )
+            .apply(i, ClassicGiantTreeFeature::new)
+    );
 
-    public ClassicGiantTreeFeature(ClassicGiantTreeConfig config) {super(config);}
-
-    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+    @Override public MapCodec<ClassicGiantTreeFeature> codec() {return CODEC;}
 
     @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.CLASSIC_GIANT_TREE_LIST;}
 
-    @Override public boolean place(FeaturePlaceContext<ClassicGiantTreeConfig> context)
+    @Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
     {
-        RandomSource rand = context.random(); ClassicGiantTreeConfig config = context.config();
-        BlockPos origin = context.origin();
-
-        if (!canPlace(context)) {return false;}
+        if (!canPlace(level, origin)) {return false;}
         else
         {
-            int maxXZdistance=config.trunkMaxHorizontalOffset(), minYdistance=config.trunkMinVerticalOffset(), maxYdistance=config.trunkMaxVerticalOffset();
+            int maxXZdistance=this.trunkMaxHorizontalOffset, minYdistance=this.trunkMinVerticalOffset, maxYdistance=this.trunkMaxVerticalOffset;
             BlockPos trunkStart = origin.below(2);
-            int xOffset = rand.nextInt(-maxXZdistance, maxXZdistance), yOffset = rand.nextInt(minYdistance, maxYdistance), zOffset = rand.nextInt(-maxXZdistance, maxXZdistance);
+            int xOffset = random.nextInt(-maxXZdistance, maxXZdistance), yOffset = random.nextInt(minYdistance, maxYdistance), zOffset = random.nextInt(-maxXZdistance, maxXZdistance);
             BlockPos trunkEnd = origin.offset(xOffset, yOffset, zOffset);
             int yFoliageSize = getYFoliageSize(yOffset, minYdistance, maxYdistance);
             int xzFoliageSize = (int) (yFoliageSize * 1.6F);
-            yFoliageSize = (int) (config.yFoliageSizeFactor() * (float) yFoliageSize);
-            xzFoliageSize = (int) (config.xzFoliageSizeFactor() * (float) xzFoliageSize);
-            if (!FeatureHelper.isBelowMaxBuildHeight(context, context.origin().above(yOffset + yFoliageSize/2))) {return false;}
-            BlockPos foliageCenter = generateTrunk(context, trunkStart, trunkEnd, false);
-            if (config.yFoliageSizeFactor() >= 1.3F) {foliageCenter = foliageCenter.below(config.yFoliageSizeFactor() >= 1.5F ? 2 : 1);}
-            generateFoliage(context, foliageCenter, xzFoliageSize, yFoliageSize);
-            generateBranches(context, foliageCenter, xzFoliageSize, yFoliageSize);
+            yFoliageSize = (int) (this.yFoliageSizeFactor * (float) yFoliageSize);
+            xzFoliageSize = (int) (this.xzFoliageSizeFactor * (float) xzFoliageSize);
+            if (!FeatureHelper.isBelowMaxBuildHeight(level, origin.above(yOffset + yFoliageSize/2))) {return false;}
+            BlockPos foliageCenter = generateTrunk(level, random, origin, trunkStart, trunkEnd, false);
+            if (this.yFoliageSizeFactor >= 1.3F) {foliageCenter = foliageCenter.below(this.yFoliageSizeFactor >= 1.5F ? 2 : 1);}
+            generateFoliage(level, random, origin, foliageCenter, xzFoliageSize, yFoliageSize);
+            generateBranches(level, random, origin, foliageCenter, xzFoliageSize, yFoliageSize);
             return true;
         }
     }
 
-    protected BlockPos generateTrunk(FeaturePlaceContext<ClassicGiantTreeConfig> context, BlockPos trunkStart, BlockPos trunkEnd, boolean generateDebug)
+    private BlockPos generateTrunk(WorldGenLevel level, RandomSource random, BlockPos origin, BlockPos trunkStart, BlockPos trunkEnd, boolean generateDebug)
     {
-        GiantTrunk trunkSpline = new GiantTrunk(context, new StraightLine.StraightLineParameters(trunkStart, trunkEnd), 2 + context.random().nextInt(2));
+        GiantTrunk trunkSpline = new GiantTrunk(this, level, random, origin, new StraightLine.StraightLineParameters(trunkStart, trunkEnd), 2 + random.nextInt(2));
         BlockPos lastPos = trunkSpline.generate(false, generateDebug);
         trunkSpline = null;
         return lastPos;
     }
 
-    protected void generateFoliage(FeaturePlaceContext<ClassicGiantTreeConfig> context, BlockPos centerPos, int xzSize, int ySize)
+    private void generateFoliage(WorldGenLevel level, RandomSource random, BlockPos origin, BlockPos centerPos, int xzSize, int ySize)
     {
-        GiantFoliage foliage = new GiantFoliage(context, ClassicGiantFoliage.createClassicGiantFoliageEllipsoidParameters(xzSize, ySize), centerPos, 8);
+        GiantFoliage foliage = new GiantFoliage(this, level, random, origin, ClassicGiantFoliage.createClassicGiantFoliageEllipsoidParameters(xzSize, ySize), centerPos, 8);
         foliage.generateFoliage();
         foliage = null;
     }
 
-    protected void generateBranches(FeaturePlaceContext<ClassicGiantTreeConfig> context, BlockPos foliageCenterPos, int xzFoliageSize, int yFoliageSize)
+    private void generateBranches(WorldGenLevel level, RandomSource random, BlockPos origin, BlockPos foliageCenterPos, int xzFoliageSize, int yFoliageSize)
     {
         int yMaxDistance = yFoliageSize - 1; int yMinDistance = yMaxDistance >= 3 ? 2 : yMaxDistance - 1;
         int xzMaxDistance = xzFoliageSize; int xzMinDistance = xzMaxDistance * 2 / 3;
 
-        generateRandomBranch(context, foliageCenterPos, 1, 4, xzMinDistance, xzMaxDistance, yMinDistance, yMaxDistance, xzMinDistance, xzMaxDistance);
-        generateRandomBranch(context, foliageCenterPos, 1, 4, xzMinDistance, xzMaxDistance, yMinDistance, yMaxDistance, - xzMaxDistance, - xzMinDistance);
-        generateRandomBranch(context, foliageCenterPos, 1, 4, - xzMaxDistance, - xzMinDistance, yMinDistance, yMaxDistance, xzMinDistance, xzMaxDistance);
-        generateRandomBranch(context, foliageCenterPos, 1, 4, - xzMaxDistance, - xzMinDistance, yMinDistance, yMaxDistance, - xzMaxDistance, - xzMinDistance);
+        generateRandomBranch(level, random, origin, foliageCenterPos, 1, 4, xzMinDistance, xzMaxDistance, yMinDistance, yMaxDistance, xzMinDistance, xzMaxDistance);
+        generateRandomBranch(level, random, origin, foliageCenterPos, 1, 4, xzMinDistance, xzMaxDistance, yMinDistance, yMaxDistance, - xzMaxDistance, - xzMinDistance);
+        generateRandomBranch(level, random, origin, foliageCenterPos, 1, 4, - xzMaxDistance, - xzMinDistance, yMinDistance, yMaxDistance, xzMinDistance, xzMaxDistance);
+        generateRandomBranch(level, random, origin, foliageCenterPos, 1, 4, - xzMaxDistance, - xzMinDistance, yMinDistance, yMaxDistance, - xzMaxDistance, - xzMinDistance);
 
-        generateRandomBranch(context, foliageCenterPos, 1, 4, - xzMaxDistance, xzMaxDistance, yMinDistance, yMaxDistance, - xzMaxDistance, xzMaxDistance);
+        generateRandomBranch(level, random, origin, foliageCenterPos, 1, 4, - xzMaxDistance, xzMaxDistance, yMinDistance, yMaxDistance, - xzMaxDistance, xzMaxDistance);
     }
 
-    protected void generateRandomBranch(FeaturePlaceContext<ClassicGiantTreeConfig> context, BlockPos foliageCenterPos, int startMinYoffset, int startMaxYoffset, int minXoffset, int maxXoffset, int minYoffset, int maxYoffset, int minZoffset, int maxZoffset)
+    private void generateRandomBranch(WorldGenLevel level, RandomSource random, BlockPos origin, BlockPos foliageCenterPos, int startMinYoffset, int startMaxYoffset, int minXoffset, int maxXoffset, int minYoffset, int maxYoffset, int minZoffset, int maxZoffset)
     {
-        RandomSource rand = context.random();
-        BlockPos branchStart = foliageCenterPos.below(rand.nextInt(startMinYoffset, startMaxYoffset));
-        BlockPos branchEnd = foliageCenterPos.offset(rand.nextInt(minXoffset, maxXoffset), rand.nextInt(minYoffset, maxYoffset), rand.nextInt(minZoffset, maxZoffset));
-        generateBranch(context, branchStart, branchEnd);
+        BlockPos branchStart = foliageCenterPos.below(random.nextInt(startMinYoffset, startMaxYoffset));
+        BlockPos branchEnd = foliageCenterPos.offset(random.nextInt(minXoffset, maxXoffset), random.nextInt(minYoffset, maxYoffset), random.nextInt(minZoffset, maxZoffset));
+        generateBranch(level, random, origin, branchStart, branchEnd);
     }
 
-    protected void generateBranch(FeaturePlaceContext<ClassicGiantTreeConfig> context, BlockPos branchStart, BlockPos branchEnd)
+    private void generateBranch(WorldGenLevel level, RandomSource random, BlockPos origin, BlockPos branchStart, BlockPos branchEnd)
     {
-        GiantBranch branch = new GiantBranch(context, new StraightLine.StraightLineParameters(branchStart, branchEnd), 1);
+        GiantBranch branch = new GiantBranch(this, level, random, origin, new StraightLine.StraightLineParameters(branchStart, branchEnd), 1);
         branch.generate(false, false);
         branch = null;
     }
 
-    protected int getYFoliageSize(BlockPos trunkStart, BlockPos trunkEnd, int minTrunkHeight, int maxTrunkHeight) {return getYFoliageSize(trunkEnd.getY() - trunkStart.getY(), minTrunkHeight, maxTrunkHeight);}
-    protected int getYFoliageSize(int trunkHeight, int minTrunkHeight, int maxTrunkHeight) {return Math.max((minTrunkHeight + maxTrunkHeight) / 8 /*average divided by 4*/, trunkHeight / 4);}
+    private int getYFoliageSize(BlockPos trunkStart, BlockPos trunkEnd, int minTrunkHeight, int maxTrunkHeight) {return getYFoliageSize(trunkEnd.getY() - trunkStart.getY(), minTrunkHeight, maxTrunkHeight);}
+    private int getYFoliageSize(int trunkHeight, int minTrunkHeight, int maxTrunkHeight) {return Math.max((minTrunkHeight + maxTrunkHeight) / 8 /*average divided by 4*/, trunkHeight / 4);}
+
+    private boolean hasLargeTrunk() {return (this.trunkMaxVerticalOffset + this.trunkMinVerticalOffset) / 2 > 16;}
 
     private static class GiantTrunk extends ClassicGiantTrunk
     {
-        private final boolean largeTrunk;
-        public GiantTrunk(FeaturePlaceContext<ClassicGiantTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
+        private final ClassicGiantTreeFeature feature;
+        public GiantTrunk(ClassicGiantTreeFeature feature, WorldGenLevel level, RandomSource random, BlockPos origin, StraightLineParameters straightLineParams, int knotsNumber)
         {
-            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.level(), context.random(), context.origin()).getBlock());
-            this.largeTrunk = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 16;
+            super(level, random, origin, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> feature.trunkProvider().value().getState(level, random, origin).getBlock());
+            this.feature = feature;
         }
 
         @Override public BlockState getStateForPlacement(BlockPos pos)
         {
-            return ((ClassicGiantTreeConfig)context.config()).trunkProvider().getState(context.level(), context.random(), pos);
+            return this.feature.trunkProvider().value().getState(this.level, this.random, pos);
         }
 
-        @Override protected boolean isLarge() {return this.largeTrunk;}
+        @Override protected boolean isLarge() {return this.feature.hasLargeTrunk();}
     }
 
     private static class GiantFoliage extends ClassicGiantFoliage
     {
-        public GiantFoliage(FeaturePlaceContext<ClassicGiantTreeConfig> context, Ellipsoid.EllipsoidParameters parameters, BlockPos centerPos, int knotsNumber)
+        private final ClassicGiantTreeFeature feature;
+        public GiantFoliage(ClassicGiantTreeFeature feature, WorldGenLevel level, RandomSource random, BlockPos origin, Ellipsoid.EllipsoidParameters parameters, BlockPos centerPos, int knotsNumber)
         {
-            super(context, () -> context.config().foliageProvider().getState(context.level(), context.random(), context.origin()).getBlock(), parameters, centerPos, Ellipsoid.Types.CENTER_1x1, knotsNumber, FOLIAGE_KNOTS_PARAMETERS, true);
+            super(level, random, origin, () -> feature.foliageProvider().value().getState(level, random, origin).getBlock(), parameters, centerPos, Ellipsoid.Types.CENTER_1x1, knotsNumber, FOLIAGE_KNOTS_PARAMETERS, true);
+            this.feature = feature;
         }
 
         @Override public BlockState getStateForPlacement(BlockPos ellipsoidPos)
         {
-            return ((ClassicGiantTreeConfig)context.config()).foliageProvider().getState(context.level(), context.random(), centerPos.offset(ellipsoidPos)).setValue(LeavesBlock.DISTANCE, getLeavesDistance(ellipsoidPos));
+            return this.feature.foliageProvider().value().getState(this.level, this.random, centerPos.offset(ellipsoidPos)).setValue(LeavesBlock.DISTANCE, getLeavesDistance(ellipsoidPos));
         }
     }
 
     private static class GiantBranch extends ClassicGiantBranch
     {
-        private final boolean largeTrunk;
+        private final ClassicGiantTreeFeature feature;
 
-        public GiantBranch(FeaturePlaceContext<ClassicGiantTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
+        public GiantBranch(ClassicGiantTreeFeature feature, WorldGenLevel level, RandomSource random, BlockPos origin, StraightLineParameters straightLineParams, int knotsNumber)
         {
-            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.level(), context.random(), context.origin()).getBlock());
-            this.largeTrunk = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 16;
+            super(level, random, origin, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> feature.trunkProvider().value().getState(level, random, origin).getBlock());
+            this.feature = feature;
         }
 
-        @Override protected boolean isLarge() {return this.largeTrunk;}
+        @Override protected boolean isLarge() {return this.feature.hasLargeTrunk();}
 
         @Override public BlockState getStateForPlacement(BlockPos pos)
         {
-            return ((ClassicGiantTreeConfig)context.config()).trunkProvider().getState(context.level(), context.random(), pos);
+            return this.feature.trunkProvider().value().getState(this.level, this.random, pos);
         }
     }
 }

@@ -12,34 +12,30 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
-import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
 
 import java.util.List;
 
-public class GiantGanodermaApplanatumFeature extends AerialHellFeature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
+public record GiantGanodermaApplanatumFeature() implements Feature, DungeonSensitiveFeatureCheck
 {
-    public static final MapCodec<GiantGanodermaApplanatumFeature> CODEC = NoneFeatureConfiguration.CODEC.xmap(GiantGanodermaApplanatumFeature::new, GiantGanodermaApplanatumFeature::config);
+    public static final MapCodec<GiantGanodermaApplanatumFeature> CODEC = MapCodec.unit(GiantGanodermaApplanatumFeature::new);
 
-    public GiantGanodermaApplanatumFeature(NoneFeatureConfiguration config) {super(config);}
-
-    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+    @Override public MapCodec<GiantGanodermaApplanatumFeature> codec() {return CODEC;}
 
     @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.GIANT_GANODERMA_APPLANATUM_LIST;}
 
-    @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+    @Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
     {
-        BlockPos pos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random();
 		boolean canGenerate = (
-            (!reader.getBlockState(pos.above(3)).getBlock().equals(Blocks.AIR)) &&
-            ((reader.getBlockState(pos.north(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.south(2)).getBlock().equals(Blocks.AIR)) || (reader.getBlockState(pos.west(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.east(2)).getBlock().equals(Blocks.AIR))) &&
-            (reader.getBlockState(pos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(pos).getBlock() == AerialHellBlocks.STELLAR_DIRT));
-
-        if (canGenerate && this.isDungeonSensitiveValid(context))
+            (!level.getBlockState(origin.above(3)).getBlock().equals(Blocks.AIR)) &&
+            ((level.getBlockState(origin.north(2)).getBlock().equals(Blocks.AIR) ^ level.getBlockState(origin.south(2)).getBlock().equals(Blocks.AIR)) || (level.getBlockState(origin.west(2)).getBlock().equals(Blocks.AIR) ^ level.getBlockState(origin.east(2)).getBlock().equals(Blocks.AIR))) &&
+            (level.getBlockState(origin).is(AerialHellTags.Blocks.STELLAR_STONE) || level.getBlockState(origin).getBlock() == AerialHellBlocks.STELLAR_DIRT));
+		
+        if (canGenerate && this.isDungeonSensitiveValid(level, origin))
         {
-        	generateCap(reader, rand, pos);
+        	generateCap(level, random, origin);
         	return true;
         }
         return false;

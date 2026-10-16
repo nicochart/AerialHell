@@ -1,7 +1,5 @@
 package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 
-import fr.factionbedrock.aerialhell.World.Features.AerialHellFeature;
-
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.DungeonSensitiveFeatureCheck;
 import net.minecraft.core.BlockPos;
@@ -11,114 +9,107 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
-import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
 
-public abstract class AbstractSolidEtherCloudFeature extends AerialHellFeature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
+//shared behaviour of solid ether cloud features (same pattern as vanilla AbstractHugeMushroomFeature)
+public interface AbstractSolidEtherCloudFeature extends Feature, DungeonSensitiveFeatureCheck
 {
-    public BlockPos getRandomHeighGenerationPos(int x, int minY, int maxY, int z, RandomSource rand) {return new BlockPos(x, minY + rand.nextInt(maxY- minY), z);}
-	protected abstract int getBasicMinSize(); protected abstract int getBasicMaxSize();
-	protected abstract int getSmallMinSize(); protected abstract int getSmallMaxSize();
-	protected abstract Block getEtherBlock();
-	protected BlockState getEtherBlockState() {return this.getEtherBlock().defaultBlockState();}
+    default BlockPos getRandomHeighGenerationPos(int x, int minY, int maxY, int z, RandomSource random) {return new BlockPos(x, minY + random.nextInt(maxY- minY), z);}
+	int getBasicMinSize(); int getBasicMaxSize();
+	int getSmallMinSize(); int getSmallMaxSize();
+	Block getEtherBlock();
+	default BlockState getEtherBlockState() {return this.getEtherBlock().defaultBlockState();}
 
-	public int chooseRandomSize(int minSize, int maxSize, RandomSource rand)
+	default int chooseRandomSize(int minSize, int maxSize, RandomSource random)
 	{
-		return minSize + (int)(rand.nextDouble() * ((minSize - maxSize) + 1));
+		return minSize + (int)(random.nextDouble() * ((minSize - maxSize) + 1));
 	}
-	
-    public AbstractSolidEtherCloudFeature(NoneFeatureConfiguration config)
-    {
-        super(config);
-    }
+
     
-    protected void generateFourLayersFirstEllipsis(FeaturePlaceContext<NoneFeatureConfiguration> context, int sizeX, int sizeZ, BlockPos pos)
+    default void generateFourLayersFirstEllipsis(WorldGenLevel level, RandomSource random, BlockPos origin, int sizeX, int sizeZ, BlockPos pos)
     {
-        WorldGenLevel reader = context.level(); RandomSource rand = context.random();
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {
             for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
             {
                 BlockPos newPos = new BlockPos(x, pos.getY(), z);
 
-                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+rand.nextInt(5))
+                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+random.nextInt(5))
                 {
                 	// ~y=0
-                	Block previousBlock = reader.getBlockState(newPos).getBlock();
+                	Block previousBlock = level.getBlockState(newPos).getBlock();
                 	if (previousBlock == Blocks.AIR)
-                		reader.setBlock(newPos, this.getEtherBlockState(), 0);
+                		level.setBlock(newPos, this.getEtherBlockState(), 0);
                 	// ~y=+1
-                	Block previousTop1Block = reader.getBlockState(newPos.above()).getBlock();
+                	Block previousTop1Block = level.getBlockState(newPos.above()).getBlock();
                 	if (previousTop1Block == Blocks.AIR)
-                		reader.setBlock(newPos.above(), this.getEtherBlockState(), 0);
+                		level.setBlock(newPos.above(), this.getEtherBlockState(), 0);
                 	// ~y=+2
-                	Block previousTop2Block = reader.getBlockState(newPos.above().above()).getBlock();
+                	Block previousTop2Block = level.getBlockState(newPos.above().above()).getBlock();
                 	if (previousTop2Block == Blocks.AIR)
-                		reader.setBlock(newPos.above().above(), this.getEtherBlockState(), 0);
+                		level.setBlock(newPos.above().above(), this.getEtherBlockState(), 0);
                 	// ~y=-1
-                	Block previousBottomBlock = reader.getBlockState(newPos.below()).getBlock();
+                	Block previousBottomBlock = level.getBlockState(newPos.below()).getBlock();
                 	if (previousBottomBlock == Blocks.AIR)
-                		reader.setBlock(newPos.below(), this.getEtherBlockState(), 0);
+                		level.setBlock(newPos.below(), this.getEtherBlockState(), 0);
                 }
                 else
                 {
                 	// ~y=0
-                	if (reader.getBlockState(newPos).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.8)
+                	if (level.getBlockState(newPos).getBlock() != this.getEtherBlock() && random.nextDouble() > 0.8)
                 	{
-                    	int newSizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
-                        int newSizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
-                		generateSecondEllipsis(context, newSizeX, newSizeZ, newPos);
+                    	int newSizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), random);
+                        int newSizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), random);
+                		generateSecondEllipsis(level, random, origin, newSizeX, newSizeZ, newPos);
                 	}
                 	// ~y=+1
-                	if (reader.getBlockState(newPos.above()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.8)
+                	if (level.getBlockState(newPos.above()).getBlock() != this.getEtherBlock() && random.nextDouble() > 0.8)
                 	{
-                    	int newSizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
-                        int newSizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
-                		generateSecondEllipsis(context, newSizeX, newSizeZ, newPos.above());
+                    	int newSizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), random);
+                        int newSizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), random);
+                		generateSecondEllipsis(level, random, origin, newSizeX, newSizeZ, newPos.above());
                 	}
                 	// ~y=+2
-                	if (reader.getBlockState(newPos.above().above()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.8)
+                	if (level.getBlockState(newPos.above().above()).getBlock() != this.getEtherBlock() && random.nextDouble() > 0.8)
                 	{
-                    	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                        int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                		generateLastEllipsis(context, newSizeX, newSizeZ, newPos.above().above());
+                    	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), random);
+                        int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), random);
+                		generateLastEllipsis(level, random, origin, newSizeX, newSizeZ, newPos.above().above());
                 	}
                 	// ~y=-1
-                	if (reader.getBlockState(newPos.below()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.8)
+                	if (level.getBlockState(newPos.below()).getBlock() != this.getEtherBlock() && random.nextDouble() > 0.8)
                 	{
-                    	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                        int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                		generateLastEllipsis(context, newSizeX, newSizeZ, newPos.below());
+                    	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), random);
+                        int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), random);
+                		generateLastEllipsis(level, random, origin, newSizeX, newSizeZ, newPos.below());
                 	}
                 }
             }
         }
     }
     
-    protected void generateFirstEllipsis(FeaturePlaceContext<NoneFeatureConfiguration> context, int sizeX, int sizeZ, BlockPos pos)
+    default void generateFirstEllipsis(WorldGenLevel level, RandomSource random, BlockPos origin, int sizeX, int sizeZ, BlockPos pos)
     {
-        WorldGenLevel reader = context.level(); RandomSource rand = context.random();
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {
             for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
             {
                 BlockPos newPos = new BlockPos(x, pos.getY(), z);
 
-                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+rand.nextInt(5))
+                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+random.nextInt(5))
                 {
                 	// ~y=0
-                	Block previousBlock = reader.getBlockState(newPos).getBlock();
+                	Block previousBlock = level.getBlockState(newPos).getBlock();
                 	if (previousBlock == Blocks.AIR)
-                		reader.setBlock(newPos, this.getEtherBlockState(), 0);
+                		level.setBlock(newPos, this.getEtherBlockState(), 0);
                 }
                 else
                 {
                 	// ~y=0
-                	if (reader.getBlockState(newPos).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.8)
+                	if (level.getBlockState(newPos).getBlock() != this.getEtherBlock() && random.nextDouble() > 0.8)
                 	{
-                    	int newSizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
-                        int newSizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), rand);
-                        generateLastEllipsis(context, newSizeX,newSizeZ, newPos);
+                    	int newSizeX = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), random);
+                        int newSizeZ = chooseRandomSize(this.getBasicMinSize(), this.getBasicMaxSize(), random);
+                        generateLastEllipsis(level, random, origin, newSizeX,newSizeZ, newPos);
                 	}
                 }
             }
@@ -130,109 +121,106 @@ public abstract class AbstractSolidEtherCloudFeature extends AerialHellFeature<N
             {
                 BlockPos newPos = new BlockPos(x, pos.getY(), z);
                 
-                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+rand.nextInt(5))
+                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+random.nextInt(5))
                 {
                 	// ~y=+1
-                	Block previousTop1Block = reader.getBlockState(newPos.above()).getBlock();
+                	Block previousTop1Block = level.getBlockState(newPos.above()).getBlock();
                 	if (previousTop1Block == Blocks.AIR)
-                		reader.setBlock(newPos.above(), this.getEtherBlockState(), 0);
+                		level.setBlock(newPos.above(), this.getEtherBlockState(), 0);
                 	// ~y=-1
-                	Block previousBottomBlock = reader.getBlockState(newPos.below()).getBlock();
+                	Block previousBottomBlock = level.getBlockState(newPos.below()).getBlock();
                 	if (previousBottomBlock == Blocks.AIR)
-                		reader.setBlock(newPos.below(), this.getEtherBlockState(), 0);
+                		level.setBlock(newPos.below(), this.getEtherBlockState(), 0);
                 }
             	else
             	{
                 	// ~y=+1
-                	if (reader.getBlockState(newPos.above()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.95)
+                	if (level.getBlockState(newPos.above()).getBlock() != this.getEtherBlock() && random.nextDouble() > 0.95)
                 	{
-                		int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                        int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                        generateLastEllipsis(context, newSizeX, newSizeZ, newPos.above());
+                		int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), random);
+                        int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), random);
+                        generateLastEllipsis(level, random, origin, newSizeX, newSizeZ, newPos.above());
                 	}
                 	// ~y=-1
-                	if (reader.getBlockState(newPos.below()).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.95)
+                	if (level.getBlockState(newPos.below()).getBlock() != this.getEtherBlock() && random.nextDouble() > 0.95)
                 	{
-                    	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                        int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                		generateLastEllipsis(context, newSizeX,newSizeZ, newPos.below());
+                    	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), random);
+                        int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), random);
+                		generateLastEllipsis(level, random, origin, newSizeX,newSizeZ, newPos.below());
                 	}
                 }
             }
         }
     }
     
-    protected void generateSecondEllipsis(FeaturePlaceContext<NoneFeatureConfiguration> context, int sizeX, int sizeZ, BlockPos pos)
+    default void generateSecondEllipsis(WorldGenLevel level, RandomSource random, BlockPos origin, int sizeX, int sizeZ, BlockPos pos)
     {
-        WorldGenLevel reader = context.level(); RandomSource rand = context.random();
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {
             for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
             {
                 BlockPos newPos = new BlockPos(x, pos.getY(), z);
 
-                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+rand.nextInt(4))
+                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+random.nextInt(4))
                 {
-                	Block previousBlock = reader.getBlockState(newPos).getBlock();
+                	Block previousBlock = level.getBlockState(newPos).getBlock();
                 	if (previousBlock == Blocks.AIR)
-                		reader.setBlock(newPos, this.getEtherBlockState(), 0);
+                		level.setBlock(newPos, this.getEtherBlockState(), 0);
                 }
                 else
                 {
-                	if (reader.getBlockState(newPos).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.95)
+                	if (level.getBlockState(newPos).getBlock() != this.getEtherBlock() && random.nextDouble() > 0.95)
                 	{
-                    	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                        int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                		generateThirdEllipsis(context, newSizeX, newSizeZ, newPos);
+                    	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), random);
+                        int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), random);
+                		generateThirdEllipsis(level, random, origin, newSizeX, newSizeZ, newPos);
                 	}
                 }
             }
         }
     }
     
-    protected void generateThirdEllipsis(FeaturePlaceContext<NoneFeatureConfiguration> context, int sizeX, int sizeZ, BlockPos pos)
+    default void generateThirdEllipsis(WorldGenLevel level, RandomSource random, BlockPos origin, int sizeX, int sizeZ, BlockPos pos)
     {
-        WorldGenLevel reader = context.level(); RandomSource rand = context.random();
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {
             for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
             {
                 BlockPos newPos = new BlockPos(x, pos.getY(), z);
 
-                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+rand.nextInt(4))
+                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+random.nextInt(4))
                 {
-                	Block previousBlock = reader.getBlockState(newPos).getBlock();
+                	Block previousBlock = level.getBlockState(newPos).getBlock();
                 	if (previousBlock == Blocks.AIR)
-                		reader.setBlock(newPos, this.getEtherBlockState(), 0);
+                		level.setBlock(newPos, this.getEtherBlockState(), 0);
                 }
                 else
                 {
-                	if (reader.getBlockState(newPos).getBlock() != this.getEtherBlock() && rand.nextDouble() > 0.95)
+                	if (level.getBlockState(newPos).getBlock() != this.getEtherBlock() && random.nextDouble() > 0.95)
                 	{
-                    	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                        int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), rand);
-                		generateLastEllipsis(context, newSizeX, newSizeZ, newPos);
+                    	int newSizeX = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), random);
+                        int newSizeZ = chooseRandomSize(this.getSmallMinSize(), this.getSmallMaxSize(), random);
+                		generateLastEllipsis(level, random, origin, newSizeX, newSizeZ, newPos);
                 	}
                 }
             }
         }
     }
     
-    protected void generateLastEllipsis(FeaturePlaceContext<NoneFeatureConfiguration> context, int sizeX, int sizeZ, BlockPos pos)
+    default void generateLastEllipsis(WorldGenLevel level, RandomSource random, BlockPos origin, int sizeX, int sizeZ, BlockPos pos)
     {
-        WorldGenLevel reader = context.level(); RandomSource rand = context.random();
     	for(int x = pos.getX() - sizeX; x < pos.getX() + sizeX+1; x++)
         {
             for(int z = pos.getZ() - sizeZ; z < pos.getZ() + sizeZ+1; z++)
             {
                 BlockPos newPos = new BlockPos(x, pos.getY(), z);
 
-                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+rand.nextInt(3))
+                if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+random.nextInt(3))
                 {
-                	Block previousBlock = reader.getBlockState(newPos).getBlock();
-                	if (previousBlock == Blocks.AIR && FeatureHelper.isBlockPosInFeatureRegion(context, newPos))
+                	Block previousBlock = level.getBlockState(newPos).getBlock();
+                	if (previousBlock == Blocks.AIR && FeatureHelper.isBlockPosInFeatureRegion(FeatureHelper.getFeatureCenter(origin), newPos))
                     {
-                        reader.setBlock(newPos, this.getEtherBlockState(), 0);
+                        level.setBlock(newPos, this.getEtherBlockState(), 0);
                     }
                 }
             }

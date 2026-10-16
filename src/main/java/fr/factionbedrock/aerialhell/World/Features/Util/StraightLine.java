@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.DebugHelper;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,11 +18,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 
 public class StraightLine
 {
-    protected final FeaturePlaceContext<?> context;
+    protected final WorldGenLevel level;
+    protected final RandomSource random;
+    protected final BlockPos origin;
     protected final StraightLineParameters straightLineParams;
     protected final Vector3f straightLineGenStepMoveVec;
     public final Supplier<Block> block;
@@ -29,9 +31,9 @@ public class StraightLine
     protected List<BlockPos> generatePosList = null;
     protected GenerationMode generationMode;
 
-    public StraightLine(FeaturePlaceContext<?> context, StraightLineParameters parameters, Supplier<Block> block)
+    public StraightLine(WorldGenLevel level, RandomSource random, BlockPos origin, StraightLineParameters parameters, Supplier<Block> block)
     {
-        this.context = context; this.straightLineParams = parameters;
+        this.level = level; this.random = random; this.origin = origin; this.straightLineParams = parameters;
         this.straightLineGenStepMoveVec = getStraightLineGenerationStepMoveVector();
         this.block = block;
         this.generationMode = GenerationMode.PLACE;
@@ -98,8 +100,7 @@ public class StraightLine
 
     public void generateDebug()
     {
-        DebugHelper.generateFeatureDebug(this.context);
-        WorldGenLevel level = context.level();
+        DebugHelper.generateFeatureDebug(this.level, this.origin);
         //start and end position
         level.setBlock(this.straightLineParams.getStart(), AerialHellBlocks.ARSONIST_BLOCK.defaultBlockState(), 0);
         level.setBlock(this.straightLineParams.getEnd(), AerialHellBlocks.ARSONIST_BLOCK.defaultBlockState(), 0);
@@ -117,7 +118,7 @@ public class StraightLine
 
     public Vector3f getRandomOrthogonalToStraightLineNormalizedVector(int normalizationFactor)
     {
-        return FeatureHelper.getRandomOrthogonalVectorToLineDefinedWith2Points(this.straightLineParams.getStart(), this.straightLineParams.getEnd(), context.random()).normalize(normalizationFactor);
+        return FeatureHelper.getRandomOrthogonalVectorToLineDefinedWith2Points(this.straightLineParams.getStart(), this.straightLineParams.getEnd(), this.random).normalize(normalizationFactor);
     }
 
     public BlockPos getOffsetPosFromStart(int step)
@@ -177,12 +178,11 @@ public class StraightLine
 
     protected boolean tryPlacingBlock(BlockPos.MutableBlockPos pos) //returns true if the block is placed
     {
-        WorldGenLevel level = context.level();
-        if (isReplaceable(level, pos))
+        if (isReplaceable(this.level, pos))
         {
             if (this.generationMode == GenerationMode.PLACE)
             {
-                level.setBlock(pos, getStateForPlacement(pos), 2);
+                this.level.setBlock(pos, getStateForPlacement(pos), 2);
             }
             else //if (this.generationMode == GenerationMode.SIMULATE)
             {

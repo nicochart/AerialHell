@@ -3,10 +3,10 @@ package fr.factionbedrock.aerialhell.World.Features;
 import java.util.List;
 
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
-import fr.factionbedrock.aerialhell.World.Features.Config.CrystalBlobConfig;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import java.util.List;
 import net.minecraft.core.BlockPos;
@@ -15,33 +15,35 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.Holder;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
-public class CrystalBlobFeature extends AerialHellFeature<CrystalBlobConfig> implements DungeonSensitiveFeatureCheck
+public record CrystalBlobFeature(Holder<BlockStateProvider> crystalStateProvider) implements Feature, DungeonSensitiveFeatureCheck
 {
-	public static final MapCodec<CrystalBlobFeature> CODEC = CrystalBlobConfig.CODEC.xmap(CrystalBlobFeature::new, CrystalBlobFeature::config);
+	public static final MapCodec<CrystalBlobFeature> CODEC = RecordCodecBuilder.mapCodec(
+		i -> i.group(
+				BlockStateProvider.CODEC.fieldOf("crystal_state_provider").forGetter(CrystalBlobFeature::crystalStateProvider)
+			)
+			.apply(i, CrystalBlobFeature::new)
+	);
 
-	public CrystalBlobFeature(CrystalBlobConfig config) {super(config);}
-
-	@Override public MapCodec<? extends Feature> codec() {return CODEC;}
+	@Override public MapCodec<CrystalBlobFeature> codec() {return CODEC;}
 
 	@Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.CRYSTAL_BLOB_LIST;}
 
-	@Override public boolean place(FeaturePlaceContext<CrystalBlobConfig> context)
+	@Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
 	{
-		BlockStateProvider blockProvider = context.config().crystalStateProvider();
-		BlockPos pos = context.origin(); WorldGenLevel world = context.level(); RandomSource rand = context.random();
-		if (!world.isEmptyBlock(pos)) {return false;}
+		if (!level.isEmptyBlock(origin)) {return false;}
 		else
 		{
-			BlockState blockstate = world.getBlockState(pos.below());
-		    if (!blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) || !this.isDungeonSensitiveValid(context)) {return false;}
+			BlockState blockstate = level.getBlockState(origin.below());
+		    if (!blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) || !this.isDungeonSensitiveValid(level, origin)) {return false;}
 		    else
 		    {
-				place(pos, rand, world, blockProvider);
-		    	return true;
+				this.place(origin, random, level, this.crystalStateProvider.value());
+				return true;
 		    }
 		}
 	}

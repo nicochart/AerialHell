@@ -13,9 +13,9 @@ public interface SplineKnots
         return basePos.offset((int) knotsDeformationVector.x, (int) knotsDeformationVector.y, (int) knotsDeformationVector.z);
     }
 
-    default BlockPos createRandomKnot(FeaturePlaceContext<?> context)
+    default BlockPos createRandomKnot(BlockPos origin)
     {
-        BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
+        BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(origin);
         int i=0; BlockPos knot;
         while (i++ < 15)
         {

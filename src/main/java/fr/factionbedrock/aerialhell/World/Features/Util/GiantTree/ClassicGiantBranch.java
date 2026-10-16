@@ -7,11 +7,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
+import net.minecraft.util.RandomSource;
 
 public class ClassicGiantBranch extends SplineKnotsDeformedStraightLine
 {
-    public ClassicGiantBranch(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams, int knotsNumber, KnotsParameters knotsParameters, Supplier<Block> block) {super(context, straightLineParams, knotsNumber, knotsParameters, block);}
+    public ClassicGiantBranch(WorldGenLevel level, RandomSource random, BlockPos origin, StraightLineParameters straightLineParams, int knotsNumber, KnotsParameters knotsParameters, Supplier<Block> block) {super(level, random, origin, straightLineParams, knotsNumber, knotsParameters, block);}
 
     protected boolean isLarge() {return false;}
 
@@ -29,7 +29,7 @@ public class ClassicGiantBranch extends SplineKnotsDeformedStraightLine
 
     @Override protected boolean tryPlacingBlock(BlockPos.MutableBlockPos pos)
     {
-        if (!context.level().isEmptyBlock(pos.above())) {return super.tryPlacingBlock(pos);}
+        if (!this.level.isEmptyBlock(pos.above())) {return super.tryPlacingBlock(pos);}
         else {return false;}
     }
 }
