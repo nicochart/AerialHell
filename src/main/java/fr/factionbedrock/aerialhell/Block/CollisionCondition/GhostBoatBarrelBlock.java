@@ -23,7 +23,7 @@ public class GhostBoatBarrelBlock extends AerialHellBarrelBlock
 {
 	public GhostBoatBarrelBlock(BlockBehaviour.Properties settings)
 	{
-		super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true).isValidSpawn((state, blockGetter, blockPos, entityType) -> entityType == AerialHellEntities.GHOST_SLIME_PIRATE || entityType == AerialHellEntities.GHOST_SLIME_NINJA_PIRATE));
+		super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos, aabb) -> true).isValidSpawn((state, blockGetter, blockPos, entityType) -> entityType == AerialHellEntities.GHOST_SLIME_PIRATE || entityType == AerialHellEntities.GHOST_SLIME_NINJA_PIRATE));
 	}
 
 	@Override public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit)

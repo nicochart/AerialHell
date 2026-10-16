@@ -23,7 +23,7 @@ public class GhostBoatChestBlock extends AerialHellChestBlock
 {
 	public GhostBoatChestBlock(BlockBehaviour.Properties settings)
 	{
-		super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true).isValidSpawn(Blocks::never));
+		super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos, aabb) -> true).isValidSpawn(Blocks::never));
 	}
 
 	@Override public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit)

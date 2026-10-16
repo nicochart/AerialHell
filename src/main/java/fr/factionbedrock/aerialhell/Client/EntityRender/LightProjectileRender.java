@@ -32,7 +32,7 @@ public class LightProjectileRender<T extends AbstractLightProjectileEntity> exte
     {
         matrices.pushPose();
         matrices.scale(2.0F, 2.0F, 2.0F);
-        matrices.mulPose(cameraState.orientation);
+        matrices.rotate(cameraState.orientation);
         RenderType layer = getRenderLayer(renderState.texture);
         queue.submitCustomGeometry(matrices, layer, (matricesEntry, vertexConsumer) ->
         {

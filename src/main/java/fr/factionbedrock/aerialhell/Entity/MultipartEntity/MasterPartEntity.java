@@ -300,7 +300,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         {
             if (master.isPersistenceRequired() && summonedPart instanceof Mob mobEntity) {mobEntity.setPersistenceRequired();}
             summonedPart.setCustomName(master.getCustomName());
-            summonedPart.setInvulnerable(master.isInvulnerable());
+            summonedPart.setPermanentlyInvulnerable(master.isInvulnerable());
             summonedPart.setMaster(this);
             summonedPart.getSelf().snapTo(this.getX() + part.getUnrotatedRelativePositionOffset().x, this.getY() + part.getUnrotatedRelativePositionOffset().y, this.getZ() + part.getUnrotatedRelativePositionOffset().z, this.getSelf().getYRot(), this.getSelf().getXRot());
 

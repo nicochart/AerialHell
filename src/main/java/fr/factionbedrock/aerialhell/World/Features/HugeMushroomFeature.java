@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -17,17 +17,26 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
+import fr.factionbedrock.aerialhell.World.Features.Config.HugeMushroomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
-public class HugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguration> implements DungeonSensitiveFeatureCheck
-{
-    public HugeMushroomFeature(Codec<HugeMushroomFeatureConfiguration> config) {super(config);}
+import java.util.List;
 
-    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.HUGE_MUSHROOM_LIST;}
+public class HugeMushroomFeature extends AerialHellFeature<HugeMushroomFeatureConfiguration> implements DungeonSensitiveFeatureCheck
+{
+    public static final MapCodec<HugeMushroomFeature> CODEC = HugeMushroomFeatureConfiguration.CODEC.xmap(HugeMushroomFeature::new, HugeMushroomFeature::config);
+
+    public HugeMushroomFeature(HugeMushroomFeatureConfiguration config) {super(config);}
+
+    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+
+    @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.HUGE_MUSHROOM_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<HugeMushroomFeatureConfiguration> context)
     {

@@ -43,8 +43,6 @@ public class ItemHelper
         }
     }
 
-    public static Map<Item, Integer> burnTimeMap = Maps.<Item, Integer>newLinkedHashMap();
-
     public static int countItemStacksMatching(Iterable<ItemStack> itemStackList, Predicate<ItemStack> condition)
     {
         int count = 0;

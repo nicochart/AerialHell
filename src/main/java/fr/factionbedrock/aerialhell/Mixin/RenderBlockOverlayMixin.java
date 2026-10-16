@@ -6,10 +6,13 @@ import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Lightmap;
 import net.minecraft.client.renderer.ScreenEffectRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.state.level.PlayerRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -27,10 +30,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class RenderBlockOverlayMixin
 {
     @Inject(method = "submit", at = @At("HEAD"), cancellable = true)
-    private void renderOverlays(final boolean isFirstPerson, final boolean isSleeping, final float partialTicks, final SubmitNodeCollector submitNodeCollector, final boolean hideGui, CallbackInfo callbackInfo)
+    private void renderOverlays(final float partialTicks, final SubmitNodeCollector submitNodeCollector, final PlayerRenderState playerRenderState, final CameraRenderState cameraRenderState, final boolean hideGui, CallbackInfo callbackInfo)
     {
-        ScreenEffectRenderer renderer = (ScreenEffectRenderer) (Object) this;
-        Player player = renderer.minecraft.player;
+        Player player = Minecraft.getInstance().player;
         PoseStack matrices = new PoseStack();
         BlockState state = EntityHelper.getInWallBlockState(player);
         if (state == null || player == null) {return ;}

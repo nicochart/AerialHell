@@ -3,7 +3,7 @@
     {
       "rolls": 2,
       "entries": [
-	{
+        {
           "type": "item",
           "name": "aerialhell:cursed_crystal",
           "weight": 1
@@ -12,146 +12,136 @@
           "type": "item",
           "name": "aerialhell:shadow_torch",
           "weight": 3,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 4
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 4
             }
-          ]
+          }
         },
-	{
+        {
           "type": "item",
           "name": "aerialhell:mud_bone",
           "weight": 3,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 5
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 5
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "minecraft:flint",
           "weight": 3,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 3,
-                "max": 5
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 3,
+              "max": 5
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:aerial_berry",
           "weight": 3,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 2
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:smoky_quartz",
           "weight": 3,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 4
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 4
             }
-          ]
+          }
         },
-	{
+        {
           "type": "item",
           "name": "aerialhell:sky_stick",
           "weight": 3,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 5
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 5
             }
-          ]
+          }
         }
       ]
     },
     {
       "rolls": 2,
       "entries": [
-	{
+        {
           "type": "item",
           "name": "aerialhell:smoky_quartz",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 5
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 5
             }
-          ]
+          }
         },
-	{
+        {
           "type": "item",
           "name": "aerialhell:purple_solid_ether_fragment",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 5
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 5
             }
-          ]
+          }
         },
-	{
+        {
           "type": "item",
           "name": "aerialhell:dark_shadow_fruit",
           "weight": 2,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 3
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 3
             }
-          ]
+          }
         },
-	{
+        {
           "type": "item",
           "name": "aerialhell:purple_shadow_fruit",
           "weight": 2,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 3
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 3
             }
-          ]
+          }
         },
         {
           "type": "item",

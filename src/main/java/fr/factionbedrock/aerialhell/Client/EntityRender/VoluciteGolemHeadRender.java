@@ -102,8 +102,8 @@ public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity
         beamVector = beamVector.normalize();
         float xRotFactor = (float)Math.acos(beamVector.y);
         float yRotFactor = ((float)Math.PI / 2F) - (float)Math.atan2(beamVector.z, beamVector.x);
-        matrixStack.mulPose(Axis.YP.rotationDegrees(yRotFactor * (180F / (float)Math.PI)));
-        matrixStack.mulPose(Axis.XP.rotationDegrees(xRotFactor * (180F / (float)Math.PI)));
+        matrixStack.rotate(Axis.YP.rotationDegrees(yRotFactor * (180F / (float)Math.PI)));
+        matrixStack.rotate(Axis.XP.rotationDegrees(xRotFactor * (180F / (float)Math.PI)));
         int r = 255, g = 255, b = 255;
         float scale = textureLocation == GUARDIAN_BEAM_LOAD ? 0.3F : 1.0F;
 
@@ -138,9 +138,9 @@ public class VoluciteGolemHeadRender extends MobRenderer<VoluciteGolemHeadEntity
         });
     }
 
-    @Override public AABB getBoundingBoxForCulling(VoluciteGolemHeadEntity entity)
+    @Override public AABB getBoundingBoxForCulling(VoluciteGolemHeadEntity entity, float partialTicks)
     {
-        AABB box = super.getBoundingBoxForCulling(entity);
+        AABB box = super.getBoundingBoxForCulling(entity, partialTicks);
 
         if (entity.isBeaming() && entity.getBeamEndPos() != null)
         {

@@ -1,4 +1,92 @@
 {
+  "attributes": {
+    "minecraft:audio/background_music": {
+      "default": {
+        "max_delay": 3600,
+        "min_delay": 1200,
+        "sound": "aerialhell:aerialhell.dimension_music",
+        "replace_current_music": false
+      }
+    },
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "monster": [
+            {
+              "type": "aerialhell:cortinarius_cow",
+              "weight": 50,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 10,
+                "min_inclusive": 4
+              }
+            },
+            {
+              "type": "aerialhell:shroomboom",
+              "weight": 40,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 10,
+                "min_inclusive": 4
+              }
+            },
+            {
+              "type": "aerialhell:stellar_ent",
+              "weight": 30,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 10,
+                "min_inclusive": 4
+              }
+            },
+            {
+              "type": "aerialhell:verdigris_zombie",
+              "weight": 100,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 10,
+                "min_inclusive": 4
+              }
+            },
+            {
+              "type": "aerialhell:fat_phantom",
+              "weight": 30,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 3,
+                "min_inclusive": 1
+              }
+            }
+          ],
+          "creature": [
+            {
+              "type": "aerialhell:sandy_sheep",
+              "weight": 20,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 8,
+                "min_inclusive": 2
+              }
+            },
+            {
+              "type": "aerialhell:stellar_boar",
+              "weight": 30,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 10,
+                "min_inclusive": 3
+              }
+            }
+          ]
+        }
+      },
+      "modifier": "overlay"
+    },
+    "minecraft:visual/fog_color": 7583106,
+    "minecraft:visual/sky_color": 6388367,
+    "minecraft:visual/water_fog_color": 4019819
+  },
   "temperature": 0.8,
   "downfall": 0,
   "has_precipitation": false,
@@ -9,72 +97,6 @@
     "foliage_color": 5863528,
     "grass_color_modifier": "none"
   },
-  "attributes": {
-    "minecraft:audio/background_music": {
-      "default": {
-        "max_delay": 3600,
-        "min_delay": 1200,
-        "sound": "aerialhell:aerialhell.dimension_music",
-        "replace_current_music": false
-      }
-    },
-    "minecraft:visual/sky_color": 6388367,
-    "minecraft:visual/fog_color": 7583106,
-    "minecraft:visual/water_fog_color": 4019819
-  },
-  "spawners": {
-    "monster": [
-      {
-        "type": "aerialhell:cortinarius_cow",
-        "weight": 50,
-        "minCount": 4,
-        "maxCount": 10
-      },
-      {
-        "type": "aerialhell:shroomboom",
-        "weight": 40,
-        "minCount": 4,
-        "maxCount": 10
-      },
-      {
-        "type": "aerialhell:stellar_ent",
-        "weight": 30,
-        "minCount": 4,
-        "maxCount": 10
-      },
-      {
-        "type": "aerialhell:verdigris_zombie",
-        "weight": 100,
-        "minCount": 4,
-        "maxCount": 10
-      },
-      {
-        "type": "aerialhell:fat_phantom",
-        "weight": 30,
-        "minCount": 1,
-        "maxCount": 3
-      }
-    ],
-    "creature": [
-      {
-        "type": "aerialhell:sandy_sheep",
-        "weight": 20,
-        "minCount": 2,
-        "maxCount": 8
-      },
-      {
-        "type": "aerialhell:stellar_boar",
-        "weight": 30,
-        "minCount": 3,
-        "maxCount": 10
-      }
-    ],
-    "ambient": [],
-    "water_creature": [],
-    "water_ambient": [],
-    "misc": []
-  },
-  "spawn_costs": {},
   "carvers": [
     "minecraft:cave"
   ],
@@ -113,9 +135,7 @@
     [],
     [
       "aerialhell:golden_beech_rare_vegetation",
-
       "aerialhell:blue_meanie_field",
-
       "aerialhell:huge_verdigris_agaric",
       "aerialhell:giant_verdigris_agaric",
       "aerialhell:verdigris_agaric_forest",
@@ -124,19 +144,14 @@
       "aerialhell:patch_glowing_boletus",
       "aerialhell:patch_blue_meanie",
       "aerialhell:giant_root_shroom",
-
       "aerialhell:full_moon_plant",
-
       "aerialhell:stellar_roots",
-
       "aerialhell:patch_climbing_vine",
       "aerialhell:patch_stellar_very_tall_grass",
-
       "aerialhell:aerial_hell_flowers",
       "aerialhell:patch_stellar_grass",
       "aerialhell:patch_stellar_grass_ball",
       "aerialhell:patch_polychrome_fern",
-
       "aerialhell:glowing_stick_fruit_vines_rare",
       "aerialhell:blossoming_vines_rare"
     ],

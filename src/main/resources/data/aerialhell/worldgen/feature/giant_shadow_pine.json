@@ -1,0 +1,35 @@
+{
+  "type": "aerialhell:giant_pine_tree",
+  "trunk_max_horizontal_offset": 5,
+  "trunk_min_vertical_offset": 20,
+  "trunk_max_vertical_offset": 30,
+  "branch_quantity": 10,
+  "vertical_branch_separation": 3,
+  "trunk_provider": {
+    "type": "minecraft:weighted",
+    "entries": [
+      {
+        "weight": 2,
+        "data": {
+          "id": "aerialhell:shadow_pine_log"
+        }
+      },
+      {
+        "weight": 1,
+        "data": {
+          "id": "aerialhell:eye_shadow_pine_log"
+        }
+      }
+    ]
+  },
+  "foliage_provider": {
+    "type": "minecraft:simple",
+    "state": {
+      "id": "aerialhell:shadow_pine_leaves",
+      "properties": {
+        "persistent": "false",
+        "distance": "7"
+      }
+    }
+  }
+}

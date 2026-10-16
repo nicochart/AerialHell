@@ -3,10 +3,8 @@
 	"package": "fr.factionbedrock.aerialhell.Mixin",
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
-		"CustomBrewingRecipeMixin",
 		"OnBlockPlacedMixin",
 		"ExplosionBehaviorMixin",
-		"FurnaceFuelItemMixin",
 		"UpdateNeighborsAlwaysServerWorldMixin",
 		"UpdateNeighborsAlwaysWorldMixin",
 		"UpdateNeighborsExceptMixin",
@@ -21,13 +19,13 @@
 		"BlockBreakingSpeedMixin",
 		"RarityMixin",
 		"RarityFromItemStackMixin",
+		"PistonIsPushableMixin"
+	],
+	"client" : [
 		"RenderBlockOverlayMixin",
 		"RenderHudOverlayMixin",
 		"ItemTintMixin",
 		"RenderSkyMixin",
-		"PistonIsPushableMixin"
-	],
-	"client" : [
 		"ChestVariantMixin",
 		"UseItemFovModifierMixin",
 		"UseItemInHandRendererMixin",

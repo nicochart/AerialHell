@@ -18,7 +18,7 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.FuelValues;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class FreezerBlockEntity extends AbstractFurnaceBlockEntity
@@ -42,8 +42,7 @@ public class FreezerBlockEntity extends AbstractFurnaceBlockEntity
 		return map;
 	}
 
-	@Override
-	protected int getBurnDuration(FuelValues fuelRegistry, ItemStack fuel)
+	@Override protected int getBurnDuration(ServerLevel level, ItemStack fuel)
 	{
 		if (fuel.isEmpty() || !getFreezingMap().containsKey(fuel.getItem())) {return 0;}
 		else {return getFreezingMap().get(fuel.getItem());}

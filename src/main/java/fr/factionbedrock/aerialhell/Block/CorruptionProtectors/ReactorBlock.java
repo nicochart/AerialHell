@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Block.CorruptionProtectors;
 
-import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.BlockEntity.ReactorBlockEntity;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
@@ -34,8 +33,6 @@ import net.minecraft.world.phys.BlockHitResult;
 public class ReactorBlock extends BiomeShifterBlock
 {
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
-    public static final MapCodec<ReactorBlock> CODEC = simpleCodec(ReactorBlock::new);
-
     private ReactorBlock(BlockBehaviour.Properties settings) {this(settings, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null);}
     public ReactorBlock(BlockBehaviour.Properties settings, int fieldSize, BiomeShifter.ShiftType shiftType, @Nullable Supplier<Block> shiftedOrBrokenVariant)
     {
@@ -43,7 +40,6 @@ public class ReactorBlock extends BiomeShifterBlock
         this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, Boolean.FALSE));
     }
 
-    @Override protected MapCodec<? extends ReactorBlock> codec() {return CODEC;}
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(ACTIVE);}
 
     @Nullable @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new ReactorBlockEntity(pos, state, this.fieldSize, this.shiftType, this.getShiftedOrBrokenVariant());}

@@ -1,0 +1,26 @@
+{
+  "type": "aerialhell:random_patch",
+  "tries": 20,
+  "xz_spread": 12,
+  "y_spread": 4,
+  "feature": {
+    "feature": {
+      "type": "minecraft:simple_block",
+      "to_place": {
+        "type": "minecraft:simple",
+        "state": {
+          "id": "aerialhell:stellar_tall_fern"
+        }
+      }
+    },
+    "placement": [
+      {
+        "type": "minecraft:block_predicate_filter",
+        "predicate": {
+          "type": "minecraft:matching_blocks",
+          "blocks": "minecraft:air"
+        }
+      }
+    ]
+  }
+}

@@ -35,7 +35,6 @@ public class AerialHellSetup
     public static void additionalRegistration()
     {
         BuildContentsEvent.buildContents();
-        AerialHellItems.registerCompostableItems();
         AerialHellBlocks.registerAxeStrippingBlocks();
         AerialHellBlocks.registerShovelFlattenableBlocks();
         AerialHellBlocks.registerHoeTillableBlocks();

@@ -30,9 +30,7 @@ import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellTreeGrowers;
-import net.fabricmc.fabric.api.registry.FlattenableBlockRegistry;
-import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
-import net.fabricmc.fabric.api.registry.TillableBlockRegistry;
+import net.fabricmc.fabric.api.item.v1.BlockTransformerHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -40,7 +38,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
@@ -73,6 +70,7 @@ import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.UntintedParticleLeavesBlock;
+import net.minecraft.world.level.block.sounds.AmbientLeavesBlockSoundPlayer;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -90,44 +88,44 @@ public class AerialHellBlocks
 {
     public static void registerAxeStrippingBlocks()
     {
-        StrippableBlockRegistry.register(AERIAL_TREE_LOG, STRIPPED_AERIAL_TREE_LOG);
-        StrippableBlockRegistry.register(AERIAL_TREE_WOOD, STRIPPED_AERIAL_TREE_WOOD);
-        StrippableBlockRegistry.register(GOLDEN_BEECH_LOG, STRIPPED_GOLDEN_BEECH_LOG);
-        StrippableBlockRegistry.register(GOLDEN_BEECH_WOOD, STRIPPED_GOLDEN_BEECH_WOOD);
-        StrippableBlockRegistry.register(COPPER_PINE_LOG, STRIPPED_COPPER_PINE_LOG);
-        StrippableBlockRegistry.register(COPPER_PINE_WOOD, STRIPPED_COPPER_PINE_WOOD);
-        StrippableBlockRegistry.register(LAPIS_ROBINIA_LOG, STRIPPED_LAPIS_ROBINIA_LOG);
-        StrippableBlockRegistry.register(LAPIS_ROBINIA_WOOD, STRIPPED_LAPIS_ROBINIA_WOOD);
-        StrippableBlockRegistry.register(SHADOW_PINE_LOG, STRIPPED_SHADOW_PINE_LOG);
-        StrippableBlockRegistry.register(SHADOW_PINE_WOOD, STRIPPED_SHADOW_PINE_WOOD);
-        StrippableBlockRegistry.register(STELLAR_JUNGLE_TREE_LOG, STRIPPED_STELLAR_JUNGLE_TREE_LOG);
-        StrippableBlockRegistry.register(STELLAR_JUNGLE_TREE_WOOD, STRIPPED_STELLAR_JUNGLE_TREE_WOOD);
-        StrippableBlockRegistry.register(GIANT_CORTINARIUS_VIOLACEUS_STEM, STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM);
-        StrippableBlockRegistry.register(GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM, STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM);
-        StrippableBlockRegistry.register(GIANT_VERDIGRIS_AGARIC_STEM, STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM);
-        StrippableBlockRegistry.register(GIANT_VERDIGRIS_AGARIC_BARK_STEM, STRIPPED_GIANT_VERDIGRIS_AGARIC_BARK_STEM);
+        BlockTransformerHelper.registerStripping(AERIAL_TREE_LOG, STRIPPED_AERIAL_TREE_LOG);
+        BlockTransformerHelper.registerStripping(AERIAL_TREE_WOOD, STRIPPED_AERIAL_TREE_WOOD);
+        BlockTransformerHelper.registerStripping(GOLDEN_BEECH_LOG, STRIPPED_GOLDEN_BEECH_LOG);
+        BlockTransformerHelper.registerStripping(GOLDEN_BEECH_WOOD, STRIPPED_GOLDEN_BEECH_WOOD);
+        BlockTransformerHelper.registerStripping(COPPER_PINE_LOG, STRIPPED_COPPER_PINE_LOG);
+        BlockTransformerHelper.registerStripping(COPPER_PINE_WOOD, STRIPPED_COPPER_PINE_WOOD);
+        BlockTransformerHelper.registerStripping(LAPIS_ROBINIA_LOG, STRIPPED_LAPIS_ROBINIA_LOG);
+        BlockTransformerHelper.registerStripping(ENCHANTED_LAPIS_ROBINIA_LOG, STRIPPED_LAPIS_ROBINIA_LOG);
+        BlockTransformerHelper.registerStripping(LAPIS_ROBINIA_WOOD, STRIPPED_LAPIS_ROBINIA_WOOD);
+        BlockTransformerHelper.registerStripping(SHADOW_PINE_LOG, STRIPPED_SHADOW_PINE_LOG);
+        BlockTransformerHelper.registerStripping(SHADOW_PINE_WOOD, STRIPPED_SHADOW_PINE_WOOD);
+        BlockTransformerHelper.registerStripping(STELLAR_JUNGLE_TREE_LOG, STRIPPED_STELLAR_JUNGLE_TREE_LOG);
+        BlockTransformerHelper.registerStripping(STELLAR_JUNGLE_TREE_WOOD, STRIPPED_STELLAR_JUNGLE_TREE_WOOD);
+        BlockTransformerHelper.registerStripping(GIANT_CORTINARIUS_VIOLACEUS_STEM, STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_STEM);
+        BlockTransformerHelper.registerStripping(GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM, STRIPPED_GIANT_CORTINARIUS_VIOLACEUS_BARK_STEM);
+        BlockTransformerHelper.registerStripping(GIANT_VERDIGRIS_AGARIC_STEM, STRIPPED_GIANT_VERDIGRIS_AGARIC_STEM);
+        BlockTransformerHelper.registerStripping(GIANT_VERDIGRIS_AGARIC_BARK_STEM, STRIPPED_GIANT_VERDIGRIS_AGARIC_BARK_STEM);
     }
 
     public static void registerShovelFlattenableBlocks()
     {
-        FlattenableBlockRegistry.register(STELLAR_DIRT, STELLAR_DIRT_PATH.defaultBlockState());
-        FlattenableBlockRegistry.register(STELLAR_DIRT, STELLAR_DIRT_PATH.defaultBlockState());
-        FlattenableBlockRegistry.register(STELLAR_COARSE_DIRT, STELLAR_DIRT_PATH.defaultBlockState());
-        FlattenableBlockRegistry.register(STELLAR_GRASS_BLOCK, STELLAR_DIRT_PATH.defaultBlockState());
-        FlattenableBlockRegistry.register(CHISELED_STELLAR_DIRT, STELLAR_DIRT_PATH.defaultBlockState());
-        FlattenableBlockRegistry.register(CHISELED_STELLAR_GRASS_BLOCK, STELLAR_DIRT_PATH.defaultBlockState());
-        FlattenableBlockRegistry.register(STELLAR_PODZOL, STELLAR_DIRT_PATH.defaultBlockState());
-        FlattenableBlockRegistry.register(STELLAR_CRYSTAL_PODZOL, STELLAR_DIRT_PATH.defaultBlockState());
+        BlockTransformerHelper.registerFlattening(STELLAR_DIRT, STELLAR_DIRT_PATH);
+        BlockTransformerHelper.registerFlattening(STELLAR_COARSE_DIRT, STELLAR_DIRT_PATH);
+        BlockTransformerHelper.registerFlattening(STELLAR_GRASS_BLOCK, STELLAR_DIRT_PATH);
+        BlockTransformerHelper.registerFlattening(CHISELED_STELLAR_DIRT, STELLAR_DIRT_PATH);
+        BlockTransformerHelper.registerFlattening(CHISELED_STELLAR_GRASS_BLOCK, STELLAR_DIRT_PATH);
+        BlockTransformerHelper.registerFlattening(STELLAR_PODZOL, STELLAR_DIRT_PATH);
+        BlockTransformerHelper.registerFlattening(STELLAR_CRYSTAL_PODZOL, STELLAR_DIRT_PATH);
     }
 
     public static void registerHoeTillableBlocks()
     {
-        TillableBlockRegistry.register(STELLAR_DIRT, HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
-        TillableBlockRegistry.register(STELLAR_COARSE_DIRT, HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
-        TillableBlockRegistry.register(STELLAR_GRASS_BLOCK, HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
-        TillableBlockRegistry.register(CHISELED_STELLAR_DIRT, HoeItem::onlyIfAirAbove, HoeItem.changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
-        TillableBlockRegistry.register(CHISELED_STELLAR_GRASS_BLOCK, HoeItem::onlyIfAirAbove,HoeItem. changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
-        TillableBlockRegistry.register(STELLAR_DIRT_PATH, HoeItem::onlyIfAirAbove,HoeItem. changeIntoState(STELLAR_FARMLAND.defaultBlockState()));
+        BlockTransformerHelper.registerTilling(STELLAR_DIRT, STELLAR_FARMLAND);
+        BlockTransformerHelper.registerTilling(STELLAR_COARSE_DIRT, STELLAR_FARMLAND);
+        BlockTransformerHelper.registerTilling(STELLAR_GRASS_BLOCK, STELLAR_FARMLAND);
+        BlockTransformerHelper.registerTilling(CHISELED_STELLAR_DIRT, STELLAR_FARMLAND);
+        BlockTransformerHelper.registerTilling(CHISELED_STELLAR_GRASS_BLOCK, STELLAR_FARMLAND);
+        BlockTransformerHelper.registerTilling(STELLAR_DIRT_PATH, STELLAR_FARMLAND);
     }
     
     //materials
@@ -149,7 +147,7 @@ public class AerialHellBlocks
 
 
     //portal
-    public static final AerialHellPortalBlock AERIAL_HELL_PORTAL = register(Keys.AERIAL_HELL_PORTAL.identifier().getPath(), new AerialHellPortalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_PORTAL).setId(Keys.AERIAL_HELL_PORTAL).noOcclusion().isViewBlocking((state, blockview, pos) -> false).lightLevel((state) -> 10).mapColor(DyeColor.GREEN)));
+    public static final AerialHellPortalBlock AERIAL_HELL_PORTAL = register(Keys.AERIAL_HELL_PORTAL.identifier().getPath(), new AerialHellPortalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_PORTAL).setId(Keys.AERIAL_HELL_PORTAL).noOcclusion().isViewBlocking((state, blockview, pos, aabb) -> false).lightLevel((state) -> 10).mapColor(DyeColor.GREEN)));
     public static final Block STELLAR_PORTAL_FRAME_BLOCK = register(Keys.STELLAR_PORTAL_FRAME_BLOCK.identifier().getPath(), new Block(BlockBehaviour.Properties.of().setId(Keys.STELLAR_PORTAL_FRAME_BLOCK).mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(25.0F, 600.0F)));
     public static final Block STELLAR_PORTAL_FRAME_ORE = register(Keys.STELLAR_PORTAL_FRAME_ORE.identifier().getPath(), new AerialHellOreBlock(0, 0, BlockBehaviour.Properties.of().setId(Keys.STELLAR_PORTAL_FRAME_ORE).strength(25.0F, 600.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
     public static final Block DEEPSLATE_STELLAR_PORTAL_FRAME_ORE = register(Keys.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE.identifier().getPath(), new AerialHellOreBlock(0, 0, BlockBehaviour.Properties.of().setId(Keys.DEEPSLATE_STELLAR_PORTAL_FRAME_ORE).strength(30.0F, 600.0F).sound(SoundType.STONE).requiresCorrectToolForDrops()));
@@ -185,13 +183,13 @@ public class AerialHellBlocks
     //grass & dirt
     public static final StellarGrassBlock STELLAR_GRASS_BLOCK = register(Keys.STELLAR_GRASS_BLOCK.identifier().getPath(), new StellarGrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).setId(Keys.STELLAR_GRASS_BLOCK)));
     public static final Block CHISELED_STELLAR_GRASS_BLOCK = register(Keys.CHISELED_STELLAR_GRASS_BLOCK.identifier().getPath(), new StellarGrassBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_GRASS_BLOCK).setId(Keys.CHISELED_STELLAR_GRASS_BLOCK)));
-    public static final Block STELLAR_DIRT = register(Keys.STELLAR_DIRT.identifier().getPath(), new StellarDirtBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).setId(Keys.STELLAR_DIRT)));
-    public static final Block STELLAR_COARSE_DIRT = register(Keys.STELLAR_COARSE_DIRT.identifier().getPath(), new StellarDirtBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COARSE_DIRT).setId(Keys.STELLAR_COARSE_DIRT)));
-    public static final Block STELLAR_FARMLAND = register(Keys.STELLAR_FARMLAND.identifier().getPath(), new StellarFarmBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).setId(Keys.STELLAR_FARMLAND).randomTicks().strength(0.6F).sound(SoundType.GRAVEL).isViewBlocking((state, blockgetter, pos) -> true).isSuffocating((state, blockgetter, pos) -> true)));
+    public static final Block STELLAR_DIRT = register(Keys.STELLAR_DIRT.identifier().getPath(), new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).setId(Keys.STELLAR_DIRT)));
+    public static final Block STELLAR_COARSE_DIRT = register(Keys.STELLAR_COARSE_DIRT.identifier().getPath(), new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COARSE_DIRT).setId(Keys.STELLAR_COARSE_DIRT)));
+    public static final Block STELLAR_FARMLAND = register(Keys.STELLAR_FARMLAND.identifier().getPath(), new StellarFarmBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).setId(Keys.STELLAR_FARMLAND).randomTicks().strength(0.6F).sound(SoundType.GRAVEL).isViewBlocking((state, blockgetter, pos, aabb) -> true).isSuffocating((state, blockgetter, pos) -> true)));
     public static final Block STELLAR_DIRT_PATH = register(Keys.STELLAR_DIRT_PATH.identifier().getPath(), new StellarDirtPathBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT_PATH).setId(Keys.STELLAR_DIRT_PATH)));
     public static final Block STELLAR_PODZOL = register(Keys.STELLAR_PODZOL.identifier().getPath(), new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PODZOL).setId(Keys.STELLAR_PODZOL)));
     public static final Block STELLAR_CRYSTAL_PODZOL = register(Keys.STELLAR_CRYSTAL_PODZOL.identifier().getPath(), new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PODZOL).setId(Keys.STELLAR_CRYSTAL_PODZOL)));
-    public static final Block CHISELED_STELLAR_DIRT = register(Keys.CHISELED_STELLAR_DIRT.identifier().getPath(), new StellarDirtBlock(BlockBehaviour.Properties.ofFullCopy(STELLAR_DIRT).setId(Keys.CHISELED_STELLAR_DIRT)));
+    public static final Block CHISELED_STELLAR_DIRT = register(Keys.CHISELED_STELLAR_DIRT.identifier().getPath(), new Block(BlockBehaviour.Properties.ofFullCopy(STELLAR_DIRT).setId(Keys.CHISELED_STELLAR_DIRT)));
     public static final ShadowGrassBlock SHADOW_GRASS_BLOCK = register(Keys.SHADOW_GRASS_BLOCK.identifier().getPath(), new ShadowGrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).setId(Keys.SHADOW_GRASS_BLOCK)));
 
     //slippery sand
@@ -336,15 +334,15 @@ public class AerialHellBlocks
     public static final Block CRYSTAL_BRICKS_WALL = register(Keys.CRYSTAL_BRICKS_WALL.identifier().getPath(), new WallBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BRICKS).setId(Keys.CRYSTAL_BRICKS_WALL)));
     public static final Block STELLAR_STONE_CRYSTAL_BLOCK = register(Keys.STELLAR_STONE_CRYSTAL_BLOCK.identifier().getPath(), new BasicShiftableRenderBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BLOCK).setId(Keys.STELLAR_STONE_CRYSTAL_BLOCK).lightLevel((state) -> 13)));
     public static final Block SHADOW_CRYSTAL_BLOCK = register(Keys.SHADOW_CRYSTAL_BLOCK.identifier().getPath(), new BasicShadowSpreaderBlock(BlockBehaviour.Properties.ofFullCopy(CRYSTAL_BLOCK).setId(Keys.SHADOW_CRYSTAL_BLOCK).lightLevel((state) -> 12)));
-    public static final Block CRYSTALLIZED_LEAVES = register(Keys.CRYSTALLIZED_LEAVES.identifier().getPath(), new UntintedParticleLeavesBlock(0.1F, AerialHellParticleTypes.FALLING_CRYSTALLIZED_LEAVES, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(Keys.CRYSTALLIZED_LEAVES).lightLevel((state) -> 12)));
+    public static final Block CRYSTALLIZED_LEAVES = register(Keys.CRYSTALLIZED_LEAVES.identifier().getPath(), new UntintedParticleLeavesBlock(0.1F, AerialHellParticleTypes.FALLING_CRYSTALLIZED_LEAVES, AmbientLeavesBlockSoundPlayer.noAmbientSound(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).setId(Keys.CRYSTALLIZED_LEAVES).lightLevel((state) -> 12)));
     public static final Block CRYSTALLIZED_FIRE = register(Keys.CRYSTALLIZED_FIRE.identifier().getPath(), new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.CRYSTALLIZED_FIRE).lightLevel((state) -> 12).instabreak()));
 
     //glass and glass pane
-    public static final Block SLIPPERY_SAND_GLASS = register(Keys.SLIPPERY_SAND_GLASS.identifier().getPath(), new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false)));
-    public static final Block RED_SLIPPERY_SAND_GLASS = register(Keys.RED_SLIPPERY_SAND_GLASS.identifier().getPath(), new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.RED_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false)));
-    public static final Block BLACK_SLIPPERY_SAND_GLASS = register(Keys.BLACK_SLIPPERY_SAND_GLASS.identifier().getPath(), new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.BLACK_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false)));
-    public static final Block BLUE_SLIPPERY_SAND_GLASS = register(Keys.BLUE_SLIPPERY_SAND_GLASS.identifier().getPath(), new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.BLUE_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false)));
-    public static final Block GREEN_SLIPPERY_SAND_GLASS = register(Keys.GREEN_SLIPPERY_SAND_GLASS.identifier().getPath(), new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.GREEN_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos) -> false)));
+    public static final Block SLIPPERY_SAND_GLASS = register(Keys.SLIPPERY_SAND_GLASS.identifier().getPath(), new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos, aabb) -> false)));
+    public static final Block RED_SLIPPERY_SAND_GLASS = register(Keys.RED_SLIPPERY_SAND_GLASS.identifier().getPath(), new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.RED_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos, aabb) -> false)));
+    public static final Block BLACK_SLIPPERY_SAND_GLASS = register(Keys.BLACK_SLIPPERY_SAND_GLASS.identifier().getPath(), new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.BLACK_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos, aabb) -> false)));
+    public static final Block BLUE_SLIPPERY_SAND_GLASS = register(Keys.BLUE_SLIPPERY_SAND_GLASS.identifier().getPath(), new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.BLUE_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos, aabb) -> false)));
+    public static final Block GREEN_SLIPPERY_SAND_GLASS = register(Keys.GREEN_SLIPPERY_SAND_GLASS.identifier().getPath(), new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).setId(Keys.GREEN_SLIPPERY_SAND_GLASS).friction(1.01F).isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos, aabb) -> false)));
     public static final Block SLIPPERY_SAND_GLASS_PANE = register(Keys.SLIPPERY_SAND_GLASS_PANE.identifier().getPath(), new StainedGlassPaneBlock(DyeColor.YELLOW, BlockBehaviour.Properties.of().setId(Keys.SLIPPERY_SAND_GLASS_PANE).friction(1.01F).strength(0.3F).sound(SoundType.GLASS).noOcclusion()));
     public static final Block RED_SLIPPERY_SAND_GLASS_PANE = register(Keys.RED_SLIPPERY_SAND_GLASS_PANE.identifier().getPath(), new StainedGlassPaneBlock(DyeColor.RED, BlockBehaviour.Properties.of().setId(Keys.RED_SLIPPERY_SAND_GLASS_PANE).friction(1.01F).strength(0.3F).sound(SoundType.GLASS).noOcclusion()));
     public static final Block BLACK_SLIPPERY_SAND_GLASS_PANE = register(Keys.BLACK_SLIPPERY_SAND_GLASS_PANE.identifier().getPath(), new StainedGlassPaneBlock(DyeColor.BLACK, BlockBehaviour.Properties.of().setId(Keys.BLACK_SLIPPERY_SAND_GLASS_PANE).friction(1.01F).strength(0.3F).sound(SoundType.GLASS).noOcclusion()));
@@ -374,13 +372,13 @@ public class AerialHellBlocks
     public static final Block GHOST_LANTERN = register(Keys.GHOST_LANTERN.identifier().getPath(), new GhostLanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).setId(Keys.GHOST_LANTERN)));
 
     //other condition condition blocks
-    public static final Block INTANGIBLE_TEMPORARY_BLOCK = register(Keys.INTANGIBLE_TEMPORARY_BLOCK.identifier().getPath(), new IntangibleTemporaryBlock(BlockBehaviour.Properties.of().setId(Keys.INTANGIBLE_TEMPORARY_BLOCK).strength(2.0F, 3600000.0F).noLootTable().pushReaction(PushReaction.IGNORE).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion()));
+    public static final Block INTANGIBLE_TEMPORARY_BLOCK = register(Keys.INTANGIBLE_TEMPORARY_BLOCK.identifier().getPath(), new IntangibleTemporaryBlock(BlockBehaviour.Properties.of().setId(Keys.INTANGIBLE_TEMPORARY_BLOCK).strength(2.0F, 3600000.0F).noLootTable().pushReaction(PushReaction.IGNORE_ENTITY).sound(SoundType.GLASS).lightLevel((state) -> 7).noOcclusion()));
 
     //reactors
-    public static final Block WEAK_LIGHT_REACTOR = register(Keys.WEAK_LIGHT_REACTOR.identifier().getPath(), new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.WEAK_LIGHT_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 32, BiomeShifter.ShiftType.UNCORRUPT, () -> AerialHellBlocks.BROKEN_WEAK_LIGHT_REACTOR));
-    public static final Block HIGH_POWER_LIGHT_REACTOR = register(Keys.HIGH_POWER_LIGHT_REACTOR.identifier().getPath(), new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.HIGH_POWER_LIGHT_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 58, BiomeShifter.ShiftType.UNCORRUPT, () -> AerialHellBlocks.BROKEN_HIGH_POWER_LIGHT_REACTOR));
-    public static final Block WEAK_SHADOW_REACTOR = register(Keys.WEAK_SHADOW_REACTOR.identifier().getPath(), new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.WEAK_SHADOW_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 26, BiomeShifter.ShiftType.CORRUPT, () -> AerialHellBlocks.BROKEN_WEAK_SHADOW_REACTOR));
-    public static final Block HIGH_POWER_SHADOW_REACTOR = register(Keys.HIGH_POWER_SHADOW_REACTOR.identifier().getPath(), new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.HIGH_POWER_SHADOW_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE).sound(SoundType.STONE).noOcclusion(), 60, BiomeShifter.ShiftType.CORRUPT, () -> AerialHellBlocks.BROKEN_HIGH_POWER_SHADOW_REACTOR));
+    public static final Block WEAK_LIGHT_REACTOR = register(Keys.WEAK_LIGHT_REACTOR.identifier().getPath(), new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.WEAK_LIGHT_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE_ENTITY).sound(SoundType.STONE).noOcclusion(), 32, BiomeShifter.ShiftType.UNCORRUPT, () -> AerialHellBlocks.BROKEN_WEAK_LIGHT_REACTOR));
+    public static final Block HIGH_POWER_LIGHT_REACTOR = register(Keys.HIGH_POWER_LIGHT_REACTOR.identifier().getPath(), new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.HIGH_POWER_LIGHT_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE_ENTITY).sound(SoundType.STONE).noOcclusion(), 58, BiomeShifter.ShiftType.UNCORRUPT, () -> AerialHellBlocks.BROKEN_HIGH_POWER_LIGHT_REACTOR));
+    public static final Block WEAK_SHADOW_REACTOR = register(Keys.WEAK_SHADOW_REACTOR.identifier().getPath(), new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.WEAK_SHADOW_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE_ENTITY).sound(SoundType.STONE).noOcclusion(), 26, BiomeShifter.ShiftType.CORRUPT, () -> AerialHellBlocks.BROKEN_WEAK_SHADOW_REACTOR));
+    public static final Block HIGH_POWER_SHADOW_REACTOR = register(Keys.HIGH_POWER_SHADOW_REACTOR.identifier().getPath(), new ReactorBlock(BlockBehaviour.Properties.of().setId(Keys.HIGH_POWER_SHADOW_REACTOR).strength(5.0F, 100.0F).pushReaction(PushReaction.IGNORE_ENTITY).sound(SoundType.STONE).noOcclusion(), 60, BiomeShifter.ShiftType.CORRUPT, () -> AerialHellBlocks.BROKEN_HIGH_POWER_SHADOW_REACTOR));
 
     public static final Block BROKEN_WEAK_LIGHT_REACTOR = register(Keys.BROKEN_WEAK_LIGHT_REACTOR.identifier().getPath(), new Block(BlockBehaviour.Properties.ofFullCopy(WEAK_LIGHT_REACTOR).setId(Keys.BROKEN_WEAK_LIGHT_REACTOR)));
     public static final Block BROKEN_HIGH_POWER_LIGHT_REACTOR = register(Keys.BROKEN_HIGH_POWER_LIGHT_REACTOR.identifier().getPath(), new Block(BlockBehaviour.Properties.ofFullCopy(HIGH_POWER_LIGHT_REACTOR).setId(Keys.BROKEN_HIGH_POWER_LIGHT_REACTOR)));
@@ -431,11 +429,11 @@ public class AerialHellBlocks
     public static final Block CRACKED_LIGHT_VOLUCITE_STONE = register(Keys.CRACKED_LIGHT_VOLUCITE_STONE.identifier().getPath(), new CoreProtectedBlock(BlockBehaviour.Properties.of().setId(Keys.CRACKED_LIGHT_VOLUCITE_STONE).strength(2.0F, 6.0F).sound(SoundType.STONE)));
 
     //dungeon cores
-    public static final Block MUD_DUNGEON_CORE = register(Keys.MUD_DUNGEON_CORE.identifier().getPath(), new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.MUD_DUNGEON_CORE).strength(30.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
-    public static final Block LUNATIC_DUNGEON_CORE = register(Keys.LUNATIC_DUNGEON_CORE.identifier().getPath(), new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.LUNATIC_DUNGEON_CORE).strength(40.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
-    public static final Block SHADOW_CATACOMBS_DUNGEON_CORE = register(Keys.SHADOW_CATACOMBS_DUNGEON_CORE.identifier().getPath(), new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.SHADOW_CATACOMBS_DUNGEON_CORE).strength(30.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
-    public static final Block GOLDEN_NETHER_DUNGEON_CORE = register(Keys.GOLDEN_NETHER_DUNGEON_CORE.identifier().getPath(), new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.GOLDEN_NETHER_DUNGEON_CORE).strength(50.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
-    public static final Block VOLUCITE_DUNGEON_CORE = register(Keys.VOLUCITE_DUNGEON_CORE.identifier().getPath(), new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.VOLUCITE_DUNGEON_CORE).strength(50.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
+    public static final Block MUD_DUNGEON_CORE = register(Keys.MUD_DUNGEON_CORE.identifier().getPath(), new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.MUD_DUNGEON_CORE).strength(30.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
+    public static final Block LUNATIC_DUNGEON_CORE = register(Keys.LUNATIC_DUNGEON_CORE.identifier().getPath(), new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.LUNATIC_DUNGEON_CORE).strength(40.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
+    public static final Block SHADOW_CATACOMBS_DUNGEON_CORE = register(Keys.SHADOW_CATACOMBS_DUNGEON_CORE.identifier().getPath(), new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.SHADOW_CATACOMBS_DUNGEON_CORE).strength(30.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
+    public static final Block GOLDEN_NETHER_DUNGEON_CORE = register(Keys.GOLDEN_NETHER_DUNGEON_CORE.identifier().getPath(), new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.GOLDEN_NETHER_DUNGEON_CORE).strength(50.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
+    public static final Block VOLUCITE_DUNGEON_CORE = register(Keys.VOLUCITE_DUNGEON_CORE.identifier().getPath(), new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.VOLUCITE_DUNGEON_CORE).strength(50.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
 
     //dungeons slabs, stairs & walls
     public static final SlabBlock MUD_BRICKS_SLAB = register(Keys.MUD_BRICKS_SLAB.identifier().getPath(), new CoreProtectedSlabBlock(BlockBehaviour.Properties.ofFullCopy(MUD_BRICKS).setId(Keys.MUD_BRICKS_SLAB)));
@@ -544,7 +542,7 @@ public class AerialHellBlocks
     public static final Block RAW_VOLUCITE_BLOCK = register(Keys.RAW_VOLUCITE_BLOCK.identifier().getPath(), new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIAMOND_BLOCK).setId(Keys.RAW_VOLUCITE_BLOCK).requiresCorrectToolForDrops()));
 
     public static final Block FLUORITE_BLOCK = register(Keys.FLUORITE_BLOCK.identifier().getPath(), new BiomeShifterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).setId(Keys.FLUORITE_BLOCK).requiresCorrectToolForDrops(), 7, BiomeShifter.ShiftType.UNCORRUPT, () -> AerialHellBlocks.SMOKY_QUARTZ_BLOCK));
-    public static final Block MAGMATIC_GEL_BLOCK = register(Keys.MAGMATIC_GEL_BLOCK.identifier().getPath(), new MagmaticGelBlock(BlockBehaviour.Properties.of().setId(Keys.MAGMATIC_GEL_BLOCK).strength(1.0F, 1600.0F).randomTicks().sound(SoundType.GLASS).noOcclusion().requiresCorrectToolForDrops().isViewBlocking((state, reader, pos) -> false)));
+    public static final Block MAGMATIC_GEL_BLOCK = register(Keys.MAGMATIC_GEL_BLOCK.identifier().getPath(), new MagmaticGelBlock(BlockBehaviour.Properties.of().setId(Keys.MAGMATIC_GEL_BLOCK).strength(1.0F, 1600.0F).randomTicks().sound(SoundType.GLASS).noOcclusion().requiresCorrectToolForDrops().isViewBlocking((state, reader, pos, aabb) -> false)));
     public static final Block RUBY_BLOCK = register(Keys.RUBY_BLOCK.identifier().getPath(), new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).setId(Keys.RUBY_BLOCK).requiresCorrectToolForDrops()));
     public static final Block AZURITE_BLOCK = register(Keys.AZURITE_BLOCK.identifier().getPath(), new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).setId(Keys.AZURITE_BLOCK).requiresCorrectToolForDrops()));
     public static final Block VOLUCITE_BLOCK = register(Keys.VOLUCITE_BLOCK.identifier().getPath(), new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIAMOND_BLOCK).setId(Keys.VOLUCITE_BLOCK).requiresCorrectToolForDrops()));
@@ -574,8 +572,8 @@ public class AerialHellBlocks
     public static final VerticalGrowingPlantBlock STELLAR_SUGAR_CANE = register(Keys.STELLAR_SUGAR_CANE.identifier().getPath(), new VerticalGrowingPlantBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SUGAR_CANE).setId(Keys.STELLAR_SUGAR_CANE), 5));
 
     //chorus like
-    public static final ChorusPlantLikeBlock FULL_MOON_PLANT = register(Keys.FULL_MOON_PLANT.identifier().getPath(), new ChorusPlantLikeBlock(BlockBehaviour.Properties.of().setId(Keys.FULL_MOON_PLANT).mapColor(MapColor.COLOR_PURPLE).forceSolidOff().strength(0.4F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY).lightLevel((state) -> 10)));
-    public static final ChorusFlowerLikeBlock FULL_MOON_FLOWER = register(Keys.FULL_MOON_FLOWER.identifier().getPath(), new ChorusFlowerLikeBlock(FULL_MOON_PLANT, BlockBehaviour.Properties.of().setId(Keys.FULL_MOON_FLOWER).mapColor(MapColor.COLOR_PURPLE).forceSolidOff().randomTicks().strength(0.4F).sound(SoundType.WOOD).noOcclusion().isValidSpawn((state, blockGetter, pos, entitytype) -> false).pushReaction(PushReaction.DESTROY).isRedstoneConductor((state, blockGetter, pos) -> false).lightLevel((state) -> 15)));
+    public static final ChorusPlantLikeBlock FULL_MOON_PLANT = register(Keys.FULL_MOON_PLANT.identifier().getPath(), new ChorusPlantLikeBlock(BlockBehaviour.Properties.of().setId(Keys.FULL_MOON_PLANT).mapColor(MapColor.COLOR_PURPLE).forceSolidOff().strength(0.4F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.POPPED).lightLevel((state) -> 10)));
+    public static final ChorusFlowerLikeBlock FULL_MOON_FLOWER = register(Keys.FULL_MOON_FLOWER.identifier().getPath(), new ChorusFlowerLikeBlock(FULL_MOON_PLANT, BlockBehaviour.Properties.of().setId(Keys.FULL_MOON_FLOWER).mapColor(MapColor.COLOR_PURPLE).forceSolidOff().randomTicks().strength(0.4F).sound(SoundType.WOOD).noOcclusion().isValidSpawn((state, blockGetter, pos, entitytype) -> false).pushReaction(PushReaction.POPPED).isRedstoneConductor((state, blockGetter, pos) -> false).lightLevel((state) -> 15)));
 
     //vines
     public static final CaveVinesBlock GLOWING_STICK_FRUIT_VINES = register(Keys.GLOWING_STICK_FRUIT_VINES.identifier().getPath(), new AerialHellCaveVinesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAVE_VINES).setId(Keys.GLOWING_STICK_FRUIT_VINES)));
@@ -863,14 +861,14 @@ public class AerialHellBlocks
     public static final ComposterBlock GRAY_SHROOM_COMPOSTER = register(Keys.GRAY_SHROOM_COMPOSTER.identifier().getPath(), new ComposterBlock(SHROOM_MATERIAL.setId(Keys.GRAY_SHROOM_COMPOSTER)));
 
     //decorative
-    public static final RotatedPillarBlock AERIAL_TREE_VINE_ROPE_SPOOL = register(Keys.AERIAL_TREE_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.AERIAL_TREE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
-    public static final RotatedPillarBlock GOLDEN_BEECH_VINE_ROPE_SPOOL = register(Keys.GOLDEN_BEECH_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.GOLDEN_BEECH_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
-    public static final RotatedPillarBlock COPPER_PINE_VINE_ROPE_SPOOL = register(Keys.COPPER_PINE_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.COPPER_PINE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
-    public static final RotatedPillarBlock LAPIS_ROBINIA_VINE_ROPE_SPOOL = register(Keys.LAPIS_ROBINIA_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.LAPIS_ROBINIA_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
-    public static final RotatedPillarBlock SHADOW_PINE_VINE_ROPE_SPOOL = register(Keys.SHADOW_PINE_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.SHADOW_PINE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
-    public static final RotatedPillarBlock STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL = register(Keys.STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
-    public static final RotatedPillarBlock SKY_CACTUS_FIBER_VINE_ROPE_SPOOL = register(Keys.SKY_CACTUS_FIBER_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.SKY_CACTUS_FIBER_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
-    public static final RotatedPillarBlock GRAY_SHROOM_VINE_ROPE_SPOOL = register(Keys.GRAY_SHROOM_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.GRAY_SHROOM_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+    public static final RotatedPillarBlock AERIAL_TREE_VINE_ROPE_SPOOL = register(Keys.AERIAL_TREE_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.AERIAL_TREE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+    public static final RotatedPillarBlock GOLDEN_BEECH_VINE_ROPE_SPOOL = register(Keys.GOLDEN_BEECH_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.GOLDEN_BEECH_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+    public static final RotatedPillarBlock COPPER_PINE_VINE_ROPE_SPOOL = register(Keys.COPPER_PINE_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.COPPER_PINE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+    public static final RotatedPillarBlock LAPIS_ROBINIA_VINE_ROPE_SPOOL = register(Keys.LAPIS_ROBINIA_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.LAPIS_ROBINIA_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+    public static final RotatedPillarBlock SHADOW_PINE_VINE_ROPE_SPOOL = register(Keys.SHADOW_PINE_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.SHADOW_PINE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+    public static final RotatedPillarBlock STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL = register(Keys.STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.STELLAR_JUNGLE_TREE_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+    public static final RotatedPillarBlock SKY_CACTUS_FIBER_VINE_ROPE_SPOOL = register(Keys.SKY_CACTUS_FIBER_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.SKY_CACTUS_FIBER_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
+    public static final RotatedPillarBlock GRAY_SHROOM_VINE_ROPE_SPOOL = register(Keys.GRAY_SHROOM_VINE_ROPE_SPOOL.identifier().getPath(), new VineRopeSpoolBlock(BlockBehaviour.Properties.of().setId(Keys.GRAY_SHROOM_VINE_ROPE_SPOOL).noOcclusion().isViewBlocking((state, blockGetter, pos, aabb) -> {return false;}).mapColor(MapColor.COLOR_BROWN).strength(1.2F).sound(SoundType.WOOD)));
 
     //fluids
     public static final LiquidBlock LIQUID_OF_THE_GODS = register(Keys.LIQUID_OF_THE_GODS.identifier().getPath(), new AerialHellFluidBlock(AerialHellFluids.LIQUID_OF_THE_GODS_STILL, BlockBehaviour.Properties.of().setId(Keys.LIQUID_OF_THE_GODS).replaceable().lightLevel((state) -> 8)));

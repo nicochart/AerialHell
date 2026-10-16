@@ -15,12 +15,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.MushroomBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 
 public class AerialHellMushroomBlock extends MushroomBlock
 {
-	public AerialHellMushroomBlock(ResourceKey<ConfiguredFeature<?, ?>> featureKey, BlockBehaviour.Properties settings) {super(featureKey, settings);}
+	public AerialHellMushroomBlock(ResourceKey<Feature> featureKey, BlockBehaviour.Properties settings) {super(featureKey, settings);}
 
 	@Override public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {}
 
@@ -40,16 +40,16 @@ public class AerialHellMushroomBlock extends MushroomBlock
 	@Override public boolean growMushroom(ServerLevel world, BlockPos pos, BlockState state, RandomSource rand)
 	{
 		BlockPos generationPos = pos;
-		ConfiguredFeature<?, ?> configuredfeature;
+		Feature configuredfeature;
 		HugeGenerationDirections hugeShroomDirection = getHugeShroomDirection(world, pos, this.asBlock());
 		if (state.is(AerialHellBlocks.VERDIGRIS_AGARIC))
 		{
 			if (hugeShroomDirection != HugeGenerationDirections.NONE)
 			{
 				generationPos = getOffsetPosForHugeShroom(pos, hugeShroomDirection);
-				configuredfeature = world.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).get(AerialHellConfiguredFeatures.HUGE_VERDIGRIS_AGARIC).orElse(null).value();
+				configuredfeature = world.registryAccess().lookupOrThrow(Registries.FEATURE).get(AerialHellConfiguredFeatures.HUGE_VERDIGRIS_AGARIC).orElse(null).value();
 			}
-			else {configuredfeature = world.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).get(AerialHellConfiguredFeatures.GIANT_VERDIGRIS_AGARIC).orElse(null).value();}
+			else {configuredfeature = world.registryAccess().lookupOrThrow(Registries.FEATURE).get(AerialHellConfiguredFeatures.GIANT_VERDIGRIS_AGARIC).orElse(null).value();}
 		}
 		else {return false;}
 

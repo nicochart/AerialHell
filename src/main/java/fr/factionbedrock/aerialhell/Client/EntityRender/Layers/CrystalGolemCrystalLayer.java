@@ -29,7 +29,7 @@ public class CrystalGolemCrystalLayer<T extends CrystalGolemRenderState, M exten
       if (!renderState.isInvisible)
       {
          this.golemModel.setupAnim(renderState);
-         queue.submitModel(this.golemModel, renderState, matrices, RenderTypes.entityTranslucent(CRYSTAL_GOLEM_CRYSTALS), light, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
+         queue.submitModel(this.golemModel, renderState, matrices, RenderTypes.entityTranslucent(CRYSTAL_GOLEM_CRYSTALS), light, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor);
       }
    }
 }

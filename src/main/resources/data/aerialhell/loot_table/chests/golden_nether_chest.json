@@ -2,127 +2,121 @@
   "pools": [
     {
       "rolls": {
+        "type": "minecraft:uniform",
         "min": 2,
         "max": 3
       },
       "bonus_rolls": 1,
       "entries": [
-	{
+        {
           "type": "item",
           "name": "aerialhell:ruby_fluorite_lantern",
           "weight": 2,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 5
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 5
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:ruby",
           "weight": 2,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 5,
-                "max": 10
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 5,
+              "max": 10
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:overheated_volucite",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 2
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:vibrant_phantom_meat",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 3,
-                "max": 7
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 3,
+              "max": 7
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:copper_pine_cone",
           "weight": 2,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 3,
-                "max": 5
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 3,
+              "max": 5
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:ruby_aerial_berry",
           "weight": 2,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 3,
-                "max": 4
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 3,
+              "max": 4
             }
-          ]
+          }
         },
-	{
+        {
           "type": "item",
           "name": "aerialhell:ruby_shard",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 5
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 5
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:volucite_shard",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 3
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 3
             }
-          ]
+          }
         }
       ]
     },
     {
       "rolls": {
+        "type": "minecraft:uniform",
         "min": 1,
         "max": 2
       },
@@ -131,31 +125,29 @@
           "type": "item",
           "name": "aerialhell:obsidian_shard",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 3
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 3
             }
-          ]
+          }
         },
-	{
+        {
           "type": "item",
           "name": "aerialhell:volucite_aerial_berry",
           "weight": 2,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 4
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 4
             }
-          ]
+          }
         },
-	{
+        {
           "type": "item",
           "name": "aerialhell:phoenix_feather",
           "weight": 2
@@ -184,29 +176,27 @@
           "type": "item",
           "name": "aerialhell:ruby_shuriken",
           "weight": 2,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 3,
-                "max": 6
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 3,
+              "max": 6
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:volucite_shuriken",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 3
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 3
             }
-          ]
+          }
         }
       ]
     }

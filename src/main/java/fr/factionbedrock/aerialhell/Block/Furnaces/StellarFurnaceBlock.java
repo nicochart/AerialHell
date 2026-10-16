@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Block.Furnaces;
 
-import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.BlockEntity.StellarFurnaceBlockEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -10,6 +9,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.level.block.entity.*;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
@@ -23,14 +25,10 @@ import org.joml.Vector3d;
 
 public class StellarFurnaceBlock extends AbstractAerialHellFurnaceBlock
 {
-	public static final MapCodec<StellarFurnaceBlock> CODEC = simpleCodec(StellarFurnaceBlock::new);
-
 	public StellarFurnaceBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);
 	}
-
-	@Override protected @NotNull MapCodec<? extends AbstractFurnaceBlock> codec() {return CODEC;}
 
 	@Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {return new StellarFurnaceBlockEntity(pos, state);}
 

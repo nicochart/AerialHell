@@ -20,7 +20,7 @@ public class GhostBoatVineRopeSpoolBlock extends VineRopeSpoolBlock {
 
     public GhostBoatVineRopeSpoolBlock(BlockBehaviour.Properties settings)
     {
-        super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true).isValidSpawn(Blocks::never));
+        super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos, aabb) -> true).isValidSpawn(Blocks::never));
     }
 
     @Override public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier handler, boolean intersects)

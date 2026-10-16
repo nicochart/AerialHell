@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.World.Features.Util;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 public class SplineKnotsDeformedEllipsoid extends Ellipsoid implements SplineKnots
 {

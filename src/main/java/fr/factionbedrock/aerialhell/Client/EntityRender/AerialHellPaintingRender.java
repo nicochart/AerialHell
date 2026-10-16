@@ -42,7 +42,7 @@ public class AerialHellPaintingRender extends EntityRenderer<AerialHellPaintingE
         if (paintingVariant != null)
         {
             matrixStack.pushPose();
-            matrixStack.mulPose(Axis.YP.rotationDegrees((float)(180 - paintingEntityRenderState.direction.get2DDataValue() * 90)));
+            matrixStack.rotate(Axis.YP.rotationDegrees((float)(180 - paintingEntityRenderState.direction.get2DDataValue() * 90)));
             TextureAtlasSprite sprite = this.paintingAtlases.getSprite(paintingVariant.assetId());
             TextureAtlasSprite sprite2 = this.paintingAtlases.getSprite(BACK_TEXTURE);
             this.renderPainting(matrixStack, orderedRenderCommandQueue, RenderTypes.entitySolidZOffsetForward(sprite2.atlasLocation()), paintingEntityRenderState.lightCoordsPerBlock, paintingVariant.width(), paintingVariant.height(), sprite, sprite2);

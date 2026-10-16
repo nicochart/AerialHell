@@ -18,8 +18,8 @@ public interface BaseEntityInterface
     default int getId() {return this.getSelf().getId();}
     default void setCustomName(@Nullable Component name) {this.getSelf().setCustomName(name);}
     default boolean isInvulnerable() {return this.getSelf().isInvulnerable();}
-    default void setInvulnerable(boolean isInvulnerable) {this.getSelf().setInvulnerable(isInvulnerable);}
-    default void refreshPositionAndAngles(double x, double y, double z, float yRot, float xRot) {this.getSelf().snapTo(x, y, z, yRot, xRot);} //TODO rename
+    default void setPermanentlyInvulnerable(boolean isInvulnerable) {this.getSelf().setPermanentlyInvulnerable(isInvulnerable);}
+    default void snapTo(double x, double y, double z, float yRot, float xRot) {this.getSelf().snapTo(x, y, z, yRot, xRot);}
     default double getX() {return this.getSelf().getX();}
     default double getY() {return this.getSelf().getY();}
     default double getZ() {return this.getSelf().getZ();}

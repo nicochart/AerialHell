@@ -12,16 +12,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 
 public class ShadowPineSaplingBlock extends AerialHellSaplingBlock
 {
-	public ShadowPineSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties settings, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey, ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey, float hugeChance)
+	public ShadowPineSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties settings, ResourceKey<Feature> giantTreeFeatureKey, ResourceKey<Feature> hugeTreeFeatureKey, float hugeChance)
 	{
 		super(treeIn, settings, giantTreeFeatureKey, hugeTreeFeatureKey, hugeChance);
 	}
 
-	public ShadowPineSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties settings, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey)
+	public ShadowPineSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties settings, ResourceKey<Feature> giantTreeFeatureKey)
 	{
 		super(treeIn, settings, giantTreeFeatureKey);
 	}

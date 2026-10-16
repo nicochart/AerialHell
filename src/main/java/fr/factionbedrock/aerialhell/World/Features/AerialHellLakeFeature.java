@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import java.util.List;
@@ -10,26 +10,28 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 import static net.minecraft.world.level.block.Blocks.CAVE_AIR;
 
 //copy of vanilla LakeFeature, but removing some conditions (see below)
-public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Config> implements DungeonSensitiveFeatureCheck
+public class AerialHellLakeFeature extends AerialHellFeature<AerialHellLakeFeature.Configuration> implements DungeonSensitiveFeatureCheck
 {
     private static final BlockState AIR = CAVE_AIR.defaultBlockState();
 
-    public AerialHellLakeFeature(Codec<AerialHellLakeFeature.Config> codec) {super(codec);}
+    public static final MapCodec<AerialHellLakeFeature> CODEC = AerialHellLakeFeature.Configuration.CODEC.xmap(AerialHellLakeFeature::new, AerialHellLakeFeature::config);
 
-    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.AERIAL_HELL_LAKE_LIST;}
+    public AerialHellLakeFeature(AerialHellLakeFeature.Configuration config) {super(config);}
 
-    @Override public boolean place(FeaturePlaceContext<Config> context)
+    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+
+    @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.AERIAL_HELL_LAKE_LIST;}
+
+    @Override public boolean place(FeaturePlaceContext<Configuration> context)
     {
-        BlockPos origin = context.origin(); WorldGenLevel world = context.level(); RandomSource random = context.random(); AerialHellLakeFeature.Config config = context.config();
+        BlockPos origin = context.origin(); WorldGenLevel world = context.level(); RandomSource random = context.random(); AerialHellLakeFeature.Configuration config = context.config();
 
         if (world.getBlockState(origin).isAir() || world.getBlockState(origin.below(3)).isAir() || origin.getY() <= world.getMinY() + 4 || !this.isDungeonSensitiveValid(context)) {return false;}
         else
@@ -151,14 +153,16 @@ public class AerialHellLakeFeature extends Feature<AerialHellLakeFeature.Config>
 
     private boolean canReplaceBlock(BlockState state) {return !state.is(BlockTags.FEATURES_CANNOT_REPLACE);}
 
-    public record Config(BlockStateProvider fluid, BlockStateProvider barrier) implements FeatureConfiguration
+    public record Configuration(BlockStateProvider fluid, BlockStateProvider barrier)
     {
-        public static final Codec<AerialHellLakeFeature.Config> CODEC = RecordCodecBuilder.create(
-        (instance) -> instance.group
+        public static final MapCodec<AerialHellLakeFeature.Configuration> CODEC = RecordCodecBuilder.mapCodec
+        (
+            config -> config.group
                 (
-                        BlockStateProvider.CODEC.fieldOf("fluid").forGetter(AerialHellLakeFeature.Config::fluid),
-                        BlockStateProvider.CODEC.fieldOf("barrier").forGetter(AerialHellLakeFeature.Config::barrier)
-                ).apply(instance, AerialHellLakeFeature.Config::new)
+                    BlockStateProvider.DIRECT_CODEC.fieldOf("fluid").forGetter(AerialHellLakeFeature.Configuration::fluid),
+                    BlockStateProvider.DIRECT_CODEC.fieldOf("barrier").forGetter(AerialHellLakeFeature.Configuration::barrier)
+                )
+                .apply(config, AerialHellLakeFeature.Configuration::new)
         );
     }
 }

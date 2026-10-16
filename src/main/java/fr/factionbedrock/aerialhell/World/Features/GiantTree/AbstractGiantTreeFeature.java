@@ -1,18 +1,16 @@
 package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
-import com.mojang.serialization.Codec;
+import fr.factionbedrock.aerialhell.World.Features.AerialHellFeature;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.World.Features.DungeonSensitiveFeatureCheck;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 
-public abstract class AbstractGiantTreeFeature<FC extends FeatureConfiguration> extends Feature<FC> implements DungeonSensitiveFeatureCheck
+public abstract class AbstractGiantTreeFeature<FC> extends AerialHellFeature<FC> implements DungeonSensitiveFeatureCheck
 {
-    public AbstractGiantTreeFeature(Codec<FC> config) {super(config);}
+    public AbstractGiantTreeFeature(FC config) {super(config);}
 
     @Override public boolean place(FeaturePlaceContext<FC> context) {return false;}
 

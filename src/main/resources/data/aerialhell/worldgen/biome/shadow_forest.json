@@ -1,4 +1,80 @@
 {
+  "attributes": {
+    "minecraft:audio/background_music": {
+      "default": {
+        "max_delay": 3600,
+        "min_delay": 1200,
+        "sound": "aerialhell:aerialhell.shadow_music",
+        "replace_current_music": false
+      }
+    },
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "monster": [
+            {
+              "type": "aerialhell:shadow_spider",
+              "weight": 100,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 6,
+                "min_inclusive": 3
+              }
+            },
+            {
+              "type": "aerialhell:shadow_automaton",
+              "weight": 100,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 6,
+                "min_inclusive": 2
+              }
+            },
+            {
+              "type": "aerialhell:shadow_troll",
+              "weight": 90,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 6,
+                "min_inclusive": 2
+              }
+            },
+            {
+              "type": "aerialhell:stellar_ent",
+              "weight": 40,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 10,
+                "min_inclusive": 4
+              }
+            },
+            {
+              "type": "aerialhell:mud_soldier",
+              "weight": 40,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 2,
+                "min_inclusive": 1
+              }
+            }
+          ]
+        }
+      },
+      "modifier": "overlay"
+    },
+    "minecraft:visual/ambient_particles": [
+      {
+        "particle": {
+          "type": "aerialhell:shadow_particle"
+        },
+        "probability": 0.004
+      }
+    ],
+    "minecraft:visual/fog_color": 2377529,
+    "minecraft:visual/sky_color": 1914152,
+    "minecraft:visual/water_fog_color": 6959500
+  },
   "temperature": 0.8,
   "downfall": 0,
   "has_precipitation": false,
@@ -9,67 +85,6 @@
     "foliage_color": 1900846,
     "grass_color_modifier": "none"
   },
-  "attributes": {
-    "minecraft:audio/background_music": {
-      "default": {
-        "max_delay": 3600,
-        "min_delay": 1200,
-        "sound": "aerialhell:aerialhell.shadow_music",
-        "replace_current_music": false
-      }
-    },
-    "minecraft:visual/ambient_particles": [
-      {
-        "particle": {
-          "type": "aerialhell:shadow_particle"
-        },
-        "probability": 0.004
-      }
-    ],
-    "minecraft:visual/sky_color": 1914152,
-    "minecraft:visual/fog_color": 2377529,
-    "minecraft:visual/water_fog_color": 6959500
-  },
-  "spawners": {
-    "monster": [
-      {
-        "type": "aerialhell:shadow_spider",
-        "weight": 100,
-        "minCount": 3,
-        "maxCount": 6
-      },
-      {
-        "type": "aerialhell:shadow_automaton",
-        "weight": 100,
-        "minCount": 2,
-        "maxCount": 6
-      },
-      {
-        "type": "aerialhell:shadow_troll",
-        "weight": 90,
-        "minCount": 2,
-        "maxCount": 6
-      },
-      {
-        "type": "aerialhell:stellar_ent",
-        "weight": 40,
-        "minCount": 4,
-        "maxCount": 10
-      },
-      {
-        "type": "aerialhell:mud_soldier",
-        "weight": 40,
-        "minCount": 1,
-        "maxCount": 2
-      }
-    ],
-    "creature": [],
-    "ambient": [],
-    "water_creature": [],
-    "water_ambient": [],
-    "misc": []
-  },
-  "spawn_costs": {},
   "carvers": [
     "minecraft:cave"
   ],
@@ -113,27 +128,21 @@
       "aerialhell:huge_purple_shadow_pine",
       "aerialhell:giant_shadow_pine",
       "aerialhell:giant_purple_shadow_pine",
-
       "aerialhell:shadow_pine_vegetation",
       "aerialhell:purple_shadow_pine_vegetation",
       "aerialhell:mega_shadow_pine_vegetation",
       "aerialhell:mega_purple_shadow_pine_vegetation",
-
       "aerialhell:giant_ganoderma_applanatum",
       "aerialhell:giant_root_shroom",
-
       "aerialhell:stellar_roots",
-
       "aerialhell:patch_climbing_vine",
       "aerialhell:patch_stellar_very_tall_grass",
-
       "aerialhell:aerial_hell_flowers",
       "aerialhell:patch_polychrome_fern",
       "aerialhell:patch_stellar_clovers",
       "aerialhell:patch_shadow_grass",
       "aerialhell:patch_shadow_grass_ball",
       "aerialhell:patch_shadow_brambles",
-
       "aerialhell:glowing_stick_fruit_vines_rare",
       "aerialhell:blossoming_vines"
     ],

@@ -9,27 +9,25 @@
           "children": [
             {
               "type": "minecraft:item",
-              "conditions": [
-                {
-                  "condition": "minecraft:match_tool",
-                  "predicate": {
-                    "items": ["minecraft:shears"]
-                  }
+              "condition": {
+                "type": "minecraft:match_tool",
+                "predicate": {
+                  "items": [
+                    "minecraft:shears"
+                  ]
                 }
-              ],
+              },
               "name": "aerialhell:bluish_fern"
             },
             {
               "type": "minecraft:item",
-              "conditions": [
+              "condition": {
+                "type": "minecraft:random_chance",
+                "chance": 0.125
+              },
+              "modifier": [
                 {
-                  "condition": "minecraft:random_chance",
-                  "chance": 0.125
-                }
-              ],
-              "functions": [
-                {
-                  "function": "minecraft:apply_bonus",
+                  "type": "minecraft:apply_bonus",
                   "enchantment": "minecraft:fortune",
                   "formula": "minecraft:uniform_bonus_count",
                   "parameters": {
@@ -37,7 +35,7 @@
                   }
                 },
                 {
-                  "function": "minecraft:explosion_decay"
+                  "type": "minecraft:explosion_decay"
                 }
               ],
               "name": "aerialhell:aerial_berry_seeds"

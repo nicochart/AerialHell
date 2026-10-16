@@ -29,7 +29,7 @@ public class CortinariusCowShroomLayer<S extends LivingEntityRenderState, M exte
       if (!renderState.isInvisible)
       {
          this.cortinariusCowShroomModel.setupAnim(renderState);
-         queue.submitModel(this.cortinariusCowShroomModel, renderState, matrices, RenderTypes.entityCutout(CORTINARIUS_COW_SHROOM_LAYER), light, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
+         queue.submitModel(this.cortinariusCowShroomModel, renderState, matrices, RenderTypes.entityCutout(CORTINARIUS_COW_SHROOM_LAYER), light, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor);
       }
    }
 }

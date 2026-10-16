@@ -1,0 +1,70 @@
+{
+  "type": "minecraft:tree",
+  "ignore_vines": true,
+  "force_dirt": false,
+  "minimum_size": {
+    "type": "minecraft:two_layers_feature_size",
+    "min_clipped_height": 4,
+    "limit": 0,
+    "lower_size": 0,
+    "upper_size": 0
+  },
+  "dirt_provider": {
+    "type": "minecraft:simple",
+    "state": {
+      "id": "aerialhell:stellar_dirt"
+    }
+  },
+  "below_trunk_provider": {
+    "type": "minecraft:rule_based",
+    "rules": [
+      {
+        "if_true": {
+          "type": "minecraft:not",
+          "predicate": {
+            "type": "minecraft:matching_block_tag",
+            "tag": "minecraft:cannot_replace_below_tree_trunk"
+          }
+        },
+        "then": {
+          "type": "minecraft:simple",
+          "state": {
+            "id": "aerialhell:stellar_dirt"
+          }
+        }
+      }
+    ]
+  },
+  "trunk_provider": {
+    "type": "minecraft:simple",
+    "state": {
+      "id": "aerialhell:golden_beech_log",
+      "properties": {
+        "axis": "y"
+      }
+    }
+  },
+  "foliage_provider": {
+    "type": "minecraft:simple",
+    "state": {
+      "id": "aerialhell:golden_beech_leaves",
+      "properties": {
+        "persistent": "false",
+        "distance": "7"
+      }
+    }
+  },
+  "trunk_placer": {
+    "type": "minecraft:fancy_trunk_placer",
+    "base_height": 3,
+    "height_rand_a": 11,
+    "height_rand_b": 0
+  },
+  "foliage_placer": {
+    "type": "minecraft:fancy_foliage_placer",
+    "radius": 2,
+    "offset": 4,
+    "height": 4
+  },
+  "decorators": []
+}

@@ -22,7 +22,7 @@ import java.util.Iterator;
 
 public class StellarFarmBlock extends FarmlandBlock
 {
-    public StellarFarmBlock(BlockBehaviour.Properties settings) {super(settings);}
+    public StellarFarmBlock(BlockBehaviour.Properties settings) {super(AerialHellBlocks.STELLAR_DIRT, settings);}
 
     @Override public BlockState getStateForPlacement(BlockPlaceContext context)
     {

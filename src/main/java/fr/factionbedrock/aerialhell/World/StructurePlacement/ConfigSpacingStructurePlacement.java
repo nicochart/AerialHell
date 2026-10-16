@@ -7,9 +7,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import java.util.Optional;
 import net.minecraft.core.Vec3i;
+import net.minecraft.world.level.levelgen.structure.placement.AbstractSpreadingStructurePlacement;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
-import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
 
 public class ConfigSpacingStructurePlacement extends RandomSpreadStructurePlacement
 {
@@ -30,7 +30,7 @@ public class ConfigSpacingStructurePlacement extends RandomSpreadStructurePlacem
         return structurePlacement.spacing() <= structurePlacement.separation() ? DataResult.error(() -> "Spacing has to be larger than separation") : DataResult.success(structurePlacement);
     }
 
-    public ConfigSpacingStructurePlacement(Vec3i locateOffset, StructurePlacement.FrequencyReductionMethod frequencyReductionMethod, float frequency, int salt, Optional<ExclusionZone> exclusionZone, int separation, RandomSpreadType spreadType)
+    public ConfigSpacingStructurePlacement(Vec3i locateOffset, AbstractSpreadingStructurePlacement.FrequencyReductionMethod frequencyReductionMethod, float frequency, int salt, Optional<ExclusionZone> exclusionZone, int separation, RandomSpreadType spreadType)
     {
         super(locateOffset, frequencyReductionMethod, frequency, salt, exclusionZone, LoadedConfigParams.OVERWORLD_ABANDONNED_PORTAL_SPACING_OVERRIDE, separation, spreadType);
     }

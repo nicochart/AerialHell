@@ -20,7 +20,7 @@ public class GhostBoatFenceBlock extends FenceBlock
 {
 	public GhostBoatFenceBlock(BlockBehaviour.Properties settings)
 	{
-		super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false).isValidSpawn((state, blockGetter, blockPos, entityType) -> entityType == AerialHellEntities.GHOST_SLIME_PIRATE || entityType == AerialHellEntities.GHOST_SLIME_NINJA_PIRATE));
+		super(settings.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos, aabb) -> false).isValidSpawn((state, blockGetter, blockPos, entityType) -> entityType == AerialHellEntities.GHOST_SLIME_PIRATE || entityType == AerialHellEntities.GHOST_SLIME_NINJA_PIRATE));
 	}
 
 	@Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier handler, boolean intersects)

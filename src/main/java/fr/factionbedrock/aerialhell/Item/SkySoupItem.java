@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Item;
 
+import net.minecraft.util.Prediction;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Util.ItemHelper;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +21,7 @@ public class SkySoupItem extends Item //copy of net.minecraft.item.SoupItem but 
 		}
 		if (entity instanceof Player player && !player.getAbilities().instabuild)
 		{
-			if (!player.getInventory().add(new ItemStack(AerialHellItems.SKY_BOWL, 1))) {player.drop(new ItemStack(AerialHellItems.SKY_BOWL, 1), false);}
+			if (!player.getInventory().add(new ItemStack(AerialHellItems.SKY_BOWL, 1))) {player.drop(new ItemStack(AerialHellItems.SKY_BOWL, 1), false, Prediction.PREDICTED);}
 		}
 		return super.finishUsingItem(stack, level, entity);
 	}

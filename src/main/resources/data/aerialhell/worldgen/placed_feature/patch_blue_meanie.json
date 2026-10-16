@@ -28,7 +28,7 @@
       "predicate": {
         "type": "minecraft:would_survive",
         "state": {
-          "Name": "aerialhell:blue_meanie_cluster"
+          "id": "aerialhell:blue_meanie_cluster"
         }
       }
     }

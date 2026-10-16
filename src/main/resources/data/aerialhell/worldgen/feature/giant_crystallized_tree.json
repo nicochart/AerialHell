@@ -1,0 +1,27 @@
+{
+  "type": "aerialhell:classic_giant_tree",
+  "trunk_max_horizontal_offset": 3,
+  "trunk_min_vertical_offset": 10,
+  "trunk_max_vertical_offset": 20,
+  "xz_foliage_size_factor": 1.3,
+  "y_foliage_size_factor": 1.3,
+  "trunk_provider": {
+    "type": "minecraft:simple",
+    "state": {
+      "id": "aerialhell:aerial_tree_log",
+      "properties": {
+        "axis": "y"
+      }
+    }
+  },
+  "foliage_provider": {
+    "type": "minecraft:simple",
+    "state": {
+      "id": "aerialhell:crystallized_leaves",
+      "properties": {
+        "persistent": "false",
+        "distance": "7"
+      }
+    }
+  }
+}

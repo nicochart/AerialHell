@@ -45,7 +45,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
             if (source.is(DamageTypeTags.IS_FREEZING) && this.is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {amount *= 5.0F;}
             this.walkAnimation.setSpeed(1.5F);
 
-            boolean wasOnHurtCooldown = (float)this.invulnerableTime > 10.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN);
+            boolean wasOnHurtCooldown = (float)this.damageCooldownTime > 10.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN);
             boolean actuallyGotHurt = tryActuallyHurt(serverWorld, source, amount);
 
             if (!actuallyGotHurt) {return false;}
@@ -89,7 +89,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
 
     public boolean tryActuallyHurt(ServerLevel serverWorld, DamageSource damageSource, float amount) //returns true if the entity is actually hurt
     {
-        boolean isOnHurtCooldown = (float)this.invulnerableTime > 10.0F;
+        boolean isOnHurtCooldown = (float)this.damageCooldownTime > 10.0F;
         boolean shouldDamageBeReducedDueToHurtCooldown = isOnHurtCooldown && !damageSource.is(DamageTypeTags.BYPASSES_COOLDOWN);
 
         if (shouldDamageBeReducedDueToHurtCooldown)
@@ -105,7 +105,7 @@ public abstract class AbstractCustomHurtMonsterEntity extends Monster
         else
         {
             this.lastHurt = amount;
-            this.invulnerableTime = 20;
+            this.damageCooldownTime = 20;
             this.actuallyHurt(serverWorld, damageSource, amount);
             this.hurtDuration = 10;
             this.hurtTime = this.hurtDuration;

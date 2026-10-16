@@ -28,7 +28,7 @@
       "predicate": {
         "type": "minecraft:would_survive",
         "state": {
-          "Name": "aerialhell:shadow_grass_ball"
+          "id": "aerialhell:shadow_grass_ball"
         }
       }
     }

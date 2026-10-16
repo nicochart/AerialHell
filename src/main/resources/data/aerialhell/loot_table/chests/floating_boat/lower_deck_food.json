@@ -3,7 +3,7 @@
     {
       "rolls": 2,
       "entries": [
-	{
+        {
           "type": "item",
           "name": "aerialhell:shadow_fruit_stew",
           "weight": 1
@@ -12,15 +12,14 @@
           "type": "item",
           "name": "aerialhell:solid_ether_soup",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 3
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 3
             }
-          ]
+          }
         },
         {
           "type": "item",
@@ -31,102 +30,96 @@
           "type": "item",
           "name": "aerialhell:frozen_solid_ether_soup",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 2
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:stellar_bread",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 3
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 3
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:aerial_berry",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 5
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 5
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:glowing_stick_fruit",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 4
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 2,
+              "max": 4
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:turtle_meat",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 2
             }
-          ]
+          }
         },
         {
           "type": "item",
           "name": "aerialhell:phantom_meat",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 1,
+              "max": 2
             }
-          ]
+          }
         }
       ]
     },
     {
       "rolls": 1,
       "entries": [
-	{
+        {
           "type": "item",
           "name": "aerialhell:cooked_turtle_meat",
           "weight": 1
         },
-	{
+        {
           "type": "item",
           "name": "aerialhell:cooked_phantom_meat",
           "weight": 1
         },
-	{
+        {
           "type": "item",
           "name": "aerialhell:ruby_aerial_berry",
           "weight": 1

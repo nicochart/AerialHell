@@ -1,0 +1,29 @@
+{
+  "type": "aerialhell:twisting_roots",
+  "spread_width": 6,
+  "spread_height": 4,
+  "max_height": 8,
+  "head_state_provider": {
+    "type": "minecraft:weighted",
+    "entries": [
+      {
+        "weight": 1,
+        "data": {
+          "id": "aerialhell:dead_roots"
+        }
+      }
+    ]
+  },
+  "body_state_provider": {
+    "type": "minecraft:weighted",
+    "entries": [
+      {
+        "weight": 1,
+        "data": {
+          "id": "aerialhell:dead_roots_plant"
+        }
+      }
+    ]
+  },
+  "needs_roof": "false"
+}

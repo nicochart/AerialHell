@@ -1,28 +1,22 @@
 package fr.factionbedrock.aerialhell.Item;
 
-import com.google.common.collect.BiMap;
-import com.mojang.blaze3d.platform.InputConstants;
-import com.mojang.datafixers.util.Pair;
 import fr.factionbedrock.aerialhell.Item.Ability.*;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellArmorMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AerialHellToolMaterial;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntry;
 import fr.factionbedrock.aerialhell.Item.Material.AttributeEntryList;
 import net.minecraft.ChatFormatting;
-import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.BlockTransformer;
+import net.minecraft.core.component.DataComponentInitializers;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
@@ -32,23 +26,19 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.BlockTransformers;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.ChestType;
-import net.minecraft.world.level.gameevent.GameEvent;
 import org.jspecify.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 // For Items with AerialHellToolMaterials : inspired of vanilla Item class, with custom AerialhellItem.Properties properties
 // For Tools : Inspired of vanilla AxeItem, HoeItem and ShovelItem, but only takes Item.Properties as constructor parameter.
@@ -60,7 +50,6 @@ public class AerialHellItem extends WithInformationItem
 	public final int maxUseDuration;
 	public final ItemUseAnimation itemUseAnimation;
 	@Nullable public final AbilitySelector abilitySelector;
-	public final List<UseInteractionType> useInteractionToolTypes;
 
 	public AerialHellItem(Properties properties)
 	{
@@ -68,7 +57,6 @@ public class AerialHellItem extends WithInformationItem
 		this.maxUseDuration = properties.maxUseDuration;
 		this.itemUseAnimation = properties.itemUseAnimation;
 		this.abilitySelector = properties.abilitySelector;
-		this.useInteractionToolTypes = properties.useInteractionTypes;
 	}
 
 	//applying tick (passive) tool ability modules
@@ -137,7 +125,8 @@ public class AerialHellItem extends WithInformationItem
 		//should only be called client side
 		if (!player.level().isClientSide() || this.abilitySelector == null) {return;}
 
-		boolean shiftDown = InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) || InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), GLFW.GLFW_KEY_RIGHT_SHIFT);
+		//context.player().isShiftKeyDown() do not work here because there is a screen open
+		boolean shiftDown = Minecraft.getInstance().hasShiftDown();
 		List<String> descIds = this.abilitySelector.getAbilitiesDescIds();
 
 		boolean hasAbilityDetail = false;
@@ -170,186 +159,12 @@ public class AerialHellItem extends WithInformationItem
 		}
 	}
 
-	//inspired of vanilla ShovelItem, AxeItem and HoeItem
-	@Override public InteractionResult useOn(UseOnContext context)
-	{
-		InteractionResult result = InteractionResult.PASS;
-		if (this.useInteractionToolTypes.contains(UseInteractionType.AXE))
-		{
-			result = this.useAxeOn(context);
-			if (result != InteractionResult.PASS) {return result;}
-		}
-
-		if (this.useInteractionToolTypes.contains(UseInteractionType.HOE))
-		{
-			result = this.useHoeOn(context);
-			if (result != InteractionResult.PASS) {return result;}
-		}
-
-		if (this.useInteractionToolTypes.contains(UseInteractionType.SHOVEL))
-		{
-			result = this.useShovelOn(context);
-			if (result != InteractionResult.PASS) {return result;}
-		}
-
-		return result;
-	}
-
-	//AxeItem useOn
-	public InteractionResult useAxeOn(UseOnContext context)
-	{
-		Level level = context.getLevel();
-		BlockPos pos = context.getClickedPos();
-		Player player = context.getPlayer();
-		if (playerHasBlockingItemUseIntent(context)) {return InteractionResult.PASS;}
-		else
-		{
-			Optional<BlockState> newBlock = this.axeEvaluateNewBlockState(level, pos, player, level.getBlockState(pos), context);
-			if (newBlock.isEmpty()) {return InteractionResult.PASS;}
-			else
-			{
-				ItemStack itemInHand = context.getItemInHand();
-				if (player instanceof ServerPlayer) {CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, pos, itemInHand);}
-
-				level.setBlock(pos, newBlock.get(), 11);
-				level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, newBlock.get()));
-				if (player != null) {itemInHand.hurtAndBreak(1, player, context.getHand().asEquipmentSlot());}
-
-				return InteractionResult.SUCCESS;
-			}
-		}
-	}
-
-	//HoeItem useOn
-	public InteractionResult useHoeOn(UseOnContext context)
-	{
-		Level level = context.getLevel();
-		BlockPos pos = context.getClickedPos();
-		Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> logicPair = (Pair) HoeItem.TILLABLES.get(level.getBlockState(pos).getBlock());
-		if (logicPair == null) {return InteractionResult.PASS;}
-		else
-		{
-			Predicate<UseOnContext> predicate = (Predicate)logicPair.getFirst();
-			Consumer<UseOnContext> action = (Consumer)logicPair.getSecond();
-			if (predicate.test(context))
-			{
-				Player player = context.getPlayer();
-				level.playSound(player, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-				if (!level.isClientSide())
-				{
-					action.accept(context);
-					if (player != null) {context.getItemInHand().hurtAndBreak(1, player, context.getHand().asEquipmentSlot());}
-				}
-
-				return InteractionResult.SUCCESS;
-			}
-			else {return InteractionResult.PASS;}
-		}
-	}
-
-	//ShovelItem useOn
-	public InteractionResult useShovelOn(UseOnContext context)
-	{
-		Level level = context.getLevel();
-		BlockPos pos = context.getClickedPos();
-		BlockState blockState = level.getBlockState(pos);
-		if (context.getClickedFace() == Direction.DOWN) {return InteractionResult.PASS;}
-		else
-		{
-			Player player = context.getPlayer();
-			BlockState newState = ShovelItem.FLATTENABLES.get(blockState.getBlock());
-			BlockState updatedState = null;
-			if (newState != null && level.getBlockState(pos.above()).isAir())
-			{
-				level.playSound(player, pos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
-				updatedState = newState;
-			}
-			else if (blockState.getBlock() instanceof CampfireBlock && (Boolean)blockState.getValue(CampfireBlock.LIT))
-			{
-				if (!level.isClientSide()) {level.levelEvent((Entity)null, 1009, pos, 0);}
-
-				CampfireBlock.dowse(context.getPlayer(), level, pos, blockState);
-				updatedState = blockState.setValue(CampfireBlock.LIT, false);
-			}
-
-			if (updatedState != null)
-			{
-				if (!level.isClientSide())
-				{
-					level.setBlock(pos, updatedState, 11);
-					level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, updatedState));
-					if (player != null) {context.getItemInHand().hurtAndBreak(1, player, context.getHand().asEquipmentSlot());}
-				}
-
-				return InteractionResult.SUCCESS;
-			}
-			else {return InteractionResult.PASS;}
-		}
-	}
-
-	//copy of AxeItem method of same name
-	private static boolean playerHasBlockingItemUseIntent(final UseOnContext context)
-	{
-		Player player = context.getPlayer();
-		return context.getHand().equals(InteractionHand.MAIN_HAND) && player.getOffhandItem().has(DataComponents.BLOCKS_ATTACKS) && !player.isSecondaryUseActive();
-	}
-
-	//copy of AxeItem evaluateNewBlockState method
-	private Optional<BlockState> axeEvaluateNewBlockState(Level level, BlockPos pos, @Nullable Player player, BlockState oldState, UseOnContext context)
-	{
-		Optional<BlockState> strippedBlock = this.axeGetStripped(oldState);
-		if (strippedBlock.isPresent())
-		{
-			level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
-			return strippedBlock;
-		}
-		else
-		{
-			Optional<BlockState> scrapedBlock = WeatheringCopper.getPrevious(oldState);
-			if (scrapedBlock.isPresent())
-			{
-				axeSpawnSoundAndParticle(level, pos, player, oldState, SoundEvents.AXE_SCRAPE, 3005);
-				return scrapedBlock;
-			}
-			else
-			{
-				Optional<BlockState> waxoffBlock = Optional.ofNullable((Block)((BiMap)HoneycombItem.WAX_OFF_BY_BLOCK.get()).get(oldState.getBlock())).map((b) -> b.withPropertiesOf(oldState));
-				if (waxoffBlock.isPresent())
-				{
-					axeSpawnSoundAndParticle(level, pos, player, oldState, SoundEvents.AXE_WAX_OFF, 3004);
-					return waxoffBlock;
-				}
-				else {return Optional.empty();}
-			}
-		}
-	}
-
-	//copy of AxeItem spawnSoundAndParticle method
-	private static void axeSpawnSoundAndParticle(final Level level, final BlockPos pos, final @Nullable Player player, final BlockState oldState, final SoundEvent soundEvent, final int particle)
-	{
-		level.playSound(player, pos, soundEvent, SoundSource.BLOCKS, 1.0F, 1.0F);
-		level.levelEvent(player, particle, pos, 0);
-		if (oldState.getBlock() instanceof ChestBlock && oldState.getValue(ChestBlock.TYPE) != ChestType.SINGLE)
-		{
-			BlockPos neighborPos = ChestBlock.getConnectedBlockPos(pos, oldState);
-			level.gameEvent(GameEvent.BLOCK_CHANGE, neighborPos, GameEvent.Context.of(player, level.getBlockState(neighborPos)));
-			level.levelEvent(player, particle, neighborPos, 0);
-		}
-	}
-
-	//copy of AxeItem getStripped method
-	private Optional<BlockState> axeGetStripped(final BlockState state)
-	{
-		return Optional.ofNullable(AxeItem.STRIPPABLES.get(state.getBlock())).map((block) -> (BlockState)block.defaultBlockState().setValue(RotatedPillarBlock.AXIS, (Direction.Axis)state.getValue(RotatedPillarBlock.AXIS)));
-	}
-
 	public static class Properties extends Item.Properties
 	{
 		private int maxUseDuration;
 		private ItemUseAnimation itemUseAnimation;
 		@Nullable private AbilitySelector abilitySelector;
-		private List<UseInteractionType> useInteractionTypes;
-		public Properties() {super(); this.maxUseDuration = 0; this.itemUseAnimation = ItemUseAnimation.NONE; this.useInteractionTypes = new ArrayList<>();}
+		public Properties() {super(); this.maxUseDuration = 0; this.itemUseAnimation = ItemUseAnimation.NONE;}
 
 		public Properties humanoidArmor(AerialHellArmorMaterial material, ArmorType type) {return this.humanoidArmor(material, type, new AttributeEntryList());}
 		public Properties humanoidArmor(AerialHellArmorMaterial material, ArmorType type, AttributeEntry attributeEntry) {return this.humanoidArmor(material, type, new AttributeEntryList().add(attributeEntry));}
@@ -374,21 +189,21 @@ public class AerialHellItem extends WithInformationItem
 		public Properties axe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.axe(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
 		public Properties axe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
-			return this.tool(material, BlockTags.MINEABLE_WITH_AXE, attackDamage, attackSpeed, additionalAttributes, 5.0F);
+			return this.tool(material, BlockTags.MINEABLE_WITH_AXE, attackDamage, attackSpeed, additionalAttributes, 5.0F).delayedComponent(DataComponents.BLOCK_TRANSFORMER, (context) -> context.getOrThrow(BlockTransformers.AXE));
 		}
 
 		public Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.hoe(material, attackDamage, attackSpeed, new AttributeEntryList());}
 		public Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.hoe(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
 		public Properties hoe(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
-			return this.tool(material, BlockTags.MINEABLE_WITH_HOE, attackDamage, attackSpeed, additionalAttributes, 0.0F);
+			return this.tool(material, BlockTags.MINEABLE_WITH_HOE, attackDamage, attackSpeed, additionalAttributes, 0.0F).delayedComponent(DataComponents.BLOCK_TRANSFORMER, (context) -> context.getOrThrow(BlockTransformers.HOE));
 		}
 
 		public Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.shovel(material, attackDamage, attackSpeed, new AttributeEntryList());}
 		public Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntry attributeEntry) {return this.shovel(material, attackDamage, attackSpeed, new AttributeEntryList().add(attributeEntry));}
 		public Properties shovel(AerialHellToolMaterial material, float attackDamage, float attackSpeed, AttributeEntryList additionalAttributes)
 		{
-			return this.tool(material, BlockTags.MINEABLE_WITH_SHOVEL, attackDamage, attackSpeed, additionalAttributes, 0.0F);
+			return this.tool(material, BlockTags.MINEABLE_WITH_SHOVEL, attackDamage, attackSpeed, additionalAttributes, 0.0F).delayedComponent(DataComponents.BLOCK_TRANSFORMER, (context) -> context.getOrThrow(BlockTransformers.SHOVEL));
 		}
 
 		public Properties sword(AerialHellToolMaterial material, float attackDamage, float attackSpeed) {return this.sword(material, attackDamage, attackSpeed, new AttributeEntryList());}
@@ -407,10 +222,6 @@ public class AerialHellItem extends WithInformationItem
 
 		public Properties abilitySelector(AbilitySelector abilitySelector) {this.abilitySelector = abilitySelector; return this;}
 
-		public Properties useInteraction(UseInteractionType useInteractionType) {this.useInteractionTypes = new ArrayList<>(); this.useInteractionTypes.add(useInteractionType); return this;}
-
-		public Properties useInteractions(UseInteractionType... useInteractionTypes) {this.useInteractionTypes = new ArrayList<>(List.of(useInteractionTypes)); return this;}
-
 		@Override public Properties setId(ResourceKey<Item> id) {return (Properties) super.setId(id);}
 
 		@Override public Properties rarity(Rarity rarity) {return (Properties) super.rarity(rarity);}
@@ -425,9 +236,8 @@ public class AerialHellItem extends WithInformationItem
 
 		@Override public <T> AerialHellItem.Properties component(DataComponentType<T> type, T value) {return (AerialHellItem.Properties) super.component(type, value);}
 
+		@Override public <T> AerialHellItem.Properties delayedComponent(DataComponentType<T> type, DataComponentInitializers.SingleComponentInitializer<T> initializer) {return (AerialHellItem.Properties) super.delayedComponent(type, initializer);}
+
 		@Override public AerialHellItem.Properties enchantable(int value) {return (AerialHellItem.Properties) super.enchantable(value);}
 	}
-
-	//"tool types" that can be used with right click
-	public enum UseInteractionType {AXE, HOE, SHOVEL}
 }

@@ -2,53 +2,54 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
+      "rolls": 1,
       "entries": [
         {
           "type": "minecraft:alternatives",
           "children": [
             {
               "type": "minecraft:item",
-              "conditions": [
-                {
-                  "condition": "minecraft:match_tool",
-                  "predicate": {
-                    "items": ["minecraft:shears"]
-                  }
+              "condition": {
+                "type": "minecraft:match_tool",
+                "predicate": {
+                  "items": [
+                    "minecraft:shears"
+                  ]
                 }
-              ],
-              "functions": [
-                {
-                  "function": "minecraft:set_count",
-                  "count": 2
-                }
-              ],
+              },
+              "modifier": {
+                "type": "minecraft:set_count",
+                "count": 2
+              },
               "name": "aerialhell:stellar_fern"
             }
           ]
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "aerialhell:stellar_tall_fern",
-          "properties": {
-            "half": "lower"
-          }
-        },
-        {
-          "condition": "minecraft:location_check",
-          "predicate": {
-            "block": {
-              "block": "aerialhell:stellar_tall_fern",
-              "state": {
-                "half": "upper"
-              }
+      "condition": {
+        "type": "minecraft:all_of",
+        "terms": [
+          {
+            "type": "minecraft:match_block",
+            "blocks": "aerialhell:stellar_tall_fern",
+            "state": {
+              "half": "lower"
             }
           },
-          "offsetY": 1
-        }
-      ]
+          {
+            "type": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "block": "aerialhell:stellar_tall_fern",
+                "state": {
+                  "half": "upper"
+                }
+              }
+            },
+            "offsetY": 1
+          }
+        ]
+      }
     }
   ]
 }

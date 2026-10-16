@@ -276,8 +276,8 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 		int x = random.nextInt(2*maxHorizontalDistance) - maxHorizontalDistance;
 		int y = random.nextInt(2*maxVerticalDistance) - maxVerticalDistance;
 		int z = random.nextInt(2*maxHorizontalDistance) - maxHorizontalDistance;
-		BlockPos transformationPos = new BlockPos(this.blockPosition().offset(new Vec3i(x, y, z)));
-		if (this.level().getBlockState(transformationPos).is(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
+		BlockPos transformationPos = this.blockPosition().offset(new Vec3i(x, y, z));
+		if (level().getBlockState(transformationPos).is(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
 		{
 			transformBlock(transformationPos);
 		}
@@ -294,8 +294,8 @@ public class LilithEntity extends AbstractBossEntity implements StagedActivableE
 			{
 				for (z=-maxHorizontalDistance; z<maxHorizontalDistance; z++)
 				{
-					BlockPos transformationPos = new BlockPos(this.blockPosition().offset(new Vec3i(x, y, z)));
-					if (this.level().getBlockState(transformationPos).is(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
+					BlockPos transformationPos = this.blockPosition().offset(new Vec3i(x, y, z));
+					if (level().getBlockState(transformationPos).is(AerialHellTags.Blocks.LILITH_TRANSFORMABLE))
 					{
 						transformBlock(transformationPos);
 					}

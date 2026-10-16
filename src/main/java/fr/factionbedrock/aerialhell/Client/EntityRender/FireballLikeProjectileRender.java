@@ -40,7 +40,7 @@ public class FireballLikeProjectileRender<T extends Fireball> extends EntityRend
     {
         matrices.pushPose();
         matrices.scale(renderState.scale, renderState.scale, renderState.scale);
-        matrices.mulPose(cameraState.orientation);
+        matrices.rotate(cameraState.orientation);
         RenderType layer = RenderTypes.entityCutout(renderState.texture);
         queue.submitCustomGeometry(matrices, layer, (matricesEntry, vertexConsumer) ->
         {

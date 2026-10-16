@@ -25,7 +25,7 @@ public class KodamaSkinLayer<S extends KodamaRenderState> extends RenderLayer<S,
       if (!renderState.isInvisible)
       {
          this.kodamaModel.setupAnim(renderState);
-         queue.submitModel(this.kodamaModel, renderState, matrices, RenderTypes.entityTranslucent(renderState.texture), light, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
+         queue.submitModel(this.kodamaModel, renderState, matrices, RenderTypes.entityTranslucent(renderState.texture), light, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor);
       }
    }
 }

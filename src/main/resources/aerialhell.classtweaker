@@ -1,10 +1,5 @@
 classTweaker v1 official
 
-# Aerial Hell Item tool interactions
-accessible field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
-accessible field net/minecraft/world/item/HoeItem TILLABLES Ljava/util/Map;
-accessible field net/minecraft/world/item/ShovelItem FLATTENABLES Ljava/util/Map;
-
 #Used in ActionModule ThrowProjectile to set firedFromWeapon
 accessible field net/minecraft/world/entity/projectile/arrow/AbstractArrow firedFromWeapon Lnet/minecraft/world/item/ItemStack;
 
@@ -49,9 +44,6 @@ accessible method net/minecraft/world/entity/vehicle/boat/AbstractBoat getDropIt
 
 #WoodType
 accessible method net/minecraft/world/level/block/state/properties/WoodType register (Lnet/minecraft/world/level/block/state/properties/WoodType;)Lnet/minecraft/world/level/block/state/properties/WoodType;
-
-#used in RenderBlockOverlayMixin
-accessible field net/minecraft/client/renderer/ScreenEffectRenderer minecraft Lnet/minecraft/client/Minecraft;
 
 #ServerLevel
 accessible field net/minecraft/server/level/ServerLevel serverLevelData Lnet/minecraft/world/level/storage/ServerLevelData;

@@ -1,4 +1,83 @@
 {
+  "attributes": {
+    "minecraft:audio/background_music": {
+      "default": {
+        "max_delay": 3600,
+        "min_delay": 1200,
+        "sound": "aerialhell:aerialhell.crystal_music",
+        "replace_current_music": false
+      }
+    },
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "monster": [
+            {
+              "type": "aerialhell:evil_cow",
+              "weight": 60,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 10,
+                "min_inclusive": 4
+              }
+            },
+            {
+              "type": "aerialhell:stellar_ent",
+              "weight": 60,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 10,
+                "min_inclusive": 4
+              }
+            },
+            {
+              "type": "aerialhell:crystal_slime",
+              "weight": 50,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 6,
+                "min_inclusive": 2
+              }
+            },
+            {
+              "type": "aerialhell:crystal_spider",
+              "weight": 60,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 6,
+                "min_inclusive": 1
+              }
+            },
+            {
+              "type": "aerialhell:crystal_caterpillar",
+              "weight": 60,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 6,
+                "min_inclusive": 1
+              }
+            }
+          ],
+          "creature": [
+            {
+              "type": "aerialhell:sandy_sheep",
+              "weight": 30,
+              "count": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 10,
+                "min_inclusive": 3
+              }
+            }
+          ]
+        }
+      },
+      "modifier": "overlay"
+    },
+    "minecraft:visual/fog_color": 12295379,
+    "minecraft:visual/sky_color": 6388370,
+    "minecraft:visual/water_fog_color": 4992114
+  },
   "temperature": 0.8,
   "downfall": 0,
   "has_precipitation": false,
@@ -9,66 +88,6 @@
     "foliage_color": 6828428,
     "grass_color_modifier": "none"
   },
-  "attributes": {
-    "minecraft:audio/background_music": {
-      "default": {
-        "max_delay": 3600,
-        "min_delay": 1200,
-        "sound": "aerialhell:aerialhell.crystal_music",
-        "replace_current_music": false
-      }
-    },
-    "minecraft:visual/sky_color": 6388370,
-    "minecraft:visual/fog_color": 12295379,
-    "minecraft:visual/water_fog_color": 4992114
-  },
-  "spawners": {
-    "monster": [
-      {
-        "type": "aerialhell:evil_cow",
-        "weight": 60,
-        "minCount": 4,
-        "maxCount": 10
-      },
-      {
-        "type": "aerialhell:stellar_ent",
-        "weight": 60,
-        "minCount": 4,
-        "maxCount": 10
-      },
-      {
-        "type": "aerialhell:crystal_slime",
-        "weight": 50,
-        "minCount": 2,
-        "maxCount": 6
-      },
-      {
-        "type": "aerialhell:crystal_spider",
-        "weight": 60,
-        "minCount": 1,
-        "maxCount": 6
-      },
-      {
-        "type": "aerialhell:crystal_caterpillar",
-        "weight": 60,
-        "minCount": 1,
-        "maxCount": 6
-      }
-    ],
-    "creature": [
-      {
-        "type": "aerialhell:sandy_sheep",
-        "weight": 30,
-        "minCount": 3,
-        "maxCount": 10
-      }
-    ],
-    "ambient": [],
-    "water_creature": [],
-    "water_ambient": [],
-    "misc": []
-  },
-  "spawn_costs": {},
   "carvers": [
     "minecraft:cave"
   ],
@@ -112,19 +131,13 @@
     [
       "aerialhell:giant_crystallized_tree",
       "aerialhell:crystallized_tree_vegetation",
-
       "aerialhell:stellar_wheat_field_rare",
-
       "aerialhell:giant_root_shroom",
-
       "aerialhell:full_moon_plant",
-
       "aerialhell:glowing_roots",
-
       "aerialhell:patch_climbing_vine",
       "aerialhell:patch_stellar_sugar_cane",
       "aerialhell:patch_stellar_very_tall_grass",
-
       "aerialhell:aerial_hell_flowers",
       "aerialhell:patch_stellar_grass",
       "aerialhell:patch_glowing_stellar_grass",
@@ -134,7 +147,6 @@
       "aerialhell:patch_stellar_clovers",
       "aerialhell:patch_aerial_berry_bush",
       "aerialhell:patch_sky_cactus",
-
       "aerialhell:glowing_stick_fruit_vines",
       "aerialhell:blossoming_vines"
     ],

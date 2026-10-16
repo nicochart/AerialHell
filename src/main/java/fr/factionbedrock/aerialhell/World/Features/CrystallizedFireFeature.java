@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -12,16 +13,21 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
+import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
 
-public class CrystallizedFireFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
+import java.util.List;
+
+public class CrystallizedFireFeature extends AerialHellFeature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
-	public CrystallizedFireFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
+	public static final MapCodec<CrystallizedFireFeature> CODEC = NoneFeatureConfiguration.CODEC.xmap(CrystallizedFireFeature::new, CrystallizedFireFeature::config);
 
-	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.CRYSTALLIZED_FIRE_LIST;}
+	public CrystallizedFireFeature(NoneFeatureConfiguration config) {super(config);}
+
+	@Override public MapCodec<? extends Feature> codec() {return CODEC;}
+
+	@Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.CRYSTALLIZED_FIRE_LIST;}
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{

@@ -6,8 +6,8 @@
       "predicate": {
         "type": "minecraft:would_survive",
         "state": {
-          "Name": "aerialhell:stellar_jungle_tree_sapling",
-          "Properties": {
+          "id": "aerialhell:stellar_jungle_tree_sapling",
+          "properties": {
             "stage": "0"
           }
         }

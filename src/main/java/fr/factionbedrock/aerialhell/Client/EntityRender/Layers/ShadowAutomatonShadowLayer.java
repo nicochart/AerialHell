@@ -26,7 +26,7 @@ public class ShadowAutomatonShadowLayer<S extends AutomatonRenderState, M extend
       if (!renderState.isInvisible)
       {
          this.shadowAutomatonModel.setupAnim(renderState);
-         queue.submitModel(this.shadowAutomatonModel, renderState, matrices, RenderTypes.entityTranslucent(renderState.texture), light, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
+         queue.submitModel(this.shadowAutomatonModel, renderState, matrices, RenderTypes.entityTranslucent(renderState.texture), light, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor);
       }
    }
 }

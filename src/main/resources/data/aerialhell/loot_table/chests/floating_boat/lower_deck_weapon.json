@@ -3,19 +3,18 @@
     {
       "rolls": 3,
       "entries": [
-	{
+        {
           "type": "item",
           "name": "aerialhell:ruby_shuriken",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 3,
-                "max": 6
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 3,
+              "max": 6
             }
-          ]
+          }
         },
         {
           "type": "item",
@@ -37,17 +36,17 @@
     {
       "rolls": 1,
       "entries": [
-	{
+        {
           "type": "item",
           "name": "aerialhell:ruby_helmet",
           "weight": 1
         },
-	{
+        {
           "type": "item",
           "name": "aerialhell:ruby_chestplate",
           "weight": 1
         },
-	{
+        {
           "type": "item",
           "name": "aerialhell:ruby_leggings",
           "weight": 1
@@ -62,33 +61,31 @@
     {
       "rolls": 1,
       "entries": [
-	{
+        {
           "type": "item",
           "name": "aerialhell:sky_stick",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 3,
-                "max": 6
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 3,
+              "max": 6
             }
-          ]
+          }
         },
-	{
+        {
           "type": "item",
           "name": "aerialhell:sky_cactus_fiber",
           "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 3,
-                "max": 6
-              }
+          "modifier": {
+            "type": "set_count",
+            "count": {
+              "type": "minecraft:uniform",
+              "min": 3,
+              "max": 6
             }
-          ]
+          }
         }
       ]
     }

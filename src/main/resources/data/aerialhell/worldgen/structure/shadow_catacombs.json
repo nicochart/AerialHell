@@ -9,20 +9,29 @@
         {
           "type": "aerialhell:shadow_troll",
           "weight": 2,
-          "minCount": 1,
-          "maxCount": 3
+          "count": {
+            "type": "minecraft:uniform",
+            "max_inclusive": 3,
+            "min_inclusive": 1
+          }
         },
         {
           "type": "aerialhell:shadow_automaton",
           "weight": 2,
-          "minCount": 5,
-          "maxCount": 10
+          "count": {
+            "type": "minecraft:uniform",
+            "max_inclusive": 10,
+            "min_inclusive": 5
+          }
         },
         {
           "type": "aerialhell:shadow_spider",
           "weight": 2,
-          "minCount": 5,
-          "maxCount": 10
+          "count": {
+            "type": "minecraft:uniform",
+            "max_inclusive": 10,
+            "min_inclusive": 5
+          }
         }
       ]
     }

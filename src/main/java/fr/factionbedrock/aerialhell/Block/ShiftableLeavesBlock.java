@@ -1,7 +1,5 @@
 package fr.factionbedrock.aerialhell.Block;
 
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.factionbedrock.aerialhell.BlockEntity.BiomeShifter;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
 import fr.factionbedrock.aerialhell.Client.Util.ColorHandlerHelper;
@@ -14,19 +12,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.FallingParticlesLeavesBlock;
+import net.minecraft.world.level.block.sounds.AmbientLeavesBlockSoundPlayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 
-public class ShiftableLeavesBlock extends LeavesBlock
+public class ShiftableLeavesBlock extends FallingParticlesLeavesBlock
 {
-    public static final MapCodec<ShiftableLeavesBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(ExtraCodecs.floatRange(0.0F, 1.0F).fieldOf("leaf_particle_chance").forGetter(tintedParticleLeavesBlock -> tintedParticleLeavesBlock.leafParticleChance), propertiesCodec()).apply(instance, (chance, settings) -> new ShiftableLeavesBlock(chance, settings, () -> AerialHellBlocks.SHADOW_AERIAL_TREE_LEAVES, BiomeShifter.ShiftType.CORRUPT)));
-
     private final Supplier<ShiftableLeavesBlock> shiftedVariant;
     private final BiomeShifter.ShiftType shiftType;
 
@@ -34,7 +30,7 @@ public class ShiftableLeavesBlock extends LeavesBlock
 
     public ShiftableLeavesBlock(float leavesParticleChance, Properties settings, Supplier<ShiftableLeavesBlock> shiftedVariant, BiomeShifter.ShiftType shiftType)
     {
-        super(leavesParticleChance, settings);
+        super(leavesParticleChance, AmbientLeavesBlockSoundPlayer.noAmbientSound(), settings);
         this.shiftedVariant = shiftedVariant;
         this.shiftType = shiftType;
         this.registerDefaultState(this.defaultBlockState().setValue(AerialHellBooleanProperties.SHIFTED_RENDER, false));
@@ -64,8 +60,6 @@ public class ShiftableLeavesBlock extends LeavesBlock
         ParticleOptions particle = ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color);
         ParticleUtils.spawnParticleBelow(world, pos, random, particle);
     }
-
-    @Override public MapCodec<? extends ShiftableLeavesBlock> codec() {return CODEC;}
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {

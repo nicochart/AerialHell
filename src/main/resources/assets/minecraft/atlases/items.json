@@ -7,16 +7,16 @@
     },
     {
       "type": "minecraft:paletted_permutations",
-      "palette_key": "minecraft:trims/color_palettes/trim_palette",
+      "palette_key": "minecraft:trim_base",
       "permutations": {
-        "arsonist_ingot": "aerialhell:trims/color_palettes/arsonist_ingot",
-        "cursed_crystal": "aerialhell:trims/color_palettes/cursed_crystal",
-        "fluorite": "aerialhell:trims/color_palettes/fluorite",
-        "lunatic_crystal": "aerialhell:trims/color_palettes/lunatic_crystal",
-        "magmatic_gel": "aerialhell:trims/color_palettes/magmatic_gel",
-        "obsidian_shard": "aerialhell:trims/color_palettes/obsidian_shard",
-        "ruby": "aerialhell:trims/color_palettes/ruby",
-        "volucite_vibrant": "aerialhell:trims/color_palettes/volucite_vibrant"
+        "arsonist_ingot": "aerialhell:trim/arsonist_ingot",
+        "cursed_crystal": "aerialhell:trim/cursed_crystal",
+        "fluorite": "aerialhell:trim/fluorite",
+        "lunatic_crystal": "aerialhell:trim/lunatic_crystal",
+        "magmatic_gel": "aerialhell:trim/magmatic_gel",
+        "obsidian_shard": "aerialhell:trim/obsidian_shard",
+        "ruby": "aerialhell:trim/ruby",
+        "volucite_vibrant": "aerialhell:trim/volucite_vibrant"
       },
       "textures": [
         "minecraft:trims/items/helmet_trim",

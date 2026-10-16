@@ -48,9 +48,9 @@ dependencies {
 
 	// JER
 	//JER project ID = 240630
-	//Current last 26.2 file ID = 9002822
-	compileOnly("curse.maven:just-enough-resources-jer-240630:9002822")
-	runtimeOnly("curse.maven:just-enough-resources-jer-240630:9002822")
+	//Current last 26.2 file ID = 9002822 (no 26.3 Fabric file tested yet)
+	//compileOnly("curse.maven:just-enough-resources-jer-240630:9002822")
+	//runtimeOnly("curse.maven:just-enough-resources-jer-240630:9002822")
 }
 
 processResources {

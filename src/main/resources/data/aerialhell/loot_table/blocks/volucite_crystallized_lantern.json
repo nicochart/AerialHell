@@ -9,11 +9,9 @@
           "name": "aerialhell:volucite_crystallized_lantern"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ]
 }

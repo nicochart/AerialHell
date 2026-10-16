@@ -1,0 +1,28 @@
+{
+  "type": "aerialhell:classic_giant_tree",
+  "trunk_max_horizontal_offset": 3,
+  "trunk_min_vertical_offset": 15,
+  "trunk_max_vertical_offset": 25,
+  "xz_foliage_size_factor": 1,
+  "y_foliage_size_factor": 1,
+  "trunk_provider": {
+    "type": "minecraft:simple",
+    "state": {
+      "id": "aerialhell:stellar_jungle_tree_log",
+      "properties": {
+        "axis": "y"
+      }
+    }
+  },
+  "foliage_provider": {
+    "type": "minecraft:simple",
+    "state": {
+      "id": "aerialhell:stellar_jungle_tree_leaves",
+      "properties": {
+        "distance": "7",
+        "persistent": "false",
+        "waterlogged": "false"
+      }
+    }
+  }
+}

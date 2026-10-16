@@ -11,16 +11,16 @@ import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import org.jetbrains.annotations.Nullable;
 
 public class AerialHellSaplingBlock extends SaplingBlock
 {
-	private final ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey;
-	@Nullable private final ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey;
+	private final ResourceKey<Feature> giantTreeFeatureKey;
+	@Nullable private final ResourceKey<Feature> hugeTreeFeatureKey;
 	private final float hugeChange;
 
-	public AerialHellSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties settings, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey, ResourceKey<ConfiguredFeature<?, ?>> hugeTreeFeatureKey, float hugeChance)
+	public AerialHellSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties settings, ResourceKey<Feature> giantTreeFeatureKey, ResourceKey<Feature> hugeTreeFeatureKey, float hugeChance)
 	{
 		super(treeIn, settings);
 		this.giantTreeFeatureKey = giantTreeFeatureKey;
@@ -28,7 +28,7 @@ public class AerialHellSaplingBlock extends SaplingBlock
 		this.hugeChange = hugeChance;
 	}
 
-	public AerialHellSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties settings, ResourceKey<ConfiguredFeature<?, ?>> giantTreeFeatureKey)
+	public AerialHellSaplingBlock(TreeGrower treeIn, BlockBehaviour.Properties settings, ResourceKey<Feature> giantTreeFeatureKey)
 	{
 		this(treeIn, settings, giantTreeFeatureKey, null, 0.0F);
 	}
@@ -41,7 +41,7 @@ public class AerialHellSaplingBlock extends SaplingBlock
 			GiantTreeGenerationDirection giantGenerationDirection = getGiantTreeDirection(serverWorld, pos, state);
 			if (giantGenerationDirection != GiantTreeGenerationDirection.NONE)
 			{
-				ConfiguredFeature<?, ?> configuredfeature = getGiantTreeCFeature(serverWorld, rand);
+				Feature configuredfeature = getGiantTreeCFeature(serverWorld, rand);
 				BlockPos generationPos = getGenerationPos(pos, giantGenerationDirection);
 				if (configuredfeature.place(serverWorld, serverWorld.getChunkSource().getGenerator(), rand, generationPos)) {removeSaplingsAroundPos(serverWorld, generationPos);}
 				else {serverWorld.setBlockAndUpdate(pos, state);}
@@ -56,10 +56,10 @@ public class AerialHellSaplingBlock extends SaplingBlock
 		return offsetVector != null ? saplingPos.offset(offsetVector): saplingPos;
 	}
 
-	public ConfiguredFeature<?, ?> getGiantTreeCFeature(ServerLevel world, RandomSource rand)
+	public Feature getGiantTreeCFeature(ServerLevel world, RandomSource rand)
 	{
-		ResourceKey<ConfiguredFeature<?, ?>> cfKey = (hugeTreeFeatureKey != null && rand.nextFloat() < hugeChange) ? hugeTreeFeatureKey : giantTreeFeatureKey;
-		return world.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).get(cfKey).orElse(null).value(); //TODO check
+		ResourceKey<Feature> cfKey = (hugeTreeFeatureKey != null && rand.nextFloat() < hugeChange) ? hugeTreeFeatureKey : giantTreeFeatureKey;
+		return world.registryAccess().lookupOrThrow(Registries.FEATURE).get(cfKey).orElse(null).value();
 	}
 
 	//Returns the direction of the generation of the giant tree (NONE if there is no generation possible)

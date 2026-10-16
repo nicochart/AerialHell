@@ -8,12 +8,10 @@
           "name": "aerialhell:aerial_berry_seeds"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:random_chance",
-          "chance": 0.25
-        }
-      ]
+      "condition": {
+        "type": "minecraft:random_chance",
+        "chance": 0.25
+      }
     }
   ],
   "random_sequence": "aerialhell:aerial_berry_bush"

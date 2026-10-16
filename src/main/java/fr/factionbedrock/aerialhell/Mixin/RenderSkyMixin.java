@@ -1,10 +1,10 @@
 package fr.factionbedrock.aerialhell.Mixin;
 
-import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
 import com.mojang.blaze3d.framegraph.FramePass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
 import fr.factionbedrock.aerialhell.Client.World.AerialHellDimensionSkyRenderer;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellDimensions;
 import net.minecraft.client.Camera;
@@ -36,7 +36,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LevelRenderer.class)
 public class RenderSkyMixin
 {
-    @Shadow @Final public LevelRenderState levelRenderState;
+    @Shadow @Final LevelRenderState levelRenderState;
     @Shadow private @Nullable SkyRenderer skyRenderer;
     @Shadow private LevelTargetBundle targets;
     @Shadow private TextureManager textureManager;

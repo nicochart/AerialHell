@@ -24,7 +24,7 @@ public class VerdigrisZombieRender extends MobRenderer<VerdigrisZombieEntity, Ve
     {
         super.extractRenderState(entity, renderState, partialTick);
         renderState.isAggressive = entity.isAggressive();
-        renderState.attackTime = entity.swingTime; //TODO
+        renderState.attackTime = (int) (entity.getSwingAnimation(partialTick) * 6.0F); //TODO (swingTime field was removed in 26.3, approximated with swing animation progress * default swing duration)
     }
 
     @Override public Identifier getTextureLocation(VerdigrisZombieRenderState renderState) {return TEXTURE;}

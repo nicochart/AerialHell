@@ -9,8 +9,11 @@
         {
           "type": "aerialhell:torn_spirit",
           "weight": 2,
-          "minCount": 3,
-          "maxCount": 5
+          "count": {
+            "type": "minecraft:uniform",
+            "max_inclusive": 5,
+            "min_inclusive": 3
+          }
         }
       ]
     }

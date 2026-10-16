@@ -5,7 +5,7 @@ import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedEllip
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 
 public class ClassicGiantFoliage extends SplineKnotsDeformedEllipsoid
 {

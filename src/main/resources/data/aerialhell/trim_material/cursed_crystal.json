@@ -1,5 +1,5 @@
 {
-  "asset_name": "cursed_crystal",
+  "palette_id": "aerialhell:trim/cursed_crystal",
   "description": {
     "color": "#623e75",
     "translate": "trim_material.aerialhell.cursed_crystal"

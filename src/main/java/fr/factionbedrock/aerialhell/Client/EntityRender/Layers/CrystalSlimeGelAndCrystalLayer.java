@@ -25,7 +25,7 @@ public class CrystalSlimeGelAndCrystalLayer extends RenderLayer<CrystalSlimeRend
       if (!renderState.isInvisible)
       {
          this.crystalSlimeModel.setupAnim(renderState);
-         queue.submitModel(this.crystalSlimeModel, renderState, matrices, RenderTypes.entityTranslucent(renderState.texture), light, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor, null);
+         queue.submitModel(this.crystalSlimeModel, renderState, matrices, RenderTypes.entityTranslucent(renderState.texture), light, LivingEntityRenderer.getOverlayCoords(renderState, 0.0F), new Color(1.0F, 1.0F, 1.0F, 1.0F).getRGB(), null, renderState.outlineColor);
       }
    }
 }

@@ -1,0 +1,14 @@
+{
+  "type": "aerialhell:little_crystal_blob_in_dark_areas",
+  "crystal_state_provider": {
+    "type": "minecraft:weighted",
+    "entries": [
+      {
+        "weight": 1,
+        "data": {
+          "id": "aerialhell:stellar_stone_crystal_block"
+        }
+      }
+    ]
+  }
+}

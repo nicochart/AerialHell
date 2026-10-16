@@ -1,0 +1,12 @@
+{
+  "type": "aerialhell:natural_field",
+  "max_vertical_offset": 3,
+  "base_chance": 0.8,
+  "accept_offset_chance": 0.6,
+  "crop_state_provider": {
+    "type": "minecraft:simple",
+    "state": {
+      "id": "aerialhell:blue_meanie_crop"
+    }
+  }
+}

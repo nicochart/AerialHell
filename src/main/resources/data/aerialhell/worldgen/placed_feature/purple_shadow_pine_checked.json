@@ -6,8 +6,8 @@
       "predicate": {
         "type": "minecraft:would_survive",
         "state": {
-          "Name": "aerialhell:purple_shadow_pine_sapling",
-          "Properties": {
+          "id": "aerialhell:purple_shadow_pine_sapling",
+          "properties": {
             "stage": "0"
           }
         }

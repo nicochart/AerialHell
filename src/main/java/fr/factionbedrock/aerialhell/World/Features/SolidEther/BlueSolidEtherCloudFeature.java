@@ -1,6 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
@@ -10,9 +10,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
+import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
 
 public class BlueSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 {
@@ -22,11 +22,13 @@ public class BlueSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
 
 	protected Block getEtherBlock() {return AerialHellBlocks.BLUE_SOLID_ETHER;}
 
-	public BlueSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec) {
-        super(codec);
-    }
+	public static final MapCodec<BlueSolidEtherCloudFeature> CODEC = NoneFeatureConfiguration.CODEC.xmap(BlueSolidEtherCloudFeature::new, BlueSolidEtherCloudFeature::config);
 
-	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.BLUE_SOLID_ETHER_LIST;}
+	public BlueSolidEtherCloudFeature(NoneFeatureConfiguration config) {super(config);}
+
+	@Override public MapCodec<? extends Feature> codec() {return CODEC;}
+
+	@Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.BLUE_SOLID_ETHER_LIST;}
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {

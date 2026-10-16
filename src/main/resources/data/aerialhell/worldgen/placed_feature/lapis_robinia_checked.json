@@ -6,8 +6,8 @@
       "predicate": {
         "type": "minecraft:would_survive",
         "state": {
-          "Name": "aerialhell:lapis_robinia_sapling",
-          "Properties": {
+          "id": "aerialhell:lapis_robinia_sapling",
+          "properties": {
             "stage": "0"
           }
         }

@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Block.Plants.Bushes;
 
-import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import net.minecraft.core.BlockPos;
@@ -18,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.VegetationBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,10 +27,11 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class AerialBerryBushBlock extends VegetationBlock implements BonemealableBlock
 {
-    public static final MapCodec<AerialBerryBushBlock> CODEC = simpleCodec(AerialBerryBushBlock::new);
 	public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
 	
 	public AerialBerryBushBlock(BlockBehaviour.Properties settings)
@@ -38,8 +39,6 @@ public class AerialBerryBushBlock extends VegetationBlock implements Bonemealabl
         super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
     }
-
-    @Override protected @NotNull MapCodec<? extends AerialBerryBushBlock> codec() {return CODEC;}
 
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand)
@@ -83,11 +82,11 @@ public class AerialBerryBushBlock extends VegetationBlock implements Bonemealabl
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {builder.add(AGE);}
 
-    @Override public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state) {return state.getValue(AGE) < 3;}
+    @Override public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, BonemealSource source) {return state.getValue(AGE) < 3;}
 
-    @Override public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state) {return true;}
+    @Override public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState state, BonemealSource source) {return true;}
 
-    @Override public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
+    @Override public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state, BonemealSource source)
     {
         int new_age = Math.min(3, state.getValue(AGE) + 1);
         world.setBlock(pos, state.setValue(AGE, Integer.valueOf(new_age)), Block.UPDATE_CLIENTS);

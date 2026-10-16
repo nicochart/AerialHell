@@ -1,5 +1,7 @@
 package fr.factionbedrock.aerialhell.Block.CollisionCondition.SolidEther;
 
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
 import fr.factionbedrock.aerialhell.Block.CollisionCondition.CollisionConditionHalfTransparentBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
@@ -32,7 +34,7 @@ public class SolidEtherBlock extends CollisionConditionHalfTransparentBlock
 		if (!EntityHelper.isFeatheryEntity(entity)) {super.livingEntityInside(state, world, pos, entity);}
 	}
 
-	@Override public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool)
+	@Override public void playerDestroy(ServerLevel level, ServerPlayer player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool)
 	{
 		super.playerDestroy(level, player, pos, state, blockEntity, tool);
 

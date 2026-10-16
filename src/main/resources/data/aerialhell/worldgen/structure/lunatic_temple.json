@@ -9,8 +9,11 @@
         {
           "type": "aerialhell:crystal_spider",
           "weight": 2,
-          "minCount": 5,
-          "maxCount": 6
+          "count": {
+            "type": "minecraft:uniform",
+            "max_inclusive": 6,
+            "min_inclusive": 5
+          }
         }
       ]
     }

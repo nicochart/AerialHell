@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Block.Plants;
 
+import net.minecraft.world.level.block.BonemealSource;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
@@ -26,7 +27,7 @@ public class AerialHellTallShroomBlock extends TallGrassBlock
 
 	public AerialHellTallShroomBlock(BlockBehaviour.Properties settings, boolean needsDarkness) {super(settings); this.needsDarkness = needsDarkness;}
 
-	@Override public void performBonemeal(ServerLevel world, RandomSource rand, BlockPos pos, BlockState state)
+	@Override public void performBonemeal(ServerLevel world, RandomSource rand, BlockPos pos, BlockState state, BonemealSource source)
 	{
 		DoublePlantBlock tall_plant;
 		if (this == AerialHellBlocks.GLOWING_BOLETUS)

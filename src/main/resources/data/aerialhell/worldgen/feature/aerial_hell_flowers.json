@@ -1,0 +1,37 @@
+{
+  "type": "aerialhell:random_patch",
+  "tries": 8,
+  "xz_spread": 8,
+  "y_spread": 4,
+  "feature": {
+    "feature": {
+      "type": "minecraft:simple_block",
+      "to_place": {
+        "type": "minecraft:weighted",
+        "entries": [
+          {
+            "weight": 1,
+            "data": {
+              "id": "aerialhell:blue_flower"
+            }
+          },
+          {
+            "weight": 1,
+            "data": {
+              "id": "aerialhell:black_rose"
+            }
+          }
+        ]
+      }
+    },
+    "placement": [
+      {
+        "type": "minecraft:block_predicate_filter",
+        "predicate": {
+          "type": "minecraft:matching_blocks",
+          "blocks": "minecraft:air"
+        }
+      }
+    ]
+  }
+}
