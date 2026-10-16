@@ -2,9 +2,10 @@ package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.MapCodec;
 
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellFeatures;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
@@ -13,46 +14,47 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
-import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 import java.util.List;
 
-public class RockFeature extends AerialHellFeature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
+public record RockFeature(Holder<BlockStateProvider> stateProvider) implements Feature, DungeonSensitiveFeatureCheck
 {
-	WeightedStateProvider blockStateProvider;
-	public RockFeature(NoneFeatureConfiguration config, WeightedStateProvider bsProvider) {super(config); this.blockStateProvider = bsProvider;}
+	public static final MapCodec<RockFeature> CODEC = RecordCodecBuilder.mapCodec(
+		i -> i.group(
+				BlockStateProvider.CODEC.fieldOf("state_provider").forGetter(RockFeature::stateProvider)
+			)
+			.apply(i, RockFeature::new)
+	);
 
-	@Override public MapCodec<? extends Feature> codec() {return AerialHellFeatures.MOSSY_STELLAR_COBBLESTONE_ROCK.get();}
+	@Override public MapCodec<RockFeature> codec() {return CODEC;}
 
 	@Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.MOSSY_STELLAR_COBBLESTONE_ROCK_LIST;}
 
-	protected BlockState randomState(WorldGenLevel level, RandomSource rand, BlockPos pos) {return blockStateProvider.getState(level, rand, pos);}
+	protected BlockState randomState(WorldGenLevel level, RandomSource rand, BlockPos pos) {return this.stateProvider.value().getState(level, rand, pos);}
 	protected void placeBlocks(WorldGenLevel level, BlockPos pos, BlockState state, int number, Direction direction) {for (int d=0;d<number;d++) {level.setBlock(pos.relative(direction, d), state, 2);}}
-	protected boolean canGenerateAtPos(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos placementPos) {return hasSupportToGenerate(context.level(), placementPos) && this.isDungeonSensitiveValid(context);}
+	protected boolean canGenerateAtPos(WorldGenLevel level, BlockPos origin, BlockPos placementPos) {return hasSupportToGenerate(level, placementPos) && this.isDungeonSensitiveValid(level, origin);}
 
-	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+	@Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
 	{
-		BlockPos pos = context.origin(); WorldGenLevel level = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
-		BlockPos placementPos = findPosForPlacement(level, pos);
-		if (!canGenerateAtPos(context, placementPos)) {return false;}
-		
-		placeBlocks(level, placementPos, randomState(level, rand, placementPos), 3, Direction.UP); placeBlocks(level, placementPos.relative(Direction.DOWN), randomState(level, rand, placementPos), 1 + rand.nextInt(2), Direction.DOWN);
-		
-		placeBlocks(level, placementPos.relative(Direction.NORTH), randomState(level, rand, placementPos), 2, Direction.UP); placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(2), Direction.DOWN);
-		placeBlocks(level, placementPos.relative(Direction.EAST), randomState(level, rand, placementPos), 2, Direction.UP); placeBlocks(level, placementPos.relative(Direction.EAST).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(3), Direction.DOWN);
-		placeBlocks(level, placementPos.relative(Direction.SOUTH), randomState(level, rand, placementPos), rand.nextInt(4) < 3 ? 2 : 1, Direction.UP); placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(3), Direction.DOWN);
-		placeBlocks(level, placementPos.relative(Direction.WEST), randomState(level, rand, placementPos), rand.nextInt(4) < 3 ? 2 : 1, Direction.UP); placeBlocks(level, placementPos.relative(Direction.WEST).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(2), Direction.DOWN);
-		
-		placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.EAST), randomState(level, rand, placementPos), rand.nextInt(2), Direction.UP); placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.EAST).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(3), Direction.DOWN);
-		placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.WEST), randomState(level, rand, placementPos), rand.nextInt(2), Direction.UP); placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.WEST).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(3), Direction.DOWN);
-		placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.EAST), randomState(level, rand, placementPos), rand.nextInt(2), Direction.UP); placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.EAST).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(3), Direction.DOWN);
-		placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.WEST), randomState(level, rand, placementPos), rand.nextInt(2), Direction.UP); placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.WEST).relative(Direction.DOWN), randomState(level, rand, placementPos), rand.nextInt(3), Direction.DOWN);
-		
+		BlockPos placementPos = findPosForPlacement(level, origin);
+		if (!canGenerateAtPos(level, origin, placementPos)) {return false;}
+
+		placeBlocks(level, placementPos, randomState(level, random, placementPos), 3, Direction.UP); placeBlocks(level, placementPos.relative(Direction.DOWN), randomState(level, random, placementPos), 1 + random.nextInt(2), Direction.DOWN);
+
+		placeBlocks(level, placementPos.relative(Direction.NORTH), randomState(level, random, placementPos), 2, Direction.UP); placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.DOWN), randomState(level, random, placementPos), random.nextInt(2), Direction.DOWN);
+		placeBlocks(level, placementPos.relative(Direction.EAST), randomState(level, random, placementPos), 2, Direction.UP); placeBlocks(level, placementPos.relative(Direction.EAST).relative(Direction.DOWN), randomState(level, random, placementPos), random.nextInt(3), Direction.DOWN);
+		placeBlocks(level, placementPos.relative(Direction.SOUTH), randomState(level, random, placementPos), random.nextInt(4) < 3 ? 2 : 1, Direction.UP); placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.DOWN), randomState(level, random, placementPos), random.nextInt(3), Direction.DOWN);
+		placeBlocks(level, placementPos.relative(Direction.WEST), randomState(level, random, placementPos), random.nextInt(4) < 3 ? 2 : 1, Direction.UP); placeBlocks(level, placementPos.relative(Direction.WEST).relative(Direction.DOWN), randomState(level, random, placementPos), random.nextInt(2), Direction.DOWN);
+
+		placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.EAST), randomState(level, random, placementPos), random.nextInt(2), Direction.UP); placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.EAST).relative(Direction.DOWN), randomState(level, random, placementPos), random.nextInt(3), Direction.DOWN);
+		placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.WEST), randomState(level, random, placementPos), random.nextInt(2), Direction.UP); placeBlocks(level, placementPos.relative(Direction.NORTH).relative(Direction.WEST).relative(Direction.DOWN), randomState(level, random, placementPos), random.nextInt(3), Direction.DOWN);
+		placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.EAST), randomState(level, random, placementPos), random.nextInt(2), Direction.UP); placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.EAST).relative(Direction.DOWN), randomState(level, random, placementPos), random.nextInt(3), Direction.DOWN);
+		placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.WEST), randomState(level, random, placementPos), random.nextInt(2), Direction.UP); placeBlocks(level, placementPos.relative(Direction.SOUTH).relative(Direction.WEST).relative(Direction.DOWN), randomState(level, random, placementPos), random.nextInt(3), Direction.DOWN);
+
 		return true;
 	}
-	
+
 	protected BlockPos findPosForPlacement(WorldGenLevel level, BlockPos originalPos)
 	{
 		int x = originalPos.getX(), y=250, z=originalPos.getZ();
@@ -66,7 +68,7 @@ public class RockFeature extends AerialHellFeature<NoneFeatureConfiguration> imp
 		}
 		return originalPos;
 	}
-	
+
 	private boolean hasSupportToGenerate(WorldGenLevel level, BlockPos pos)
 	{
 		if (level.isEmptyBlock(pos) && level.getBlockState(pos.below()).is(AerialHellTags.Blocks.STELLAR_DIRT)) {return true;}

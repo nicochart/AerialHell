@@ -12,32 +12,28 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
-import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 import java.util.List;
 
-public class CrystallizedFireFeature extends AerialHellFeature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
+public record CrystallizedFireFeature() implements Feature, DungeonSensitiveFeatureCheck
 {
-	public static final MapCodec<CrystallizedFireFeature> CODEC = NoneFeatureConfiguration.CODEC.xmap(CrystallizedFireFeature::new, CrystallizedFireFeature::config);
+	public static final MapCodec<CrystallizedFireFeature> CODEC = MapCodec.unit(CrystallizedFireFeature::new);
 
-	public CrystallizedFireFeature(NoneFeatureConfiguration config) {super(config);}
-
-	@Override public MapCodec<? extends Feature> codec() {return CODEC;}
+	@Override public MapCodec<CrystallizedFireFeature> codec() {return CODEC;}
 
 	@Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.CRYSTALLIZED_FIRE_LIST;}
 
-	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+	@Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
 	{
-		BlockPos pos = context.origin(); WorldGenLevel level = context.level(); RandomSource rand = context.random();
-		if (!level.isEmptyBlock(pos)) {return false;}
+		if (!level.isEmptyBlock(origin)) {return false;}
 		else
 		{
-			BlockState blockstate = level.getBlockState(pos.below());
-		    if (!blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) || !this.isDungeonSensitiveValid(context)) {return false;}
+			BlockState blockstate = level.getBlockState(origin.below());
+		    if (!blockstate.is(AerialHellTags.Blocks.STELLAR_DIRT) || !this.isDungeonSensitiveValid(level, origin)) {return false;}
 		    else
 		    {
-				place(pos, rand, level);
+				place(origin, random, level);
 		    	return true;
 		    }
 		}

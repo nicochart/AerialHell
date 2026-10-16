@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 
 public class DebugHelper
 {
@@ -25,18 +24,17 @@ public class DebugHelper
         }
     }
 
-    public static void generateFeatureDebug(FeaturePlaceContext<?> context)
+    public static void generateFeatureDebug(WorldGenLevel level, BlockPos origin)
     {
-        WorldGenLevel reader = context.level();
-        BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
+        BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(origin);
         for (int dy = -50; dy <= 50; dy++)
         {
-            reader.setBlock(centerOfFeature.offset(0, dy, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+            level.setBlock(centerOfFeature.offset(0, dy, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
         }
         for (int dxz = -24; dxz <= 24; dxz++)
         {
-            reader.setBlock(centerOfFeature.offset(dxz, 0, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
-            reader.setBlock(centerOfFeature.offset(0, 0, dxz), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+            level.setBlock(centerOfFeature.offset(dxz, 0, 0), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
+            level.setBlock(centerOfFeature.offset(0, 0, dxz), AerialHellBlocks.RED_SLIPPERY_SAND_GLASS.get().defaultBlockState(), 0);
         }
 
         //feature center
@@ -46,12 +44,12 @@ public class DebugHelper
             {
                 for (int z = -1; z <= 1; z++)
                 {
-                    reader.setBlock(centerOfFeature.offset(x, y, z), AerialHellBlocks.ARSONIST_BLOCK.get().defaultBlockState(), 0);
+                    level.setBlock(centerOfFeature.offset(x, y, z), AerialHellBlocks.ARSONIST_BLOCK.get().defaultBlockState(), 0);
                 }
             }
         }
 
         //feature origin
-        reader.setBlock(context.origin(), AerialHellBlocks.CRYSTAL_BRICKS.get().defaultBlockState(), 0);
+        level.setBlock(origin, AerialHellBlocks.CRYSTAL_BRICKS.get().defaultBlockState(), 0);
     }
 }

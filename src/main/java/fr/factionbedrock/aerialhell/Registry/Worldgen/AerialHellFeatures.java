@@ -2,19 +2,14 @@ package fr.factionbedrock.aerialhell.Registry.Worldgen;
 
 import com.mojang.serialization.MapCodec;
 import fr.factionbedrock.aerialhell.AerialHell;
-import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.World.Features.*;
-import fr.factionbedrock.aerialhell.World.Features.Config.*;
 import fr.factionbedrock.aerialhell.World.Features.GiantTree.ClassicGiantTreeFeature;
 import fr.factionbedrock.aerialhell.World.Features.GiantTree.DeadGiantTreeFeature;
 import fr.factionbedrock.aerialhell.World.Features.GiantTree.ForkingGiantTreeFeature;
 import fr.factionbedrock.aerialhell.World.Features.GiantTree.GiantPineTreeFeature;
 import fr.factionbedrock.aerialhell.World.Features.SolidEther.*;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.util.random.WeightedList;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -31,7 +26,7 @@ public class AerialHellFeatures
 	public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<HugeMushroomFeature>> HUGE_MUSHROOM = FEATURES.register("huge_mushroom", () -> HugeMushroomFeature.CODEC);
 	public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<AerialHellTwistingVinesFeature>> TWISTING_ROOTS = FEATURES.register("twisting_roots", () -> AerialHellTwistingVinesFeature.CODEC);
 
-	public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<LargeDeadLogFeature>> LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG = FEATURES.register("large_dead_stellar_jungle_tree_log", () -> MapCodec.unit(() -> new LargeDeadLogFeature(NoneFeatureConfiguration.INSTANCE, () -> AerialHellBlocks.DEAD_STELLAR_JUNGLE_TREE_LOG.get())));
+	public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<LargeDeadLogFeature>> LARGE_DEAD_LOG = FEATURES.register("large_dead_log", () -> LargeDeadLogFeature.CODEC);
 
 	public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<ChorusLikeFeature>> FULL_MOON_PLANT = FEATURES.register("full_moon_plant", () -> ChorusLikeFeature.CODEC);
 
@@ -51,7 +46,7 @@ public class AerialHellFeatures
 	public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<MushroomCapsColumnFeature>> MUSHROOM_CAPS_COLUMN = FEATURES.register("mushroom_caps_column", () -> MushroomCapsColumnFeature.CODEC);
 
 	public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<FloorTransformationFeature>> FLOOR_TRANSFORMATION = FEATURES.register("floor_transformation", () -> FloorTransformationFeature.CODEC);
-	public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<RockFeature>> MOSSY_STELLAR_COBBLESTONE_ROCK = FEATURES.register("mossy_stellar_cobblestone_rock", () -> MapCodec.unit(() -> new RockFeature(NoneFeatureConfiguration.INSTANCE, new WeightedStateProvider(WeightedList.<BlockState>builder().add(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE.get().defaultBlockState(), 1).add(AerialHellBlocks.STELLAR_COBBLESTONE.get().defaultBlockState(), 1)))));
+	public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<RockFeature>> ROCK = FEATURES.register("rock", () -> RockFeature.CODEC);
 	public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<DanglingChainFeature>> DANGLING_CHAIN = FEATURES.register("dangling_chain", () -> DanglingChainFeature.CODEC);
 	public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<SlipperySandFeature>> SLIPPERY_SAND = FEATURES.register("slippery_sand", () -> SlipperySandFeature.CODEC);
 	public static final DeferredHolder<MapCodec<? extends Feature>, MapCodec<NaturalFieldFeature>> NATURAL_FIELD = FEATURES.register("natural_field", () -> NaturalFieldFeature.CODEC);

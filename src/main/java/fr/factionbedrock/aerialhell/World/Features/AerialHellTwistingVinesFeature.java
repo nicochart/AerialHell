@@ -1,14 +1,16 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
-import fr.factionbedrock.aerialhell.World.Features.Config.AerialHellTwistingVinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
@@ -16,46 +18,50 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 import java.util.List;
 
 //copy of TwistingVinesFeature class ; editing placeWeepingVinesColumn and isInvalidPlacementLocation to adapt to Aerial Hell
-public class AerialHellTwistingVinesFeature extends AerialHellFeature<AerialHellTwistingVinesConfig> implements DungeonSensitiveFeatureCheck
+public record AerialHellTwistingVinesFeature(int spreadWidth, int spreadHeight, int maxHeight, Holder<BlockStateProvider> headBlockProvider, Holder<BlockStateProvider> bodyBlockProvider, String needsRoof) implements Feature, DungeonSensitiveFeatureCheck
 {
-    public static final MapCodec<AerialHellTwistingVinesFeature> CODEC = AerialHellTwistingVinesConfig.CODEC.xmap(AerialHellTwistingVinesFeature::new, AerialHellTwistingVinesFeature::config);
+    public static final MapCodec<AerialHellTwistingVinesFeature> CODEC = RecordCodecBuilder.mapCodec(
+        i -> i.group(
+                ExtraCodecs.POSITIVE_INT.fieldOf("spread_width").forGetter(AerialHellTwistingVinesFeature::spreadWidth),
+                ExtraCodecs.POSITIVE_INT.fieldOf("spread_height").forGetter(AerialHellTwistingVinesFeature::spreadHeight),
+                ExtraCodecs.POSITIVE_INT.fieldOf("max_height").forGetter(AerialHellTwistingVinesFeature::maxHeight),
+                BlockStateProvider.CODEC.fieldOf("head_state_provider").forGetter(AerialHellTwistingVinesFeature::headBlockProvider),
+                BlockStateProvider.CODEC.fieldOf("body_state_provider").forGetter(AerialHellTwistingVinesFeature::bodyBlockProvider),
+                ExtraCodecs.NON_EMPTY_STRING.fieldOf("needs_roof").forGetter(AerialHellTwistingVinesFeature::needsRoof)
+            )
+            .apply(i, AerialHellTwistingVinesFeature::new)
+    );
 
-    public AerialHellTwistingVinesFeature(AerialHellTwistingVinesConfig config) {super(config);}
-
-    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+    @Override public MapCodec<AerialHellTwistingVinesFeature> codec() {return CODEC;}
 
     @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.TWISTING_ROOTS_LIST;}
 
-    public boolean place(FeaturePlaceContext<AerialHellTwistingVinesConfig> context)
+    @Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
     {
-        boolean needsRoof =  context.config().needsRoof().equals("true");
-        WorldGenLevel worldgenlevel = context.level(); BlockPos blockpos = context.origin();
-        if (isInvalidPlacementLocation(worldgenlevel, blockpos, needsRoof) || !this.isDungeonSensitiveValid(context)) {return false;}
+        if (isInvalidPlacementLocation(level, origin, this.needsRoof.equals("true")) || !this.isDungeonSensitiveValid(level, origin)) {return false;}
         else
         {
-            RandomSource random = context.random();
-            AerialHellTwistingVinesConfig twistingvinesconfig = context.config();
-            int i = twistingvinesconfig.spreadWidth();
-            int j = twistingvinesconfig.spreadHeight();
-            int k = twistingvinesconfig.maxHeight();
+            int i = this.spreadWidth;
+            int j = this.spreadHeight;
+            int k = this.maxHeight;
             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
             for(int l = 0; l < i * i; ++l)
             {
-                blockpos$mutableblockpos.set(blockpos).move(Mth.nextInt(random, -i, i), Mth.nextInt(random, -j, j), Mth.nextInt(random, -i, i));
-                if (findFirstAirBlockAboveGround(worldgenlevel, blockpos$mutableblockpos) && !isInvalidPlacementLocation(worldgenlevel, blockpos$mutableblockpos, false))
+                blockpos$mutableblockpos.set(origin).move(Mth.nextInt(random, -i, i), Mth.nextInt(random, -j, j), Mth.nextInt(random, -i, i));
+                if (findFirstAirBlockAboveGround(level, blockpos$mutableblockpos) && !isInvalidPlacementLocation(level, blockpos$mutableblockpos, false))
                 {
                     int i1 = Mth.nextInt(random, 1, k);
                     if (random.nextInt(6) == 0) {i1 *= 2;}
                     if (random.nextInt(5) == 0) {i1 = 1;}
-                    placeWeepingVinesColumn(worldgenlevel, random, blockpos$mutableblockpos, i1, 17, 25, twistingvinesconfig.headBlockProvider(), twistingvinesconfig.bodyBlockProvider());
+                    placeWeepingVinesColumn(level, random, blockpos$mutableblockpos, i1, 17, 25, this.headBlockProvider.value(), this.bodyBlockProvider.value());
                 }
             }
             return true;

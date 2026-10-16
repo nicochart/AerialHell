@@ -1,3 +1,20 @@
 {
-  "type": "aerialhell:mossy_stellar_cobblestone_rock"
+  "type": "aerialhell:rock",
+  "state_provider": {
+    "type": "minecraft:weighted",
+    "entries": [
+      {
+        "weight": 1,
+        "data": {
+          "id": "aerialhell:mossy_stellar_cobblestone"
+        }
+      },
+      {
+        "weight": 1,
+        "data": {
+          "id": "aerialhell:stellar_cobblestone"
+        }
+      }
+    ]
+  }
 }

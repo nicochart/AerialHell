@@ -1,88 +1,94 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
-import fr.factionbedrock.aerialhell.World.Features.Config.NaturalFieldConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 import java.util.List;
 
-public class NaturalFieldFeature extends AerialHellFeature<NaturalFieldConfig> implements DungeonSensitiveFeatureCheck
+public record NaturalFieldFeature(int maxVerticalOffset, float baseChance, float acceptOffsetChance, Holder<BlockStateProvider> cropStateProvider) implements Feature, DungeonSensitiveFeatureCheck
 {
-    public static final MapCodec<NaturalFieldFeature> CODEC = NaturalFieldConfig.CODEC.xmap(NaturalFieldFeature::new, NaturalFieldFeature::config);
+    public static final MapCodec<NaturalFieldFeature> CODEC = RecordCodecBuilder.mapCodec(
+        i -> i.group(
+                ExtraCodecs.POSITIVE_INT.fieldOf("max_vertical_offset").forGetter(NaturalFieldFeature::maxVerticalOffset),
+                ExtraCodecs.POSITIVE_FLOAT.fieldOf("base_chance").forGetter(NaturalFieldFeature::baseChance),
+                ExtraCodecs.POSITIVE_FLOAT.fieldOf("accept_offset_chance").forGetter(NaturalFieldFeature::acceptOffsetChance),
+                BlockStateProvider.CODEC.fieldOf("crop_state_provider").forGetter(NaturalFieldFeature::cropStateProvider)
+            )
+            .apply(i, NaturalFieldFeature::new)
+    );
 
-    public NaturalFieldFeature(NaturalFieldConfig config) {super(config);}
-
-    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+    @Override public MapCodec<NaturalFieldFeature> codec() {return CODEC;}
 
     @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.NATURAL_FIELD_LIST;}
 
-    @Override public boolean place(FeaturePlaceContext<NaturalFieldConfig> context)
+    @Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
     {
-        BlockPos blockPos = context.origin(); WorldGenLevel world = context.level();
-		boolean canGenerate = isAboveSurfaceBlockPos(world, blockPos) && !BlockHelper.hasAnySolidSurfaceAbove(world, blockPos.above(2), 3);
+		boolean canGenerate = isAboveSurfaceBlockPos(level, origin) && !BlockHelper.hasAnySolidSurfaceAbove(level, origin.above(2), 3);
 		
-        if (canGenerate && this.isDungeonSensitiveValid(context))
+        if (canGenerate && this.isDungeonSensitiveValid(level, origin))
         {
-        	generateField(context);
+        	generateField(level, random, origin);
         	return true;
         }
         return false;
     }
     
-    protected void generateField(FeaturePlaceContext<NaturalFieldConfig> context)
+    protected void generateField(WorldGenLevel level, RandomSource random, BlockPos origin)
     {
-        WorldGenLevel world = context.level(); RandomSource rand = context.random(); BlockPos blockPos = context.origin();
     	BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
-    	boolean isBig = rand.nextDouble() > 0.8;
-        int radiusX = getRandomRadius(rand, isBig);
-        int radiusZ = getRandomRadius(rand, isBig);
+    	boolean isBig = random.nextDouble() > 0.8;
+        int radiusX = getRandomRadius(random, isBig);
+        int radiusZ = getRandomRadius(random, isBig);
 
         for(int x = -radiusX; x <= radiusX; x++)
         {
             for(int z = -radiusZ; z <= radiusZ; z++)
             {
                 BlockPos pos = new BlockPos(x, 0, z);
-                if (isPosInsideEllipsis(pos, radiusX, radiusZ) && world.getRandom().nextFloat() < context.config().baseChance())
+                if (isPosInsideEllipsis(pos, radiusX, radiusZ) && level.getRandom().nextFloat() < this.baseChance)
                 {
-                    placementPos.set(blockPos.offset(pos));
-                    findHeightForPlacement(context, placementPos);
-                    if (isValidBlockPosForStellarWheat(world, placementPos))
+                    placementPos.set(origin.offset(pos));
+                    findHeightForPlacement(level, placementPos);
+                    if (isValidBlockPosForStellarWheat(level, placementPos))
                     {
-                        world.setBlock(placementPos.below(), AerialHellBlocks.STELLAR_FARMLAND.get().defaultBlockState(), 2);
-                        BlockState placementState = context.config().cropStateProvider().getState(context.level(), rand, placementPos);
+                        level.setBlock(placementPos.below(), AerialHellBlocks.STELLAR_FARMLAND.get().defaultBlockState(), 2);
+                        BlockState placementState = this.cropStateProvider.value().getState(level, random, placementPos);
                         if (placementState.getBlock() instanceof CropBlock)
                         {
-                            placementState = placementState.setValue(CropBlock.AGE, world.getRandom().nextInt(4, 8));
+                            placementState = placementState.setValue(CropBlock.AGE, level.getRandom().nextInt(4, 8));
                         }
-                        world.setBlock(placementPos, placementState, 2);
+                        level.setBlock(placementPos, placementState, 2);
                     }
                 }
             }
         }
     }
 
-    protected static void findHeightForPlacement(FeaturePlaceContext<NaturalFieldConfig> context, BlockPos.MutableBlockPos blockPos)
+    protected void findHeightForPlacement(WorldGenLevel level, BlockPos.MutableBlockPos blockPos)
     {
-        WorldGenLevel world = context.level();
         int step = 0;
-        while (step < context.config().maxVerticalOffset() && !isAboveSurfaceBlockPos(world, blockPos))
+        while (step < this.maxVerticalOffset && !isAboveSurfaceBlockPos(level, blockPos))
         {
-            float probabilityToMove = context.config().acceptOffsetChance() / (step + 1);
-            if (world.getRandom().nextFloat() > probabilityToMove) {return;}
+            float probabilityToMove = this.acceptOffsetChance / (step + 1);
+            if (level.getRandom().nextFloat() > probabilityToMove) {return;}
 
-            if (world.getBlockState(blockPos).isAir()) {blockPos.move(Direction.DOWN);}
+            if (level.getBlockState(blockPos).isAir()) {blockPos.move(Direction.DOWN);}
             else {blockPos.move(Direction.UP);}
             step++;
         }

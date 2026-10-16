@@ -1,52 +1,60 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.factionbedrock.aerialhell.Block.LargeDeadLogBlock;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
-import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Half;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
-import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.function.Supplier;
 
-public class LargeDeadLogFeature extends AerialHellFeature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
+public record LargeDeadLogFeature(LargeDeadLogBlock log) implements Feature, DungeonSensitiveFeatureCheck
 {
-	private final Supplier<LargeDeadLogBlock> block;
-	public LargeDeadLogFeature(NoneFeatureConfiguration config, Supplier<LargeDeadLogBlock> block) {super(config); this.block = block;}
+	private static final Codec<LargeDeadLogBlock> LARGE_DEAD_LOG_BLOCK_CODEC = BuiltInRegistries.BLOCK.byNameCodec().comapFlatMap(
+		block -> block instanceof LargeDeadLogBlock log ? DataResult.success(log) : DataResult.error(() -> "Block " + BuiltInRegistries.BLOCK.getKey(block) + " is not a large dead log block"),
+		log -> log
+	);
+	public static final MapCodec<LargeDeadLogFeature> CODEC = RecordCodecBuilder.mapCodec(
+		i -> i.group(
+				LARGE_DEAD_LOG_BLOCK_CODEC.fieldOf("log").forGetter(LargeDeadLogFeature::log)
+			)
+			.apply(i, LargeDeadLogFeature::new)
+	);
 
-	@Override public MapCodec<? extends Feature> codec() {return AerialHellFeatures.LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG.get();}
+	@Override public MapCodec<LargeDeadLogFeature> codec() {return CODEC;}
 
 	@Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.LARGE_DEAD_STELLAR_JUNGLE_TREE_LOG_LIST;}
 
-	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+	@Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
 	{
-		BlockPos pos = findPosForPlacement(context);
-		if (pos == null || !this.isDungeonSensitiveValid(context)) {return false;}
+		BlockPos pos = findPosForPlacement(level, random, origin);
+		if (pos == null || !this.isDungeonSensitiveValid(level, origin)) {return false;}
 		else
 		{
-			generate(context, pos);
+			generate(level, random, pos);
 			return true;
 		}
 	}
 
-	private void generate(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos pos)
+	private void generate(WorldGenLevel level, RandomSource random, BlockPos pos)
 	{
-		RandomSource rand = context.random(); WorldGenLevel level = context.level();
-		Direction generationDirection = rand.nextInt(2) == 0 ? Direction.WEST : Direction.NORTH;
-		int lenght = 3 + rand.nextInt(5);
+		Direction generationDirection = random.nextInt(2) == 0 ? Direction.WEST : Direction.NORTH;
+		int lenght = 3 + random.nextInt(5);
 
 		BlockPos.MutableBlockPos placementPos = pos.mutable();
 		int percentageSupported = percentageOfLogThatHaveSupport(level, pos, generationDirection, lenght);
@@ -54,38 +62,36 @@ public class LargeDeadLogFeature extends AerialHellFeature<NoneFeatureConfigurat
 
 		for (int i=0; i<lenght; i++)
 		{
-			place4blocks(context, placementPos, generationDirection);
+			place4blocks(level, random, placementPos, generationDirection);
 			placementPos.move(generationDirection, 1);
 		}
 	}
 
-	protected void place4blocks(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos.MutableBlockPos pos, Direction generationDirection)
+	protected void place4blocks(WorldGenLevel level, RandomSource random, BlockPos.MutableBlockPos pos, Direction generationDirection)
 	{
-		WorldGenLevel level = context.level(); RandomSource rand = context.random();
-		BlockState aboveLeft = block.get().getStateForPlacement(generationDirection.getCounterClockWise(), Half.TOP);
-		BlockState aboveRight = block.get().getStateForPlacement(generationDirection.getClockWise(), Half.TOP);
-		BlockState belowLeft = block.get().getStateForPlacement(generationDirection.getCounterClockWise(), Half.BOTTOM);
-		BlockState belowRight = block.get().getStateForPlacement(generationDirection.getClockWise(), Half.BOTTOM);
+		BlockState aboveLeft = this.log.getStateForPlacement(generationDirection.getCounterClockWise(), Half.TOP);
+		BlockState aboveRight = this.log.getStateForPlacement(generationDirection.getClockWise(), Half.TOP);
+		BlockState belowLeft = this.log.getStateForPlacement(generationDirection.getCounterClockWise(), Half.BOTTOM);
+		BlockState belowRight = this.log.getStateForPlacement(generationDirection.getClockWise(), Half.BOTTOM);
 
-		tryPlacingBlock(level, pos, belowRight, rand);
+		tryPlacingBlock(level, pos, belowRight, random);
 		pos.move(generationDirection.getCounterClockWise(), 1);
-		tryPlacingBlock(level, pos, belowLeft, rand);
+		tryPlacingBlock(level, pos, belowLeft, random);
 		pos.move(Direction.UP, 1);
-		tryPlacingBlock(level, pos, aboveLeft, rand);
+		tryPlacingBlock(level, pos, aboveLeft, random);
 		pos.move(generationDirection.getClockWise(), 1);
-		tryPlacingBlock(level, pos, aboveRight, rand);
+		tryPlacingBlock(level, pos, aboveRight, random);
 		pos.move(Direction.DOWN, 1);
 	}
 
-	@Nullable protected BlockPos findPosForPlacement(FeaturePlaceContext<NoneFeatureConfiguration> context)
+	@Nullable protected BlockPos findPosForPlacement(WorldGenLevel level, RandomSource random, BlockPos origin)
 	{
-		BlockPos testedPos, featureCenter = FeatureHelper.getFeatureCenter(context);
-		WorldGenLevel level = context.level();
-		if (hasSupportToGenerate(level, context.origin())) {return context.origin();}
+		BlockPos testedPos, featureCenter = FeatureHelper.getFeatureCenter(origin);
+		if (hasSupportToGenerate(level, origin)) {return origin;}
 		int t, i;
 		for (t=0; t<10; t++)
 		{
-			i=0; testedPos = FeatureHelper.getRandomPosInFeatureRegion(featureCenter, context.random(), 12, 20);
+			i=0; testedPos = FeatureHelper.getRandomPosInFeatureRegion(featureCenter, random, 12, 20);
 			while (level.getBlockState(testedPos.below()).isAir() && i++ < 10 && testedPos.getY() > 10) {testedPos = testedPos.below();}
 			if (hasSupportToGenerate(level, testedPos)) {return testedPos;}
 		}

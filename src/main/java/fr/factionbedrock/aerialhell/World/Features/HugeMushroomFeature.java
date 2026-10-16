@@ -1,12 +1,15 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
 import fr.factionbedrock.aerialhell.World.Features.Util.Ellipsoid;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.HugeMushroomBlock;
@@ -15,49 +18,53 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
-import fr.factionbedrock.aerialhell.World.Features.Config.HugeMushroomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 import java.util.List;
 
-public class HugeMushroomFeature extends AerialHellFeature<HugeMushroomFeatureConfiguration> implements DungeonSensitiveFeatureCheck
+public record HugeMushroomFeature(Holder<BlockStateProvider> capProvider, Holder<BlockStateProvider> stemProvider, int foliageRadius, BlockPredicate canPlaceOn) implements Feature, DungeonSensitiveFeatureCheck
 {
-    public static final MapCodec<HugeMushroomFeature> CODEC = HugeMushroomFeatureConfiguration.CODEC.xmap(HugeMushroomFeature::new, HugeMushroomFeature::config);
+    public static final MapCodec<HugeMushroomFeature> CODEC = RecordCodecBuilder.mapCodec(
+        i -> i.group(
+                BlockStateProvider.CODEC.fieldOf("cap_provider").forGetter(HugeMushroomFeature::capProvider),
+                BlockStateProvider.CODEC.fieldOf("stem_provider").forGetter(HugeMushroomFeature::stemProvider),
+                Codec.INT.optionalFieldOf("foliage_radius", 2).forGetter(HugeMushroomFeature::foliageRadius),
+                BlockPredicate.CODEC.fieldOf("can_place_on").forGetter(HugeMushroomFeature::canPlaceOn)
+            )
+            .apply(i, HugeMushroomFeature::new)
+    );
 
-    public HugeMushroomFeature(HugeMushroomFeatureConfiguration config) {super(config);}
-
-    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+    @Override public MapCodec<HugeMushroomFeature> codec() {return CODEC;}
 
     @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.HUGE_MUSHROOM_LIST;}
 
-    @Override public boolean place(FeaturePlaceContext<HugeMushroomFeatureConfiguration> context)
+    @Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
     {
-        BlockPos pos = context.origin(); WorldGenLevel world = context.level(); RandomSource rand = context.random(); HugeMushroomFeatureConfiguration config = context.config();
-        int stemSize = (rand.nextInt(6) == 0) ? rand.nextInt(8) + 5 : rand.nextInt(5) + 8; //shroom y size
-        int capRadius = 3 + rand.nextInt(2); //horizontal width
-        float yCapFactor = (rand.nextInt(2) == 0) ? 0.5F : 0.6F; //cap vertical size (0.0F : 0 block, no cap ; 1.0F : full size cap, the cap touches the floor)
-        if (!this.canGrow(config, world, pos, stemSize, capRadius) || !this.isDungeonSensitiveValid(context)) {return false;}
+        int stemSize = (random.nextInt(6) == 0) ? random.nextInt(8) + 5 : random.nextInt(5) + 8; //shroom y size
+        int capRadius = 3 + random.nextInt(2); //horizontal width
+        float yCapFactor = (random.nextInt(2) == 0) ? 0.5F : 0.6F; //cap vertical size (0.0F : 0 block, no cap ; 1.0F : full size cap, the cap touches the floor)
+        if (!this.canGrow(level, origin, stemSize, capRadius) || !this.isDungeonSensitiveValid(level, origin)) {return false;}
         else
         {
-            this.generateCap(context, pos, stemSize, yCapFactor, capRadius);
-            this.generateStem(config, world, rand, pos, stemSize);
+            this.generateCap(level, random, origin, stemSize, yCapFactor, capRadius);
+            this.generateStem(level, random, origin, stemSize);
             return true;
         }
     }
-    
-    protected void generateCap(FeaturePlaceContext<HugeMushroomFeatureConfiguration> context, BlockPos blockPos, int stemSize, float yCapFactor, int capRadius)
+
+    protected void generateCap(WorldGenLevel level, RandomSource random, BlockPos blockPos, int stemSize, float yCapFactor, int capRadius)
     {
-        HugeMushroomFeatureConfiguration config = context.config();
         int capHeight = (int) (stemSize * yCapFactor);
         int yCap = (int) (stemSize * (1.0F - yCapFactor));
         BlockPos centerPos = blockPos.offset(0, yCap, 0);
-        GiantCap cap = new GiantCap(context, createEllipsoidParameters(capRadius, capHeight, 1), config.capProvider(), centerPos);
+        GiantCap cap = new GiantCap(level, random, blockPos, createEllipsoidParameters(capRadius, capHeight, 1), this.capProvider.value(), centerPos);
         cap.generateOutsideBorder();
     }
-    
-    protected void generateStem(HugeMushroomFeatureConfiguration config, WorldGenLevel level, RandomSource rand, BlockPos blockPos, int stemSize)
+
+    protected void generateStem(WorldGenLevel level, RandomSource rand, BlockPos blockPos, int stemSize)
     {
         BlockPos.MutableBlockPos placementPos = new BlockPos.MutableBlockPos();
         for(int y = 0; y < stemSize; ++y)
@@ -69,21 +76,21 @@ public class HugeMushroomFeature extends AerialHellFeature<HugeMushroomFeatureCo
                     placementPos.set(blockPos).move(x, y, z);
                     if (FeatureHelper.isReplaceableByLogOrLeavesFeature(level, placementPos, true) || level.getBlockState(placementPos).is(AerialHellBlocks.VERDIGRIS_AGARIC.get()))
                     {
-                        this.setBlock(level, placementPos, config.stemProvider().getState(level, rand, blockPos));
+                        this.setBlock(level, placementPos, this.stemProvider.value().getState(level, rand, blockPos));
                     }
                 }
             }
         }
     }
-    
-    protected boolean canGrow(HugeMushroomFeatureConfiguration config, WorldGenLevel world, BlockPos blockPos, int stemSize, int capRadius)
+
+    protected boolean canGrow(WorldGenLevel world, BlockPos blockPos, int stemSize, int capRadius)
     {
         return this.mayPlaceOn(world, blockPos)
-               && canPlaceStem(config, world, blockPos, stemSize)
+               && canPlaceStem(world, blockPos, stemSize)
                 && blockPos.getY() >= blockPos.getY() && blockPos.getY() + stemSize + 1 < world.getHeight();
     }
-    
-    protected boolean canPlaceStem(HugeMushroomFeatureConfiguration config, LevelAccessor world, BlockPos blockPos, int stemSize)
+
+    protected boolean canPlaceStem(LevelAccessor world, BlockPos blockPos, int stemSize)
     {
         BlockPos.MutableBlockPos placementBlockPos = new BlockPos.MutableBlockPos();
         for (int x = 0; x < 2; x++)
@@ -98,7 +105,7 @@ public class HugeMushroomFeature extends AerialHellFeature<HugeMushroomFeatureCo
         }
         return true;
     }
-    
+
     protected boolean mayPlaceOn(LevelAccessor world, BlockPos pos)
     {
         BlockState blockState;
@@ -122,9 +129,9 @@ public class HugeMushroomFeature extends AerialHellFeature<HugeMushroomFeatureCo
     {
         private final BlockStateProvider capProvider;
 
-        public GiantCap(FeaturePlaceContext<?> context, Ellipsoid.EllipsoidParameters parameters, BlockStateProvider capProvider, BlockPos centerPos)
+        public GiantCap(WorldGenLevel level, RandomSource random, BlockPos origin, Ellipsoid.EllipsoidParameters parameters, BlockStateProvider capProvider, BlockPos centerPos)
         {
-            super(context, () -> capProvider.getState(context.level(), context.random(), FeatureHelper.getFeatureCenter(context)).getBlock(), parameters, centerPos, Ellipsoid.Types.CENTER_2x2);
+            super(level, random, origin, () -> capProvider.getState(level, random, FeatureHelper.getFeatureCenter(origin)).getBlock(), parameters, centerPos, Ellipsoid.Types.CENTER_2x2);
             this.capProvider = capProvider;
         }
 
@@ -137,7 +144,7 @@ public class HugeMushroomFeature extends AerialHellFeature<HugeMushroomFeatureCo
             boolean eastInEll = isPosInsideEllipsoid(x + 1, y, z);
             boolean westInEll = isPosInsideEllipsoid(x - 1, y, z);
 
-            return this.capProvider.getState(context.level(), context.random(), pos)
+            return this.capProvider.getState(this.level, this.random, pos)
                     .setValue(HugeMushroomBlock.NORTH, !northInEll)
                     .setValue(HugeMushroomBlock.SOUTH, !southInEll)
                     .setValue(HugeMushroomBlock.WEST, !westInEll)

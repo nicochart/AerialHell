@@ -1,79 +1,88 @@
 package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
-import fr.factionbedrock.aerialhell.World.Features.Config.GiantPineTreeConfig;
 import fr.factionbedrock.aerialhell.World.Features.Util.GiantTree.ClassicGiantTrunk;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnots;
 import fr.factionbedrock.aerialhell.World.Features.Util.SplineKnotsDeformedStraightLine;
 import fr.factionbedrock.aerialhell.World.Features.Util.StraightLine;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 import java.util.List;
 
-public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTreeConfig>
+public record GiantPineTreeFeature(int trunkMaxHorizontalOffset, int trunkMinVerticalOffset, int trunkMaxVerticalOffset, int branchQuantity, int verticalBranchSeparation, Holder<BlockStateProvider> trunkProvider, Holder<BlockStateProvider> foliageProvider) implements AbstractGiantTreeFeature
 {
     private static final SplineKnotsDeformedStraightLine.KnotsParameters TRUNK_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 16, 0.3F, 5, 20);
 
-    public static final MapCodec<GiantPineTreeFeature> CODEC = GiantPineTreeConfig.CODEC.xmap(GiantPineTreeFeature::new, GiantPineTreeFeature::config);
+    public static final MapCodec<GiantPineTreeFeature> CODEC = RecordCodecBuilder.mapCodec(
+        i -> i.group(
+                ExtraCodecs.POSITIVE_INT.fieldOf("trunk_max_horizontal_offset").forGetter(GiantPineTreeFeature::trunkMaxHorizontalOffset),
+                ExtraCodecs.POSITIVE_INT.fieldOf("trunk_min_vertical_offset").forGetter(GiantPineTreeFeature::trunkMinVerticalOffset),
+                ExtraCodecs.POSITIVE_INT.fieldOf("trunk_max_vertical_offset").forGetter(GiantPineTreeFeature::trunkMaxVerticalOffset),
+                ExtraCodecs.POSITIVE_INT.fieldOf("branch_quantity").forGetter(GiantPineTreeFeature::branchQuantity),
+                ExtraCodecs.POSITIVE_INT.fieldOf("vertical_branch_separation").forGetter(GiantPineTreeFeature::verticalBranchSeparation),
+                BlockStateProvider.CODEC.fieldOf("trunk_provider").forGetter(GiantPineTreeFeature::trunkProvider),
+                BlockStateProvider.CODEC.fieldOf("foliage_provider").forGetter(GiantPineTreeFeature::foliageProvider)
+            )
+            .apply(i, GiantPineTreeFeature::new)
+    );
 
-    public GiantPineTreeFeature(GiantPineTreeConfig config) {super(config);}
-
-    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+    @Override public MapCodec<GiantPineTreeFeature> codec() {return CODEC;}
 
     @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.GIANT_PINE_TREE_LIST;}
 
-    @Override public boolean place(FeaturePlaceContext<GiantPineTreeConfig> context)
+    @Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
     {
-        RandomSource rand = context.random(); GiantPineTreeConfig config = context.config();
-        BlockPos origin = context.origin();
-
-        if (!canPlace(context)) {return false;}
+        if (!canPlace(level, origin)) {return false;}
         else
         {
-            int maxXZdistance=config.trunkMaxHorizontalOffset(), minYdistance=config.trunkMinVerticalOffset(), maxYdistance=config.trunkMaxVerticalOffset();
+            int maxXZdistance=this.trunkMaxHorizontalOffset, minYdistance=this.trunkMinVerticalOffset, maxYdistance=this.trunkMaxVerticalOffset;
             BlockPos trunkStart = origin.below(2);
-            int xOffset = rand.nextInt(-maxXZdistance, maxXZdistance), yOffset = rand.nextInt(minYdistance, maxYdistance), zOffset = rand.nextInt(-maxXZdistance, maxXZdistance);
-            if (!FeatureHelper.isBelowMaxBuildHeight(context, context.origin().above(yOffset))) {return false;}
+            int xOffset = random.nextInt(-maxXZdistance, maxXZdistance), yOffset = random.nextInt(minYdistance, maxYdistance), zOffset = random.nextInt(-maxXZdistance, maxXZdistance);
+            if (!FeatureHelper.isBelowMaxBuildHeight(level, origin.above(yOffset))) {return false;}
             BlockPos trunkEnd = origin.offset(xOffset, yOffset, zOffset);
-            generate(context, trunkStart, trunkEnd, false);
+            generate(level, random, origin, trunkStart, trunkEnd, false);
             return true;
         }
     }
 
-    protected void generate(FeaturePlaceContext<GiantPineTreeConfig> context, BlockPos startPos, BlockPos endPos, boolean generateDebug)
+    private void generate(WorldGenLevel level, RandomSource random, BlockPos origin, BlockPos startPos, BlockPos endPos, boolean generateDebug)
     {
-        GiantPineTree pineTree = new GiantPineTree(context, new StraightLine.StraightLineParameters(startPos, endPos), 2 + context.random().nextInt(2));
+        GiantPineTree pineTree = new GiantPineTree(this, level, random, origin, new StraightLine.StraightLineParameters(startPos, endPos), 2 + random.nextInt(2));
         pineTree.generate(false, generateDebug);
         pineTree = null;
     }
 
     private static class GiantPineTree extends ClassicGiantTrunk
     {
+        private final GiantPineTreeFeature feature;
         private final boolean largeTrunk;
-        public GiantPineTree(FeaturePlaceContext<GiantPineTreeConfig> context, StraightLineParameters straightLineParams, int knotsNumber)
+        public GiantPineTree(GiantPineTreeFeature feature, WorldGenLevel level, RandomSource random, BlockPos origin, StraightLineParameters straightLineParams, int knotsNumber)
         {
-            super(context, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> context.config().trunkProvider().getState(context.level(), context.random(), context.origin()).getBlock());
-            this.largeTrunk = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 30;
+            super(level, random, origin, straightLineParams, knotsNumber, TRUNK_KNOTS_PARAMETERS, () -> feature.trunkProvider().value().getState(level, random, origin).getBlock());
+            this.feature = feature;
+            this.largeTrunk = (feature.trunkMaxVerticalOffset() + feature.trunkMinVerticalOffset()) / 2 > 30;
         }
-
-        private FeaturePlaceContext<GiantPineTreeConfig> getContext() {return (FeaturePlaceContext<GiantPineTreeConfig>)context;}
 
         @Override protected boolean isLarge() {return this.largeTrunk;}
 
         @Override public BlockPos generate(boolean stopAtAnyObstacle, boolean generateDebug)
         {
             int i = 0, maxAbsOffset = FeatureHelper.getMaxAbsoluteXYZOffset(this.straightLineParams.getStart(), this.straightLineParams.getEnd());
-            int branchCooldown = 5, branchDistance = getContext().config().verticalBranchSeparation();
+            int branchCooldown = 5, branchDistance = this.feature.verticalBranchSeparation();
 
             BlockPos.MutableBlockPos placementPos = this.straightLineParams.getStart().mutable();
             while(!placementPos.equals(this.straightLineParams.getEnd()) && i <= maxAbsOffset * straightLineParams.getPrecisionMultiplicator())
@@ -102,21 +111,21 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
             float factor = 0.25F + (step > maxStep / 8 ? (float)(maxStep - step)/maxStep : (float)step/maxStep) / 2;
             int randomBranchCount = getRandomBranchCount();
 
-            int xOffset = (int) (xzLargeFactor * factor * context.random().nextInt(-maxXZoffset, maxXZoffset));
-            int yOffset = (int) (yLargeFactor * factor * context.random().nextInt(meanYoffset-1, meanYoffset+2));
-            int zOffset = (int) (xzLargeFactor * factor * context.random().nextInt(-maxXZoffset, maxXZoffset));
-            StraightPineBranch branch = new StraightPineBranch(getContext(), new StraightLineParameters(startPos, startPos.offset(xOffset, yOffset, zOffset)));
+            int xOffset = (int) (xzLargeFactor * factor * this.random.nextInt(-maxXZoffset, maxXZoffset));
+            int yOffset = (int) (yLargeFactor * factor * this.random.nextInt(meanYoffset-1, meanYoffset+2));
+            int zOffset = (int) (xzLargeFactor * factor * this.random.nextInt(-maxXZoffset, maxXZoffset));
+            StraightPineBranch branch = new StraightPineBranch(this.feature, this.level, this.random, this.origin, new StraightLineParameters(startPos, startPos.offset(xOffset, yOffset, zOffset)));
             branch.generate(true, false);
-            branch = new StraightPineBranch(getContext(), new StraightLineParameters(startPos, startPos.offset(-xOffset, yOffset, -zOffset)));
+            branch = new StraightPineBranch(this.feature, this.level, this.random, this.origin, new StraightLineParameters(startPos, startPos.offset(-xOffset, yOffset, -zOffset)));
             branch.generate(true, false);
 
             for (int i=2; i<randomBranchCount; i++)
             {
-                xOffset = (int) (xzLargeFactor * factor * context.random().nextInt(-maxXZoffset, maxXZoffset));
-                yOffset = (int) (yLargeFactor * factor * context.random().nextInt(meanYoffset-1, meanYoffset+2));
-                zOffset = (int) (xzLargeFactor * factor * context.random().nextInt(-maxXZoffset, maxXZoffset));
+                xOffset = (int) (xzLargeFactor * factor * this.random.nextInt(-maxXZoffset, maxXZoffset));
+                yOffset = (int) (yLargeFactor * factor * this.random.nextInt(meanYoffset-1, meanYoffset+2));
+                zOffset = (int) (xzLargeFactor * factor * this.random.nextInt(-maxXZoffset, maxXZoffset));
                 BlockPos endPos = startPos.offset(xOffset, yOffset, zOffset);
-                branch = new StraightPineBranch(getContext(), new StraightLineParameters(startPos, endPos));
+                branch = new StraightPineBranch(this.feature, this.level, this.random, this.origin, new StraightLineParameters(startPos, endPos));
                 branch.generate(true, false);
             }
             branch = null;
@@ -124,7 +133,7 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
 
         private int getRandomBranchCount()
         {
-            return (this.isLarge() ? getContext().config().branchQuantity() / 2 : 0) + this.context.random().nextInt(getContext().config().branchQuantity() / 2, getContext().config().branchQuantity());
+            return (this.isLarge() ? this.feature.branchQuantity() / 2 : 0) + this.random.nextInt(this.feature.branchQuantity() / 2, this.feature.branchQuantity());
         }
 
         @Override protected boolean tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
@@ -187,13 +196,12 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
 
         protected boolean tryPlacingLeavesBlock(BlockPos.MutableBlockPos pos)
         {
-            WorldGenLevel level = context.level();
-            if (isReplaceableByLeaves(level, pos)) {level.setBlock(pos, getLeavesStateForPlacement(pos), 2); return true;}
+            if (isReplaceableByLeaves(this.level, pos)) {this.level.setBlock(pos, getLeavesStateForPlacement(pos), 2); return true;}
             else {return false;}
         }
 
-        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).trunkProvider().getState(context.level(), context.random(), pos);}
-        public BlockState getLeavesStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).foliageProvider().getState(context.level(), context.random(), pos).setValue(LeavesBlock.DISTANCE, 1);}
+        @Override public BlockState getStateForPlacement(BlockPos pos) {return this.feature.trunkProvider().value().getState(this.level, this.random, pos);}
+        public BlockState getLeavesStateForPlacement(BlockPos pos) {return this.feature.foliageProvider().value().getState(this.level, this.random, pos).setValue(LeavesBlock.DISTANCE, 1);}
 
         protected boolean isReplaceableByLeaves(WorldGenLevel reader, BlockPos blockPos)
         {
@@ -204,16 +212,18 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
 
     private static class StraightPineBranch extends StraightLine
     {
+        private final GiantPineTreeFeature feature;
         private final boolean isLarge;
-        public StraightPineBranch(FeaturePlaceContext<GiantPineTreeConfig> context, StraightLineParameters straightLineParams)
+        public StraightPineBranch(GiantPineTreeFeature feature, WorldGenLevel level, RandomSource random, BlockPos origin, StraightLineParameters straightLineParams)
         {
-            super(context, straightLineParams, () -> context.config().trunkProvider().getState(context.level(), context.random(), context.origin()).getBlock());
-            this.isLarge = (context.config().trunkMaxVerticalOffset() + context.config().trunkMinVerticalOffset()) / 2 > 22 && straightLineParams.getStart().distSqr(straightLineParams.getEnd()) > 64;
+            super(level, random, origin, straightLineParams, () -> feature.trunkProvider().value().getState(level, random, origin).getBlock());
+            this.feature = feature;
+            this.isLarge = (feature.trunkMaxVerticalOffset() + feature.trunkMinVerticalOffset()) / 2 > 22 && straightLineParams.getStart().distSqr(straightLineParams.getEnd()) > 64;
         }
 
         @Override protected boolean tryPlacingBlocks(BlockPos.MutableBlockPos pos, int step, int maxStep)
         {
-            if (pos.getY() < context.origin().getY()) {return false;}
+            if (pos.getY() < this.origin.getY()) {return false;}
             if (this.isLarge)
             {
                 if (step < maxStep / 6) {return tryPlacingBlocksSphere(pos, 2);}
@@ -270,21 +280,21 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
 
         @Override protected boolean tryPlacingBlock(BlockPos.MutableBlockPos pos)
         {
-            boolean isThisBlockAlready = context.level().getBlockState(pos).is(getStateForPlacement(pos).getBlock()) || (this.generatePosList != null && this.generatePosList.contains(pos.immutable()));
+            boolean isThisBlockAlready = this.level.getBlockState(pos).is(getStateForPlacement(pos).getBlock()) || (this.generatePosList != null && this.generatePosList.contains(pos.immutable()));
             boolean placed = super.tryPlacingBlock(pos);
             return placed || isThisBlockAlready;
         }
 
         protected boolean tryPlacingLeavesBlock(BlockPos.MutableBlockPos pos)
         {
-            boolean isTreeBlockAlready = context.level().getBlockState(pos).is(getStateForPlacement(pos).getBlock()) || context.level().getBlockState(pos).is(getLeavesStateForPlacement(pos).getBlock());
-            WorldGenLevel level = context.level(); boolean isPlaceable = isReplaceableByLeaves(level, pos);
-            if (isPlaceable) level.setBlock(pos, getLeavesStateForPlacement(pos), 2);
+            boolean isTreeBlockAlready = this.level.getBlockState(pos).is(getStateForPlacement(pos).getBlock()) || this.level.getBlockState(pos).is(getLeavesStateForPlacement(pos).getBlock());
+            boolean isPlaceable = isReplaceableByLeaves(this.level, pos);
+            if (isPlaceable) this.level.setBlock(pos, getLeavesStateForPlacement(pos), 2);
             return isPlaceable || isTreeBlockAlready;
         }
 
-        @Override public BlockState getStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).trunkProvider().getState(context.level(), context.random(), pos);}
-        public BlockState getLeavesStateForPlacement(BlockPos pos) {return ((GiantPineTreeConfig)context.config()).foliageProvider().getState(context.level(), context.random(), pos).setValue(LeavesBlock.DISTANCE, 1);}
+        @Override public BlockState getStateForPlacement(BlockPos pos) {return this.feature.trunkProvider().value().getState(this.level, this.random, pos);}
+        public BlockState getLeavesStateForPlacement(BlockPos pos) {return this.feature.foliageProvider().value().getState(this.level, this.random, pos).setValue(LeavesBlock.DISTANCE, 1);}
 
         @Override protected boolean isReplaceable(WorldGenLevel level, BlockPos blockPos)
         {

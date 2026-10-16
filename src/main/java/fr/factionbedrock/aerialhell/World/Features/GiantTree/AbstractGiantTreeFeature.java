@@ -1,29 +1,24 @@
 package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
-import fr.factionbedrock.aerialhell.World.Features.AerialHellFeature;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.World.Features.DungeonSensitiveFeatureCheck;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.Feature;
 
-public abstract class AbstractGiantTreeFeature<FC> extends AerialHellFeature<FC> implements DungeonSensitiveFeatureCheck
+//shared behaviour of giant tree features (same pattern as vanilla AbstractHugeMushroomFeature)
+public interface AbstractGiantTreeFeature extends Feature, DungeonSensitiveFeatureCheck
 {
-    public AbstractGiantTreeFeature(FC config) {super(config);}
-
-    @Override public boolean place(FeaturePlaceContext<FC> context) {return false;}
-
-    protected boolean canPlace(FeaturePlaceContext<FC> context)
+    default boolean canPlace(WorldGenLevel level, BlockPos origin)
     {
-        return isValidTreePos(context.level(), context.origin()) && this.isDungeonSensitiveValid(context);
+        return isValidTreePos(level, origin) && this.isDungeonSensitiveValid(level, origin);
     }
 
-    protected boolean isValidTreePos(WorldGenLevel level, BlockPos pos) {return isValidTreeSupport(level.getBlockState(pos.below())) && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(AerialHellTags.Blocks.AERIALHELL_SAPLINGS)) && thereIsAirAbovePosition(level, pos);}
-    protected boolean isValidTreeSupport(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_DIRT);}
-    protected boolean thereIsAirAbovePosition(WorldGenLevel level, BlockPos pos) {return thereIsAirColumnAbovePos(level, pos);}
-
-    protected boolean thereIsAirColumnAbovePos(WorldGenLevel reader, BlockPos pos)
+    default boolean isValidTreePos(WorldGenLevel level, BlockPos pos) {return isValidTreeSupport(level.getBlockState(pos.below())) && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(AerialHellTags.Blocks.AERIALHELL_SAPLINGS)) && thereIsAirAbovePosition(level, pos);}
+    default boolean isValidTreeSupport(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_DIRT);}
+    default boolean thereIsAirAbovePosition(WorldGenLevel level, BlockPos pos) {return thereIsAirColumnAbovePos(level, pos);}
+    default boolean thereIsAirColumnAbovePos(WorldGenLevel reader, BlockPos pos)
     {
         for (int y=1; y<=8; y++) {if (!reader.getBlockState(pos.above(y)).isAir()) {return false;}} return true;
     }

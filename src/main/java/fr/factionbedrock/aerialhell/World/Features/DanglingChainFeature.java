@@ -13,50 +13,45 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
-import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
 
 import java.util.List;
 
-public class DanglingChainFeature extends AerialHellFeature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
+public record DanglingChainFeature() implements Feature, DungeonSensitiveFeatureCheck
 {
-    public static final MapCodec<DanglingChainFeature> CODEC = NoneFeatureConfiguration.CODEC.xmap(DanglingChainFeature::new, DanglingChainFeature::config);
+    public static final MapCodec<DanglingChainFeature> CODEC = MapCodec.unit(DanglingChainFeature::new);
 
-    public DanglingChainFeature(NoneFeatureConfiguration config) {super(config);}
-
-    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+    @Override public MapCodec<DanglingChainFeature> codec() {return CODEC;}
 
     private static enum LinkDirection{NORTH_SOUTH, WEST_EAST}
 
 	@Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.DANGLING_CHAIN_LIST;}
 
-	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+	@Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
 	{
-		BlockPos blockPos = context.origin(); WorldGenLevel reader = context.level(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
-    	boolean canGenerate = reader.getBlockState(blockPos.below()).getBlock().equals(Blocks.AIR)
-    		&& reader.getBlockState(blockPos).is(AerialHellTags.Blocks.STELLAR_STONE)
-    		&& hasAnyStoneBlockAbove(blockPos.north(4).west(4), reader, 10)
-    		&& hasAnyStoneBlockAbove(blockPos.north(4).east(4), reader, 10)
-    		&& hasAnyStoneBlockAbove(blockPos.south(4).west(4), reader, 10)
-    		&& hasAnyStoneBlockAbove(blockPos.south(4).east(4), reader, 10);
+    	boolean canGenerate = level.getBlockState(origin.below()).getBlock().equals(Blocks.AIR)
+    		&& level.getBlockState(origin).is(AerialHellTags.Blocks.STELLAR_STONE)
+    		&& hasAnyStoneBlockAbove(origin.north(4).west(4), level, 10)
+    		&& hasAnyStoneBlockAbove(origin.north(4).east(4), level, 10)
+    		&& hasAnyStoneBlockAbove(origin.south(4).west(4), level, 10)
+    		&& hasAnyStoneBlockAbove(origin.south(4).east(4), level, 10);
 
-        if (canGenerate && this.isDungeonSensitiveValid(context))
+        if (canGenerate && this.isDungeonSensitiveValid(level, origin))
         {
         	BlockPos placementPos;
         	int chance_malus = 0;
-        	placementPos = blockPos.above(5);
-        	LinkDirection linkDirection = (rand.nextInt(2) == 0) ? LinkDirection.NORTH_SOUTH : LinkDirection.WEST_EAST;
-        	generateChainLink(reader, rand, placementPos, linkDirection);
-        	while (rand.nextInt(10) > (0 + chance_malus) && placementPos.getY() > 20)
+        	placementPos = origin.above(5);
+        	LinkDirection linkDirection = (random.nextInt(2) == 0) ? LinkDirection.NORTH_SOUTH : LinkDirection.WEST_EAST;
+        	generateChainLink(level, random, placementPos, linkDirection);
+        	while (random.nextInt(10) > (0 + chance_malus) && placementPos.getY() > 20)
         	{
         		chance_malus+=1;
 				placementPos = placementPos.below(5);
         		linkDirection = (linkDirection == LinkDirection.NORTH_SOUTH) ? LinkDirection.WEST_EAST : LinkDirection.NORTH_SOUTH;
-        		generateChainLink(reader, rand, placementPos, linkDirection);
+        		generateChainLink(level, random, placementPos, linkDirection);
         	}
 			placementPos = placementPos.below(5);
     		linkDirection = (linkDirection == LinkDirection.NORTH_SOUTH) ? LinkDirection.WEST_EAST : LinkDirection.NORTH_SOUTH;
-    		generateLastLink(reader, rand, placementPos, linkDirection);
+    		generateLastLink(level, random, placementPos, linkDirection);
         	return true;
         }
         return false;

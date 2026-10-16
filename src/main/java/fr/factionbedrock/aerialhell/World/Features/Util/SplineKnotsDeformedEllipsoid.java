@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.World.Features.Util;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 
 import java.util.function.Supplier;
@@ -12,25 +14,25 @@ public class SplineKnotsDeformedEllipsoid extends Ellipsoid implements SplineKno
     private final BlockPos[] knots;
     private final boolean generateBothDeformedAndNonDeformed;
 
-    public SplineKnotsDeformedEllipsoid(FeaturePlaceContext<?> context, Supplier<Block> block, EllipsoidParameters ellipsoidParams, BlockPos centerPos, Ellipsoid.Types.EllipsoidType type, int knotsNumber, KnotsParameters knotsParams, boolean generateBothDeformedAndNonDeformed)
+    public SplineKnotsDeformedEllipsoid(WorldGenLevel level, RandomSource random, BlockPos origin, Supplier<Block> block, EllipsoidParameters ellipsoidParams, BlockPos centerPos, Ellipsoid.Types.EllipsoidType type, int knotsNumber, KnotsParameters knotsParams, boolean generateBothDeformedAndNonDeformed)
     {
-        super(context, block, ellipsoidParams, centerPos, type);
+        super(level, random, origin, block, ellipsoidParams, centerPos, type);
         this.knotsNumber = knotsNumber;
         this.knotsParams = knotsParams;
         this.generateBothDeformedAndNonDeformed = generateBothDeformedAndNonDeformed;
         this.knots = new BlockPos[knotsNumber];
         for (int i=0; i<knotsNumber; i++)
         {
-            this.knots[i] = createRandomKnot(context);
+            this.knots[i] = createRandomKnot(origin);
         }
     }
 
     @Override public BlockPos getRandomKnotPos()
     {
-        int i=0, max_tries = 5, x = knotsParams.getRandomKnotDistance(context.random()), y = knotsParams.getRandomKnotDistance(context.random()), z = knotsParams.getRandomKnotDistance(context.random());
+        int i=0, max_tries = 5, x = knotsParams.getRandomKnotDistance(this.random), y = knotsParams.getRandomKnotDistance(this.random), z = knotsParams.getRandomKnotDistance(this.random);
         while (this.isPosInsideGeneratedEllipsoidPart(x, y, z) && i++ <= max_tries)
         {
-            x = knotsParams.getRandomKnotDistance(context.random()); y = knotsParams.getRandomKnotDistance(context.random()); z = knotsParams.getRandomKnotDistance(context.random());
+            x = knotsParams.getRandomKnotDistance(this.random); y = knotsParams.getRandomKnotDistance(this.random); z = knotsParams.getRandomKnotDistance(this.random);
         }
         return getLevelPosFromEllipsoidPos(x, y, z);
     }

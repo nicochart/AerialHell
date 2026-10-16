@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.World.Features.Util;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -11,14 +12,18 @@ import java.util.function.Supplier;
 public class Ellipsoid
 {
     protected final Supplier<Block> block;
-    protected final FeaturePlaceContext<?> context;
+    protected final WorldGenLevel level;
+    protected final RandomSource random;
+    protected final BlockPos origin;
     protected final EllipsoidParameters ellipsoidParams;
     protected final Types.EllipsoidType ellipsoidType;
     protected final BlockPos centerPos;
 
-    public Ellipsoid(FeaturePlaceContext<?> context, Supplier<Block> block, EllipsoidParameters ellipsoidParams, BlockPos centerPos, Types.EllipsoidType type)
+    public Ellipsoid(WorldGenLevel level, RandomSource random, BlockPos origin, Supplier<Block> block, EllipsoidParameters ellipsoidParams, BlockPos centerPos, Types.EllipsoidType type)
     {
-        this.context = context;
+        this.level = level;
+        this.random = random;
+        this.origin = origin;
         this.block = block;
         this.ellipsoidParams = ellipsoidParams;
         this.ellipsoidType = type;
@@ -78,7 +83,7 @@ public class Ellipsoid
 
     public boolean randomlyChooseToNotPlaceBlock(boolean generateBorder)
     {
-        return context.random().nextFloat() > randomChanceToGenerateBlock(generateBorder);
+        return this.random.nextFloat() > randomChanceToGenerateBlock(generateBorder);
     }
 
     public float randomChanceToGenerateBlock(boolean generateBorder) {return 1.0F;} //the block "should be placed", but you can use this to add additional random chance to not generate the block. (1.0F = 100 percent probability to be placed)
@@ -132,8 +137,8 @@ public class Ellipsoid
 
     protected boolean tryPlacingBlock(BlockPos.MutableBlockPos placementPos, BlockPos ellipsoidPos) //ellipsoidPos = offset from centerPos
     {
-        WorldGenLevel level = context.level(); boolean isPlaceable = isReplaceable(level, placementPos);
-        if (isPlaceable) {level.setBlock(placementPos, this.getStateForPlacement(ellipsoidPos), 2);}
+        boolean isPlaceable = isReplaceable(this.level, placementPos);
+        if (isPlaceable) {this.level.setBlock(placementPos, this.getStateForPlacement(ellipsoidPos), 2);}
         return isPlaceable;
     }
 

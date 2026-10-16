@@ -13,64 +13,60 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
-import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class RootBridgeFeature extends AerialHellFeature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
+public record RootBridgeFeature() implements Feature, DungeonSensitiveFeatureCheck
 {
-    private final int MIN_ABS_XZ_OFFSET = 15, MAX_ABS_XZ_OFFSET = 22; //max bridge start-end xz distance from center of worldgen feature
-    private final int MIN_ABS_Y_OFFSET = 5, MAX_ABS_Y_OFFSET = 15; //max bridge start-end y distance from center of worldgen feature
+    private static final int MIN_ABS_XZ_OFFSET = 15, MAX_ABS_XZ_OFFSET = 22; //max bridge start-end xz distance from center of worldgen feature
+    private static final int MIN_ABS_Y_OFFSET = 5, MAX_ABS_Y_OFFSET = 15; //max bridge start-end y distance from center of worldgen feature
 
     private static final SplineKnots.KnotsParameters KNOTS_PARAMETERS = new SplineKnotsDeformedStraightLine.KnotsParameters(8, 16, 0.3F, 5, 20);
 
-    public static final MapCodec<RootBridgeFeature> CODEC = NoneFeatureConfiguration.CODEC.xmap(RootBridgeFeature::new, RootBridgeFeature::config);
+    public static final MapCodec<RootBridgeFeature> CODEC = MapCodec.unit(RootBridgeFeature::new);
 
-    public RootBridgeFeature(NoneFeatureConfiguration config) {super(config);}
-
-    @Override public MapCodec<? extends Feature> codec() {return CODEC;}
+    @Override public MapCodec<RootBridgeFeature> codec() {return CODEC;}
 
     @Override public List<ResourceKey<Feature>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.ROOT_BRIDGE_LIST;}
 
-    @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
+    @Override public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin)
     {
-        WorldGenLevel reader = context.level(); RandomSource rand = context.random();
-        BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(context);
+        BlockPos centerOfFeature = FeatureHelper.getFeatureCenter(origin);
 
         boolean debugFlag = false;
 
-        BlockPos bridgeStart = getRandomBridgeStart(reader, rand, centerOfFeature, 50);
+        BlockPos bridgeStart = getRandomBridgeStart(level, random, centerOfFeature, 50);
         if (bridgeStart == null) {return false;}
-        BlockPos bridgeEnd = getRandomFarBridgeEnd(reader, rand, centerOfFeature, bridgeStart, 50, rand.nextInt(64) == 0);
-        if (bridgeEnd == null) {bridgeEnd = getRandomBridgeEnd(reader, rand, centerOfFeature, bridgeStart, 20, rand.nextInt(32) == 0);}
+        BlockPos bridgeEnd = getRandomFarBridgeEnd(level, random, centerOfFeature, bridgeStart, 50, random.nextInt(64) == 0);
+        if (bridgeEnd == null) {bridgeEnd = getRandomBridgeEnd(level, random, centerOfFeature, bridgeStart, 20, random.nextInt(32) == 0);}
         if (bridgeEnd == null) {return false;}
 
-        if (!this.isDungeonSensitiveValid(context)) {return false;}
+        if (!this.isDungeonSensitiveValid(level, origin)) {return false;}
 
         boolean isLongBridge = bridgeStart.distSqr(bridgeEnd) > 1024;
 
-        if (isLongBridge) {generateBridgeWithIntermediatePos(context, bridgeStart, bridgeEnd, debugFlag);}
-        else {generateBridge(context, bridgeStart, bridgeEnd, debugFlag);}
+        if (isLongBridge) {generateBridgeWithIntermediatePos(level, random, origin, bridgeStart, bridgeEnd, debugFlag);}
+        else {generateBridge(level, random, origin, bridgeStart, bridgeEnd, debugFlag);}
         return true;
 
     }
 
-    protected void generateBridgeWithIntermediatePos(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
+    protected void generateBridgeWithIntermediatePos(WorldGenLevel level, RandomSource random, BlockPos origin, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
     {
-        BlockPos effectiveIntermediatePos1, effectiveIntermediatePos2, intermediatePos = getRandomIntermediatePos(context,  bridgeStart, bridgeEnd, 10);
-        effectiveIntermediatePos1 = generateBridge(context, bridgeStart, intermediatePos, generateDebug);
-        effectiveIntermediatePos2 = generateBridge(context, bridgeEnd, intermediatePos, generateDebug);
-        StraightRootBridge line = new StraightRootBridge(context, new StraightLine.StraightLineParameters(effectiveIntermediatePos1, effectiveIntermediatePos2));
+        BlockPos effectiveIntermediatePos1, effectiveIntermediatePos2, intermediatePos = getRandomIntermediatePos(random, origin, bridgeStart, bridgeEnd, 10);
+        effectiveIntermediatePos1 = generateBridge(level, random, origin, bridgeStart, intermediatePos, generateDebug);
+        effectiveIntermediatePos2 = generateBridge(level, random, origin, bridgeEnd, intermediatePos, generateDebug);
+        StraightRootBridge line = new StraightRootBridge(level, random, origin, new StraightLine.StraightLineParameters(effectiveIntermediatePos1, effectiveIntermediatePos2));
         line.generate(false, generateDebug);
         line = null;
     }
 
-    protected BlockPos generateBridge(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
+    protected BlockPos generateBridge(WorldGenLevel level, RandomSource random, BlockPos origin, BlockPos bridgeStart, BlockPos bridgeEnd, boolean generateDebug)
     {
-        RootBridge spline = new RootBridge(context, new StraightLine.StraightLineParameters(bridgeStart, bridgeEnd), 2 + (context.random().nextInt(8) == 0 ? 1 : 0));
+        RootBridge spline = new RootBridge(level, random, origin, new StraightLine.StraightLineParameters(bridgeStart, bridgeEnd), 2 + (random.nextInt(8) == 0 ? 1 : 0));
         BlockPos lastPos = spline.generate(false, generateDebug);
         spline = null;
         return lastPos;
@@ -125,10 +121,9 @@ public class RootBridgeFeature extends AerialHellFeature<NoneFeatureConfiguratio
         return forceNonNullReturn ? potentialBridgeEnd : null;
     }
 
-    protected BlockPos getRandomIntermediatePos(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos bridgeStart, BlockPos bridgeEnd, int maxTries)
+    protected BlockPos getRandomIntermediatePos(RandomSource rand, BlockPos origin, BlockPos bridgeStart, BlockPos bridgeEnd, int maxTries)
     {
-        RandomSource rand = context.random();
-        BlockPos intermediatePos, centerOfFeature = FeatureHelper.getFeatureCenter(context);
+        BlockPos intermediatePos, centerOfFeature = FeatureHelper.getFeatureCenter(origin);
         if (rand.nextInt(10) == 0) {return centerOfFeature;}
         for (int i=0; i<maxTries; i++)
         {
@@ -168,7 +163,7 @@ public class RootBridgeFeature extends AerialHellFeature<NoneFeatureConfiguratio
 
     private static class StraightRootBridge extends StraightLine
     {
-        public StraightRootBridge(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams) {super(context, straightLineParams, () -> AerialHellBlocks.GIANT_ROOT.get());}
+        public StraightRootBridge(WorldGenLevel level, RandomSource random, BlockPos origin, StraightLineParameters straightLineParams) {super(level, random, origin, straightLineParams, () -> AerialHellBlocks.GIANT_ROOT.get());}
 
         @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
         {
@@ -179,7 +174,7 @@ public class RootBridgeFeature extends AerialHellFeature<NoneFeatureConfiguratio
 
     private static class RootBridge extends SplineKnotsDeformedStraightLine
     {
-        public RootBridge(FeaturePlaceContext<?> context, StraightLineParameters straightLineParams, int knotsNumber) {super(context, straightLineParams, knotsNumber, KNOTS_PARAMETERS, () -> AerialHellBlocks.GIANT_ROOT.get());}
+        public RootBridge(WorldGenLevel level, RandomSource random, BlockPos origin, StraightLineParameters straightLineParams, int knotsNumber) {super(level, random, origin, straightLineParams, knotsNumber, KNOTS_PARAMETERS, () -> AerialHellBlocks.GIANT_ROOT.get());}
 
         @Override protected boolean isReplaceable(WorldGenLevel reader, BlockPos blockPos)
         {

@@ -11,8 +11,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import fr.factionbedrock.aerialhell.World.Features.Util.FeaturePlaceContext;
-import fr.factionbedrock.aerialhell.World.Features.Config.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
@@ -22,11 +20,8 @@ import org.joml.Vector3f;
 
 public class FeatureHelper
 {
-    public static boolean isFeatureGeneratingNextToDungeon(FeaturePlaceContext<?> context)
+    public static boolean isFeatureGeneratingNextToDungeon(WorldGenLevel level, BlockPos origin)
     {
-        WorldGenLevel level = context.level();
-        BlockPos origin = context.origin();
-
         var registryAccess = level.registryAccess().lookupOrThrow(Registries.STRUCTURE);
         HolderSet.Named<Structure> taggedStructures = registryAccess.get(AerialHellTags.Structures.DUNGEONS).orElse(null);
         if (taggedStructures == null) return false;
@@ -84,9 +79,9 @@ public class FeatureHelper
     }
 
     //edited copy of WorldGenRegion method of same name
-    public boolean isWithinWriteZone(FeaturePlaceContext<?> context, BlockPos pos)
+    public boolean isWithinWriteZone(BlockPos origin, BlockPos pos)
     {
-        ChunkPos featureCenter = getFeatureCenterChunk(context);
+        ChunkPos featureCenter = getFeatureCenterChunk(origin);
         ChunkPos chunkPos = ChunkPos.containing(pos);
         return isWithinWriteZone(featureCenter, chunkPos, 1);
     }
@@ -97,30 +92,24 @@ public class FeatureHelper
         return Math.abs(centerPos.x() - readOrWritePos.x()) <= writeRadius && Math.abs(centerPos.z() - readOrWritePos.z()) <= writeRadius;
     }
 
-    public static ChunkPos getFeatureCenterChunk(FeaturePlaceContext<?> context)
+    public static ChunkPos getFeatureCenterChunk(BlockPos origin)
     {
-        return ChunkPos.containing(context.origin());
+        return ChunkPos.containing(origin);
     }
 
-    public static BlockPos getFeatureCenter(FeaturePlaceContext<?> context)
+    public static BlockPos getFeatureCenter(BlockPos origin)
     {
-        ChunkPos chunkPos = getFeatureCenterChunk(context);
+        ChunkPos chunkPos = getFeatureCenterChunk(origin);
 
         int centerOfFeatureX = chunkPos.x() * 16 + 8;
         int centerOfFeatureZ = chunkPos.z() * 16 + 8;
-        return new BlockPos(centerOfFeatureX, context.origin().getY(), centerOfFeatureZ);
+        return new BlockPos(centerOfFeatureX, origin.getY(), centerOfFeatureZ);
     }
 
     public static BlockPos getRandomPosInFeatureRegion(BlockPos featureCenter, RandomSource rand, int MAX_XZ_DISTANCE_FROM_CENTER, int MAX_Y_DISTANCE_FROM_CENTER)
     {
         //MAX_XZ_DISTANCE_FROM_CENTER must be <= 23
         return featureCenter.offset(rand.nextInt(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER), rand.nextInt(- MAX_Y_DISTANCE_FROM_CENTER, MAX_Y_DISTANCE_FROM_CENTER), rand.nextInt(- MAX_XZ_DISTANCE_FROM_CENTER, MAX_XZ_DISTANCE_FROM_CENTER));
-    }
-
-    public static boolean isBlockPosInFeatureRegion(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos pos)
-    {
-        BlockPos featureCenter = getFeatureCenter(context);
-        return isBlockPosInFeatureRegion(featureCenter, pos);
     }
 
     public static boolean isBlockPosInFeatureRegion(BlockPos featureCenter, BlockPos pos)
@@ -132,9 +121,9 @@ public class FeatureHelper
         //MAX_FEATURE_SIZE_HORIZONTAL/2 - 1 because we check from "feature center" blockpos, which is not really the center, since a chunk is 16x16.. the center is 2x2
     }
 
-    public static boolean isBelowMaxBuildHeight(FeaturePlaceContext<?> context, BlockPos pos)
+    public static boolean isBelowMaxBuildHeight(WorldGenLevel level, BlockPos pos)
     {
-        return pos.getY() < context.level().getMaxY();
+        return pos.getY() < level.getMaxY();
     }
 
     public static int getMaxAbsoluteXZOffset(BlockPos pos1, BlockPos pos2)
