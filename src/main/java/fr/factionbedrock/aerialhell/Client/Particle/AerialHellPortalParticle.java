@@ -4,8 +4,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public class AerialHellPortalParticle extends PortalParticle
 {
@@ -21,7 +19,6 @@ public class AerialHellPortalParticle extends PortalParticle
 		this.quadSize *= 1.25F;
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public static class Provider implements ParticleProvider<SimpleParticleType>
 	{
 		private final SpriteSet sprites;

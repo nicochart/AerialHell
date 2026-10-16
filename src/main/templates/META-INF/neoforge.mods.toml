@@ -9,7 +9,7 @@ authors="nicochart"
 
 enumExtensions="META-INF/enumextensions.json"
 
-logoFile="aerialhell.png"
+iconFile="aerialhell.png"
 
 description='''
 nicochart's Aerial Hell

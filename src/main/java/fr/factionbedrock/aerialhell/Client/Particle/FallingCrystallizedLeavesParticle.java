@@ -4,8 +4,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public class FallingCrystallizedLeavesParticle extends FallingLeavesParticle
 {
@@ -14,7 +12,6 @@ public class FallingCrystallizedLeavesParticle extends FallingLeavesParticle
 		super(level, x, y, z, sprites.first(), gravityMultiplier, windBig, swirl, flowAway, size, ySpeed);
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public static class Provider implements ParticleProvider<SimpleParticleType>
 	{
 		private final SpriteSet sprites;

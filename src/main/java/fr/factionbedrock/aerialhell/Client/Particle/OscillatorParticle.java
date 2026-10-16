@@ -7,8 +7,6 @@ import net.minecraft.client.particle.PortalParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public class OscillatorParticle extends PortalParticle
 {
@@ -22,7 +20,6 @@ public class OscillatorParticle extends PortalParticle
         this.bCol = 0.27F;//0.55F;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType>
     {
         private final SpriteSet sprites;

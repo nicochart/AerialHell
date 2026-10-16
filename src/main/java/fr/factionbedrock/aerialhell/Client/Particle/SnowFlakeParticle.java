@@ -7,8 +7,6 @@ import net.minecraft.client.particle.PortalParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public class SnowFlakeParticle extends PortalParticle
 {
@@ -24,7 +22,6 @@ public class SnowFlakeParticle extends PortalParticle
 		this.lifetime = ((int)(16.0F / (Math.random() * 0.9F + 0.1F)));
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public static class Provider implements ParticleProvider<SimpleParticleType>
 	{
 		private final SpriteSet sprites;

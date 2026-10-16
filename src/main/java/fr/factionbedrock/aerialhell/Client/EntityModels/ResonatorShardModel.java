@@ -11,11 +11,8 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.entity.state.ArrowRenderState;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.util.Mth;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 //edited copy or ArrowModel
-@OnlyIn(Dist.CLIENT)
 public class ResonatorShardModel extends EntityModel<ArrowRenderState>
 {
     public ResonatorShardModel(ModelPart root) {super(root, RenderTypes::entityCutoutCull);}

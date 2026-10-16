@@ -22,8 +22,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.MoonPhase;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;
 import org.joml.Vector3fc;
@@ -35,7 +33,6 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
 //edited copy of net.minecraft.client.renderer.SkyRenderer
-@OnlyIn(Dist.CLIENT)
 public class AerialHellDimensionSkyRenderer implements AutoCloseable
 {
     private static final Identifier AERIAL_HELL_SUN_LOCATION = Identifier.fromNamespaceAndPath(AerialHell.MODID, "aerial_hell_sun");

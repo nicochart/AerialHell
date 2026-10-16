@@ -748,12 +748,6 @@ public class AerialHellItems
     public static final DeferredItem<Item> VENOMOUS_SNAKE_SKIN = ITEMS.register(Keys.VENOMOUS_SNAKE_SKIN.identifier().getPath(),() -> new Item(new Item.Properties().setId(Keys.VENOMOUS_SNAKE_SKIN)));
     public static final DeferredItem<Item> ARSONIST_UPGRADE_SMITHING_TEMPLATE = ITEMS.register(Keys.ARSONIST_UPGRADE_SMITHING_TEMPLATE.identifier().getPath(), () -> ItemHelper.SmithingTemplate.createUpgradeTemplate("arsonist", new Item.Properties().setId(Keys.ARSONIST_UPGRADE_SMITHING_TEMPLATE)));
 
-    public static CookingFuel smeltingOnlyFuel(int burnTime)
-    {
-        ResourceKey<ContextIntProvider> burnTimeProvider = ResourceKey.create(Registries.CONTEXT_INT_PROVIDER, Identifier.fromNamespaceAndPath(AerialHell.MODID, "cooking/smelting_only_" + burnTime));
-        return new CookingFuel(burnTimeProvider, ContextFloatProviders.COOKING_DEFAULT_SPEED_MULTIPLIER);
-    }
-
     //projectile item
     public static final DeferredItem<Item> STELLAR_EGG = ITEMS.register(Keys.STELLAR_EGG.identifier().getPath(),() -> new StellarEggItem(new Item.Properties().setId(Keys.STELLAR_EGG).stacksTo(16)));
     public static final DeferredItem<Item> DIMENSION_SHATTERER_PROJECTILE = ITEMS.register(Keys.DIMENSION_SHATTERER_PROJECTILE.identifier().getPath(),() -> new DimensionShattererProjectileItem(new Item.Properties().setId(Keys.DIMENSION_SHATTERER_PROJECTILE).stacksTo(16)));

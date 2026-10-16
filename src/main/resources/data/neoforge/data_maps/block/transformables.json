@@ -169,6 +169,30 @@
         "sound": "minecraft:item.axe.strip"
       }
     },
+    "aerialhell:enchanted_lapis_robinia_log": {
+      "transformer": "minecraft:axe",
+      "transform_data": {
+        "block_state_provider": {
+          "type": "minecraft:rule_based",
+          "rules": [
+            {
+              "if_true": {
+                "type": "minecraft:matching_blocks",
+                "blocks": "aerialhell:enchanted_lapis_robinia_log"
+              },
+              "then": {
+                "type": "minecraft:copy_properties",
+                "source": {
+                  "id": "aerialhell:stripped_lapis_robinia_log"
+                }
+              }
+            }
+          ]
+        },
+        "item_damage_per_use": 1,
+        "sound": "minecraft:item.axe.strip"
+      }
+    },
     "aerialhell:lapis_robinia_wood": {
       "transformer": "minecraft:axe",
       "transform_data": {

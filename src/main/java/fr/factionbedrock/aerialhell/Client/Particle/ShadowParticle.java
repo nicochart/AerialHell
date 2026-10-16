@@ -4,8 +4,6 @@ import net.minecraft.client.particle.*;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public class ShadowParticle extends SingleQuadParticle
 {
@@ -21,7 +19,6 @@ public class ShadowParticle extends SingleQuadParticle
 		this.lifetime =(int) (32.0F + 4.0F * Math.random());
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public static class Provider implements ParticleProvider<SimpleParticleType>
 	{
 		private final SpriteSet sprites;
