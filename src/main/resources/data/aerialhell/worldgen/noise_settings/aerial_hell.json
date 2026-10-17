@@ -278,28 +278,8 @@
           }
         },
         "right": {
-          "type": "minecraft:range_choice",
-          "input": {
-            "type": "minecraft:gradient",
-            "axis": "y",
-            "tiling": "clamp_to_edge",
-            "from_coordinate": 0,
-            "to_coordinate": 300,
-            "from_value": 0,
-            "to_value": 300
-          },
-          "min_inclusive": 0,
-          "max_exclusive": 40,
-          "when_in_range": {
-            "type": "minecraft:gradient",
-            "axis": "y",
-            "tiling": "clamp_to_edge",
-            "from_coordinate": 0,
-            "to_coordinate": 40,
-            "from_value": -0.25,
-            "to_value": 0
-          },
-          "when_out_of_range": {
+          "type": "minecraft:add",
+          "left": {
             "type": "minecraft:range_choice",
             "input": {
               "type": "minecraft:gradient",
@@ -310,57 +290,71 @@
               "from_value": 0,
               "to_value": 300
             },
-            "min_inclusive": 200,
-            "max_exclusive": 256,
+            "min_inclusive": 0,
+            "max_exclusive": 40,
             "when_in_range": {
-              "type": "minecraft:add",
-              "left": {
+              "type": "minecraft:gradient",
+              "axis": "y",
+              "tiling": "clamp_to_edge",
+              "from_coordinate": 0,
+              "to_coordinate": 40,
+              "from_value": -0.25,
+              "to_value": 0
+            },
+            "when_out_of_range": {
+              "type": "minecraft:range_choice",
+              "input": {
                 "type": "minecraft:gradient",
                 "axis": "y",
                 "tiling": "clamp_to_edge",
-                "from_coordinate": 200,
-                "to_coordinate": 256,
+                "from_coordinate": 0,
+                "to_coordinate": 300,
                 "from_value": 0,
-                "to_value": -0.4
+                "to_value": 300
               },
-              "right": {
+              "min_inclusive": 195,
+              "max_exclusive": 256,
+              "when_in_range": {
                 "type": "minecraft:mul",
                 "left": {
                   "type": "minecraft:gradient",
                   "axis": "y",
                   "tiling": "clamp_to_edge",
-                  "from_coordinate": 200,
+                  "from_coordinate": 195,
                   "to_coordinate": 256,
-                  "from_value": -0.1,
-                  "to_value": 0.1
+                  "from_value": 0,
+                  "to_value": -0.6
                 },
                 "right": {
-                  "type": "minecraft:range_choice",
-                  "input": {
-                    "type": "minecraft:gradient",
-                    "axis": "y",
-                    "tiling": "clamp_to_edge",
-                    "from_coordinate": 200,
-                    "to_coordinate": 256,
-                    "from_value": 200,
-                    "to_value": 256
-                  },
-                  "min_inclusive": 200,
-                  "max_exclusive": 220,
-                  "when_in_range": {
-                    "type": "minecraft:gradient",
-                    "axis": "y",
-                    "tiling": "clamp_to_edge",
-                    "from_coordinate": 200,
-                    "to_coordinate": 220,
-                    "from_value": 0,
-                    "to_value": 1
-                  },
-                  "when_out_of_range": 1
+                  "type": "minecraft:gradient",
+                  "axis": "y",
+                  "tiling": "clamp_to_edge",
+                  "from_coordinate": 195,
+                  "to_coordinate": 256,
+                  "from_value": 0,
+                  "to_value": 1
                 }
-              }
+              },
+              "when_out_of_range": 0
+            }
+          },
+          "right": {
+            "type": "minecraft:mul",
+            "left": {
+              "type": "minecraft:noise",
+              "noise": "minecraft:surface",
+              "xz_scale": 1,
+              "y_scale": 0
             },
-            "when_out_of_range": 0
+            "right": {
+              "type": "minecraft:gradient",
+              "axis": "y",
+              "tiling": "clamp_to_edge",
+              "from_coordinate": 175,
+              "to_coordinate": 215,
+              "from_value": 0,
+              "to_value": 0.2
+            }
           }
         }
       },
