@@ -35,11 +35,9 @@ public class ArmsSummonAllyHandler
         return null;
     }
 
-    public void tick()
-    {
-        this.rightArmHandler.tick();
-        this.leftArmHandler.tick();
-    }
+    public void tick() {}
+
+    public boolean canTrigger(boolean isRightArm) {return (isRightArm ? this.rightArmHandler : this.leftArmHandler).canTrigger();}
 
     public List<Phase> getAttackSequence(boolean isRightArm)
     {

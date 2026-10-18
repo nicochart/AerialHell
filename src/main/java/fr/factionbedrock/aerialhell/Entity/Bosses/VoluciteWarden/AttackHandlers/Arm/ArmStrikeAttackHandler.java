@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.Arm;
 
-import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmStrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsStrikeAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
@@ -16,8 +15,6 @@ public class ArmStrikeAttackHandler
     public final VoluciteWardenArmStrikeAttackGoal goal;
     public final ArmsStrikeAttackHandler globalHandler;
     public final List<Phase> attackSequence;
-    private int inactiveTicks;
-    private int cooldown = 40;
 
     public ArmStrikeAttackHandler(VoluciteWardenEntity warden, List<VoluciteWardenEntity.ArmPartInfo> arm, VoluciteWardenArmStrikeAttackGoal goal, ArmsStrikeAttackHandler globalHandler)
     {
@@ -28,43 +25,8 @@ public class ArmStrikeAttackHandler
         this.attackSequence = globalHandler.createAttackSequence(arm);
     }
 
-    @Nullable private ArmStrikeAttackHandler getOtherArmHandler()
-    {
-        return this.globalHandler.getOtherArmHandler(this);
-    }
-
-    public void tick()
-    {
-        if (this.warden.tickCount % 200 == 0) {this.cooldown = this.warden.getRandom().nextInt(200);}
-
-        if (!this.warden.level().isClientSide())
-        {
-            boolean isStriking = this.goal.isActive();
-
-            if (isStriking) {this.inactiveTicks = 0;}
-            else
-            {
-                this.inactiveTicks++;
-                if (this.inactiveTicks > this.cooldown && this.canTrigger())
-                {
-                    this.goal.trigger();
-                }
-            }
-        }
-    }
-
-    public boolean canTrigger()
-    {
-        return this.warden.getTarget() != null && !this.otherIsInWindupPhase() && !this.warden.isArmActive(this.arm) && this.getHandPart() != null;
-    }
-
-    private boolean otherIsInWindupPhase()
-    {
-        @Nullable ArmStrikeAttackHandler other = this.getOtherArmHandler();
-        if (other == null) {return false;}
-
-        return other.goal.getPhaseType() == PhaseType.PREPARE;
-    }
+    //goal-specific trigger conditions (common conditions and triggering are handled by ArmsGoalHandler)
+    public boolean canTrigger() {return this.getHandPart() != null;}
 
     @Nullable public VoluciteWardenEntity.ArmPartInfo getHandPartInfo()
     {

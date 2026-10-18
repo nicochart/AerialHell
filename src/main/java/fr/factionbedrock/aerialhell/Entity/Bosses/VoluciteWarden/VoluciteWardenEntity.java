@@ -3,11 +3,14 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmBeamAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmStrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmSummonAllyGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenMainBeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmGoalType;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsBeamAttackHandler;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsGoalHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsStrikeAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsSummonAllyHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.MainBeamAttackHandler;
@@ -85,6 +88,10 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private VoluciteWardenArmSummonAllyGoal LEFT_ARM_SUMMON_ALLY_GOAL;
 	public final ArmsSummonAllyHandler armsSummonAllyHandler;
 	/* ----------------------------- */
+
+	/* -- Arms Goal fields -- */
+	public final ArmsGoalHandler armsGoalHandler;
+	/* ----------------------- */
 
 	/* -- MasterPartEntity fields -- */
 	private static final EntityDataAccessor<Integer> RIGHT_ARM_SEGMENT_1_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
@@ -169,6 +176,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.armsStrikeAttackHandler = new ArmsStrikeAttackHandler(this, this.getRightArm(), this.RIGHT_ARM_STRIKE_ATTACK_GOAL, this.getLeftArm(), this.LEFT_ARM_STRIKE_ATTACK_GOAL);
 		this.armsBeamAttackHandler = new ArmsBeamAttackHandler(this, this.getRightArm(), this.RIGHT_ARM_BEAM_ATTACK_GOAL, this.getLeftArm(), this.LEFT_ARM_BEAM_ATTACK_GOAL);
 		this.armsSummonAllyHandler = new ArmsSummonAllyHandler(this, this.getRightArm(), this.RIGHT_ARM_SUMMON_ALLY_GOAL, this.getLeftArm(), this.LEFT_ARM_SUMMON_ALLY_GOAL);
+		this.armsGoalHandler = new ArmsGoalHandler(this);
 	}
 
 	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
@@ -235,6 +243,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.armsStrikeAttackHandler.tick();
 		this.armsBeamAttackHandler.tick();
 		this.armsSummonAllyHandler.tick();
+		this.armsGoalHandler.tick();
 
 		//additional things (specific to the volucite warden)
 		if (!this.isInDeadOrDyingPhase()) {this.timeDying = 0;}
@@ -599,6 +608,22 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ---------------------------------------------------- */
 	/* ---------------------------------------------------- */
 	/* ---------------------------------------------------- */
+
+	/* ----------------------------------------------- */
+	/* ---------- Arm Goals : Global methods ---------- */
+	/* ----------------------------------------------- */
+	@Nullable public VoluciteWardenArmGoal getArmGoal(ArmGoalType goalType, boolean isRightArm)
+	{
+		return switch (goalType)
+		{
+			case BEAM -> isRightArm ? this.RIGHT_ARM_BEAM_ATTACK_GOAL : this.LEFT_ARM_BEAM_ATTACK_GOAL;
+			case STRIKE -> isRightArm ? this.RIGHT_ARM_STRIKE_ATTACK_GOAL : this.LEFT_ARM_STRIKE_ATTACK_GOAL;
+			case SUMMON_ALLY -> isRightArm ? this.RIGHT_ARM_SUMMON_ALLY_GOAL : this.LEFT_ARM_SUMMON_ALLY_GOAL;
+		};
+	}
+	/* ----------------------------------------------- */
+	/* ----------------------------------------------- */
+	/* ----------------------------------------------- */
 
 	@Override public void handleEntityEvent(byte id)
 	{

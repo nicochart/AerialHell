@@ -48,9 +48,6 @@ public class ArmsBeamAttackHandler
 
     public void tick()
     {
-        this.rightArmHandler.tick();
-        this.leftArmHandler.tick();
-
         if (!this.isClientSide())
         {
             this.targetManager.tick();
@@ -86,6 +83,8 @@ public class ArmsBeamAttackHandler
             }
         }
     }
+
+    public boolean canTrigger(boolean isRightArm) {return (isRightArm ? this.rightArmHandler : this.leftArmHandler).canTrigger();}
 
     public List<Phase> getAttackSequence(boolean isRightArm)
     {

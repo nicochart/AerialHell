@@ -56,13 +56,12 @@ public class ArmsStrikeAttackHandler
                 this.strikeTargetPos = this.warden.toUnrotatedRelativePos(this.warden.getSyncedTarget().position());
             }
         }
-
-        this.rightArmHandler.tick();
-        this.leftArmHandler.tick();
     }
 
     public boolean isRightArmStriking() {return this.rightArmHandler.goal.isActive();}
     public boolean isLeftArmStriking() {return this.leftArmHandler.goal.isActive();}
+
+    public boolean canTrigger(boolean isRightArm) {return (isRightArm ? this.rightArmHandler : this.leftArmHandler).canTrigger();}
 
     public ArmStrikeAttackHandler getRightArmHandler() {return this.rightArmHandler;}
     public ArmStrikeAttackHandler getLeftArmHandler() {return this.leftArmHandler;}
