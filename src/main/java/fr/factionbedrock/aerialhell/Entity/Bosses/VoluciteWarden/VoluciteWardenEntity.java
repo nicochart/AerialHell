@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmBe
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmStrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmSummonAllyGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenCoreRepulsionGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenMainBeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmGoalType;
@@ -13,6 +14,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsGoalHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsStrikeAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsSummonAllyHandler;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.CoreRepulsionHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.MainBeamAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
 import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemHeadEntity;
@@ -62,7 +64,8 @@ import java.util.Map;
 public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPartEntity, StagedActivableEntity, StrikeAttackEntity
 {
 	public static float EYE_RELATIVE_HEIGHT = 34.50F;
-	public static float CORE_RELATIVE_HEIGHT = 20.50F;
+	public static float CORE_BOTTOM_RELATIVE_HEIGHT = 18.50F;
+	public static float CORE_CENTER_RELATIVE_HEIGHT = 21.50F; //used for particles display
 
 	/* -- Main Beam Attack fields -- */
 	private VoluciteWardenMainBeamAttackGoal MAIN_BEAM_ATTACK_GOAL;
@@ -92,6 +95,13 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* -- Arms Goal fields -- */
 	public final ArmsGoalHandler armsGoalHandler;
 	/* ----------------------- */
+
+	/* -- Core Repulsion fields -- */
+	private VoluciteWardenCoreRepulsionGoal CORE_REPULSION_GOAL;
+	public static final EntityDataAccessor<Integer> CORE_DRAG_OR_REPULSE_GOAL_STATUS = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT); //reserved to core repulsion goal
+	public static final int CORE_NEUTRAL_STATUS = 0, CORE_ATTRACTING_STATUS = 1, CORE_REPULSING_STATUS = 2;
+	public final CoreRepulsionHandler coreRepulsionHandler;
+	/* --------------------------- */
 
 	/* -- MasterPartEntity fields -- */
 	private static final EntityDataAccessor<Integer> RIGHT_ARM_SEGMENT_1_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
@@ -177,6 +187,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.armsBeamAttackHandler = new ArmsBeamAttackHandler(this, this.getRightArm(), this.RIGHT_ARM_BEAM_ATTACK_GOAL, this.getLeftArm(), this.LEFT_ARM_BEAM_ATTACK_GOAL);
 		this.armsSummonAllyHandler = new ArmsSummonAllyHandler(this, this.getRightArm(), this.RIGHT_ARM_SUMMON_ALLY_GOAL, this.getLeftArm(), this.LEFT_ARM_SUMMON_ALLY_GOAL);
 		this.armsGoalHandler = new ArmsGoalHandler(this);
+		this.coreRepulsionHandler = new CoreRepulsionHandler(this, this.CORE_REPULSION_GOAL);
 	}
 
 	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
@@ -190,6 +201,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		builder.define(AWAKENED, false);
 		builder.define(HAS_STRIKE_ACTIVE, false);
 		builder.define(IS_STRIKING, false);
+		builder.define(CORE_DRAG_OR_REPULSE_GOAL_STATUS, CORE_NEUTRAL_STATUS);
 	}
 
 	@SafeVarargs private static void defineAll(SynchedEntityData.Builder builder, EntityDataAccessor<Integer>... dataAccessors)
@@ -239,11 +251,14 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		super.tick();
 		this.partEntityTick();
+		this.tickCoreDragOrRepulseParticles();
+
 		this.mainBeamAttackHandler.tick();
 		this.armsStrikeAttackHandler.tick();
 		this.armsBeamAttackHandler.tick();
 		this.armsSummonAllyHandler.tick();
 		this.armsGoalHandler.tick();
+		this.coreRepulsionHandler.tick();
 
 		//additional things (specific to the volucite warden)
 		if (!this.isInDeadOrDyingPhase()) {this.timeDying = 0;}
@@ -369,6 +384,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.LEFT_ARM_BEAM_ATTACK_GOAL = new VoluciteWardenArmBeamAttackGoal(this, this::getLeftArm, 0.2F);
 		this.RIGHT_ARM_SUMMON_ALLY_GOAL = new VoluciteWardenArmSummonAllyGoal(this, this::getRightArm, 0.2F);
 		this.LEFT_ARM_SUMMON_ALLY_GOAL = new VoluciteWardenArmSummonAllyGoal(this, this::getLeftArm, 0.2F);
+		this.CORE_REPULSION_GOAL = new VoluciteWardenCoreRepulsionGoal(this, CoreRepulsionHandler.ATTRACTION_DURATION, CoreRepulsionHandler.REPULSION_DURATION);
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
@@ -379,6 +395,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.goalSelector.addGoal(4, LEFT_ARM_BEAM_ATTACK_GOAL);
 		this.goalSelector.addGoal(4, RIGHT_ARM_SUMMON_ALLY_GOAL);
 		this.goalSelector.addGoal(4, LEFT_ARM_SUMMON_ALLY_GOAL);
+		this.goalSelector.addGoal(4, CORE_REPULSION_GOAL);
 
 		//this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
@@ -511,7 +528,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		}
 	}
 
-	@Override protected float getDragOrRepulseSourcePosRelativeY() {return CORE_RELATIVE_HEIGHT;}
+	@Override protected float getDragOrRepulseSourcePosRelativeY() {return CORE_BOTTOM_RELATIVE_HEIGHT;}
 
 	@Override public void tickNonHeadPartRotation(PartInfo partInfo)
 	{
@@ -625,6 +642,37 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ----------------------------------------------- */
 	/* ----------------------------------------------- */
 
+	/* --------------------------------------------------- */
+	/* ---------- Core Repulsion : Goal methods ---------- */
+	/* --------------------------------------------------- */
+	public boolean shouldTriggerCoreRepulsion() {return false;}
+
+	public Vec3 getCoreCenterPos() {return this.getDragOrRepulseSourcePos();}
+
+	public void dragOrRepulseEntitiesFromCore(NearbyEntitiesInteractionInfo type, float factor, int range)
+	{
+		this.dragOrRepulseEntities(type, factor, range, range);
+	}
+
+	//core drag or repulse goal status : set by the goal (server side), used by the handler (drag / repulse) and the warden (particles) on both sides
+	public int getCoreDragOrRepulseGoalStatus() {return this.entityData.get(CORE_DRAG_OR_REPULSE_GOAL_STATUS);} //both sides
+	public void setCoreDragOrRepulseGoalStatus(int status) {this.entityData.set(CORE_DRAG_OR_REPULSE_GOAL_STATUS, status);} //server side
+
+	public boolean isCoreAttracting() {return this.getCoreDragOrRepulseGoalStatus() == CORE_ATTRACTING_STATUS;}
+	public boolean isCoreRepulsing() {return this.getCoreDragOrRepulseGoalStatus() == CORE_REPULSING_STATUS;}
+
+	//particles only (client side). drag / repulse itself is done by the handler using this status (CoreRepulsionHandler)
+	private void tickCoreDragOrRepulseParticles()
+	{
+		if (this.level().isClientSide())
+		{
+			this.spawnCoreDragOrRepulseParticles(this.getCoreDragOrRepulseGoalStatus());
+		}
+	}
+	/* --------------------------------------------------- */
+	/* --------------------------------------------------- */
+	/* --------------------------------------------------- */
+
 	@Override public void handleEntityEvent(byte id)
 	{
 		if (id == 68)
@@ -634,6 +682,52 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		}
 		else {super.handleEntityEvent(id);}
 	}
+
+	private void spawnCoreDragOrRepulseParticles(int status)
+	{
+		Vec3 center = this.position().add(0.0F, CORE_CENTER_RELATIVE_HEIGHT, 0.0F);
+		if (status == CORE_ATTRACTING_STATUS)
+		{
+			this.spawnParticlesTowardCenter(ParticleTypes.END_ROD, center, 8, 6.0F, 16.0F);
+		}
+		else if (status == CORE_REPULSING_STATUS)
+		{
+			this.spawnOutwardParticles(ParticleTypes.EXPLOSION, center, 1, 2.0F, 0.0F, 0.0F);
+			this.spawnOutwardParticles(ParticleTypes.CLOUD, center, 20, 2.0F, 1.0F, 2.0F);
+			this.spawnOutwardParticles(ParticleTypes.END_ROD, center, 12, 2.0F, getEndRodSpeedToTravel(7.0F), getEndRodSpeedToTravel(14.0F));
+		}
+	}
+
+	//particles spawned around the center, flying toward the center
+	private void spawnParticlesTowardCenter(ParticleOptions particle, Vec3 center, int number, float minDistance, float maxDistance)
+	{
+		for (int i = 0; i < number; i++)
+		{
+			Vec3 direction = this.randomParticleDirection();
+			float distance = Mth.nextFloat(this.random, minDistance, maxDistance);
+			Vec3 startPos = center.add(direction.scale(distance));
+			Vec3 speed = direction.scale(-getEndRodSpeedToTravel(distance));
+			this.level().addParticle(particle, startPos.x, startPos.y, startPos.z, speed.x, speed.y, speed.z);
+		}
+	}
+
+	//particles spawned on a sphere around the center, flying outward
+	private void spawnOutwardParticles(ParticleOptions particle, Vec3 center, int number, float startRadius, float minSpeed, float maxSpeed)
+	{
+		for (int i = 0; i < number; i++)
+		{
+			Vec3 direction = this.randomParticleDirection();
+			Vec3 startPos = center.add(direction.scale(startRadius));
+			Vec3 speed = direction.scale(Mth.nextFloat(this.random, minSpeed, maxSpeed));
+			this.level().addParticle(particle, startPos.x, startPos.y, startPos.z, speed.x, speed.y, speed.z);
+		}
+	}
+
+	//uniformly distributed random unit vector
+	private Vec3 randomParticleDirection() {return new Vec3(this.random.nextGaussian(), this.random.nextGaussian(), this.random.nextGaussian()).normalize();}
+
+	//end rod particle friction is 0.91 : a particle with initial speed v travels v / (1 - 0.91) blocks
+	private static float getEndRodSpeedToTravel(float distance) {return distance * (1.0F - 0.91F);}
 
 	private void spawnStrikeParticles(Vec3 center, float radius)
 	{
