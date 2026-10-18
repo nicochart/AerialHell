@@ -4,6 +4,9 @@ import fr.factionbedrock.aerialhell.Entity.AI.Phase.InactivePhase;
 import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,10 +29,21 @@ public interface StrikeAttackEntity extends BaseMobEntityInterface
     {
         Level.ExplosionInteraction interaction = destroyBlocks ? Level.ExplosionInteraction.TNT : Level.ExplosionInteraction.NONE;
         this.getLevel().explode(entityUsedToStrike, levelPos.x, levelPos.y, levelPos.z, explosionRadius, interaction);
+
+        //vanilla explosion sound is not played if the explosion source is silent (like multipart child parts). playing it from the striking entity instead
+        if (entityUsedToStrike.isSilent() && !this.getSelf().isSilent()) {this.forcePlayStrikeSound(levelPos);}
+
         List<LivingEntity> hitEntities = EntityHelper.getTargetableLivingEntitiesInInflatedBoundingBox(entityUsedToStrike, bonusDamageRange,  (potentialTarget) -> !potentialTarget.is(this.getSelf()) && EntitySelector.withinDistance(entityUsedToStrike.position().x, entityUsedToStrike.position().y + entityUsedToStrike.getBbHeight() * 0.5F, entityUsedToStrike.position().z, bonusDamageRange).test(potentialTarget));
         this.damageEntities(hitEntities, bonusDamageAmount, knockbackScale, entityUsedToStrike);
 
         this.getLevel().broadcastEntityEvent(this.getSelf(), (byte) 68);
+    }
+
+    //vanilla explosion sound (ClientPacketListener.handleExplosion)
+    private void forcePlayStrikeSound(Vec3 levelPos)
+    {
+        RandomSource random = this.getSelf().getRandom();
+        this.getLevel().playSound(null, levelPos.x, levelPos.y, levelPos.z, SoundEvents.GENERIC_EXPLODE.value(), SoundSource.BLOCKS, 4.0F, (1.0F + (random.nextFloat() - random.nextFloat()) * 0.2F) * 0.7F);
     }
 
     default boolean shouldTriggerStrikeAttack() {return this.canUseStrikeAttack();} //return false if you want the goal to only be active when manually triggered
