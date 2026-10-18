@@ -24,6 +24,7 @@ import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
 import fr.factionbedrock.aerialhell.Entity.StagedActivableEntity;
 import fr.factionbedrock.aerialhell.Entity.StrikeAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
+import fr.factionbedrock.aerialhell.Entity.Util.DisplayParticlesHelper;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
@@ -251,7 +252,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		super.tick();
 		this.partEntityTick();
-		this.tickCoreDragOrRepulseParticles();
 
 		this.mainBeamAttackHandler.tick();
 		this.armsStrikeAttackHandler.tick();
@@ -529,6 +529,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	}
 
 	@Override protected float getDragOrRepulseSourcePosRelativeY() {return CORE_BOTTOM_RELATIVE_HEIGHT;}
+	@Override protected float getDragOrRepulseParticlesPosRelativeY() {return CORE_CENTER_RELATIVE_HEIGHT;}
 
 	@Override public void tickNonHeadPartRotation(PartInfo partInfo)
 	{
@@ -649,26 +650,17 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	public Vec3 getCoreCenterPos() {return this.getDragOrRepulseSourcePos();}
 
-	public void dragOrRepulseEntitiesFromCore(NearbyEntitiesInteractionInfo type, float factor, int range)
+	public void dragOrRepulseEntitiesFromCore(NearbyEntitiesInteractionInfo type, float factor, int range, DisplayParticlesHelper... particles)
 	{
-		this.dragOrRepulseEntities(type, factor, range, range);
+		this.dragOrRepulseEntities(type, factor, range, range, particles);
 	}
 
-	//core drag or repulse goal status : set by the goal (server side), used by the handler (drag / repulse) and the warden (particles) on both sides
+	//core drag or repulse goal status : set by the goal (server side), used by the handler (drag / repulse & particles) on both sides
 	public int getCoreDragOrRepulseGoalStatus() {return this.entityData.get(CORE_DRAG_OR_REPULSE_GOAL_STATUS);} //both sides
 	public void setCoreDragOrRepulseGoalStatus(int status) {this.entityData.set(CORE_DRAG_OR_REPULSE_GOAL_STATUS, status);} //server side
 
 	public boolean isCoreAttracting() {return this.getCoreDragOrRepulseGoalStatus() == CORE_ATTRACTING_STATUS;}
 	public boolean isCoreRepulsing() {return this.getCoreDragOrRepulseGoalStatus() == CORE_REPULSING_STATUS;}
-
-	//particles only (client side). drag / repulse itself is done by the handler using this status (CoreRepulsionHandler)
-	private void tickCoreDragOrRepulseParticles()
-	{
-		if (this.level().isClientSide())
-		{
-			this.spawnCoreDragOrRepulseParticles(this.getCoreDragOrRepulseGoalStatus());
-		}
-	}
 	/* --------------------------------------------------- */
 	/* --------------------------------------------------- */
 	/* --------------------------------------------------- */
@@ -682,52 +674,6 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		}
 		else {super.handleEntityEvent(id);}
 	}
-
-	private void spawnCoreDragOrRepulseParticles(int status)
-	{
-		Vec3 center = this.position().add(0.0F, CORE_CENTER_RELATIVE_HEIGHT, 0.0F);
-		if (status == CORE_ATTRACTING_STATUS)
-		{
-			this.spawnParticlesTowardCenter(ParticleTypes.END_ROD, center, 8, 6.0F, 16.0F);
-		}
-		else if (status == CORE_REPULSING_STATUS)
-		{
-			this.spawnOutwardParticles(ParticleTypes.EXPLOSION, center, 1, 2.0F, 0.0F, 0.0F);
-			this.spawnOutwardParticles(ParticleTypes.CLOUD, center, 20, 2.0F, 1.0F, 2.0F);
-			this.spawnOutwardParticles(ParticleTypes.END_ROD, center, 12, 2.0F, getEndRodSpeedToTravel(7.0F), getEndRodSpeedToTravel(14.0F));
-		}
-	}
-
-	//particles spawned around the center, flying toward the center
-	private void spawnParticlesTowardCenter(ParticleOptions particle, Vec3 center, int number, float minDistance, float maxDistance)
-	{
-		for (int i = 0; i < number; i++)
-		{
-			Vec3 direction = this.randomParticleDirection();
-			float distance = Mth.nextFloat(this.random, minDistance, maxDistance);
-			Vec3 startPos = center.add(direction.scale(distance));
-			Vec3 speed = direction.scale(-getEndRodSpeedToTravel(distance));
-			this.level().addParticle(particle, startPos.x, startPos.y, startPos.z, speed.x, speed.y, speed.z);
-		}
-	}
-
-	//particles spawned on a sphere around the center, flying outward
-	private void spawnOutwardParticles(ParticleOptions particle, Vec3 center, int number, float startRadius, float minSpeed, float maxSpeed)
-	{
-		for (int i = 0; i < number; i++)
-		{
-			Vec3 direction = this.randomParticleDirection();
-			Vec3 startPos = center.add(direction.scale(startRadius));
-			Vec3 speed = direction.scale(Mth.nextFloat(this.random, minSpeed, maxSpeed));
-			this.level().addParticle(particle, startPos.x, startPos.y, startPos.z, speed.x, speed.y, speed.z);
-		}
-	}
-
-	//uniformly distributed random unit vector
-	private Vec3 randomParticleDirection() {return new Vec3(this.random.nextGaussian(), this.random.nextGaussian(), this.random.nextGaussian()).normalize();}
-
-	//end rod particle friction is 0.91 : a particle with initial speed v travels v / (1 - 0.91) blocks
-	private static float getEndRodSpeedToTravel(float distance) {return distance * (1.0F - 0.91F);}
 
 	private void spawnStrikeParticles(Vec3 center, float radius)
 	{

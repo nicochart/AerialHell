@@ -4,9 +4,11 @@ import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenCoreRepulsionGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.NearbyEntitiesInteractionInfo;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
+import fr.factionbedrock.aerialhell.Entity.Util.DisplayParticlesHelper;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
@@ -14,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 //core repulsion : the core gently attracts nearby entities, then suddenly repulses them, destroying blocks too close to the core
-//drag / repulse is done here (both sides), depending on CORE_DRAG_OR_REPULSE_GOAL_STATUS (set by the goal). particles are handled by the warden
+//drag / repulse is done here (both sides), depending on CORE_DRAG_OR_REPULSE_GOAL_STATUS (set by the goal)
 public class CoreRepulsionHandler
 {
     public static final int ATTRACTION_DURATION = 100;
@@ -22,6 +24,10 @@ public class CoreRepulsionHandler
     private static final int DRAG_OR_REPULSE_RANGE = 30;
     private static final float ATTRACTION_FACTOR = 40.0F; //adds 0.04 block/tick
     private static final float REPULSION_FACTOR = 500.0F; //adds 0.5 block/tick
+    private static final DisplayParticlesHelper ATTRACTION_END_ROD_PARTICLES = DisplayParticlesHelper.towardSource(ParticleTypes.END_ROD, 8, 6.0F, 16.0F, DisplayParticlesHelper.END_ROD_FRICTION);
+    private static final DisplayParticlesHelper REPULSION_EXPLOSION_PARTICLES = DisplayParticlesHelper.fromSource(ParticleTypes.EXPLOSION, 1, 2.0F, 0.0F, 0.0F);
+    private static final DisplayParticlesHelper REPULSION_CLOUD_PARTICLES = DisplayParticlesHelper.fromSource(ParticleTypes.CLOUD, 20, 2.0F, 1.0F, 2.0F);
+    private static final DisplayParticlesHelper REPULSION_END_ROD_PARTICLES = DisplayParticlesHelper.fromSource(ParticleTypes.END_ROD, 12, 2.0F, DisplayParticlesHelper.getSpeedToTravel(7.0F, DisplayParticlesHelper.END_ROD_FRICTION), DisplayParticlesHelper.getSpeedToTravel(14.0F, DisplayParticlesHelper.END_ROD_FRICTION));
     private static final float BLOCK_DESTRUCTION_RADIUS = 7.0F;
     private static final float TRIGGER_RANGE = 16.0F; //max distance between core and target to trigger
 
@@ -53,8 +59,8 @@ public class CoreRepulsionHandler
         }
 
         //both sides, using synced status (goal does not exist client side). client side drag / repulse is needed to move players (player movement is client authoritative)
-        if (this.warden.isCoreAttracting()) {this.warden.dragOrRepulseEntitiesFromCore(NearbyEntitiesInteractionInfo.DRAG_UNIFORM, ATTRACTION_FACTOR, DRAG_OR_REPULSE_RANGE);}
-        else if (this.warden.isCoreRepulsing()) {this.warden.dragOrRepulseEntitiesFromCore(NearbyEntitiesInteractionInfo.REPULSE_UNIFORM, REPULSION_FACTOR, DRAG_OR_REPULSE_RANGE);}
+        if (this.warden.isCoreAttracting()) {this.warden.dragOrRepulseEntitiesFromCore(NearbyEntitiesInteractionInfo.DRAG_UNIFORM, ATTRACTION_FACTOR, DRAG_OR_REPULSE_RANGE, ATTRACTION_END_ROD_PARTICLES);}
+        else if (this.warden.isCoreRepulsing()) {this.warden.dragOrRepulseEntitiesFromCore(NearbyEntitiesInteractionInfo.REPULSE_UNIFORM, REPULSION_FACTOR, DRAG_OR_REPULSE_RANGE, REPULSION_EXPLOSION_PARTICLES, REPULSION_CLOUD_PARTICLES, REPULSION_END_ROD_PARTICLES);}
     }
 
     private boolean canTrigger()

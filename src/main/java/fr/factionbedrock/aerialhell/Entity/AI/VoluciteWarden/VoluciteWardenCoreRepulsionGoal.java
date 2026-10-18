@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenE
 import net.minecraft.world.entity.ai.goal.Goal;
 
 //core attracts nearby entities for attractionDuration ticks, then repulses them for repulsionDuration ticks (see CoreRepulsionHandler)
-//drag / repulse is handled by CoreRepulsionHandler and particles by the warden, depending on CORE_DRAG_OR_REPULSE_GOAL_STATUS (set here)
+//drag / repulse is handled by CoreRepulsionHandler, depending on CORE_DRAG_OR_REPULSE_GOAL_STATUS (set here)
 public class VoluciteWardenCoreRepulsionGoal extends Goal
 {
     public final VoluciteWardenEntity goalOwner;
