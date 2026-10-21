@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Entity.Passive.StellarChickenEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 
 public class StellarChickenRender extends MobRenderer<StellarChickenEntity, StellarChickenRenderState, StellarChickenModel>
@@ -33,6 +34,6 @@ public class StellarChickenRender extends MobRenderer<StellarChickenEntity, Stel
         super.extractRenderState(entity, renderState, flap);
         renderState.flap = Mth.lerp(flap, entity.oFlap, entity.flap);
         renderState.flapSpeed = Mth.lerp(flap, entity.oFlapSpeed, entity.flapSpeed);
-        renderState.color = entity.getColor();
+        renderState.color = ARGB.opaque(entity.getColor());
     }
 }
