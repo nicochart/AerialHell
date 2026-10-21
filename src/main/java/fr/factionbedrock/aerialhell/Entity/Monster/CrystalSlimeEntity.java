@@ -187,6 +187,7 @@ public class CrystalSlimeEntity extends Mob implements LunarMisleadableEntity
 	
 	public static boolean canSpawn(EntityType<CrystalSlimeEntity> type, ServerLevelAccessor worldIn, EntitySpawnReason reason, BlockPos pos, RandomSource randomIn)
     {
+        if (EntitySpawnReason.isSpawner(reason)) {return AerialHellHostileEntity.checkSpawnerSpawnRules(type, worldIn, reason, pos, randomIn);}
         return randomIn.nextInt(10) == 0 && worldIn.getLevel().isBrightOutside();
     }
 
