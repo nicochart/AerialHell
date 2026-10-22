@@ -34,7 +34,7 @@ public class AerialHellFungusBlock extends NetherFungusBlock
 			{
 				BlockPos generationPos = AerialHellMushroomBlock.getOffsetPosForHugeShroom(pos, hugeShroomDirection);
 				ConfiguredFeature<?, ?> configuredfeature = level.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).get(AerialHellConfiguredFeatures.CORTINARIUS_VIOLACEUS_MUSHROOM_CAPS_COLUMN).orElse(null).value();
-				AerialHellMushroomBlock.setFourBlocks(level, generationPos, hugeShroomDirection, Blocks.AIR.defaultBlockState(), 4);
+				AerialHellMushroomBlock.setFourBlocks(level, generationPos, hugeShroomDirection, Blocks.AIR.defaultBlockState(), 3);
 
 				if (configuredfeature.place(level, level.getChunkSource().getGenerator(), random, generationPos)) {return;}
 				else {AerialHellMushroomBlock.setFourBlocks(level, generationPos, hugeShroomDirection, state, 3);}
