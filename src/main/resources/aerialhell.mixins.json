@@ -4,11 +4,11 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"LivingEntityFallFlyingMixin",
-		"LivingEntityGravityMixin",
-		"UseItemFovModifierMixin",
-		"UseItemInHandRendererMixin"
+		"LivingEntityGravityMixin"
 	],
 	"client": [
+		"UseItemFovModifierMixin",
+		"UseItemInHandRendererMixin",
 		"CubeMapTextureMixin"
 	],
 	"injectors": {

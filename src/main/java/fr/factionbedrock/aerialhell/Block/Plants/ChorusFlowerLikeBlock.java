@@ -8,16 +8,56 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChorusFlowerBlock;
+import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 import javax.annotation.Nullable;
 
 public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
 {
-    public ChorusFlowerLikeBlock(ChorusPlantLikeBlock plantBlock, Properties prop) {super(plantBlock, prop);}
+    //horizontal connections to the plant, used to display a link between the side of the plant and the flower
+    public static final BooleanProperty NORTH = PipeBlock.NORTH;
+    public static final BooleanProperty EAST = PipeBlock.EAST;
+    public static final BooleanProperty SOUTH = PipeBlock.SOUTH;
+    public static final BooleanProperty WEST = PipeBlock.WEST;
+
+    public ChorusFlowerLikeBlock(ChorusPlantLikeBlock plantBlock, Properties prop)
+    {
+        super(plantBlock, prop);
+        this.registerDefaultState(this.defaultBlockState().setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false));
+    }
+
+    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
+    {
+        super.createBlockStateDefinition(builder);
+        builder.add(NORTH, EAST, SOUTH, WEST);
+    }
+
+    @Override public BlockState getStateForPlacement(BlockPlaceContext context) {return this.getStateWithPlantConnections(context.getLevel(), context.getClickedPos(), this.defaultBlockState());}
+
+    public BlockState getStateWithPlantConnections(BlockGetter level, BlockPos pos, BlockState state)
+    {
+        for (Direction direction : Direction.Plane.HORIZONTAL)
+        {
+            state = state.setValue(PipeBlock.PROPERTY_BY_DIRECTION.get(direction), level.getBlockState(pos.relative(direction)).is(this.plant));
+        }
+        return state;
+    }
+
+    @Override protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos)
+    {
+        BlockState newState = super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+        if (direction.getAxis().isHorizontal()) {newState = newState.setValue(PipeBlock.PROPERTY_BY_DIRECTION.get(direction), neighborState.is(this.plant));}
+        return newState;
+    }
 
     @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
     {
@@ -60,7 +100,7 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
 
                 if (flag && allNeighborsEmpty(level, blockpos, (Direction)null) && level.isEmptyBlock(pos.above(2)))
                 {
-                    level.setBlock(pos, ChorusPlantLikeBlock.getStateWithConnections(level, pos, this.plant.defaultBlockState()), 2);
+                    level.setBlock(pos, ChorusPlantLikeBlock.getStateForPlacement(level, pos, this.plant.defaultBlockState()), 2);
                     this.placeGrownFlower(level, blockpos, i);
                 }
                 else if (i < 4)
@@ -81,7 +121,7 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
                         }
                     }
 
-                    if (flag2) {level.setBlock(pos, ChorusPlantLikeBlock.getStateWithConnections(level, pos, this.plant.defaultBlockState()), 2);}
+                    if (flag2) {level.setBlock(pos, ChorusPlantLikeBlock.getStateForPlacement(level, pos, this.plant.defaultBlockState()), 2);}
                     else {this.placeDeadFlower(level, pos);}
                 }
                 else {this.placeDeadFlower(level, pos);}
@@ -93,12 +133,12 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
     private boolean isValidGround(BlockState state) {return state.is(AerialHellTags.Blocks.STELLAR_DIRT);}
 
     private void placeGrownFlower(Level p_51662_, BlockPos p_51663_, int p_51664_) {
-        p_51662_.setBlock(p_51663_, this.defaultBlockState().setValue(AGE, Integer.valueOf(p_51664_)), 2);
+        p_51662_.setBlock(p_51663_, this.getStateWithPlantConnections(p_51662_, p_51663_, this.defaultBlockState().setValue(AGE, Integer.valueOf(p_51664_))), 2);
         p_51662_.levelEvent(1033, p_51663_, 0);
     }
 
     private void placeDeadFlower(Level p_51659_, BlockPos p_51660_) {
-        p_51659_.setBlock(p_51660_, this.defaultBlockState().setValue(AGE, Integer.valueOf(5)), 2);
+        p_51659_.setBlock(p_51660_, this.getStateWithPlantConnections(p_51659_, p_51660_, this.defaultBlockState().setValue(AGE, Integer.valueOf(5))), 2);
         p_51659_.levelEvent(1034, p_51660_, 0);
     }
 
@@ -150,6 +190,6 @@ public class ChorusFlowerLikeBlock extends ChorusFlowerBlock
                 }
             }
         }
-        if (!flag) {level.setBlock(pos1.above(i), AerialHellBlocksAndItems.FULL_MOON_FLOWER.get().defaultBlockState().setValue(AGE, Integer.valueOf(5)), 2);}
+        if (!flag) {level.setBlock(pos1.above(i), AerialHellBlocksAndItems.FULL_MOON_FLOWER.get().getStateWithPlantConnections(level, pos1.above(i), AerialHellBlocksAndItems.FULL_MOON_FLOWER.get().defaultBlockState().setValue(AGE, Integer.valueOf(5))), 2);}
     }
 }
