@@ -32,20 +32,17 @@ public class AerialHellFluidBlock extends LiquidBlock
 	
 	private void triggerMixEffects(LevelAccessor world, BlockPos pos) {world.levelEvent(LevelEvent.LAVA_FIZZ, pos, 0);}
 	
-	@Override
-	public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify)
+	@Override public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean notify)
 	{
-		reactWithNeighbors(world, pos, state);
-		super.onPlace(state, world, pos, oldState, notify);
+		if (!reactWithNeighbors(level, pos, state)) {super.onPlace(state, level, pos, oldState, notify);}
 	}
-	
-	@Override
-	public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving)
+
+	@Override public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving)
 	{
-		reactWithNeighbors(world, pos, state);
+		if (!reactWithNeighbors(level, pos, state)) {super.neighborChanged(state, level, pos, block, fromPos, isMoving);}
 	}
-	
-	private void reactWithNeighbors(Level level, BlockPos pos, BlockState state)
+
+	private boolean reactWithNeighbors(Level level, BlockPos pos, BlockState state) //returns true if the fluid reacted (and was replaced by a block)
 	{
 		if(this.fluid.is(AerialHellTags.Fluids.LIQUID_OF_THE_GODS))
 		{
@@ -59,10 +56,12 @@ public class AerialHellFluidBlock extends LiquidBlock
 	                	Block block = level.getFluidState(pos).isSource() ? AerialHellBlocks.STELLAR_PORTAL_FRAME_BLOCK /*AerialHellBlocksAndItems.STELLAR_OBSIDIAN ??*/ : AerialHellBlocks.STELLAR_STONE;
 	                    level.setBlockAndUpdate(pos, block.defaultBlockState());
 	                    this.triggerMixEffects(level, pos);
+	                    return true;
 	                }
 	            }
 	        }
 		}
+		return false;
 	}
 	
     @Override

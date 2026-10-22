@@ -23,18 +23,17 @@ public class GlowingStellarTallGrass extends AerialHellTallGrassBlock
 
 	@Override public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity)
 	{
-		if (!world.isClientSide) {interact(state, world, pos);}
+		if (!world.isClientSide && !state.getValue(LIT)) {world.setBlock(pos, state.setValue(LIT, true), 3);}
 	}
 
 	@Override public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult)
 	{
-		if (!world.isClientSide) {interact(state, world, pos);}
+		if (player.getMainHandItem().isEmpty() && !state.getValue(LIT))
+		{
+			world.setBlock(pos, state.setValue(LIT, true), 3);
+			return InteractionResult.sidedSuccess(world.isClientSide);
+		}
 		return InteractionResult.PASS;
-	}
-
-	private static void interact(BlockState state, Level world, BlockPos pos)
-	{
-		if (!state.getValue(LIT)) {world.setBlock(pos, state.setValue(LIT, true), 3);}
 	}
 
 	@Override public boolean isRandomlyTicking(BlockState state) {return state.getValue(LIT);}
