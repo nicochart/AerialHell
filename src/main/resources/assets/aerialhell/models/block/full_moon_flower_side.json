@@ -1,0 +1,18 @@
+{
+    "ambientocclusion": false,
+    "textures": {
+        "texture": "aerialhell:block/full_moon_plant",
+        "particle": "aerialhell:block/full_moon_plant"
+    },
+    "elements": [
+        {   "from": [ 4, 4, 0 ],
+            "to": [ 12, 12, 2 ],
+            "faces": {
+                "down":  { "texture": "#texture" },
+                "up":    { "texture": "#texture" },
+                "west":  { "texture": "#texture" },
+                "east":  { "texture": "#texture" }
+            }
+        }
+    ]
+}
