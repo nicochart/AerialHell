@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.Entity;
 
+import fr.factionbedrock.aerialhell.Entity.Monster.AerialHellHostileEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
@@ -38,6 +39,7 @@ public class AbstractCaterpillarEntity extends Silverfish
 	
 	public static boolean canCaterpillarSpawn(EntityType<? extends AbstractCaterpillarEntity> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource randomIn)
     {
+        if (reason == MobSpawnType.SPAWNER) {return AerialHellHostileEntity.checkSpawnerSpawnRules(type, worldIn, reason, pos, randomIn);}
         return randomIn.nextInt(10) == 0 && worldIn.getLevel().isDay();
     }
 }

@@ -34,20 +34,17 @@ public class AerialHellFluidBlock extends LiquidBlock {
 	
 	private void triggerMixEffects(LevelAccessor worldIn, BlockPos pos) {worldIn.levelEvent(1501, pos, 0);} //fizz in FluidBlock
 	
-	@Override
-	public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean isMoving)
+	@Override public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving)
 	{
-		reactWithNeighbors(worldIn, pos, state);
-		super.onPlace(state, worldIn, pos, oldState, isMoving);
+		if (!reactWithNeighbors(level, pos, state)) {super.onPlace(state, level, pos, oldState, isMoving);}
 	}
-	
-	@Override
-	public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving)
+
+	@Override public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving)
 	{
-		reactWithNeighbors(worldIn, pos, state);
+		if (!reactWithNeighbors(level, pos, state)) {super.neighborChanged(state, level, pos, block, fromPos, isMoving);}
 	}
-	
-	private void reactWithNeighbors(Level worldIn, BlockPos pos, BlockState state)
+
+	private boolean reactWithNeighbors(Level worldIn, BlockPos pos, BlockState state) //returns true if the fluid reacted (and was replaced by a block)
 	{
 		if(this.getFluid() == AerialHellFluids.LIQUID_OF_THE_GODS_SOURCE.get() || this.getFluid() == AerialHellFluids.LIQUID_OF_THE_GODS_FLOWING.get())
 		{
@@ -61,10 +58,12 @@ public class AerialHellFluidBlock extends LiquidBlock {
 	                	Block block = worldIn.getFluidState(pos).isSource() ? AerialHellBlocksAndItems.STELLAR_PORTAL_FRAME_BLOCK.get() /*AerialHellBlocksAndItems.STELLAR_OBSIDIAN ??*/ : AerialHellBlocksAndItems.STELLAR_STONE.get();
 	                    worldIn.setBlockAndUpdate(pos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(worldIn, pos, pos, block.defaultBlockState()));
 	                    this.triggerMixEffects(worldIn, pos);
+	                    return true;
 	                }
 	            }
 	        }
 		}
+		return false;
 	}
 	
     @Override
