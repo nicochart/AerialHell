@@ -21,7 +21,7 @@ public class GhostBoatSlabBlock extends SlabBlock
 {
 	public GhostBoatSlabBlock(Properties properties)
 	{
-		super(properties);
+		super(properties.isValidSpawn((state, blockGetter, blockPos, entityType) -> false));
 		this.registerDefaultState(this.defaultBlockState());
 	}
 

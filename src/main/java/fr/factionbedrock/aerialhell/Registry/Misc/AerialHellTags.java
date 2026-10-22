@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.material.Fluid;
 
@@ -237,7 +238,17 @@ public class AerialHellTags
 
 		private static TagKey<Structure> tag(String name)
 		{
-			return TagKey.create(Registries.STRUCTURE, new ResourceLocation(name));
+			return TagKey.create(Registries.STRUCTURE, new ResourceLocation(AerialHell.MODID, name));
+		}
+	}
+
+	public static class ConfiguredFeatures
+	{
+		public static final TagKey<ConfiguredFeature<?, ?>> CANT_PLACE_IN_DUNGEONS = tag("cant_place_in_dungeons");
+
+		private static TagKey<ConfiguredFeature<?, ?>> tag(String name)
+		{
+			return TagKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(AerialHell.MODID, name));
 		}
 	}
 

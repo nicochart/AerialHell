@@ -17,7 +17,7 @@ public class GhostBoatVineRopeSpoolBlock extends VineRopeSpoolBlock {
 
     public GhostBoatVineRopeSpoolBlock(Properties prop)
     {
-        super(prop.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true));
+        super(prop.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> true).isValidSpawn((state, blockGetter, blockPos, entityType) -> false));
     }
 
     @Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)

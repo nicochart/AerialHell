@@ -1,5 +1,9 @@
 package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 
+import java.util.List;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
@@ -21,10 +25,12 @@ public class WhiteSolidEtherCloudFeature extends AbstractSolidEtherCloudFeature
     
 	public WhiteSolidEtherCloudFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
 
+	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.WHITE_SOLID_ETHER_LIST;}
+
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
 		BlockPos pos = context.origin(); RandomSource rand = context.random(); ChunkGenerator generator = context.chunkGenerator();
-		if (FeatureHelper.isFeatureGeneratingNextToDungeon(context)) {return false;}
+		if (!this.isDungeonSensitiveValid(context)) {return false;}
     	
     	BlockPos generatePos = pos;
     	if (pos.getY() < getMinGenHeigh() || pos.getY() >  getMaxGenHeigh()) {generatePos = getRandomHeighGenerationPos(pos.getX(), getMinGenHeigh(), getMaxGenHeigh(), pos.getZ(), rand);}

@@ -1,8 +1,0 @@
-{
-    "parent": "block/slab_top",
-    "textures": {
-        "bottom": "aerialhell:block/volucite_stone",
-        "top": "aerialhell:block/volucite_stone",
-        "side": "aerialhell:block/volucite_stone"
-    }
-}

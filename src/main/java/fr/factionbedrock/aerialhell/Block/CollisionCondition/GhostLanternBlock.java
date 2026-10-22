@@ -17,7 +17,7 @@ public class GhostLanternBlock extends LanternBlock
 {
     public GhostLanternBlock(Properties prop)
     {
-        super(prop.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false));
+        super(prop.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isViewBlocking((state, blockGetter, pos) -> false).isValidSpawn((state, blockGetter, blockPos, entityType) -> false));
     }
 
     @Override public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity)

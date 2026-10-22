@@ -23,7 +23,7 @@ public class SolidEtherBlock extends CollisionConditionHalfTransparentBlock
 	
 	public SolidEtherBlock(BlockBehaviour.Properties properties)
 	{
-		super(properties);
+		super(properties.isValidSpawn((state, blockGetter, blockPos, entityType) -> false));
 		this.registerDefaultState(this.defaultBlockState());
 	}
 

@@ -1,5 +1,9 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
+import java.util.List;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
@@ -14,9 +18,11 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfiguration>
+public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
     public GiantGanodermaApplanatumFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
+
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.GIANT_GANODERMA_APPLANATUM_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
@@ -26,7 +32,7 @@ public class GiantGanodermaApplanatumFeature extends Feature<NoneFeatureConfigur
             ((reader.getBlockState(pos.north(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.south(2)).getBlock().equals(Blocks.AIR)) || (reader.getBlockState(pos.west(2)).getBlock().equals(Blocks.AIR) ^ reader.getBlockState(pos.east(2)).getBlock().equals(Blocks.AIR))) &&
             (reader.getBlockState(pos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(pos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
 		
-		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
+		boolean generatesInDungeon = !this.isDungeonSensitiveValid(context);
 		
         if (canGenerate && !generatesInDungeon)
         {

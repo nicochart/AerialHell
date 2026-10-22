@@ -1,5 +1,9 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
+import java.util.List;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
@@ -15,9 +19,11 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
+public class DanglingChainFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
     public DanglingChainFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
+
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.DANGLING_CHAIN_LIST;}
 
     private static enum LinkDirection{NORTH_SOUTH, WEST_EAST}
 
@@ -31,7 +37,7 @@ public class DanglingChainFeature extends Feature<NoneFeatureConfiguration>
     		&& hasAnyStoneBlockAbove(blockPos.south(4).west(4), reader, 10)
     		&& hasAnyStoneBlockAbove(blockPos.south(4).east(4), reader, 10);
     	
-		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
+		boolean generatesInDungeon = !this.isDungeonSensitiveValid(context);
 		
         if (canGenerate && !generatesInDungeon)
         {

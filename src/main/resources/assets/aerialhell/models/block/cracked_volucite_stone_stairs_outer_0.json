@@ -1,0 +1,8 @@
+{
+    "parent": "block/outer_stairs",
+    "textures": {
+        "bottom": "aerialhell:block/cracked_volucite_stone_0",
+        "top": "aerialhell:block/cracked_volucite_stone_0",
+        "side": "aerialhell:block/cracked_volucite_stone_0"
+    }
+}

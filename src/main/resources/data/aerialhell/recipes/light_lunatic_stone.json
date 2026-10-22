@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#F#",
+    " # "
+  ],
+  "key": {
+    "F": {"item": "aerialhell:fluorite_block"},
+    "#": {"item": "aerialhell:lunatic_stone"}
+  },
+  "result": {
+    "item": "aerialhell:light_lunatic_stone",
+    "count": 4
+  }
+}

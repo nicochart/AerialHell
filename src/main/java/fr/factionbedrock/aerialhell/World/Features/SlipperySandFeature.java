@@ -1,5 +1,9 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
+import java.util.List;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
@@ -15,10 +19,12 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
+public class SlipperySandFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
 
     public SlipperySandFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
+
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.SLIPPERY_SAND_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
@@ -27,7 +33,7 @@ public class SlipperySandFeature extends Feature<NoneFeatureConfiguration>
                 (reader.getBlockState(blockPos.north(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.south(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.west(3)).getBlock().equals(Blocks.AIR) || reader.getBlockState(blockPos.east(3)).getBlock().equals(Blocks.AIR)) &&
                 (reader.getBlockState(blockPos).is(AerialHellTags.Blocks.STELLAR_STONE) || reader.getBlockState(blockPos).getBlock() == AerialHellBlocksAndItems.STELLAR_DIRT.get()));
 
-		boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
+		boolean generatesInDungeon = !this.isDungeonSensitiveValid(context);
 		
         if (canGenerate && !generatesInDungeon)
         {

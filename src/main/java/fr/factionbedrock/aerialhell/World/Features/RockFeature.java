@@ -1,5 +1,9 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
+import java.util.List;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -15,14 +19,16 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 
-public class RockFeature extends Feature<NoneFeatureConfiguration>
+public class RockFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
 	WeightedStateProvider blockStateProvider;
 	public RockFeature(Codec<NoneFeatureConfiguration> codec, WeightedStateProvider bsProvider) {super(codec); this.blockStateProvider = bsProvider;}
+
+	@Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.MOSSY_STELLAR_COBBLESTONE_ROCK_LIST;}
 	
 	protected BlockState randomState(RandomSource rand, BlockPos pos) {return blockStateProvider.getState(rand, pos);}
 	protected void placeBlocks(WorldGenLevel reader, BlockPos pos, BlockState state, int number, Direction direction) {for (int d=0;d<number;d++) {reader.setBlock(pos.relative(direction, d), state, 2);}}
-	protected boolean canGenerateAtPos(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos placementPos) {return hasSupportToGenerate(context.level(), placementPos) && !(FeatureHelper.isFeatureGeneratingNextToDungeon(context));}
+	protected boolean canGenerateAtPos(FeaturePlaceContext<NoneFeatureConfiguration> context, BlockPos placementPos) {return hasSupportToGenerate(context.level(), placementPos) && this.isDungeonSensitiveValid(context);}
 
 	@Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_side_tall",
+  "textures": {
+    "wall": "aerialhell:block/cracked_volucite_stone_0"
+  }
+}

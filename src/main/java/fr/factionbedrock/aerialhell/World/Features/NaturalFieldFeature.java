@@ -1,5 +1,9 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
+import java.util.List;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -15,16 +19,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
-public class NaturalFieldFeature extends Feature<NaturalFieldConfig>
+public class NaturalFieldFeature extends Feature<NaturalFieldConfig> implements DungeonSensitiveFeatureCheck
 {
     public NaturalFieldFeature(Codec<NaturalFieldConfig> codec) {super(codec);}
+
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.NATURAL_FIELD_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<NaturalFieldConfig> context)
     {
         BlockPos blockPos = context.origin(); WorldGenLevel world = context.level();
 		boolean canGenerate = isAboveSurfaceBlockPos(world, blockPos) && !BlockHelper.hasAnySolidSurfaceAbove(world, blockPos.above(2), 3);
 		
-        if (canGenerate && !FeatureHelper.isFeatureGeneratingNextToDungeon(context))
+        if (canGenerate && this.isDungeonSensitiveValid(context))
         {
         	generateField(context);
         	return true;

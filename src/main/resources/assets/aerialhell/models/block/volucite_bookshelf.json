@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_column",
   "textures": {
-    "end": "aerialhell:block/volucite_stone",
+    "end": "aerialhell:block/volucite_stone_0",
     "side": "aerialhell:block/volucite_bookshelf"
   }
 }

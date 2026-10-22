@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
+import fr.factionbedrock.aerialhell.World.Features.DungeonSensitiveFeatureCheck;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
@@ -10,7 +11,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 
-public class AbstractGiantTreeFeature<FC extends FeatureConfiguration> extends Feature<FC>
+public abstract class AbstractGiantTreeFeature<FC extends FeatureConfiguration> extends Feature<FC> implements DungeonSensitiveFeatureCheck
 {
     public AbstractGiantTreeFeature(Codec<FC> config) {super(config);}
 
@@ -18,7 +19,7 @@ public class AbstractGiantTreeFeature<FC extends FeatureConfiguration> extends F
 
     protected boolean canPlace(FeaturePlaceContext<FC> context)
     {
-        boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
+        boolean generatesInDungeon = !this.isDungeonSensitiveValid(context);
         return isValidTreePos(context.level(), context.origin()) && !generatesInDungeon;
     }
 

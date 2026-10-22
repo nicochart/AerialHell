@@ -23,7 +23,7 @@ public class GhostBoatDoorBlock extends DoorBlock
 {
 	public GhostBoatDoorBlock(BlockSetType type, Properties properties)
 	{
-		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false), type);
+		super(properties.isRedstoneConductor((state, blockGetter, pos) -> false).isSuffocating((state, blockGetter, pos) -> false).isValidSpawn((state, blockGetter, blockPos, entityType) -> false), type);
 	}
 
 	@Override public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit)

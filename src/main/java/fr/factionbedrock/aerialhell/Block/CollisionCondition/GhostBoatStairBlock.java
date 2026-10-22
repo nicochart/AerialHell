@@ -19,7 +19,7 @@ public class GhostBoatStairBlock extends StairBlock
 {
 	public GhostBoatStairBlock(BlockState state, Properties properties)
 	{
-		super(state, properties);
+		super(state, properties.isValidSpawn((blockState, blockGetter, blockPos, entityType) -> false));
 		this.registerDefaultState(this.defaultBlockState());
 	}
 

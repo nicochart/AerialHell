@@ -1,7 +1,10 @@
 {
-    "variants": {
-      "": {
-          "model": "aerialhell:block/cracked_volucite_stone"
-    }
+  "variants": {
+    "": [
+       {"model": "aerialhell:block/cracked_volucite_stone_0"},
+       {"model": "aerialhell:block/cracked_volucite_stone_1"},
+       {"model": "aerialhell:block/cracked_volucite_stone_2"},
+       {"model": "aerialhell:block/cracked_volucite_stone_3"}
+    ]
   }
 }

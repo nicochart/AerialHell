@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {"item": "aerialhell:lunatic_pillar"},
+  "result": "aerialhell:lunatic_pillar_top",
+  "count": 1
+}

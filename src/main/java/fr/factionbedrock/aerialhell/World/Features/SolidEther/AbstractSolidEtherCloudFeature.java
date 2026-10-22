@@ -1,5 +1,6 @@
 package fr.factionbedrock.aerialhell.World.Features.SolidEther;
 
+import fr.factionbedrock.aerialhell.World.Features.DungeonSensitiveFeatureCheck;
 import com.mojang.serialization.Codec;
 
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
@@ -15,7 +16,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 
 import java.util.Random;
 
-public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeatureConfiguration>
+public abstract class AbstractSolidEtherCloudFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
     public BlockPos getRandomHeighGenerationPos(int x, int minY, int maxY, int z, RandomSource rand) {return new BlockPos(x, minY + rand.nextInt(maxY- minY), z);}
 	protected abstract int getBasicMinSize(); protected abstract int getBasicMaxSize();

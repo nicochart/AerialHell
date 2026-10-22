@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "aerialhell:block/cracked_volucite_stone"
-  }
-}

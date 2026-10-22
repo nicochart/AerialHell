@@ -47,6 +47,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -628,10 +629,10 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> CRACKED_LIGHT_GOLDEN_NETHER_BRICKS = BLOCKS.register("cracked_light_golden_nether_bricks", () -> new CoreProtectedBlock(BlockBehaviour.Properties.copy(GOLDEN_NETHER_BRICKS.get())));
 	public static final RegistryObject<RotatedPillarBlock> LUNATIC_PILLAR = BLOCKS.register("lunatic_pillar", () -> new CoreProtectedRotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).strength(2.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
 	public static final RegistryObject<RotatedPillarBlock> LUNATIC_PILLAR_TOP = BLOCKS.register("lunatic_pillar_top", () -> new CoreProtectedRotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).strength(2.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
-	public static final RegistryObject<Block> VOLUCITE_STONE = BLOCKS.register("volucite_stone", () -> new CoreProtectedBlock(Block.Properties.of().strength(2.0F, 6.0F).sound(SoundType.STONE)));
+	public static final RegistryObject<Block> VOLUCITE_STONE = BLOCKS.register("volucite_stone", () -> new VoluciteStoneBlock(Block.Properties.of().strength(2.0F, 6.0F).sound(SoundType.STONE).lightLevel(getLightValueLit(VoluciteStoneBlock.SELF_LUMINESCENT, 8))));
 	public static final RegistryObject<Block> CRACKED_VOLUCITE_STONE = BLOCKS.register("cracked_volucite_stone", () -> new CoreProtectedBlock(Block.Properties.of().strength(2.0F, 6.0F).sound(SoundType.STONE)));
 	public static final RegistryObject<Block> CHISELED_VOLUCITE_STONE = BLOCKS.register("chiseled_volucite_stone", () -> new CoreProtectedBlock(Block.Properties.of().strength(2.0F, 6.0F).sound(SoundType.STONE)));
-	public static final RegistryObject<Block> LIGHT_VOLUCITE_STONE = BLOCKS.register("light_volucite_stone", () -> new CoreProtectedBlock(Block.Properties.of().strength(2.0F, 6.0F).sound(SoundType.STONE).lightLevel((state) -> 11)));
+	public static final RegistryObject<Block> LIGHT_VOLUCITE_STONE = BLOCKS.register("light_volucite_stone", () -> new CoreProtectedBlock(Block.Properties.of().strength(2.0F, 6.0F).sound(SoundType.STONE).lightLevel((state) -> 13)));
 	public static final RegistryObject<Block> CRACKED_LIGHT_VOLUCITE_STONE = BLOCKS.register("cracked_light_volucite_stone", () -> new CoreProtectedBlock(Block.Properties.of().strength(2.0F, 6.0F).sound(SoundType.STONE)));
 
 	public static final RegistryObject<Item> MUD_BRICKS_ITEM = ITEMS.register("mud_bricks", () -> new BlockItem(MUD_BRICKS.get(), new Item.Properties()));
@@ -692,11 +693,11 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<SlabBlock> MOSSY_MUD_BRICKS_SLAB = BLOCKS.register("mossy_mud_bricks_slab", () -> new CoreProtectedSlabBlock(BlockBehaviour.Properties.copy(MOSSY_MUD_BRICKS.get())));
 	public static final RegistryObject<StairBlock> MOSSY_MUD_BRICKS_STAIRS = BLOCKS.register("mossy_mud_bricks_stairs", () -> new CoreProtectedStairsBlock(MOSSY_MUD_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(MOSSY_MUD_BRICKS.get())));
 	public static final RegistryObject<WallBlock> MOSSY_MUD_BRICKS_WALL = BLOCKS.register("mossy_mud_bricks_wall", () -> new CoreProtectedWallBlock(BlockBehaviour.Properties.copy(MOSSY_MUD_BRICKS.get())));
-	public static final RegistryObject<SlabBlock> VOLUCITE_STONE_SLAB = BLOCKS.register("volucite_stone_slab", () -> new CoreProtectedSlabBlock(BlockBehaviour.Properties.copy(VOLUCITE_STONE.get())));
-	public static final RegistryObject<StairBlock> VOLUCITE_STONE_STAIRS = BLOCKS.register("volucite_stone_stairs", () -> new CoreProtectedStairsBlock(VOLUCITE_STONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(VOLUCITE_STONE.get())));
-	public static final RegistryObject<WallBlock> VOLUCITE_STONE_WALL = BLOCKS.register("volucite_stone_wall", () -> new CoreProtectedWallBlock(BlockBehaviour.Properties.copy(VOLUCITE_STONE.get())));
+	public static final RegistryObject<SlabBlock> VOLUCITE_STONE_SLAB = BLOCKS.register("volucite_stone_slab", () -> new CoreProtectedSlabBlock(BlockBehaviour.Properties.copy(CRACKED_VOLUCITE_STONE.get())));
+	public static final RegistryObject<StairBlock> VOLUCITE_STONE_STAIRS = BLOCKS.register("volucite_stone_stairs", () -> new CoreProtectedStairsBlock(VOLUCITE_STONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(CRACKED_VOLUCITE_STONE.get())));
+	public static final RegistryObject<WallBlock> VOLUCITE_STONE_WALL = BLOCKS.register("volucite_stone_wall", () -> new CoreProtectedWallBlock(BlockBehaviour.Properties.copy(CRACKED_VOLUCITE_STONE.get())));
 	public static final RegistryObject<SlabBlock> CRACKED_VOLUCITE_STONE_SLAB = BLOCKS.register("cracked_volucite_stone_slab", () -> new CoreProtectedSlabBlock(BlockBehaviour.Properties.copy(CRACKED_VOLUCITE_STONE.get())));
-	public static final RegistryObject<StairBlock> CRACKED_VOLUCITE_STONE_STAIRS = BLOCKS.register("cracked_volucite_stone_stairs", () -> new CoreProtectedStairsBlock(CRACKED_VOLUCITE_STONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(VOLUCITE_STONE.get())));
+	public static final RegistryObject<StairBlock> CRACKED_VOLUCITE_STONE_STAIRS = BLOCKS.register("cracked_volucite_stone_stairs", () -> new CoreProtectedStairsBlock(CRACKED_VOLUCITE_STONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(CRACKED_VOLUCITE_STONE.get())));
 	public static final RegistryObject<WallBlock> CRACKED_VOLUCITE_STONE_WALL = BLOCKS.register("cracked_volucite_stone_wall", () -> new CoreProtectedWallBlock(BlockBehaviour.Properties.copy(CRACKED_VOLUCITE_STONE.get())));
 	public static final RegistryObject<SlabBlock> LUNATIC_STONE_SLAB = BLOCKS.register("lunatic_stone_slab", () -> new CoreProtectedSlabBlock(BlockBehaviour.Properties.copy(LUNATIC_STONE.get())));
 	public static final RegistryObject<StairBlock> LUNATIC_STONE_STAIRS = BLOCKS.register("lunatic_stone_stairs", () -> new CoreProtectedStairsBlock(LUNATIC_STONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(LUNATIC_STONE.get())));
@@ -705,23 +706,23 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<StairBlock> DARK_LUNATIC_STONE_STAIRS = BLOCKS.register("dark_lunatic_stone_stairs", () -> new CoreProtectedStairsBlock(DARK_LUNATIC_STONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(DARK_LUNATIC_STONE.get())));
 	public static final RegistryObject<WallBlock> DARK_LUNATIC_STONE_WALL = BLOCKS.register("dark_lunatic_stone_wall", () -> new CoreProtectedWallBlock(BlockBehaviour.Properties.copy(DARK_LUNATIC_STONE.get())));
 	public static final RegistryObject<SlabBlock> CRACKED_LUNATIC_STONE_SLAB = BLOCKS.register("cracked_lunatic_stone_slab", () -> new CoreProtectedSlabBlock(BlockBehaviour.Properties.copy(CRACKED_LUNATIC_STONE.get())));
-	public static final RegistryObject<StairBlock> CRACKED_LUNATIC_STONE_STAIRS = BLOCKS.register("cracked_lunatic_stone_stairs", () -> new CoreProtectedStairsBlock(CRACKED_LUNATIC_STONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(VOLUCITE_STONE.get())));
+	public static final RegistryObject<StairBlock> CRACKED_LUNATIC_STONE_STAIRS = BLOCKS.register("cracked_lunatic_stone_stairs", () -> new CoreProtectedStairsBlock(CRACKED_LUNATIC_STONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(CRACKED_LUNATIC_STONE.get())));
 	public static final RegistryObject<WallBlock> CRACKED_LUNATIC_STONE_WALL = BLOCKS.register("cracked_lunatic_stone_wall", () -> new CoreProtectedWallBlock(BlockBehaviour.Properties.copy(CRACKED_LUNATIC_STONE.get())));
 	public static final RegistryObject<SlabBlock> SHADOW_CATACOMBS_BRICKS_SLAB = BLOCKS.register("shadow_catacombs_bricks_slab", () -> new CoreProtectedSlabBlock(BlockBehaviour.Properties.copy(SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<StairBlock> SHADOW_CATACOMBS_BRICKS_STAIRS = BLOCKS.register("shadow_catacombs_bricks_stairs", () -> new CoreProtectedStairsBlock(SHADOW_CATACOMBS_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<WallBlock> SHADOW_CATACOMBS_BRICKS_WALL = BLOCKS.register("shadow_catacombs_bricks_wall", () -> new CoreProtectedWallBlock(BlockBehaviour.Properties.copy(SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<SlabBlock> CRACKED_SHADOW_CATACOMBS_BRICKS_SLAB = BLOCKS.register("cracked_shadow_catacombs_bricks_slab", () -> new CoreProtectedSlabBlock(BlockBehaviour.Properties.copy(CRACKED_SHADOW_CATACOMBS_BRICKS.get())));
-	public static final RegistryObject<StairBlock> CRACKED_SHADOW_CATACOMBS_BRICKS_STAIRS = BLOCKS.register("cracked_shadow_catacombs_bricks_stairs", () -> new CoreProtectedStairsBlock(CRACKED_SHADOW_CATACOMBS_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(VOLUCITE_STONE.get())));
+	public static final RegistryObject<StairBlock> CRACKED_SHADOW_CATACOMBS_BRICKS_STAIRS = BLOCKS.register("cracked_shadow_catacombs_bricks_stairs", () -> new CoreProtectedStairsBlock(CRACKED_SHADOW_CATACOMBS_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(CRACKED_SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<WallBlock> CRACKED_SHADOW_CATACOMBS_BRICKS_WALL = BLOCKS.register("cracked_shadow_catacombs_bricks_wall", () -> new CoreProtectedWallBlock(BlockBehaviour.Properties.copy(CRACKED_SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<SlabBlock> MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB = BLOCKS.register("mossy_shadow_catacombs_bricks_slab", () -> new CoreProtectedSlabBlock(BlockBehaviour.Properties.copy(MOSSY_SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<StairBlock> MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS = BLOCKS.register("mossy_shadow_catacombs_bricks_stairs", () -> new CoreProtectedStairsBlock(MOSSY_SHADOW_CATACOMBS_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(MOSSY_SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<WallBlock> MOSSY_SHADOW_CATACOMBS_BRICKS_WALL = BLOCKS.register("mossy_shadow_catacombs_bricks_wall", () -> new CoreProtectedWallBlock(BlockBehaviour.Properties.copy(MOSSY_SHADOW_CATACOMBS_BRICKS.get())));
 	public static final RegistryObject<IronBarsBlock> SHADOW_BARS = BLOCKS.register("shadow_bars", () -> new ShadowBarsBlock(METAL_NOTSOLID_MATERIAL));
 	public static final RegistryObject<SlabBlock> GOLDEN_NETHER_BRICKS_SLAB = BLOCKS.register("golden_nether_bricks_slab", () -> new CoreProtectedSlabBlock(BlockBehaviour.Properties.copy(GOLDEN_NETHER_BRICKS.get())));
-	public static final RegistryObject<StairBlock> GOLDEN_NETHER_BRICKS_STAIRS = BLOCKS.register("golden_nether_bricks_stairs", () -> new CoreProtectedStairsBlock(GOLDEN_NETHER_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(VOLUCITE_STONE.get())));
+	public static final RegistryObject<StairBlock> GOLDEN_NETHER_BRICKS_STAIRS = BLOCKS.register("golden_nether_bricks_stairs", () -> new CoreProtectedStairsBlock(GOLDEN_NETHER_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(GOLDEN_NETHER_BRICKS.get())));
 	public static final RegistryObject<WallBlock> GOLDEN_NETHER_BRICKS_WALL = BLOCKS.register("golden_nether_bricks_wall", () -> new CoreProtectedWallBlock(BlockBehaviour.Properties.copy(GOLDEN_NETHER_BRICKS.get())));
 	public static final RegistryObject<SlabBlock> CRACKED_GOLDEN_NETHER_BRICKS_SLAB = BLOCKS.register("cracked_golden_nether_bricks_slab", () -> new CoreProtectedSlabBlock(BlockBehaviour.Properties.copy(CRACKED_GOLDEN_NETHER_BRICKS.get())));
-	public static final RegistryObject<StairBlock> CRACKED_GOLDEN_NETHER_BRICKS_STAIRS = BLOCKS.register("cracked_golden_nether_bricks_stairs", () -> new CoreProtectedStairsBlock(CRACKED_GOLDEN_NETHER_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(VOLUCITE_STONE.get())));
+	public static final RegistryObject<StairBlock> CRACKED_GOLDEN_NETHER_BRICKS_STAIRS = BLOCKS.register("cracked_golden_nether_bricks_stairs", () -> new CoreProtectedStairsBlock(CRACKED_GOLDEN_NETHER_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(CRACKED_GOLDEN_NETHER_BRICKS.get())));
 	public static final RegistryObject<WallBlock> CRACKED_GOLDEN_NETHER_BRICKS_WALL = BLOCKS.register("cracked_golden_nether_bricks_wall", () -> new CoreProtectedWallBlock(BlockBehaviour.Properties.copy(CRACKED_GOLDEN_NETHER_BRICKS.get())));
 
 	public static final RegistryObject<Item> MUD_BRICKS_SLAB_ITEM = ITEMS.register("mud_bricks_slab", () -> new BlockItem(MUD_BRICKS_SLAB.get(), new Item.Properties()));
@@ -824,7 +825,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> LUNATIC_BOOKSHELF = BLOCKS.register("lunatic_bookshelf", () -> new CoreProtectedBookshelfBlock(BlockBehaviour.Properties.copy(LUNATIC_STONE.get())));
 	public static final RegistryObject<Block> GOLDEN_NETHER_BOOKSHELF = BLOCKS.register("golden_nether_bookshelf", () -> new CoreProtectedBookshelfBlock(BlockBehaviour.Properties.copy(GOLDEN_NETHER_BRICKS.get())));
 	public static final RegistryObject<Block> SHADOW_CATACOMBS_BOOKSHELF = BLOCKS.register("shadow_catacombs_bookshelf", () -> new CoreProtectedBookshelfBlock(BlockBehaviour.Properties.copy(SHADOW_CATACOMBS_BRICKS.get())));
-	public static final RegistryObject<Block> VOLUCITE_BOOKSHELF = BLOCKS.register("volucite_bookshelf", () -> new CoreProtectedBookshelfBlock(BlockBehaviour.Properties.copy(VOLUCITE_STONE.get())));
+	public static final RegistryObject<Block> VOLUCITE_BOOKSHELF = BLOCKS.register("volucite_bookshelf", () -> new CoreProtectedBookshelfBlock(BlockBehaviour.Properties.copy(CRACKED_VOLUCITE_STONE.get())));
 	public static final RegistryObject<Item> MUD_BOOKSHELF_ITEM = ITEMS.register("mud_bookshelf", () -> new BlockItem(MUD_BOOKSHELF.get(), new Item.Properties()));
 	public static final RegistryObject<Item> LUNATIC_BOOKSHELF_ITEM = ITEMS.register("lunatic_bookshelf", () -> new BlockItem(LUNATIC_BOOKSHELF.get(), new Item.Properties()));
 	public static final RegistryObject<Item> GOLDEN_NETHER_BOOKSHELF_ITEM = ITEMS.register("golden_nether_bookshelf", () -> new BlockItem(GOLDEN_NETHER_BOOKSHELF.get(), new Item.Properties()));
@@ -838,7 +839,7 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> LUNATIC_GLYPH_BLOCK_ITEM = ITEMS.register("lunatic_glyph_block", () -> new BlockItem(LUNATIC_GLYPH_BLOCK.get(), new Item.Properties()));
 	public static final RegistryObject<Block> GOLDEN_NETHER_PRISON_GLYPH_BLOCK = BLOCKS.register("golden_nether_prison_glyph_block", () -> new CoreProtectedGlyphBlock(BlockBehaviour.Properties.copy(GOLDEN_NETHER_BRICKS.get()).lightLevel((state) -> 9)));
 	public static final RegistryObject<Item> GOLDEN_NETHER_PRISON_GLYPH_BLOCK_ITEM = ITEMS.register("golden_nether_prison_glyph_block", () -> new BlockItem(GOLDEN_NETHER_PRISON_GLYPH_BLOCK.get(), new Item.Properties()));
-	public static final RegistryObject<Block> VOLUCITE_GLYPH_BLOCK = BLOCKS.register("volucite_glyph_block", () -> new CoreProtectedGlyphBlock(BlockBehaviour.Properties.copy(VOLUCITE_STONE.get()).lightLevel((state) -> 9)));
+	public static final RegistryObject<Block> VOLUCITE_GLYPH_BLOCK = BLOCKS.register("volucite_glyph_block", () -> new CoreProtectedGlyphBlock(BlockBehaviour.Properties.copy(CRACKED_VOLUCITE_STONE.get()).lightLevel((state) -> 9)));
 	public static final RegistryObject<Item> VOLUCITE_GLYPH_BLOCK_ITEM = ITEMS.register("volucite_glyph_block", () -> new BlockItem(VOLUCITE_GLYPH_BLOCK.get(), new Item.Properties()));
 	public static final RegistryObject<Block> SHADOW_CATACOMBS_GLYPH_BLOCK = BLOCKS.register("shadow_catacombs_glyph_block", () -> new CoreProtectedGlyphBlock(BlockBehaviour.Properties.copy(SHADOW_CATACOMBS_BRICKS.get()).lightLevel((state) -> 9)));
 	public static final RegistryObject<Item> SHADOW_CATACOMBS_GLYPH_BLOCK_ITEM = ITEMS.register("shadow_catacombs_glyph_block", () -> new BlockItem(SHADOW_CATACOMBS_GLYPH_BLOCK.get(), new Item.Properties()));
@@ -1053,13 +1054,13 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Block> FREEZER = BLOCKS.register("freezer",() -> new FreezerBlock(BlockBehaviour.Properties.of().strength(2.0F).sound(SoundType.STONE)));
 	public static final RegistryObject<Item> FREEZER_ITEM = ITEMS.register("freezer", () -> new BlockItem(FREEZER.get(), new Item.Properties()));
 
-	public static final RegistryObject<Block> STELLAR_FURNACE = BLOCKS.register("stellar_furnace", () -> new StellarFurnaceBlock(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(3.5F).lightLevel(getLightValueLit(13))));
+	public static final RegistryObject<Block> STELLAR_FURNACE = BLOCKS.register("stellar_furnace", () -> new StellarFurnaceBlock(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(3.5F).lightLevel(getLightValueLit(BlockStateProperties.LIT, 13))));
 	public static final RegistryObject<Item> STELLAR_FURNACE_ITEM = ITEMS.register("stellar_furnace", () -> new BlockItem(STELLAR_FURNACE.get(), new Item.Properties()));
 
-	public static final RegistryObject<Block> GHOST_STELLAR_FURNACE = BLOCKS.register("ghost_stellar_furnace", () -> new GhostStellarFurnaceBlock(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().noOcclusion().strength(3.5F).lightLevel(getLightValueLit(13))));
+	public static final RegistryObject<Block> GHOST_STELLAR_FURNACE = BLOCKS.register("ghost_stellar_furnace", () -> new GhostStellarFurnaceBlock(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().noOcclusion().strength(3.5F).lightLevel(getLightValueLit(BlockStateProperties.LIT, 13))));
 	public static final RegistryObject<Item> GHOST_STELLAR_FURNACE_ITEM = ITEMS.register("ghost_stellar_furnace", () -> new BlockItem(GHOST_STELLAR_FURNACE.get(), new Item.Properties()));
 
-	private static ToIntFunction<BlockState> getLightValueLit(int lightValue) {return (state) -> {return state.getValue(BlockStateProperties.LIT) ? lightValue : 0;};}
+	private static ToIntFunction<BlockState> getLightValueLit(BooleanProperty property, int lightValue) {return (state) -> {return state.getValue(property) ? lightValue : 0;};}
 
 	//chests
 	public static final RegistryObject<ChestBlock> AERIAL_TREE_CHEST = BLOCKS.register("aerial_tree_chest", () -> new AerialHellChestBlock(AERIAL_TREE_MATERIAL));

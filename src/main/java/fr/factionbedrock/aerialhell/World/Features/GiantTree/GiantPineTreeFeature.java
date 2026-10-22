@@ -1,5 +1,9 @@
 package fr.factionbedrock.aerialhell.World.Features.GiantTree;
 
+import java.util.List;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.FeatureHelper;
@@ -20,6 +24,8 @@ public class GiantPineTreeFeature extends AbstractGiantTreeFeature<GiantPineTree
     private static final SplineKnotsDeformedStraightLine.KnotsParameters TRUNK_KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 16, 0.3F, 5, 20);
 
     public GiantPineTreeFeature(Codec<GiantPineTreeConfig> codec) {super(codec);}
+
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.GIANT_PINE_TREE_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<GiantPineTreeConfig> context)
     {

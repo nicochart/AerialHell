@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "##",
-    "##"
+    " # ",
+    "#G#",
+    " # "
   ],
   "key": {
-    "#": {
-      "item": "aerialhell:aerial_netherrack"
-    }
+    "G": {"item": "aerialhell:golden_nether_bricks"},
+    "#": {"item": "aerialhell:stellar_stone_bricks"}
   },
   "result": {
     "item": "aerialhell:golden_nether_bricks",
-    "count": 4
+    "count": 3
   }
 }

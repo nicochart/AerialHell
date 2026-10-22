@@ -1,5 +1,9 @@
 package fr.factionbedrock.aerialhell.World.Features;
 
+import java.util.List;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellConfiguredFeatures;
 import com.mojang.serialization.Codec;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -17,7 +21,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 
 import javax.annotation.Nullable;
 
-public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
+public class RootBridgeFeature extends Feature<NoneFeatureConfiguration> implements DungeonSensitiveFeatureCheck
 {
     private final int MIN_ABS_XZ_OFFSET = 15, MAX_ABS_XZ_OFFSET = 22; //max bridge start-end xz distance from center of worldgen feature
     private final int MIN_ABS_Y_OFFSET = 5, MAX_ABS_Y_OFFSET = 15; //max bridge start-end y distance from center of worldgen feature
@@ -25,6 +29,8 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
     private static final SplineKnots.KnotsParameters KNOTS_PARAMETERS = new SplineKnotsDeformedStraightLine.KnotsParameters(8, 16, 0.3F, 5, 20);
 
     public RootBridgeFeature(Codec<NoneFeatureConfiguration> codec) {super(codec);}
+
+    @Override public List<ResourceKey<ConfiguredFeature<?, ?>>> getAssociatedConfiguredFeatures() {return AerialHellConfiguredFeatures.Lists.ROOT_BRIDGE_LIST;}
 
     @Override public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
     {
@@ -40,7 +46,7 @@ public class RootBridgeFeature extends Feature<NoneFeatureConfiguration>
         if (bridgeEnd == null) {return false;}
 
         boolean isLongBridge = bridgeStart.distSqr(bridgeEnd) > 1024;
-        boolean generatesInDungeon = FeatureHelper.isFeatureGeneratingNextToDungeon(context);
+        boolean generatesInDungeon = !this.isDungeonSensitiveValid(context);
 
         if (!generatesInDungeon)
         {
