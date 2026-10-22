@@ -3,12 +3,14 @@ package fr.factionbedrock.aerialhell.Entity.Monster;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.*;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
 
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -29,9 +31,21 @@ public abstract class AerialHellHostileEntity extends Monster
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
+    //spawners (in structures) : hostile entities can spawn up to block light 7, whatever the sky light (day or night)
+    //light sources placed near the spawner still disable it
+    public static final int SPAWNER_MAX_BLOCK_LIGHT = 7;
+    public static boolean checkSpawnerSpawnRules(EntityType<? extends Mob> type, ServerLevelAccessor level, EntitySpawnReason reason, BlockPos pos, RandomSource random)
+    {
+        return level.getBrightness(LightLayer.BLOCK, pos) <= SPAWNER_MAX_BLOCK_LIGHT && checkMobSpawnRules(type, level, reason, pos, random);
+    }
+
     public static boolean canHostileEntitySpawn(EntityType<? extends Monster> type, ServerLevelAccessor worldIn, EntitySpawnReason reason, BlockPos pos, RandomSource randomIn)
     {
-        if (type == AerialHellEntities.CRYSTAL_SPIDER.get())
+        if (EntitySpawnReason.isSpawner(reason))
+        {
+            return checkSpawnerSpawnRules(type, worldIn, reason, pos, randomIn);
+        }
+        else if (type == AerialHellEntities.CRYSTAL_SPIDER.get())
         {
         	return randomIn.nextInt(10) == 0 && checkMonsterSpawnRules(type, worldIn, reason, pos, randomIn);
         }

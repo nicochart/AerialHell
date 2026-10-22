@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Client.Commands.ClientCommands;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHandler;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.FluidRenderHandler;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationListener;
+import fr.factionbedrock.aerialhell.Client.Event.Listeners.ScreenEffectListener;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Client.Util.PanoramaCaptureHandler;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
@@ -34,6 +35,7 @@ public class AerialHellClientSetup
         modEventBus.addListener(AerialHellParticleTypes::registerParticleFactories);
         modEventBus.addListener(BuildContentsEvent::buildContents);
         modEventBus.addListener(AerialHellRendering::registerScreensMenus);
+        NeoForge.EVENT_BUS.addListener(ScreenEffectListener::onOverlay);
         NeoForge.EVENT_BUS.addListener(RecipesCache::onRecipesReceived);
         NeoForge.EVENT_BUS.addListener(RenderListener::onRenderOverlayPost);
 

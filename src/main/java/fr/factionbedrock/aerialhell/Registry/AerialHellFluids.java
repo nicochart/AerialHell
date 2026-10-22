@@ -2,9 +2,13 @@ package fr.factionbedrock.aerialhell.Registry;
 
 import static fr.factionbedrock.aerialhell.AerialHell.MODID;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.SoundActions;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.FluidType;
@@ -33,7 +37,24 @@ public class AerialHellFluids
                     .density(3000)
                     .viscosity(5000)
                     .temperature(400))
-            {}); //render is handled in fr.factionbedrock.aerialhell.Client.Event.Listeners.FluidRenderHandler
+            {
+                //lava-like movement (see LivingEntity.travelInLava), with walking speed on ground.
+                //slowdown is also applied in AerialHellFluidBlock.entityInside
+                @Override public boolean move(LivingEntity entity, Vec3 movementVector, double gravity)
+                {
+                    double oldY = entity.getY();
+                    BlockPos onPos = entity.getOnPos();
+                    float blockFriction = entity.level().getBlockState(onPos).getFriction(entity.level(), onPos, entity);
+                    float speed = entity.onGround() ? entity.getSpeed() * (0.21600002F / (blockFriction * blockFriction * blockFriction)) : 0.02F;
+                    entity.moveRelative(speed, movementVector);
+                    entity.move(MoverType.SELF, entity.getDeltaMovement());
+
+                    Vec3 movement = entity.getDeltaMovement().multiply(0.5D, 0.8D, 0.5D).add(0.0D, -gravity / 4.0D, 0.0D); //reduced gravity, so that entities can go up with jumpInFluid
+                    if (entity.horizontalCollision && entity.isFree(movement.x, movement.y + 0.6D - entity.getY() + oldY, movement.z)) {movement = new Vec3(movement.x, 0.3D, movement.z);} //jump out of fluid
+                    entity.setDeltaMovement(movement);
+                    return true;
+                }
+            }); //render is handled in fr.factionbedrock.aerialhell.Client.Event.Listeners.FluidRenderHandler
 
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> LIQUID_OF_THE_GODS_SOURCE = FLUIDS.register("liquid_of_the_gods_source", () -> new BaseFlowingFluid.Source(AerialHellFluids.LIQUID_OF_THE_GODS_PROPERTIES));
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> LIQUID_OF_THE_GODS_FLOWING = FLUIDS.register("liquid_of_the_gods_flowing", () -> new BaseFlowingFluid.Flowing(AerialHellFluids.LIQUID_OF_THE_GODS_PROPERTIES));
