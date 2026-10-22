@@ -1,22 +1,58 @@
 {
-  "variants": {
-    "age=0": {
-      "model": "aerialhell:block/full_moon_flower"
+  "multipart": [
+    {
+      "apply": {
+        "model": "aerialhell:block/full_moon_flower"
+      },
+      "when": {
+        "age": "0|1|2|3|4"
+      }
     },
-    "age=1": {
-      "model": "aerialhell:block/full_moon_flower"
+    {
+      "apply": {
+        "model": "aerialhell:block/full_moon_flower_dead"
+      },
+      "when": {
+        "age": "5"
+      }
     },
-    "age=2": {
-      "model": "aerialhell:block/full_moon_flower"
+    {
+      "apply": {
+        "model": "aerialhell:block/full_moon_flower_side"
+      },
+      "when": {
+        "north": "true"
+      }
     },
-    "age=3": {
-      "model": "aerialhell:block/full_moon_flower"
+    {
+      "apply": {
+        "model": "aerialhell:block/full_moon_flower_side",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "east": "true"
+      }
     },
-    "age=4": {
-      "model": "aerialhell:block/full_moon_flower"
+    {
+      "apply": {
+        "model": "aerialhell:block/full_moon_flower_side",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "south": "true"
+      }
     },
-    "age=5": {
-      "model": "aerialhell:block/full_moon_flower_dead"
+    {
+      "apply": {
+        "model": "aerialhell:block/full_moon_flower_side",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "west": "true"
+      }
     }
-  }
+  ]
 }
