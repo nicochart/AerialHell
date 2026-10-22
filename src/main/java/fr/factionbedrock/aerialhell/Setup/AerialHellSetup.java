@@ -70,7 +70,6 @@ public class AerialHellSetup
     {
         bus.addListener(BlockEventListener::onNeighborNotifyEvent);
         bus.addListener(BlockEventListener::onEntityPlaceEvent);
-        bus.addListener(BlockEventListener::onOverlay);
         bus.addListener(LivingEntityEventListener::onSleepFinishEvent);
         bus.addListener(ToolsAndArmorEventListener::onProjectileCollideWithEntity);
         bus.addListener(ToolsAndArmorEventListener::onLivingDamageEvent);

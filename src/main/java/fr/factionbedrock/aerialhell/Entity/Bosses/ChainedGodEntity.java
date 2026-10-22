@@ -6,6 +6,7 @@ import fr.factionbedrock.aerialhell.Entity.*;
 import fr.factionbedrock.aerialhell.Entity.AI.*;
 import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.*;
 import fr.factionbedrock.aerialhell.Entity.Projectile.ChainedGodFireballEntity;
+import fr.factionbedrock.aerialhell.Entity.Util.DisplayParticlesHelper;
 import fr.factionbedrock.aerialhell.Entity.Util.ImplodingEntityInfo;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
@@ -55,6 +56,9 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 	/* --- Imploding Entity fields --- */
 	private static final EntityDataAccessor<Boolean> IMPLODING = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
 	private final ImplodingEntityInfo IMPLODING_INFO = new ImplodingEntityInfo(IMPLODING, 126, 600, new ImplodingEntityInfo.ImplodingSoundHelper(this::playRoarSound, 5.0F, 1.0F, -12));
+	//particles stop at the surface of the body (never go through the chained god)
+	private final DisplayParticlesHelper IMPLODING_FLAME_PARTICLES = DisplayParticlesHelper.towardSource(AerialHellParticleTypes.GOD_FLAME.get(), 2, 5.0F, 15.0F, DisplayParticlesHelper.FLAME_FRICTION, DisplayParticlesHelper.FLAME_MAX_LIFETIME).targetRadius(this.getBbWidth() * 0.5F);
+	private final DisplayParticlesHelper IMPLODING_SMOKE_PARTICLES = DisplayParticlesHelper.towardSource(ParticleTypes.LARGE_SMOKE, 1, 5.0F, 15.0F, DisplayParticlesHelper.SMOKE_FRICTION, DisplayParticlesHelper.LARGE_SMOKE_MAX_LIFETIME).targetRadius(this.getBbWidth() * 0.5F);
 	/* ------------------------------- */
 	/* --- StagedActivableEntity fields --- */
 	private static final EntityDataAccessor<Boolean> UNCHAINING = SynchedEntityData.defineId(ChainedGodEntity.class, EntityDataSerializers.BOOLEAN);
@@ -73,7 +77,7 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 	/* ------- ImplodingEntity : Interface method implementation or override for specific behavior ------- */
 	@Override public ImplodingEntityInfo getImplodingEntityInfo() {return this.IMPLODING_INFO;}
 
-	@Override public void onImplodingCastTick() {this.runRoarEffects(NearbyEntitiesInteractionInfo.DRAG_NEAR);}
+	@Override public void onImplodingCastTick() {this.runRoarEffects(NearbyEntitiesInteractionInfo.DRAG_NEAR, IMPLODING_FLAME_PARTICLES, IMPLODING_SMOKE_PARTICLES);}
 
 	@Override public ImplodingTargetPolicy getImplodingTargetPolicy() {return new ImplodingTargetPolicy(true, false, 0);} //cooldown does not reset on target loss
 	/* --------------------------------------------------------------------------------------------------- */
@@ -254,11 +258,11 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 
 	protected void runRoarEffects() {this.runRoarEffects(NearbyEntitiesInteractionInfo.NONE);}
 
-	protected void runRoarEffects(NearbyEntitiesInteractionInfo type)
+	protected void runRoarEffects(NearbyEntitiesInteractionInfo type, DisplayParticlesHelper... particles)
 	{
 		if (this.random.nextInt(4) == 0) {this.makeRandomRoofBlockFall(5, 15, 12, 20);}
 		float dragOrRepulseFactor = type.noInteraction() ? 0.0F : type.getType().isDrag() ? 64.0F : 5.8F;
-		this.dragOrRepulseEntities(type, dragOrRepulseFactor);
+		this.dragOrRepulseEntities(type, dragOrRepulseFactor, particles);
 		if (this.level().isClientSide()) {this.spawnParticles(ParticleTypes.LAVA, 5, 0.5D);}
 	}
 
@@ -266,6 +270,8 @@ public class ChainedGodEntity extends AbstractBossEntity implements ImplodingEnt
 	{
 		return super.canDragOrRepulseEntity(entity) && !EntityHelper.isImmuneToChainedGodDrag(entity);
 	}
+
+	@Override protected float getDragOrRepulseParticlesPosRelativeY() {return this.getBbHeight() * 0.5F;} //particles are attracted to (or repulsed from) the middle of the body
 
 	private void spawnParticles(SimpleParticleType type, int number, double dy)
 	{

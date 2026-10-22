@@ -8,11 +8,11 @@
 		"ServerPlayerGameModeMixin",
 		"ServerPlayerTickMixin",
 		"RenderSkyMixin",
-		"UseItemFovModifierMixin",
-		"UseItemInHandRendererMixin",
 		"CactusFlowerMayPlaceOnMixin"
 	],
 	"client": [
+		"UseItemFovModifierMixin",
+		"UseItemInHandRendererMixin",
 		"CubeMapTextureMixin"
 	],
 	"injectors": {
