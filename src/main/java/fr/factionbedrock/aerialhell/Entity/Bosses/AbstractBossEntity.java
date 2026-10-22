@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.SyncedTargetEntity;
+import fr.factionbedrock.aerialhell.Entity.Util.DisplayParticlesHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import org.jetbrains.annotations.Nullable;
@@ -439,28 +440,37 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity impleme
 		return entity instanceof LivingEntity && !EntityHelper.isCreaOrSpecPlayer(entity);
 	}
 
-	protected void dragOrRepulseEntities(NearbyEntitiesInteractionInfo type, float factor)
+	//need to be called both on server and client side. particles (optional) are displayed client side, around drag or repulse source pos
+	protected void dragOrRepulseEntities(NearbyEntitiesInteractionInfo type, float factor, DisplayParticlesHelper... particles)
 	{
-		dragOrRepulseEntities(type, factor, 15, 20);
+		dragOrRepulseEntities(type, factor, 15, 20, particles);
 	}
 
-	protected void dragOrRepulseEntities(NearbyEntitiesInteractionInfo type, float factor, int range, int boundingBoxInflate)
+	//need to be called both on server and client side. particles (optional) are displayed client side, around drag or repulse source pos
+	protected void dragOrRepulseEntities(NearbyEntitiesInteractionInfo type, float factor, int range, int boundingBoxInflate, DisplayParticlesHelper... particles)
 	{
 		if (type == NearbyEntitiesInteractionInfo.NONE) {return;}
 		List<LivingEntity> nearbyEntities = EntityHelper.getTargetableLivingEntitiesInInflatedBoundingBox(this, boundingBoxInflate, this.getDragOrRepulseSourcePosRelativeY(), (potentialTarget) -> !potentialTarget.is(this) && EntitySelector.withinDistance(this.getDragOrRepulseSourcePos().x, this.getDragOrRepulseSourcePos().y, this.getDragOrRepulseSourcePos().z, range).test(potentialTarget));
-		dragOrRepulseEntities(nearbyEntities, type, factor, range);
+		dragOrRepulseEntities(nearbyEntities, type, factor, range, particles);
 	}
 
-	protected void dragOrRepulseEntities(List<LivingEntity> entities, NearbyEntitiesInteractionInfo type, float factor, int range)
+	protected void dragOrRepulseEntities(List<LivingEntity> entities, NearbyEntitiesInteractionInfo type, float factor, int range, DisplayParticlesHelper... particles)
 	{
 		for (Entity entity : entities)
 		{
 			if (canDragOrRepulseEntity(entity)) {dragOrRepulseEntity(this.getDragOrRepulseSourcePos(), entity, factor, type, range);}
 		}
+
+		if (this.level().isClientSide())
+		{
+			for (DisplayParticlesHelper particlesHelper : particles) {particlesHelper.displayParticles(this.level(), this.getDragOrRepulseParticlesPos(), this.random);}
+		}
 	}
 
-	protected Vec3 getDragOrRepulseSourcePos() {return this.position().add(0.0F, this.getDragOrRepulseSourcePosRelativeY(), 0.0F);}
+	protected final Vec3 getDragOrRepulseSourcePos() {return this.position().add(0.0F, this.getDragOrRepulseSourcePosRelativeY(), 0.0F);}
 	protected float getDragOrRepulseSourcePosRelativeY() {return 0.0F;} //override this if source pos should be higher
+	protected final Vec3 getDragOrRepulseParticlesPos() {return this.position().add(0.0F, this.getDragOrRepulseParticlesPosRelativeY(), 0.0F);}
+	protected float getDragOrRepulseParticlesPosRelativeY() {return this.getDragOrRepulseSourcePosRelativeY();} //override this if particles should not be displayed at the same height as drag or repulse source
 
 	protected static void dragOrRepulseEntity(Vec3 sourcePos, Entity targetEntity, float factor, NearbyEntitiesInteractionInfo interactionInfo, int range)
 	{
