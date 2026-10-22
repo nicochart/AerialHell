@@ -97,6 +97,7 @@ public class AerialHellBlocks
         StrippableBlockRegistry.register(COPPER_PINE_LOG, STRIPPED_COPPER_PINE_LOG);
         StrippableBlockRegistry.register(COPPER_PINE_WOOD, STRIPPED_COPPER_PINE_WOOD);
         StrippableBlockRegistry.register(LAPIS_ROBINIA_LOG, STRIPPED_LAPIS_ROBINIA_LOG);
+        StrippableBlockRegistry.register(ENCHANTED_LAPIS_ROBINIA_LOG, STRIPPED_LAPIS_ROBINIA_LOG);
         StrippableBlockRegistry.register(LAPIS_ROBINIA_WOOD, STRIPPED_LAPIS_ROBINIA_WOOD);
         StrippableBlockRegistry.register(SHADOW_PINE_LOG, STRIPPED_SHADOW_PINE_LOG);
         StrippableBlockRegistry.register(SHADOW_PINE_WOOD, STRIPPED_SHADOW_PINE_WOOD);
