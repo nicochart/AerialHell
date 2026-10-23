@@ -1,0 +1,26 @@
+{
+  "type": "create:crushing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "aerialhell:raw_volucite_block"
+    }
+  ],
+  "processingTime": 400,
+  "results": [
+    {
+      "count": 9,
+      "item": "aerialhell:overheated_volucite"
+    },
+    {
+      "chance": 0.75,
+      "count": 9,
+      "item": "create:experience_nugget"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "type": "create:crushing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "aerialhell:obsidian_ore"
+    }
+  ],
+  "processingTime": 350,
+  "results": [
+    {
+      "count": 3,
+      "item": "aerialhell:obsidian_shard"
+    },
+    {
+      "chance": 0.25,
+      "item": "aerialhell:obsidian_shard"
+    },
+    {
+      "chance": 0.75,
+      "item": "create:experience_nugget"
+    },
+    {
+      "chance": 0.125,
+      "item": "aerialhell:stellar_cobblestone"
+    }
+  ]
+}

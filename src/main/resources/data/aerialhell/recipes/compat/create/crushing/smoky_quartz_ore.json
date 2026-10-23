@@ -1,0 +1,33 @@
+{
+  "type": "create:crushing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "aerialhell:smoky_quartz_ore"
+    }
+  ],
+  "processingTime": 250,
+  "results": [
+    {
+      "count": 2,
+      "item": "aerialhell:smoky_quartz"
+    },
+    {
+      "chance": 0.25,
+      "item": "aerialhell:smoky_quartz"
+    },
+    {
+      "chance": 0.75,
+      "item": "create:experience_nugget"
+    },
+    {
+      "chance": 0.125,
+      "item": "aerialhell:stellar_cobblestone"
+    }
+  ]
+}

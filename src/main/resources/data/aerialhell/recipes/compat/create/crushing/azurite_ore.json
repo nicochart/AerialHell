@@ -1,0 +1,32 @@
+{
+  "type": "create:crushing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "aerialhell:azurite_ore"
+    }
+  ],
+  "processingTime": 250,
+  "results": [
+    {
+      "item": "aerialhell:raw_azurite_crystal"
+    },
+    {
+      "chance": 0.75,
+      "item": "aerialhell:raw_azurite_crystal"
+    },
+    {
+      "chance": 0.75,
+      "item": "create:experience_nugget"
+    },
+    {
+      "chance": 0.125,
+      "item": "aerialhell:stellar_cobblestone"
+    }
+  ]
+}
