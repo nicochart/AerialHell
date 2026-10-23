@@ -16,7 +16,9 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.ChestType;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.Nullable;
 
 import static fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock.CORE_PROTECTED;
 
@@ -75,18 +77,6 @@ public class CoreProtectedChestBlock extends AerialHellChestBlock
 		builder.add(CORE_PROTECTED);
 	}
 
-	@Override
-	public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
-	{
-		float f = state.getDestroySpeed(level, pos);
-		if (f == -1.0F || isProtected(state))
-		{
-			return 0.0F;
-		}
-		else
-		{
-			int i = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(state, player) ? 30 : 100;
-			return player.getDigSpeed(state, pos) / f / (float)i;
-		}
-	}
+	//vanilla pistons can't move chests (block entity), but other mods can (Create contraptions for example)
+	@Override public @Nullable PushReaction getPistonPushReaction(BlockState state) {return this.isProtected(state) ? PushReaction.BLOCK : super.getPistonPushReaction(state);}
 }

@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Setup;
 
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock;
 import fr.factionbedrock.aerialhell.Client.Packet.AerialHellNetwork;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Config.AerialHellConfigLoader;
@@ -33,6 +34,7 @@ public class AerialHellSetup
         	AerialHellBlocksAndItems.registerPots();
         	AerialHellBlocksAndItems.registerAxeStrippingBlocks();
         	AerialHellBrewingRecipes.registerBrewingRecipes();
+        	CoreProtectedBlock.makeProtectedStatesUnbreakable();
             AerialHellNetwork.register();
         });
     }

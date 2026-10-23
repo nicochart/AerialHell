@@ -4,7 +4,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.core.BlockPos;
@@ -45,21 +44,6 @@ public class CoreProtectedSlabBlock extends SlabBlock
 	{
 		super.createBlockStateDefinition(builder);
 		builder.add(CORE_PROTECTED);
-	}
-
-	@Override
-	public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
-	{
-		float f = state.getDestroySpeed(level, pos);
-		if (f == -1.0F || isProtected(state))
-		{
-			return 0.0F;
-		}
-		else
-		{
-			int i = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(state, player) ? 30 : 100;
-			return player.getDigSpeed(state, pos) / f / (float)i;
-		}
 	}
 
 	public Block getCrackedVariant()

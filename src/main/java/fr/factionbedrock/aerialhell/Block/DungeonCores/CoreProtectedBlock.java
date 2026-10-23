@@ -4,12 +4,12 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 public class CoreProtectedBlock extends Block
@@ -20,6 +20,21 @@ public class CoreProtectedBlock extends Block
 	{
 		super(properties);
 		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
+	}
+
+	//Called once on common setup. Protected states get the same hardness as bedrock (-1), so that anything checking the hardness
+	//(vanilla pistons, Create drills and contraptions, other mods block breakers) can't break or move them.
+	//need accesstransformer to access and modify state.destroySpeed
+	public static void makeProtectedStatesUnbreakable()
+	{
+		for (Block block : ForgeRegistries.BLOCKS.getValues())
+		{
+			if (!block.getStateDefinition().getProperties().contains(CORE_PROTECTED)) {continue;}
+			for (BlockState state : block.getStateDefinition().getPossibleStates())
+			{
+				if (state.getValue(CORE_PROTECTED)) {state.destroySpeed = -1.0F;}
+			}
+		}
 	}
 	
 	public void setProtected(boolean protect)
@@ -42,21 +57,6 @@ public class CoreProtectedBlock extends Block
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(CORE_PROTECTED);
-	}
-	
-	@Override
-	public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
-	{
-		float f = state.getDestroySpeed(level, pos);
-	    if (f == -1.0F || isProtected(state))
-	    {
-	         return 0.0F;
-	    }
-	    else
-	    {
-	         int i = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(state, player) ? 30 : 100;
-	         return player.getDigSpeed(state, pos) / f / (float)i;
-	    }
 	}
 
 	public Block getCrackedVariant()

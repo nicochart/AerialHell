@@ -55,21 +55,6 @@ public class CoreProtectedGlyphBlock extends GlyphBlock
 		builder.add(CORE_PROTECTED);
 		super.createBlockStateDefinition(builder);
 	}
-	
-	@Override
-	public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
-	{
-		float f = state.getDestroySpeed(level, pos);
-	    if (f == -1.0F || isProtected(state))
-	    {
-	         return 0.0F;
-	    }
-	    else
-	    {
-	         int i = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(state, player) ? 30 : 100;
-	         return player.getDigSpeed(state, pos) / f / (float)i;
-	    }
-	}
 
 	@Override public @Nullable PushReaction getPistonPushReaction(BlockState state) {return this.isProtected(state) ? PushReaction.BLOCK : super.getPistonPushReaction(state);}
 }

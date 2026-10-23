@@ -4,7 +4,6 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellBlocksAndItems;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Explosion;
@@ -56,21 +55,6 @@ public class CoreProtectedWallBlock extends WallBlock
 	@Override public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
 	{
 		return super.getCollisionShape(state.setValue(CORE_PROTECTED, this.shapesCoreProtectedValue), level, pos, context);
-	}
-
-	@Override
-	public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
-	{
-		float f = state.getDestroySpeed(level, pos);
-		if (f == -1.0F || isProtected(state))
-		{
-			return 0.0F;
-		}
-		else
-		{
-			int i = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(state, player) ? 30 : 100;
-			return player.getDigSpeed(state, pos) / f / (float)i;
-		}
 	}
 
 	public WallBlock getCrackedVariant()
