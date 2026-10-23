@@ -1,40 +1,42 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.material.PushReaction;
+import org.jspecify.annotations.Nullable;
 
 import static fr.factionbedrock.aerialhell.Registry.AerialHellStateProperties.CORE_PROTECTED;
 
-public class CoreProtectedWallBlock extends WallBlock //implements CoreProtectedPropertyBlock
+public class CoreProtectedWallBlock extends WallBlock implements CoreProtectedPropertyBlock
 {
-	//Problem with .isOpaque()
-	
 	public CoreProtectedWallBlock(Properties properties)
 	{
 		super(properties);
-		//this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
+		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
 
-	/*@Override public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion)
-    {
-        return this.getModifiedExplosionResistance(state, world, pos, explosion);
-    }
+	@Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
+	{
+		super.createBlockStateDefinition(builder);
+		builder.add(CORE_PROTECTED);
+	}
+
+	@Override public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion)
+	{
+		return this.getModifiedExplosionResistance(state, world, pos, explosion);
+	}
 
 	@Override public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
 	{
 		return this.getModifiedDestroyProgress(state, player, level, pos);
 	}
-	
-	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
-	{
-		builder.add(CORE_PROTECTED);
-		super.createBlockStateDefinition(builder);
-	}*/
 
 	public WallBlock getCrackedVariant()
 	{
@@ -45,4 +47,6 @@ public class CoreProtectedWallBlock extends WallBlock //implements CoreProtected
 		else if (this == AerialHellBlocks.VOLUCITE_STONE_WALL.get()) {return AerialHellBlocks.CRACKED_VOLUCITE_STONE_WALL.get();}
 		else {return this;}
 	}
+
+	@Override public @Nullable PushReaction getPistonPushReaction(BlockState state) {return this.isProtected(state) ? PushReaction.IMMOVEABLE : super.getPistonPushReaction(state);}
 }
