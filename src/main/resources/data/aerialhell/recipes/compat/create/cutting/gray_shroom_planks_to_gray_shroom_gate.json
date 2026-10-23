@@ -1,0 +1,20 @@
+{
+  "type": "create:cutting",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "aerialhell:gray_shroom_planks"
+    }
+  ],
+  "processingTime": 50,
+  "results": [
+    {
+      "item": "aerialhell:gray_shroom_gate"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "type": "create:cutting",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "aerialhell:sky_cactus_fiber_planks"
+    }
+  ],
+  "processingTime": 50,
+  "results": [
+    {
+      "item": "aerialhell:sky_cactus_fiber_gate"
+    }
+  ]
+}

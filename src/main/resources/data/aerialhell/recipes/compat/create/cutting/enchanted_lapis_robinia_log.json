@@ -1,0 +1,20 @@
+{
+  "type": "create:cutting",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "aerialhell:enchanted_lapis_robinia_log"
+    }
+  ],
+  "processingTime": 50,
+  "results": [
+    {
+      "item": "aerialhell:stripped_lapis_robinia_log"
+    }
+  ]
+}
