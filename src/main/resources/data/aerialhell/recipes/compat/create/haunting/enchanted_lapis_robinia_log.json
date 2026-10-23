@@ -1,0 +1,19 @@
+{
+  "type": "create:haunting",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "aerialhell:enchanted_lapis_robinia_log"
+    }
+  ],
+  "results": [
+    {
+      "item": "aerialhell:shadow_lapis_robinia_log"
+    }
+  ]
+}

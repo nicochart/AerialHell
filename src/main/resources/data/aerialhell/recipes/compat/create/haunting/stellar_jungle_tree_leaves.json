@@ -1,0 +1,19 @@
+{
+  "type": "create:haunting",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "aerialhell:stellar_jungle_tree_leaves"
+    }
+  ],
+  "results": [
+    {
+      "item": "aerialhell:shadow_stellar_jungle_tree_leaves"
+    }
+  ]
+}

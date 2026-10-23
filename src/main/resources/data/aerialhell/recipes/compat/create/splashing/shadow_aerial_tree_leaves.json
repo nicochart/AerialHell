@@ -1,0 +1,19 @@
+{
+  "type": "create:splashing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "aerialhell:shadow_aerial_tree_leaves"
+    }
+  ],
+  "results": [
+    {
+      "item": "aerialhell:aerial_tree_leaves"
+    }
+  ]
+}

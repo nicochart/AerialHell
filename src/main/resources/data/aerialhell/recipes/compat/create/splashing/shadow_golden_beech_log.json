@@ -1,0 +1,19 @@
+{
+  "type": "create:splashing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "aerialhell:shadow_golden_beech_log"
+    }
+  ],
+  "results": [
+    {
+      "item": "aerialhell:golden_beech_log"
+    }
+  ]
+}

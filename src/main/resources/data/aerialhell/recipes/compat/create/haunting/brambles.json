@@ -1,0 +1,19 @@
+{
+  "type": "create:haunting",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "aerialhell:brambles"
+    }
+  ],
+  "results": [
+    {
+      "item": "aerialhell:shadow_brambles"
+    }
+  ]
+}
