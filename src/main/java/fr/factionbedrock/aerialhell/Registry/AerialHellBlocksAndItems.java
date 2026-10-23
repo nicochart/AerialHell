@@ -671,11 +671,11 @@ public class AerialHellBlocksAndItems
 	public static final RegistryObject<Item> CRACKED_LIGHT_VOLUCITE_STONE_ITEM = ITEMS.register("cracked_light_volucite_stone", () -> new BlockItem(CRACKED_LIGHT_VOLUCITE_STONE.get(), new Item.Properties()));
 
 	//dungeon cores
-	public static final RegistryObject<Block> MUD_DUNGEON_CORE = BLOCKS.register("mud_dungeon_core", () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(30.0F, 1200.0F).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
-	public static final RegistryObject<Block> LUNATIC_DUNGEON_CORE = BLOCKS.register("lunatic_dungeon_core", () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(40.0F, 1200.0F).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
-	public static final RegistryObject<Block> SHADOW_CATACOMBS_DUNGEON_CORE = BLOCKS.register("shadow_catacombs_dungeon_core", () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(30.0F, 1200.0F).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
-	public static final RegistryObject<Block> GOLDEN_NETHER_DUNGEON_CORE = BLOCKS.register("golden_nether_dungeon_core", () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(50.0F, 1200.0F).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
-	public static final RegistryObject<Block> VOLUCITE_DUNGEON_CORE = BLOCKS.register("volucite_dungeon_core", () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(50.0F, 1200.0F).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
+	public static final RegistryObject<Block> MUD_DUNGEON_CORE = BLOCKS.register("mud_dungeon_core", () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(30.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
+	public static final RegistryObject<Block> LUNATIC_DUNGEON_CORE = BLOCKS.register("lunatic_dungeon_core", () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(40.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
+	public static final RegistryObject<Block> SHADOW_CATACOMBS_DUNGEON_CORE = BLOCKS.register("shadow_catacombs_dungeon_core", () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(30.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
+	public static final RegistryObject<Block> GOLDEN_NETHER_DUNGEON_CORE = BLOCKS.register("golden_nether_dungeon_core", () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(50.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
+	public static final RegistryObject<Block> VOLUCITE_DUNGEON_CORE = BLOCKS.register("volucite_dungeon_core", () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().strength(50.0F, 1200.0F).pushReaction(PushReaction.BLOCK).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
 
 	public static final RegistryObject<Item> MUD_DUNGEON_CORE_ITEM = ITEMS.register("mud_dungeon_core", () -> new BlockItem(MUD_DUNGEON_CORE.get(), new Item.Properties()));
 	public static final RegistryObject<Item> LUNATIC_DUNGEON_CORE_ITEM = ITEMS.register("lunatic_dungeon_core", () -> new BlockItem(LUNATIC_DUNGEON_CORE.get(), new Item.Properties()));
