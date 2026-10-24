@@ -4,5 +4,6 @@ public enum ArmGoalType
 {
     BEAM,
     STRIKE,
-    SUMMON_ALLY
+    SUMMON_ALLY,
+    LIGHTNING
 }

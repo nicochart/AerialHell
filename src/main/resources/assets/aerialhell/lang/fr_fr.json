@@ -954,6 +954,7 @@
   "entity.aerialhell.shadow_projectile": "Projectile des Ombres",
   "entity.aerialhell.ruby_shard": "Éclat de Rubis",
   "entity.aerialhell.volucite_shard": "Éclat de Volucite",
+  "entity.aerialhell.volucite_lightning": "Éclair de Volucite",
 
   "death.attack.aerialhell.shuriken_hit": "%1$s s'est fait zigouiller par un shuriken",
   "death.attack.aerialhell.shuriken_hit.player": "%1$s s'est fait zigouiller par le shuriken de %2$s",

@@ -954,6 +954,7 @@
   "entity.aerialhell.shadow_projectile": "Shadow Projectile",
   "entity.aerialhell.ruby_shard": "Ruby Shard",
   "entity.aerialhell.volucite_shard": "Volucite Shard",
+  "entity.aerialhell.volucite_lightning": "Volucite Lightning",
 
   "death.attack.aerialhell.shuriken_hit": "%1$s was killed by a shuriken",
   "death.attack.aerialhell.shuriken_hit.player": "%1$s was killed by %2$s's shuriken",

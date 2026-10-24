@@ -46,11 +46,11 @@ public class ArmsGoalHandler
         this.armGoalWeights.clear();
         if (phase == BossPhase.FIRST_PHASE)
         {
-            this.armGoalWeights.set(ArmGoalType.STRIKE, 5).set(ArmGoalType.BEAM, 1).set(ArmGoalType.SUMMON_ALLY, 1);
+            this.armGoalWeights.set(ArmGoalType.STRIKE, 5).set(ArmGoalType.BEAM, 1).set(ArmGoalType.SUMMON_ALLY, 1).set(ArmGoalType.LIGHTNING, 2);
         }
         else if (phase == BossPhase.SECOND_PHASE)
         {
-            this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2);
+            this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3);
         }
         //transition, dying & dead phases : no arm goal
     }
@@ -91,6 +91,7 @@ public class ArmsGoalHandler
             case BEAM -> this.warden.armsBeamAttackHandler.canTrigger(isRightArm);
             case STRIKE -> this.warden.armsStrikeAttackHandler.canTrigger(isRightArm);
             case SUMMON_ALLY -> this.warden.armsSummonAllyHandler.canTrigger(isRightArm);
+            case LIGHTNING -> this.warden.armsLightningAttackHandler.canTrigger(isRightArm);
         };
     }
 

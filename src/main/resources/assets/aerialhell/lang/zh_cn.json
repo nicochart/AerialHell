@@ -940,6 +940,7 @@
   "entity.aerialhell.shadow_projectile": "暗影弹射物",
   "entity.aerialhell.ruby_shard": "红宝石碎片",
   "entity.aerialhell.volucite_shard": "蓝辉石碎片",
+  "entity.aerialhell.volucite_lightning": "蓝辉石闪电",
   "death.attack.aerialhell.shuriken_hit":"%1$s被手里剑杀死了",
   "death.attack.aerialhell.shuriken_hit.player":"%1$s被%2$s的手里剑杀死了",
   "death.attack.aerialhell.web_thorns":"%1$s陷入了棘刺蜘蛛网",

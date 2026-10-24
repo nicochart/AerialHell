@@ -940,6 +940,7 @@
   "entity.aerialhell.shadow_projectile": "Proyectil de las sombras",
   "entity.aerialhell.ruby_shard": "Fragmento de rubí",
   "entity.aerialhell.volucite_shard": "Fragmento de volucita",
+  "entity.aerialhell.volucite_lightning": "Rayo de volucita",
   "death.attack.aerialhell.shuriken_hit": "%1$s murió por un shuriken",
   "death.attack.aerialhell.shuriken_hit.player": "%1$s murió por el shuriken de %2$s",
   "death.attack.aerialhell.web_thorns": "%1$s se quedó atrapado en una telaraña espinosa",

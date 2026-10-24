@@ -56,7 +56,7 @@ public class BeamRenderHelper
         }
     }
 
-    private static void orientPoseStack(PoseStack poseStack, Vec3 beamVector)
+    public static void orientPoseStack(PoseStack poseStack, Vec3 beamVector) //rotates local +Y to beamVector direction
     {
         beamVector = beamVector.normalize();
         float xRotFactor = (float) Math.acos(beamVector.y);

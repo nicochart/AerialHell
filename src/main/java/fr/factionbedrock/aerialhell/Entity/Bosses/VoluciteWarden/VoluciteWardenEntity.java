@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmBeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmLightningAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmStrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmSummonAllyGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenCoreRepulsionGoal;
@@ -12,6 +13,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmGoalType;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsBeamAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsGoalHandler;
+import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsLightningAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsStrikeAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmsSummonAllyHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.CoreRepulsionHandler;
@@ -92,6 +94,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private VoluciteWardenArmSummonAllyGoal LEFT_ARM_SUMMON_ALLY_GOAL;
 	public final ArmsSummonAllyHandler armsSummonAllyHandler;
 	/* ----------------------------- */
+
+	/* -- Arms Lightning Attack fields -- */
+	private VoluciteWardenArmLightningAttackGoal RIGHT_ARM_LIGHTNING_ATTACK_GOAL;
+	private VoluciteWardenArmLightningAttackGoal LEFT_ARM_LIGHTNING_ATTACK_GOAL;
+	public final ArmsLightningAttackHandler armsLightningAttackHandler;
+	/* ---------------------------------- */
 
 	/* -- Arms Goal fields -- */
 	public final ArmsGoalHandler armsGoalHandler;
@@ -187,6 +195,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.armsStrikeAttackHandler = new ArmsStrikeAttackHandler(this, this.getRightArm(), this.RIGHT_ARM_STRIKE_ATTACK_GOAL, this.getLeftArm(), this.LEFT_ARM_STRIKE_ATTACK_GOAL);
 		this.armsBeamAttackHandler = new ArmsBeamAttackHandler(this, this.getRightArm(), this.RIGHT_ARM_BEAM_ATTACK_GOAL, this.getLeftArm(), this.LEFT_ARM_BEAM_ATTACK_GOAL);
 		this.armsSummonAllyHandler = new ArmsSummonAllyHandler(this, this.getRightArm(), this.RIGHT_ARM_SUMMON_ALLY_GOAL, this.getLeftArm(), this.LEFT_ARM_SUMMON_ALLY_GOAL);
+		this.armsLightningAttackHandler = new ArmsLightningAttackHandler(this, this.getRightArm(), this.RIGHT_ARM_LIGHTNING_ATTACK_GOAL, this.getLeftArm(), this.LEFT_ARM_LIGHTNING_ATTACK_GOAL);
 		this.armsGoalHandler = new ArmsGoalHandler(this);
 		this.coreRepulsionHandler = new CoreRepulsionHandler(this, this.CORE_REPULSION_GOAL);
 	}
@@ -384,6 +393,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.LEFT_ARM_BEAM_ATTACK_GOAL = new VoluciteWardenArmBeamAttackGoal(this, this::getLeftArm, 0.2F);
 		this.RIGHT_ARM_SUMMON_ALLY_GOAL = new VoluciteWardenArmSummonAllyGoal(this, this::getRightArm, 0.2F);
 		this.LEFT_ARM_SUMMON_ALLY_GOAL = new VoluciteWardenArmSummonAllyGoal(this, this::getLeftArm, 0.2F);
+		this.RIGHT_ARM_LIGHTNING_ATTACK_GOAL = new VoluciteWardenArmLightningAttackGoal(this, this::getRightArm, 0.2F);
+		this.LEFT_ARM_LIGHTNING_ATTACK_GOAL = new VoluciteWardenArmLightningAttackGoal(this, this::getLeftArm, 0.2F);
 		this.CORE_REPULSION_GOAL = new VoluciteWardenCoreRepulsionGoal(this, CoreRepulsionHandler.ATTRACTION_DURATION, CoreRepulsionHandler.REPULSION_DURATION);
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
@@ -395,6 +406,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.goalSelector.addGoal(4, LEFT_ARM_BEAM_ATTACK_GOAL);
 		this.goalSelector.addGoal(4, RIGHT_ARM_SUMMON_ALLY_GOAL);
 		this.goalSelector.addGoal(4, LEFT_ARM_SUMMON_ALLY_GOAL);
+		this.goalSelector.addGoal(4, RIGHT_ARM_LIGHTNING_ATTACK_GOAL);
+		this.goalSelector.addGoal(4, LEFT_ARM_LIGHTNING_ATTACK_GOAL);
 		this.goalSelector.addGoal(4, CORE_REPULSION_GOAL);
 
 		//this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
@@ -561,8 +574,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	}
 
 	public boolean isHeadActive() {return this.isHeadBeaming();}
-	public boolean isRightArmActive() {return this.isRightArmStriking() || this.isRightArmBeaming() || this.isRightArmSummoningAlly();}
-	public boolean isLeftArmActive() {return this.isLeftArmStriking() || this.isLeftArmBeaming() || this.isLeftArmSummoningAlly();}
+	public boolean isRightArmActive() {return this.isRightArmStriking() || this.isRightArmBeaming() || this.isRightArmSummoningAlly() || this.isRightArmLightningAttacking();}
+	public boolean isLeftArmActive() {return this.isLeftArmStriking() || this.isLeftArmBeaming() || this.isLeftArmSummoningAlly() || this.isLeftArmLightningAttacking();}
 
 	/* ----------------------------------------------------- */
 	/* ---------- Main Beam Attack : Goal methods ---------- */
@@ -627,6 +640,17 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ---------------------------------------------------- */
 	/* ---------------------------------------------------- */
 
+	/* --------------------------------------------------------- */
+	/* ---------- Arm Lightning Attack : Goal methods ---------- */
+	/* --------------------------------------------------------- */
+	public boolean isRightArmLightningAttacking() {return this.RIGHT_ARM_LIGHTNING_ATTACK_GOAL.isActive();}
+	public boolean isLeftArmLightningAttacking() {return this.LEFT_ARM_LIGHTNING_ATTACK_GOAL.isActive();}
+
+	public boolean shouldTriggerArmLightningAttack() {return false;}
+	/* --------------------------------------------------------- */
+	/* --------------------------------------------------------- */
+	/* --------------------------------------------------------- */
+
 	/* ----------------------------------------------- */
 	/* ---------- Arm Goals : Global methods ---------- */
 	/* ----------------------------------------------- */
@@ -637,6 +661,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			case BEAM -> isRightArm ? this.RIGHT_ARM_BEAM_ATTACK_GOAL : this.LEFT_ARM_BEAM_ATTACK_GOAL;
 			case STRIKE -> isRightArm ? this.RIGHT_ARM_STRIKE_ATTACK_GOAL : this.LEFT_ARM_STRIKE_ATTACK_GOAL;
 			case SUMMON_ALLY -> isRightArm ? this.RIGHT_ARM_SUMMON_ALLY_GOAL : this.LEFT_ARM_SUMMON_ALLY_GOAL;
+			case LIGHTNING -> isRightArm ? this.RIGHT_ARM_LIGHTNING_ATTACK_GOAL : this.LEFT_ARM_LIGHTNING_ATTACK_GOAL;
 		};
 	}
 	/* ----------------------------------------------- */
