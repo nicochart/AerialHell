@@ -44,9 +44,10 @@ public class ArmsGoalHandler
     protected void updateArmGoalWeights(BossPhase phase)
     {
         this.armGoalWeights.clear();
+        //TODO balance attacks
         if (phase == BossPhase.FIRST_PHASE)
         {
-            this.armGoalWeights.set(ArmGoalType.STRIKE, 5).set(ArmGoalType.BEAM, 1).set(ArmGoalType.SUMMON_ALLY, 1).set(ArmGoalType.LIGHTNING, 2);
+            this.armGoalWeights.set(ArmGoalType.STRIKE, 0).set(ArmGoalType.BEAM, 0).set(ArmGoalType.SUMMON_ALLY, 0).set(ArmGoalType.LIGHTNING, 2);
         }
         else if (phase == BossPhase.SECOND_PHASE)
         {

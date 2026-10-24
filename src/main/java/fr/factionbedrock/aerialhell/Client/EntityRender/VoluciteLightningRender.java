@@ -10,25 +10,22 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import org.joml.Matrix4fc;
 
-//jagged bolt from the entity position to its end position, along local +Y (oriented like a beam)
-//see net.minecraft.client.renderer.entity.LightningBoltRenderer
+//vanilla-like lightning from the entity position to its end position, along local +Y (oriented like a beam)
+//same structure as net.minecraft.client.renderer.entity.LightningBoltRenderer, scaled down (segments of 4 blocks instead of 16) :
+//4 translucent layers of square tubes, a zigzag trunk with integer offsets, and branches starting near the source
 public class VoluciteLightningRender extends EntityRenderer<VoluciteLightningEntity, VoluciteLightningRenderState>
 {
     private static final float RED = 0.35F, GREEN = 0.6F, BLUE = 1.0F, ALPHA = 0.3F;
+    //nice RED = 0.45F, GREEN = 0.5F, BLUE = 0.6F, ALPHA = 0.3F;
+    //vanilla RED = 0.45F, GREEN = 0.45F, BLUE = 0.5F, ALPHA = 0.3F;
+    private static final float SCALE = 0.25F; //vanilla lightning scale is 1
+    private static final float SEGMENT_LENGTH = 16.0F * SCALE;
     private static final int LAYER_COUNT = 4;
-    private static final float LAYER_BASE_RADIUS = 0.02F;
-    private static final float LAYER_RADIUS_INCREMENT = 0.05F;
-    private static final float END_RADIUS_FACTOR = 0.6F; //bolt gets thinner toward its end
-    private static final float SEGMENT_LENGTH = 2.0F; //approximate length of a trunk segment
-    private static final float TRUNK_JITTER = 0.6F; //max sideways offset of a trunk joint
     private static final int BRANCH_COUNT = 2;
     private static final int BRANCH_SEGMENT_COUNT = 3;
-    private static final float BRANCH_JITTER = 1.2F;
-    private static final float BRANCH_RADIUS_FACTOR = 0.5F;
 
     public VoluciteLightningRender(EntityRendererProvider.Context context) {super(context);}
 
@@ -49,30 +46,37 @@ public class VoluciteLightningRender extends EntityRenderer<VoluciteLightningEnt
         if (length < 0.01F) {return;}
 
         RandomSource random = RandomSource.createThreadLocalInstance(renderState.seed);
-        int segmentCount = Math.max(2, Mth.ceil(length / SEGMENT_LENGTH));
+        int segmentCount = Math.max(2, Math.round(length / SEGMENT_LENGTH));
         float segmentLength = length / segmentCount;
 
-        //trunk joints. first and last joints are not offset : bolt starts exactly at its position and ends exactly at its end position
-        float[][] trunk = new float[segmentCount + 1][3];
-        for (int i = 0; i <= segmentCount; i++)
+        //trunk : vanilla random walk (steps of -5 to 5), corrected so that the bolt ends exactly at its end position
+        float[] trunkX = new float[segmentCount + 1];
+        float[] trunkZ = new float[segmentCount + 1];
+        for (int i = 1; i <= segmentCount; i++)
         {
-            boolean isEndJoint = i == 0 || i == segmentCount;
-            trunk[i][0] = isEndJoint ? 0.0F : jitter(random, TRUNK_JITTER);
-            trunk[i][1] = i * segmentLength;
-            trunk[i][2] = isEndJoint ? 0.0F : jitter(random, TRUNK_JITTER);
+            trunkX[i] = trunkX[i - 1] + (random.nextInt(11) - 5) * SCALE;
+            trunkZ[i] = trunkZ[i - 1] + (random.nextInt(11) - 5) * SCALE;
+        }
+        float xDrift = trunkX[segmentCount], zDrift = trunkZ[segmentCount];
+        for (int i = 1; i <= segmentCount; i++)
+        {
+            trunkX[i] -= xDrift * i / segmentCount;
+            trunkZ[i] -= zDrift * i / segmentCount;
         }
 
-        //branches, starting from random trunk joints and going toward the end
-        float[][][] branches = new float[BRANCH_COUNT][BRANCH_SEGMENT_COUNT + 1][3];
-        for (float[][] branch : branches)
+        //branches : vanilla wider steps (-15 to 15), starting from the first trunk joints
+        int[] branchStart = new int[BRANCH_COUNT];
+        float[][] branchX = new float[BRANCH_COUNT][BRANCH_SEGMENT_COUNT + 1];
+        float[][] branchZ = new float[BRANCH_COUNT][BRANCH_SEGMENT_COUNT + 1];
+        for (int b = 0; b < BRANCH_COUNT; b++)
         {
-            float[] startJoint = trunk[1 + random.nextInt(segmentCount - 1)];
-            branch[0] = startJoint.clone();
+            branchStart[b] = Math.min(b + 1, segmentCount - 1);
+            branchX[b][0] = trunkX[branchStart[b]];
+            branchZ[b][0] = trunkZ[branchStart[b]];
             for (int k = 1; k <= BRANCH_SEGMENT_COUNT; k++)
             {
-                branch[k][0] = branch[k - 1][0] + jitter(random, BRANCH_JITTER);
-                branch[k][1] = branch[k - 1][1] + segmentLength * 0.7F;
-                branch[k][2] = branch[k - 1][2] + jitter(random, BRANCH_JITTER);
+                branchX[b][k] = branchX[b][k - 1] + (random.nextInt(31) - 15) * SCALE;
+                branchZ[b][k] = branchZ[b][k - 1] + (random.nextInt(31) - 15) * SCALE;
             }
         }
 
@@ -83,39 +87,39 @@ public class VoluciteLightningRender extends EntityRenderer<VoluciteLightningEnt
             Matrix4fc poseMatrix = pose.pose();
             for (int layer = 0; layer < LAYER_COUNT; layer++)
             {
-                float layerRadius = LAYER_BASE_RADIUS + layer * LAYER_RADIUS_INCREMENT;
+                float radius = (0.1F + layer * 0.2F) * SCALE; //vanilla layer radius, scaled
                 for (int i = 0; i < segmentCount; i++)
                 {
-                    float lowRadius = layerRadius * Mth.lerp((float) i / segmentCount, 1.0F, END_RADIUS_FACTOR);
-                    float highRadius = layerRadius * Mth.lerp((float) (i + 1) / segmentCount, 1.0F, END_RADIUS_FACTOR);
-                    tube(poseMatrix, buffer, trunk[i], lowRadius, trunk[i + 1], highRadius);
+                    tube(poseMatrix, buffer, trunkX[i], i * segmentLength, trunkZ[i], trunkX[i + 1], (i + 1) * segmentLength, trunkZ[i + 1], radius);
                 }
-                float branchRadius = layerRadius * BRANCH_RADIUS_FACTOR;
-                for (float[][] branch : branches)
+                for (int b = 0; b < BRANCH_COUNT; b++)
                 {
-                    for (int k = 0; k < BRANCH_SEGMENT_COUNT; k++) {tube(poseMatrix, buffer, branch[k], branchRadius, branch[k + 1], branchRadius);}
+                    int branchSegmentCount = Math.min(BRANCH_SEGMENT_COUNT, segmentCount - branchStart[b]); //branch does not go further than the trunk end
+                    for (int k = 0; k < branchSegmentCount; k++)
+                    {
+                        float lowY = (branchStart[b] + k) * segmentLength;
+                        tube(poseMatrix, buffer, branchX[b][k], lowY, branchZ[b][k], branchX[b][k + 1], lowY + segmentLength, branchZ[b][k + 1], radius);
+                    }
                 }
             }
         });
         poseStack.popPose();
     }
 
-    private static float jitter(RandomSource random, float maxOffset) {return Mth.nextFloat(random, -maxOffset, maxOffset);}
-
-    //square tube between two joints (x, y, z), 4 faces
-    private static void tube(Matrix4fc pose, VertexConsumer buffer, float[] low, float lowRadius, float[] high, float highRadius)
+    //square tube between two joints, 4 faces (see LightningBoltRenderer.quad)
+    private static void tube(Matrix4fc pose, VertexConsumer buffer, float lowX, float lowY, float lowZ, float highX, float highY, float highZ, float radius)
     {
-        quad(pose, buffer, low, lowRadius, high, highRadius, false, false, true, false);
-        quad(pose, buffer, low, lowRadius, high, highRadius, true, false, true, true);
-        quad(pose, buffer, low, lowRadius, high, highRadius, true, true, false, true);
-        quad(pose, buffer, low, lowRadius, high, highRadius, false, true, false, false);
+        quad(pose, buffer, lowX, lowY, lowZ, highX, highY, highZ, radius, false, false, true, false);
+        quad(pose, buffer, lowX, lowY, lowZ, highX, highY, highZ, radius, true, false, true, true);
+        quad(pose, buffer, lowX, lowY, lowZ, highX, highY, highZ, radius, true, true, false, true);
+        quad(pose, buffer, lowX, lowY, lowZ, highX, highY, highZ, radius, false, true, false, false);
     }
 
-    private static void quad(Matrix4fc pose, VertexConsumer buffer, float[] low, float lowRadius, float[] high, float highRadius, boolean rightXPositive, boolean rightZPositive, boolean leftXPositive, boolean leftZPositive)
+    private static void quad(Matrix4fc pose, VertexConsumer buffer, float lowX, float lowY, float lowZ, float highX, float highY, float highZ, float radius, boolean rightXPositive, boolean rightZPositive, boolean leftXPositive, boolean leftZPositive)
     {
-        buffer.addVertex(pose, low[0] + (rightXPositive ? lowRadius : -lowRadius), low[1], low[2] + (rightZPositive ? lowRadius : -lowRadius)).setColor(RED, GREEN, BLUE, ALPHA);
-        buffer.addVertex(pose, high[0] + (rightXPositive ? highRadius : -highRadius), high[1], high[2] + (rightZPositive ? highRadius : -highRadius)).setColor(RED, GREEN, BLUE, ALPHA);
-        buffer.addVertex(pose, high[0] + (leftXPositive ? highRadius : -highRadius), high[1], high[2] + (leftZPositive ? highRadius : -highRadius)).setColor(RED, GREEN, BLUE, ALPHA);
-        buffer.addVertex(pose, low[0] + (leftXPositive ? lowRadius : -lowRadius), low[1], low[2] + (leftZPositive ? lowRadius : -lowRadius)).setColor(RED, GREEN, BLUE, ALPHA);
+        buffer.addVertex(pose, lowX + (rightXPositive ? radius : -radius), lowY, lowZ + (rightZPositive ? radius : -radius)).setColor(RED, GREEN, BLUE, ALPHA);
+        buffer.addVertex(pose, highX + (rightXPositive ? radius : -radius), highY, highZ + (rightZPositive ? radius : -radius)).setColor(RED, GREEN, BLUE, ALPHA);
+        buffer.addVertex(pose, highX + (leftXPositive ? radius : -radius), highY, highZ + (leftZPositive ? radius : -radius)).setColor(RED, GREEN, BLUE, ALPHA);
+        buffer.addVertex(pose, lowX + (leftXPositive ? radius : -radius), lowY, lowZ + (leftZPositive ? radius : -radius)).setColor(RED, GREEN, BLUE, ALPHA);
     }
 }

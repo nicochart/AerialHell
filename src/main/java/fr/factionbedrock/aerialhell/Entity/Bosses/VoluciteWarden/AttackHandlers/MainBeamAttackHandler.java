@@ -43,6 +43,6 @@ public class MainBeamAttackHandler
 
     private boolean canTrigger()
     {
-        return this.warden.getTarget() != null; //TODO && !this.warden.isInPhaseThatAuthorizeMainBeam();
+        return false; //this.warden.getTarget() != null; //TODO && !this.warden.isInPhaseThatAuthorizeMainBeam();
     }
 }
