@@ -51,6 +51,8 @@ public class ArmsSweepAttackHandler
 
     public boolean canTrigger(boolean isRightArm) {return (isRightArm ? this.rightArmHandler : this.leftArmHandler).canTrigger();}
 
+    public float getSweepProgress(boolean isRightArm) {return (isRightArm ? this.rightArmHandler : this.leftArmHandler).getSweepProgress();}
+
     public List<Phase> getAttackSequence(boolean isRightArm)
     {
         return isRightArm ? this.rightArmHandler.attackSequence : this.leftArmHandler.attackSequence;
@@ -72,7 +74,8 @@ public class ArmsSweepAttackHandler
         );
     }
 
-    private Vec3 getRelativePreparePos(int sideFactor) {return new Vec3(sideFactor * 6.0F, 12.0F, 10.0F);}
+    //far enough in front of the warden : from there, the hand goes to the sweep start without going through the torso
+    private Vec3 getRelativePreparePos(int sideFactor) {return new Vec3(sideFactor * 6.0F, 12.0F, 16.0F);}
 
     //linear progression (no easing) : sweep target must move more than goal distanceOffsetTolerance each tick, else action phase would end too early (target considered reached)
     private Vec3 getRelativeSweepPos(int sideFactor, ArmSweepAttackHandler armHandler, float sweepProgress)

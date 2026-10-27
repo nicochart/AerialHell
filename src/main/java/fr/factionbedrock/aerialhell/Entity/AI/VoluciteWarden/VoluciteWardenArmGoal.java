@@ -59,21 +59,23 @@ public abstract class VoluciteWardenArmGoal extends Goal implements PhaseGoal
         Vec3 armEndPos = this.getCachedUnrotatedRelativePos();
         double distanceToTarget = this.getDistanceToTarget();
         double curveStrengthFactor = this.getPhaseType() == PhaseType.RECOVERY ? this.calculateRecoveryCurveStrengthFactor(distanceToTarget) : 1.0D;
+        Vec3 curveControlPos = this.computeCurveControlPos(armStartPos, armEndPos, curveStrengthFactor); //same for every segment
 
         for (VoluciteWardenEntity.ArmPartInfo partInfo : this.arm.get())
         {
             PartEntity part = partInfo.getPart();
             if (part != null)
             {
-                this.setPartPos(part, armStartPos, armEndPos, curveStrengthFactor, partInfo.getSegmentIndex(), totalSegments);
+                this.setPartPos(part, armStartPos, curveControlPos, armEndPos, partInfo.getSegmentIndex(), totalSegments);
                 this.setPartRot(part, armStartPos, armEndPos);
             }
         }
     }
 
-    private void setPartPos(@NotNull PartEntity part, Vec3 armStartPos, Vec3 armEndPos, double curveStrengthFactor, int segmentIndex, int totalSegments)
+    private void setPartPos(@NotNull PartEntity part, Vec3 armStartPos, Vec3 curveControlPos, Vec3 armEndPos, int segmentIndex, int totalSegments)
     {
-        Vec3 armPos = this.interpolateArmPos(armStartPos, armEndPos, curveStrengthFactor, segmentIndex, totalSegments);
+        double progress = (double)(segmentIndex - 1) / (totalSegments - 1);
+        Vec3 armPos = this.quadraticBezier(armStartPos, curveControlPos, armEndPos, progress);
         part.getSelf().setPos(this.goalOwner.fromUnrotatedRelativeToLevelPos(armPos));
 
         if (segmentIndex == 1) //Tiny hack to correct the first segment's rotation when it's not moving. Little movement makes client immediately updates visual rot.
@@ -119,31 +121,37 @@ public abstract class VoluciteWardenArmGoal extends Goal implements PhaseGoal
         return Mth.clamp(distanceToTarget / maxFactorDistance, 0.0F, 1.0F);
     }
 
-    private Vec3 interpolateArmPos(Vec3 start, Vec3 end, double curveStrengthFactor, int index, int totalSegments)
+    //quadratic bezier control point : arm middle, moved orthogonally to the arm
+    private Vec3 computeCurveControlPos(Vec3 start, Vec3 end, double curveStrengthFactor)
     {
-        int rightLeftfactor = this.arm.get().getFirst().isRightArm ? 1 : -1;
-        double progress = (double)(index - 1) / (totalSegments - 1);
-
         Vec3 armMiddle = start.add(end).scale(0.5);
-
-        Vec3 armDir = end.subtract(start).normalize();
 
         double heightDiff = end.y - start.y;
         float heightDiffMaxThreshold = 14.0F;
-        double factor = Mth.clamp(heightDiff / heightDiffMaxThreshold, -1.0, 1.0); // negative if arm down, positive if arm up. 0 if arm is horizontal. (absolute) starting to decrease if diff is <= heightDiffMaxThreshold
-        Vec3 controlDir = new Vec3(rightLeftfactor * armDir.z, 0, rightLeftfactor * factor * armDir.x).normalize(); //orthogonal direction
+        double heightFactor = Mth.clamp(heightDiff / heightDiffMaxThreshold, -1.0, 1.0); // negative if arm down, positive if arm up. 0 if arm is horizontal. (absolute) starting to decrease if diff is <= heightDiffMaxThreshold
 
-        double curveStrength = curveStrengthFactor * switch (this.getCurrentPhase().getType())
+        double curveStrength = curveStrengthFactor * this.getCurveStrength(this.getPhaseType(), heightFactor);
+        return armMiddle.add(this.getCurveDirection(start, end, heightFactor).scale(curveStrength));
+    }
+
+    //override for a goal-specific curve (start and end : unrotated relative positions of the shoulder and the hand)
+    protected Vec3 getCurveDirection(Vec3 armStart, Vec3 armEnd, double heightFactor)
+    {
+        Vec3 armDir = armEnd.subtract(armStart).normalize();
+        int rightLeftfactor = this.arm.get().getFirst().isRightArm ? 1 : -1;
+        return new Vec3(rightLeftfactor * armDir.z, 0, rightLeftfactor * heightFactor * armDir.x).normalize(); //orthogonal direction
+    }
+
+    //override for a goal-specific curve
+    protected double getCurveStrength(PhaseType phaseType, double heightFactor)
+    {
+        return switch (phaseType)
         {
             case INACTIVE -> 0.0D;
-            case PREPARE -> 8.0D * Mth.abs((float)factor);
+            case PREPARE -> 8.0D * Mth.abs((float) heightFactor);
             case ACTION -> 2.0D;
             case RECOVERY -> 5.0D;
         };
-
-        Vec3 control = armMiddle.add(controlDir.scale(curveStrength));
-
-        return quadraticBezier(start, control, end, progress);
     }
 
     private Vec3 quadraticBezier(Vec3 start, Vec3 control, Vec3 end, double progress)

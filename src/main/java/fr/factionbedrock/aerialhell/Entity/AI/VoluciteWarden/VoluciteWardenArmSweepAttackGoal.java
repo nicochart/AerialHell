@@ -1,6 +1,7 @@
 package fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden;
 
 import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -10,6 +11,7 @@ import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -24,6 +26,10 @@ public class VoluciteWardenArmSweepAttackGoal extends VoluciteWardenArmGoal
     private static final float SWEEP_DAMAGE = 12.0F;
     private static final float KNOCKBACK_STRENGTH = 2.5F; //horizontal, in the direction of the arm movement
     private static final float KNOCKBACK_Y = 0.5F;
+
+    private static final double SWEEP_CURVE_STRENGTH = 14.0D; //arm curve while preparing and at sweep start (lower : arm goes through the torso)
+    private static final double SWEEP_END_CURVE_STRENGTH = 2.0D; //arm curve at sweep end (default action curve)
+    private static final double CURVE_FADE_IN_DISTANCE = 4.0D; //blocks
 
     //collision data arrays, allocated once and reused between ticks
     private final IntSet hitEntityIds = new IntOpenHashSet(); //each entity is hit only once per sweep
@@ -41,6 +47,41 @@ public class VoluciteWardenArmSweepAttackGoal extends VoluciteWardenArmGoal
     public Vec3 getHandLevelPos() {return this.goalOwner.fromUnrotatedRelativeToLevelPos(this.getCachedUnrotatedRelativePos());}
 
     public float getHandHeight() {return this.getGuide() != null ? this.getGuide().getBbHeight() : 0.0F;}
+
+    /* ----------------------------------------- */
+    /* ---------- Arm curve -------------------- */
+    /* ----------------------------------------- */
+
+    //the hand crosses in front of the torso : the arm needs a strong curve, away from the torso, while preparing and at sweep start
+    @Override protected Vec3 getCurveDirection(Vec3 armStart, Vec3 armEnd, double heightFactor)
+    {
+        Vec3 armDir = armEnd.subtract(armStart);
+        Vec3 orthogonal = new Vec3(armDir.z, 0.0D, -armDir.x); //horizontal, orthogonal to the arm
+        if (orthogonal.lengthSqr() < 1.0E-4D) {return new Vec3(0.0D, 0.0D, 1.0D);} //vertical arm : forward
+
+        Vec3 awayFromTorso = new Vec3(armStart.x + armEnd.x, 0.0D, armStart.z + armEnd.z); //arm middle (x2), horizontally, from the warden vertical axis
+        if (awayFromTorso.lengthSqr() < 4.0D) {awayFromTorso = new Vec3(0.0D, 0.0D, 1.0D);} //arm middle close to the axis : forward
+        if (orthogonal.dot(awayFromTorso) < 0.0D) {orthogonal = orthogonal.scale(-1.0D);}
+        return orthogonal.normalize();
+    }
+
+    @Override protected double getCurveStrength(PhaseType phaseType, double heightFactor)
+    {
+        return switch (phaseType)
+        {
+            case PREPARE -> SWEEP_CURVE_STRENGTH * this.getCurveFadeIn();
+            case ACTION -> Mth.lerp(this.goalOwner.armsSweepAttackHandler.getSweepProgress(this.arm.get().getFirst().isRightArm), SWEEP_CURVE_STRENGTH, SWEEP_END_CURVE_STRENGTH);
+            case RECOVERY -> SWEEP_END_CURVE_STRENGTH; //same as sweep end (no sudden curve change), fading while going back to default pos (see setSegmentsPos)
+            default -> super.getCurveStrength(phaseType, heightFactor);
+        };
+    }
+
+    //0 when the hand is at its default pos, 1 when it is CURVE_FADE_IN_DISTANCE away : no sudden curve change at attack start
+    private double getCurveFadeIn()
+    {
+        Vec3 handDefaultPos = this.arm.get().getLast().getUnrotatedRelativePositionOffset();
+        return Mth.clamp(this.getCachedUnrotatedRelativePos().distanceTo(handDefaultPos) / CURVE_FADE_IN_DISTANCE, 0.0D, 1.0D);
+    }
 
     /* ----------------------------------------- */
     /* ---------- Targeting (once) ------------- */
