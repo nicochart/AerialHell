@@ -5,5 +5,6 @@ public enum ArmGoalType
     BEAM,
     STRIKE,
     SUMMON_ALLY,
-    LIGHTNING
+    LIGHTNING,
+    SWEEP
 }

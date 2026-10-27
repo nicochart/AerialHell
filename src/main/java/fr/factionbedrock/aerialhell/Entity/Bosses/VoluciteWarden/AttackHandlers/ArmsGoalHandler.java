@@ -9,6 +9,8 @@ import org.jetbrains.annotations.Nullable;
 //global handler of arm goals : chooses which goal each arm uses, using weighted probabilities (armGoalWeights, updated depending on boss phase)
 public class ArmsGoalHandler
 {
+    private static final int NO_AVAILABLE_GOAL_RETRY_DELAY = 10; //ticks
+
     private final VoluciteWardenEntity warden;
     private final ArmInfo rightArmInfo = new ArmInfo(true);
     private final ArmInfo leftArmInfo = new ArmInfo(false);
@@ -47,11 +49,11 @@ public class ArmsGoalHandler
         //TODO balance attacks
         if (phase == BossPhase.FIRST_PHASE)
         {
-            this.armGoalWeights.set(ArmGoalType.STRIKE, 0).set(ArmGoalType.BEAM, 0).set(ArmGoalType.SUMMON_ALLY, 0).set(ArmGoalType.LIGHTNING, 2);
+            this.armGoalWeights.set(ArmGoalType.STRIKE, 0).set(ArmGoalType.BEAM, 0).set(ArmGoalType.SUMMON_ALLY, 0).set(ArmGoalType.LIGHTNING, 0).set(ArmGoalType.SWEEP, 2);
         }
         else if (phase == BossPhase.SECOND_PHASE)
         {
-            this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3);
+            this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3);
         }
         //transition, dying & dead phases : no arm goal
     }
@@ -69,6 +71,7 @@ public class ArmsGoalHandler
                 armInfo.lastGoal = goalType;
                 armInfo.cooldown = this.rollCooldown();
             }
+            else {armInfo.cooldown = armInfo.inactiveTicks + NO_AVAILABLE_GOAL_RETRY_DELAY;} //no goal can trigger : not checking every goal condition again each tick
         }
     }
 
@@ -93,6 +96,7 @@ public class ArmsGoalHandler
             case STRIKE -> this.warden.armsStrikeAttackHandler.canTrigger(isRightArm);
             case SUMMON_ALLY -> this.warden.armsSummonAllyHandler.canTrigger(isRightArm);
             case LIGHTNING -> this.warden.armsLightningAttackHandler.canTrigger(isRightArm);
+            case SWEEP -> this.warden.armsSweepAttackHandler.canTrigger(isRightArm);
         };
     }
 
