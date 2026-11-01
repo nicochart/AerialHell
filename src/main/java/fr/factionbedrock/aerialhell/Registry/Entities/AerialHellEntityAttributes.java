@@ -74,6 +74,7 @@ public class AerialHellEntityAttributes
 		event.put(AerialHellEntities.VOLUCITE_WARDEN_CORE_RIB.get(), VoluciteWardenPartEntity.registerAttributes().build());
 		event.put(AerialHellEntities.VOLUCITE_WARDEN_NECK.get(), VoluciteWardenPartEntity.registerAttributes().build());
 		event.put(AerialHellEntities.VOLUCITE_WARDEN_HEAD.get(), VoluciteWardenHeadEntity.registerAttributes().build());
+		event.put(AerialHellEntities.VOLUCITE_WARDEN_HEAL_BEACON.get(), VoluciteWardenHealBeaconEntity.registerAttributes().build());
 		event.put(AerialHellEntities.FLYING_JELLYFISH.get(), FlyingJellyfishEntity.registerAttributes().build());
 		event.put(AerialHellEntities.SHADOW_FLYING_SKULL.get(), ShadowFlyingSkullEntity.registerAttributes().build());
 		event.put(AerialHellEntities.SHADOW_TROLL.get(), ShadowTrollEntity.registerAttributes().build());
