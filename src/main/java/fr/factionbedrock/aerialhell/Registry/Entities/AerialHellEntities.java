@@ -326,8 +326,8 @@ public class AerialHellEntities
 		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_CHEST = key("volucite_warden_chest");
 		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_CORE = key("volucite_warden_core");
 		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_CORE_RIB = key("volucite_warden_core_rib");
-		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_NECK = key("volucite_warden_core_neck");
-		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_HEAD = key("volucite_warden_core_head");
+		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_NECK = key("volucite_warden_neck");
+		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_HEAD = key("volucite_warden_head");
 		public static ResourceKey<EntityType<?>> VOLUCITE_LIGHTNING = key("volucite_lightning");
 		public static ResourceKey<EntityType<?>> POISONBALL = key("poisonball");
 		public static ResourceKey<EntityType<?>> DIMENSION_SHATTERER_PROJECTILE = key("dimension_shatterer_projectile");

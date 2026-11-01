@@ -25,9 +25,27 @@ public class ArmsGoalHandler
         if (this.warden.level().isClientSide()) {return;}
 
         this.tickArmGoalWeights();
+        if (!this.warden.isInNormalPhase()) {this.interruptArmGoals();}
 
         this.tickArm(this.rightArmInfo);
         this.tickArm(this.leftArmInfo);
+    }
+
+    //transition, dying & dead phases : ongoing arm goals skip to their recovery phase (arms go back to their default pos)
+    //checked each tick, not only on phase change : a goal triggered just before the phase change but not started yet would restart from its first phase
+    private void interruptArmGoals()
+    {
+        for (ArmGoalType goalType : ArmGoalType.values())
+        {
+            this.interruptArmGoal(goalType, true);
+            this.interruptArmGoal(goalType, false);
+        }
+    }
+
+    private void interruptArmGoal(ArmGoalType goalType, boolean isRightArm)
+    {
+        @Nullable VoluciteWardenArmGoal goal = this.warden.getArmGoal(goalType, isRightArm);
+        if (goal != null && goal.isActive()) {goal.skipToRecoveryPhase();}
     }
 
     public ArmGoalWeights getArmGoalWeights() {return this.armGoalWeights;}

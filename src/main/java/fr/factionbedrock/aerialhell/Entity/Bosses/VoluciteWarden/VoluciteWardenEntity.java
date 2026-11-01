@@ -21,7 +21,6 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.CoreRepulsionHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.MainBeamAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
-import fr.factionbedrock.aerialhell.Entity.Monster.VoluciteGolem.VoluciteGolemHeadEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
@@ -387,8 +386,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ----------------------------------------------------------------------------------- */
 	public boolean recognizesLeftLegPart(@Nullable Entity potentialLeg) {return potentialLeg != null && potentialLeg == this.LEFT_LEG.getPart();}
 	public boolean recognizesRightLegPart(@Nullable Entity potentialLeg) {return potentialLeg != null && potentialLeg == this.RIGHT_LEG.getPart();}
-	public boolean recognizesLeftArmSegmentPart(@Nullable Entity potentialArmSegment) {return potentialArmSegment != null && potentialArmSegment == this.LEFT_ARM_SEGMENT_1.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_2.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_3.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_4.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_5.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_6.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_7.getPart();}
-	public boolean recognizesRightArmSegmentPart(@Nullable Entity potentialArmSegment) {return potentialArmSegment != null && potentialArmSegment == this.RIGHT_ARM_SEGMENT_1.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_2.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_3.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_4.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_5.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_6.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_7.getPart();}
+	public boolean recognizesLeftArmSegmentPart(@Nullable Entity potentialArmSegment) {return potentialArmSegment != null && (potentialArmSegment == this.LEFT_ARM_SEGMENT_1.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_2.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_3.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_4.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_5.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_6.getPart() || potentialArmSegment == this.LEFT_ARM_SEGMENT_7.getPart());}
+	public boolean recognizesRightArmSegmentPart(@Nullable Entity potentialArmSegment) {return potentialArmSegment != null && (potentialArmSegment == this.RIGHT_ARM_SEGMENT_1.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_2.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_3.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_4.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_5.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_6.getPart() || potentialArmSegment == this.RIGHT_ARM_SEGMENT_7.getPart());}
 	/* ----------------------------------------------------------------------------------- */
 	/* ----------------------------------------------------------------------------------- */
 	/* ----------------------------------------------------------------------------------- */
@@ -565,7 +564,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override public void tickHeadPartRotation(PartInfo partInfo)
 	{
-		if (partInfo == this.HEAD && this.HEAD.getPart() instanceof VoluciteGolemHeadEntity head && head.isBeaming()) {return;}
+		if (partInfo == this.HEAD && this.HEAD.getPart() instanceof VoluciteWardenHeadEntity head && head.isBeaming()) {return;}
 		else {MasterPartEntity.super.tickHeadPartRotation(partInfo);}
 	}
 

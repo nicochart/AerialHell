@@ -125,8 +125,8 @@ public interface PhaseGoal
     /* --------------------------------------------- */
     /* --------------------------------------------- */
 
-    default void skipToInactivePhase() {this.skipToPhaseType(PhaseType.INACTIVE);}
-    default void skipToRecoveryPhase() {this.skipToPhaseType(PhaseType.RECOVERY);}
+    default void skipToInactivePhase() {this.skipToPhaseType(PhaseType.INACTIVE);} //does nothing if goal is already inactive
+    default void skipToRecoveryPhase() {this.skipToPhaseType(PhaseType.RECOVERY);} //does nothing if goal is already recovering
 
     default void skipToPhaseType(PhaseType phaseType)
     {
