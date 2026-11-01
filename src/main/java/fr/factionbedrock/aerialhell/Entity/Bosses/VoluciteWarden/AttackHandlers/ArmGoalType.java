@@ -6,5 +6,6 @@ public enum ArmGoalType
     STRIKE,
     SUMMON_ALLY,
     LIGHTNING,
-    SWEEP
+    SWEEP,
+    SUMMON_HEAL_BEACON
 }

@@ -67,11 +67,11 @@ public class ArmsGoalHandler
         //TODO balance attacks
         if (phase == BossPhase.FIRST_PHASE)
         {
-            this.armGoalWeights.set(ArmGoalType.STRIKE, 0).set(ArmGoalType.BEAM, 0).set(ArmGoalType.SUMMON_ALLY, 0).set(ArmGoalType.LIGHTNING, 0).set(ArmGoalType.SWEEP, 2);
+            this.armGoalWeights.set(ArmGoalType.STRIKE, 0).set(ArmGoalType.BEAM, 0).set(ArmGoalType.SUMMON_ALLY, 0).set(ArmGoalType.LIGHTNING, 0).set(ArmGoalType.SWEEP, 0).set(ArmGoalType.SUMMON_HEAL_BEACON, 2);
         }
         else if (phase == BossPhase.SECOND_PHASE)
         {
-            this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3);
+            this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3).set(ArmGoalType.SUMMON_HEAL_BEACON, 2);
         }
         //transition, dying & dead phases : no arm goal
     }
@@ -115,6 +115,7 @@ public class ArmsGoalHandler
             case SUMMON_ALLY -> this.warden.armsSummonAllyHandler.canTrigger(isRightArm);
             case LIGHTNING -> this.warden.armsLightningAttackHandler.canTrigger(isRightArm);
             case SWEEP -> this.warden.armsSweepAttackHandler.canTrigger(isRightArm);
+            case SUMMON_HEAL_BEACON -> this.warden.armsSummonHealBeaconHandler.canTrigger(isRightArm);
         };
     }
 
