@@ -955,6 +955,7 @@
   "entity.aerialhell.ruby_shard": "Rubinszilánk",
   "entity.aerialhell.volucite_shard": "Volucitszilánk",
   "entity.aerialhell.volucite_lightning": "Volucitvillám",
+  "entity.aerialhell.volucite_warden_heal_beacon": "Volucit Strázsa gyógyító jelzőfénye",
 
   "death.attack.aerialhell.shuriken_hit": "%1$s Dobócsillag áldozata lett",
   "death.attack.aerialhell.shuriken_hit.player": "%1$s %2$ Dobócsillagának áldozata lett",

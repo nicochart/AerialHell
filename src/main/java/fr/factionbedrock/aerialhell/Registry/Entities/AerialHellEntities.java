@@ -176,6 +176,9 @@ public class AerialHellEntities
 	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteLightningEntity>> VOLUCITE_LIGHTNING = ENTITIES.register("volucite_lightning", () -> EntityType.Builder.<VoluciteLightningEntity>of(VoluciteLightningEntity::new, MobCategory.MISC)
 			.sized(0.0F, 0.0F).noLootTable().noSave().noSummon().clientTrackingRange(16).noUpdateInterval().build(Keys.VOLUCITE_LIGHTNING));
 
+	public static final DeferredHolder<EntityType<?>, EntityType<VoluciteWardenHealBeaconEntity>> VOLUCITE_WARDEN_HEAL_BEACON = ENTITIES.register("volucite_warden_heal_beacon", () -> EntityType.Builder.<VoluciteWardenHealBeaconEntity>of(VoluciteWardenHealBeaconEntity::new, MobCategory.MISC)
+			.sized(3.0F, 3.0F).noLootTable().fireImmune().clientTrackingRange(16).build(Keys.VOLUCITE_WARDEN_HEAL_BEACON));
+
 	public static final DeferredHolder<EntityType<?>, EntityType<PoisonballEntity>> POISONBALL = ENTITIES.register("poisonball", () -> EntityType.Builder.<PoisonballEntity>of(PoisonballEntity::new, MobCategory.MISC)
 			.sized(1.0F, 1.0F).build(Keys.POISONBALL));
 
@@ -329,6 +332,7 @@ public class AerialHellEntities
 		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_NECK = key("volucite_warden_neck");
 		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_HEAD = key("volucite_warden_head");
 		public static ResourceKey<EntityType<?>> VOLUCITE_LIGHTNING = key("volucite_lightning");
+		public static ResourceKey<EntityType<?>> VOLUCITE_WARDEN_HEAL_BEACON = key("volucite_warden_heal_beacon");
 		public static ResourceKey<EntityType<?>> POISONBALL = key("poisonball");
 		public static ResourceKey<EntityType<?>> DIMENSION_SHATTERER_PROJECTILE = key("dimension_shatterer_projectile");
 		public static ResourceKey<EntityType<?>> FLYING_JELLYFISH = key("flying_jellyfish");
