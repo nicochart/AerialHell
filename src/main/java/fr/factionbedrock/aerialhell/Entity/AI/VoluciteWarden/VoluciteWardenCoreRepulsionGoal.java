@@ -34,7 +34,9 @@ public class VoluciteWardenCoreRepulsionGoal extends Goal
         this.goalOwner.setCoreDragOrRepulseGoalStatus(VoluciteWardenEntity.CORE_ATTRACTING_STATUS);
     }
 
-    @Override public void stop()
+    @Override public void stop() {this.interrupt();}
+
+    public void interrupt() //drag / repulse stops immediately
     {
         this.active = false;
         this.goalOwner.setCoreDragOrRepulseGoalStatus(VoluciteWardenEntity.CORE_NEUTRAL_STATUS);

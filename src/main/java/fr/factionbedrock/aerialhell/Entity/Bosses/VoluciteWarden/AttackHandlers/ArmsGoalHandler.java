@@ -25,13 +25,13 @@ public class ArmsGoalHandler
         if (this.warden.level().isClientSide()) {return;}
 
         this.tickArmGoalWeights();
-        if (!this.warden.isInNormalPhase()) {this.interruptArmGoals();}
+        if (!this.warden.isInAttackingPhase()) {this.interruptArmGoals();}
 
         this.tickArm(this.rightArmInfo);
         this.tickArm(this.leftArmInfo);
     }
 
-    //transition, dying & dead phases : ongoing arm goals skip to their recovery phase (arms go back to their default pos)
+    //activation, transition, vulnerable, dying & dead phases : ongoing arm goals skip to their recovery phase (arms go back to their default pos)
     //checked each tick, not only on phase change : a goal triggered just before the phase change but not started yet would restart from its first phase
     private void interruptArmGoals()
     {
@@ -65,15 +65,23 @@ public class ArmsGoalHandler
     {
         this.armGoalWeights.clear();
         //TODO balance attacks
-        if (phase == VoluciteWardenEntity.SHIELD_PHASE)
-        {
-            this.armGoalWeights.set(ArmGoalType.STRIKE, 0).set(ArmGoalType.BEAM, 0).set(ArmGoalType.SUMMON_ALLY, 0).set(ArmGoalType.LIGHTNING, 0).set(ArmGoalType.SWEEP, 0).set(ArmGoalType.SUMMON_HEAL_BEACON, 2);
-        }
-        else if (phase == VoluciteWardenEntity.VULNERABLE_PHASE)
+        if (phase == BossPhase.SECOND_PHASE) //shield level 1
         {
             this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3).set(ArmGoalType.SUMMON_HEAL_BEACON, 2);
         }
-        //transition, dying & dead phases : no arm goal
+        else if (phase == BossPhase.FOURTH_PHASE) //shield level 2
+        {
+            this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3).set(ArmGoalType.SUMMON_HEAL_BEACON, 2);
+        }
+        else if (phase == BossPhase.SIXTH_PHASE) //shield level 3
+        {
+            this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3).set(ArmGoalType.SUMMON_HEAL_BEACON, 2);
+        }
+        else if (phase == BossPhase.EIGHTH_PHASE) //final phase
+        {
+            this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3).set(ArmGoalType.SUMMON_HEAL_BEACON, 2);
+        }
+        //activation, transition, vulnerable, dying & dead phases : no arm goal
     }
 
     private void tickArm(ArmInfo armInfo)

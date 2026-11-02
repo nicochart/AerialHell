@@ -252,6 +252,14 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity impleme
 			case 4 -> BossPhase.THIRD_PHASE;
 			case 5 -> BossPhase.THIRD_TO_FOURTH_TRANSITION;
 			case 6 -> BossPhase.FOURTH_PHASE;
+			case 7 -> BossPhase.FOURTH_TO_FIFTH_TRANSITION;
+			case 8 -> BossPhase.FIFTH_PHASE;
+			case 9 -> BossPhase.FIFTH_TO_SIXTH_TRANSITION;
+			case 10 -> BossPhase.SIXTH_PHASE;
+			case 11 -> BossPhase.SIXTH_TO_SEVENTH_TRANSITION;
+			case 12 -> BossPhase.SEVENTH_PHASE;
+			case 13 -> BossPhase.SEVENTH_TO_EIGHTH_TRANSITION;
+			case 14 -> BossPhase.EIGHTH_PHASE;
 		};
 	}
 

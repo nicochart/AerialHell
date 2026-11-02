@@ -129,16 +129,24 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public final CoreRepulsionHandler coreRepulsionHandler;
 	/* --------------------------- */
 
-	/* -- Shield fields -- */
-	public static final BossPhase SHIELD_PHASE = BossPhase.FIRST_PHASE; //health is the shield health
-	public static final BossPhase VULNERABLE_PHASE = BossPhase.SECOND_PHASE; //health is the real health
+	/* -- Boss phases fields -- */
+	//phase 1 : activation (invincible). shield phases (2, 4, 6) : health is the shield. vulnerable phases (3, 5, 7) : health is the real health. phase 8 : final phase (real health, no shield)
+	public static final BossPhase ACTIVATION_PHASE = BossPhase.FIRST_PHASE;
+	public static final List<BossPhase> SHIELD_TRANSITIONS = List.of(BossPhase.FIRST_TO_SECOND_TRANSITION, BossPhase.THIRD_TO_FOURTH_TRANSITION, BossPhase.FIFTH_TO_SIXTH_TRANSITION); //index = shield level - 1
+	public static final List<BossPhase> SHIELD_PHASES = List.of(BossPhase.SECOND_PHASE, BossPhase.FOURTH_PHASE, BossPhase.SIXTH_PHASE); //index = shield level - 1
+	public static final List<BossPhase> SHIELD_BREAK_TRANSITIONS = List.of(BossPhase.SECOND_TO_THIRD_TRANSITION, BossPhase.FOURTH_TO_FIFTH_TRANSITION, BossPhase.SIXTH_TO_SEVENTH_TRANSITION);
+	public static final List<BossPhase> VULNERABLE_PHASES = List.of(BossPhase.THIRD_PHASE, BossPhase.FIFTH_PHASE, BossPhase.SEVENTH_PHASE);
+	public static final BossPhase FINAL_TRANSITION = BossPhase.SEVENTH_TO_EIGHTH_TRANSITION; //real health reached 0 in a vulnerable phase. real health regenerates
+	public static final BossPhase FINAL_PHASE = BossPhase.EIGHTH_PHASE;
+	public static final float SHIELD_LEVEL_2_HEALTH = 0.66F, SHIELD_LEVEL_3_HEALTH = 0.33F; //real health (relative to max health) under which shield level 2 or 3 is used
+	public static final int SHIELD_TRANSITION_DURATION = 40, SHIELD_BREAK_TRANSITION_DURATION = 40, FINAL_TRANSITION_DURATION = 100; //ticks
 	public static final int VULNERABLE_PHASE_DURATION = 200; //ticks before the shield regenerates
-	public static final float VULNERABLE_PHASE_MAX_DAMAGE = 0.25F; //max real health lost per vulnerable phase, relative to max health. the shield regenerates when reached
+	public static final float VULNERABLE_PHASE_MAX_DAMAGE = 0.35F; //max real health lost per vulnerable phase, relative to max health. the shield regenerates when reached
 	public static final BossEvent.BossBarColor SHIELD_BOSS_BAR_COLOR = BossEvent.BossBarColor.WHITE, REAL_HEALTH_BOSS_BAR_COLOR = BossEvent.BossBarColor.BLUE;
-	private float realHealth; //saved when the shield regenerates, restored when the shield breaks
-	private float vulnerableHealthFloor; //real health can't go below it during current vulnerable phase. <= 0 : last vulnerable phase, the warden can die
-	private int vulnerableTicks;
-	/* ------------------- */
+	private float realHealth; //saved when a shield transition starts, restored when the shield breaks
+	private float vulnerableHealthFloor; //real health can't go below it during current vulnerable phase. <= 0 : the real health can reach 0 (final transition)
+	private int phaseTicks; //ticks spent in current phase
+	/* ------------------------ */
 
 	/* -- MasterPartEntity fields -- */
 	private static final EntityDataAccessor<Integer> RIGHT_ARM_SEGMENT_1_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
@@ -217,7 +225,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.timeDying = 0;
 		this.hurtTime = 0;
 		this.realHealth = this.getMaxHealth();
-		bossInfo.setColor(SHIELD_BOSS_BAR_COLOR);
+		bossInfo.setColor(REAL_HEALTH_BOSS_BAR_COLOR);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 
 		this.mainBeamAttackHandler = new MainBeamAttackHandler(this, () -> this.HEAD, this.MAIN_BEAM_ATTACK_GOAL);
@@ -302,7 +310,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 		//additional things (specific to the volucite warden)
 		if (!this.isInDeadOrDyingPhase()) {this.timeDying = 0;}
-		if (!this.level().isClientSide()) {this.tickShield();}
+		if (!this.level().isClientSide()) {this.tickPhases();}
 	}
 
 	@Override public void aiStep()
@@ -327,7 +335,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		//additional things (specific to the volucite warden)
 		valueOutput.putFloat("real_health", this.realHealth);
 		valueOutput.putFloat("vulnerable_health_floor", this.vulnerableHealthFloor);
-		valueOutput.putInt("vulnerable_ticks", this.vulnerableTicks);
+		valueOutput.putInt("phase_ticks", this.phaseTicks);
 	}
 
 	@Override public void readAdditionalSaveData(ValueInput valueInput)
@@ -338,7 +346,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		//additional things (specific to the volucite warden)
 		this.realHealth = valueInput.getFloatOr("real_health", this.getMaxHealth());
 		this.vulnerableHealthFloor = valueInput.getFloatOr("vulnerable_health_floor", 0.0F);
-		this.vulnerableTicks = valueInput.getIntOr("vulnerable_ticks", 0);
+		this.phaseTicks = valueInput.getIntOr("phase_ticks", 0);
 	}
 
 	@Override public void push(Entity other)
@@ -477,79 +485,124 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 				.add(Attributes.ATTACK_DAMAGE, 25.0D);
     }
 
-	@Override public int getPhaseIdToSkipToDyingPhase() {return BossPhase.SECOND_TO_THIRD_TRANSITION.getPhaseId();} //real health reaching 0 during vulnerable phase : dying
+	@Override public int getPhaseIdToSkipToDyingPhase() {return BossPhase.DYING.getPhaseId();} //no skip : final phase is followed by dying phase
 	@Override public boolean enableTickPhaseUpdate(BossPhaseTickType type) {return false;}
 	@Override public boolean enableTryDyingPhaseUpdate() {return true;}
 
-	@Override public void applyPhaseUpdateEffect(BossPhase nextPhase)
+	@Override public void applyPhaseUpdateEffect(BossPhase nextPhase) //server side
 	{
-		if (nextPhase == SHIELD_PHASE) {this.playTransitionSound();}
-		if (nextPhase == VULNERABLE_PHASE) {this.playShieldBreakSound();}
+		this.phaseTicks = 0;
+		if (VULNERABLE_PHASES.contains(nextPhase)) {this.vulnerableHealthFloor = this.realHealth - VULNERABLE_PHASE_MAX_DAMAGE * this.getMaxHealth();}
+
+		if (SHIELD_TRANSITIONS.contains(nextPhase) || nextPhase == FINAL_TRANSITION) {this.playTransitionSound();}
+		if (SHIELD_BREAK_TRANSITIONS.contains(nextPhase)) {this.playShieldBreakSound();}
 		if (nextPhase == BossPhase.DYING) {this.playDeathSound();}
 	}
 
-	/* ------------------------------------------------ */
-	/* ---------- Shield & Vulnerable phases ---------- */
-	/* ------------------------------------------------ */
-	//shield phase : health is the shield. when it reaches 0, the shield breaks (instead of the warden dying) and the real health is restored
-	//vulnerable phase : health is the real health. after VULNERABLE_PHASE_DURATION, or when VULNERABLE_PHASE_MAX_DAMAGE is reached, the shield regenerates
-	public boolean isInShieldPhase() {return this.getPhase() == SHIELD_PHASE;}
-	public boolean isInVulnerablePhase() {return this.getPhase() == VULNERABLE_PHASE;}
+	/* --------------------------------- */
+	/* ---------- Boss phases ---------- */
+	/* --------------------------------- */
+	//phase 1 (activation) : invincible, ends when the warden has finished awakening
+	//shield transitions : health goes from real health to max (shield regenerated). shield level depends on real health
+	//shield phases : health is the shield. when it reaches 0, the shield breaks (default tryDying behavior : next phase)
+	//shield break transitions : real health is restored as soon as the shield breaks
+	//vulnerable phases : health is the real health. after VULNERABLE_PHASE_DURATION, or when VULNERABLE_PHASE_MAX_DAMAGE is reached, a shield transition starts. if real health reaches 0, the final transition starts
+	//final transition : health goes from 0 to max (real health regenerated)
+	//final phase : no shield. when health reaches 0, the warden really dies (dying & dead phases)
+	public boolean isInActivationPhase() {return this.getPhase() == ACTIVATION_PHASE;}
+	public boolean isInShieldPhase() {return SHIELD_PHASES.contains(this.getPhase());}
+	public boolean isInVulnerablePhase() {return VULNERABLE_PHASES.contains(this.getPhase());}
+	public boolean isInFinalPhase() {return this.getPhase() == FINAL_PHASE;}
+	public boolean isInAttackingPhase() {return this.isInShieldPhase() || this.isInFinalPhase();} //the warden can use its attacks (arms, core repulsion). no attack during vulnerable phases
+	public int getShieldLevel() {return SHIELD_PHASES.indexOf(this.getPhase()) + 1;} //0 if not in shield phase
+	private boolean isHealthTheShield() {return this.isInShieldPhase() || SHIELD_TRANSITIONS.contains(this.getPhase());}
 
-	@Override public boolean tryDying(DamageSource damageSource)
+	@Override public boolean isInvulnerableTo(ServerLevel level, DamageSource source)
 	{
-		if (this.isInShieldPhase() && !damageSource.is(DamageTypes.GENERIC_KILL)) {this.breakShield(); return false;}
-		else {return super.tryDying(damageSource);}
+		return super.isInvulnerableTo(level, source) || (this.isInTransitionPhase() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY));
 	}
 
 	@Override protected void actuallyHurt(ServerLevel level, DamageSource source, float amount)
 	{
+		boolean bypassesInvulnerability = source.is(DamageTypeTags.BYPASSES_INVULNERABILITY); //kill & void damage
+		//activation phase : no damage, but still hurt (a hit is needed to activate the warden)
+		if (this.isInActivationPhase() && !bypassesInvulnerability) {return;}
+
 		super.actuallyHurt(level, source, amount);
-		//vulnerable phase : real health can't go below the floor (except with kill & void damage)
-		if (this.isInVulnerablePhase() && this.getHealth() < this.vulnerableHealthFloor && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {this.setHealth(this.vulnerableHealthFloor);}
+		//vulnerable phases : real health can't go below the floor
+		if (this.isInVulnerablePhase() && this.getHealth() < this.vulnerableHealthFloor && !bypassesInvulnerability) {this.setHealth(this.vulnerableHealthFloor);}
 	}
 
-	private void tickShield() //server side
+	@Override public boolean tryDying(DamageSource damageSource)
 	{
-		if (this.isInVulnerablePhase())
+		//real health reaching 0 in any vulnerable phase : final transition (default behavior would only do it from the last vulnerable phase)
+		if (this.isInVulnerablePhase() && !damageSource.is(DamageTypes.GENERIC_KILL))
 		{
-			this.vulnerableTicks++;
-			if (this.vulnerableTicks >= VULNERABLE_PHASE_DURATION || this.hasReachedVulnerablePhaseMaxDamage()) {this.regenerateShield();}
+			this.updateToPhase(FINAL_TRANSITION);
+			this.applyAfterTriedDyingPhaseUpdateEffect(FINAL_TRANSITION, NotDeadReason.START_TRANSITION_PHASE);
+			return false;
 		}
-		this.bossInfo.setColor(this.isInShieldPhase() ? SHIELD_BOSS_BAR_COLOR : REAL_HEALTH_BOSS_BAR_COLOR);
+		else {return super.tryDying(damageSource);}
+	}
+
+	@Override public void applyAfterTriedDyingPhaseUpdateEffect(BossPhase nextPhase, NotDeadReason reason)
+	{
+		if (SHIELD_BREAK_TRANSITIONS.contains(nextPhase)) {this.setHealth(this.realHealth);} //shield broken : real health is restored immediately
+		else {super.applyAfterTriedDyingPhaseUpdateEffect(nextPhase, reason);}
+	}
+
+	private void tickPhases() //server side
+	{
+		this.phaseTicks++;
+		if (this.isInActivationPhase())
+		{
+			if (this.alreadyActivatedOnce()) {this.startShieldTransition();}
+		}
+		else if (this.isInTransitionPhase()) {this.tickTransition();}
+		else if (this.isInVulnerablePhase())
+		{
+			if (this.phaseTicks >= VULNERABLE_PHASE_DURATION || this.hasReachedVulnerablePhaseMaxDamage()) {this.startShieldTransition();}
+		}
+		this.bossInfo.setColor(this.isHealthTheShield() ? SHIELD_BOSS_BAR_COLOR : REAL_HEALTH_BOSS_BAR_COLOR);
 	}
 
 	private boolean hasReachedVulnerablePhaseMaxDamage() {return this.vulnerableHealthFloor > 0.0F && this.getHealth() <= this.vulnerableHealthFloor;}
 
-	private void breakShield()
-	{
-		this.vulnerableTicks = 0;
-		this.vulnerableHealthFloor = this.realHealth - VULNERABLE_PHASE_MAX_DAMAGE * this.getMaxHealth();
-		this.setHealth(this.realHealth);
-		this.updateToPhase(VULNERABLE_PHASE);
-	}
-
-	private void regenerateShield()
+	private void startShieldTransition()
 	{
 		this.realHealth = this.getHealth();
-		this.setHealth(this.getMaxHealth());
-		this.updateToPhase(SHIELD_PHASE);
+		float realHealthRatio = this.realHealth / this.getMaxHealth();
+		int shieldLevel = realHealthRatio >= SHIELD_LEVEL_2_HEALTH ? 1 : realHealthRatio >= SHIELD_LEVEL_3_HEALTH ? 2 : 3;
+		this.updateToPhase(SHIELD_TRANSITIONS.get(shieldLevel - 1));
 	}
-	/* ------------------------------------------------ */
-	/* ------------------------------------------------ */
-	/* ------------------------------------------------ */
+
+	private void tickTransition()
+	{
+		BossPhase transition = this.getPhase();
+		int remainingTicks = this.getTransitionDuration(transition) - this.phaseTicks;
+		//shield & final transitions : health goes linearly to max (shield regenerated, or real health regenerated for the final phase)
+		if (!SHIELD_BREAK_TRANSITIONS.contains(transition)) {this.setHealth(this.getHealth() + (this.getMaxHealth() - this.getHealth()) / (Math.max(remainingTicks, 0) + 1));}
+		if (remainingTicks <= 0) {this.updateToNextPhase();}
+	}
+
+	private int getTransitionDuration(BossPhase transition)
+	{
+		if (SHIELD_TRANSITIONS.contains(transition)) {return SHIELD_TRANSITION_DURATION;}
+		else if (SHIELD_BREAK_TRANSITIONS.contains(transition)) {return SHIELD_BREAK_TRANSITION_DURATION;}
+		else {return FINAL_TRANSITION_DURATION;}
+	}
+	/* --------------------------------- */
+	/* --------------------------------- */
+	/* --------------------------------- */
 
 	@Override public boolean fireImmune() {return true;}
 	@Override public boolean displayFireAnimation() {return false;}
 
 	@Override public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {return false;}
 
-	@Override public void tickTransitionPhase()
+	@Override public void tickTransitionPhase() //both sides
 	{
-		this.runTransitionEffect();
-		float newHealth = this.getHealth() + 7.5F;
-		if (newHealth < this.getMaxHealth()) {this.setHealth(newHealth);}
-		else {this.updateToNextPhase();}
+		if (this.getPhase() == FINAL_TRANSITION) {this.runTransitionEffect();}
 	}
 
 	@Override public void tickDyingPhase()

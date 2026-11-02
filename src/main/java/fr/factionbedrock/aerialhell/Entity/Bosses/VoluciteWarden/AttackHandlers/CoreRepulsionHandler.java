@@ -46,7 +46,11 @@ public class CoreRepulsionHandler
     {
         if (!this.warden.level().isClientSide())
         {
-            if (this.goal.isActive()) {this.inactiveTicks = 0;}
+            if (this.goal.isActive())
+            {
+                this.inactiveTicks = 0;
+                if (!this.warden.isInAttackingPhase()) {this.goal.interrupt();} //e.g. shield broken during attraction
+            }
             else
             {
                 this.inactiveTicks++;
@@ -65,7 +69,7 @@ public class CoreRepulsionHandler
 
     private boolean canTrigger()
     {
-        return this.warden.getTarget() != null && this.warden.isInNormalPhase() && this.warden.getTarget().distanceToSqr(this.warden.getCoreCenterPos()) < TRIGGER_RANGE * TRIGGER_RANGE;
+        return this.warden.getTarget() != null && this.warden.isInAttackingPhase() && this.warden.getTarget().distanceToSqr(this.warden.getCoreCenterPos()) < TRIGGER_RANGE * TRIGGER_RANGE;
     }
 
     private int rollCooldown() {return 300 + this.warden.getRandom().nextInt(300);}
