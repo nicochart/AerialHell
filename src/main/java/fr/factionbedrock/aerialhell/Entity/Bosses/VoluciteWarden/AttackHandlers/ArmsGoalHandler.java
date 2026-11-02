@@ -65,11 +65,11 @@ public class ArmsGoalHandler
     {
         this.armGoalWeights.clear();
         //TODO balance attacks
-        if (phase == BossPhase.FIRST_PHASE)
+        if (phase == VoluciteWardenEntity.SHIELD_PHASE)
         {
             this.armGoalWeights.set(ArmGoalType.STRIKE, 0).set(ArmGoalType.BEAM, 0).set(ArmGoalType.SUMMON_ALLY, 0).set(ArmGoalType.LIGHTNING, 0).set(ArmGoalType.SWEEP, 0).set(ArmGoalType.SUMMON_HEAL_BEACON, 2);
         }
-        else if (phase == BossPhase.SECOND_PHASE)
+        else if (phase == VoluciteWardenEntity.VULNERABLE_PHASE)
         {
             this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3).set(ArmGoalType.SUMMON_HEAL_BEACON, 2);
         }

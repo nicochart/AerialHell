@@ -42,6 +42,8 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.DifficultyInstance;
@@ -127,6 +129,17 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public final CoreRepulsionHandler coreRepulsionHandler;
 	/* --------------------------- */
 
+	/* -- Shield fields -- */
+	public static final BossPhase SHIELD_PHASE = BossPhase.FIRST_PHASE; //health is the shield health
+	public static final BossPhase VULNERABLE_PHASE = BossPhase.SECOND_PHASE; //health is the real health
+	public static final int VULNERABLE_PHASE_DURATION = 200; //ticks before the shield regenerates
+	public static final float VULNERABLE_PHASE_MAX_DAMAGE = 0.25F; //max real health lost per vulnerable phase, relative to max health. the shield regenerates when reached
+	public static final BossEvent.BossBarColor SHIELD_BOSS_BAR_COLOR = BossEvent.BossBarColor.WHITE, REAL_HEALTH_BOSS_BAR_COLOR = BossEvent.BossBarColor.BLUE;
+	private float realHealth; //saved when the shield regenerates, restored when the shield breaks
+	private float vulnerableHealthFloor; //real health can't go below it during current vulnerable phase. <= 0 : last vulnerable phase, the warden can die
+	private int vulnerableTicks;
+	/* ------------------- */
+
 	/* -- MasterPartEntity fields -- */
 	private static final EntityDataAccessor<Integer> RIGHT_ARM_SEGMENT_1_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Integer> RIGHT_ARM_SEGMENT_2_ID = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT);
@@ -203,7 +216,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 		this.timeDying = 0;
 		this.hurtTime = 0;
-		bossInfo.setColor(BossEvent.BossBarColor.BLUE);
+		this.realHealth = this.getMaxHealth();
+		bossInfo.setColor(SHIELD_BOSS_BAR_COLOR);
 		bossInfo.setOverlay(BossEvent.BossBarOverlay.NOTCHED_6);
 
 		this.mainBeamAttackHandler = new MainBeamAttackHandler(this, () -> this.HEAD, this.MAIN_BEAM_ATTACK_GOAL);
@@ -288,6 +302,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 		//additional things (specific to the volucite warden)
 		if (!this.isInDeadOrDyingPhase()) {this.timeDying = 0;}
+		if (!this.level().isClientSide()) {this.tickShield();}
 	}
 
 	@Override public void aiStep()
@@ -308,12 +323,22 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		super.addAdditionalSaveData(valueOutput);
 		this.partAddAdditionalSaveData(valueOutput);
+
+		//additional things (specific to the volucite warden)
+		valueOutput.putFloat("real_health", this.realHealth);
+		valueOutput.putFloat("vulnerable_health_floor", this.vulnerableHealthFloor);
+		valueOutput.putInt("vulnerable_ticks", this.vulnerableTicks);
 	}
 
 	@Override public void readAdditionalSaveData(ValueInput valueInput)
 	{
 		super.readAdditionalSaveData(valueInput);
 		this.partReadAdditionalSaveData(valueInput);
+
+		//additional things (specific to the volucite warden)
+		this.realHealth = valueInput.getFloatOr("real_health", this.getMaxHealth());
+		this.vulnerableHealthFloor = valueInput.getFloatOr("vulnerable_health_floor", 0.0F);
+		this.vulnerableTicks = valueInput.getIntOr("vulnerable_ticks", 0);
 	}
 
 	@Override public void push(Entity other)
@@ -452,16 +477,67 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 				.add(Attributes.ATTACK_DAMAGE, 25.0D);
     }
 
-	@Override public int getPhaseIdToSkipToDyingPhase() {return BossPhase.SECOND_TO_THIRD_TRANSITION.getPhaseId();}
+	@Override public int getPhaseIdToSkipToDyingPhase() {return BossPhase.SECOND_TO_THIRD_TRANSITION.getPhaseId();} //real health reaching 0 during vulnerable phase : dying
 	@Override public boolean enableTickPhaseUpdate(BossPhaseTickType type) {return false;}
 	@Override public boolean enableTryDyingPhaseUpdate() {return true;}
 
 	@Override public void applyPhaseUpdateEffect(BossPhase nextPhase)
 	{
-		if (nextPhase == BossPhase.FIRST_TO_SECOND_TRANSITION) {this.playTransitionSound();}
-		if (nextPhase == BossPhase.SECOND_PHASE) {this.playTransitionSound();}
+		if (nextPhase == SHIELD_PHASE) {this.playTransitionSound();}
+		if (nextPhase == VULNERABLE_PHASE) {this.playShieldBreakSound();}
 		if (nextPhase == BossPhase.DYING) {this.playDeathSound();}
 	}
+
+	/* ------------------------------------------------ */
+	/* ---------- Shield & Vulnerable phases ---------- */
+	/* ------------------------------------------------ */
+	//shield phase : health is the shield. when it reaches 0, the shield breaks (instead of the warden dying) and the real health is restored
+	//vulnerable phase : health is the real health. after VULNERABLE_PHASE_DURATION, or when VULNERABLE_PHASE_MAX_DAMAGE is reached, the shield regenerates
+	public boolean isInShieldPhase() {return this.getPhase() == SHIELD_PHASE;}
+	public boolean isInVulnerablePhase() {return this.getPhase() == VULNERABLE_PHASE;}
+
+	@Override public boolean tryDying(DamageSource damageSource)
+	{
+		if (this.isInShieldPhase() && !damageSource.is(DamageTypes.GENERIC_KILL)) {this.breakShield(); return false;}
+		else {return super.tryDying(damageSource);}
+	}
+
+	@Override protected void actuallyHurt(ServerLevel level, DamageSource source, float amount)
+	{
+		super.actuallyHurt(level, source, amount);
+		//vulnerable phase : real health can't go below the floor (except with kill & void damage)
+		if (this.isInVulnerablePhase() && this.getHealth() < this.vulnerableHealthFloor && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {this.setHealth(this.vulnerableHealthFloor);}
+	}
+
+	private void tickShield() //server side
+	{
+		if (this.isInVulnerablePhase())
+		{
+			this.vulnerableTicks++;
+			if (this.vulnerableTicks >= VULNERABLE_PHASE_DURATION || this.hasReachedVulnerablePhaseMaxDamage()) {this.regenerateShield();}
+		}
+		this.bossInfo.setColor(this.isInShieldPhase() ? SHIELD_BOSS_BAR_COLOR : REAL_HEALTH_BOSS_BAR_COLOR);
+	}
+
+	private boolean hasReachedVulnerablePhaseMaxDamage() {return this.vulnerableHealthFloor > 0.0F && this.getHealth() <= this.vulnerableHealthFloor;}
+
+	private void breakShield()
+	{
+		this.vulnerableTicks = 0;
+		this.vulnerableHealthFloor = this.realHealth - VULNERABLE_PHASE_MAX_DAMAGE * this.getMaxHealth();
+		this.setHealth(this.realHealth);
+		this.updateToPhase(VULNERABLE_PHASE);
+	}
+
+	private void regenerateShield()
+	{
+		this.realHealth = this.getHealth();
+		this.setHealth(this.getMaxHealth());
+		this.updateToPhase(SHIELD_PHASE);
+	}
+	/* ------------------------------------------------ */
+	/* ------------------------------------------------ */
+	/* ------------------------------------------------ */
 
 	@Override public boolean fireImmune() {return true;}
 	@Override public boolean displayFireAnimation() {return false;}
@@ -504,6 +580,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public void playDeathSound() {this.playSound(this.getDeathSound(), 5.0F, 1.0F);}
 	@Override public void playFastDeathSound() {this.playSound(getFastDeathSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);}
 	public void playTransitionSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_ACTIVATION.get(), 5.0F, 1.0F);}
+	public void playShieldBreakSound() {this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 5.0F, 0.5F);}
 
 	@Override protected void playHurtSound(DamageSource damageSource, boolean died)
 	{
