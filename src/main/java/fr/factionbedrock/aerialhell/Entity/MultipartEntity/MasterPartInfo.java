@@ -6,7 +6,7 @@ import org.jspecify.annotations.Nullable;
 public class MasterPartInfo
 {
     private final EntityDataAccessor<Integer> entityIdDataAccessor; //entity id (in level)
-    @Nullable private final EntityDataAccessor<Integer> statusDataAccessor; //part status (see PartStatus). null if the part can't be detached (always attached)
+    @Nullable private final EntityDataAccessor<Integer> statusDataAccessor; //part status. null if the part can't be detached (always attached). synced
     @Nullable private MasterPartEntity masterEntity;
     private int ticksInInvalidSituation;
 

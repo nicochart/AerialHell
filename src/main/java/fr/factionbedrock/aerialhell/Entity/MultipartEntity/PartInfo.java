@@ -17,7 +17,7 @@ public class PartInfo
     private final Vec3 unrotatedRelativePositionOffset;
     private int ticksInInvalidSituation;
     private boolean isHead;
-    private PartStatus status; //master's knowledge of the part status (see PartStatus)
+    private PartStatus status; //master's knowledge of the part status, not synced (only server side)
 
     public PartInfo(EntityType<?> type, String name, EntityDataAccessor<Integer> entityIdDataAccessor, Map<String, PartInfo> partsMap) {this(type, name, entityIdDataAccessor, Vec3.ZERO, false, partsMap);}
 

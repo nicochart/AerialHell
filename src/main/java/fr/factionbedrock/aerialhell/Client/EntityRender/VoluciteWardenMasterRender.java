@@ -10,6 +10,7 @@ import fr.factionbedrock.aerialhell.Client.EntityRender.Helper.BeamRenderHelper;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteWardenMasterRenderState;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenArmSegmentEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartStatus;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -80,7 +81,7 @@ public class VoluciteWardenMasterRender extends LivingEntityRenderer<VoluciteWar
 
     private boolean isSegmentValidForConnection(VoluciteWardenArmSegmentEntity armSegment)
     {
-        return armSegment.isAlive();
+        return armSegment.isAlive() && armSegment.getPartStatus() == PartStatus.ATTACHED;
     }
 
     @Override public void submit(VoluciteWardenMasterRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState)

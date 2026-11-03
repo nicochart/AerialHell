@@ -15,6 +15,7 @@ public interface PartEntity extends BaseMobEntityInterface
     //You may also want to edit the entity xpReward for part entities
 
     int MAX_TICKS_IN_INVALID_SITUATION = 5;
+    int SEMI_DETACHED_MAX_TICKS_WITHOUT_MASTER = 100;
 
     /* ---------------------------------------------------- */
     /* ---------- Methods needing implementation ---------- */
@@ -48,7 +49,7 @@ public interface PartEntity extends BaseMobEntityInterface
         if (forceLocalDamage) {return this.partSuperHurtServer(level, source, amount);}
         else
         {
-            if (this.isInvulnerable() || this.isPartInvulnerableToBase(source)) {return false;}
+            if (this.isInvulnerable() || this.isPartInvulnerableToBase(source) || this.getSelf().isDeadOrDying() || this.getPartStatus() == PartStatus.DEAD) {return false;}
             if (this.getPartStatus() == PartStatus.SEMI_DETACHED) {return this.semiDetachedPartHurtServer(level, source, amount);}
             if (this.getPartStatus() == PartStatus.FULLY_DETACHED) {return this.partSuperHurtServer(level, source, amount);} //own health only
             return this.tryRedirectHurtServerToMaster(level, source, amount);
@@ -89,7 +90,7 @@ public interface PartEntity extends BaseMobEntityInterface
     default PartInvalidSituationBehavior getInvalidSituationBehavior() {return PartInvalidSituationBehavior.DISCARD;}
 
     default double getSemiDetachedMaxDistanceToMaster() {return 64.0D;} //a semi detached part dies if it is too far from its master
-    default int getSemiDetachedMaxTicksWithoutMaster() {return 100;} //a semi detached part dies if its master is not found for too long
+    default int getSemiDetachedMaxTicksWithoutMaster() {return SEMI_DETACHED_MAX_TICKS_WITHOUT_MASTER;} //a semi detached part dies if its master is not found for too long. keep it lower than master's getSemiDetachedPartMaxMissingTicks()
     default float getSemiDetachedDamageFractionToMaster() {return 0.25F;} //fraction of the damage taken by a semi detached part that is applied to its master
     /* -------------------------------------------------------------- */
     /* -------------------------------------------------------------- */
@@ -99,6 +100,7 @@ public interface PartEntity extends BaseMobEntityInterface
     /* -------- Other utility methods (for the interface) -------- */
     /* ----------------------------------------------------------- */
     //status set by the master (see PartStatus). parts without status data accessor are always attached
+    //part status is synced (master's part status is not)
     default PartStatus getPartStatus()
     {
         EntityDataAccessor<Integer> statusData = this.getMasterInfo().getStatusData();

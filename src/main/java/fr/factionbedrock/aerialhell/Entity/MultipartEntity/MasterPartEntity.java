@@ -21,6 +21,7 @@ import java.util.UUID;
 public interface MasterPartEntity extends BaseMobEntityInterface
 {
     int MAX_TICKS_IN_INVALID_SITUATION = 5;
+    int SEMI_DETACHED_PART_MAX_MISSING_TICKS = PartEntity.SEMI_DETACHED_MAX_TICKS_WITHOUT_MASTER + 100;
 
     /* ---------------------------------------------------- */
     /* ---------- Methods needing implementation ---------- */
@@ -53,6 +54,15 @@ public interface MasterPartEntity extends BaseMobEntityInterface
                     DebugHelper.sendDebugMessage(this.getLevel(), "Master Part : invalid situation with child part "+partInfo.getName(), true); //temporary debug TODO remove
                     boolean shouldBreak = this.reactToInvalidSituationWithPart(partInfo);
                     if (shouldBreak) {break;}
+                }
+                //semi detached part missing for too long : considered dead (it probably died while the master was not loaded)
+                //if it was only unloaded, it will die by itself when loaded back (no master found, see PartEntity semiDetachedPartTick)
+                if (partInfo.getStatus() == PartStatus.SEMI_DETACHED && !this.getLevel().isClientSide() && partInfo.getTicksInInvalidSituation() > this.getSemiDetachedPartMaxMissingTicks())
+                {
+                    DebugHelper.sendDebugMessage(this.getLevel(), "Master Part : semi detached child part "+partInfo.getName()+" missing for too long, considered dead", true); //temporary debug TODO remove
+                    partInfo.setStatus(PartStatus.DEAD);
+                    this.forgetChildPart(partInfo);
+                    continue;
                 }
                 this.tryToFindBackPart(partInfo);
             }
@@ -154,6 +164,9 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     /* --------------------------------------------------------------------- */
     default MasterInvalidSituationBehavior getInvalidSituationBehavior() {return MasterInvalidSituationBehavior.RESET;}
 
+    //a semi detached part not found for too long is considered dead. keep it greater than parts' getSemiDetachedMaxTicksWithoutMaster()
+    default int getSemiDetachedPartMaxMissingTicks() {return SEMI_DETACHED_PART_MAX_MISSING_TICKS;}
+
     default Vec3 adjustPartOffset(PartInfo partInfo, PartEntity partEntity, Vec3 masterPos, Vec3 unadjustedPosOffset)
     {
         return unadjustedPosOffset;
@@ -254,9 +267,15 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             part.setPartStatus(PartStatus.FULLY_DETACHED);
             part.forgetMaster();
         }
+        this.forgetChildPart(partInfo);
+    }
+
+    private void forgetChildPart(PartInfo partInfo) //no reference, no synced id, no saved uuid : the part can't be found back
+    {
         this.setPartRaw(partInfo, null);
         this.setPartEntityId(partInfo, 0);
         this.setPartStringUUID(partInfo, null);
+        partInfo.resetTicksInInvalidSituation();
     }
 
     default void killChildPart(PartInfo partInfo) //server side. the part dies, without killing the master, and is no longer expected
