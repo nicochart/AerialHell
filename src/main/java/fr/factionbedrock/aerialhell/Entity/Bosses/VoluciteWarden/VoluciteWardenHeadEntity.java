@@ -2,7 +2,9 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import fr.factionbedrock.aerialhell.Entity.AI.BeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
+import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenHeadLightningGoal;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartStatus;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -32,6 +34,7 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
     /* ----------------------------- */
 
     private MainBeamAttackGoal BEAM_ATTACK_GOAL;
+    private VoluciteWardenHeadLightningGoal LIGHTNING_GOAL;
 
     public VoluciteWardenHeadEntity(EntityType<? extends VoluciteWardenPartEntity> type, Level level) {super(type, level);}
 
@@ -57,11 +60,18 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
     @Override protected void registerGoals()
     {
         this.BEAM_ATTACK_GOAL = new MainBeamAttackGoal(this, BEAMING_LOAD_DURATION, BEAMING_OVERHEAT_DURATION, BEAMING_TOTAL_DURATION, BEAMING_COOLDOWN);
+        this.LIGHTNING_GOAL = new VoluciteWardenHeadLightningGoal(this);
         //this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         super.registerGoals();
         this.goalSelector.addGoal(4, BEAM_ATTACK_GOAL);
+        this.goalSelector.addGoal(4, LIGHTNING_GOAL);
         //this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
+
+    @Override public boolean isNoGravity() {return !this.isDeadOrDying();} //flying part, even when detached
+
+    //final phase : semi detached head, while its master is fighting
+    public boolean canStrikeLightning() {return this.getPartStatus() == PartStatus.SEMI_DETACHED && this.isAlive();}
 
     /* -------------------------------------------------------------------------------------------------------- */
     /* ---------- BeamAttackEntity (Main beam) : Interface method implementation + specific behavior ---------- */
