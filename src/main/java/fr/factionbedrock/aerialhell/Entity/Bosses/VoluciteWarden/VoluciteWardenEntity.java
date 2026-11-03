@@ -493,6 +493,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		this.phaseTicks = 0;
 		if (VULNERABLE_PHASES.contains(nextPhase)) {this.vulnerableHealthFloor = this.realHealth - VULNERABLE_PHASE_MAX_DAMAGE * this.getMaxHealth();}
+		if (nextPhase == FINAL_PHASE) {this.separateUpperBody();}
 
 		if (SHIELD_TRANSITIONS.contains(nextPhase) || nextPhase == FINAL_TRANSITION) {this.playTransitionSound();}
 		if (SHIELD_BREAK_TRANSITIONS.contains(nextPhase)) {this.playShieldBreakSound();}
@@ -508,7 +509,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	//shield break transitions : real health is restored as soon as the shield breaks
 	//vulnerable phases : health is the real health. after VULNERABLE_PHASE_DURATION, or when VULNERABLE_PHASE_MAX_DAMAGE is reached, a shield transition starts. if real health reaches 0, the final transition starts
 	//final transition : health goes from 0 to max (real health regenerated)
-	//final phase : no shield. when health reaches 0, the warden really dies (dying & dead phases)
+	//final phase : no shield. arm segments & head get semi detached, neck & upper chest die (see separateUpperBody). when health reaches 0, the warden really dies (dying & dead phases)
 	public boolean isInActivationPhase() {return this.getPhase() == ACTIVATION_PHASE;}
 	public boolean isInShieldPhase() {return SHIELD_PHASES.contains(this.getPhase());}
 	public boolean isInVulnerablePhase() {return VULNERABLE_PHASES.contains(this.getPhase());}
@@ -583,6 +584,17 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		//shield & final transitions : health goes linearly to max (shield regenerated, or real health regenerated for the final phase)
 		if (!SHIELD_BREAK_TRANSITIONS.contains(transition)) {this.setHealth(this.getHealth() + (this.getMaxHealth() - this.getHealth()) / (Math.max(remainingTicks, 0) + 1));}
 		if (remainingTicks <= 0) {this.updateToNextPhase();}
+	}
+
+	//final phase start : only the lower body (legs to core, including core ribs) stays attached
+	//semi detached parts have their own health and AI, but stay linked to the warden (see PartStatus)
+	private void separateUpperBody()
+	{
+		for (ArmPartInfo armSegment : this.getRightArm()) {this.semiDetachChildPart(armSegment);}
+		for (ArmPartInfo armSegment : this.getLeftArm()) {this.semiDetachChildPart(armSegment);}
+		this.semiDetachChildPart(this.HEAD);
+		this.killChildPart(this.NECK);
+		this.killChildPart(this.UPPER_CHEST);
 	}
 
 	private int getTransitionDuration(BossPhase transition)

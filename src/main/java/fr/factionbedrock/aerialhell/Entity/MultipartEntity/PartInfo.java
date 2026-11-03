@@ -17,6 +17,7 @@ public class PartInfo
     private final Vec3 unrotatedRelativePositionOffset;
     private int ticksInInvalidSituation;
     private boolean isHead;
+    private PartStatus status; //master's knowledge of the part status (see PartStatus)
 
     public PartInfo(EntityType<?> type, String name, EntityDataAccessor<Integer> entityIdDataAccessor, Map<String, PartInfo> partsMap) {this(type, name, entityIdDataAccessor, Vec3.ZERO, false, partsMap);}
 
@@ -31,6 +32,7 @@ public class PartInfo
         partsMap.put(name, this);
         this.ticksInInvalidSituation = 0;
         this.isHead = isHead;
+        this.status = PartStatus.ATTACHED;
     }
 
     public EntityType<?> getType() {return type;}
@@ -47,4 +49,7 @@ public class PartInfo
     public void resetTicksInInvalidSituation() {this.ticksInInvalidSituation = 0;}
 
     public boolean isHead() {return this.isHead;}
+
+    public PartStatus getStatus() {return this.status;}
+    public void setStatus(PartStatus status) {this.status = status;}
 }

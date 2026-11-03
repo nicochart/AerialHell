@@ -40,11 +40,15 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         if (!this.getSelf().isAlive()) {return;}
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
+            if (partInfo.getStatus() == PartStatus.DEAD || partInfo.getStatus() == PartStatus.FULLY_DETACHED) {continue;} //dead & fully detached parts are no longer expected
             PartEntity synchedPartEntity = this.syncPart(partInfo); //server-client part sync
             if (synchedPartEntity == null || synchedPartEntity.getSelf().isRemoved())
             {
                 partInfo.incrementTicksInInvalidSituation();
-                if (partInfo.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION)  //should not happen if part is not removed or if the uuid changed (if the entity is loaded from a structure nbt for example)
+                //only a missing attached part is an invalid situation : a semi detached part can be far away or unloaded, the master just tries to find it back
+                //server side only : master's part status is not synced, the client can't know if the part is semi detached
+                boolean canBeInvalidSituation = partInfo.getStatus() == PartStatus.ATTACHED && !this.getLevel().isClientSide();
+                if (canBeInvalidSituation && partInfo.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION)  //should not happen if part is not removed or if the uuid changed (if the entity is loaded from a structure nbt for example)
                 {
                     DebugHelper.sendDebugMessage(this.getLevel(), "Master Part : invalid situation with child part "+partInfo.getName(), true); //temporary debug TODO remove
                     boolean shouldBreak = this.reactToInvalidSituationWithPart(partInfo);
@@ -59,6 +63,8 @@ public interface MasterPartEntity extends BaseMobEntityInterface
                 //below sometimes happens client-side. If player is far-away,
                 MasterPartEntity partMaster = synchedPartEntity.getMaster();
                 if (partMaster == null || partMaster.getId() != this.getId()) {synchedPartEntity.setMasterRaw(this);}
+
+                if (!this.getLevel().isClientSide()) {this.checkPartStatus(partInfo, synchedPartEntity);}
             }
         }
     }
@@ -68,10 +74,10 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         if (superDamaged && this.getSelf().isDeadOrDying()) {this.onHurtCausingDeath();}
         else if (superDamaged)
         {
-            //attacking other parts just for attack animation (red overlay)
+            //attacking other (attached) parts just for attack animation (red overlay)
             for (PartInfo partInfo : this.getPartInfoMap().values())
             {
-                falseAttackForRedAnimation(partInfo.getPart(), level, source);
+                if (partInfo.getStatus() == PartStatus.ATTACHED) {falseAttackForRedAnimation(partInfo.getPart(), level, source);}
             }
         }
     }
@@ -106,6 +112,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             {
                 valueOutput.putString(partInfo.getName() + "_uuid", part.getSelf().getStringUUID());
             }
+            valueOutput.putString(partInfo.getName() + "_status", partInfo.getStatus().name());
         }
     }
 
@@ -119,6 +126,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
             {
                 this.setPartStringUUID(partInfo, valueInput.getString(partInfo.getName() +"_uuid").get());
             }
+            partInfo.setStatus(PartStatus.byName(valueInput.getStringOr(partInfo.getName() + "_status", PartStatus.ATTACHED.name())));
         }
     }
 
@@ -220,11 +228,67 @@ public interface MasterPartEntity extends BaseMobEntityInterface
 
     private void onHurtCausingDeath()
     {
-        //kill other parts
+        //kill other parts (attached & semi detached)
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             PartEntity part = partInfo.getPart();
-            if (part != null) {part.killPart();}
+            if (part != null && (partInfo.getStatus() == PartStatus.ATTACHED || partInfo.getStatus() == PartStatus.SEMI_DETACHED)) {part.killPart();}
+        }
+    }
+
+    default void semiDetachChildPart(PartInfo partInfo) //server side. the part becomes independent, but stays linked to the master (see PartStatus)
+    {
+        partInfo.setStatus(PartStatus.SEMI_DETACHED);
+        PartEntity part = partInfo.getPart();
+        if (part != null) {part.setPartStatus(PartStatus.SEMI_DETACHED);} //if the part is not loaded, its status is corrected when found back (see checkPartStatus)
+    }
+
+    //server side. the part becomes fully independent : master and part forget each other (see PartStatus)
+    //the part needs to be loaded : the master forgets its uuid, an unloaded part can't be found back to get its status corrected
+    default void fullyDetachChildPart(PartInfo partInfo)
+    {
+        partInfo.setStatus(PartStatus.FULLY_DETACHED);
+        PartEntity part = partInfo.getPart();
+        if (part != null)
+        {
+            part.setPartStatus(PartStatus.FULLY_DETACHED);
+            part.forgetMaster();
+        }
+        this.setPartRaw(partInfo, null);
+        this.setPartEntityId(partInfo, 0);
+        this.setPartStringUUID(partInfo, null);
+    }
+
+    default void killChildPart(PartInfo partInfo) //server side. the part dies, without killing the master, and is no longer expected
+    {
+        partInfo.setStatus(PartStatus.DEAD);
+        PartEntity part = partInfo.getPart();
+        if (part != null)
+        {
+            part.setPartStatus(PartStatus.DEAD);
+            part.killPart();
+        }
+    }
+
+    //server side : master's part status. client side : part's synced status (master's part status is not synced)
+    default boolean isPartAttached(PartInfo partInfo)
+    {
+        if (this.getLevel().isClientSide()) {return partInfo.getPart() == null || partInfo.getPart().getPartStatus() == PartStatus.ATTACHED;}
+        else {return partInfo.getStatus() == PartStatus.ATTACHED;}
+    }
+
+    //server side. master's part status is the reference : the part status is corrected if both are inconsistent (part and master not saved at the same time, for example)
+    private void checkPartStatus(PartInfo partInfo, PartEntity part)
+    {
+        if (partInfo.getStatus() == PartStatus.SEMI_DETACHED && part.getSelf().isDeadOrDying()) //semi detached part died (own health reached 0, or too far from the master)
+        {
+            partInfo.setStatus(PartStatus.DEAD);
+            part.setPartStatus(PartStatus.DEAD);
+        }
+        else if (part.getPartStatus() != partInfo.getStatus())
+        {
+            DebugHelper.sendDebugMessage(this.getLevel(), "Master Part : inconsistent status with child part "+partInfo.getName()+" (master : "+partInfo.getStatus()+", part : "+part.getPartStatus()+"), part status corrected", true); //temporary debug TODO remove
+            part.setPartStatus(partInfo.getStatus());
         }
     }
 
@@ -346,6 +410,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         if (this.getLevel().isClientSide() || this.getPartInfoMap() == null) {return;}
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
+            if (!this.isPartAttached(partInfo)) {continue;} //detached parts move by themselves
             Vec3 partPos = this.calculatePartPos(partInfo, masterX, masterY, masterZ);
             if (partPos != null && partInfo.getPart() != null)
             {
@@ -358,7 +423,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     {
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            this.fixPartXRot(partInfo);
+            if (this.isPartAttached(partInfo)) {this.fixPartXRot(partInfo);}
         }
     }
 
@@ -376,7 +441,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     {
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
-            this.tickPartRotation(partInfo);
+            if (this.isPartAttached(partInfo)) {this.tickPartRotation(partInfo);}
         }
     }
 

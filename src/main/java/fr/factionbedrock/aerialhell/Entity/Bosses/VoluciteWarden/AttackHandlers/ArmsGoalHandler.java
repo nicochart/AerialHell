@@ -77,11 +77,8 @@ public class ArmsGoalHandler
         {
             this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3).set(ArmGoalType.SUMMON_HEAL_BEACON, 2);
         }
-        else if (phase == BossPhase.EIGHTH_PHASE) //final phase
-        {
-            this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3).set(ArmGoalType.SUMMON_HEAL_BEACON, 2);
-        }
         //activation, transition, vulnerable, dying & dead phases : no arm goal
+        //final phase : no arm goal either, arm segments are semi detached
     }
 
     private void tickArm(ArmInfo armInfo)

@@ -6,6 +6,8 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 public interface PartEntity extends BaseMobEntityInterface
@@ -32,18 +34,13 @@ public interface PartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------- */
     default void partEntityTick() //call in tick()
     {
-        MasterPartEntity master = this.getMasterRaw();
-        if (master == null || master.getSelf().isDeadOrDying() || master.getSelf().isRemoved() || !master.is(this.getSelf()))
+        switch (this.getPartStatus())
         {
-            this.incrementTicksInInvalidSituation();
-            if (this.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION)
-            {
-                DebugHelper.sendDebugMessage(this.getLevel(), "Child Part "+this.getSelf().getName().getString().replace("entity.aerialhell.", "")+": invalid situation with "+(master == null ? "null" : master.getSelf().isDeadOrDying() ? "dying" : master.getSelf().isRemoved() ? "removed" : "unrecognizing")+" master part", true); //temporary debug TODO remove
-                this.reactToInvalidSituationWithMaster();
-            }
-            this.tryToFindBackMaster();
+            case ATTACHED -> this.attachedPartTick();
+            case SEMI_DETACHED -> this.semiDetachedPartTick();
+            case FULLY_DETACHED -> {if (this.getMasterRaw() != null) {this.setMasterRaw(null);}} //no master anymore (also forgotten client side, where the master id sync is not enough)
+            case DEAD -> {} //killed by the master or dead while semi detached : no master check while dying
         }
-        else {this.resetTicksInInvalidSituation();}
     }
 
     default boolean partDoHurtServer(ServerLevel level, DamageSource source, float amount, boolean forceLocalDamage) //replace super.hurtServer(level, source, amount) call by this call with false "forceLocalDamage" (do not call super!)
@@ -52,8 +49,20 @@ public interface PartEntity extends BaseMobEntityInterface
         else
         {
             if (this.isInvulnerable() || this.isPartInvulnerableToBase(source)) {return false;}
+            if (this.getPartStatus() == PartStatus.SEMI_DETACHED) {return this.semiDetachedPartHurtServer(level, source, amount);}
+            if (this.getPartStatus() == PartStatus.FULLY_DETACHED) {return this.partSuperHurtServer(level, source, amount);} //own health only
             return this.tryRedirectHurtServerToMaster(level, source, amount);
         }
+    }
+
+    default void childPartAddAdditionalSaveData(ValueOutput valueOutput) //call in addAdditionalSaveData(valueOutput)
+    {
+        valueOutput.putString("part_status", this.getPartStatus().name());
+    }
+
+    default void childPartReadAdditionalSaveData(ValueInput valueInput) //call in readAdditionalSaveData(valueInput)
+    {
+        this.setPartStatus(PartStatus.byName(valueInput.getStringOr("part_status", PartStatus.ATTACHED.name())));
     }
 
     default boolean canPartBePushedBy(Entity other) //call as condition in push(entity)
@@ -78,6 +87,10 @@ public interface PartEntity extends BaseMobEntityInterface
     default void onPartDeath() {} //additional things to do when a part is killed, override if necessary
 
     default PartInvalidSituationBehavior getInvalidSituationBehavior() {return PartInvalidSituationBehavior.DISCARD;}
+
+    default double getSemiDetachedMaxDistanceToMaster() {return 64.0D;} //a semi detached part dies if it is too far from its master
+    default int getSemiDetachedMaxTicksWithoutMaster() {return 100;} //a semi detached part dies if its master is not found for too long
+    default float getSemiDetachedDamageFractionToMaster() {return 0.25F;} //fraction of the damage taken by a semi detached part that is applied to its master
     /* -------------------------------------------------------------- */
     /* -------------------------------------------------------------- */
     /* -------------------------------------------------------------- */
@@ -85,6 +98,85 @@ public interface PartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------------------- */
     /* -------- Other utility methods (for the interface) -------- */
     /* ----------------------------------------------------------- */
+    //status set by the master (see PartStatus). parts without status data accessor are always attached
+    default PartStatus getPartStatus()
+    {
+        EntityDataAccessor<Integer> statusData = this.getMasterInfo().getStatusData();
+        return statusData != null ? PartStatus.byId(this.getEntityData().get(statusData)) : PartStatus.ATTACHED;
+    }
+
+    default void setPartStatus(PartStatus status)
+    {
+        EntityDataAccessor<Integer> statusData = this.getMasterInfo().getStatusData();
+        if (statusData != null) {this.getEntityData().set(statusData, status.ordinal());}
+    }
+
+    private void attachedPartTick()
+    {
+        MasterPartEntity master = this.getMasterRaw();
+        if (master == null || master.getSelf().isDeadOrDying() || master.getSelf().isRemoved() || !master.is(this.getSelf()))
+        {
+            this.incrementTicksInInvalidSituation();
+            if (this.getTicksInInvalidSituation() > MAX_TICKS_IN_INVALID_SITUATION)
+            {
+                DebugHelper.sendDebugMessage(this.getLevel(), "Child Part "+this.getSelf().getName().getString().replace("entity.aerialhell.", "")+": invalid situation with "+(master == null ? "null" : master.getSelf().isDeadOrDying() ? "dying" : master.getSelf().isRemoved() ? "removed" : "unrecognizing")+" master part", true); //temporary debug TODO remove
+                this.reactToInvalidSituationWithMaster();
+            }
+            this.tryToFindBackMaster();
+        }
+        else {this.resetTicksInInvalidSituation();}
+    }
+
+    //semi detached part : independent, but still linked to its master. dies if the master dies, if too far from the master, or if the master is not found for too long
+    private void semiDetachedPartTick()
+    {
+        MasterPartEntity master = this.getMasterRaw();
+        if (master == null || master.getSelf().isRemoved())
+        {
+            this.tryToFindBackMaster(); //by synced id. after loading, the link is restored by the master (part found back by uuid)
+            if (this.getLevel().isClientSide()) {return;}
+
+            this.incrementTicksInInvalidSituation();
+            if (this.getTicksInInvalidSituation() > this.getSemiDetachedMaxTicksWithoutMaster()) {this.killSemiDetachedPart();}
+        }
+        else if (!this.getLevel().isClientSide())
+        {
+            this.resetTicksInInvalidSituation();
+            double maxDistance = this.getSemiDetachedMaxDistanceToMaster();
+            boolean isMasterDead = master.getSelf().isDeadOrDying() || !master.is(this.getSelf()); //unrecognizing master : the part is no longer expected
+            boolean isTooFar = this.getSelf().distanceToSqr(master.getSelf()) > maxDistance * maxDistance;
+            if (isMasterDead || isTooFar) {this.killSemiDetachedPart();}
+        }
+    }
+
+    private void killSemiDetachedPart()
+    {
+        this.setPartStatus(PartStatus.DEAD);
+        this.killPart();
+    }
+
+    //semi detached part : takes the damage (own health, can die without killing the master)
+    //a fraction of the damage is applied directly to the master's health (no hurt : no red overlay, no knockback, no sound...), only if it can't kill the master
+    private boolean semiDetachedPartHurtServer(ServerLevel level, DamageSource source, float amount)
+    {
+        boolean damaged = this.partSuperHurtServer(level, source, amount);
+        MasterPartEntity master = this.getMasterRaw();
+        if (damaged && master != null && master.getSelf().isAlive() && !master.getSelf().isInvulnerableTo(level, source))
+        {
+            float masterHealth = master.getSelf().getHealth();
+            float amountToMaster = amount * this.getSemiDetachedDamageFractionToMaster();
+            if (masterHealth > amountToMaster) {master.getSelf().setHealth(masterHealth - amountToMaster);}
+        }
+        return damaged;
+    }
+
+    default void forgetMaster() //called by the master when fully detaching the part
+    {
+        this.setMasterRaw(null);
+        this.setMasterId(0);
+        this.resetTicksInInvalidSituation();
+    }
+
     default EntityDataAccessor<Integer> getMasterIdData() {return this.getMasterInfo().getIdData();}
     default void setMasterRaw(MasterPartEntity master) {this.getMasterInfo().setMaster(master);}
     default @Nullable MasterPartEntity getMasterRaw() {return this.getMasterInfo().getMaster();}
@@ -118,12 +210,12 @@ public interface PartEntity extends BaseMobEntityInterface
     {
         switch (this.getInvalidSituationBehavior())
         {
-            case NONE : {}
-            case DISCARD :
+            case NONE -> {}
+            case DISCARD ->
             {
                 if (!this.getLevel().isClientSide()) {this.getSelf().discard();}
             }
-        };
+        }
     }
 
     private boolean tryToFindBackMaster()

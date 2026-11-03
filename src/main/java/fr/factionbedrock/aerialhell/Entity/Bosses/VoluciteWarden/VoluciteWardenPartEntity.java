@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartInfo;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartStatus;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -14,12 +15,16 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class VoluciteWardenPartEntity extends Monster implements PartEntity
 {
     /* -- PartEntity fields -- */
     private static final EntityDataAccessor<Integer> MASTER_ID = SynchedEntityData.defineId(VoluciteWardenPartEntity.class, EntityDataSerializers.INT);
-    private final MasterPartInfo MASTER = new MasterPartInfo(MASTER_ID);
+    private static final EntityDataAccessor<Integer> PART_STATUS = SynchedEntityData.defineId(VoluciteWardenPartEntity.class, EntityDataSerializers.INT);
+    private final MasterPartInfo MASTER = new MasterPartInfo(MASTER_ID, PART_STATUS);
+    public static final double SEMI_DETACHED_MAX_DISTANCE_TO_MASTER = 48.0D;
     /* ----------------------- */
 
     public VoluciteWardenPartEntity(EntityType<? extends Monster> type, Level level)
@@ -33,6 +38,7 @@ public class VoluciteWardenPartEntity extends Monster implements PartEntity
 
         /* -- PartEntity synched data -- */
         builder.define(MASTER_ID, 0);
+        builder.define(PART_STATUS, PartStatus.ATTACHED.ordinal());
         /* ----------------------------- */
     }
 
@@ -48,6 +54,8 @@ public class VoluciteWardenPartEntity extends Monster implements PartEntity
     @Override public boolean isPartInvulnerableToBase(DamageSource damageSource) {return super.isInvulnerableToBase(damageSource);}
 
     @Override public MasterPartInfo getMasterInfo() {return this.MASTER;}
+
+    @Override public double getSemiDetachedMaxDistanceToMaster() {return SEMI_DETACHED_MAX_DISTANCE_TO_MASTER;}
     /* ------------------------------------------------------------------- */
     /* ------------------------------------------------------------------- */
     /* ------------------------------------------------------------------- */
@@ -67,6 +75,18 @@ public class VoluciteWardenPartEntity extends Monster implements PartEntity
         this.partEntityTick();
         super.tick();
     }
+
+    @Override protected void addAdditionalSaveData(ValueOutput valueOutput)
+    {
+        super.addAdditionalSaveData(valueOutput);
+        this.childPartAddAdditionalSaveData(valueOutput);
+    }
+
+    @Override protected void readAdditionalSaveData(ValueInput valueInput)
+    {
+        super.readAdditionalSaveData(valueInput);
+        this.childPartReadAdditionalSaveData(valueInput);
+    }
     /* ----------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------- */
     /* ----------------------------------------------------------------------------------------- */
@@ -78,7 +98,7 @@ public class VoluciteWardenPartEntity extends Monster implements PartEntity
     @Override public boolean isInWall() {return false;}
     @Override public boolean isAttackable() {return true;}
     @Override public boolean causeFallDamage(double fallDistance, float damageMultiplier, DamageSource damageSource) {return false;}
-    @Override public boolean isNoGravity() {return !this.isDeadOrDying();}
+    @Override public boolean isNoGravity() {return this.getPartStatus() == PartStatus.ATTACHED && !this.isDeadOrDying();} //detached parts fall (override for flying parts)
     @Override public boolean isSilent() {return true;}
     @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
     @Override public void knockback(double strength, double x, double z, DamageSource damageSource, float damage) {}
