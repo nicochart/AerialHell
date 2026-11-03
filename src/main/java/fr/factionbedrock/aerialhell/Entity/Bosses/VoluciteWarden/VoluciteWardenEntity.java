@@ -53,6 +53,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -63,6 +64,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -133,6 +135,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* -- Core Lightning fields -- */
 	private VoluciteWardenCoreLightningGoal CORE_LIGHTNING_GOAL;
 	/* --------------------------- */
+
+	/* -- Standing Players fields -- */
+	public static final int STILL_TIMEOUT = 10; //ticks the warden stays still after a player stood on it for the last time
+	public static final float STANDING_DETECTION_HEIGHT = 1.5F; //a player this close above the top of a collidable part is considered standing on it (jumps included)
+	private int stillTimeout;
+	/* ----------------------------- */
 
 	/* -- Boss phases fields -- */
 	//phase 1 : activation (invincible). shield phases (2, 4, 6) : health is the shield. vulnerable phases (3, 5, 7) : health is the real health. phase 8 : final phase (real health, no shield)
@@ -227,6 +235,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		super(type, world);
 
+		this.lookControl = new VoluciteWardenLookControl();
 		this.timeDying = 0;
 		this.hurtTime = 0;
 		this.realHealth = this.getMaxHealth();
@@ -315,7 +324,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 		//additional things (specific to the volucite warden)
 		if (!this.isInDeadOrDyingPhase()) {this.timeDying = 0;}
-		if (!this.level().isClientSide()) {this.tickPhases();}
+		if (!this.level().isClientSide()) {this.tickPhases(); this.tickStill();}
 	}
 
 	@Override public void aiStep()
@@ -897,6 +906,72 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* --------------------------------------------------- */
 	/* --------------------------------------------------- */
 	/* --------------------------------------------------- */
+
+	/* ----------------------------------------------------- */
+	/* ---------- Players standing on the warden ---------- */
+	/* ----------------------------------------------------- */
+	//like the happy ghast : while a player stands on a collidable part, the warden stays still (no rotation, no movement), and its rotation is aligned with the hitboxes (multiple of 90 degrees)
+	//hitboxes never rotate : no rotation avoids players falling through parts, aligned rotation makes rendered parts match their hitbox. precise position sync avoids client-server hitbox offsets
+	public boolean isStill() {return this.stillTimeout > 0;}
+
+	private void tickStill() //server side
+	{
+		if (this.stillTimeout > 0) {this.stillTimeout--;}
+		if (this.isPlayerStandingOnParts()) {this.stillTimeout = STILL_TIMEOUT;}
+
+		boolean isStill = this.isStill();
+		if (isStill) {this.getNavigation().stop();}
+		this.setRequiresPrecisePosition(isStill);
+		for (PartInfo partInfo : this.PARTS_MAP.values())
+		{
+			PartEntity part = partInfo.getPart();
+			if (part != null) {part.getSelf().setRequiresPrecisePosition(isStill && this.isPartAttached(partInfo));}
+		}
+	}
+
+	private boolean isPlayerStandingOnParts()
+	{
+		for (Player player : this.level().players())
+		{
+			if (player.isSpectator() || !player.isAlive()) {continue;}
+			for (PartInfo partInfo : this.PARTS_MAP.values())
+			{
+				PartEntity part = partInfo.getPart();
+				if (part != null && this.isPartAttached(partInfo) && part.getSelf().canBeCollidedWith(player) && isStandingOn(player, part.getSelf())) {return true;}
+			}
+		}
+		return false;
+	}
+
+	//player hitbox overlapping the top of the part hitbox (feet on it, or slightly above it)
+	private static boolean isStandingOn(Player player, Entity part)
+	{
+		AABB partBox = part.getBoundingBox();
+		AABB topBox = new AABB(partBox.minX, partBox.maxY - 1.0E-5F, partBox.minZ, partBox.maxX, partBox.maxY + STANDING_DETECTION_HEIGHT, partBox.maxZ);
+		return player.getBoundingBox().intersects(topBox);
+	}
+
+	//while still : body and head rotation aligned with the hitboxes (nearest multiple of 90 degrees), look at targets ignored
+	private class VoluciteWardenLookControl extends LookControl
+	{
+		private VoluciteWardenLookControl() {super(VoluciteWardenEntity.this);}
+
+		@Override public void tick()
+		{
+			VoluciteWardenEntity warden = VoluciteWardenEntity.this;
+			if (warden.isStill())
+			{
+				float alignedRot = warden.yBodyRot - Mth.wrapDegrees90(warden.yBodyRot); //parts rotation follows body rotation
+				warden.yBodyRot = alignedRot;
+				warden.setYRot(alignedRot);
+				warden.setYHeadRot(alignedRot);
+			}
+			else {super.tick();}
+		}
+	}
+	/* ----------------------------------------------------- */
+	/* ----------------------------------------------------- */
+	/* ----------------------------------------------------- */
 
 	@Override public void handleEntityEvent(byte id)
 	{
