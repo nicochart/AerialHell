@@ -9,6 +9,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmLi
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmStrikeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmSummonAllyGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmSweepAttackGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenCoreLightningGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenCoreRepulsionGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenMainBeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
@@ -127,6 +128,10 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public static final EntityDataAccessor<Integer> CORE_DRAG_OR_REPULSE_GOAL_STATUS = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT); //reserved to core repulsion goal
 	public static final int CORE_NEUTRAL_STATUS = 0, CORE_ATTRACTING_STATUS = 1, CORE_REPULSING_STATUS = 2;
 	public final CoreRepulsionHandler coreRepulsionHandler;
+	/* --------------------------- */
+
+	/* -- Core Lightning fields -- */
+	private VoluciteWardenCoreLightningGoal CORE_LIGHTNING_GOAL;
 	/* --------------------------- */
 
 	/* -- Boss phases fields -- */
@@ -450,6 +455,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.RIGHT_ARM_SUMMON_HEAL_BEACON_GOAL = new VoluciteWardenArmSummonHealBeaconGoal(this, this::getRightArm, 0.2F);
 		this.LEFT_ARM_SUMMON_HEAL_BEACON_GOAL = new VoluciteWardenArmSummonHealBeaconGoal(this, this::getLeftArm, 0.2F);
 		this.CORE_REPULSION_GOAL = new VoluciteWardenCoreRepulsionGoal(this, CoreRepulsionHandler.ATTRACTION_DURATION, CoreRepulsionHandler.REPULSION_DURATION);
+		this.CORE_LIGHTNING_GOAL = new VoluciteWardenCoreLightningGoal(this);
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
@@ -467,6 +473,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.goalSelector.addGoal(4, RIGHT_ARM_SUMMON_HEAL_BEACON_GOAL);
 		this.goalSelector.addGoal(4, LEFT_ARM_SUMMON_HEAL_BEACON_GOAL);
 		this.goalSelector.addGoal(4, CORE_REPULSION_GOAL);
+		this.goalSelector.addGoal(4, CORE_LIGHTNING_GOAL);
 
 		//this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
@@ -877,6 +884,16 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	public boolean isCoreAttracting() {return this.getCoreDragOrRepulseGoalStatus() == CORE_ATTRACTING_STATUS;}
 	public boolean isCoreRepulsing() {return this.getCoreDragOrRepulseGoalStatus() == CORE_REPULSING_STATUS;}
+	/* --------------------------------------------------- */
+	/* --------------------------------------------------- */
+	/* --------------------------------------------------- */
+
+	/* --------------------------------------------------- */
+	/* ---------- Core Lightning : Goal methods ---------- */
+	/* --------------------------------------------------- */
+	public boolean canCoreStrikeLightning() {return this.isInShieldPhase() || this.isInFinalPhase();} //very frequent lightning in shield phases, occasional lightning in final phase
+
+	public Vec3 getCoreLightningStartPos() {return this.position().add(0.0D, CORE_CENTER_RELATIVE_HEIGHT, 0.0D);} //real core center (getCoreCenterPos() is the core bottom)
 	/* --------------------------------------------------- */
 	/* --------------------------------------------------- */
 	/* --------------------------------------------------- */

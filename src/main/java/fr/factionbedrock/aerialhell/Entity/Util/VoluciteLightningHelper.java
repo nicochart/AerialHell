@@ -22,10 +22,11 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.function.Predicate;
 
 //volucite lightning attack : a visual lightning (VoluciteLightningEntity) from a start pos to an impact pos, hurting entities near the impact
-//the aimed pos is chosen by the caller (target pos, random pos...), see strikeLightningBelow, findNearestTargetBelow and randomPosBelow. server side only
+//the aimed pos is chosen by the caller (target pos, random pos...), see strikeLightningBelow, findNearestTargetBelow, findRandomTargetAround and randomPosBelow. server side only
 public class VoluciteLightningHelper
 {
     //damage source, damage amount, radius around the impact, entities that can be hurt, and sound source of the impact sound
@@ -60,15 +61,18 @@ public class VoluciteLightningHelper
         return true;
     }
 
+    //lightning from startPos toward the center of the target, stopping at the first block on its way
+    public static boolean strikeLightningAtTarget(ServerLevel level, Vec3 startPos, LivingEntity target, LightningInfo info) {return strikeLightning(level, startPos, target.getBoundingBox().getCenter(), false, info);}
+
     //lightning below startPos. with a targetChance probability (0.4F = 40%), toward the nearest valid target below (see findNearestTargetBelow)
     //otherwise (other lightning, or no target found), toward a random pos below (see randomPosBelow)
-    //requiresBlockHitForRandomStrike : no random lightning if it doesn't reach the ground. if false, a random lightning can end in the air (maxDepth below startPos)
+    //randomStrikeRequiresBlockHit : no random lightning if it doesn't reach the ground. if false, a random lightning can end in the air (maxDepth below startPos)
     //returns true if the lightning is struck
     public static boolean strikeLightningBelow(ServerLevel level, Vec3 startPos, float targetChance, Predicate<LivingEntity> isValidTarget, float targetHorizontalRange, float randomHorizontalSpread, float maxDepth, boolean randomStrikeRequiresBlockHit, LightningInfo info)
     {
         RandomSource random = level.getRandom();
         @Nullable LivingEntity target = random.nextFloat() < targetChance ? findNearestTargetBelow(level, startPos, targetHorizontalRange, maxDepth, isValidTarget) : null;
-        if (target != null) {return strikeLightning(level, startPos, target.getBoundingBox().getCenter(), false, info);}
+        if (target != null) {return strikeLightningAtTarget(level, startPos, target, info);}
         else {return strikeLightning(level, startPos, randomPosBelow(random, startPos, randomHorizontalSpread, maxDepth), randomStrikeRequiresBlockHit, info);}
     }
 
@@ -78,6 +82,13 @@ public class VoluciteLightningHelper
         AABB searchBox = new AABB(pos.x - horizontalRange, pos.y - maxDepth, pos.z - horizontalRange, pos.x + horizontalRange, pos.y, pos.z + horizontalRange);
         return level.getEntitiesOfClass(LivingEntity.class, searchBox, target -> isValidTarget.test(target) && horizontalDistanceSqr(target.position(), pos) <= horizontalRange * horizontalRange)
                 .stream().min(Comparator.comparingDouble(target -> target.distanceToSqr(pos))).orElse(null);
+    }
+
+    //random valid target around pos, in any direction : the center of its bounding box is at most radius blocks away from pos
+    @Nullable public static LivingEntity findRandomTargetAround(ServerLevel level, Vec3 pos, float radius, Predicate<LivingEntity> isValidTarget)
+    {
+        List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, new AABB(pos, pos).inflate(radius), target -> isValidTarget.test(target) && target.getBoundingBox().getCenter().distanceToSqr(pos) <= radius * radius);
+        return targets.isEmpty() ? null : targets.get(level.getRandom().nextInt(targets.size()));
     }
 
     //random pos maxDepth blocks below pos, with a random horizontal offset (up to horizontalSpread on x and z)

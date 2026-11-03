@@ -15,7 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-//core repulsion : the core gently attracts nearby entities, then suddenly repulses them, destroying blocks too close to the core
+//core repulsion (shield phases only) : the core gently attracts nearby entities, then suddenly repulses them, destroying blocks too close to the core
 //drag / repulse is done here (both sides), depending on CORE_DRAG_OR_REPULSE_GOAL_STATUS (set by the goal)
 public class CoreRepulsionHandler
 {
@@ -49,7 +49,7 @@ public class CoreRepulsionHandler
             if (this.goal.isActive())
             {
                 this.inactiveTicks = 0;
-                if (!this.warden.isInAttackingPhase()) {this.goal.interrupt();} //e.g. shield broken during attraction
+                if (!this.warden.isInShieldPhase()) {this.goal.interrupt();} //e.g. shield broken during attraction
             }
             else
             {
@@ -69,7 +69,7 @@ public class CoreRepulsionHandler
 
     private boolean canTrigger()
     {
-        return this.warden.getTarget() != null && this.warden.isInAttackingPhase() && this.warden.getTarget().distanceToSqr(this.warden.getCoreCenterPos()) < TRIGGER_RANGE * TRIGGER_RANGE;
+        return this.warden.getTarget() != null && this.warden.isInShieldPhase() && this.warden.getTarget().distanceToSqr(this.warden.getCoreCenterPos()) < TRIGGER_RANGE * TRIGGER_RANGE;
     }
 
     private int rollCooldown() {return 300 + this.warden.getRandom().nextInt(300);}
