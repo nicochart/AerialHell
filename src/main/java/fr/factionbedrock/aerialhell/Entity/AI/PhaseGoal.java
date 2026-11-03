@@ -60,7 +60,25 @@ public interface PhaseGoal
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */
 
-    default Phase getCurrentPhase() {return this.getPhase(this.getPhaseInfo().phaseIndex);}
+    default Phase getCurrentPhase() {return this.getPhase(this.getCurrentPhaseIndex());}
+
+    //a goal that never started is in its inactive phase (otherwise, it would be active in its first phase as soon as created, after a reload for example)
+    //not cached : the phase sequence may not exist yet when PhaseInfo is created, or may change (strike sequence depends on the entity used to strike)
+    default int getCurrentPhaseIndex()
+    {
+        int phaseIndex = this.getPhaseInfo().phaseIndex;
+        return phaseIndex == PhaseInfo.NOT_STARTED ? this.getInactivePhaseIndex() : phaseIndex;
+    }
+
+    private int getInactivePhaseIndex()
+    {
+        List<Phase> phases = this.getPhases();
+        for (int i = 0; i < phases.size(); i++)
+        {
+            if (phases.get(i).getType() == PhaseType.INACTIVE) {return i;}
+        }
+        return 0; //no inactive phase in the sequence
+    }
     default Phase getPreviousPhase() {return this.getPhase(this.getPreviousPhaseIndex());}
     default Phase getPhase(int phaseIndex) { return this.getPhases().get(phaseIndex); }
     default PhaseType getPhaseType() {return this.getCurrentPhase().getType();}
@@ -134,7 +152,7 @@ public interface PhaseGoal
 
         this.getCurrentPhase().forceEnd(this.getSelf());
 
-        int previousPhaseIndex = this.getPhaseInfo().phaseIndex;
+        int previousPhaseIndex = this.getCurrentPhaseIndex();
         int newPhaseIndex = this.getNextPhaseIndex(previousPhaseIndex);
         while (this.getPhase(newPhaseIndex).getType() != phaseType && newPhaseIndex != previousPhaseIndex)
         {
@@ -161,7 +179,7 @@ public interface PhaseGoal
         this.getCurrentPhase().reset();
     }
 
-    default int getNextPhaseIndex() {return this.getNextPhaseIndex(this.getPhaseInfo().phaseIndex);}
+    default int getNextPhaseIndex() {return this.getNextPhaseIndex(this.getCurrentPhaseIndex());}
     default int getNextPhaseIndex(int phaseIndex)
     {
         int nextPhaseIndex = phaseIndex + 1;
@@ -170,12 +188,13 @@ public interface PhaseGoal
 
     default int getPreviousPhaseIndex()
     {
-        int previousPhaseIndex = this.getPhaseInfo().phaseIndex - 1;
+        int previousPhaseIndex = this.getCurrentPhaseIndex() - 1;
         return previousPhaseIndex < 0 ? this.getPhases().size() - 1 : previousPhaseIndex;
     }
 
     class PhaseInfo
     {
+        private static final int NOT_STARTED = -1;
         private final float distanceOffsetTolerance; //used to avoid float imprecision. goal can skip to next phase only if distance to target < distanceOffsetTolerance for some (parametrized) ticks
         private final Mob goalOwner;
         private int phaseIndex;
@@ -185,7 +204,7 @@ public interface PhaseGoal
         {
             this.distanceOffsetTolerance = distanceOffsetTolerance;
             this.goalOwner = goalOwner;
-            this.phaseIndex = 0;
+            this.phaseIndex = NOT_STARTED;
             this.cachedUnrotatedRelativePos = null;
         }
     }

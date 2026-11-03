@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
 import fr.factionbedrock.aerialhell.Entity.AI.PhaseGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartStatus;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -30,8 +31,12 @@ public abstract class VoluciteWardenArmGoal extends Goal implements PhaseGoal
 
     @Override public PhaseInfo getPhaseInfo() {return this.phaseInfo;}
 
-    @Override public boolean canUse() {return this.canUsePhaseGoal();}
-    @Override public boolean canContinueToUse() {return this.canContinueToUsePhaseGoal();}
+    @Override public boolean canUse() {return this.isArmAttached() && this.canUsePhaseGoal();}
+    @Override public boolean canContinueToUse() {return this.isArmAttached() && this.canContinueToUsePhaseGoal();}
+    @Override public boolean trigger() {return this.isArmAttached() && PhaseGoal.super.trigger();} //a goal triggered with a detached arm would stay active without running
+
+    //detached arm segments move by themselves : arm goals must not use them (server side, master's part status)
+    private boolean isArmAttached() {return this.arm.get().stream().allMatch(segment -> segment.getStatus() == PartStatus.ATTACHED);}
 
     @Override public void start() {this.onStart();}
     @Override public void stop() {this.onStop();}
