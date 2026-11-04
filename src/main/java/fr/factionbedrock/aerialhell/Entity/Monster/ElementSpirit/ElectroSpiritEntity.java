@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Entity.Monster.ElementSpirit;
 import javax.annotation.Nullable;
 
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Entity.Util.VoluciteGlyphParticles;
 import fr.factionbedrock.aerialhell.Entity.Util.VoluciteLightningHelper;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
@@ -22,6 +23,8 @@ public class ElectroSpiritEntity extends AbstractElementSpiritEntity
 	private static final int LIGHTNING_COUNT = 2;
 	private static final float LIGHTNING_DAMAGE = 5.0F; //same as vanilla lightning bolt
 	private static final float LIGHTNING_HIT_RADIUS = 1.5F; //entities this close to the lightning impact are hurt
+	private static final float GLYPHS_MIN_DISTANCE = 1.0F, GLYPHS_MAX_DISTANCE = 3.0F; //glyph particles burst from the spirit, when it disappears
+	private static final int GLYPHS_COUNT = 30;
 
 	public ElectroSpiritEntity(EntityType<? extends ElectroSpiritEntity> type, Level worldIn) {super(type, worldIn);}
 
@@ -44,6 +47,9 @@ public class ElectroSpiritEntity extends AbstractElementSpiritEntity
         //no longer inflicts glowing
     	//((LivingEntity) entityIn).addEffect(new MobEffectInstance(MobEffects.GLOWING, 70, 2, true, false));
     }
+
+    //glyph particles need a destination (speed parameters = offset to destination) : burst from the spirit center instead of default particles with tiny speeds
+    @Override public void spawnParticle() {VoluciteGlyphParticles.spawnOutward(this.level(), this.getBoundingBox().getCenter(), GLYPHS_MIN_DISTANCE, GLYPHS_MAX_DISTANCE, GLYPHS_COUNT);}
 
     @Override public SimpleParticleType getParticleToSpawn() {return AerialHellParticleTypes.VOLUCITE_GLYPH.get();}
     @Nullable @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_HURT.get();}
