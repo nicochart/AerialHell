@@ -5,6 +5,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenCoreR
 import fr.factionbedrock.aerialhell.Entity.Bosses.NearbyEntitiesInteractionInfo;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.Util.DisplayParticlesHelper;
+import fr.factionbedrock.aerialhell.Entity.Util.VoluciteGlyphParticles;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.BlockHelper;
 import net.minecraft.core.BlockPos;
@@ -24,10 +25,12 @@ public class CoreRepulsionHandler
     private static final int DRAG_OR_REPULSE_RANGE = 30;
     private static final float ATTRACTION_FACTOR = 40.0F; //adds 0.04 block/tick
     private static final float REPULSION_FACTOR = 500.0F; //adds 0.5 block/tick
-    private static final DisplayParticlesHelper ATTRACTION_END_ROD_PARTICLES = DisplayParticlesHelper.towardSource(ParticleTypes.END_ROD, 8, 6.0F, 16.0F, DisplayParticlesHelper.END_ROD_FRICTION);
+    private static final float ATTRACTION_GLYPHS_MIN_RADIUS = 6.0F, ATTRACTION_GLYPHS_MAX_RADIUS = 16.0F; //glyph particles toward the core
+    private static final int ATTRACTION_GLYPHS_PER_TICK = 8;
     private static final DisplayParticlesHelper REPULSION_EXPLOSION_PARTICLES = DisplayParticlesHelper.fromSource(ParticleTypes.EXPLOSION, 1, 2.0F, 0.0F, 0.0F);
     private static final DisplayParticlesHelper REPULSION_CLOUD_PARTICLES = DisplayParticlesHelper.fromSource(ParticleTypes.CLOUD, 20, 2.0F, 1.0F, 2.0F);
-    private static final DisplayParticlesHelper REPULSION_END_ROD_PARTICLES = DisplayParticlesHelper.fromSource(ParticleTypes.END_ROD, 12, 2.0F, DisplayParticlesHelper.getSpeedToTravel(7.0F, DisplayParticlesHelper.END_ROD_FRICTION), DisplayParticlesHelper.getSpeedToTravel(14.0F, DisplayParticlesHelper.END_ROD_FRICTION));
+    private static final float REPULSION_GLYPHS_MIN_DISTANCE = 7.0F, REPULSION_GLYPHS_MAX_DISTANCE = 14.0F; //glyph particles from the core
+    private static final int REPULSION_GLYPHS_PER_TICK = 12;
     private static final float BLOCK_DESTRUCTION_RADIUS = 7.0F;
     private static final float TRIGGER_RANGE = 16.0F; //max distance between core and target to trigger
 
@@ -63,8 +66,15 @@ public class CoreRepulsionHandler
         }
 
         //both sides, using synced status (goal does not exist client side). client side drag / repulse is needed to move players (player movement is client authoritative)
-        if (this.warden.isCoreAttracting()) {this.warden.dragOrRepulseEntitiesFromCore(NearbyEntitiesInteractionInfo.DRAG_UNIFORM, ATTRACTION_FACTOR, DRAG_OR_REPULSE_RANGE, ATTRACTION_END_ROD_PARTICLES);}
-        else if (this.warden.isCoreRepulsing()) {this.warden.dragOrRepulseEntitiesFromCore(NearbyEntitiesInteractionInfo.REPULSE_UNIFORM, REPULSION_FACTOR, DRAG_OR_REPULSE_RANGE, REPULSION_EXPLOSION_PARTICLES, REPULSION_CLOUD_PARTICLES, REPULSION_END_ROD_PARTICLES);}
+        if (this.warden.isCoreAttracting()) {this.warden.dragOrRepulseEntitiesFromCore(NearbyEntitiesInteractionInfo.DRAG_UNIFORM, ATTRACTION_FACTOR, DRAG_OR_REPULSE_RANGE); this.spawnGlyphParticles(true);}
+        else if (this.warden.isCoreRepulsing()) {this.warden.dragOrRepulseEntitiesFromCore(NearbyEntitiesInteractionInfo.REPULSE_UNIFORM, REPULSION_FACTOR, DRAG_OR_REPULSE_RANGE, REPULSION_EXPLOSION_PARTICLES, REPULSION_CLOUD_PARTICLES); this.spawnGlyphParticles(false);}
+    }
+
+    private void spawnGlyphParticles(boolean attracting) //client side
+    {
+        if (!this.warden.level().isClientSide()) {return;}
+        if (attracting) {VoluciteGlyphParticles.spawnInward(this.warden.level(), this.warden.getCoreLightningStartPos(), ATTRACTION_GLYPHS_MIN_RADIUS, ATTRACTION_GLYPHS_MAX_RADIUS, ATTRACTION_GLYPHS_PER_TICK);}
+        else {VoluciteGlyphParticles.spawnOutward(this.warden.level(), this.warden.getCoreLightningStartPos(), REPULSION_GLYPHS_MIN_DISTANCE, REPULSION_GLYPHS_MAX_DISTANCE, REPULSION_GLYPHS_PER_TICK);}
     }
 
     private boolean canTrigger()

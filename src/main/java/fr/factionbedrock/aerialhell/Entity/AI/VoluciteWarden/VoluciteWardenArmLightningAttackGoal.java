@@ -2,8 +2,8 @@ package fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden;
 
 import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
+import fr.factionbedrock.aerialhell.Entity.Util.VoluciteGlyphParticles;
 import fr.factionbedrock.aerialhell.Entity.Util.VoluciteLightningHelper;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
 
@@ -18,6 +18,8 @@ public class VoluciteWardenArmLightningAttackGoal extends VoluciteWardenArmGoal
     private static final float TARGET_HORIZONTAL_RANGE = 12.0F; //enemies below the hand, in this horizontal radius, can be targeted
     private static final float TARGET_MAX_DEPTH = 40.0F; //max distance below the hand
     private static final float GROUND_LIGHTNING_SPREAD = 5.0F; //random horizontal offset of the lightning on the ground, when there is no target
+    private static final float HAND_GLYPHS_MIN_RADIUS = 1.5F, HAND_GLYPHS_MAX_RADIUS = 4.0F; //glyph particles toward the hand, during lightning loading
+    private static final int HAND_GLYPHS_PER_TICK = 4;
 
     public VoluciteWardenArmLightningAttackGoal(VoluciteWardenEntity entity, Supplier<List<VoluciteWardenEntity.ArmPartInfo>> arm, float distanceOffsetTolerance) {super(entity, arm, distanceOffsetTolerance);}
 
@@ -27,13 +29,10 @@ public class VoluciteWardenArmLightningAttackGoal extends VoluciteWardenArmGoal
 
     public Vec3 getHandLevelPos() {return this.goalOwner.fromUnrotatedRelativeToLevelPos(this.getCachedUnrotatedRelativePos());}
 
-    public void spawnHandSparks()
+    //lightning loading : glyph particles toward the hand
+    public void spawnHandGlyphs()
     {
-        if (this.goalOwner.level() instanceof ServerLevel level)
-        {
-            Vec3 handPos = this.getHandLevelPos();
-            level.sendParticles(ParticleTypes.ELECTRIC_SPARK, handPos.x, handPos.y, handPos.z, 8, 1.0D, 1.0D, 1.0D, 0.15D);
-        }
+        if (this.goalOwner.level() instanceof ServerLevel level) {VoluciteGlyphParticles.sendInward(level, this.getHandLevelPos(), HAND_GLYPHS_MIN_RADIUS, HAND_GLYPHS_MAX_RADIUS, HAND_GLYPHS_PER_TICK);}
     }
 
     //lightning from the hand to the nearest enemy below the hand. if there is none, lightning on the ground below the hand

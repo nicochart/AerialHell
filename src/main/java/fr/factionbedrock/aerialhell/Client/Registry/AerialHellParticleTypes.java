@@ -26,6 +26,7 @@ public class AerialHellParticleTypes
 	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SHADOW_LIGHT = PARTICLES.register("shadow_light", () -> new SimpleParticleType(false));
 	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FAT_PHANTOM_SMOKE = PARTICLES.register("fat_phantom_smoke", () -> new SimpleParticleType(false));
 	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FALLING_CRYSTALLIZED_LEAVES = PARTICLES.register("falling_crystallized_leaves", () -> new SimpleParticleType(false));
+	public static final DeferredHolder<ParticleType<?>, SimpleParticleType> VOLUCITE_GLYPH = PARTICLES.register("volucite_glyph", () -> new SimpleParticleType(true)); //override limiter : many particles during volucite warden transitions
 
 	public static void registerParticleFactories(RegisterParticleProvidersEvent event)
 	{
@@ -40,5 +41,6 @@ public class AerialHellParticleTypes
 		event.registerSpriteSet(SHADOW_LIGHT.get(), LightParticle.Provider::new);
 		event.registerSpriteSet(FAT_PHANTOM_SMOKE.get(), CampfireSmokeParticle.CosyProvider::new);
 		event.registerSpriteSet(FALLING_CRYSTALLIZED_LEAVES.get(), FallingCrystallizedLeavesParticle.Provider::new);
+		event.registerSpriteSet(VOLUCITE_GLYPH.get(), VoluciteGlyphParticle.Provider::new);
 	}
 }

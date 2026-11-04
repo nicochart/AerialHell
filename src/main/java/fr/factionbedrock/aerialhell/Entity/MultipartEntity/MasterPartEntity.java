@@ -195,7 +195,7 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         part.yHeadRotO = part.yHeadRot;
 
         part.yBodyRot = self.yBodyRot;
-        part.yHeadRot = self.yHeadRot;
+        part.yHeadRot = self.yBodyRot; //non-head part : head rotation = body rotation (with master head rotation, client side part body rotation would follow master head)
         part.setXRot(self.getXRot());
         part.setYRot(self.yBodyRot);
         part.xRotO = part.getXRot();

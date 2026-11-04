@@ -43,7 +43,7 @@ public class ArmLightningAttackHandler
         this.arcTicks++;
         this.arcProgress = Math.min(1.0F, (float) this.arcTicks / ArmsLightningAttackHandler.ARC_DURATION);
 
-        this.goal.spawnHandSparks();
+        this.goal.spawnHandGlyphs();
         if (this.arcProgress < 1.0F && this.arcTicks % ArmsLightningAttackHandler.LIGHTNING_INTERVAL == 0) {this.goal.strikeLightning();}
     }
 

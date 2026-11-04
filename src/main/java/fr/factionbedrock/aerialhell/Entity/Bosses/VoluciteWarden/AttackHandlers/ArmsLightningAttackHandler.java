@@ -61,7 +61,7 @@ public class ArmsLightningAttackHandler
                 new Phase(PhaseType.PREPARE, () -> this.getRelativePreparePos(sideFactor), 1.0D, 1)
                         .onStart((goal) -> armHandler.resetArc()), //resetting before action phase : action target pos is read before action phase start
                 new Phase(PhaseType.PREPARE, () -> this.getRelativeArcPos(sideFactor, 0.0F), 1.0D, 15)
-                        .onTick((goal) -> {if (goal instanceof VoluciteWardenArmLightningAttackGoal lightningGoal) {lightningGoal.spawnHandSparks();}}),
+                        .onTick((goal) -> {if (goal instanceof VoluciteWardenArmLightningAttackGoal lightningGoal) {lightningGoal.spawnHandGlyphs();}}),
                 new Phase(PhaseType.ACTION, () -> this.getRelativeArcPos(sideFactor, armHandler.getArcProgress()), 1.5D, 5)
                         .onTick((goal) -> armHandler.tickArc()),
                 new Phase(PhaseType.RECOVERY, () -> this.getRelativeRecoveryPos(sideFactor), 0.4D, 1),

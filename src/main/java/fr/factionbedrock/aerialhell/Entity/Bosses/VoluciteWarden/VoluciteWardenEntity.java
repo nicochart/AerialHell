@@ -31,6 +31,7 @@ import fr.factionbedrock.aerialhell.Entity.StagedActivableEntity;
 import fr.factionbedrock.aerialhell.Entity.StrikeAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
 import fr.factionbedrock.aerialhell.Entity.Util.DisplayParticlesHelper;
+import fr.factionbedrock.aerialhell.Entity.Util.VoluciteGlyphParticles;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
@@ -53,6 +54,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -159,6 +161,14 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private float realHealth; //saved when a shield transition starts, restored when the shield breaks
 	private float vulnerableHealthFloor; //real health can't go below it during current vulnerable phase. <= 0 : the real health can reach 0 (final transition)
 	private int phaseTicks; //ticks spent in current phase
+	//transitions animation
+	public static final float LOWERED_HEAD_PITCH = 45.0F, LOWERED_HEAD_YAW = 35.0F; //shield break transitions & vulnerable phases : "disconnected" warden, head lowered toward bottom left or bottom right
+	public static final float LOWERING_HEAD_SPEED = 3.0F, RAISING_HEAD_SPEED = 1.5F; //degrees per tick. head slowly raised during shield transitions
+	public static final int ARMS_RAISE_DURATION = 40; //ticks to raise arms horizontally during the final transition
+	public static final float INWARD_PARTICLES_MIN_RADIUS = 16.0F, INWARD_PARTICLES_MAX_RADIUS = 32.0F; //shield transitions : glyph particles toward the core
+	public static final float OUTWARD_PARTICLES_MIN_DISTANCE = 8.0F, OUTWARD_PARTICLES_MAX_DISTANCE = 20.0F; //shield break & final transitions : glyph particles from the core
+	public static final int TRANSITION_PARTICLES_PER_TICK = 3;
+	private float loweredHeadYRot; //chosen when the shield breaks (bottom left or bottom right). server side
 	/* ------------------------ */
 
 	/* -- MasterPartEntity fields -- */
@@ -429,6 +439,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			double z = shoulderPosOffset.y * sin + shoulderPosOffset.z * cos;
 
 			shoulderPosOffset = new Vec3(x, y, z);
+			if (this.getPhase() == FINAL_TRANSITION) {shoulderPosOffset = this.getRaisedArmOffset(shoulderPosOffset, direction);} //server side (phaseTicks)
 			return armPartInfo.getPosOffsetFromMaster(shoulderPosOffset);
 		}
 		else {return MasterPartEntity.super.adjustPartOffset(partInfo, partEntity, masterPos, unadjustedPosOffset);}
@@ -512,7 +523,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		if (nextPhase == FINAL_PHASE) {this.separateUpperBody();}
 
 		if (SHIELD_TRANSITIONS.contains(nextPhase) || nextPhase == FINAL_TRANSITION) {this.playTransitionSound();}
-		if (SHIELD_BREAK_TRANSITIONS.contains(nextPhase)) {this.playShieldBreakSound();}
+		if (SHIELD_BREAK_TRANSITIONS.contains(nextPhase))
+		{
+			this.playShieldBreakSound();
+			this.loweredHeadYRot = this.yBodyRot + (this.random.nextBoolean() ? LOWERED_HEAD_YAW : -LOWERED_HEAD_YAW);
+		}
 		if (nextPhase == BossPhase.DYING) {this.playDeathSound();}
 	}
 
@@ -630,7 +645,25 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override public void tickTransitionPhase() //both sides
 	{
-		if (this.getPhase() == FINAL_TRANSITION) {this.runTransitionEffect();}
+		BossPhase transition = this.getPhase();
+		if (transition == FINAL_TRANSITION) {this.runTransitionEffect();}
+		if (this.level().isClientSide())
+		{
+			Vec3 coreCenter = this.getCoreLightningStartPos();
+			if (SHIELD_TRANSITIONS.contains(transition)) {VoluciteGlyphParticles.spawnInward(this.level(), coreCenter, INWARD_PARTICLES_MIN_RADIUS, INWARD_PARTICLES_MAX_RADIUS, TRANSITION_PARTICLES_PER_TICK);}
+			else {VoluciteGlyphParticles.spawnOutward(this.level(), coreCenter, OUTWARD_PARTICLES_MIN_DISTANCE, OUTWARD_PARTICLES_MAX_DISTANCE, TRANSITION_PARTICLES_PER_TICK);} //shield break & final transitions
+		}
+	}
+
+	public boolean isHeadLowered() {return SHIELD_BREAK_TRANSITIONS.contains(this.getPhase()) || this.isInVulnerablePhase();}
+	public boolean isHeadAnimated() {return this.isHeadLowered() || SHIELD_TRANSITIONS.contains(this.getPhase());}
+
+	//final transition : arms progressively raised horizontally on the sides (like arm beam preparation), and kept there : detached segments won't fall at the same place
+	private Vec3 getRaisedArmOffset(Vec3 shoulderPosOffset, float direction)
+	{
+		float angle = direction * Mth.HALF_PI * Mth.clamp((float) this.phaseTicks / ARMS_RAISE_DURATION, 0.0F, 1.0F); //outward rotation around z axis
+		double cos = Math.cos(angle), sin = Math.sin(angle);
+		return new Vec3(shoulderPosOffset.x * cos - shoulderPosOffset.y * sin, shoulderPosOffset.x * sin + shoulderPosOffset.y * cos, shoulderPosOffset.z);
 	}
 
 	@Override public void tickDyingPhase()
@@ -966,8 +999,27 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 				warden.setYRot(alignedRot);
 				warden.setYHeadRot(alignedRot);
 			}
+			else if (warden.isHeadLowered()) {this.rotateHeadToward(warden.loweredHeadYRot, LOWERED_HEAD_PITCH, LOWERING_HEAD_SPEED);} //"disconnected" warden
+			else if (SHIELD_TRANSITIONS.contains(warden.getPhase())) {this.rotateHeadToward(warden.yBodyRot, 0.0F, RAISING_HEAD_SPEED);} //head slowly raised
 			else {super.tick();}
 		}
+
+		private void rotateHeadToward(float yHeadRot, float xRot, float maxAngle)
+		{
+			VoluciteWardenEntity warden = VoluciteWardenEntity.this;
+			warden.setYHeadRot(Mth.approachDegrees(warden.getYHeadRot(), yHeadRot, maxAngle));
+			warden.setXRot(Mth.approachDegrees(warden.getXRot(), xRot, maxAngle));
+		}
+	}
+
+	@Override protected BodyRotationControl createBodyControl() {return new VoluciteWardenBodyRotationControl();}
+
+	//animated head (transitions, vulnerable phases) : body keeps its rotation (vanilla body rotation would follow the head)
+	private class VoluciteWardenBodyRotationControl extends BodyRotationControl
+	{
+		private VoluciteWardenBodyRotationControl() {super(VoluciteWardenEntity.this);}
+
+		@Override public void clientTick() {if (!VoluciteWardenEntity.this.isHeadAnimated()) {super.clientTick();}}
 	}
 	/* ----------------------------------------------------- */
 	/* ----------------------------------------------------- */
