@@ -519,7 +519,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	@Override public void applyPhaseUpdateEffect(BossPhase nextPhase) //server side
 	{
 		this.phaseTicks = 0;
-		if (VULNERABLE_PHASES.contains(nextPhase)) {this.vulnerableHealthFloor = this.realHealth - VULNERABLE_PHASE_MAX_DAMAGE * this.getMaxHealth();}
+		if (SHIELD_BREAK_TRANSITIONS.contains(nextPhase)) {this.vulnerableHealthFloor = this.realHealth - VULNERABLE_PHASE_MAX_DAMAGE * this.getMaxHealth();} //damage taken during the shield break transition counts for the vulnerable phase max damage
 		if (nextPhase == FINAL_PHASE) {this.separateUpperBody();}
 
 		if (SHIELD_TRANSITIONS.contains(nextPhase)) {this.playShieldActivationSound();}
@@ -537,24 +537,51 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* --------------------------------- */
 	/* ---------- Boss phases ---------- */
 	/* --------------------------------- */
+	//design summary :
+	//shield phase : the player attacks the shield. vulnerable phase : the player attacks the real health. phase 1 is the beginning of the fight
+	//phase numbers are BossPhase phases : phase 1 = FIRST_PHASE, phase 1 to 2 = FIRST_TO_SECOND_TRANSITION, ..., phase 8 = EIGHTH_PHASE
+	//  phase 1 : real health (like a vulnerable phase), but invincible. activation animation, then next phase
+	//  phase 1 to 2 : transition to shield phase (real health >= 66%)
+	//  phase 2 : shield phase (level 1)
+	//  phase 2 to 3 : the shield broke, transition to vulnerable phase
+	//  phase 3 : vulnerable phase
+	//  phase 3 to 4 : timer or damage cap reached, and real health < 66% : transition to shield phase
+	//  phase 4 : shield phase (level 2)
+	//  phase 4 to 5 : the shield broke, transition to vulnerable phase
+	//  phase 5 : vulnerable phase
+	//  phase 5 to 6 : timer or damage cap reached, and real health < 33% : transition to shield phase
+	//  phase 6 : shield phase (level 3)
+	//  phase 6 to 7 : the shield broke, transition to vulnerable phase
+	//  phase 7 : vulnerable phase
+	//  phase 7 to 8 : the player reached the end of the real health, transition to the final phase (real health regenerated, a bit like the chained god)
+	//  phase 8 : final phase, no shield. when the player reaches the end of this phase, the warden really dies (dying & dead phases)
+	//shield level depends on real health : level 1 above 66%, level 2 between 33% and 66%, level 3 below 33%
+	//at the end of a vulnerable phase (timer or damage cap reached), the transition to the shield of the adapted level starts
+	//for example : in phase 7, if the warden is not "dead" when the timer ends, phase 5 to 6 starts again
+	//
+	//implementation :
 	//phase 1 (activation) : invincible, ends when the warden has finished awakening
 	//shield transitions : health goes from real health to max (shield regenerated). shield level depends on real health
 	//shield phases : health is the shield. when it reaches 0, the shield breaks (default tryDying behavior : next phase)
-	//shield break transitions : real health is restored as soon as the shield breaks
-	//vulnerable phases : health is the real health. after VULNERABLE_PHASE_DURATION, or when VULNERABLE_PHASE_MAX_DAMAGE is reached, a shield transition starts. if real health reaches 0, the final transition starts
+	//shield break transitions : real health is restored as soon as the shield breaks. the warden can already be hurt (unlike other transitions) :
+	//  damage taken counts for the vulnerable phase max damage (if reached, a shield transition starts directly, without vulnerable phase), real health reaching 0 starts the final transition
+	//vulnerable phases : health is the real health. after VULNERABLE_PHASE_DURATION, or when VULNERABLE_PHASE_MAX_DAMAGE is reached (since the shield broke), a shield transition starts. if real health reaches 0, the final transition starts
 	//final transition : health goes from 0 to max (real health regenerated)
 	//final phase : no shield. arm segments & head get semi detached, neck & upper chest die (see separateUpperBody). when health reaches 0, the warden really dies (dying & dead phases)
 	public boolean isInActivationPhase() {return this.getPhase() == ACTIVATION_PHASE;}
 	public boolean isInShieldPhase() {return SHIELD_PHASES.contains(this.getPhase());}
 	public boolean isInVulnerablePhase() {return VULNERABLE_PHASES.contains(this.getPhase());}
+	public boolean isInShieldBreakTransition() {return SHIELD_BREAK_TRANSITIONS.contains(this.getPhase());}
+	public boolean isRealHealthVulnerable() {return this.isInShieldBreakTransition() || this.isInVulnerablePhase();} //real health can be damaged, until the vulnerable phase max damage
 	public boolean isInFinalPhase() {return this.getPhase() == FINAL_PHASE;}
 	public boolean isInAttackingPhase() {return this.isInShieldPhase() || this.isInFinalPhase();} //the warden can use its attacks (arms, core repulsion). no attack during vulnerable phases
 	public int getShieldLevel() {return SHIELD_PHASES.indexOf(this.getPhase()) + 1;} //0 if not in shield phase
 	private boolean isHealthTheShield() {return this.isInShieldPhase() || SHIELD_TRANSITIONS.contains(this.getPhase());}
 
+	//shield & final transitions : invulnerable (health is regenerated). shield break transitions : the warden can be hurt
 	@Override public boolean isInvulnerableTo(ServerLevel level, DamageSource source)
 	{
-		return super.isInvulnerableTo(level, source) || (this.isInTransitionPhase() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY));
+		return super.isInvulnerableTo(level, source) || (this.isInTransitionPhase() && !this.isInShieldBreakTransition() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY));
 	}
 
 	@Override protected void actuallyHurt(ServerLevel level, DamageSource source, float amount)
@@ -564,14 +591,14 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		if (this.isInActivationPhase() && !bypassesInvulnerability) {return;}
 
 		super.actuallyHurt(level, source, amount);
-		//vulnerable phases : real health can't go below the floor
-		if (this.isInVulnerablePhase() && this.getHealth() < this.vulnerableHealthFloor && !bypassesInvulnerability) {this.setHealth(this.vulnerableHealthFloor);}
+		//shield break transitions & vulnerable phases : real health can't go below the floor
+		if (this.isRealHealthVulnerable() && this.getHealth() < this.vulnerableHealthFloor && !bypassesInvulnerability) {this.setHealth(this.vulnerableHealthFloor);}
 	}
 
 	@Override public boolean tryDying(DamageSource damageSource)
 	{
-		//real health reaching 0 in any vulnerable phase : final transition (default behavior would only do it from the last vulnerable phase)
-		if (this.isInVulnerablePhase() && !damageSource.is(DamageTypes.GENERIC_KILL))
+		//real health reaching 0 in any shield break transition or vulnerable phase : final transition (default behavior would only do it from the last vulnerable phase)
+		if (this.isRealHealthVulnerable() && !damageSource.is(DamageTypes.GENERIC_KILL))
 		{
 			this.updateToPhase(FINAL_TRANSITION);
 			this.applyAfterTriedDyingPhaseUpdateEffect(FINAL_TRANSITION, NotDeadReason.START_TRANSITION_PHASE);
@@ -593,7 +620,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		{
 			if (this.alreadyActivatedOnce()) {this.startShieldTransition();}
 		}
-		else if (this.isInTransitionPhase()) {this.tickTransition();}
+		else if (this.isInTransitionPhase())
+		{
+			if (this.isInShieldBreakTransition() && this.hasReachedVulnerablePhaseMaxDamage()) {this.startShieldTransition();} //max damage reached before the vulnerable phase : no vulnerable phase
+			else {this.tickTransition();}
+		}
 		else if (this.isInVulnerablePhase())
 		{
 			if (this.phaseTicks >= VULNERABLE_PHASE_DURATION || this.hasReachedVulnerablePhaseMaxDamage()) {this.startShieldTransition();}

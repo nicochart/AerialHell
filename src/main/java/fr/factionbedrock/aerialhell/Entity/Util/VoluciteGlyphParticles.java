@@ -31,6 +31,13 @@ public class VoluciteGlyphParticles
     public static void spawnOutward(Level level, Vec3 center, float minDistance, float maxDistance, int count) {forEachOutward(level.getRandom(), center, minDistance, maxDistance, count, (from, to) -> spawn(level, from, to));}
     public static void sendOutward(ServerLevel level, Vec3 center, float minDistance, float maxDistance, int count) {forEachOutward(level.getRandom(), center, minDistance, maxDistance, count, (from, to) -> send(level, from, to));}
 
+    //from pos, toward random positions below it (up to horizontalSpread on x and z, between minDepth and maxDepth lower)
+    public static void sendDownward(ServerLevel level, Vec3 from, float horizontalSpread, float minDepth, float maxDepth, int count)
+    {
+        RandomSource random = level.getRandom();
+        for (int i = 0; i < count; i++) {send(level, from, from.add(Mth.nextFloat(random, -horizontalSpread, horizontalSpread), -Mth.nextFloat(random, minDepth, maxDepth), Mth.nextFloat(random, -horizontalSpread, horizontalSpread)));}
+    }
+
     private static void forEachInward(RandomSource random, Vec3 center, float minRadius, float maxRadius, int count, BiConsumer<Vec3, Vec3> spawner)
     {
         for (int i = 0; i < count; i++) {spawner.accept(center.add(randomDirection(random).scale(Mth.nextFloat(random, minRadius, maxRadius))), center);}
