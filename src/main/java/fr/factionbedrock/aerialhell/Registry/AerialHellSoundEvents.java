@@ -68,6 +68,7 @@ public class AerialHellSoundEvents
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_WARDEN_SHIELD_SHUTDOWN = register("entity.volucite_warden.shield_shutdown");
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_WARDEN_FINAL_SHUTDOWN = register("entity.volucite_warden.final_shutdown");
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_WARDEN_FINAL_PHASE = register("entity.volucite_warden.final_phase");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_LIGHTNING_IMPACT = register("entity.volucite_lightning.impact");
 
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_KEEPER_OF_KEYS_AMBIENT = register("entity.keeper_of_volucite_keys.ambient");
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_KEEPER_OF_KEYS_HURT = register("entity.keeper_of_volucite_keys.hurt");

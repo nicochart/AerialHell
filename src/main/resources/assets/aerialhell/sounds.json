@@ -266,6 +266,14 @@
     "subtitle": "subtitles.aerialhell.entity.volucite_warden.final_phase",
     "sounds": ["aerialhell:mob/volucite_warden/final_phase"]
   },
+  "entity.volucite_lightning.impact": {
+    "subtitle": "subtitles.aerialhell.entity.volucite_lightning.impact",
+    "sounds": [
+      "aerialhell:projectile/volucite_lightning/impact_1",
+      "aerialhell:projectile/volucite_lightning/impact_2",
+      "aerialhell:projectile/volucite_lightning/impact_3"
+    ]
+  },
   "entity.volucite_golem.ambient_alert": {
     "subtitle": "subtitles.aerialhell.entity.volucite_golem.ambient_alert",
     "sounds": ["aerialhell:mob/volucite_golem/ambient_alert"]

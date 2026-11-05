@@ -1,11 +1,11 @@
 package fr.factionbedrock.aerialhell.Entity.Util;
 
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteLightningEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -56,7 +56,7 @@ public class VoluciteLightningHelper
         hurtEntitiesNearImpact(level, impactPos, info);
 
         RandomSource random = level.getRandom();
-        level.playSound(null, impactPos.x, impactPos.y, impactPos.z, SoundEvents.LIGHTNING_BOLT_IMPACT, info.soundSource(), 2.0F, 1.2F + random.nextFloat() * 0.4F);
+        level.playSound(null, impactPos.x, impactPos.y, impactPos.z, AerialHellSoundEvents.ENTITY_VOLUCITE_LIGHTNING_IMPACT.get(), info.soundSource(), 2.0F, 0.9F + random.nextFloat() * 0.2F);
         level.sendParticles(ParticleTypes.ELECTRIC_SPARK, impactPos.x, impactPos.y, impactPos.z, 12, 0.3D, 0.3D, 0.3D, 0.3D);
         return true;
     }
