@@ -62,6 +62,12 @@ public class AerialHellSoundEvents
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_WARDEN_BEAM_LOAD = register("entity.volucite_warden.beam_load");
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_WARDEN_BEAM_START = register("entity.volucite_warden.beam_start");
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_WARDEN_BEAM_LOOP = register("entity.volucite_warden.beam_loop");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_WARDEN_HIT = register("entity.volucite_warden.hit");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_WARDEN_ARM_MOVEMENT = register("entity.volucite_warden.arm_movement");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_WARDEN_SHIELD_ACTIVATION = register("entity.volucite_warden.shield_activation");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_WARDEN_SHIELD_SHUTDOWN = register("entity.volucite_warden.shield_shutdown");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_WARDEN_FINAL_SHUTDOWN = register("entity.volucite_warden.final_shutdown");
+	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_VOLUCITE_WARDEN_FINAL_PHASE = register("entity.volucite_warden.final_phase");
 
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_KEEPER_OF_KEYS_AMBIENT = register("entity.keeper_of_volucite_keys.ambient");
 	public static final DeferredHolder<SoundEvent, SoundEvent> ENTITY_KEEPER_OF_KEYS_HURT = register("entity.keeper_of_volucite_keys.hurt");

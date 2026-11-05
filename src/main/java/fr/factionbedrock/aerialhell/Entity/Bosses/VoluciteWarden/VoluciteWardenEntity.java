@@ -522,12 +522,15 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		if (VULNERABLE_PHASES.contains(nextPhase)) {this.vulnerableHealthFloor = this.realHealth - VULNERABLE_PHASE_MAX_DAMAGE * this.getMaxHealth();}
 		if (nextPhase == FINAL_PHASE) {this.separateUpperBody();}
 
-		if (SHIELD_TRANSITIONS.contains(nextPhase) || nextPhase == FINAL_TRANSITION) {this.playTransitionSound();}
+		if (SHIELD_TRANSITIONS.contains(nextPhase)) {this.playShieldActivationSound();}
 		if (SHIELD_BREAK_TRANSITIONS.contains(nextPhase))
 		{
 			this.playShieldBreakSound();
+			this.playShieldShutdownSound();
 			this.loweredHeadYRot = this.yBodyRot + (this.random.nextBoolean() ? LOWERED_HEAD_YAW : -LOWERED_HEAD_YAW);
 		}
+		if (nextPhase == FINAL_TRANSITION) {this.playFinalShutdownSound();}
+		if (nextPhase == FINAL_PHASE) {this.playFinalPhaseSound();}
 		if (nextPhase == BossPhase.DYING) {this.playDeathSound();}
 	}
 
@@ -693,8 +696,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	public void playDeathSound() {this.playSound(this.getDeathSound(), 5.0F, 1.0F);}
 	@Override public void playFastDeathSound() {this.playSound(getFastDeathSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);}
-	public void playTransitionSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_ACTIVATION.get(), 5.0F, 1.0F);}
 	public void playShieldBreakSound() {this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 5.0F, 0.5F);}
+	public void playShieldActivationSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_SHIELD_ACTIVATION.get(), 5.0F, 1.0F);} //shield transitions start
+	public void playShieldShutdownSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_SHIELD_SHUTDOWN.get(), 5.0F, 1.0F);} //shield break transitions start
+	public void playFinalShutdownSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_FINAL_SHUTDOWN.get(), 5.0F, 1.0F);} //final transition start
+	public void playFinalPhaseSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_FINAL_PHASE.get(), 5.0F, 1.0F);} //final phase start
 
 	@Override protected void playHurtSound(DamageSource damageSource, boolean died)
 	{

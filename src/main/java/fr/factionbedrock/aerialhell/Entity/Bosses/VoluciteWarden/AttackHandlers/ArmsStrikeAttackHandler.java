@@ -84,6 +84,7 @@ public class ArmsStrikeAttackHandler
                 new Phase(PhaseType.PREPARE, () -> this.getRelativeWindupPos2(sideFactor), 1.0D, 1),
                 new Phase(PhaseType.PREPARE, () -> this.getRelativeWindupPos3(sideFactor), 1.0D, 40),
                 new Phase(PhaseType.ACTION, this::getRelativeStrikePos, 2.0D, 5)
+                        .onStart((goal) -> {if (goal instanceof VoluciteWardenArmStrikeAttackGoal strikeGoal) {strikeGoal.playHitSound();}}) //real strike start
                         .onTargetReached((goal) -> {if (goal instanceof VoluciteWardenArmStrikeAttackGoal strikeGoal) {strikeGoal.strike();}}),
                 new Phase(PhaseType.RECOVERY, () -> this.getRelativeRecoveryPos(sideFactor), 0.4D, 1),
                 new InactivePhase()

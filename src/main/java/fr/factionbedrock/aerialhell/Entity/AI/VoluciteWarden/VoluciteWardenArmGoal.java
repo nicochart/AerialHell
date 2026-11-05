@@ -5,6 +5,8 @@ import fr.factionbedrock.aerialhell.Entity.AI.PhaseGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartStatus;
+import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -19,6 +21,7 @@ public abstract class VoluciteWardenArmGoal extends Goal implements PhaseGoal
     public final VoluciteWardenEntity goalOwner;
     public final Supplier<List<VoluciteWardenEntity.ArmPartInfo>> arm;
     public final PhaseInfo phaseInfo;
+    private boolean armMovementSoundPlayed;
 
     public VoluciteWardenArmGoal(VoluciteWardenEntity entity, Supplier<List<VoluciteWardenEntity.ArmPartInfo>> arm, float distanceOffsetTolerance)
     {
@@ -38,12 +41,35 @@ public abstract class VoluciteWardenArmGoal extends Goal implements PhaseGoal
     //detached arm segments move by themselves : arm goals must not use them (server side, master's part status)
     private boolean isArmAttached() {return this.arm.get().stream().allMatch(segment -> segment.getStatus() == PartStatus.ATTACHED);}
 
-    @Override public void start() {this.onStart();}
+    @Override public void start() {this.onStart(); this.armMovementSoundPlayed = false;}
     @Override public void stop() {this.onStop();}
 
     @Override public boolean requiresUpdateEveryTick() {return true;}
 
-    @Override public void tick() {this.tickPhase();}
+    @Override public void tick()
+    {
+        this.tickPhase();
+        //arm movement sound, after the first tick of the goal : the goal can end during its first tick (no beacon pos or no sweep target found), the arm doesn't move then
+        if (!this.armMovementSoundPlayed && this.isActive()) {this.playArmMovementSound(); this.armMovementSoundPlayed = true;}
+    }
+
+    /* ---------------------------- */
+    /* ---------- Sounds ---------- */
+    /* ---------------------------- */
+    //played at the hand position (last arm segment), or at the warden position if the hand is not found. server side
+    public void playSoundAtHand(SoundEvent sound, float volume, float pitch)
+    {
+        Vec3 pos = this.getGuide() != null ? this.getGuide().position() : this.goalOwner.position();
+        this.goalOwner.level().playSound(null, pos.x, pos.y, pos.z, sound, this.goalOwner.getSoundSource(), volume, pitch);
+    }
+
+    public void playArmMovementSound() {this.playSoundAtHand(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_ARM_MOVEMENT.get(), 3.0F, this.randomSoundPitch());} //arm goal start
+    public void playHitSound() {this.playSoundAtHand(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_HIT.get(), 4.0F, this.randomSoundPitch());} //strike & sweep attacks, when the real strike starts
+
+    private float randomSoundPitch() {return 0.95F + 0.1F * this.goalOwner.getRandom().nextFloat();}
+    /* ---------------------------- */
+    /* ---------------------------- */
+    /* ---------------------------- */
 
     @Override public void setGuidePos() {this.setSegmentsPos();}
 

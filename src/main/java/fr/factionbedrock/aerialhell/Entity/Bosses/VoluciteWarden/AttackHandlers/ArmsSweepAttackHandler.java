@@ -67,7 +67,7 @@ public class ArmsSweepAttackHandler
                         .onStart((goal) -> armHandler.startAttack()), //targets scan, before sweep phases : their target pos is read before their start
                 new Phase(PhaseType.PREPARE, () -> this.getRelativeSweepPos(sideFactor, armHandler, 0.0F), 1.5D, PAUSE_BEFORE_SWEEP),
                 new Phase(PhaseType.ACTION, () -> this.getRelativeSweepPos(sideFactor, armHandler, armHandler.getSweepProgress()), SWEEP_SPEED, PAUSE_AFTER_SWEEP)
-                        .onStart((goal) -> {if (goal instanceof VoluciteWardenArmSweepAttackGoal sweepGoal) {sweepGoal.playSweepSound();}})
+                        .onStart((goal) -> {if (goal instanceof VoluciteWardenArmSweepAttackGoal sweepGoal) {sweepGoal.playSweepSound(); sweepGoal.playHitSound();}}) //real sweep start
                         .onTick((goal) -> armHandler.tickSweep()),
                 new Phase(PhaseType.RECOVERY, () -> this.getRelativeRecoveryPos(sideFactor), 0.4D, 1),
                 new InactivePhase()
