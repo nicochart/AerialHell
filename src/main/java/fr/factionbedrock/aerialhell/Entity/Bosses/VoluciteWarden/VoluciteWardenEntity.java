@@ -165,8 +165,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public static final float LOWERED_HEAD_PITCH = 45.0F, LOWERED_HEAD_YAW = 35.0F; //shield break transitions & vulnerable phases : "disconnected" warden, head lowered toward bottom left or bottom right
 	public static final float LOWERING_HEAD_SPEED = 3.0F, RAISING_HEAD_SPEED = 1.5F; //degrees per tick. head slowly raised during shield transitions
 	public static final int ARMS_RAISE_DURATION = 40; //ticks to raise arms horizontally during the final transition
-	public static final float INWARD_PARTICLES_MIN_RADIUS = 16.0F, INWARD_PARTICLES_MAX_RADIUS = 32.0F; //shield transitions : glyph particles toward the core
-	public static final float OUTWARD_PARTICLES_MIN_DISTANCE = 8.0F, OUTWARD_PARTICLES_MAX_DISTANCE = 20.0F; //shield break & final transitions : glyph particles from the core
+	public static final float INWARD_PARTICLES_MIN_RADIUS = 16.0F, INWARD_PARTICLES_MAX_RADIUS = 32.0F; //shield break transitions : glyph particles toward the core
+	public static final float OUTWARD_PARTICLES_MIN_DISTANCE = 8.0F, OUTWARD_PARTICLES_MAX_DISTANCE = 20.0F; //shield & final transitions : glyph particles from the core (players repulsed from the core)
 	public static final int TRANSITION_PARTICLES_PER_TICK = 3;
 	private float loweredHeadYRot; //chosen when the shield breaks (bottom left or bottom right). server side
 	/* ------------------------ */
@@ -561,13 +561,13 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	//
 	//implementation :
 	//phase 1 (activation) : invincible, ends when the warden has finished awakening
-	//shield transitions : health goes from real health to max (shield regenerated). shield level depends on real health
+	//shield transitions : health goes from real health to max (shield regenerated), players are repulsed from the core. shield level depends on real health
 	//shield phases : health is the shield. when it reaches 0, the shield breaks (default tryDying behavior : next phase)
 	//shield break transitions : real health is restored as soon as the shield breaks. the warden can already be hurt (unlike other transitions) :
 	//  damage taken counts for the vulnerable phase max damage (if reached, a shield transition starts directly, without vulnerable phase), real health reaching 0 starts the final transition
 	//vulnerable phases : health is the real health. after VULNERABLE_PHASE_DURATION, or when VULNERABLE_PHASE_MAX_DAMAGE is reached (since the shield broke), a shield transition starts. if real health reaches 0, the final transition starts
 	//final transition : health goes from 0 to max (real health regenerated)
-	//final phase : no shield. arm segments & head get semi detached, neck & upper chest die (see separateUpperBody). when health reaches 0, the warden really dies (dying & dead phases)
+	//final phase : no shield. arm segments & head get semi detached, neck, upper chest & core ribs die (see separateUpperBody). when health reaches 0, the warden really dies (dying & dead phases)
 	public boolean isInActivationPhase() {return this.getPhase() == ACTIVATION_PHASE;}
 	public boolean isInShieldPhase() {return SHIELD_PHASES.contains(this.getPhase());}
 	public boolean isInVulnerablePhase() {return VULNERABLE_PHASES.contains(this.getPhase());}
@@ -577,6 +577,9 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public boolean isInAttackingPhase() {return this.isInShieldPhase() || this.isInFinalPhase();} //the warden can use its attacks (arms, core repulsion). no attack during vulnerable phases
 	public int getShieldLevel() {return SHIELD_PHASES.indexOf(this.getPhase()) + 1;} //0 if not in shield phase
 	private boolean isHealthTheShield() {return this.isInShieldPhase() || SHIELD_TRANSITIONS.contains(this.getPhase());}
+	public boolean isInShieldTransition() {return SHIELD_TRANSITIONS.contains(this.getPhase());}
+	//no heal from heal beacons during shield break transitions, vulnerable phases & shield transitions (activation phase can be healed). see VoluciteWardenHealBeaconEntity.isValidHealTarget
+	public boolean canBeHealedByBeacons() {return !this.isRealHealthVulnerable() && !this.isInShieldTransition();}
 
 	//shield & final transitions : invulnerable (health is regenerated). shield break transitions : the warden can be hurt
 	@Override public boolean isInvulnerableTo(ServerLevel level, DamageSource source)
@@ -651,7 +654,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		if (remainingTicks <= 0) {this.updateToNextPhase();}
 	}
 
-	//final phase start : only the lower body (legs to core, including core ribs) stays attached
+	//final phase start : only the lower body (legs to lower chest, and core) stays attached
 	//semi detached parts have their own health and AI, but stay linked to the warden (see PartStatus)
 	private void separateUpperBody()
 	{
@@ -660,6 +663,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.semiDetachChildPart(this.HEAD);
 		this.killChildPart(this.NECK);
 		this.killChildPart(this.UPPER_CHEST);
+		this.killChildPart(this.FRONT_RIGHT_CORE_RIB);
+		this.killChildPart(this.FRONT_LEFT_CORE_RIB);
+		this.killChildPart(this.BACK_RIGHT_CORE_RIB);
+		this.killChildPart(this.BACK_LEFT_CORE_RIB);
+		if (this.LOWER_CHEST.getPart() instanceof VoluciteWardenChestPartEntity lowerChest) {lowerChest.setUpperStructureRenderOff();} //lower chest model also renders upper chest plate & core ribs
 	}
 
 	private int getTransitionDuration(BossPhase transition)
@@ -680,12 +688,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	@Override public void tickTransitionPhase() //both sides
 	{
 		BossPhase transition = this.getPhase();
-		if (transition == FINAL_TRANSITION) {this.runTransitionEffect();}
+		if (SHIELD_TRANSITIONS.contains(transition) || transition == FINAL_TRANSITION) {this.runTransitionEffect();} //players repulsed from the core (both sides : player movement is client authoritative)
 		if (this.level().isClientSide())
 		{
 			Vec3 coreCenter = this.getCoreLightningStartPos();
-			if (SHIELD_TRANSITIONS.contains(transition)) {VoluciteGlyphParticles.spawnInward(this.level(), coreCenter, INWARD_PARTICLES_MIN_RADIUS, INWARD_PARTICLES_MAX_RADIUS, TRANSITION_PARTICLES_PER_TICK);}
-			else {VoluciteGlyphParticles.spawnOutward(this.level(), coreCenter, OUTWARD_PARTICLES_MIN_DISTANCE, OUTWARD_PARTICLES_MAX_DISTANCE, TRANSITION_PARTICLES_PER_TICK);} //shield break & final transitions
+			if (SHIELD_BREAK_TRANSITIONS.contains(transition)) {VoluciteGlyphParticles.spawnInward(this.level(), coreCenter, INWARD_PARTICLES_MIN_RADIUS, INWARD_PARTICLES_MAX_RADIUS, TRANSITION_PARTICLES_PER_TICK);}
+			else {VoluciteGlyphParticles.spawnOutward(this.level(), coreCenter, OUTWARD_PARTICLES_MIN_DISTANCE, OUTWARD_PARTICLES_MAX_DISTANCE, TRANSITION_PARTICLES_PER_TICK);} //shield & final transitions, like the repulsion
 		}
 	}
 

@@ -36,6 +36,7 @@ public class VoluciteWardenPartRender<P extends VoluciteWardenPartEntity> extend
 		//left leg & right leg have -1, other parts (including right leg & left arm) have 1. The parameter is only used for legs in model animation.
 		renderState.walkAnimationDirection = master instanceof VoluciteWardenEntity wardenMaster && (wardenMaster.recognizesLeftLegPart(entity) || wardenMaster.recognizesRightArmSegmentPart(entity)) ? 1 : -1;
 		renderState.shouldRender = !(entity instanceof VoluciteWardenChestPartEntity chestPartEntity) || chestPartEntity.shouldRender();
+		renderState.shouldRenderUpperStructure = !(entity instanceof VoluciteWardenChestPartEntity chestPartEntity) || chestPartEntity.shouldRenderUpperStructure();
 		if (master instanceof VoluciteWardenEntity wardenMaster)
 		{
 			renderState.walkAnimationPos = wardenMaster.walkAnimation.position(partialTick);

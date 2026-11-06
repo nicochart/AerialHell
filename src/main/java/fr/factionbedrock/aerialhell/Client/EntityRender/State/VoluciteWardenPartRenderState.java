@@ -10,6 +10,7 @@ public class VoluciteWardenPartRenderState extends LivingEntityRenderState
     public Identifier texture;
     public int walkAnimationDirection;
     public boolean shouldRender;
+    public boolean shouldRenderUpperStructure; //specific to lower chest : upper chest plate & core ribs
 
     //specific to arm segments
     @Nullable public Vec3 beamTargetPosition;

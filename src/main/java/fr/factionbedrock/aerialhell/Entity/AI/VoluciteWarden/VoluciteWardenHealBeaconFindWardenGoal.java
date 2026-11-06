@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Comparator;
 import java.util.EnumSet;
 
-//heal beacon target : nearest volucite warden in heal range. the target is kept while it is valid (alive, in range, see VoluciteWardenHealBeaconEntity.isValidHealTarget)
+//heal beacon target : nearest volucite warden in heal range. the target is kept while it is valid (alive, in range, healable phase, see VoluciteWardenHealBeaconEntity.isValidHealTarget)
 public class VoluciteWardenHealBeaconFindWardenGoal extends Goal
 {
     private static final int SCAN_INTERVAL = 20; //ticks

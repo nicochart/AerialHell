@@ -71,7 +71,9 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
     @Override public boolean isNoGravity() {return !this.isDeadOrDying();} //flying part, even when detached
 
     //final phase : semi detached head, while its master is fighting
-    public boolean canStrikeLightning() {return this.getPartStatus() == PartStatus.SEMI_DETACHED && this.isAlive();}
+    public boolean canStrikeLightning() {return this.getPartStatus() == PartStatus.SEMI_DETACHED && this.isAlive() && !this.isMasterInDeadOrDyingPhase();}
+
+    private boolean isMasterInDeadOrDyingPhase() {return this.getMaster() != null && this.getMaster().getSelf() instanceof VoluciteWardenEntity warden && warden.isInDeadOrDyingPhase();}
 
     /* -------------------------------------------------------------------------------------------------------- */
     /* ---------- BeamAttackEntity (Main beam) : Interface method implementation + specific behavior ---------- */

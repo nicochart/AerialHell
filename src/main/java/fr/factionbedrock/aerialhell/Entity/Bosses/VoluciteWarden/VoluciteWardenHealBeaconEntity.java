@@ -169,9 +169,10 @@ public class VoluciteWardenHealBeaconEntity extends Mob implements SyncedTargetE
         return this.getTarget() instanceof VoluciteWardenEntity warden && this.isValidHealTarget(warden) ? warden : null;
     }
 
+    //invalid target (not healable phase for example) : target removed, beacon temporarily inactive, until the warden is a valid target again (see VoluciteWardenHealBeaconFindWardenGoal)
     public boolean isValidHealTarget(VoluciteWardenEntity warden)
     {
-        return warden.isAlive() && !warden.isInDeadOrDyingPhase() && this.getCoreCenterPos(1.0F).distanceToSqr(getWardenCoreCenterPos(warden, 1.0F)) <= HEAL_RANGE * HEAL_RANGE;
+        return warden.isAlive() && !warden.isInDeadOrDyingPhase() && warden.canBeHealedByBeacons() && this.getCoreCenterPos(1.0F).distanceToSqr(getWardenCoreCenterPos(warden, 1.0F)) <= HEAL_RANGE * HEAL_RANGE;
     }
 
     public Vec3 getCoreCenterPos(float partialTick) {return this.getPosition(partialTick).add(0.0F, CORE_RELATIVE_HEIGHT, 0.0F);}
