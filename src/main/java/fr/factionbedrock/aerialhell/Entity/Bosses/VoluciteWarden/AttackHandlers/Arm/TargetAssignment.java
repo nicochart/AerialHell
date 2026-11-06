@@ -31,4 +31,5 @@ public class TargetAssignment
 
     public VoluciteWardenArmSegmentEntity getRightSegment() {return rightSegment;}
     public VoluciteWardenArmSegmentEntity getLeftSegment() {return leftSegment;}
+    public VoluciteWardenArmSegmentEntity getSegment(boolean isRightArm) {return isRightArm ? rightSegment : leftSegment;}
 }
