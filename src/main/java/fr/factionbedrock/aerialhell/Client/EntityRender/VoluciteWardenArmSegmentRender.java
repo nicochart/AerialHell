@@ -26,8 +26,8 @@ public class VoluciteWardenArmSegmentRender extends VoluciteWardenPartRender<Vol
 
 		if (entity.isBeaming() && entity.getBeamEndPos() != null && entity.getPrevBeamEndPos() != null)
 		{
-			renderState.beamStartPosition = entity.toRelativePos(entity.getBeamStartPos(partialTick));
-			renderState.beamTargetPosition = entity.toRelativePos(BeamRenderHelper.getBeamTargetPosition(entity.getBeamEndPos(), entity.getPrevBeamEndPos(), partialTick));
+			renderState.beamStartPosition = BeamRenderHelper.toRenderRelativePos(entity, entity.getBeamStartPos(partialTick), partialTick);
+			renderState.beamTargetPosition = BeamRenderHelper.toRenderRelativePos(entity, entity.getBeamEndPos(partialTick), partialTick);
 			renderState.beamTexture = BeamRenderHelper.getBeamTextureLocation();
 			renderState.beamConvergenceAngle = entity.getBeamConvergenceAngle(partialTick);
 			renderState.beamColor = entity.getBeamColor(partialTick);

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -24,13 +25,8 @@ public class BeamRenderHelper
         return RenderTypes.beaconBeam(textureLocation, false);
     }
 
-    public static Vec3 getBeamTargetPosition(Vec3 targetPos, Vec3 prevTargetPos, float partialTick)
-    {
-        double d0 = Mth.lerp(partialTick, prevTargetPos.x, targetPos.x);
-        double d1 = Mth.lerp(partialTick, prevTargetPos.y, targetPos.y);
-        double d2 = Mth.lerp(partialTick, prevTargetPos.z, targetPos.z);
-        return new Vec3(d0, d1, d2);
-    }
+    //level pos to pos relative to the entity render pos (interpolated, unlike Entity.position()) : the beam stays attached to the entity while it moves
+    public static Vec3 toRenderRelativePos(Entity entity, Vec3 levelPos, float partialTick) {return levelPos.subtract(entity.getPosition(partialTick));}
 
     public static Identifier getBeamTextureLocation() {return BEAM_TEXTURE;}
 

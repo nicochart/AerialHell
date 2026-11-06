@@ -125,7 +125,7 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
 
     @Override public Vec3 getBeamStartPos(Vec3 eyePos, float partialTick)
     {
-        Vec3 targetPos = this.getBeamEndPos();
+        Vec3 targetPos = this.getBeamEndPos(partialTick);
 
         if (targetPos == null) {return BeamAttackEntity.super.getBeamStartPos(eyePos, partialTick);}
 

@@ -240,6 +240,13 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     default @Nullable Vec3 getBeamEndPos() {return this.getBeamAttackEntityInfo().beamEndPos;}
     default @Nullable Vec3 getPrevBeamEndPos() {return this.getBeamAttackEntityInfo().prevBeamEndPos;}
 
+    default @Nullable Vec3 getBeamEndPos(float partialTick)
+    {
+        Vec3 beamEndPos = this.getBeamEndPos(), prevBeamEndPos = this.getPrevBeamEndPos();
+        if (beamEndPos == null || prevBeamEndPos == null || partialTick >= 1.0F) {return beamEndPos;}
+        return prevBeamEndPos.lerp(beamEndPos, partialTick);
+    }
+
     default void setBeamTargetPos(Vec3 pos) {this.getBeamAttackEntityInfo().beamTargetPos = pos;}
     default void setPrevBeamTargetPos(Vec3 pos) {this.getBeamAttackEntityInfo().prevBeamTargetPos = pos;}
     default void setBeamEndPos(Vec3 pos) {this.getBeamAttackEntityInfo().beamEndPos = pos;}
