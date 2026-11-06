@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.PersistentHurtByTargetGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmBeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmSummonHealBeaconGoal;
@@ -57,7 +58,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -476,8 +476,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.LEFT_ARM_SUMMON_HEAL_BEACON_GOAL = new VoluciteWardenArmSummonHealBeaconGoal(this, this::getLeftArm, 0.2F);
 		this.CORE_REPULSION_GOAL = new VoluciteWardenCoreRepulsionGoal(this, CoreRepulsionHandler.ATTRACTION_DURATION, CoreRepulsionHandler.REPULSION_DURATION);
 		this.CORE_LIGHTNING_GOAL = new VoluciteWardenCoreLightningGoal(this);
-		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, true)));
-		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+
+		//the target is kept even if out of sight
+		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, false)));
+		this.targetSelector.addGoal(1, new PersistentHurtByTargetGoal(this));
+
 		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
 		this.goalSelector.addGoal(4, MAIN_BEAM_ATTACK_GOAL);
 		this.goalSelector.addGoal(4, RIGHT_ARM_STRIKE_ATTACK_GOAL);
