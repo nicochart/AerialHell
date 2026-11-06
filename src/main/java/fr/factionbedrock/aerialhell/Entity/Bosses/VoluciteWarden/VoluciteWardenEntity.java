@@ -716,6 +716,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	}
 
 	@Override protected boolean canDragOrRepulseEntity(Entity entity) {return super.canDragOrRepulseEntity(entity) && !entity.is(AerialHellTags.Entities.VOLUCITE);}
+	@Override protected boolean dragOrRepulseBypassesSneak() {return true;}
 
 	@Override public void tickDeadPhase() {}
 

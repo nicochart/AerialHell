@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Entity.AbstractActivableEntity;
 import fr.factionbedrock.aerialhell.Entity.Monster.SyncedTargetEntity;
 import fr.factionbedrock.aerialhell.Entity.Util.DisplayParticlesHelper;
+import fr.factionbedrock.aerialhell.Entity.Util.SneakEdgeBypassPlayer;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.advancements.triggers.CriteriaTriggers;
@@ -457,6 +458,9 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity impleme
 		return entity instanceof LivingEntity && !EntityHelper.isCreaOrSpecPlayer(entity);
 	}
 
+	//override to return true if dragged or repulsed players should not be stopped at block (or walkable hitbox) edges by sneaking (see SneakEdgeBypassPlayer)
+	protected boolean dragOrRepulseBypassesSneak() {return false;}
+
 	//need to be called both on server and client side. particles (optional) are displayed client side, around drag or repulse source pos
 	protected void dragOrRepulseEntities(NearbyEntitiesInteractionInfo type, float factor, DisplayParticlesHelper... particles)
 	{
@@ -475,7 +479,11 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity impleme
 	{
 		for (Entity entity : entities)
 		{
-			if (canDragOrRepulseEntity(entity)) {dragOrRepulseEntity(this.getDragOrRepulseSourcePos(), entity, factor, type, range);}
+			if (canDragOrRepulseEntity(entity))
+			{
+				dragOrRepulseEntity(this.getDragOrRepulseSourcePos(), entity, factor, type, range);
+				if (!type.noInteraction() && this.dragOrRepulseBypassesSneak()) {SneakEdgeBypassPlayer.bypassSneakEdge(entity, SneakEdgeBypassPlayer.DEFAULT_BYPASS_DURATION);}
+			}
 		}
 
 		if (this.level().isClientSide())
