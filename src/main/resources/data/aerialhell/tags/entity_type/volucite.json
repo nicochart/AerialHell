@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "#aerialhell:volucite_warden",
-    "#aerialhell:volucite_golem"
+    "#aerialhell:volucite_golem",
+    "aerialhell:electro_spirit"
   ]
 }

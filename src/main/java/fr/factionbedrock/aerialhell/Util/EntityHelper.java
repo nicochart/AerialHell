@@ -77,6 +77,7 @@ public class EntityHelper
     public static boolean isLightProjectile(Entity entity) {return entity instanceof LunaticProjectileEntity;}
     public static boolean isProjectile(Entity entity) {return entity instanceof AbstractArrow || entity instanceof ThrowableProjectile;}
     public static boolean isMudEntity(Entity entity) {return entity.is(AerialHellTags.Entities.MUD);}
+    public static boolean isVoluciteEntity(Entity entity) {return entity.is(AerialHellTags.Entities.VOLUCITE);}
     public static boolean isBossEntity(Entity entity) {return entity.is(AerialHellTags.Entities.BOSS);}
     public static boolean isAerialHellAnimalEntity(Entity entity) {return entity.is(AerialHellTags.Entities.PASSIVE);}
     public static boolean isAggressive(Entity entity) {return entity.is(AerialHellTags.Entities.AGGRESSIVE);}

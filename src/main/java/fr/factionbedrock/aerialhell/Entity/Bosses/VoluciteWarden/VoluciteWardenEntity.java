@@ -38,6 +38,7 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -720,6 +721,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override protected boolean canDragOrRepulseEntity(Entity entity) {return super.canDragOrRepulseEntity(entity) && !entity.is(AerialHellTags.Entities.VOLUCITE);}
 	@Override protected boolean dragOrRepulseBypassesSneak() {return true;}
+	@Override public boolean canAttack(LivingEntity target) {return !EntityHelper.isVoluciteEntity(target) && super.canAttack(target);}
 
 	@Override public void tickDeadPhase() {}
 
@@ -848,6 +850,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public boolean isHeadBeaming() {return this.MAIN_BEAM_ATTACK_GOAL.isActive();} //only server side
 
 	public boolean shouldTriggerMainBeamAttack() {return false;}
+	public boolean canUseMainBeam() {return this.getShieldLevel() == 3 || this.isInFinalPhase();} //sixth phase (shield level 3) and final phase
 	/* ----------------------------------------------------- */
 	/* ----------------------------------------------------- */
 	/* ----------------------------------------------------- */

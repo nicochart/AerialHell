@@ -82,7 +82,7 @@ public abstract class AerialHellGolemEntity extends AbstractActivableEntity
         {
             Entity immediateSourceEntity = source.getDirectEntity();
             Entity trueSourceEntity = source.getEntity();
-            if (trueSourceEntity instanceof LivingEntity && !(immediateSourceEntity instanceof AbstractArrow))
+            if (trueSourceEntity instanceof LivingEntity livingSource && !(immediateSourceEntity instanceof AbstractArrow) && this.canAttack(livingSource))
             {
                 if (!(trueSourceEntity instanceof Player && ((Player)trueSourceEntity).isCreative()))
                 {

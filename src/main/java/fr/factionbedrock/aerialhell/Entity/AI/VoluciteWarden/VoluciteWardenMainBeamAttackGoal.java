@@ -39,7 +39,7 @@ public class VoluciteWardenMainBeamAttackGoal extends Goal
         return this.isActive();
     }
 
-    @Override public boolean canContinueToUse() {return this.isActive();}
+    @Override public boolean canContinueToUse() {return this.isActive() && !this.shouldInterrupt();}
 
     @Override public void start() {this.setHeadTarget(this.goalOwner.getTarget());}
     @Override public void stop()
@@ -72,4 +72,6 @@ public class VoluciteWardenMainBeamAttackGoal extends Goal
         if (part == null) {return null;}
         return part.getSelf() instanceof VoluciteWardenHeadEntity voluciteWardenHead ? voluciteWardenHead : null;
     }
+
+    private boolean shouldInterrupt() {return !this.goalOwner.canUseMainBeam();}
 }

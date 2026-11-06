@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -146,6 +147,8 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
     @Override public double getEyeY() {return this.position().y + 2.40F;}
 
     @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
+
+    @Override public boolean canAttack(LivingEntity target) {return !EntityHelper.isVoluciteEntity(target) && super.canAttack(target);}
     /* --------------------------------------------------------------------------------------------------- */
     /* --------------------------------------------------------------------------------------------------- */
     /* --------------------------------------------------------------------------------------------------- */

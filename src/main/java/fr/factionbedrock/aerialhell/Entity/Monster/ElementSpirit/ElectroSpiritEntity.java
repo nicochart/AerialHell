@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Entity.Util.VoluciteGlyphParticles;
 import fr.factionbedrock.aerialhell.Entity.Util.VoluciteLightningHelper;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.world.entity.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.particles.ParticleTypes;
@@ -50,6 +51,8 @@ public class ElectroSpiritEntity extends AbstractElementSpiritEntity
 
     //glyph particles need a destination (speed parameters = offset to destination) : burst from the spirit center instead of default particles with tiny speeds
     @Override public void spawnParticle() {VoluciteGlyphParticles.spawnOutward(this.level(), this.getBoundingBox().getCenter(), GLYPHS_MIN_DISTANCE, GLYPHS_MAX_DISTANCE, GLYPHS_COUNT);}
+
+    @Override public boolean canAttack(LivingEntity target) {return !EntityHelper.isVoluciteEntity(target) && super.canAttack(target);} //also used by Mob.setTarget and target goals
 
     @Override public SimpleParticleType getParticleToSpawn() {return AerialHellParticleTypes.VOLUCITE_GLYPH.get();}
     @Nullable @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {return AerialHellSoundEvents.ENTITY_ELECTRO_SPIRIT_HURT.get();}
