@@ -2,17 +2,28 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import fr.factionbedrock.aerialhell.Entity.AI.BeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
+import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmSegmentJumpGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmSegmentTargetGoal;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartStatus;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
+import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.minecraft.core.PositionAndRotation;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity implements BeamAttackEntity
 {
@@ -49,13 +60,18 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
         //this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         super.registerGoals();
         this.goalSelector.addGoal(4, BEAM_ATTACK_GOAL);
-        //this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.goalSelector.addGoal(5, new VoluciteWardenArmSegmentJumpGoal(this));
+        this.targetSelector.addGoal(1, new VoluciteWardenArmSegmentTargetGoal(this)); //final phase only
     }
 
     @Override public void tick()
     {
         this.beamAttackTick();
         super.tick();
+        if (this.canJumpAround()) {this.turnTowardTarget();} //after vanilla body and head rotation updates
+
+        //only in semi detached phase (master final phase)
+        if (this.level().isClientSide() && this.canJumpAround()) {this.tickLandingParticles();}
     }
 
     @Override public void onPartDeath()
@@ -195,6 +211,81 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
     }
 
     @Override public float getMaxBeamLength() {return MAX_BEAM_LENGTH;}
+
+    /* -------------------------------------------------------------------- */
+    /* ---------- Final phase : VoluciteWardenArmSegmentJumpGoal ---------- */
+    /* -------------------------------------------------------------------- */
+    public static final float LANDING_DAMAGE = 6.0F;
+    public static final float LANDING_DAMAGE_RANGE = 4.0F; //horizontal range around the segment hitbox
+    public static final float LANDING_KNOCKBACK_SCALE = 1.5F;
+    public static final float MAX_TURN_PER_TICK = 10.0F; //degrees
+    public static final double LANDING_PARTICLES_MIN_FALL_HEIGHT = 1.0D;
+    private boolean wasOnGround = true; //client side, see tickLandingParticles
+    private double highestAirborneY; //client side, see tickLandingParticles
+
+    @Nullable public VoluciteWardenEntity getWardenMaster() {return this.getMaster() != null && this.getMaster().getSelf() instanceof VoluciteWardenEntity warden ? warden : null;}
+
+    public boolean canJumpAround()
+    {
+        VoluciteWardenEntity warden = this.getWardenMaster();
+        return this.getPartStatus() == PartStatus.SEMI_DETACHED && this.isAlive() && warden != null && warden.isInFinalPhase();
+    }
+
+    //server side : same sound as the arms strike attack, damage and knockback around the segment
+    //the landing particles are spawned client side, see tickLandingParticles
+    public void onJumpLanding()
+    {
+        if (!(this.level() instanceof ServerLevel level)) {return;}
+
+        Vec3 landingPos = this.position();
+        level.playSound(null, landingPos.x, landingPos.y, landingPos.z, SoundEvents.GENERIC_EXPLODE.value(), SoundSource.HOSTILE, 4.0F, (1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F) * 0.7F); //vanilla explosion sound (this entity is silent)
+
+        AABB damageArea = this.getBoundingBox().inflate(LANDING_DAMAGE_RANGE, 1.0D, LANDING_DAMAGE_RANGE);
+        for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, damageArea, this::canBeHurtByLanding))
+        {
+            entity.hurtServer(level, this.damageSources().mobAttack(this), LANDING_DAMAGE);
+            Vec3 knockback = new Vec3(entity.getX() - landingPos.x, 0.0D, entity.getZ() - landingPos.z).normalize().scale(LANDING_KNOCKBACK_SCALE);
+            entity.push(knockback.x, 0.5D, knockback.z);
+        }
+
+        this.needsSync = true; //landing pos and ground state sent at the end of this tick : client side landing particles (see tickLandingParticles)
+    }
+
+    private boolean canBeHurtByLanding(LivingEntity entity) {return entity.isAlive() && !EntityHelper.isVoluciteEntity(entity) && !EntityHelper.isCreaOrSpecPlayer(entity);}
+
+    //both sides (the synced target is known client side) : the segment progressively turns toward its own target (see VoluciteWardenArmSegmentTargetGoal)
+    private void turnTowardTarget()
+    {
+        LivingEntity target = this.getSyncedTarget();
+        if (target == null) {return;}
+
+        float targetYaw = (float) (Mth.atan2(target.getZ() - this.getZ(), target.getX() - this.getX()) * Mth.RAD_TO_DEG) - 90.0F;
+        float yaw = Mth.approachDegrees(this.yBodyRot, targetYaw, MAX_TURN_PER_TICK);
+        this.setYRot(yaw);
+        this.yBodyRot = yaw;
+        this.yHeadRot = yaw;
+    }
+
+    //client side : landing particles when the segment touches the ground (like vanilla AbstractCubeMob), no additional sync : the ground state comes with the server move packet
+    //client side pos is still interpolated (in the air) when this packet is received : particles at the interpolation target pos (landing pos)
+    //only after a real fall : not when a player starts tracking a segment already on the ground (client side ground state is false until the first move packet)
+    private void tickLandingParticles()
+    {
+        boolean onGround = this.onGround();
+        if (!onGround) {this.highestAirborneY = this.wasOnGround ? this.getY() : Math.max(this.highestAirborneY, this.getY());}
+        else if (!this.wasOnGround)
+        {
+            PositionAndRotation interpolationTarget = this.getInterpolation().target();
+            Vec3 landingPos = interpolationTarget != null ? interpolationTarget.position() : this.position();
+            VoluciteWardenEntity warden = this.getWardenMaster();
+            if (warden != null && this.highestAirborneY - landingPos.y > LANDING_PARTICLES_MIN_FALL_HEIGHT) {warden.spawnStrikeParticles(landingPos, 0.5F, 0.25F);} //fewer particles than the strike (many segments)
+        }
+        this.wasOnGround = onGround;
+    }
+
+    /* -------------------------------------------------------------------- */
+    /* -------------------------------------------------------------------- */
+    /* -------------------------------------------------------------------- */
 
     public static class ArmSegmentBeamAttackGoal extends BeamAttackGoal
     {

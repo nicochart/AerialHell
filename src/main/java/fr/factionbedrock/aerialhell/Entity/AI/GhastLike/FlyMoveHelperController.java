@@ -1,48 +1,15 @@
 package fr.factionbedrock.aerialhell.Entity.AI.GhastLike;
 
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.entity.monster.Ghast;
 
-/* Same as net.minecraft.world.entity.monster.Ghast.GhastMoveControl but changed Ghast to Mob */
-public class FlyMoveHelperController extends MoveControl
+import java.util.function.BooleanSupplier;
+
+/* vanilla net.minecraft.world.entity.monster.Ghast.GhastMoveControl (usable by any mob), not careful (careful = happy ghast behavior) */
+//the mob flies straight to the wanted position. the way is checked against blocks (precise collision shapes, not entities. fluids avoided unless already in) : if blocked, the mob stops (Operation.WAIT)
+//speed : impulse of Attributes.FLYING_SPEED * 5 / 3 toward the wanted position, every 2 to 6 ticks. the mob needs the FLYING_SPEED attribute (0.06 for vanilla ghast)
+public class FlyMoveHelperController extends Ghast.GhastMoveControl<Mob>
 {
-    private final Mob parentEntity;
-    private int courseChangeCooldown;
-
-    public FlyMoveHelperController(Mob flyingMob)
-    {
-        super(flyingMob);
-        this.parentEntity = flyingMob;
-    }
-
-    @Override public void tick()
-    {
-        if (this.operation == Operation.MOVE_TO)
-        {
-            if (this.courseChangeCooldown-- <= 0)
-            {
-                this.courseChangeCooldown += this.parentEntity.getRandom().nextInt(5) + 2;
-                Vec3 vec = new Vec3(this.wantedX - this.parentEntity.getX(), this.wantedY - this.parentEntity.getY(), this.wantedZ - this.parentEntity.getZ());
-                double d0 = vec.length();
-                vec = vec.normalize();
-                if (this.canReach(vec, Mth.ceil(d0))) {this.parentEntity.setDeltaMovement(this.parentEntity.getDeltaMovement().add(vec.scale(0.1)));}
-                else {this.operation = Operation.WAIT;}
-            }
-        }
-    }
-
-    private boolean canReach(Vec3 pos, int distance)
-    {
-        AABB boundingBox = this.parentEntity.getBoundingBox();
-
-        for (int i = 1; i < distance; ++i)
-        {
-            boundingBox = boundingBox.move(pos);
-            if (!this.parentEntity.level().noCollision(this.parentEntity, boundingBox)) {return false;}
-        }
-        return true;
-    }
+    public FlyMoveHelperController(Mob flyingMob) {this(flyingMob, () -> false);}
+    public FlyMoveHelperController(Mob flyingMob, BooleanSupplier shouldBeStopped) {super(flyingMob, false, shouldBeStopped);} //the mob is stopped in place while shouldBeStopped returns true
 }

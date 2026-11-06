@@ -189,7 +189,8 @@ public class LunaticPriestEntity extends AbstractBossEntity implements GoalCondi
 				.add(Attributes.MOVEMENT_SPEED, 0.27D)
 				.add(Attributes.KNOCKBACK_RESISTANCE, 0.05D)
 				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
-				.add(Attributes.ATTACK_DAMAGE, 7.0D);
+				.add(Attributes.ATTACK_DAMAGE, 7.0D)
+				.add(Attributes.FLYING_SPEED, 0.06D);
     }
 	
 	@Override public boolean fireImmune() {return true;}

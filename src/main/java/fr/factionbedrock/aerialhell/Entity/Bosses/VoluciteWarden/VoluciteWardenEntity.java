@@ -662,8 +662,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	//semi detached parts have their own health and AI, but stay linked to the warden (see PartStatus)
 	private void separateUpperBody()
 	{
-		for (ArmPartInfo armSegment : this.getRightArm()) {this.semiDetachChildPart(armSegment);}
-		for (ArmPartInfo armSegment : this.getLeftArm()) {this.semiDetachChildPart(armSegment);}
+		for (ArmPartInfo armSegment : this.getRightArm()) {this.semiDetachChildPart(armSegment); this.scatterArmSegment(armSegment);}
+		for (ArmPartInfo armSegment : this.getLeftArm()) {this.semiDetachChildPart(armSegment); this.scatterArmSegment(armSegment);}
 		this.semiDetachChildPart(this.HEAD);
 		this.killChildPart(this.NECK);
 		this.killChildPart(this.UPPER_CHEST);
@@ -672,6 +672,29 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.killChildPart(this.BACK_RIGHT_CORE_RIB);
 		this.killChildPart(this.BACK_LEFT_CORE_RIB);
 		if (this.LOWER_CHEST.getPart() instanceof VoluciteWardenChestPartEntity lowerChest) {lowerChest.setUpperStructureRenderOff();} //lower chest model also renders upper chest plate & core ribs
+	}
+
+	private static final double SCATTER_MIN_OUTWARD_SPEED = 0.25D, SCATTER_MAX_OUTWARD_SPEED = 0.5D; //away from the core (horizontal)
+	private static final double SCATTER_MAX_SIDE_SPEED = 0.25D; //random side offset (horizontal, perpendicular to outward direction)
+	private static final double SCATTER_MIN_UPWARD_SPEED = 0.1D, SCATTER_MAX_UPWARD_SPEED = 0.3D;
+
+	//final phase start : semi detached arm segments are slightly scattered away from the core (with a random side offset), so that they don't get stuck on the lower chest
+	private void scatterArmSegment(ArmPartInfo armSegmentInfo)
+	{
+		if (armSegmentInfo.getPart() == null) {return;}
+		Mob armSegment = armSegmentInfo.getPart().getSelf();
+
+		Vec3 outward = new Vec3(armSegment.getX() - this.getX(), 0.0D, armSegment.getZ() - this.getZ());
+		if (outward.lengthSqr() < 1.0E-4D) {float angle = this.random.nextFloat() * Mth.TWO_PI; outward = new Vec3(Mth.cos(angle), 0.0D, Mth.sin(angle));} //segment right above the core : random direction
+		else {outward = outward.normalize();}
+		Vec3 side = new Vec3(-outward.z, 0.0D, outward.x);
+
+		double outwardSpeed = Mth.nextDouble(this.random, SCATTER_MIN_OUTWARD_SPEED, SCATTER_MAX_OUTWARD_SPEED);
+		double sideSpeed = Mth.nextDouble(this.random, -SCATTER_MAX_SIDE_SPEED, SCATTER_MAX_SIDE_SPEED);
+		double upwardSpeed = Mth.nextDouble(this.random, SCATTER_MIN_UPWARD_SPEED, SCATTER_MAX_UPWARD_SPEED);
+
+		armSegment.setDeltaMovement(outward.scale(outwardSpeed).add(side.scale(sideSpeed)).add(0.0D, upwardSpeed, 0.0D));
+		armSegment.needsSync = true; //immediate motion sync
 	}
 
 	private int getTransitionDuration(BossPhase transition)
@@ -1082,17 +1105,19 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		if (id == 68)
 		{
 			Vec3 center = this.fromUnrotatedRelativeToLevelPos(this.armsStrikeAttackHandler.getRelativeStrikePos()); //can't use this.getEntityUsedToStrike().position() because client pos is interpolated
-			this.spawnStrikeParticles(center, 0.5F);
+			this.spawnStrikeParticles(center, 0.5F, 1.0F);
 		}
 		else {super.handleEntityEvent(id);}
 	}
 
-	private void spawnStrikeParticles(Vec3 center, float radius)
+	//client side. numberFactor : particles number multiplier (1.0F for arms strike attack)
+	//also used by arm segments jump landing (final phase).
+	public void spawnStrikeParticles(Vec3 center, float radius, float numberFactor)
 	{
-		this.spawnHorizontalShockwaveParticles(center, 100, 0.5F, 1.5F);
+		this.spawnHorizontalShockwaveParticles(center, Mth.ceil(100 * numberFactor), 0.5F, 1.5F);
 
-		this.spawnParticles(ParticleTypes.EXPLOSION, center, radius * 12, 5);
-		this.spawnParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE, center, radius, 20);
+		this.spawnParticles(ParticleTypes.EXPLOSION, center, radius * 12, Mth.ceil(5 * numberFactor));
+		this.spawnParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE, center, radius, Mth.ceil(20 * numberFactor));
 	}
 
 	private void spawnHorizontalShockwaveParticles(Vec3 center, int number, float radius, float speed)

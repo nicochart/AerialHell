@@ -2,6 +2,9 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import fr.factionbedrock.aerialhell.Entity.AI.BeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.FlyMoveHelperController;
+import fr.factionbedrock.aerialhell.Entity.AI.GhastLike.FlyingLookAroundGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenHeadFlyAroundCoreGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenHeadLightningGoal;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartStatus;
@@ -14,6 +17,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +41,14 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
     private MainBeamAttackGoal BEAM_ATTACK_GOAL;
     private VoluciteWardenHeadLightningGoal LIGHTNING_GOAL;
 
-    public VoluciteWardenHeadEntity(EntityType<? extends VoluciteWardenPartEntity> type, Level level) {super(type, level);}
+    public VoluciteWardenHeadEntity(EntityType<? extends VoluciteWardenPartEntity> type, Level level)
+    {
+        super(type, level);
+        //ghast move control, only used by the final phase flight. stops the head if it should not fly anymore (attached heads are positioned by the master)
+        this.moveControl = new FlyMoveHelperController(this, () -> this.getPartStatus() == PartStatus.SEMI_DETACHED && !this.canFlyAroundCore());
+    }
+
+    public static AttributeSupplier.Builder registerAttributes() {return VoluciteWardenPartEntity.registerAttributes().add(Attributes.FLYING_SPEED, 0.06D);} //same flying speed as vanilla ghast
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
@@ -65,6 +77,8 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
         super.registerGoals();
         this.goalSelector.addGoal(4, BEAM_ATTACK_GOAL);
         this.goalSelector.addGoal(4, LIGHTNING_GOAL);
+        this.goalSelector.addGoal(5, new VoluciteWardenHeadFlyAroundCoreGoal(this));
+        this.goalSelector.addGoal(5, new FlightLookAroundGoal(this));
         //this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
@@ -74,6 +88,29 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
     public boolean canStrikeLightning() {return this.getPartStatus() == PartStatus.SEMI_DETACHED && this.isAlive() && !this.isMasterInDeadOrDyingPhase();}
 
     private boolean isMasterInDeadOrDyingPhase() {return this.getMaster() != null && this.getMaster().getSelf() instanceof VoluciteWardenEntity warden && warden.isInDeadOrDyingPhase();}
+
+    //final phase : semi detached head, flying around the core like a ghast (see VoluciteWardenHeadFlyAroundCoreGoal)
+    public boolean canFlyAroundCore() {return this.getPartStatus() == PartStatus.SEMI_DETACHED && this.isAlive() && this.getMaster() != null && this.getMaster().getSelf() instanceof VoluciteWardenEntity warden && warden.isInFinalPhase();}
+
+    @Override public void travel(Vec3 input)
+    {
+        if (this.canFlyAroundCore()) {this.travelFlying(input, 0.02F);} //same as vanilla ghast (same air friction on every axis)
+        else {super.travel(input);}
+    }
+
+    //ghast look goal (faces its target if it has one, else its movement direction), only during final phase flight
+    private static class FlightLookAroundGoal extends FlyingLookAroundGoal
+    {
+        private final VoluciteWardenHeadEntity head;
+
+        public FlightLookAroundGoal(VoluciteWardenHeadEntity head)
+        {
+            super(head);
+            this.head = head;
+        }
+
+        @Override public boolean canUse() {return this.head.canFlyAroundCore();}
+    }
 
     /* -------------------------------------------------------------------------------------------------------- */
     /* ---------- BeamAttackEntity (Main beam) : Interface method implementation + specific behavior ---------- */
