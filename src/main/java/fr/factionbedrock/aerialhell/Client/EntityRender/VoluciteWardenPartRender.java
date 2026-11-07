@@ -3,11 +3,13 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.VoluciteWardenPartModel;
+import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.VoluciteWardenHeadReactorLayer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteWardenPartRenderState;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenChestPartEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartStatus;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -24,6 +26,7 @@ public class VoluciteWardenPartRender<P extends VoluciteWardenPartEntity> extend
 	{
 		super(context, new VoluciteWardenPartModel(context.bakeLayer(part.getModelLayerLocation()), part), 1.0F);
         this.part = part;
+		if (part == VoluciteWardenPartModel.Part.HEAD) {this.addLayer(new VoluciteWardenHeadReactorLayer(this));}
     }
 
 	@Override public VoluciteWardenPartRenderState createRenderState() {return new VoluciteWardenPartRenderState();}
@@ -37,6 +40,7 @@ public class VoluciteWardenPartRender<P extends VoluciteWardenPartEntity> extend
 		renderState.walkAnimationDirection = master instanceof VoluciteWardenEntity wardenMaster && (wardenMaster.recognizesLeftLegPart(entity) || wardenMaster.recognizesRightArmSegmentPart(entity)) ? 1 : -1;
 		renderState.shouldRender = !(entity instanceof VoluciteWardenChestPartEntity chestPartEntity) || chestPartEntity.shouldRender();
 		renderState.shouldRenderUpperStructure = !(entity instanceof VoluciteWardenChestPartEntity chestPartEntity) || chestPartEntity.shouldRenderUpperStructure();
+		renderState.shouldRenderReactor = this.part == VoluciteWardenPartModel.Part.HEAD && entity.getPartStatus() != PartStatus.ATTACHED;
 		if (master instanceof VoluciteWardenEntity wardenMaster)
 		{
 			renderState.walkAnimationPos = wardenMaster.walkAnimation.position(partialTick);
