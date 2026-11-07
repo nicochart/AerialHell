@@ -12,6 +12,7 @@ public class VoluciteWardenPartRenderState extends LivingEntityRenderState
     public boolean shouldRender;
     public boolean shouldRenderUpperStructure; //specific to lower chest : upper chest plate & core ribs
     public boolean shouldRenderReactor; //specific to head : reactor under the head, when detached (final phase)
+    public boolean isDormant; //never awakened warden : parts look like volucite stone (no awakened layers)
 
     //specific to arm segments
     @Nullable public Vec3 beamTargetPosition;

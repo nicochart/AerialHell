@@ -3,6 +3,8 @@ package fr.factionbedrock.aerialhell.Client.EntityRender;
 import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.AerialHell;
 import fr.factionbedrock.aerialhell.Client.EntityModels.VoluciteWardenPartModel;
+import fr.factionbedrock.aerialhell.Client.EntityRender.Helper.EmissiveRenderHelper;
+import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.VoluciteWardenAwakenedLayer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.Layers.VoluciteWardenHeadReactorLayer;
 import fr.factionbedrock.aerialhell.Client.EntityRender.State.VoluciteWardenPartRenderState;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenChestPartEntity;
@@ -26,7 +28,17 @@ public class VoluciteWardenPartRender<P extends VoluciteWardenPartEntity> extend
 	{
 		super(context, new VoluciteWardenPartModel(context.bakeLayer(part.getModelLayerLocation()), part), 1.0F);
         this.part = part;
-		if (part == VoluciteWardenPartModel.Part.HEAD) {this.addLayer(new VoluciteWardenHeadReactorLayer(this));}
+		if (part == VoluciteWardenPartModel.Part.HEAD)
+		{
+			this.addLayer(new VoluciteWardenHeadReactorLayer(this));
+			this.addLayer(new VoluciteWardenAwakenedLayer(this, "head_mask", EmissiveRenderHelper.Mode.SEMI_EMISSIVE, 1)); //orders 1 & 2
+			this.addLayer(new VoluciteWardenAwakenedLayer(this, "head_eye", EmissiveRenderHelper.Mode.EMISSIVE, 3));
+		}
+		else if (part == VoluciteWardenPartModel.Part.ARM)
+		{
+			this.addLayer(new VoluciteWardenAwakenedLayer(this, "arm_frame", EmissiveRenderHelper.Mode.NORMAL, 1));
+			this.addLayer(new VoluciteWardenAwakenedLayer(this, "arm_lights", EmissiveRenderHelper.Mode.SEMI_EMISSIVE, 2)); //orders 2 & 3
+		}
     }
 
 	@Override public VoluciteWardenPartRenderState createRenderState() {return new VoluciteWardenPartRenderState();}
@@ -41,6 +53,9 @@ public class VoluciteWardenPartRender<P extends VoluciteWardenPartEntity> extend
 		renderState.shouldRender = !(entity instanceof VoluciteWardenChestPartEntity chestPartEntity) || chestPartEntity.shouldRender();
 		renderState.shouldRenderUpperStructure = !(entity instanceof VoluciteWardenChestPartEntity chestPartEntity) || chestPartEntity.shouldRenderUpperStructure();
 		renderState.shouldRenderReactor = this.part == VoluciteWardenPartModel.Part.HEAD && entity.getPartStatus() != PartStatus.ATTACHED;
+		//parts only detach after the awakening (and fully detached parts forget their master) : detached parts are always awake
+		boolean isMasterDormant = !(master instanceof VoluciteWardenEntity wardenMaster) || wardenMaster.isDormant();
+		renderState.isDormant = entity.getPartStatus() == PartStatus.ATTACHED && isMasterDormant;
 		if (master instanceof VoluciteWardenEntity wardenMaster)
 		{
 			renderState.walkAnimationPos = wardenMaster.walkAnimation.position(partialTick);
