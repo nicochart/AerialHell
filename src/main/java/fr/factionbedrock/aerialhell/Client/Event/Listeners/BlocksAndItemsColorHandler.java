@@ -115,7 +115,7 @@ public class BlocksAndItemsColorHandler
             {
                 if (state.is(AerialHellBlocks.BLUISH_FERN) || state.is(AerialHellBlocks.TALL_BLUISH_FERN) || state.is(AerialHellBlocks.POLYCHROME_FERN) || state.is(AerialHellBlocks.TALL_POLYCHROME_FERN))
                 {
-                    return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(pos), ColorHandlerHelper::getLightGrassColor, (info) -> isShadowBindEnabled() ? ColorHandlerHelper.getShadowGrassColor(info) : ColorHandlerHelper.vanillaGetColor(info.pos, BiomeColors.GRASS_COLOR_RESOLVER));
+                    return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(pos), ColorHandlerHelper::getLightGrassColor, (info) -> isShadowBindEnabled() ? ColorHandlerHelper.getShadowGrassColor(info) : ColorHandlerHelper.getBiomeColor(info, BiomeColors.GRASS_COLOR_RESOLVER));
                 }
                 else if (state.is(AerialHellBlocks.STELLAR_GRASS_BLOCK) || state.is(AerialHellBlocks.SHADOW_GRASS_BLOCK))
                 {
@@ -163,7 +163,7 @@ public class BlocksAndItemsColorHandler
             {
                 if (state.is(AerialHellBlocks.BLUISH_FERN) || state.is(AerialHellBlocks.TALL_BLUISH_FERN) || state.is(AerialHellBlocks.POLYCHROME_FERN) || state.is(AerialHellBlocks.TALL_POLYCHROME_FERN))
                 {
-                    return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(pos), ColorHandlerHelper::getLightFoliageColor, (info) -> isShadowBindEnabled() ? ColorHandlerHelper.getShiftedOrNotGrassColor(info.pos) : ColorHandlerHelper.vanillaGetColor(info.pos, BiomeColors.FOLIAGE_COLOR_RESOLVER));
+                    return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(pos), ColorHandlerHelper::getLightFoliageColor, (info) -> isShadowBindEnabled() ? ColorHandlerHelper.getShiftedOrNotGrassColor(info) : ColorHandlerHelper.getBiomeColor(info, BiomeColors.FOLIAGE_COLOR_RESOLVER));
                 }
                 else if (state.is(AerialHellBlocks.STELLAR_JUNGLE_TREE_LEAVES) || state.is(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LEAVES))
                 {
