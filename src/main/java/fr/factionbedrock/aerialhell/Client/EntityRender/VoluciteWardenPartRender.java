@@ -54,8 +54,8 @@ public class VoluciteWardenPartRender<P extends VoluciteWardenPartEntity> extend
 		renderState.shouldRenderUpperStructure = !(entity instanceof VoluciteWardenChestPartEntity chestPartEntity) || chestPartEntity.shouldRenderUpperStructure();
 		renderState.shouldRenderReactor = this.part == VoluciteWardenPartModel.Part.HEAD && entity.getPartStatus() != PartStatus.ATTACHED;
 		//parts only detach after the awakening (and fully detached parts forget their master) : detached parts are always awake
-		boolean isMasterDormant = !(master instanceof VoluciteWardenEntity wardenMaster) || wardenMaster.isDormant();
-		renderState.isDormant = entity.getPartStatus() == PartStatus.ATTACHED && isMasterDormant;
+		float masterAwakeningProgress = master instanceof VoluciteWardenEntity wardenMaster ? wardenMaster.getAwakeningProgress(partialTick) : 0.0F;
+		renderState.awakeningProgress = entity.getPartStatus() == PartStatus.ATTACHED ? masterAwakeningProgress : 1.0F;
 		if (master instanceof VoluciteWardenEntity wardenMaster)
 		{
 			renderState.walkAnimationPos = wardenMaster.walkAnimation.position(partialTick);

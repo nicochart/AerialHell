@@ -13,6 +13,7 @@ import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 
 //overlay textures rendered over a model (same uv), with 3 lighting modes. translucent render types : textures can have semi transparent pixels
+//alpha : opacity of the whole overlay (0 to 1), to fade it in or out
 public class EmissiveRenderHelper
 {
     //semi emissive textures minimum brightness, as a fraction of full brightness (even in complete darkness). 0.0F = normal (lit) texture, 1.0F = fully emissive texture
@@ -25,32 +26,34 @@ public class EmissiveRenderHelper
         EMISSIVE //always fully bright, like vanilla eyes
     }
 
-    public static <S extends LivingEntityRenderState> void submit(Mode mode, Model<? super S> model, Identifier texture, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, S state, int order)
+    public static <S extends LivingEntityRenderState> void submit(Mode mode, Model<? super S> model, Identifier texture, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, S state, int order) {submit(mode, model, texture, poseStack, submitNodeCollector, lightCoords, state, order, 1.0F);}
+    public static <S extends LivingEntityRenderState> void submit(Mode mode, Model<? super S> model, Identifier texture, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, S state, int order, float alpha)
     {
-        if (state.isInvisible) {return;}
+        if (state.isInvisible || alpha <= 0.0F) {return;}
         switch (mode)
         {
-            case NORMAL -> submitLit(model, texture, poseStack, submitNodeCollector, lightCoords, state, order);
-            case SEMI_EMISSIVE -> submitSemiEmissive(model, texture, poseStack, submitNodeCollector, lightCoords, state, order, SEMI_EMISSIVE_MIN_BRIGHTNESS);
-            case EMISSIVE -> submitEmissive(model, texture, poseStack, submitNodeCollector, state, order);
+            case NORMAL -> submitLit(model, texture, poseStack, submitNodeCollector, lightCoords, state, order, alpha);
+            case SEMI_EMISSIVE -> submitSemiEmissive(model, texture, poseStack, submitNodeCollector, lightCoords, state, order, SEMI_EMISSIVE_MIN_BRIGHTNESS, alpha);
+            case EMISSIVE -> submitEmissive(model, texture, poseStack, submitNodeCollector, state, order, alpha);
         }
     }
 
-    public static <S extends LivingEntityRenderState> void submitLit(Model<? super S> model, Identifier texture, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, S state, int order)
+    public static <S extends LivingEntityRenderState> void submitLit(Model<? super S> model, Identifier texture, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, S state, int order, float alpha)
     {
-        submitNodeCollector.order(order).submitModel(model, state, poseStack, RenderTypes.entityTranslucent(texture), lightCoords, LivingEntityRenderer.getOverlayCoords(state, 0.0F), -1, null, state.outlineColor);
+        submitNodeCollector.order(order).submitModel(model, state, poseStack, RenderTypes.entityTranslucent(texture), lightCoords, LivingEntityRenderer.getOverlayCoords(state, 0.0F), white(alpha), null, state.outlineColor);
     }
 
     //lit texture, then the same texture fully bright on top, with minBrightness opacity : brightness = minBrightness + (1 - minBrightness) * world light
-    public static <S extends LivingEntityRenderState> void submitSemiEmissive(Model<? super S> model, Identifier texture, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, S state, int order, float minBrightness)
+    public static <S extends LivingEntityRenderState> void submitSemiEmissive(Model<? super S> model, Identifier texture, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, S state, int order, float minBrightness, float alpha)
     {
-        submitLit(model, texture, poseStack, submitNodeCollector, lightCoords, state, order);
-        int emissiveColor = ARGB.white(Mth.clamp(minBrightness, 0.0F, 1.0F));
-        submitNodeCollector.order(order + 1).submitModel(model, state, poseStack, RenderTypes.entityTranslucentEmissive(texture), LightCoordsUtil.FULL_BRIGHT, LivingEntityRenderer.getOverlayCoords(state, 0.0F), emissiveColor, null, state.outlineColor);
+        submitLit(model, texture, poseStack, submitNodeCollector, lightCoords, state, order, alpha);
+        submitNodeCollector.order(order + 1).submitModel(model, state, poseStack, RenderTypes.entityTranslucentEmissive(texture), LightCoordsUtil.FULL_BRIGHT, LivingEntityRenderer.getOverlayCoords(state, 0.0F), white(Mth.clamp(minBrightness, 0.0F, 1.0F) * alpha), null, state.outlineColor);
     }
 
-    public static <S extends LivingEntityRenderState> void submitEmissive(Model<? super S> model, Identifier texture, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, S state, int order)
+    public static <S extends LivingEntityRenderState> void submitEmissive(Model<? super S> model, Identifier texture, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, S state, int order, float alpha)
     {
-        submitNodeCollector.order(order).submitModel(model, state, poseStack, RenderTypes.entityTranslucentEmissive(texture), LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, -1, null, state.outlineColor);
+        submitNodeCollector.order(order).submitModel(model, state, poseStack, RenderTypes.entityTranslucentEmissive(texture), LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, white(alpha), null, state.outlineColor);
     }
+
+    private static int white(float alpha) {return ARGB.white(Mth.clamp(alpha, 0.0F, 1.0F));}
 }

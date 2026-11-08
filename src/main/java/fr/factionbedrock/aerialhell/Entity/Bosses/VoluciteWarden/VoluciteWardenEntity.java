@@ -297,8 +297,15 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.dragOrRepulseEntities(NearbyEntitiesInteractionInfo.REPULSE_UNIFORM, 500.0F, 30, 30);
 	}
 
-	//never awakened : the warden looks like volucite stone (no awakened render layers). awake as soon as its first awakening starts (synced, both sides)
-	public boolean isDormant() {return !this.isActivating() && !this.alreadyActivatedOnce();}
+	@Override public boolean needsActivatingTicksSyncClientSide() {return true;} //awakening progress, for awakened render layers
+
+	//0 : never awakened, the warden looks like volucite stone (no awakened render layers). grows from 0 to 1 during the first awakening (activating phase). 1 : awakened
+	public float getAwakeningProgress(float partialTick)
+	{
+		if (this.alreadyActivatedOnce()) {return 1.0F;}
+		if (!this.isActivating()) {return 0.0F;}
+		return Mth.clamp((this.getActivatingTicks() + partialTick) / this.getActivatingThreshold(), 0.0F, 1.0F);
+	}
 	/* -------------------------------------------------------------------------------- */
 
 	/* ------------------------------------------------------------------------- */

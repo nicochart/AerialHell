@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.Identifier;
 
-//overlay texture of a part, only rendered once the warden has awakened (dormant warden : parts look like volucite stone)
+//overlay texture of a part, fading in during the first awakening of the warden (dormant warden : parts look like volucite stone)
 public class VoluciteWardenAwakenedLayer extends RenderLayer<VoluciteWardenPartRenderState, VoluciteWardenPartModel>
 {
     private final Identifier texture;
@@ -27,7 +27,7 @@ public class VoluciteWardenAwakenedLayer extends RenderLayer<VoluciteWardenPartR
 
     @Override public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, VoluciteWardenPartRenderState renderState, float yRot, float xRot)
     {
-        if (renderState.isDormant) {return;}
-        EmissiveRenderHelper.submit(this.mode, this.getParentModel(), this.texture, poseStack, submitNodeCollector, packedLight, renderState, this.order);
+        if (renderState.awakeningProgress <= 0.0F) {return;}
+        EmissiveRenderHelper.submit(this.mode, this.getParentModel(), this.texture, poseStack, submitNodeCollector, packedLight, renderState, this.order, renderState.awakeningProgress);
     }
 }
