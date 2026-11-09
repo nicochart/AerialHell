@@ -54,7 +54,7 @@ public class AerialHellMushroomBlock extends MushroomBlock
 
 		//removing shrooms before placing feature
 		world.setBlock(pos, Blocks.AIR.defaultBlockState(), 4);
-		if (hugeShroomDirection != HugeGenerationDirections.NONE) {setFourBlocks(world, generationPos, hugeShroomDirection, Blocks.AIR.defaultBlockState(), 4);}
+		if (hugeShroomDirection != HugeGenerationDirections.NONE) {setFourBlocks(world, generationPos, hugeShroomDirection, Blocks.AIR.defaultBlockState(), 3);}
 
 		if (configuredfeature.place(world, world.getChunkSource().getGenerator(), rand, generationPos)) {return true;}
 		else
