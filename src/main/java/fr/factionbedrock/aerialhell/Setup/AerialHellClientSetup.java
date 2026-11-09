@@ -32,6 +32,7 @@ public class AerialHellClientSetup
         //NeoForge.EVENT_BUS.addListener(RenderListener::onRenderOverlayPost);
 
         BlocksAndItemsColorHandler.handleBlockColors();
+        BlocksAndItemsColorHandler.handleColorResolvers();
         //BlocksAndItemsColorHandler.handleItemColors(); now done in ItemTintMixin
     }
 
