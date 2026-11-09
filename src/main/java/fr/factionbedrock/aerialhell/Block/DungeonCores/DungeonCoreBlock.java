@@ -114,10 +114,10 @@ public class DungeonCoreBlock extends Block
 		{
 			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
 		}
-		//else if (block instanceof CoreProtectedWallBlock)
-		//{
-		//	worldIn.setBlockState(pos, old_blockstate.with(CoreProtectedWallBlock.CORE_PROTECTED, protect));
-		//}
+		else if (block instanceof CoreProtectedWallBlock)
+		{
+			world.setBlockAndUpdate(pos, old_blockstate.setValue(CoreProtectedBlock.CORE_PROTECTED, protect));
+		}
 	}
 	
 	@Override

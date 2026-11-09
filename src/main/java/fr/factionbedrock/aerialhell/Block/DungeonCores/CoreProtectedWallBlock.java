@@ -1,51 +1,60 @@
 package fr.factionbedrock.aerialhell.Block.DungeonCores;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
+import static fr.factionbedrock.aerialhell.Block.DungeonCores.CoreProtectedBlock.CORE_PROTECTED;
+
+//explosion resistance and piston behavior of protected states are handled by ExplosionBehaviorMixin and PistonIsPushableMixin
 public class CoreProtectedWallBlock extends WallBlock
 {
-	//Problem with .isOpaque()
+	//In 1.21.1, WallBlock caches its shapes in maps built from defaultBlockState() in its constructor, so these maps only contain states with one CORE_PROTECTED value.
+	//Shapes are looked up with this value, otherwise the shape of the states with the other value is null (crash on registry bake).
+	private final boolean shapesCoreProtectedValue;
 
 	public CoreProtectedWallBlock(BlockBehaviour.Properties settings)
 	{
 		super(settings);
-		//this.setDefaultState(this.getDefaultState().with(CORE_PROTECTED, false));
+		this.shapesCoreProtectedValue = this.defaultBlockState().getValue(CORE_PROTECTED);
+		this.registerDefaultState(this.defaultBlockState().setValue(CORE_PROTECTED, false));
 	}
-	
-	/*public void setProtected(boolean protect)
-	{
-		this.setDefaultState(this.stateManager.getDefaultState().setValue(CORE_PROTECTED, protect));
-	}
-	
+
 	public boolean isProtected(BlockState state)
 	{
-		return state.get(CORE_PROTECTED);
+		return state.getValue(CORE_PROTECTED);
 	}
-	
-	@SuppressWarnings("deprecation")
-	@Override
-	public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion)
-    {
-        return isProtected(state) ? 1200.0F : this.asBlock().getExplosionResistance();
-    }
-	
-	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
-	{
-		builder.add(CORE_PROTECTED);
-		super.createBlockStateDefinition(builder);
-	}*/
 
 	@Override
-	public float getDestroyProgress(BlockState state, Player player, BlockGetter world, net.minecraft.core.BlockPos pos)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
+	{
+		super.createBlockStateDefinition(builder);
+		builder.add(CORE_PROTECTED);
+	}
+
+	@Override protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
+	{
+		return super.getShape(state.setValue(CORE_PROTECTED, this.shapesCoreProtectedValue), level, pos, context);
+	}
+
+	@Override protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
+	{
+		return super.getCollisionShape(state.setValue(CORE_PROTECTED, this.shapesCoreProtectedValue), level, pos, context);
+	}
+
+	@Override
+	public float getDestroyProgress(BlockState state, Player player, BlockGetter world, BlockPos pos)
 	{
 		float f = state.getDestroySpeed(world, pos);
-		if (f == -1.0F /*|| isProtected(state)*/)
+		if (f == -1.0F || isProtected(state))
 		{
 			return 0.0F;
 		}

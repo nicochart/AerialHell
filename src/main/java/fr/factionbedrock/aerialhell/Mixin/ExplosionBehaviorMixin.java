@@ -46,9 +46,9 @@ public class ExplosionBehaviorMixin
         {
             if (state.getValue(CoreProtectedBlock.CORE_PROTECTED)) {cir.setReturnValue(Optional.of(1200F));}
         }
-        /*else if (block instanceof CoreProtectedWallBlock)
+        else if (block instanceof CoreProtectedWallBlock)
         {
-            if (state.get(CoreProtectedWallBlock.CORE_PROTECTED)) {cir.setReturnValue(Optional.of(1200F));}
-        }*/
+            if (state.getValue(CoreProtectedBlock.CORE_PROTECTED)) {cir.setReturnValue(Optional.of(1200F));}
+        }
     }
 }
