@@ -24,6 +24,7 @@ public class AerialHellClientSetup
     {
         AerialHellWoodTypes.registerWoodTypes();
         modEventBus.addListener(BlocksAndItemsColorHandler::handleBlockColors);
+        modEventBus.addListener(BlocksAndItemsColorHandler::handleColorResolvers);
         modEventBus.addListener(BlocksAndItemsColorHandler::handleItemColors);
         modEventBus.addListener(FluidRenderHandler::handleFluidRender);
         modEventBus.addListener(FluidRenderHandler::handleFluidOverlayRender);
