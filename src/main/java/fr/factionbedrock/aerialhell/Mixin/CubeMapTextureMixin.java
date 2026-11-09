@@ -11,7 +11,8 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(CubeMapTexture.class)
 public class CubeMapTextureMixin
 {
-    @ModifyVariable(method = "loadContents", at = @At("STORE"), name = "identifier")
+    //ordinal instead of name : the 1.21.11 production jar has no local variable names ($$0, $$1...)
+    @ModifyVariable(method = "loadContents", at = @At("STORE"), ordinal = 0)
     private Identifier redirectPanorama(Identifier originalLocation)
     {
         if (originalLocation.getNamespace().equals("minecraft") && originalLocation.getPath().equals("textures/gui/title/background/panorama"))
