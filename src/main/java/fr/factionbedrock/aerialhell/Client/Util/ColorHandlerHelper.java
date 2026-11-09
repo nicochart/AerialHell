@@ -4,7 +4,7 @@ import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHa
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.AerialHellBiomes;
 import java.awt.*;
-import java.util.function.Function;
+import java.util.function.ToIntFunction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BiomeColors;
@@ -58,7 +58,7 @@ public class ColorHandlerHelper
     }
 
     //copy of net.minecraft.client.multiplayer.ClientLevel calculateBlockTint method, edited to have custom shadow / non shadow blend
-    public static int calculateTint(CalculateTintContextInfo info, Function<CalculateTintContextInfo,Integer> getLightBiomeColor, Function<CalculateTintContextInfo,Integer> getShadowBiomeColor)
+    public static int calculateTint(CalculateTintContextInfo info, ToIntFunction<CalculateTintContextInfo> getLightBiomeColor, ToIntFunction<CalculateTintContextInfo> getShadowBiomeColor)
     {
         BlockPos pos = info.pos;
         ClientLevel level = Minecraft.getInstance().level; if (level == null) {return 0;}
@@ -66,7 +66,7 @@ public class ColorHandlerHelper
         if (biomeBlendRadius == 0 || !needsBlend(pos, biomeBlendRadius))
         {
             Holder<Biome> biome = level.getBiome(pos);
-            return biome.is(AerialHellTags.Biomes.IS_SHADOW) ? getShadowBiomeColor.apply(info) : getLightBiomeColor.apply(info);
+            return biome.is(AerialHellTags.Biomes.IS_SHADOW) ? getShadowBiomeColor.applyAsInt(info) : getLightBiomeColor.applyAsInt(info);
         }
         else
         {
@@ -79,9 +79,9 @@ public class ColorHandlerHelper
             {
                 mutablepos.set(cursor.nextX(), cursor.nextY(), cursor.nextZ());
                 Holder<Biome> biome = level.getBiome(mutablepos);
-                CalculateTintContextInfo sampleInfo = new CalculateTintContextInfo(mutablepos, info.shiftedRender, biome);
+                CalculateTintContextInfo sampleInfo = new CalculateTintContextInfo(info.level, mutablepos, info.shiftedRender, biome);
 
-                color = biome.is(AerialHellTags.Biomes.IS_SHADOW) ? getShadowBiomeColor.apply(sampleInfo) : getLightBiomeColor.apply(sampleInfo);
+                color = biome.is(AerialHellTags.Biomes.IS_SHADOW) ? getShadowBiomeColor.applyAsInt(sampleInfo) : getLightBiomeColor.applyAsInt(sampleInfo);
                 r += ARGB.red(color);
                 g += ARGB.green(color);
             }
@@ -155,16 +155,10 @@ public class ColorHandlerHelper
         return info.shiftedRender ? SHADOW_COLOR : getBiomeColor(info, colorResolver);
     }
 
-    //unblended color of the sample biome inside a blend loop, vanilla blended (and cached) color otherwise
+    //unblended color of the sample biome inside a blend loop, otherwise blended color given by the level asking for the tint (vanilla cache, Sodium, Xaero's World Map...)
     public static int getBiomeColor(CalculateTintContextInfo info, ColorResolver colorResolver)
     {
         if (info.biome != null) {return colorResolver.getColor(info.biome.value(), info.pos.getX(), info.pos.getZ());}
-        return vanillaGetColor(info.pos, colorResolver);
-    }
-
-    public static int vanillaGetColor(BlockPos pos, ColorResolver colorResolver)
-    {
-        ClientLevel level = Minecraft.getInstance().level; if (level == null) {return 0;}
-        return level.getBlockTint(pos, colorResolver);
+        return info.level.getBlockTint(info.pos, colorResolver);
     }
 }
