@@ -45,7 +45,9 @@ public abstract class AbstractElementSpiritEntity extends AerialHellHostileEntit
     public boolean doHurtTarget(ServerLevel serverWorld, Entity entityIn)
     {
     	boolean flag = super.doHurtTarget(serverWorld, entityIn);
-    	if (flag) {this.setAttacking(); this.tickStartAttacking = this.tickCount;}
+    	//contact is enough to start the suicide attack
+        //if using above flag as condition, the attack can be canceled if the target already received damage recently and is still invulnerable
+    	if (!this.isAggressive()) {this.setAttacking(); this.tickStartAttacking = this.tickCount;}
     	return flag;
     }
 
