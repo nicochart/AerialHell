@@ -54,7 +54,7 @@ public class ChestMimicBlock extends ChestBlock
 			if (world.isClientSide()) {addSpawnParticle(world, pos);}
 			else
 			{
-				world.playSound(null, pos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 0.5F, 0.7F + 0.5F * world.random.nextFloat());
+				world.playSound(null, pos, SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 0.5F, 0.7F + 0.5F * world.random.nextFloat());
 				revealMimic(state, world, pos);
 				world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			}
