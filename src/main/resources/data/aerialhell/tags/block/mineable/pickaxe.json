@@ -38,6 +38,7 @@
     "aerialhell:glaucophanite_button",
 
     "aerialhell:stellar_stone_pressure_plate",
+    "aerialhell:stellar_cobblestone_pressure_plate",
     "aerialhell:slippery_sand_stone_pressure_plate",
     "aerialhell:slippery_sand_stone_bricks_pressure_plate",
     "aerialhell:stellar_stone_bricks_pressure_plate",
@@ -114,6 +115,10 @@
     "aerialhell:raw_ruby_block",
     "aerialhell:raw_azurite_crystal_block",
     "aerialhell:raw_volucite_block",
+
+    "aerialhell:ruby_bars",
+    "aerialhell:ruby_door",
+    "aerialhell:ruby_trapdoor",
 
     "#aerialhell:chains",
     "#aerialhell:lantern",
