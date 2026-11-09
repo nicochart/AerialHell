@@ -1,6 +1,5 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
-import fr.factionbedrock.aerialhell.Client.Util.CalculateTintContextInfo;
 import fr.factionbedrock.aerialhell.Client.Util.ColorHandlerHelper;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
@@ -8,6 +7,7 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorResolverRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockTintSource;
@@ -15,6 +15,7 @@ import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ColorResolver;
 import net.minecraft.world.level.block.state.BlockState;
 import java.awt.*;
 import java.util.List;
@@ -115,39 +116,39 @@ public class BlocksAndItemsColorHandler
             {
                 if (state.is(AerialHellBlocks.BLUISH_FERN) || state.is(AerialHellBlocks.TALL_BLUISH_FERN) || state.is(AerialHellBlocks.POLYCHROME_FERN) || state.is(AerialHellBlocks.TALL_POLYCHROME_FERN))
                 {
-                    return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(level, pos), ColorHandlerHelper::getLightGrassColor, (info) -> isShadowBindEnabled() ? ColorHandlerHelper.getShadowGrassColor(info) : ColorHandlerHelper.getBiomeColor(info, BiomeColors.GRASS_COLOR_RESOLVER));
+                    return isShadowBindEnabled() ? level.getBlockTint(pos, ColorHandlerHelper.COLORED_FERN_FIRST_LAYER_SHIFTED_RESOLVER) : BiomeColors.getAverageGrassColor(level, pos);
                 }
                 else if (state.is(AerialHellBlocks.STELLAR_GRASS_BLOCK) || state.is(AerialHellBlocks.SHADOW_GRASS_BLOCK))
                 {
                     boolean shouldRenderBlack = (state.is(AerialHellBlocks.STELLAR_GRASS_BLOCK) && isShadowBindEnabled()) || (state.is(AerialHellBlocks.SHADOW_GRASS_BLOCK) && !isShadowBindEnabled());
-                    return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(level, pos));
+                    return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.getGrassTint(level, pos);
                 }
                 else if (state.is(AerialHellBlocks.STELLAR_GRASS) || state.is(AerialHellBlocks.SHADOW_GRASS))
                 {
                     boolean shouldRenderBlack = (state.is(AerialHellBlocks.STELLAR_GRASS) && isShadowBindEnabled()) || (state.is(AerialHellBlocks.SHADOW_GRASS) && !isShadowBindEnabled());
-                    return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(level, pos));
+                    return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.getGrassTint(level, pos);
                 }
                 else if (state.is(AerialHellBlocks.STELLAR_GRASS_BALL) || state.is(AerialHellBlocks.SHADOW_GRASS_BALL))
                 {
                     boolean shouldRenderBlack = (state.is(AerialHellBlocks.STELLAR_GRASS_BALL) && isShadowBindEnabled()) || (state.is(AerialHellBlocks.SHADOW_GRASS_BALL) && !isShadowBindEnabled());
-                    return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(level, pos));
+                    return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.getGrassTint(level, pos);
                 }
                 else if (state.is(AerialHellBlocks.BRAMBLES) || state.is(AerialHellBlocks.SHADOW_BRAMBLES))
                 {
                     boolean shouldRenderBlack = (state.is(AerialHellBlocks.BRAMBLES) && isShadowBindEnabled()) || (state.is(AerialHellBlocks.SHADOW_BRAMBLES) && !isShadowBindEnabled());
-                    return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(level, pos));
+                    return shouldRenderBlack ? ColorHandlerHelper.SHADOW_BLACK : ColorHandlerHelper.getGrassTint(level, pos);
                 }
                 else if (state.is(AerialHellBlocks.STELLAR_ROOTS) || state.is(AerialHellBlocks.STELLAR_ROOTS_PLANT) || state.is(AerialHellBlocks.BLOSSOMING_VINES) || state.is(AerialHellBlocks.BLOSSOMING_VINES_PLANT))
                 {
-                    return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(level, pos), (info) -> ColorHandlerHelper.getLightColor(info, BiomeColors.GRASS_COLOR_RESOLVER, ColorHandlerHelper.SHADOW_PURPLE), (info) -> ColorHandlerHelper.getShadowColor(info, BiomeColors.GRASS_COLOR_RESOLVER, ColorHandlerHelper.SHADOW_PURPLE));
+                    return ColorHandlerHelper.getPurpleShadowVegetationTint(level, pos);
                 }
                 else if (state.is(AerialHellBlocks.MOSSY_STELLAR_STONE) || state.is(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE) || state.is(AerialHellBlocks.MOSSY_STELLAR_STONE_WALL) || state.is(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_WALL) || state.is(AerialHellBlocks.MOSSY_STELLAR_STONE_SLAB) || state.is(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_SLAB) || state.is(AerialHellBlocks.MOSSY_STELLAR_STONE_STAIRS) || state.is(AerialHellBlocks.MOSSY_STELLAR_COBBLESTONE_STAIRS) || state.is(AerialHellBlocks.MOSSY_MUD_BRICKS) || state.is(AerialHellBlocks.MOSSY_MUD_BRICKS_WALL) || state.is(AerialHellBlocks.MOSSY_MUD_BRICKS_SLAB) || state.is(AerialHellBlocks.MOSSY_MUD_BRICKS_STAIRS) || state.is(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS) || state.is(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS_WALL) || state.is(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS_SLAB) || state.is(AerialHellBlocks.MOSSY_SHADOW_CATACOMBS_BRICKS_STAIRS))
                 {
-                    return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(level, pos), (info) -> ColorHandlerHelper.getLightColor(info, BiomeColors.GRASS_COLOR_RESOLVER, ColorHandlerHelper.SHADOW_PURPLE), (info) -> ColorHandlerHelper.getShadowColor(info, BiomeColors.GRASS_COLOR_RESOLVER, ColorHandlerHelper.SHADOW_PURPLE));
+                    return ColorHandlerHelper.getPurpleShadowVegetationTint(level, pos);
                 }
                 else
                 {
-                    return ColorHandlerHelper.calculatePlantVegetationBlockTint(new CalculateTintContextInfo(level, pos));
+                    return ColorHandlerHelper.getPlantVegetationTint(level, pos);
                 }
             }
         };
@@ -163,14 +164,14 @@ public class BlocksAndItemsColorHandler
             {
                 if (state.is(AerialHellBlocks.BLUISH_FERN) || state.is(AerialHellBlocks.TALL_BLUISH_FERN) || state.is(AerialHellBlocks.POLYCHROME_FERN) || state.is(AerialHellBlocks.TALL_POLYCHROME_FERN))
                 {
-                    return ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(level, pos), ColorHandlerHelper::getLightFoliageColor, (info) -> isShadowBindEnabled() ? ColorHandlerHelper.getShiftedOrNotGrassColor(info) : ColorHandlerHelper.getBiomeColor(info, BiomeColors.FOLIAGE_COLOR_RESOLVER));
+                    return isShadowBindEnabled() ? level.getBlockTint(pos, ColorHandlerHelper.COLORED_FERN_SECOND_LAYER_SHIFTED_RESOLVER) : BiomeColors.getAverageFoliageColor(level, pos);
                 }
                 else if (state.is(AerialHellBlocks.STELLAR_JUNGLE_TREE_LEAVES) || state.is(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LEAVES))
                 {
                     boolean isShadow = state.is(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LEAVES);
                     boolean isShifted = isShadowBindEnabled();
                     boolean shouldRenderWhite = (isShifted && !isShadow) || (!isShifted && isShadow);
-                    return shouldRenderWhite ? ColorHandlerHelper.WHITE : ColorHandlerHelper.calculateFoliageTint(new CalculateTintContextInfo(level, pos));
+                    return shouldRenderWhite ? ColorHandlerHelper.WHITE : ColorHandlerHelper.getFoliageTint(level, pos);
                 }
                 else {return BiomeColors.getAverageFoliageColor(level, pos);}
             }
@@ -190,11 +191,11 @@ public class BlocksAndItemsColorHandler
             {
                 if (state.is(AerialHellTags.Blocks.SLIPPERY_SAND))
                 {
-                    return isShadowBindEnabled() ? ColorHandlerHelper.WHITE : ColorHandlerHelper.calculateTint(new CalculateTintContextInfo(level, pos), (blockpos) -> ColorHandlerHelper.WHITE, (blockpos) -> ColorHandlerHelper.SHADOW_PURPLE);
+                    return isShadowBindEnabled() ? ColorHandlerHelper.WHITE : level.getBlockTint(pos, ColorHandlerHelper.SLIPPERY_SAND_RESOLVER);
                 }
                 else if (state.getBlock() == AerialHellBlocks.STELLAR_PODZOL)
                 {
-                    Color baseColor = new Color(ColorHandlerHelper.calculateGrassTint(new CalculateTintContextInfo(level, pos)));
+                    Color baseColor = new Color(ColorHandlerHelper.getGrassTint(level, pos));
                     int r = baseColor.getRed(), g = baseColor.getGreen(), b = baseColor.getBlue();
                     return new Color((int) Math.min(255, r * 1.5), (int) (g / 1.5), b).getRGB();
                 }
@@ -207,6 +208,11 @@ public class BlocksAndItemsColorHandler
                 return ColorHandlerHelper.DEFAULT_COLOR.getRGB();
             }
         };
+    }
+
+    public static void handleColorResolvers()
+    {
+        for (ColorResolver resolver : ColorHandlerHelper.CUSTOM_RESOLVERS) {ColorResolverRegistry.register(resolver);}
     }
 
     public static boolean isShadowBindEnabled() {return LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT && isCurrentPlayerInstanceShadowBind();}
