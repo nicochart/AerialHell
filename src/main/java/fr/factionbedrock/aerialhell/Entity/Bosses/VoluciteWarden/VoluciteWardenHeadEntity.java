@@ -33,6 +33,7 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
     public static final int BEAMING_OVERHEAT_DURATION = 118; //59 + 59
     public static final int BEAMING_TOTAL_DURATION = 260; //load 82 + normal & overheat 59 59 59 + 1 overlap
     public static final int BEAMING_COOLDOWN = 40;
+    public static final float BEAM_TRACKING_SPEED_FACTOR = 0.48F; //much slower than the volucite golem's beam
     private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteWardenHeadEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteWardenHeadEntity.class, EntityDataSerializers.INT);
     private final BeamAttackEntity.BeamAttackEntityInfo BEAM_ATTACK_ENTITY_INFO = new BeamAttackEntity.BeamAttackEntityInfo(ATTACK_TARGET_ID, BEAMING_PHASE);
@@ -122,6 +123,8 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
     @Override public float getBeamScale(int beamingPhase) {return BeamAttackEntity.super.getBeamScale(beamingPhase) * 7.0F;}
 
     @Override public  int getLoadConvergenceDuration() {return 40;}
+
+    @Override public float getBeamTrackingSpeedFactor() {return BEAM_TRACKING_SPEED_FACTOR;}
 
     @Override public Vec3 getBeamStartPos(Vec3 eyePos, float partialTick)
     {

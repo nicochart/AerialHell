@@ -283,22 +283,29 @@ public interface BeamAttackEntity extends SyncedTargetEntity
 
         //beamTarget update - fictitious "target" following real target
         Vec3 targetEntityPos = beamTarget.position().add(getBeamTargetPosOffset(beamTarget));
+        float speed = this.getBeamTrackingSpeedFactor();
         if (this.getBeamingPhase() == BeamingPhases.BEAMING_LOAD)
         {
-            this.updateBeamTargetPosLinearWithMaxDistance(targetEntityPos, prevBeamTargetPos, 0.30F);
+            this.updateBeamTargetPosLinearWithMaxDistance(targetEntityPos, prevBeamTargetPos, 0.30F * speed);
         }
         else if (this.getBeamingPhase() == BeamingPhases.BEAMING_NORMAL)
         {
-            this.updateBeamTargetPosRealisticWithInertia(previousStep, targetEntityPos, prevBeamTargetPos, 0.95F, 0.04F , 0.3F); //0.95F, 0.04F, 0.3F allows easier dodge
+            this.updateBeamTargetPosRealisticWithInertia(previousStep, targetEntityPos, prevBeamTargetPos, scaledInertia(0.95F, speed), 0.04F * speed * speed, 0.3F * speed); //0.95F, 0.04F, 0.3F allows easier dodge
         }
         else //if (this.getBeamingPhase() == BeamingPhases.BEAMING_OVERHEAT)
         {
-            this.updateBeamTargetPosRealisticWithInertia(previousStep, targetEntityPos, prevBeamTargetPos, 0.99F, 0.05F , 0.4F);
+            this.updateBeamTargetPosRealisticWithInertia(previousStep, targetEntityPos, prevBeamTargetPos, scaledInertia(0.99F, speed), 0.05F * speed * speed, 0.4F * speed);
         }
 
         //beamEnd update - the pos where the beam hits a solid obstacle (or reaches max distance)
         this.updateBeamEndPos(this.getBeamTargetPos(), this.getMaxBeamLength());
     }
+
+    //beam target tracking speed multiplier (1.0F = default speed, 0.5F = twice slower)
+    //the beam follows its target the same way (same trajectory shape, same overshoot when the target turns), only slower or faster
+    //to get this, each tracking parameter is scaled : max velocity * factor, attraction * factor^2, inertia damping (1 - inertiaFactor) * factor
+    default float getBeamTrackingSpeedFactor() {return 1.0F;}
+    private static float scaledInertia(float inertiaFactor, float speedFactor) {return 1.0F - (1.0F - inertiaFactor) * speedFactor;}
 
     default void updatePhaseTransitionTick()
     {
