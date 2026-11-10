@@ -8,12 +8,15 @@ import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenHeadF
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenHeadLightningGoal;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartStatus;
+import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -162,6 +165,7 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
     @Override public boolean canBeamHitEntity(LivingEntity entity) {return this.getMaster() != null && !this.getMaster().is(entity) && !entity.is(AerialHellTags.Entities.VOLUCITE);}
     @Override public Entity getImmediateBeamSource() {return this;}
     @Override public Entity getTrueBeamSource() {return this.getMaster() != null ? this.getMaster().getSelf() : this;}
+    @Override public ResourceKey<DamageType> getBeamDamageType() {return AerialHellDamageTypes.VOLUCITE_WARDEN_MAIN_BEAM;}
 
     @Override public boolean isBeamSilent() {return false;} //PartEntity is silent but Beam Sound is still played by this part
 

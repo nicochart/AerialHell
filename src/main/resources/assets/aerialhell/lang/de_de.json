@@ -974,6 +974,8 @@
   "death.attack.aerialhell.god_bless.player": "%1$s hatte durch %2$s Gottes Segen erhalten",
   "death.attack.aerialhell.golem_beam": "%1$s wurde von einen Golemstrahl getötet",
   "death.attack.aerialhell.golem_beam.player": "%1$s wurde vom Strahl von %2$s getötet",
+  "death.attack.aerialhell.volucite_warden_main_beam": "%1$s wurde vom Strahl von %2$s desintegriert",
+  "death.attack.aerialhell.volucite_warden_main_beam.player": "%1$s wurde im Kampf gegen %2$s von einem Strahl desintegriert",
 
   "enchantment.aerialhell.solid_ether_walker": "Festätherläufer",
   "enchantment.aerialhell.solid_ether_walker.desc": "Allows to collide with Solid Ether and all Ghostly things",

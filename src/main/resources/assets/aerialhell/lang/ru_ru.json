@@ -974,6 +974,8 @@
   "death.attack.aerialhell.god_bless.player": "%1$s получил благословение от %2$s",
   "death.attack.aerialhell.golem_beam": "%1$s помер от луча голема.",
   "death.attack.aerialhell.golem_beam.player": "%1$s помер от луча %2$s",
+  "death.attack.aerialhell.volucite_warden_main_beam": "%1$s был дезинтегрирован лучом %2$s",
+  "death.attack.aerialhell.volucite_warden_main_beam.player": "%1$s был дезинтегрирован лучом в бою с %2$s",
 
   "enchantment.aerialhell.solid_ether_walker": "Воздуход",
   "enchantment.aerialhell.solid_ether_walker.desc": "Позволяет передвигаться по призрачным блокам и блокам облаков.",

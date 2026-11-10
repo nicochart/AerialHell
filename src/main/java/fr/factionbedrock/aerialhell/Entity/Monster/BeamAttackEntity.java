@@ -1,12 +1,15 @@
 package fr.factionbedrock.aerialhell.Entity.Monster;
 
 import fr.factionbedrock.aerialhell.Entity.AI.BeamingPhases;
+import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -124,6 +127,7 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     default boolean canBeamHitEntity(LivingEntity entity) {return true;}
     default Entity getImmediateBeamSource() {return this.getSelf();}
     default Entity getTrueBeamSource() {return this.getSelf();}
+    default ResourceKey<DamageType> getBeamDamageType() {return AerialHellDamageTypes.GOLEM_BEAM;}
     default void onStartBeaming(int beamingDuration) {this.getSelf().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, beamingDuration, 2, false, false));}
     default void onStopBeaming() {this.getSelf().removeEffect(MobEffects.SLOWNESS);}
 

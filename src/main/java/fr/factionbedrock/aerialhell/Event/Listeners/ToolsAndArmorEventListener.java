@@ -7,6 +7,7 @@ import fr.factionbedrock.aerialhell.Item.Ability.DamageUseSituationInfo;
 import fr.factionbedrock.aerialhell.Item.Ability.MiningUseSituationInfo;
 import fr.factionbedrock.aerialhell.Item.AerialHellItem;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
+import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.*;
@@ -22,6 +23,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -74,6 +76,10 @@ public class ToolsAndArmorEventListener
 		event.setAmount(event.getAmount() * damageMultiplier.get());
 
 		applyEffectsDueToPotionEffects(event, damageSource, target);
+
+		//partial armor piercing : armor only blocks (1 - piercing) of what it normally blocks (Fabric equivalent : LivingArmorAbsorbMixin)
+		float armorPiercing = AerialHellDamageTypes.getArmorPiercing(damageSource);
+		if (armorPiercing > 0.0F) {event.addReductionModifier(DamageContainer.Reduction.ARMOR, (container, reduction) -> reduction * (1.0F - armorPiercing));}
     }
 
     public static void onPlayerHarvest(PlayerEvent.BreakSpeed event)
