@@ -80,6 +80,11 @@ public class ToolsAndArmorEventListener
 		//partial armor piercing : armor only blocks (1 - piercing) of what it normally blocks (Fabric equivalent : LivingArmorAbsorbMixin)
 		float armorPiercing = AerialHellDamageTypes.getArmorPiercing(damageSource);
 		if (armorPiercing > 0.0F) {event.addReductionModifier(DamageContainer.Reduction.ARMOR, (container, reduction) -> reduction * (1.0F - armorPiercing));}
+
+		//partial enchantment piercing : protection enchantments only block (1 - piercing) of what they normally block (Fabric equivalent : LivingMagicAbsorbMixin)
+		//MOB_EFFECTS reduction (resistance) is not modified
+		float enchantmentPiercing = AerialHellDamageTypes.getEnchantmentPiercing(damageSource);
+		if (enchantmentPiercing > 0.0F) {event.addReductionModifier(DamageContainer.Reduction.ENCHANTMENTS, (container, reduction) -> reduction * (1.0F - enchantmentPiercing));}
     }
 
     public static void onPlayerHarvest(PlayerEvent.BreakSpeed event)

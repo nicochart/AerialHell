@@ -24,16 +24,27 @@ public class AerialHellDamageTypes
     public static final ResourceKey<DamageType> VOLUCITE_WARDEN_MAIN_BEAM = create("volucite_warden_main_beam");
 
     public static final float GOLEM_BEAM_ARMOR_PIERCING = 0.25F;
+    public static final float GOLEM_BEAM_ENCHANTMENT_PIERCING = 0.25F;
     public static final float VOLUCITE_WARDEN_MAIN_BEAM_ARMOR_PIERCING = 0.5F;
+    public static final float VOLUCITE_WARDEN_MAIN_BEAM_ENCHANTMENT_PIERCING = 0.5F;
 
     private static ResourceKey<DamageType> create(String name) {return ResourceKey.create(Registries.DAMAGE_TYPE, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));}
 
     //fraction of the armor protection ignored by the damage. 0.0F : normal armor protection, 1.0F : armor fully ignored. 0.5F : armor only blocks half of what it normally blocks
-    //only armor points & armor toughness are concerned (armor durability loss, protection enchantments & effects stay the same). applied in ToolsAndArmorEventListener.onLivingDamageEvent
+    //only armor points & armor toughness are concerned (armor durability loss stays the same, enchantments : see getEnchantmentPiercing). applied in ToolsAndArmorEventListener.onLivingDamageEvent
     public static float getArmorPiercing(DamageSource damageSource)
     {
         if (damageSource.is(GOLEM_BEAM)) {return GOLEM_BEAM_ARMOR_PIERCING;}
         if (damageSource.is(VOLUCITE_WARDEN_MAIN_BEAM)) {return VOLUCITE_WARDEN_MAIN_BEAM_ARMOR_PIERCING;}
+        return 0.0F;
+    }
+
+    //fraction of the protection enchantments reduction ignored by the damage (same scale as getArmorPiercing). applied in ToolsAndArmorEventListener.onLivingDamageEvent
+    //effects reduction (resistance) is never ignored
+    public static float getEnchantmentPiercing(DamageSource damageSource)
+    {
+        if (damageSource.is(GOLEM_BEAM)) {return GOLEM_BEAM_ENCHANTMENT_PIERCING;}
+        if (damageSource.is(VOLUCITE_WARDEN_MAIN_BEAM)) {return VOLUCITE_WARDEN_MAIN_BEAM_ENCHANTMENT_PIERCING;}
         return 0.0F;
     }
 
