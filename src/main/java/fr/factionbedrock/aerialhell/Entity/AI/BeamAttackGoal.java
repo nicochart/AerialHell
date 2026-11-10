@@ -3,7 +3,6 @@ package fr.factionbedrock.aerialhell.Entity.AI;
 import fr.factionbedrock.aerialhell.Entity.Monster.BeamAttackEntity;
 import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
@@ -101,8 +100,6 @@ public class BeamAttackGoal extends Goal
         else
         {
             this.setLookAt(beamTargetPos);
-            float hardDifficultyDamageBonus = this.entity.getLevel().getDifficulty() == Difficulty.HARD ? 2.0F : 0.0F;
-
             if (this.currentBeamingTime < this.beamingLoadDuration)
             {
                 //beam loading
@@ -111,13 +108,13 @@ public class BeamAttackGoal extends Goal
             {
                 //normal power
                 if (!this.entity.isBeamingNormalPhase()) {this.entity.setBeamingPhaseToNormal();}
-                this.hitEntities(4.0F + hardDifficultyDamageBonus);
+                this.hitEntities(this.entity.getBaseDamage());
             }
             else //(this.currentBeamingTime < this.beamingTotalDuration)
             {
                 //full power
                 if (!this.entity.isBeamingOverheatPhase()) {this.entity.setBeamingPhaseToOverheat();}
-                this.hitEntities(6.0F + hardDifficultyDamageBonus);
+                this.hitEntities(this.entity.getBaseDamage() + this.entity.getOverheatDamageBonus());
             }
             super.tick();
         }

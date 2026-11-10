@@ -166,6 +166,8 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
     @Override public Entity getImmediateBeamSource() {return this;}
     @Override public Entity getTrueBeamSource() {return this.getMaster() != null ? this.getMaster().getSelf() : this;}
     @Override public ResourceKey<DamageType> getBeamDamageType() {return AerialHellDamageTypes.VOLUCITE_WARDEN_MAIN_BEAM;}
+    @Override public float getBaseDamage() {return 9.0F;}
+    @Override public float getOverheatDamageBonus() {return 3.0F;}
 
     @Override public boolean isBeamSilent() {return false;} //PartEntity is silent but Beam Sound is still played by this part
 

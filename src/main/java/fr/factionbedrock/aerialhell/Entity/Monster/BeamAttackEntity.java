@@ -128,6 +128,8 @@ public interface BeamAttackEntity extends SyncedTargetEntity
     default Entity getImmediateBeamSource() {return this.getSelf();}
     default Entity getTrueBeamSource() {return this.getSelf();}
     default ResourceKey<DamageType> getBeamDamageType() {return AerialHellDamageTypes.GOLEM_BEAM;}
+    default float getBaseDamage() {return 6.0F;} //normal phase damage (damage to players is scaled with difficulty by vanilla)
+    default float getOverheatDamageBonus() {return 2.0F;} //overheat phase damage = base damage + overheat bonus
     default void onStartBeaming(int beamingDuration) {this.getSelf().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, beamingDuration, 2, false, false));}
     default void onStopBeaming() {this.getSelf().removeEffect(MobEffects.SLOWNESS);}
 
