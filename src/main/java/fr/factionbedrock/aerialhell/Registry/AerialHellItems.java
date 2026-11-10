@@ -330,6 +330,9 @@ public class AerialHellItems
     public static final DeferredItem<Item> GOLDEN_NETHER_DUNGEON_CORE = ITEMS.register(Keys.GOLDEN_NETHER_DUNGEON_CORE.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.GOLDEN_NETHER_DUNGEON_CORE.get(), new Item.Properties().setId(Keys.GOLDEN_NETHER_DUNGEON_CORE).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> VOLUCITE_DUNGEON_CORE = ITEMS.register(Keys.VOLUCITE_DUNGEON_CORE.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.VOLUCITE_DUNGEON_CORE.get(), new Item.Properties().setId(Keys.VOLUCITE_DUNGEON_CORE).useBlockDescriptionPrefix()));
 
+    //specific dungeon blocks
+    public static final DeferredItem<Item> VOLUCITE_BARRIER = ITEMS.register(Keys.VOLUCITE_BARRIER.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.VOLUCITE_BARRIER.get(), new Item.Properties().setId(Keys.VOLUCITE_BARRIER).useBlockDescriptionPrefix()));
+
     //dungeons slabs, stairs & walls
     public static final DeferredItem<Item> MUD_BRICKS_SLAB = ITEMS.register(Keys.MUD_BRICKS_SLAB.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.MUD_BRICKS_SLAB.get(), new Item.Properties().setId(Keys.MUD_BRICKS_SLAB).useBlockDescriptionPrefix()));
     public static final DeferredItem<Item> MUD_BRICKS_STAIRS = ITEMS.register(Keys.MUD_BRICKS_STAIRS.identifier().getPath(), () -> new BlockItem(AerialHellBlocks.MUD_BRICKS_STAIRS.get(), new Item.Properties().setId(Keys.MUD_BRICKS_STAIRS).useBlockDescriptionPrefix()));
@@ -1319,6 +1322,7 @@ public class AerialHellItems
         public static final ResourceKey<Item> SHADOW_CATACOMBS_DUNGEON_CORE = createKey("shadow_catacombs_dungeon_core");
         public static final ResourceKey<Item> GOLDEN_NETHER_DUNGEON_CORE = createKey("golden_nether_dungeon_core");
         public static final ResourceKey<Item> VOLUCITE_DUNGEON_CORE = createKey("volucite_dungeon_core");
+        public static final ResourceKey<Item> VOLUCITE_BARRIER = createKey("volucite_barrier");
 
         //dungeons slabs, stairs & walls
         public static final ResourceKey<Item> MUD_BRICKS_SLAB = createKey("mud_bricks_slab");

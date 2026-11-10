@@ -540,6 +540,8 @@ public class BuildContentsEvent
             itemsToAdd.add(AerialHellItems.GOLDEN_NETHER_DUNGEON_CORE.get());
             itemsToAdd.add(AerialHellItems.VOLUCITE_DUNGEON_CORE.get());
 
+            itemsToAdd.add(AerialHellItems.VOLUCITE_BARRIER.get());
+
             itemsToAdd.add(AerialHellItems.MUD_BRICKS_SLAB.get());
             itemsToAdd.add(AerialHellItems.MUD_BRICKS_STAIRS.get());
             itemsToAdd.add(AerialHellItems.MUD_BRICKS_WALL.get());

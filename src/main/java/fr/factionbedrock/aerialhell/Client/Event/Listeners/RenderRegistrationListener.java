@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
+import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.VoluciteBarrierRenderer;
 import fr.factionbedrock.aerialhell.Client.EntityModels.*;
 import fr.factionbedrock.aerialhell.Client.EntityRender.*;
 import fr.factionbedrock.aerialhell.Client.Util.ShiftedModelRenderHelper;
@@ -106,6 +107,7 @@ public class RenderRegistrationListener
         event.registerBlockEntityRenderer(AerialHellBlockEntities.CHEST_MIMIC.get(), AerialHellChestMimicBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(AerialHellBlockEntities.SIGN.get(), StandingSignRenderer::new);
         event.registerBlockEntityRenderer(AerialHellBlockEntities.HANGING_SIGN.get(), HangingSignRenderer::new);
+        event.registerBlockEntityRenderer(AerialHellBlockEntities.VOLUCITE_BARRIER.get(), VoluciteBarrierRenderer::new);
     }
 
     public static void onRegisterLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event)

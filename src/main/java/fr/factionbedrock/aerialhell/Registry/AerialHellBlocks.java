@@ -354,6 +354,9 @@ public class AerialHellBlocks
 	public static final DeferredBlock<Block> GOLDEN_NETHER_DUNGEON_CORE = BLOCKS.register(Keys.GOLDEN_NETHER_DUNGEON_CORE.identifier().getPath(), () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.GOLDEN_NETHER_DUNGEON_CORE).strength(50.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
 	public static final DeferredBlock<Block> VOLUCITE_DUNGEON_CORE = BLOCKS.register(Keys.VOLUCITE_DUNGEON_CORE.identifier().getPath(), () -> new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.VOLUCITE_DUNGEON_CORE).strength(50.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
 
+	//specific dungeon blocks
+	public static final DeferredBlock<Block> VOLUCITE_BARRIER = BLOCKS.register(Keys.VOLUCITE_BARRIER.identifier().getPath(), () -> new VoluciteBarrierBlock(BlockBehaviour.Properties.of().setId(Keys.VOLUCITE_BARRIER).mapColor(MapColor.COLOR_LIGHT_BLUE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.GLASS).noOcclusion().isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos, aabb) -> false)));
+
 	//dungeons slabs, stairs & walls
 	public static final DeferredBlock<SlabBlock> MUD_BRICKS_SLAB = BLOCKS.register(Keys.MUD_BRICKS_SLAB.identifier().getPath(), () -> new CoreProtectedSlabBlock(BlockBehaviour.Properties.ofFullCopy(MUD_BRICKS.get()).setId(Keys.MUD_BRICKS_SLAB)));
 	public static final DeferredBlock<StairBlock> MUD_BRICKS_STAIRS = BLOCKS.register(Keys.MUD_BRICKS_STAIRS.identifier().getPath(), () -> new CoreProtectedStairsBlock(MUD_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(MUD_BRICKS.get()).setId(Keys.MUD_BRICKS_STAIRS)));
@@ -1082,6 +1085,9 @@ public class AerialHellBlocks
 		public static final ResourceKey<Block> SHADOW_CATACOMBS_DUNGEON_CORE = createKey("shadow_catacombs_dungeon_core");
 		public static final ResourceKey<Block> GOLDEN_NETHER_DUNGEON_CORE = createKey("golden_nether_dungeon_core");
 		public static final ResourceKey<Block> VOLUCITE_DUNGEON_CORE = createKey("volucite_dungeon_core");
+
+		//specific dungeon blocks
+		public static final ResourceKey<Block> VOLUCITE_BARRIER = createKey("volucite_barrier");
 
 		//dungeons slabs, stairs & walls
 		public static final ResourceKey<Block> MUD_BRICKS_SLAB = createKey("mud_bricks_slab");

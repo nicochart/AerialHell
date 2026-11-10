@@ -8,6 +8,7 @@ import fr.factionbedrock.aerialhell.Client.Event.Listeners.FluidRenderHandler;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationListener;
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.ScreenEffectListener;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Client.Registry.AerialHellRenderPipelines;
 import fr.factionbedrock.aerialhell.Client.Util.PanoramaCaptureHandler;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
 import fr.factionbedrock.aerialhell.Event.Listeners.BlockEventListener;
@@ -30,6 +31,7 @@ public class AerialHellClientSetup
         modEventBus.addListener(FluidRenderHandler::handleFluidOverlayRender);
         modEventBus.addListener(RenderRegistrationListener::onRegisterRenderers);
         modEventBus.addListener(RenderRegistrationListener::onRegisterLayerDefinitions);
+        modEventBus.addListener(AerialHellRenderPipelines::registerPipelines);
         if (LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT)
         {
             modEventBus.addListener(RenderRegistrationListener::onModelBake);

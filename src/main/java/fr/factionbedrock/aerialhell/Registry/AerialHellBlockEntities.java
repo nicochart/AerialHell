@@ -24,6 +24,9 @@ public class AerialHellBlockEntities
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<IntangibleTemporaryBlockEntity>> INTANGIBLE_TEMPORARY_BLOCK = BLOCK_ENTITY_TYPES.register("intangible_temporary_block", () ->
 			new BlockEntityType<>(IntangibleTemporaryBlockEntity::new, Sets.newHashSet(AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK.get())));
 
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<VoluciteBarrierBlockEntity>> VOLUCITE_BARRIER = BLOCK_ENTITY_TYPES.register("volucite_barrier", () ->
+			new BlockEntityType<>(VoluciteBarrierBlockEntity::new, Sets.newHashSet(AerialHellBlocks.VOLUCITE_BARRIER.get())));
+
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BiomeShifterBlockEntity>> BIOME_SHIFTER = BLOCK_ENTITY_TYPES.register("biome_shifter", () ->
 			new BlockEntityType<>((pos, blockState) -> new BiomeShifterBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null), Sets.newHashSet
 					(
