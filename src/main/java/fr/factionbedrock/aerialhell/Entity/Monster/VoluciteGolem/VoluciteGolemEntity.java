@@ -162,7 +162,7 @@ public class VoluciteGolemEntity extends AerialHellGolemEntity implements Master
         return Monster.createMonsterAttributes()
                 .add(Attributes.MAX_HEALTH, 100.0D)
                 .add(Attributes.ARMOR, 3.0D)
-                .add(Attributes.ATTACK_DAMAGE, 17.0D)
+                .add(Attributes.ATTACK_DAMAGE, 15.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.23D)
                 .add(Attributes.FOLLOW_RANGE, 48.0D);
     }

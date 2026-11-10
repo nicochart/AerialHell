@@ -215,7 +215,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
     /* -------------------------------------------------------------------- */
     /* ---------- Final phase : VoluciteWardenArmSegmentJumpGoal ---------- */
     /* -------------------------------------------------------------------- */
-    public static final float LANDING_DAMAGE = 6.0F;
+    public static final float LANDING_DAMAGE = 15.0F;
     public static final float LANDING_DAMAGE_RANGE = 4.0F; //horizontal range around the segment hitbox
     public static final float LANDING_KNOCKBACK_SCALE = 1.5F;
     public static final float MAX_TURN_PER_TICK = 10.0F; //degrees

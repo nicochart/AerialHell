@@ -12,7 +12,8 @@ import org.jetbrains.annotations.Nullable;
 //shield phases : very frequent lightning, independently of the core repulsion. final phase : occasional lightning
 public class VoluciteWardenCoreLightningGoal extends Goal
 {
-    private static final float LIGHTNING_DAMAGE = 3.0F;
+    private static final float SHIELD_PHASE_LIGHTNING_DAMAGE = 15.0F;
+    private static final float FINAL_PHASE_LIGHTNING_DAMAGE = 10.0F;
     private static final float LIGHTNING_HIT_RADIUS = 1.5F; //entities this close to the lightning impact are hurt
     private static final float TARGET_RANGE = 12.0F; //players in this radius around the core center can be targeted
     private static final int SHIELD_PHASE_MIN_INTERVAL = 6, SHIELD_PHASE_MAX_INTERVAL = 10; //ticks between two lightning, during shield phases
@@ -40,7 +41,8 @@ public class VoluciteWardenCoreLightningGoal extends Goal
     {
         if (!(this.warden.level() instanceof ServerLevel level)) {return false;}
 
-        VoluciteLightningHelper.LightningInfo lightningInfo = VoluciteLightningHelper.voluciteMobLightningInfo(this.warden, LIGHTNING_DAMAGE, LIGHTNING_HIT_RADIUS);
+        float damage = this.warden.isInFinalPhase() ? FINAL_PHASE_LIGHTNING_DAMAGE : SHIELD_PHASE_LIGHTNING_DAMAGE;
+        VoluciteLightningHelper.LightningInfo lightningInfo = VoluciteLightningHelper.voluciteMobLightningInfo(this.warden, damage, LIGHTNING_HIT_RADIUS);
         @Nullable LivingEntity target = VoluciteLightningHelper.findRandomTargetAround(level, this.warden.getCoreLightningStartPos(), TARGET_RANGE, entity -> entity instanceof Player && lightningInfo.canHurt().test(entity));
         return target != null && VoluciteLightningHelper.strikeLightningAtTarget(level, this.warden.getCoreLightningStartPos(), target, lightningInfo);
     }

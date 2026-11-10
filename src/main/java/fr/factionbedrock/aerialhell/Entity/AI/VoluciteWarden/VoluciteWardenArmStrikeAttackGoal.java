@@ -12,12 +12,16 @@ import java.util.function.Supplier;
 
 public class VoluciteWardenArmStrikeAttackGoal extends VoluciteWardenArmGoal
 {
+    private static final float STRIKE_DAMAGE = 22.0F;
+    private static final float STRIKE_DAMAGE_RANGE = 4.0F; //entities this close to the striking segment are hurt
+    private static final float KNOCKBACK_SCALE = 3.5F; //horizontal, away from the striking segment
+
     private final StrikeInfo strikeInfo;
 
     public VoluciteWardenArmStrikeAttackGoal(VoluciteWardenEntity entity, Supplier<List<VoluciteWardenEntity.ArmPartInfo>> arm, Supplier<LivingEntity> entityUsedToStrikeSupplier, float distanceOffsetTolerance)
     {
         super(entity, arm, distanceOffsetTolerance);
-        this.strikeInfo = new StrikeInfo(entityUsedToStrikeSupplier, 0.0F, 10.0F, 4.0F, 3.5F, false);
+        this.strikeInfo = new StrikeInfo(entityUsedToStrikeSupplier, 0.0F, STRIKE_DAMAGE, STRIKE_DAMAGE_RANGE, KNOCKBACK_SCALE, false); //no explosion damage (explosion radius 0), no block destruction
     }
 
     @Override public List<Phase> getPhases() {return this.goalOwner.getStrikeAttackSequenceInternal(this.getEntityUsedToStrike());}

@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 
 public class VoluciteWardenArmSweepAttackGoal extends VoluciteWardenArmGoal
 {
-    private static final float SWEEP_DAMAGE = 12.0F;
+    private static final float SWEEP_DAMAGE = 20.0F;
     private static final float KNOCKBACK_STRENGTH = 2.5F; //horizontal, in the direction of the arm movement
     private static final float KNOCKBACK_Y = 0.5F;
 
