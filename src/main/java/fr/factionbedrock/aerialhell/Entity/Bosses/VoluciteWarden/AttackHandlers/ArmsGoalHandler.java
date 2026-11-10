@@ -64,18 +64,17 @@ public class ArmsGoalHandler
     protected void updateArmGoalWeights(BossPhase phase)
     {
         this.armGoalWeights.clear();
-        //TODO balance attacks
-        if (phase == BossPhase.SECOND_PHASE) //shield level 1
+        if (phase == BossPhase.SECOND_PHASE) //shield level 1 - beam and lightning attacks + some summon ally
         {
-            this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3).set(ArmGoalType.SUMMON_HEAL_BEACON, 2);
+            this.armGoalWeights.set(ArmGoalType.STRIKE, 0).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 5).set(ArmGoalType.SWEEP, 0).set(ArmGoalType.SUMMON_HEAL_BEACON, 0);
         }
-        else if (phase == BossPhase.FOURTH_PHASE) //shield level 2
+        else if (phase == BossPhase.FOURTH_PHASE) //shield level 2 - strike + sweep attacks, summon heal beacons, + some beam and lightning attacks
         {
-            this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3).set(ArmGoalType.SUMMON_HEAL_BEACON, 2);
+            this.armGoalWeights.set(ArmGoalType.STRIKE, 6).set(ArmGoalType.BEAM, 2).set(ArmGoalType.SUMMON_ALLY, 1).set(ArmGoalType.LIGHTNING, 2).set(ArmGoalType.SWEEP, 6).set(ArmGoalType.SUMMON_HEAL_BEACON, 3);
         }
-        else if (phase == BossPhase.SIXTH_PHASE) //shield level 3
+        else if (phase == BossPhase.SIXTH_PHASE) //shield level 3 - beam, lightning, strike and sweep attacks (a bit less beams because main beam will be active)
         {
-            this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3).set(ArmGoalType.SUMMON_HEAL_BEACON, 2);
+            this.armGoalWeights.set(ArmGoalType.STRIKE, 3).set(ArmGoalType.BEAM, 2).set(ArmGoalType.SUMMON_ALLY, 0).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3).set(ArmGoalType.SUMMON_HEAL_BEACON, 0);
         }
         //activation, transition, vulnerable, dying & dead phases : no arm goal
         //final phase : no arm goal either, arm segments are semi detached
@@ -138,13 +137,13 @@ public class ArmsGoalHandler
 
     private ArmInfo getArmInfo(boolean isRightArm) {return isRightArm ? this.rightArmInfo : this.leftArmInfo;}
 
-    private int rollCooldown() {return this.warden.getRandom().nextInt(200);}
+    private int rollCooldown() {return this.warden.getRandom().nextInt(70);}
 
     private static class ArmInfo
     {
         private final boolean isRightArm;
         private int inactiveTicks = 0;
-        private int cooldown = 40;
+        private int cooldown = 40; //initial cooldown = 40, nexts cooldowns are roll with rollCooldown()
         @Nullable private ArmGoalType lastGoal = null;
 
         private ArmInfo(boolean isRightArm) {this.isRightArm = isRightArm;}

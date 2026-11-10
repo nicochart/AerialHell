@@ -158,6 +158,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public static final int SHIELD_TRANSITION_DURATION = 40, SHIELD_BREAK_TRANSITION_DURATION = 40, FINAL_TRANSITION_DURATION = 100; //ticks
 	public static final int VULNERABLE_PHASE_DURATION = 200; //ticks before the shield regenerates
 	public static final float VULNERABLE_PHASE_MAX_DAMAGE = 0.35F; //max real health lost per vulnerable phase, relative to max health. the shield regenerates when reached
+	//effective shield health, relative to max health (0.25F : 200 for 800 max health). the shield still uses the whole health (full boss bar when the shield is full) : damage taken during shield phases is divided by this factor instead
+	public static final float SHIELD_HEALTH_FACTOR = 0.25F;
 	public static final BossEvent.BossBarColor SHIELD_BOSS_BAR_COLOR = BossEvent.BossBarColor.WHITE, REAL_HEALTH_BOSS_BAR_COLOR = BossEvent.BossBarColor.BLUE;
 	private float realHealth; //saved when a shield transition starts, restored when the shield breaks
 	private float vulnerableHealthFloor; //real health can't go below it during current vulnerable phase. <= 0 : the real health can reach 0 (final transition)
@@ -326,9 +328,18 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override public final boolean hurtServer(ServerLevel level, DamageSource source, float amount)
 	{
-		boolean superDamaged = super.hurtServer(level, source, amount);
-		this.partHurtServer(superDamaged, level, source, amount);
+		float scaledAmount = this.getShieldScaledDamage(source, amount);
+		boolean superDamaged = super.hurtServer(level, source, scaledAmount);
+		this.partHurtServer(superDamaged, level, source, scaledAmount);
 		return superDamaged;
+	}
+
+	//shield phases : the shield uses the whole health but is only worth SHIELD_HEALTH_FACTOR * max health (see SHIELD_HEALTH_FACTOR). kill & void damage are not scaled
+	//damage from attached parts is redirected to this method (see PartEntity.partDoHurtServer)
+	private float getShieldScaledDamage(DamageSource source, float amount)
+	{
+		if (!this.isInShieldPhase() || source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return amount;}
+		return amount / SHIELD_HEALTH_FACTOR;
 	}
 
 	@Override public void tick()
@@ -518,7 +529,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public static AttributeSupplier.Builder registerAttributes()
     {
 		return Monster.createMonsterAttributes()
-				.add(Attributes.MAX_HEALTH, 1400.0D)
+				.add(Attributes.MAX_HEALTH, 800.0D)
 				.add(Attributes.FOLLOW_RANGE, 64.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.25D)
 				.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
