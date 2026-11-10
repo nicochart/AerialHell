@@ -17,6 +17,7 @@
 		"ImpactFromPersistentProjectileEntityMixin",
 		"LivingDamageMixin",
 		"LivingArmorAbsorbMixin",
+		"LivingMagicAbsorbMixin",
 		"BlockBreakingSpeedMixin",
 		"RarityMixin",
 		"RarityFromItemStackMixin",
