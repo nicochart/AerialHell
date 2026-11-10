@@ -1,6 +1,8 @@
 package fr.factionbedrock.aerialhell.Entity.Util;
 
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteLightningEntity;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
+import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
@@ -10,6 +12,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -23,20 +26,26 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 //volucite lightning attack : a visual lightning (VoluciteLightningEntity) from a start pos to an impact pos, hurting entities near the impact
 //the aimed pos is chosen by the caller (target pos, random pos...), see strikeLightningBelow, findNearestTargetBelow, findRandomTargetAround and randomPosBelow. server side only
 public class VoluciteLightningHelper
 {
-    //damage source, damage amount, radius around the impact, entities that can be hurt, and sound source of the impact sound
-    public record LightningInfo(DamageSource damageSource, float damage, float hitRadius, Predicate<LivingEntity> canHurt, SoundSource soundSource) {}
+    //damage source (created for each lightning, from the lightning start pos), damage amount, radius around the impact, entities that can be hurt, and sound source of the impact sound
+    public record LightningInfo(Function<Vec3, DamageSource> damageSourceFromStartPos, float damage, float hitRadius, Predicate<LivingEntity> canHurt, SoundSource soundSource) {}
 
     //lightning of a volucite mob : no damage to volucite entities (no friendly fire between volucite warden parts, for example)
+    //volucite lightning damage type : caused by the attacker (by its master for a part entity, like the volucite warden head) to scale with difficulty
+    //knockback away from the lightning start pos (not from the impact : a lightning aimed at a target hits its center, which would give a random knockback direction)
     public static LightningInfo voluciteMobLightningInfo(Mob attacker, float damage, float hitRadius)
     {
-        return new LightningInfo(attacker.damageSources().lightningBolt(), damage, hitRadius, entity -> canVoluciteMobHurt(attacker, entity), attacker.getSoundSource());
+        Function<Vec3, DamageSource> damageSourceFromStartPos = startPos -> AerialHellDamageTypes.getDamageSource(attacker.level(), AerialHellDamageTypes.VOLUCITE_LIGHTNING, null, getTrueSource(attacker), startPos);
+        return new LightningInfo(damageSourceFromStartPos, damage, hitRadius, entity -> canVoluciteMobHurt(attacker, entity), attacker.getSoundSource());
     }
+
+    private static Entity getTrueSource(Mob attacker) {return attacker instanceof PartEntity part && part.getMaster() != null ? part.getMaster().getSelf() : attacker;}
 
     public static boolean canVoluciteMobHurt(LivingEntity attacker, LivingEntity entity)
     {
@@ -53,7 +62,7 @@ public class VoluciteLightningHelper
         Vec3 impactPos = blockHit.getType() == HitResult.Type.MISS ? aimedPos : blockHit.getLocation();
 
         spawnLightning(level, startPos, impactPos);
-        hurtEntitiesNearImpact(level, impactPos, info);
+        hurtEntitiesNearImpact(level, startPos, impactPos, info);
 
         RandomSource random = level.getRandom();
         level.playSound(null, impactPos.x, impactPos.y, impactPos.z, AerialHellSoundEvents.ENTITY_VOLUCITE_LIGHTNING_IMPACT.get(), info.soundSource(), 2.0F, 0.9F + random.nextFloat() * 0.2F);
@@ -107,12 +116,13 @@ public class VoluciteLightningHelper
         level.addFreshEntity(lightning);
     }
 
-    private static void hurtEntitiesNearImpact(ServerLevel level, Vec3 impactPos, LightningInfo info)
+    private static void hurtEntitiesNearImpact(ServerLevel level, Vec3 startPos, Vec3 impactPos, LightningInfo info)
     {
         AABB hitBox = new AABB(impactPos, impactPos).inflate(info.hitRadius());
+        DamageSource damageSource = info.damageSourceFromStartPos().apply(startPos);
         for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, hitBox, info.canHurt()))
         {
-            entity.hurtServer(level, info.damageSource(), info.damage());
+            entity.hurtServer(level, damageSource, info.damage());
         }
     }
 

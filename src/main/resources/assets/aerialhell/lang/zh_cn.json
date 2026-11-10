@@ -961,6 +961,8 @@
   "death.attack.aerialhell.golem_beam.player": "%1$s被%2$s的光束击杀",
   "death.attack.aerialhell.volucite_warden_main_beam": "%1$s被%2$s的光束分解了",
   "death.attack.aerialhell.volucite_warden_main_beam.player": "%1$s在与%2$s战斗时被光束分解了",
+  "death.attack.aerialhell.volucite_lightning": "%1$s被%2$s的闪电击中",
+  "death.attack.aerialhell.volucite_lightning.player": "%1$s在与%2$s战斗时被闪电击中",
   "enchantment.aerialhell.solid_ether_walker": "以太行者",
   "enchantment.aerialhell.solid_ether_walker.desc": "可以行走在以太云和幽灵方块上",
   "enchantment.aerialhell.vulnerability_aspect": "脆弱附加",

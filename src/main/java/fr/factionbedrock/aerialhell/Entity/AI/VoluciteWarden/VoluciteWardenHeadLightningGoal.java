@@ -13,7 +13,7 @@ import net.minecraft.world.phys.Vec3;
 //final phase : the semi detached head strikes lightning below itself : some of them target a player (if there is one), the others are random in a zone around the head
 public class VoluciteWardenHeadLightningGoal extends Goal
 {
-    private static final float LIGHTNING_DAMAGE = 15.0F;
+    private static final float LIGHTNING_DAMAGE = 22.5F;
     private static final float LIGHTNING_HIT_RADIUS = 1.5F; //entities this close to the lightning impact are hurt
     private static final float START_POS_SPREAD = 1.5F; //max offset (x and z) of the lightning start pos, around the bottom of the head
     private static final float LIGHTNING_RATE =0.75F / ArmsLightningAttackHandler.LIGHTNING_INTERVAL; //lightning per tick : 0.75 * arm lightning rate (during arm lightning attack)

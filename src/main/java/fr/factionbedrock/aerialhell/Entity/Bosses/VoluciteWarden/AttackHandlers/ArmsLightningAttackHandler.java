@@ -16,7 +16,7 @@ import java.util.List;
 public class ArmsLightningAttackHandler
 {
     public static final int ARC_DURATION = 60; //ticks
-    public static final int LIGHTNING_INTERVAL = 3; //ticks between two lightnings during the arc
+    public static final int LIGHTNING_INTERVAL = 6; //ticks between two lightnings during the arc
 
     //horizontal arc, around the shoulder (unrotated relative positions). angle 0 = in front of the shoulder, positive angle = outward
     private static final float ARC_PIVOT_X = 6.5F;

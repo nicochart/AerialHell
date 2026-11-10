@@ -975,6 +975,8 @@
   "death.attack.aerialhell.golem_beam.player": "%1$s meg lett ölve %2$s sugara által",
   "death.attack.aerialhell.volucite_warden_main_beam": "%1$s szétporladt %2$s sugara által",
   "death.attack.aerialhell.volucite_warden_main_beam.player": "%1$s szétporladt egy sugár által, miközben %2$s ellen harcolt",
+  "death.attack.aerialhell.volucite_lightning": "%1$s-t agyoncsapta %2$s villáma",
+  "death.attack.aerialhell.volucite_lightning.player": "%1$s-t agyoncsapta a villám, miközben %2$s ellen harcolt",
 
   "enchantment.aerialhell.solid_ether_walker": "Szilárd Éterjáró",
   "enchantment.aerialhell.solid_ether_walker.desc": "Lehetővé teszi számodra, hogy járj a Szilárd Éterfelhőkön és a Szellemszerű Blokkokon",

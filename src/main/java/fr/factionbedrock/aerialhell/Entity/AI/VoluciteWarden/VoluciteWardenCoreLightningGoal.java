@@ -12,12 +12,12 @@ import org.jetbrains.annotations.Nullable;
 //shield phases : very frequent lightning, independently of the core repulsion. final phase : occasional lightning
 public class VoluciteWardenCoreLightningGoal extends Goal
 {
-    private static final float SHIELD_PHASE_LIGHTNING_DAMAGE = 15.0F;
-    private static final float FINAL_PHASE_LIGHTNING_DAMAGE = 10.0F;
+    private static final float SHIELD_PHASE_LIGHTNING_DAMAGE = 22.5F;
+    private static final float FINAL_PHASE_LIGHTNING_DAMAGE = 10.0F; //only intimidating : the head (lightning & main beam) is the real danger in final phase
     private static final float LIGHTNING_HIT_RADIUS = 1.5F; //entities this close to the lightning impact are hurt
     private static final float TARGET_RANGE = 12.0F; //players in this radius around the core center can be targeted
-    private static final int SHIELD_PHASE_MIN_INTERVAL = 6, SHIELD_PHASE_MAX_INTERVAL = 10; //ticks between two lightning, during shield phases
-    private static final int FINAL_PHASE_MIN_INTERVAL = 40, FINAL_PHASE_MAX_INTERVAL = 100; //ticks between two lightning, during final phase
+    private static final int SHIELD_PHASE_MIN_INTERVAL = 12, SHIELD_PHASE_MAX_INTERVAL = 20; //ticks between two lightning, during shield phases
+    private static final int FINAL_PHASE_MIN_INTERVAL = 80, FINAL_PHASE_MAX_INTERVAL = 200; //ticks between two lightning, during final phase
 
     private final VoluciteWardenEntity warden;
     private int cooldown;

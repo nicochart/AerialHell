@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 public class VoluciteWardenArmLightningAttackGoal extends VoluciteWardenArmGoal
 {
-    private static final float LIGHTNING_DAMAGE = 15.0F;
+    private static final float LIGHTNING_DAMAGE = 22.5F;
     private static final float LIGHTNING_HIT_RADIUS = 1.5F; //entities this close to the lightning impact are hurt
     private static final float TARGET_CHANCE = 1.0F; //probability for a lightning to target an enemy below the hand (if there is one)
     private static final float TARGET_HORIZONTAL_RANGE = 12.0F; //enemies below the hand, in this horizontal radius, can be targeted

@@ -8,6 +8,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 
@@ -22,11 +23,13 @@ public class AerialHellDamageTypes
     public static final ResourceKey<DamageType> CURSED_TOOL = create("cursed_tool");
     public static final ResourceKey<DamageType> GOLEM_BEAM = create("golem_beam");
     public static final ResourceKey<DamageType> VOLUCITE_WARDEN_MAIN_BEAM = create("volucite_warden_main_beam");
+    public static final ResourceKey<DamageType> VOLUCITE_LIGHTNING = create("volucite_lightning"); //scales with difficulty & knockback away from the lightning start pos (unlike vanilla lightning), see VoluciteLightningHelper
 
     public static final float GOLEM_BEAM_ARMOR_PIERCING = 0.25F;
     public static final float GOLEM_BEAM_ENCHANTMENT_PIERCING = 0.25F;
     public static final float VOLUCITE_WARDEN_MAIN_BEAM_ARMOR_PIERCING = 0.5F;
     public static final float VOLUCITE_WARDEN_MAIN_BEAM_ENCHANTMENT_PIERCING = 0.5F;
+    public static final float VOLUCITE_LIGHTNING_ARMOR_PIERCING = 0.25F;
 
     private static ResourceKey<DamageType> create(String name) {return ResourceKey.create(Registries.DAMAGE_TYPE, Identifier.fromNamespaceAndPath(AerialHell.MODID, name));}
 
@@ -36,6 +39,7 @@ public class AerialHellDamageTypes
     {
         if (damageSource.is(GOLEM_BEAM)) {return GOLEM_BEAM_ARMOR_PIERCING;}
         if (damageSource.is(VOLUCITE_WARDEN_MAIN_BEAM)) {return VOLUCITE_WARDEN_MAIN_BEAM_ARMOR_PIERCING;}
+        if (damageSource.is(VOLUCITE_LIGHTNING)) {return VOLUCITE_LIGHTNING_ARMOR_PIERCING;}
         return 0.0F;
     }
 
@@ -56,5 +60,11 @@ public class AerialHellDamageTypes
     public static DamageSource getDamageSource(Level level, ResourceKey<DamageType> typeKey, @Nullable Entity immediateSource, @Nullable Entity trueSource)
     {
         return new DamageSource(level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(typeKey), immediateSource, trueSource);
+    }
+
+    //sourcePos : knockback direction origin (vanilla default knockback pushes away from it), instead of the immediate source position
+    public static DamageSource getDamageSource(Level level, ResourceKey<DamageType> typeKey, @Nullable Entity immediateSource, @Nullable Entity trueSource, @Nullable Vec3 sourcePos)
+    {
+        return new DamageSource(level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(typeKey), immediateSource, trueSource, sourcePos);
     }
 }

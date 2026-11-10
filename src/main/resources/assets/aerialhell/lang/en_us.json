@@ -976,6 +976,8 @@
   "death.attack.aerialhell.golem_beam.player": "%1$s was killed by %2$s's Beam",
   "death.attack.aerialhell.volucite_warden_main_beam": "%1$s was disintegrated by %2$s's beam",
   "death.attack.aerialhell.volucite_warden_main_beam.player": "%1$s was disintegrated by a beam whilst fighting %2$s",
+  "death.attack.aerialhell.volucite_lightning": "%1$s was struck by %2$s's lightning",
+  "death.attack.aerialhell.volucite_lightning.player": "%1$s was struck by lightning whilst fighting %2$s",
 
   "enchantment.aerialhell.solid_ether_walker": "Solid Ether Walker",
   "enchantment.aerialhell.solid_ether_walker.desc": "Allows to collide with Solid Ether and all Ghostly things",

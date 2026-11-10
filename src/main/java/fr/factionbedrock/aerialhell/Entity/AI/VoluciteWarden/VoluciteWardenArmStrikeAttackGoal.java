@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 public class VoluciteWardenArmStrikeAttackGoal extends VoluciteWardenArmGoal
 {
-    private static final float STRIKE_DAMAGE = 22.0F;
+    private static final float STRIKE_DAMAGE = 32.0F;
     private static final float STRIKE_DAMAGE_RANGE = 4.0F; //entities this close to the striking segment are hurt
     private static final float KNOCKBACK_SCALE = 3.5F; //horizontal, away from the striking segment
 
