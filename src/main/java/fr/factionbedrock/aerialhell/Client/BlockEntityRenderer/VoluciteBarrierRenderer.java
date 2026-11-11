@@ -41,15 +41,16 @@ public class VoluciteBarrierRenderer implements BlockEntityRenderer<VoluciteBarr
     {
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
         state.facesToShow.clear();
+        int visibleFaces = blockEntity.getVisibleFaces(); //cached, see VoluciteBarrierBlockEntity
         for (Direction direction : Direction.values())
         {
-            if (blockEntity.shouldRenderFace(direction)) {state.facesToShow.add(direction);}
+            if (VoluciteBarrierBlockEntity.hasFace(visibleFaces, direction)) {state.facesToShow.add(direction);}
         }
     }
 
     @Override public void submit(EndPortalRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera)
     {
-        if (state.facesToShow.isEmpty()) {return;}
+        if (state.facesToShow.isEmpty() || !AerialHellRenderPipelines.isVoluciteBarrierAvailable()) {return;}
         submitNodeCollector.submitCustomGeometry(poseStack, AerialHellRenderPipelines.VOLUCITE_BARRIER_RENDER_TYPE, (pose, buffer) ->
         {
             for (Direction direction : state.facesToShow)

@@ -13,7 +13,10 @@ import net.minecraft.client.renderer.blockentity.AbstractEndPortalRenderer;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterRenderPipelinesEvent;
+import net.neoforged.neoforge.client.resources.VanillaClientListeners;
 
 public class AerialHellRenderPipelines
 {
@@ -36,8 +39,26 @@ public class AerialHellRenderPipelines
             .sortOnUpload()
             .createRenderSetup());
 
+    //the pipeline is optional : if its shaders fail to compile (graphics driver), the game does not crash, the effect is just not drawn (the block model stays)
+    //drawing with a pipeline that failed would throw, and asking for it again tries to compile it again : the failure is remembered until the next shaders reload
+    private static boolean voluciteBarrierFailed = false;
+
+    public static boolean isVoluciteBarrierAvailable() //render thread
+    {
+        if (!voluciteBarrierFailed && RenderSystem.getCompiledPipelineNullable(VOLUCITE_BARRIER) == null) {voluciteBarrierFailed = true;}
+        return !voluciteBarrierFailed;
+    }
+
     public static void registerPipelines(RegisterRenderPipelinesEvent event)
     {
-        event.registerPipeline(VOLUCITE_BARRIER);
+        event.registerOptionalPipeline(VOLUCITE_BARRIER);
+    }
+
+    //after each shaders reload (pipelines compiled again), the availability of optional pipelines is checked again
+    public static void addReloadListeners(AddClientReloadListenersEvent event)
+    {
+        Identifier key = Identifier.fromNamespaceAndPath(AerialHell.MODID, "optional_pipelines_availability");
+        event.addListener(key, (ResourceManagerReloadListener) resourceManager -> voluciteBarrierFailed = false);
+        event.addDependency(VanillaClientListeners.SHADERS, key);
     }
 }

@@ -32,6 +32,7 @@ public class AerialHellClientSetup
         modEventBus.addListener(RenderRegistrationListener::onRegisterRenderers);
         modEventBus.addListener(RenderRegistrationListener::onRegisterLayerDefinitions);
         modEventBus.addListener(AerialHellRenderPipelines::registerPipelines);
+        modEventBus.addListener(AerialHellRenderPipelines::addReloadListeners);
         if (LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT)
         {
             modEventBus.addListener(RenderRegistrationListener::onModelBake);
