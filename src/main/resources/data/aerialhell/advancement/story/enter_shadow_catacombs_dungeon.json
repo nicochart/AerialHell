@@ -22,6 +22,5 @@
     }
   },
   "requirements": [["in_shadow_catacombs"]],
-  "rewards": {"function": "aerialhell:advancement_story_sound"},
   "sends_telemetry_event": false
 }

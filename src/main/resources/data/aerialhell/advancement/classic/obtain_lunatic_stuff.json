@@ -15,6 +15,5 @@
       "conditions": {"items": [{"items": "#aerialhell:lunatic_stuff"}]}
     }
   },
-  "requirements": [["lunatic_stuff"]],
-  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+  "requirements": [["lunatic_stuff"]]
 }

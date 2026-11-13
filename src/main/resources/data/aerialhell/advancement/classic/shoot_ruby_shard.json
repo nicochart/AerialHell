@@ -14,6 +14,5 @@
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {"damage": {"type": {"is_projectile": true, "direct_entity": {"minecraft:entity_type": "aerialhell:ruby_shard"}}}}}
   },
-  "requirements": [["shot_shard"]],
-  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+  "requirements": [["shot_shard"]]
 }
