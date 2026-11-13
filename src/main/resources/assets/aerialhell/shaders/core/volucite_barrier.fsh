@@ -12,7 +12,7 @@
 uniform sampler2D Sampler0; //particles (vanilla end portal stars : sparse 1 pixel dots)
 uniform sampler2D Sampler1; //nebula, behind the last layer (vanilla end sky)
 
-layout(location = 0) in vec3 relativePos;
+layout(location = 0) in vec3 relativePos; //relative to the eye the image is drawn from (view bobbing included, see volucite_barrier.vsh)
 layout(location = 1) in vec3 worldPos;
 layout(location = 2) in float sphericalVertexDistance;
 layout(location = 3) in float cylindricalVertexDistance;
