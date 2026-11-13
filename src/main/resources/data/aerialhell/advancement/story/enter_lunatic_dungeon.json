@@ -22,6 +22,5 @@
     }
   },
   "requirements": [["in_lunatic_temple"]],
-  "rewards": {"function": "aerialhell:advancement_story_sound"},
   "sends_telemetry_event": false
 }

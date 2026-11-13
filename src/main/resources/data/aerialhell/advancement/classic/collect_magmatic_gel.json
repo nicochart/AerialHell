@@ -19,6 +19,5 @@
       }
     }
   },
-  "requirements": [["magmatic_gel"]],
-  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+  "requirements": [["magmatic_gel"]]
 }

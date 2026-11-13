@@ -1,1 +1,0 @@
-playsound aerialhell:advancement.classic player @s

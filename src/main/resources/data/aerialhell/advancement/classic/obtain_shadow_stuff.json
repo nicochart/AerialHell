@@ -15,6 +15,5 @@
       "conditions": {"items": [{"items": "#aerialhell:shadow_armor"}]}
     }
   },
-  "requirements": [["shadow_armor"]],
-  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+  "requirements": [["shadow_armor"]]
 }

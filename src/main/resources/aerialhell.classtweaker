@@ -70,3 +70,6 @@ accessible field net/minecraft/client/gui/Gui minecraft Lnet/minecraft/client/Mi
 
 #Used in RenderSkyMixin
 accessible field net/minecraft/client/renderer/LevelRenderer targets Lnet/minecraft/client/renderer/LevelTargetBundle;
+
+#Used in ToastManagerSlideSoundMixin
+accessible class net/minecraft/client/gui/components/toasts/ToastManager$ToastInstance

@@ -28,6 +28,5 @@
     }
   },
   "requirements": [["shadow_spider", "shadow_troll", "shadow_automaton", "shadow_pine_mimic"]],
-  "rewards": {"function": "aerialhell:advancement_classic_sound"},
   "sends_telemetry_event": false
 }

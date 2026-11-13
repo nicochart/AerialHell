@@ -15,6 +15,5 @@
       "conditions": {"items": [{"items": "#aerialhell:obsidian_stuff"}]}
     }
   },
-  "requirements": [["obsidian_stuff"]],
-  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+  "requirements": [["obsidian_stuff"]]
 }

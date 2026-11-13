@@ -31,7 +31,9 @@
 		"ChestVariantMixin",
 		"UseItemFovModifierMixin",
 		"UseItemInHandRendererMixin",
-		"CubeMapTextureMixin"
+		"CubeMapTextureMixin",
+		"AdvancementSounds.AdvancementToastSoundMixin",
+		"AdvancementSounds.ToastManagerSlideSoundMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

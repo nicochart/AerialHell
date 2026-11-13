@@ -1,1 +1,0 @@
-playsound aerialhell:advancement.secret player @s

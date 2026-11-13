@@ -13,6 +13,5 @@
       "trigger": "minecraft:inventory_changed",
       "conditions": {"items": [{"items": ["aerialhell:stellar_cobblestone"]}]}
     }
-  },
-  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+  }
 }

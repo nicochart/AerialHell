@@ -31,6 +31,5 @@
       "conditions": {"items": [{"items": ["aerialhell:ruby_shovel"]}]}
     }
   },
-  "requirements": [["ruby_pickaxe","ruby_axe","ruby_sword","ruby_hoe","ruby_shovel"]],
-  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+  "requirements": [["ruby_pickaxe","ruby_axe","ruby_sword","ruby_hoe","ruby_shovel"]]
 }

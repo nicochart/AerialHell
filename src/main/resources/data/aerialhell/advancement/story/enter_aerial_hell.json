@@ -16,6 +16,5 @@
     }
   },
   "requirements": [["entered_aerial_hell"]],
-  "rewards": {"function": "aerialhell:advancement_story_sound"},
   "sends_telemetry_event": false
 }

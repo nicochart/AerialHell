@@ -19,6 +19,5 @@
       "conditions": {"items": [{"items": ["aerialhell:cursed_axe"]}]}
     }
   },
-  "requirements": [["cursed_sword","cursed_axe"]],
-  "rewards": {"function": "aerialhell:advancement_classic_sound"}
+  "requirements": [["cursed_sword","cursed_axe"]]
 }
