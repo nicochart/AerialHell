@@ -32,9 +32,10 @@ public class AerialHellRenderPipelines
             .withDepthStencilState(new DepthStencilState(CompareOp.GREATER_THAN_OR_EQUAL, false))
             .build();
 
-    //vanilla end portal (particles) and end sky (nebula) textures, repeated (world anchored coordinates), no filtering (pixel particles)
+    //particles and vanilla end sky (nebula) textures, repeated (world anchored coordinates), no filtering (pixel particles)
+    public static final Identifier VOLUCITE_BARRIER_PARTICLES_LOCATION = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/volucite_barrier/particles.png");
     public static final RenderType VOLUCITE_BARRIER_RENDER_TYPE = RenderType.create("aerialhell_volucite_barrier", RenderSetup.builder(VOLUCITE_BARRIER)
-            .withTexture("Sampler0", AbstractEndPortalRenderer.END_PORTAL_LOCATION, () -> RenderSystem.getSamplerCache().getRepeat(FilterMode.NEAREST))
+            .withTexture("Sampler0", VOLUCITE_BARRIER_PARTICLES_LOCATION, () -> RenderSystem.getSamplerCache().getRepeat(FilterMode.NEAREST))
             .withTexture("Sampler1", AbstractEndPortalRenderer.END_SKY_LOCATION, () -> RenderSystem.getSamplerCache().getRepeat(FilterMode.NEAREST))
             .sortOnUpload()
             .createRenderSetup());

@@ -9,7 +9,7 @@
 //the layers are anchored in the world : they move with the camera (parallax, deeper layers move less), and slowly drift
 //output : premultiplied alpha (see AerialHellRenderPipelines.VOLUCITE_BARRIER) : alpha = how much the dark void hides what is behind, the particles are added on top
 
-uniform sampler2D Sampler0; //particles (vanilla end portal stars : sparse 1 pixel dots)
+uniform sampler2D Sampler0; //particles (textures/entity/volucite_barrier/particles.png, small dots on black : only their brightness is used, the color comes from LAYER_COLORS)
 uniform sampler2D Sampler1; //nebula, behind the last layer (vanilla end sky)
 
 layout(location = 0) in vec3 relativePos; //relative to the eye the image is drawn from (view bobbing included, see volucite_barrier.vsh)
