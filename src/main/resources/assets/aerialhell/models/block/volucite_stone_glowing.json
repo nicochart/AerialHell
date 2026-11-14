@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "#all"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "down": {"texture": "#all", "uv": [0, 0, 16, 16], "cullface": "down"},
+        "up": {"texture": "#all", "uv": [0, 0, 16, 16], "cullface": "up"},
+        "north": {"texture": "#all", "uv": [0, 0, 16, 16], "cullface": "north"},
+        "south": {"texture": "#all", "uv": [0, 0, 16, 16], "cullface": "south"},
+        "west": {"texture": "#all", "uv": [0, 0, 16, 16], "cullface": "west"},
+        "east": {"texture": "#all", "uv": [0, 0, 16, 16], "cullface": "east"}
+      }
+    },
+    {
+      "from": [-0.01, -0.01, -0.01],
+      "to": [16.01, 16.01, 16.01],
+      "light_emission": 15,
+      "shade_direction_override": "up",
+      "neoforge_data": {"ambient_occlusion": false},
+      "faces": {
+        "down": {"texture": "#glow", "uv": [0, 0, 16, 16], "cullface": "down"},
+        "up": {"texture": "#glow", "uv": [0, 0, 16, 16], "cullface": "up"},
+        "north": {"texture": "#glow", "uv": [0, 0, 16, 16], "cullface": "north"},
+        "south": {"texture": "#glow", "uv": [0, 0, 16, 16], "cullface": "south"},
+        "west": {"texture": "#glow", "uv": [0, 0, 16, 16], "cullface": "west"},
+        "east": {"texture": "#glow", "uv": [0, 0, 16, 16], "cullface": "east"}
+      }
+    }
+  ]
+}

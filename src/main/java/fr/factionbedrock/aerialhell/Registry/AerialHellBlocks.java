@@ -422,7 +422,7 @@ public class AerialHellBlocks
     public static final Block CRACKED_LIGHT_GOLDEN_NETHER_BRICKS = register(Keys.CRACKED_LIGHT_GOLDEN_NETHER_BRICKS.identifier().getPath(), new CoreProtectedBlock(BlockBehaviour.Properties.ofFullCopy(GOLDEN_NETHER_BRICKS).setId(Keys.CRACKED_LIGHT_GOLDEN_NETHER_BRICKS)));
     public static final RotatedPillarBlock LUNATIC_PILLAR = register(Keys.LUNATIC_PILLAR.identifier().getPath(), new CoreProtectedRotatedPillarBlock(BlockBehaviour.Properties.of().setId(Keys.LUNATIC_PILLAR).mapColor(MapColor.SNOW).strength(2.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
     public static final RotatedPillarBlock LUNATIC_PILLAR_TOP = register(Keys.LUNATIC_PILLAR_TOP.identifier().getPath(), new CoreProtectedRotatedPillarBlock(BlockBehaviour.Properties.of().setId(Keys.LUNATIC_PILLAR_TOP).mapColor(MapColor.SNOW).strength(2.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
-    public static final Block VOLUCITE_STONE = register(Keys.VOLUCITE_STONE.identifier().getPath(), new VoluciteStoneBlock(BlockBehaviour.Properties.of().setId(Keys.VOLUCITE_STONE).strength(2.0F, 6.0F).sound(SoundType.STONE).lightLevel(getLightValueLit(AerialHellBooleanProperties.SELF_LUMINESCENT, 8))));
+    public static final Block VOLUCITE_STONE = register(Keys.VOLUCITE_STONE.identifier().getPath(), new CoreProtectedBlock(BlockBehaviour.Properties.of().setId(Keys.VOLUCITE_STONE).strength(2.0F, 6.0F).sound(SoundType.STONE)));
     public static final Block CRACKED_VOLUCITE_STONE = register(Keys.CRACKED_VOLUCITE_STONE.identifier().getPath(), new CoreProtectedBlock(BlockBehaviour.Properties.of().setId(Keys.CRACKED_VOLUCITE_STONE).strength(2.0F, 6.0F).sound(SoundType.STONE)));
     public static final Block CHISELED_VOLUCITE_STONE = register(Keys.CHISELED_VOLUCITE_STONE.identifier().getPath(), new CoreProtectedBlock(BlockBehaviour.Properties.of().setId(Keys.CHISELED_VOLUCITE_STONE).strength(2.0F, 6.0F).sound(SoundType.STONE)));
     public static final Block LIGHT_VOLUCITE_STONE = register(Keys.LIGHT_VOLUCITE_STONE.identifier().getPath(), new CoreProtectedBlock(BlockBehaviour.Properties.of().setId(Keys.LIGHT_VOLUCITE_STONE).strength(2.0F, 6.0F).sound(SoundType.STONE).lightLevel((state) -> 13)));
@@ -434,6 +434,9 @@ public class AerialHellBlocks
     public static final Block SHADOW_CATACOMBS_DUNGEON_CORE = register(Keys.SHADOW_CATACOMBS_DUNGEON_CORE.identifier().getPath(), new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.SHADOW_CATACOMBS_DUNGEON_CORE).strength(30.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 181));
     public static final Block GOLDEN_NETHER_DUNGEON_CORE = register(Keys.GOLDEN_NETHER_DUNGEON_CORE.identifier().getPath(), new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.GOLDEN_NETHER_DUNGEON_CORE).strength(50.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
     public static final Block VOLUCITE_DUNGEON_CORE = register(Keys.VOLUCITE_DUNGEON_CORE.identifier().getPath(), new DungeonCoreBlock(BlockBehaviour.Properties.of().setId(Keys.VOLUCITE_DUNGEON_CORE).strength(50.0F, 1200.0F).pushReaction(PushReaction.IMMOVEABLE).sound(SoundType.STONE).requiresCorrectToolForDrops(), 101));
+
+    //specific dungeon blocks
+    public static final Block VOLUCITE_BARRIER = register(Keys.VOLUCITE_BARRIER.identifier().getPath(), new VoluciteBarrierBlock(BlockBehaviour.Properties.of().setId(Keys.VOLUCITE_BARRIER).mapColor(MapColor.COLOR_LIGHT_BLUE).strength(-1.0F, 3600000.0F).noLootTable().sound(SoundType.GLASS).noOcclusion().isValidSpawn((state, reader, pos, entity) -> false).isRedstoneConductor((state, reader, pos) -> false).isSuffocating((state, reader, pos) -> false).isViewBlocking((state, reader, pos, aabb) -> false)));
 
     //dungeons slabs, stairs & walls
     public static final SlabBlock MUD_BRICKS_SLAB = register(Keys.MUD_BRICKS_SLAB.identifier().getPath(), new CoreProtectedSlabBlock(BlockBehaviour.Properties.ofFullCopy(MUD_BRICKS).setId(Keys.MUD_BRICKS_SLAB)));
@@ -1163,6 +1166,9 @@ public class AerialHellBlocks
         public static final ResourceKey<Block> SHADOW_CATACOMBS_DUNGEON_CORE = createKey("shadow_catacombs_dungeon_core");
         public static final ResourceKey<Block> GOLDEN_NETHER_DUNGEON_CORE = createKey("golden_nether_dungeon_core");
         public static final ResourceKey<Block> VOLUCITE_DUNGEON_CORE = createKey("volucite_dungeon_core");
+
+        //specific dungeon blocks
+        public static final ResourceKey<Block> VOLUCITE_BARRIER = createKey("volucite_barrier");
 
         //dungeons slabs, stairs & walls
         public static final ResourceKey<Block> MUD_BRICKS_SLAB = createKey("mud_bricks_slab");

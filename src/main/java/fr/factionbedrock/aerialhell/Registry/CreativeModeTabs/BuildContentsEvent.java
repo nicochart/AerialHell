@@ -539,6 +539,8 @@ public class BuildContentsEvent
             entries.accept(AerialHellItems.GOLDEN_NETHER_DUNGEON_CORE);
             entries.accept(AerialHellItems.VOLUCITE_DUNGEON_CORE);
 
+            entries.accept(AerialHellItems.VOLUCITE_BARRIER);
+
             entries.accept(AerialHellItems.MUD_BRICKS_SLAB);
             entries.accept(AerialHellItems.MUD_BRICKS_STAIRS);
             entries.accept(AerialHellItems.MUD_BRICKS_WALL);

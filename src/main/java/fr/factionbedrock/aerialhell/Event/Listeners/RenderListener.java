@@ -2,8 +2,14 @@ package fr.factionbedrock.aerialhell.Event.Listeners;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellMobEffects;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.level.LevelExtractionContext;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 //import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -20,6 +26,17 @@ public class RenderListener
      *  Vulnerability hearts render : TODO work on that
      *
      */
+
+    //no volucite barrier block outline, except for creative players (the outline is already extracted : setting it to null removes it)
+    //neoforge : done by cancelling ExtractBlockOutlineRenderStateEvent
+    public static void onBlockOutlineExtraction(LevelExtractionContext context, @Nullable HitResult hit)
+    {
+        if (hit instanceof BlockHitResult blockHit && hit.getType() == HitResult.Type.BLOCK && !EntityHelper.isCreativePlayer(Minecraft.getInstance().player)
+                && context.level().getBlockState(blockHit.getBlockPos()).is(AerialHellBlocks.VOLUCITE_BARRIER))
+        {
+            context.levelState().blockOutlineRenderState = null;
+        }
+    }
 
     //private static final Identifier VULNERABLE_OVERLAY = Identifier.of(AerialHell.MODID, "textures/misc/vulnerability_blur.png");
     //private static final Identifier VULNERABLE_HEART = Identifier.of(AerialHell.MODID, "textures/gui/vulnerability_hearts.png");

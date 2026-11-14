@@ -1,0 +1,19 @@
+{
+  "sources": [
+    {
+      "type": "aerialhell:phased_animation",
+      "resource": "aerialhell:block/volucite_stone_glow_0",
+      "phases": 32
+    },
+    {
+      "type": "aerialhell:phased_animation",
+      "resource": "aerialhell:block/volucite_stone_glow_1",
+      "phases": 32
+    },
+    {
+      "type": "aerialhell:phased_animation",
+      "resource": "aerialhell:block/volucite_stone_glow_2",
+      "phases": 32
+    }
+  ]
+}

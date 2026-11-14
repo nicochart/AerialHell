@@ -19,6 +19,9 @@ public class AerialHellBlockEntities
 	public static final BlockEntityType<IntangibleTemporaryBlockEntity> INTANGIBLE_TEMPORARY_BLOCK = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.id("intangible_temporary_block"),
 			FabricBlockEntityTypeBuilder.create(IntangibleTemporaryBlockEntity::new,AerialHellBlocks.INTANGIBLE_TEMPORARY_BLOCK).build());
 
+	public static final BlockEntityType<VoluciteBarrierBlockEntity> VOLUCITE_BARRIER = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.id("volucite_barrier"),
+			FabricBlockEntityTypeBuilder.create(VoluciteBarrierBlockEntity::new, AerialHellBlocks.VOLUCITE_BARRIER).build());
+
 	public static final BlockEntityType<BiomeShifterBlockEntity> BIOME_SHIFTER = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, AerialHell.id("biome_shifter"),
 			FabricBlockEntityTypeBuilder.create((pos, blockState) -> new BiomeShifterBlockEntity(pos, blockState, BiomeShifter.MAX_PROTECTION_DISTANCE, BiomeShifter.ShiftType.UNCORRUPT, null),
 				AerialHellBlocks.FLUORITE_ORE,

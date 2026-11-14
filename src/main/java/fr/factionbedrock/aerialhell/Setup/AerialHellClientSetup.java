@@ -5,8 +5,11 @@ import fr.factionbedrock.aerialhell.Client.Event.Listeners.BlocksAndItemsColorHa
 import fr.factionbedrock.aerialhell.Client.Event.Listeners.RenderRegistrationListener;
 import fr.factionbedrock.aerialhell.Client.Packet.ClientPayloadHandler;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
+import fr.factionbedrock.aerialhell.Client.Registry.AerialHellRenderPipelines;
 import fr.factionbedrock.aerialhell.Config.LoadedConfigParams;
+import fr.factionbedrock.aerialhell.Event.Listeners.RenderListener;
 import fr.factionbedrock.aerialhell.Registry.AerialHellWoodTypes;
+import net.fabricmc.fabric.api.client.rendering.v1.level.LevelExtractionEvents;
 
 public class AerialHellClientSetup
 {
@@ -20,6 +23,9 @@ public class AerialHellClientSetup
         RenderRegistrationListener.registerBlockRenderLayers();
         RenderRegistrationListener.registerRenderers();
         RenderRegistrationListener.registerLayerDefinitions();
+        RenderRegistrationListener.registerBlockStateModels();
+        RenderRegistrationListener.registerSpriteSources();
+        AerialHellRenderPipelines.registerReloadListener();
         if (LoadedConfigParams.ENABLE_SHADOW_BIND_TEXTURE_SHIFT)
         {
             RenderRegistrationListener.registerShiftingBakedModels();
@@ -29,6 +35,7 @@ public class AerialHellClientSetup
         AerialHellClientSetup.registerDimensionRenderInfo();
         AerialHellRendering.registerScreensMenus();
         //NeoForge.EVENT_BUS.addListener(RenderListener::onRenderOverlayPost);
+        LevelExtractionEvents.AFTER_BLOCK_OUTLINE_EXTRACTION.register(RenderListener::onBlockOutlineExtraction);
 
         BlocksAndItemsColorHandler.handleBlockColors();
         BlocksAndItemsColorHandler.handleColorResolvers();

@@ -1,16 +1,22 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
+import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.BlockBakedModels.PhasedGlowBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
+import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.VoluciteBarrierRenderer;
 import fr.factionbedrock.aerialhell.Client.EntityModels.*;
 import fr.factionbedrock.aerialhell.Client.EntityRender.*;
+import fr.factionbedrock.aerialhell.Client.Texture.PhasedAnimationSpriteSource;
 import fr.factionbedrock.aerialhell.Client.Util.ShiftedModelRenderHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
+import net.fabricmc.fabric.api.client.model.loading.v1.CustomUnbakedBlockStateModel;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.SpriteSourceRegistry;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
@@ -301,6 +307,19 @@ public class RenderRegistrationListener
         BlockEntityRenderers.register(AerialHellBlockEntities.CHEST_MIMIC, AerialHellChestMimicBlockEntityRenderer::new);
         BlockEntityRenderers.register(AerialHellBlockEntities.SIGN, StandingSignRenderer::new);
         BlockEntityRenderers.register(AerialHellBlockEntities.HANGING_SIGN, HangingSignRenderer::new);
+        BlockEntityRenderers.register(AerialHellBlockEntities.VOLUCITE_BARRIER, VoluciteBarrierRenderer::new);
+    }
+
+    public static void registerBlockStateModels()
+    {
+        //client side model to render volucite stone glow
+        CustomUnbakedBlockStateModel.register(AerialHell.id("phased_glow"), PhasedGlowBlockBakedModel.Unbaked.MAP_CODEC);
+    }
+
+    public static void registerSpriteSources()
+    {
+        //phased animation : copies of an animated texture with a time offset
+        SpriteSourceRegistry.register(AerialHell.id("phased_animation"), PhasedAnimationSpriteSource.MAP_CODEC);
     }
 
     public static void registerLayerDefinitions()
