@@ -1,10 +1,13 @@
 package fr.factionbedrock.aerialhell.Client.Event.Listeners;
 
+import fr.factionbedrock.aerialhell.AerialHell;
+import fr.factionbedrock.aerialhell.Client.BlockBakedModels.PhasedGlowBlockBakedModel;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.AerialHellChestMimicBlockEntityRenderer;
 import fr.factionbedrock.aerialhell.Client.BlockEntityRenderer.VoluciteBarrierRenderer;
 import fr.factionbedrock.aerialhell.Client.EntityModels.*;
 import fr.factionbedrock.aerialhell.Client.EntityRender.*;
+import fr.factionbedrock.aerialhell.Client.Texture.PhasedAnimationSpriteSource;
 import fr.factionbedrock.aerialhell.Client.Util.ShiftedModelRenderHelper;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlockEntities;
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
@@ -12,8 +15,11 @@ import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterBlockStateModels;
+import net.neoforged.neoforge.client.event.RegisterSpriteSourcesEvent;
 
 public class RenderRegistrationListener
 {
@@ -204,5 +210,17 @@ public class RenderRegistrationListener
         ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.EYE_SHADOW_PINE_LOG.get(), event);
         ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.STELLAR_JUNGLE_TREE_LOG.get(), event);
         ShiftedModelRenderHelper.createAndRegisterLogBlockShiftedRender(AerialHellBlocks.SHADOW_STELLAR_JUNGLE_TREE_LOG.get(), event);
+    }
+
+    public static void onRegisterBlockStateModels(RegisterBlockStateModels event)
+    {
+        //client side model to render volucite stone glow
+        event.registerModel(Identifier.fromNamespaceAndPath(AerialHell.MODID, "phased_glow"), PhasedGlowBlockBakedModel.Unbaked.MAP_CODEC);
+    }
+
+    public static void onRegisterSpriteSources(RegisterSpriteSourcesEvent event)
+    {
+        //phased animation : copies of an animated texture with a time offset
+        event.register(Identifier.fromNamespaceAndPath(AerialHell.MODID, "phased_animation"), PhasedAnimationSpriteSource.MAP_CODEC);
     }
 }

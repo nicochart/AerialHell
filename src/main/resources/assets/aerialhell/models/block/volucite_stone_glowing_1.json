@@ -1,0 +1,7 @@
+{
+  "parent": "aerialhell:block/volucite_stone_glowing",
+  "textures": {
+    "all": "aerialhell:block/volucite_stone_1",
+    "glow": {"sprite": "aerialhell:block/volucite_stone_glow_1", "force_translucent": true}
+  }
+}

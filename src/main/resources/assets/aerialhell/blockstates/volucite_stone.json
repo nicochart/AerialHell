@@ -1,15 +1,16 @@
 {
   "variants": {
-    "self_luminescent=false": [
-       {"model": "aerialhell:block/volucite_stone_0"},
-       {"model": "aerialhell:block/volucite_stone_1"},
-       {"model": "aerialhell:block/volucite_stone_2"},
-       {"model": "aerialhell:block/volucite_stone_3"}
-    ],
-    "self_luminescent=true": [
-       {"model": "aerialhell:block/volucite_stone_self_luminescent"},
-       {"model": "aerialhell:block/volucite_stone_self_luminescent_short_0"},
-       {"model": "aerialhell:block/volucite_stone_self_luminescent_short_1"}
-    ]
+    "": {
+      "type": "aerialhell:phased_glow",
+      "models": [
+        "aerialhell:block/volucite_stone_glowing_0",
+        "aerialhell:block/volucite_stone_glowing_1",
+        "aerialhell:block/volucite_stone_glowing_2",
+        "aerialhell:block/volucite_stone_3"
+      ],
+      "phases": 32,
+      "noise_scale": 48,
+      "noise_cycles": 2
+    }
   }
 }
