@@ -44,6 +44,7 @@ public class AerialHellClientSetup
         NeoForge.EVENT_BUS.addListener(ScreenEffectListener::onOverlay);
         NeoForge.EVENT_BUS.addListener(RecipesCache::onRecipesReceived);
         NeoForge.EVENT_BUS.addListener(RenderListener::onRenderOverlayPost);
+        NeoForge.EVENT_BUS.addListener(RenderListener::onExtractBlockOutline);
 
         if (!FMLEnvironment.isProduction()) //dev tool, used to make title screen panorama
         {

@@ -7,12 +7,11 @@ import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.core.BlockPos;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.level.gamerules.GameRules;
+import net.neoforged.neoforge.client.event.ExtractBlockOutlineRenderStateEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
 import java.util.Optional;
@@ -68,6 +67,13 @@ public class RenderListener
             }
             else {clientPortalTicks = 0;}
         }
+    }
+
+    //cancelling this event prevents block outline render
+    public static void onExtractBlockOutline(ExtractBlockOutlineRenderStateEvent event)
+    {
+        Player player = Minecraft.getInstance().player;
+        if (event.getBlockState().is(AerialHellBlocks.VOLUCITE_BARRIER.get()) && !EntityHelper.isCreativePlayer(player)) {event.setCanceled(true);}
     }
 
     /* @SubscribeEvent TODO
