@@ -35,7 +35,7 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
     public static final int BEAMING_LOAD_DURATION = 42;
     public static final int BEAMING_OVERHEAT_DURATION = 140;
     public static final int BEAMING_TOTAL_DURATION = 226; //load 42 + normal & overheat 60 60 60 + 4 (beam overlap)
-    public static final int BEAMING_COOLDOWN = 100;
+    public static final int BEAMING_COOLDOWN = 0; //no cooldown : handled by arm beam goal, by ArmsGoalHandler
     private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteWardenArmSegmentEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BEAMING_PHASE = SynchedEntityData.defineId(VoluciteWardenArmSegmentEntity.class, EntityDataSerializers.INT);
     private final BeamAttackEntityInfo BEAM_ATTACK_ENTITY_INFO = new BeamAttackEntityInfo(ATTACK_TARGET_ID, BEAMING_PHASE);
