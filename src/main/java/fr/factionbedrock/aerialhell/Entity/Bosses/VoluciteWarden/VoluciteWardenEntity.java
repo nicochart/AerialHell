@@ -605,6 +605,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public boolean isInShieldTransition() {return SHIELD_TRANSITIONS.contains(this.getPhase());}
 	//no heal from heal beacons during shield break transitions, vulnerable phases & shield transitions (activation phase can be healed). see VoluciteWardenHealBeaconEntity.isValidHealTarget
 	public boolean canBeHealedByBeacons() {return !this.isRealHealthVulnerable() && !this.isInShieldTransition();}
+	public boolean areSecondaryPartsInvulnerable() {return true;} //secondary parts are parts other than core, head & arm segments
 
 	//shield & final transitions : invulnerable (health is regenerated). shield break transitions : the warden can be hurt
 	@Override public boolean isInvulnerableTo(ServerLevel level, DamageSource source)

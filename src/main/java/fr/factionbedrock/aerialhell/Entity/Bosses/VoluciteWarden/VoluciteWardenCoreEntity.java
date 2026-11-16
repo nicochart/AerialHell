@@ -6,4 +6,6 @@ import net.minecraft.world.level.Level;
 public class VoluciteWardenCoreEntity extends VoluciteWardenCollidablePartEntity
 {
     public VoluciteWardenCoreEntity(EntityType<? extends VoluciteWardenPartEntity> type, Level level) {super(type, level);}
+
+    @Override public boolean isSecondaryPart() {return false;}
 }

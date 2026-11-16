@@ -45,6 +45,8 @@ public class VoluciteWardenArmSegmentEntity extends VoluciteWardenPartEntity imp
 
     public VoluciteWardenArmSegmentEntity(EntityType<? extends VoluciteWardenPartEntity> type, Level level) {super(type, level);}
 
+    @Override public boolean isSecondaryPart() {return false;}
+
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
         super.defineSynchedData(builder);

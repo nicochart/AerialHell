@@ -7,6 +7,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -51,11 +52,22 @@ public class VoluciteWardenPartEntity extends Monster implements PartEntity
     @Override public Mob getSelf() {return this;}
 
     @Override public boolean partSuperHurtServer(ServerLevel level, DamageSource source, float amount) {return super.hurtServer(level, source, amount);}
-    @Override public boolean isPartInvulnerableToBase(DamageSource damageSource) {return super.isInvulnerableToBase(damageSource);}
+    @Override public boolean isPartInvulnerableToBase(DamageSource damageSource) {return super.isInvulnerableToBase(damageSource) || this.isMadeInvulnerableByMaster(damageSource);}
 
     @Override public MasterPartInfo getMasterInfo() {return this.MASTER;}
 
     @Override public double getSemiDetachedMaxDistanceToMaster() {return SEMI_DETACHED_MAX_DISTANCE_TO_MASTER;}
+
+    //secondary parts are invulnerable (can't hit them to hit master)
+    //only the core, the head & arm segments aren't secondary (are "vulnerable")
+    public boolean isSecondaryPart() {return true;}
+
+    //kill & void damage are never blocked. a part without master (fully detached) is not concerned
+    private boolean isMadeInvulnerableByMaster(DamageSource damageSource)
+    {
+        if (!this.isSecondaryPart() || damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
+        return this.getMaster() != null && this.getMaster().getSelf() instanceof VoluciteWardenEntity warden && warden.areSecondaryPartsInvulnerable();
+    }
     /* ------------------------------------------------------------------- */
     /* ------------------------------------------------------------------- */
     /* ------------------------------------------------------------------- */

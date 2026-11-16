@@ -88,6 +88,8 @@ public class VoluciteWardenHeadEntity extends VoluciteWardenPartEntity implement
 
     @Override public boolean isNoGravity() {return !this.isDeadOrDying();} //flying part, even when detached
 
+    @Override public boolean isSecondaryPart() {return false;}
+
     //final phase : semi detached head, while its master is fighting
     public boolean canStrikeLightning() {return this.getPartStatus() == PartStatus.SEMI_DETACHED && this.isAlive() && !this.isMasterInDeadOrDyingPhase();}
 
