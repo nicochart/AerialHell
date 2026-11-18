@@ -96,4 +96,5 @@ public class ShadowAutomatonEntity extends AutomatonEntity implements ShadowMisl
     @Override protected SoundEvent getAmbientSound() {return AerialHellSoundEvents.ENTITY_SHADOW_AUTOMATON_AMBIENT.get();}
     @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return AerialHellSoundEvents.ENTITY_SHADOW_AUTOMATON_HURT.get();}
     @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_SHADOW_AUTOMATON_DEATH.get();}
+    @Override protected float getSoundVolume() {return 1.5F;} //attenuation distance = 16 * volume = 24 blocks
 }
