@@ -50,8 +50,5 @@ public class AerialHellCaveVinesPlantBlock extends CaveVinesPlantBlock
         else {return InteractionResult.PASS;}
     }
 
-    @Override public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos)
-    {
-        return super.canSurvive(state, level, pos) && !level.getBlockState(pos.relative(this.growthDirection.getOpposite())).is(AerialHellTags.Blocks.SOLID_ETHER);
-    }
+    @Override protected boolean canAttachTo(BlockState attachedToState) {return super.canAttachTo(attachedToState) && AerialHellCaveVinesBlock.isValidAttachBlock(attachedToState);}
 }

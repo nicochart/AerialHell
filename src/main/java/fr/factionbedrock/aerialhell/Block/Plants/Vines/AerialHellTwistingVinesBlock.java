@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Block.Plants.Vines;
 
 import fr.factionbedrock.aerialhell.Registry.AerialHellBlocks;
 import fr.factionbedrock.aerialhell.Registry.AerialHellStateProperties;
+import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.TwistingVinesBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,4 +26,8 @@ public class AerialHellTwistingVinesBlock extends TwistingVinesBlock
         else if (this == AerialHellBlocks.GLOWING_ROOTS.get()) {return AerialHellBlocks.GLOWING_ROOTS_PLANT.get();}
         else /*if (this == AerialHellBlocksAndItems.SHADOW_GLOWING_ROOTS.get())*/ {return AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT.get();}
     }
+
+    @Override protected boolean canAttachTo(BlockState attachedToState) {return super.canAttachTo(attachedToState) && isValidAttachBlock(attachedToState);}
+
+    public static boolean isValidAttachBlock(BlockState attachedToState) {return !attachedToState.is(AerialHellTags.Blocks.SOLID_ETHER);}
 }
