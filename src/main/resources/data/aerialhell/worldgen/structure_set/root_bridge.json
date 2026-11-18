@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "aerialhell:root_bridge",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 1874120397,
+
+    "spacing": 16,
+    "separation": 8,
+
+    "type": "minecraft:random_spread"
+  }
+}

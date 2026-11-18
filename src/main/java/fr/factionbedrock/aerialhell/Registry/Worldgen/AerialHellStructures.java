@@ -38,6 +38,7 @@ public class AerialHellStructures
 	public static final DeferredHolder<StructureType<?>, StructureType<LapisRobiniaHutStructure>> LAPIS_ROBINIA_HUT_STRUCTURE = STRUCTURES.register("lapis_robinia_hut", () -> () -> LapisRobiniaHutStructure.CODEC);
 	public static final DeferredHolder<StructureType<?>, StructureType<UpsideDownPyramidStructure>> UPSIDE_DOWN_PYRAMID = STRUCTURES.register("upside_down_pyramid", () -> () -> UpsideDownPyramidStructure.CODEC);
 	public static final DeferredHolder<StructureType<?>, StructureType<FloatingBoatStructure>> FLOATING_BOAT = STRUCTURES.register("floating_boat", () -> () -> FloatingBoatStructure.CODEC);
+	public static final DeferredHolder<StructureType<?>, StructureType<RootBridgeStructure>> ROOT_BRIDGE = STRUCTURES.register("root_bridge", () -> () -> RootBridgeStructure.CODEC);
 
 	public static class Sets
 	{

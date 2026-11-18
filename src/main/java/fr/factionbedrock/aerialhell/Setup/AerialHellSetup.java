@@ -49,6 +49,7 @@ public class AerialHellSetup
         AerialHellTrimMaterials.TRIM_MATERIALS.register(bus);
         AerialHellPOI.POI.register(bus);
         AerialHellStructures.STRUCTURES.register(bus);
+        AerialHellStructurePieces.STRUCTURE_PIECES.register(bus);
         AerialHellStructurePlacements.STRUCTURE_PLACEMENTS.register(bus);
         AerialHellParticleTypes.PARTICLES.register(bus);
         AerialHellMenuTypes.MENUS.register(bus);
