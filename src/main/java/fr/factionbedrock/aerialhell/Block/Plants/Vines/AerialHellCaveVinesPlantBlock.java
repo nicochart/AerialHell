@@ -39,8 +39,5 @@ public class AerialHellCaveVinesPlantBlock extends CaveVinesPlantBlock
         return AerialHellCaveVinesBlock.tryPickBerries(player, state, world, pos, this.getBerryItem());
     }
 
-    @Override public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
-    {
-        return super.canSurvive(state, world, pos) && !world.getBlockState(pos.relative((this.growthDirection.getOpposite()))).is(AerialHellTags.Blocks.SOLID_ETHER);
-    }
+    @Override protected boolean canAttachTo(BlockState attachedToState) {return super.canAttachTo(attachedToState) && AerialHellCaveVinesBlock.isValidAttachBlock(attachedToState);}
 }

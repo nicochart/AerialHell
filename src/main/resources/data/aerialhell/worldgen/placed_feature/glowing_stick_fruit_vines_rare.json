@@ -25,8 +25,20 @@
       "direction_of_search": "up",
       "max_steps": 12,
       "target_condition": {
-        "type": "minecraft:has_sturdy_face",
-        "direction": "down"
+        "type": "minecraft:all_of",
+        "predicates": [
+          {
+            "type": "minecraft:has_sturdy_face",
+            "direction": "down"
+          },
+          {
+            "type": "minecraft:not",
+            "predicate": {
+              "type": "minecraft:matching_block_tag",
+              "tag": "aerialhell:volucite_dungeon"
+            }
+          }
+        ]
       },
       "allowed_search_condition": {
         "type": "minecraft:matching_blocks",

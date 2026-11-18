@@ -13,7 +13,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CaveVinesBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -59,8 +58,7 @@ public class AerialHellCaveVinesBlock extends CaveVinesBlock
         else {return InteractionResult.PASS;}
     }
 
-    @Override public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
-    {
-        return super.canSurvive(state, world, pos) && !world.getBlockState(pos.relative((this.growthDirection.getOpposite()))).is(AerialHellTags.Blocks.SOLID_ETHER);
-    }
+    @Override protected boolean canAttachTo(BlockState attachedToState) {return super.canAttachTo(attachedToState) && isValidAttachBlock(attachedToState);}
+
+    public static boolean isValidAttachBlock(BlockState attachedToState) {return !attachedToState.is(AerialHellTags.Blocks.SOLID_ETHER);}
 }

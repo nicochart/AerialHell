@@ -27,4 +27,6 @@ public class AerialHellTwistingVinesPlantBlock extends TwistingVinesPlantBlock
         else if (this == AerialHellBlocks.GLOWING_ROOTS_PLANT) {return AerialHellBlocks.GLOWING_ROOTS;}
         else /*if (this == AerialHellBlocks.SHADOW_GLOWING_ROOTS_PLANT)*/ {return AerialHellBlocks.SHADOW_GLOWING_ROOTS;}
     }
+
+    @Override protected boolean canAttachTo(BlockState attachedToState) {return super.canAttachTo(attachedToState) && AerialHellTwistingVinesBlock.isValidAttachBlock(attachedToState);}
 }
