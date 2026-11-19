@@ -17,7 +17,7 @@ public class RootBridgePath
     private static final int SEGMENT_LENGTH = 32; //path points per piece
     private static final int MAX_RADIUS_BLOCKS = 4;
 
-    private static final SplineKnots.KnotsParameters KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 20, 0.3F, 6, 26);
+    private static final SplineKnots.KnotsParameters KNOTS_PARAMETERS = new SplineKnots.KnotsParameters(8, 20, 0.3F, 6, 26, 0.5F);
     private static final int KNOTS_SPACING = 28; //one knot every ~28 blocks
     private static final int KNOTS_FADE_DISTANCE = 12; //knots deformation fades out near the anchors, to keep the root ends in the islands
 

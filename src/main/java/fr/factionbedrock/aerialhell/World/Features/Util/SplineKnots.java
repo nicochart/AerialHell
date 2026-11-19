@@ -32,11 +32,16 @@ public interface SplineKnots
     {
         Vector3f deformationVector = new Vector3f(0, 0, 0);
         Vector3f singleKnotDeformationVec;
+        float nearestKnotDistance = Float.MAX_VALUE;
         for (int i=0; i<knotsNumber; i++)
         {
             singleKnotDeformationVec = getKnotDeformationVector(deformedPos, knots[i], knotsParams);
             deformationVector.add(singleKnotDeformationVec.x, singleKnotDeformationVec.y, singleKnotDeformationVec.z);
+            nearestKnotDistance = Math.min(nearestKnotDistance, (float) Math.sqrt(deformedPos.distSqr(knots[i])));
         }
+
+        float maxDeformation = knotsParams.getMaxDeformationToDistanceRatio() * nearestKnotDistance;
+        if (deformationVector.length() > maxDeformation) {deformationVector.normalize(maxDeformation);}
         return deformationVector;
     }
 
@@ -51,12 +56,15 @@ public interface SplineKnots
         private final int KNOT_MIN_DISTANCE_TO_POS, KNOT_MAX_DISTANCE_TO_POS; //knot position min and max distance to base "undeformed" pos
         private final float KNOT_DEFORMATION_MULTIPLIER;
         private final int KNOT_DEFORMATION_MIN_DISTANCE, KNOT_DEFORMATION_MAX_DISTANCE; //max = distance at which deformation start, min = distance at which deformation is maximum
+        private final float MAX_DEFORMATION_TO_DISTANCE_RATIO; //max total deformation of a pos (all knots), in proportion of its distance to the nearest knot (1.0F by default)
 
-        public KnotsParameters(int knotMinDistance, int knotMaxDistance, float knotDeformationMultiplier, int knotDeformationMinDistance, int knotDeformationMaxDistance)
+        public KnotsParameters(int knotMinDistance, int knotMaxDistance, float knotDeformationMultiplier, int knotDeformationMinDistance, int knotDeformationMaxDistance) {this(knotMinDistance, knotMaxDistance, knotDeformationMultiplier, knotDeformationMinDistance, knotDeformationMaxDistance, 1.0F);}
+        public KnotsParameters(int knotMinDistance, int knotMaxDistance, float knotDeformationMultiplier, int knotDeformationMinDistance, int knotDeformationMaxDistance, float maxDeformationToDistanceRatio)
         {
             this.KNOT_MIN_DISTANCE_TO_POS = knotMinDistance; this.KNOT_MAX_DISTANCE_TO_POS = knotMaxDistance;
             this.KNOT_DEFORMATION_MULTIPLIER = knotDeformationMultiplier;
             this.KNOT_DEFORMATION_MIN_DISTANCE = knotDeformationMinDistance; this.KNOT_DEFORMATION_MAX_DISTANCE = knotDeformationMaxDistance;
+            this.MAX_DEFORMATION_TO_DISTANCE_RATIO = maxDeformationToDistanceRatio;
         }
 
         public int getKnotMinDistance() {return KNOT_MIN_DISTANCE_TO_POS;}
@@ -64,6 +72,7 @@ public interface SplineKnots
         public float getKnotDeformation() {return KNOT_DEFORMATION_MULTIPLIER;}
         public int getKnotDeformationMinDistance() {return KNOT_DEFORMATION_MIN_DISTANCE;}
         public int getKnotDeformationMaxDistance() {return KNOT_DEFORMATION_MAX_DISTANCE;}
+        public float getMaxDeformationToDistanceRatio() {return MAX_DEFORMATION_TO_DISTANCE_RATIO;}
 
         public int getRandomKnotDistance(RandomSource rand)
         {
