@@ -23,7 +23,6 @@ public class RootBridgePath
     private static final int KNOTS_FADE_DISTANCE = 12; //knots deformation fades out near the anchors, to keep the root ends in the islands
 
     //middle split : the root splits in 2 or 3 sub roots twisting around the root center line (the main root is one of them), then they join again
-    private static final int SPLIT_MIN_DISTANCE_TO_ENDS = 20; //min path points between the split part and the bridge ends
     private static final float SPLIT_RADIUS_FACTOR = 0.65F; //sub roots radius factor, compared to the main root radius
 
     private final List<RootLine> rootLines = new ArrayList<>(); //main root first, then the sub roots
@@ -69,11 +68,11 @@ public class RootBridgePath
 
         //middle split
         List<RootLine> splitSubRoots = new ArrayList<>();
-        RootLine mainRoot = random.nextFloat() < 0.7F ? splitMiddle(points, radiuses, splitSubRoots, random) : new RootLine(points, radiuses);
+        RootLine mainRoot = random.nextFloat() < 0.8F ? splitMiddle(points, radiuses, splitSubRoots, random) : new RootLine(points, radiuses);
         this.rootLines.add(mainRoot);
         this.rootLines.addAll(splitSubRoots);
 
-        //anchor sub roots (forks are far from the middle split part, so the root ends are unchanged)
+        //anchor sub roots
         for (BlockPos anchor : startExtraAnchors) {this.addAnchorSubRoot(points, radiuses, true, anchor, random);}
         for (BlockPos anchor : endExtraAnchors) {this.addAnchorSubRoot(points, radiuses, false, anchor, random);}
 
@@ -82,15 +81,14 @@ public class RootBridgePath
 
     public BlockPos getMiddlePos() {return this.middlePos;}
 
-    //middle split : between two path points, the root is replaced by 2 or 3 sub roots, evenly spread around the root center line and twisting around it
+    //middle split : between two path points (split part centered on the bridge middle), the root is replaced by 2 or 3 sub roots, evenly spread around the root center line and twisting around it
     //the first sub root is the main root (it keeps the root before and after the split part), the others are added in subRoots
     private static RootLine splitMiddle(List<BlockPos> points, int[] radiuses, List<RootLine> subRoots, RandomSource random)
     {
         int pointsNumber = points.size();
-        int splitLength = getRandomMiddleSplitLength(random);
-        int maxSplitStart = pointsNumber - 1 - SPLIT_MIN_DISTANCE_TO_ENDS - splitLength;
-        if (maxSplitStart < SPLIT_MIN_DISTANCE_TO_ENDS) {return new RootLine(points, radiuses);} //bridge too short to split
-        int splitStart = random.nextInt(SPLIT_MIN_DISTANCE_TO_ENDS, maxSplitStart + 1), splitEnd = splitStart + splitLength;
+        int splitLength = getRandomMiddleSplitLength(random, pointsNumber);
+        if (splitLength < 1) {return new RootLine(points, radiuses);} //bridge too short to split
+        int splitStart = (pointsNumber - 1 - splitLength) / 2, splitEnd = splitStart + splitLength; //split part centered on the bridge middle
 
         //two directions perpendicular to the split part, to move the sub roots around the root center line
         Vector3f direction = new Vector3f(points.get(splitEnd).getX() - points.get(splitStart).getX(), points.get(splitEnd).getY() - points.get(splitStart).getY(), points.get(splitEnd).getZ() - points.get(splitStart).getZ());
@@ -106,7 +104,7 @@ public class RootBridgePath
         for (int subRoot = 0; subRoot < subRootsNumber; subRoot++)
         {
             float angle = firstAngle + subRoot * Mth.TWO_PI / subRootsNumber;
-            float spread = getRandomSubRootSpread(random);
+            float spread = getRandomSubRootSpread(random, (float) splitLength / pointsNumber);
             List<BlockPos> subRootPoints = new ArrayList<>();
             List<Integer> subRootRadiuses = new ArrayList<>();
             if (subRoot == 0) {for (int i = 0; i < splitStart; i++) {addPoint(subRootPoints, subRootRadiuses, points.get(i), radiuses[i]);}}
@@ -133,11 +131,16 @@ public class RootBridgePath
         return mainRoot;
     }
 
-    private static int getRandomMiddleSplitLength(RandomSource random) {return random.nextInt(24, 61);}
-    private static float getRandomSubRootSpread(RandomSource random) //max distance (in blocks) between each sub root (main root included) and the root center line (initial path)
+    private static int getRandomMiddleSplitLength(RandomSource random, int pointsNumber)
     {
-        float minSpread = 2.5F, maxSpread = 6.5F;
-        return minSpread + random.nextFloat() * (maxSpread - minSpread);
+        float minLengthRatio = 0.4F, maxLengthRatio = 0.6F; //40 to 60 % of the root length
+        return Mth.floor(pointsNumber * (minLengthRatio + random.nextFloat() * (maxLengthRatio - minLengthRatio)));
+    }
+    
+    private static float getRandomSubRootSpread(RandomSource random, float splitLengthRatio) //max distance (in blocks) between each sub root (main root included) and the root center line (initial path)
+    {
+        float minSpread = 5.0F, maxSpread = 11.0F;
+        return (minSpread + random.nextFloat() * (maxSpread - minSpread)) * splitLengthRatio; //multiplied by the split part length ratio : longer split parts spread more
     }
 
     //anchor sub root : forks from the root a few blocks before its end, then goes to another anchor
@@ -145,8 +148,7 @@ public class RootBridgePath
     private void addAnchorSubRoot(List<BlockPos> points, int[] radiuses, boolean bridgeStartSide, BlockPos anchor, RandomSource random)
     {
         int pointsNumber = points.size();
-        int forkDistance = getRandomForkDistance(random);
-        if (forkDistance >= pointsNumber / 3) {return;} //bridge too short
+        int forkDistance = getRandomForkDistance(random, pointsNumber);
         int forkIndex = bridgeStartSide ? forkDistance : pointsNumber - 1 - forkDistance;
         BlockPos fork = points.get(forkIndex), rootEnd = points.get(bridgeStartSide ? 0 : pointsNumber - 1);
         Vector3f start = new Vector3f(fork.getX(), fork.getY(), fork.getZ()), end = new Vector3f(anchor.getX(), anchor.getY(), anchor.getZ());
@@ -165,7 +167,11 @@ public class RootBridgePath
         this.rootLines.add(new RootLine(subRootPoints, toArray(subRootRadiuses)));
     }
 
-    private static int getRandomForkDistance(RandomSource random) {return random.nextInt(6, 17);}
+    private static int getRandomForkDistance(RandomSource random, int pointsNumber)
+    {
+        float minDistanceRatio = 0.10F, maxDistanceRatio = 0.15F; //10 to 15 % of the root length
+        return Mth.floor(pointsNumber * (minDistanceRatio + random.nextFloat() * (maxDistanceRatio - minDistanceRatio)));
+    }
 
     //position on the path, between two path points (index with a decimal part)
     private static Vector3f getPathPos(List<BlockPos> points, float index)
