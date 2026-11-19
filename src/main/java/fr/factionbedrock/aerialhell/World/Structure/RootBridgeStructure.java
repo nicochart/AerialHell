@@ -15,6 +15,8 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 //Like RootBridgeFeature but a lot bigger, because structures generate in a 17 x 17 chunks (instead of 3x3 chunks for features)
@@ -24,7 +26,8 @@ public class RootBridgeStructure extends Structure
             instance.group(RootBridgeStructure.settingsCodec(instance),
                     //bridge start and end x and z distance from the structure center (random pos of the start chunk), on each axis
                     //max 112 : pieces can only be placed up to 8 chunks away from the start chunk (at least 128 blocks from the structure center),
-                    //minus margins for the root radius (4 blocks) and the knots deformation (12 blocks)
+                    //minus margins for the root radius (4 blocks) and the knots deformation and middle split sub roots spread (12 blocks)
+                    //anchor sub roots anchors also stay within max_xz_distance
                     Codec.intRange(0, 112).fieldOf("min_xz_distance").forGetter(structure -> structure.minXZDistance), //min abs xz offset
                     Codec.intRange(0, 112).fieldOf("max_xz_distance").forGetter(structure -> structure.maxXZDistance), //max abs xz offset
                     Codec.INT.fieldOf("min_y").forGetter(structure -> structure.minY), //anchors (start and end) pos min y, at least 4 blocks (max root radius) above the dimension bottom
@@ -32,6 +35,7 @@ public class RootBridgeStructure extends Structure
             ).apply(instance, RootBridgeStructure::new));
 
     private static final int VERTICAL_BRIDGE_MAX_XZ_OFFSET = 8; //vertical bridge end max x and z distance from the bridge start
+    private static final int EXTRA_ANCHOR_MAX_XZ_OFFSET = 12, EXTRA_ANCHOR_MAX_Y_OFFSET = 6, EXTRA_ANCHOR_MIN_DISTANCE = 5; //extra anchor position around the anchor, min distance to the other anchors
 
     private enum RootBridgeType
     {
@@ -76,9 +80,13 @@ public class RootBridgeStructure extends Structure
         BlockPos bridgeEnd = getRandomBridgeEnd(context, random, centerOfStructure, bridgeStart, bridgeType, 50);
         if (bridgeEnd == null) {return Optional.empty();}
 
+        //anchor sub roots : other anchors around the bridge start and end, if the terrain allows it
+        List<BlockPos> startExtraAnchors = getRandomExtraAnchors(context, random, centerOfStructure, bridgeStart, bridgeEnd, 10);
+        List<BlockPos> endExtraAnchors = getRandomExtraAnchors(context, random, centerOfStructure, bridgeEnd, bridgeStart, 10);
+
         //computing root bridge path
         //no dungeon check. Place this structure in local_modifications step to avoid it generating in dungeons
-        RootBridgePath bridge = new RootBridgePath(bridgeStart, bridgeEnd, random);
+        RootBridgePath bridge = new RootBridgePath(bridgeStart, bridgeEnd, startExtraAnchors, endExtraAnchors, random);
         return Optional.of(new GenerationStub(bridge.getMiddlePos(), bridge::addPieces));
     }
 
@@ -149,6 +157,30 @@ public class RootBridgeStructure extends Structure
 
         int randomIndex = rand.nextInt(belowCount + aboveCount);
         return randomIndex < belowCount ? belowMinY + randomIndex : aboveMinY + (randomIndex - belowCount);
+    }
+
+    //other anchors around a bridge anchor (0 to MAX_EXTRA_ANCHORS), for anchor sub roots. Not towards the other side of the bridge, and in the structure area
+    private List<BlockPos> getRandomExtraAnchors(GenerationContext context, RandomSource rand, BlockPos centerOfStructure, BlockPos anchor, BlockPos otherBridgeAnchor, int tries)
+    {
+        List<BlockPos> extraAnchors = new ArrayList<>();
+        int wantedAnchors = rand.nextInt(4); //max 3 extra anchors
+        for (int t = 0; t < tries && extraAnchors.size() < wantedAnchors; t++)
+        {
+            BlockPos potentialAnchor = anchor.offset(rand.nextInt(-EXTRA_ANCHOR_MAX_XZ_OFFSET, EXTRA_ANCHOR_MAX_XZ_OFFSET + 1), rand.nextInt(-EXTRA_ANCHOR_MAX_Y_OFFSET, EXTRA_ANCHOR_MAX_Y_OFFSET + 1), rand.nextInt(-EXTRA_ANCHOR_MAX_XZ_OFFSET, EXTRA_ANCHOR_MAX_XZ_OFFSET + 1));
+            if (Math.abs(potentialAnchor.getX() - centerOfStructure.getX()) > this.maxXZDistance || Math.abs(potentialAnchor.getZ() - centerOfStructure.getZ()) > this.maxXZDistance) {continue;}
+            if (potentialAnchor.distSqr(anchor) < EXTRA_ANCHOR_MIN_DISTANCE * EXTRA_ANCHOR_MIN_DISTANCE || isCloseToAnyPos(extraAnchors, potentialAnchor, EXTRA_ANCHOR_MIN_DISTANCE)) {continue;}
+            //dot product : the extra anchor must not be on the other side of the bridge (it can be beside the anchor, or behind it)
+            int dotProduct = (potentialAnchor.getX() - anchor.getX()) * (anchor.getX() - otherBridgeAnchor.getX()) + (potentialAnchor.getY() - anchor.getY()) * (anchor.getY() - otherBridgeAnchor.getY()) + (potentialAnchor.getZ() - anchor.getZ()) * (anchor.getZ() - otherBridgeAnchor.getZ());
+            if (dotProduct < 0) {continue;}
+            if (isValidBridgeStartOrEnd(context, potentialAnchor)) {extraAnchors.add(potentialAnchor);}
+        }
+        return extraAnchors;
+    }
+
+    private boolean isCloseToAnyPos(List<BlockPos> positions, BlockPos pos, int distance)
+    {
+        for (BlockPos otherPos : positions) {if (otherPos.distSqr(pos) < distance * distance) {return true;}}
+        return false;
     }
 
     //random offset between minAbs and maxAbs (included), positive or negative
