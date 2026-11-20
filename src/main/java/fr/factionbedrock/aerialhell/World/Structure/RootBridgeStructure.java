@@ -39,8 +39,8 @@ public class RootBridgeStructure extends Structure
 
     private enum RootBridgeType
     {
-        HORIZONTAL(4, true, 0, 40), //far horizontally, small height difference
-        VERTICAL(4, false, 60, 256), //almost no horizontal distance, big height difference
+        HORIZONTAL(5, true, 0, 40), //far horizontally, small height difference
+        VERTICAL(3, false, 60, 256), //almost no horizontal distance, big height difference
         DIAGONAL(2, true, 41, 256); //far horizontally, big height difference
 
         private final int weight;
