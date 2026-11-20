@@ -6,6 +6,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
@@ -77,6 +78,8 @@ public interface PartEntity extends BaseMobEntityInterface
         if (this.getMaster() == null) {return false;}
         return this.getMaster() == other || this.getMaster().recognizesChildPart(other);
     }
+
+    default BodyRotationControl createPartBodyControl() {return new PartBodyRotationControl(this);} //return it in createBodyControl() (optional : for parts whose model turns with the body rotation, see PartBodyRotationControl)
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */
@@ -251,6 +254,25 @@ public interface PartEntity extends BaseMobEntityInterface
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
     /* ----------------------------------------------------------- */
+
+    //attached part : body rot is the same as master body rot with no delay (not waiting head rotation to be stable)
+    //the master sends its rotation to the part as head rotation. This control sets body rot to head rot immediately
+    class PartBodyRotationControl extends BodyRotationControl
+    {
+        private final PartEntity part;
+
+        public PartBodyRotationControl(PartEntity part)
+        {
+            super(part.getSelf());
+            this.part = part;
+        }
+
+        @Override public void clientTick()
+        {
+            if (this.part.getPartStatus() == PartStatus.ATTACHED) {this.part.getSelf().yBodyRot = this.part.getSelf().getYHeadRot();}
+            else {super.clientTick();} //detached parts move and turn by themselves
+        }
+    }
 
     enum PartInvalidSituationBehavior{NONE, DISCARD}
 }

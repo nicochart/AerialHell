@@ -109,16 +109,16 @@ public class ArmsGoalHandler
         return this.warden.getTarget() != null && !this.warden.isArmActive(isRightArm) && !this.isArmPreparing(!isRightArm);
     }
 
-    //goal-specific conditions
+    //goal-specific conditions. strike & sweep aim with positions relative to the warden rotation : they can't start while the warden turns
     private boolean canTriggerGoal(ArmGoalType goalType, boolean isRightArm)
     {
         return switch (goalType)
         {
             case BEAM -> this.warden.armsBeamAttackHandler.canTrigger(isRightArm);
-            case STRIKE -> this.warden.armsStrikeAttackHandler.canTrigger(isRightArm);
+            case STRIKE -> !this.warden.isTurning() && this.warden.armsStrikeAttackHandler.canTrigger(isRightArm);
             case SUMMON_ALLY -> this.warden.armsSummonAllyHandler.canTrigger(isRightArm);
             case LIGHTNING -> this.warden.armsLightningAttackHandler.canTrigger(isRightArm);
-            case SWEEP -> this.warden.armsSweepAttackHandler.canTrigger(isRightArm);
+            case SWEEP -> !this.warden.isTurning() && this.warden.armsSweepAttackHandler.canTrigger(isRightArm);
             case SUMMON_HEAL_BEACON -> this.warden.armsSummonHealBeaconHandler.canTrigger(isRightArm);
         };
     }

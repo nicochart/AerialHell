@@ -25,6 +25,7 @@ import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.CoreRepulsionHandler;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.MainBeamAttackHandler;
 import fr.factionbedrock.aerialhell.Entity.AI.Phase.Phase;
+import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
@@ -39,6 +40,8 @@ import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
+import fr.factionbedrock.aerialhell.World.Structure.VoluciteCastleStructure;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -65,6 +68,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
@@ -143,6 +149,13 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public static final int STILL_TIMEOUT = 10; //ticks the warden stays still after a player stood on it for the last time
 	public static final float STANDING_DETECTION_HEIGHT = 1.5F; //a player this close above the top of a collidable part is considered standing on it (jumps included)
 	private int stillTimeout;
+	/* ----------------------------- */
+
+	/* -- Boss Room Anchor fields -- */
+	public static final double MAX_ANCHOR_DISTANCE = 8.0D; //horizontal distance to the anchor beyond which the anchor is searched again (warden teleported)
+	@Nullable private Vec3 roomAnchorPos; //boss room center (or position, outside a volucite castle). only horizontal coordinates are used. server side
+	private float facingYRot; //always a multiple of 90 : rotation the warden turns toward (its rotation while it does not turn). server side
+	private int quarterTurnCooldown; //server side
 	/* ----------------------------- */
 
 	/* -- Boss phases fields -- */
@@ -362,6 +375,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	@Override public void aiStep()
 	{
 		super.aiStep();
+		if (!this.level().isClientSide()) {this.tickRoomAnchor();} //after movement, before parts positioning (partAiStep) : parts follow the centered position and the rotation in the same tick
 		this.partAiStep();
 
 		//additional things (specific to the volucite warden)
@@ -1037,10 +1051,108 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* --------------------------------------------------- */
 	/* --------------------------------------------------- */
 
+	/* ------------------------------------------------- */
+	/* ---------- Boss room anchor & rotation ---------- */
+	/* ------------------------------------------------- */
+	//the warden never moves horizontally : it stays at the center of its boss room
+	//its body rotation is aligned with the axes (multiple of 90 degrees, like the hitboxes), except while it smoothly turns toward its target by quarter turns
+	private void tickRoomAnchor() //server side
+	{
+		if (this.roomAnchorPos == null || this.horizontalDistanceToSqr(this.roomAnchorPos) > MAX_ANCHOR_DISTANCE * MAX_ANCHOR_DISTANCE) {this.findRoomAnchor();}
+		if (this.roomAnchorPos == null) {return;}
+
+		if (this.getX() != this.roomAnchorPos.x || this.getZ() != this.roomAnchorPos.z) {this.setPos(this.roomAnchorPos.x, this.getY(), this.roomAnchorPos.z);}
+		Vec3 deltaMovement = this.getDeltaMovement();
+		if (deltaMovement.x != 0.0D || deltaMovement.z != 0.0D) {this.setDeltaMovement(0.0D, deltaMovement.y, 0.0D);}
+
+		this.tickQuarterTurn();
+		this.tickRotation();
+	}
+
+	//smooth rotation toward facingYRot. a player standing on the warden stops it : rotation snapped to the nearest axis (stable hitboxes under the player)
+	private void tickRotation()
+	{
+		float yRot;
+		float turnSpeed = 3.0F; //degrees per tick
+		if (this.isStill()) {yRot = toAxisAlignedYRot(this.getYRot()); this.facingYRot = yRot;}
+		else
+		{
+			yRot = Mth.approachDegrees(this.getYRot(), this.facingYRot, turnSpeed);
+			if (Mth.abs(Mth.degreesDifference(yRot, this.facingYRot)) < 0.001F) {yRot = this.facingYRot;} //exactly aligned once reached
+		}
+		this.setYRot(yRot);
+		this.yBodyRot = yRot;
+	}
+
+	//center of the volucite castle piece the warden stands in. outside a volucite castle : current position
+	//boss room nbt where the boss is placed is boss_room/second_basement/center
+	private void findRoomAnchor()
+	{
+		this.facingYRot = toAxisAlignedYRot(this.getYRot()); //structure placement rotates the saved rotation (0) by the piece rotation
+		this.roomAnchorPos = this.position();
+		if (!(this.level() instanceof ServerLevel serverLevel)) {return;}
+
+		BlockPos pos = this.blockPosition();
+		StructureStart castle = serverLevel.structureManager().getStructureWithPieceAt(pos, structure -> structure.value() instanceof VoluciteCastleStructure);
+		if (!castle.isValid()) {return;}
+		for (StructurePiece piece : castle.getPieces())
+		{
+			BoundingBox box = piece.getBoundingBox();
+			if (box.isInside(pos))
+			{
+				this.roomAnchorPos = new Vec3((box.minX() + box.maxX() + 1) / 2.0D, this.getY(), (box.minZ() + box.maxZ() + 1) / 2.0D);
+				return;
+			}
+		}
+	}
+
+	private double horizontalDistanceToSqr(Vec3 pos)
+	{
+		double dx = this.getX() - pos.x, dz = this.getZ() - pos.z;
+		return dx * dx + dz * dz;
+	}
+
+	//the warden turns to face the axis closest to its target (quarter turn, or half turn if the target is behind it)
+	private void tickQuarterTurn()
+	{
+		if (this.isTurning()) {return;} //the cooldown starts when the turn ends
+		if (this.quarterTurnCooldown > 0) {this.quarterTurnCooldown--; return;}
+		LivingEntity target = this.getTarget();
+		if (target == null || !this.canStartTurn()) {return;}
+
+		float targetYRot = (float) (Mth.atan2(target.getZ() - this.getZ(), target.getX() - this.getX()) * Mth.RAD_TO_DEG) - 90.0F;
+		float quarterTurnAngle = 55.0F; //45 + margin
+		if (Mth.abs(Mth.degreesDifference(this.facingYRot, targetYRot)) > quarterTurnAngle)
+		{
+			this.facingYRot = toAxisAlignedYRot(targetYRot);
+			this.quarterTurnCooldown = 20;
+		}
+	}
+
+	public boolean isTurning() {return Mth.abs(Mth.degreesDifference(this.getYRot(), this.facingYRot)) > 0.001F;} //server side
+
+	//attacking phases only (not dormant, no transition, no vulnerable phase), never while a player stands on the warden (see isStill)
+	//strike & sweep aim at their target with positions relative to the warden rotation : no turn while an arm prepares or does one of them (they can't start while the warden turns, see ArmsGoalHandler)
+	//other arm attacks just follow the rotation
+	private boolean canStartTurn() {return this.isInAttackingPhase() && !this.isStill() && !this.isArmAimingRelatively(true) && !this.isArmAimingRelatively(false);}
+
+	private boolean isArmAimingRelatively(boolean isRightArm) {return this.isArmPreparingOrActing(ArmGoalType.STRIKE, isRightArm) || this.isArmPreparingOrActing(ArmGoalType.SWEEP, isRightArm);}
+
+	private boolean isArmPreparingOrActing(ArmGoalType goalType, boolean isRightArm)
+	{
+		@Nullable VoluciteWardenArmGoal goal = this.getArmGoal(goalType, isRightArm);
+		return goal != null && (goal.getPhaseType() == PhaseType.PREPARE || goal.getPhaseType() == PhaseType.ACTION);
+	}
+
+	private static float toAxisAlignedYRot(float yRot) {return Mth.wrapDegrees(yRot - Mth.wrapDegrees90(yRot));}
+	/* ------------------------------------------------- */
+	/* ------------------------------------------------- */
+	/* ------------------------------------------------- */
+
 	/* ----------------------------------------------------- */
 	/* ---------- Players standing on the warden ---------- */
 	/* ----------------------------------------------------- */
-	//like the happy ghast : while a player stands on a collidable part, the warden stays still (no rotation, no movement), and its rotation is aligned with the hitboxes (multiple of 90 degrees)
+	//like the happy ghast : while a player stands on a collidable part, the warden stays still (no quarter turn, head aligned with the body, see VoluciteWardenLookControl)
 	//hitboxes never rotate : no rotation avoids players falling through parts, aligned rotation makes rendered parts match their hitbox. precise position sync avoids client-server hitbox offsets
 	public boolean isStill() {return this.stillTimeout > 0;}
 
@@ -1111,12 +1223,18 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override protected BodyRotationControl createBodyControl() {return new VoluciteWardenBodyRotationControl();}
 
-	//animated head (transitions, vulnerable phases) : body keeps its rotation (vanilla body rotation would follow the head)
+	//the body rotation is the axis aligned facing rotation (set server side in tickRoomAnchor, received by the client) : it never follows the head (vanilla body rotation would)
+	//the head looks around within getMaxHeadYRot (75 degrees) of the body front, like vanilla, except animated head (transitions, vulnerable phases)
 	private class VoluciteWardenBodyRotationControl extends BodyRotationControl
 	{
 		private VoluciteWardenBodyRotationControl() {super(VoluciteWardenEntity.this);}
 
-		@Override public void clientTick() {if (!VoluciteWardenEntity.this.isHeadAnimated()) {super.clientTick();}}
+		@Override public void clientTick()
+		{
+			VoluciteWardenEntity warden = VoluciteWardenEntity.this;
+			warden.yBodyRot = warden.getYRot();
+			if (!warden.isHeadAnimated()) {warden.yHeadRot = Mth.rotateIfNecessary(warden.yHeadRot, warden.yBodyRot, warden.getMaxHeadYRot());}
+		}
 	}
 	/* ----------------------------------------------------- */
 	/* ----------------------------------------------------- */

@@ -12,6 +12,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
@@ -81,6 +82,8 @@ public class VoluciteWardenPartEntity extends Monster implements PartEntity
     @Override public final boolean hurtServer(ServerLevel level, DamageSource source, float amount) {return this.partDoHurtServer(level, source, amount, false);}
 
     @Override public boolean is(Entity other) {return super.is(other) || this.recognizesPart(other);}
+
+    @Override protected BodyRotationControl createBodyControl() {return this.createPartBodyControl();}
 
     @Override public void tick()
     {
