@@ -24,7 +24,7 @@ public class RootBridgeStructure extends Structure
 {
     public static final MapCodec<RootBridgeStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(RootBridgeStructure.settingsCodec(instance),
-                    //bridge start and end x and z distance from the structure center (random pos of the start chunk), on each axis
+                    //bridge start and end x and z distance from the structure center (random pos of the start chunk), on each axis (diagonal bridges side end : min on one axis only)
                     //max 112 : pieces can only be placed up to 8 chunks away from the start chunk (at least 128 blocks from the structure center),
                     //minus margins for the root radius (4 blocks) and the knots deformation and middle split sub roots spread (12 blocks)
                     //anchor sub roots anchors also stay within max_xz_distance
@@ -39,17 +39,17 @@ public class RootBridgeStructure extends Structure
 
     private enum RootBridgeType
     {
-        HORIZONTAL(5, true, 0, 40), //far horizontally, small height difference
-        VERTICAL(3, false, 60, 256), //almost no horizontal distance, big height difference
-        DIAGONAL(2, true, 41, 256); //far horizontally, big height difference
+        HORIZONTAL(5, true, false, 0, 40), //far horizontally (opposite corner), small height difference
+        VERTICAL(3, false, false, 60, 256), //almost no horizontal distance, big height difference
+        DIAGONAL(2, true, true, 41, 256); //far horizontally (opposite corner or opposite side), big height difference
 
         private final int weight;
-        private final boolean farEnd;
+        private final boolean farEnd, sideEnd; //sideEnd : the far end can also be on the opposite side of the structure area (other side of the center on one axis only)
         private final int minYDifference, maxYDifference;
 
-        RootBridgeType(int weight, boolean farEnd, int minYDifference, int maxYDifference)
+        RootBridgeType(int weight, boolean farEnd, boolean sideEnd, int minYDifference, int maxYDifference)
         {
-            this.weight = weight; this.farEnd = farEnd;
+            this.weight = weight; this.farEnd = farEnd; this.sideEnd = sideEnd;
             this.minYDifference = minYDifference; this.maxYDifference = maxYDifference;
         }
     }
@@ -123,18 +123,22 @@ public class RootBridgeStructure extends Structure
         {
             int y = getRandomBridgeEndY(rand, bridgeStart.getY(), bridgeType);
             if (y == Integer.MIN_VALUE) {return null;} //no height between min_y and max_y fits this bridge type
-            BlockPos potentialBridgeEnd = bridgeType.farEnd ? getRandomFarBridgeEndPos(rand, centerOfStructure, bridgeStart, y) : getRandomCloseBridgeEndPos(rand, centerOfStructure, bridgeStart, y);
+            BlockPos potentialBridgeEnd = bridgeType.farEnd ? getRandomFarBridgeEndPos(rand, centerOfStructure, bridgeStart, y, bridgeType.sideEnd) : getRandomCloseBridgeEndPos(rand, centerOfStructure, bridgeStart, y);
             if (isValidBridgeStartOrEnd(context, potentialBridgeEnd)) {return potentialBridgeEnd;}
         }
         return null;
     }
 
-    //far end (horizontal and diagonal bridges) : if bridge start offset was positive, bridge end offset will be negative
-    private BlockPos getRandomFarBridgeEndPos(RandomSource rand, BlockPos centerOfStructure, BlockPos bridgeStart, int y)
+    //far end (horizontal and diagonal bridges) : if bridge start offset was positive, bridge end offset will be negative, on both axes (opposite corner of the structure area)
+    //side end (diagonal bridges, 2 times out of 3) : on one axis only, any offset on the other axis (opposite side of the structure area)
+    private BlockPos getRandomFarBridgeEndPos(RandomSource rand, BlockPos centerOfStructure, BlockPos bridgeStart, int y, boolean sideEnd)
     {
         int xOffset = rand.nextInt(this.minXZDistance, this.maxXZDistance + 1), zOffset = rand.nextInt(this.minXZDistance, this.maxXZDistance + 1);
         if (bridgeStart.getX() >= centerOfStructure.getX()) {xOffset = -xOffset;}
         if (bridgeStart.getZ() >= centerOfStructure.getZ()) {zOffset = -zOffset;}
+        int freeAxis = sideEnd ? rand.nextInt(3) : 0; //0 : opposite corner, 1 : opposite side on the x axis (any z offset), 2 : opposite side on the z axis (any x offset)
+        if (freeAxis == 1) {zOffset = rand.nextInt(-this.maxXZDistance, this.maxXZDistance + 1);}
+        else if (freeAxis == 2) {xOffset = rand.nextInt(-this.maxXZDistance, this.maxXZDistance + 1);}
         return new BlockPos(centerOfStructure.getX() + xOffset, y, centerOfStructure.getZ() + zOffset);
     }
 
