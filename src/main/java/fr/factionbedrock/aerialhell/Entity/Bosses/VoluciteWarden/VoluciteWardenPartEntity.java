@@ -32,6 +32,7 @@ public class VoluciteWardenPartEntity extends Monster implements PartEntity
     public VoluciteWardenPartEntity(EntityType<? extends Monster> type, Level level)
     {
         super(type, level);
+        this.lookControl = this.createPartLookControl();
     }
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder)

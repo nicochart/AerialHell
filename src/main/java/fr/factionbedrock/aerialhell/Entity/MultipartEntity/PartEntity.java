@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
+import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
@@ -80,6 +81,7 @@ public interface PartEntity extends BaseMobEntityInterface
     }
 
     default BodyRotationControl createPartBodyControl() {return new PartBodyRotationControl(this);} //return it in createBodyControl() (optional : for parts whose model turns with the body rotation, see PartBodyRotationControl)
+    default LookControl createPartLookControl() {return new PartLookControl(this);} //set it as lookControl in the constructor (optional : for parts whose model uses the head pitch, see PartLookControl)
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */
     /* ----------------------------------------------- */
@@ -272,6 +274,22 @@ public interface PartEntity extends BaseMobEntityInterface
             if (this.part.getPartStatus() == PartStatus.ATTACHED) {this.part.getSelf().yBodyRot = this.part.getSelf().getYHeadRot();}
             else {super.clientTick();} //detached parts move and turn by themselves
         }
+    }
+
+    //attached part : no pitch reset at each tick (vanilla look control resets it to 0) : the pitch is set by the master (see MasterPartEntity tickHeadPartRotation & tickNonHeadPartRotation)
+    //with the reset, a part ticking after its master sends a 0 pitch to the client, applied by the client interpolation while the part moves (head pitch jerks)
+    //look targets (setLookAt) still work
+    class PartLookControl extends LookControl
+    {
+        private final PartEntity part;
+
+        public PartLookControl(PartEntity part)
+        {
+            super(part.getSelf());
+            this.part = part;
+        }
+
+        @Override protected boolean resetXRotOnTick() {return this.part.getPartStatus() != PartStatus.ATTACHED;} //detached parts look around by themselves
     }
 
     enum PartInvalidSituationBehavior{NONE, DISCARD}

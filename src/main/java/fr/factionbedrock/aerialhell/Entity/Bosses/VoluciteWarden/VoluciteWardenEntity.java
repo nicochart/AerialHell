@@ -2,6 +2,7 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import com.google.common.collect.Maps;
 import fr.factionbedrock.aerialhell.Entity.AI.ConditionalGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.DirectMeleeAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.PersistentHurtByTargetGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmBeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmGoal;
@@ -12,6 +13,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmSu
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenArmSweepAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenCoreLightningGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenCoreRepulsionGoal;
+import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenFollowTargetGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenMainBeamAttackGoal;
 import fr.factionbedrock.aerialhell.Entity.Bosses.*;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.AttackHandlers.ArmGoalType;
@@ -61,7 +63,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.control.LookControl;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -136,8 +137,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	/* -- Core Repulsion fields -- */
 	private VoluciteWardenCoreRepulsionGoal CORE_REPULSION_GOAL;
-	public static final EntityDataAccessor<Integer> CORE_DRAG_OR_REPULSE_GOAL_STATUS = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT); //reserved to core repulsion goal
-	public static final int CORE_NEUTRAL_STATUS = 0, CORE_ATTRACTING_STATUS = 1, CORE_REPULSING_STATUS = 2;
+	public static final EntityDataAccessor<Integer> CORE_REPULSION_GOAL_STATUS = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.INT); //reserved to core repulsion goal
+	public static final int CORE_NEUTRAL_STATUS = 0, CORE_CHARGING_STATUS = 1, CORE_REPULSING_STATUS = 2;
 	public final CoreRepulsionHandler coreRepulsionHandler;
 	/* --------------------------- */
 
@@ -291,7 +292,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		builder.define(AWAKENED, false);
 		builder.define(HAS_STRIKE_ACTIVE, false);
 		builder.define(IS_STRIKING, false);
-		builder.define(CORE_DRAG_OR_REPULSE_GOAL_STATUS, CORE_NEUTRAL_STATUS);
+		builder.define(CORE_REPULSION_GOAL_STATUS, CORE_NEUTRAL_STATUS);
 		builder.define(IS_ANCHORED, false);
 	}
 
@@ -535,14 +536,13 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.LEFT_ARM_SWEEP_ATTACK_GOAL = new VoluciteWardenArmSweepAttackGoal(this, this::getLeftArm, 0.2F);
 		this.RIGHT_ARM_SUMMON_HEAL_BEACON_GOAL = new VoluciteWardenArmSummonHealBeaconGoal(this, this::getRightArm, 0.2F);
 		this.LEFT_ARM_SUMMON_HEAL_BEACON_GOAL = new VoluciteWardenArmSummonHealBeaconGoal(this, this::getLeftArm, 0.2F);
-		this.CORE_REPULSION_GOAL = new VoluciteWardenCoreRepulsionGoal(this, CoreRepulsionHandler.ATTRACTION_DURATION, CoreRepulsionHandler.REPULSION_DURATION);
+		this.CORE_REPULSION_GOAL = new VoluciteWardenCoreRepulsionGoal(this, CoreRepulsionHandler.CHARGE_DURATION, CoreRepulsionHandler.REPULSION_DURATION);
 		this.CORE_LIGHTNING_GOAL = new VoluciteWardenCoreLightningGoal(this);
 
 		//the target is kept even if out of sight
 		this.targetSelector.addGoal(2, new ConditionalGoal(this, new NearestAttackableTargetGoal<>(this, Player.class, false)));
 		this.targetSelector.addGoal(1, new PersistentHurtByTargetGoal(this));
 
-		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
 		this.goalSelector.addGoal(4, MAIN_BEAM_ATTACK_GOAL);
 		this.goalSelector.addGoal(4, RIGHT_ARM_STRIKE_ATTACK_GOAL);
 		this.goalSelector.addGoal(4, LEFT_ARM_STRIKE_ATTACK_GOAL);
@@ -559,9 +559,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.goalSelector.addGoal(4, CORE_REPULSION_GOAL);
 		this.goalSelector.addGoal(4, CORE_LIGHTNING_GOAL);
 
+		this.goalSelector.addGoal(5, new VoluciteWardenFollowTargetGoal(this, 1.25D)); //free warden only
+		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new DirectMeleeAttackGoal(this, 1.25D, 4.0D)));
+		//this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
 		//this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new MeleeAttackGoal(this, 1.25D, false)));
-		//this.goalSelector.addGoal(4, new ConditionalGoal(this, new DirectMeleeAttackGoal(this, 1.25D, 4.0D)));
+
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MudCycleMageEntity.class, true));
     }
 
@@ -571,6 +574,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 				.add(Attributes.MAX_HEALTH, 800.0D)
 				.add(Attributes.FOLLOW_RANGE, 64.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.25D)
+				.add(Attributes.STEP_HEIGHT, 2.0D) //free warden : walks up 2 blocks high steps without jumping
 				.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 				.add(Attributes.ATTACK_KNOCKBACK, 5.0D)
 				.add(Attributes.ATTACK_DAMAGE, 25.0D);
@@ -633,14 +637,15 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	//final transition : health goes from 0 to max (real health regenerated)
 	//final phase : no shield. arm segments & head get semi detached, neck, upper chest & core ribs die (see separateUpperBody). when health reaches 0, the warden really dies (dying & dead phases)
 	//
-	//free warden (not anchored, see isAnchored) : constantly in phase 1, which is not invincible (no awakening). when health reaches 0, the warden really dies (dying & dead phases)
+	//free warden (not anchored, see isAnchored) : constantly in phase 1, which is not invincible (no awakening), with arm attacks & main beam. when health reaches 0, the warden really dies (dying & dead phases)
 	public boolean isInActivationPhase() {return this.getPhase() == ACTIVATION_PHASE;}
 	public boolean isInShieldPhase() {return SHIELD_PHASES.contains(this.getPhase());}
 	public boolean isInVulnerablePhase() {return VULNERABLE_PHASES.contains(this.getPhase());}
 	public boolean isInShieldBreakTransition() {return SHIELD_BREAK_TRANSITIONS.contains(this.getPhase());}
 	public boolean isRealHealthVulnerable() {return this.isInShieldBreakTransition() || this.isInVulnerablePhase();} //real health can be damaged, until the vulnerable phase max damage
 	public boolean isInFinalPhase() {return this.getPhase() == FINAL_PHASE;}
-	public boolean isInAttackingPhase() {return this.isInShieldPhase() || this.isInFinalPhase();} //the warden can use its attacks (arms, core repulsion). no attack during vulnerable phases
+	public boolean isInFreePhase() {return !this.isAnchored() && this.isInActivationPhase();} //free warden fighting phase (its first phase, see isAnchored)
+	public boolean isInAttackingPhase() {return this.isInShieldPhase() || this.isInFinalPhase() || this.isInFreePhase();} //the warden can use its attacks (arms, core repulsion). no attack during vulnerable phases. free warden : no core repulsion
 	public int getShieldLevel() {return SHIELD_PHASES.indexOf(this.getPhase()) + 1;} //0 if not in shield phase
 	private boolean isHealthTheShield() {return this.isInShieldPhase() || SHIELD_TRANSITIONS.contains(this.getPhase());}
 	public boolean isInShieldTransition() {return SHIELD_TRANSITIONS.contains(this.getPhase());}
@@ -946,7 +951,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public boolean isHeadBeaming() {return this.MAIN_BEAM_ATTACK_GOAL.isActive();} //only server side
 
 	public boolean shouldTriggerMainBeamAttack() {return false;}
-	public boolean canUseMainBeam() {return this.getShieldLevel() == 3 || this.isInFinalPhase();} //sixth phase (shield level 3) and final phase
+	public boolean canUseMainBeam() {return this.getShieldLevel() == 3 || this.isInFinalPhase() || this.isInFreePhase();} //sixth phase (shield level 3), final phase, and free warden
 	/* ----------------------------------------------------- */
 	/* ----------------------------------------------------- */
 	/* ----------------------------------------------------- */
@@ -1068,12 +1073,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.dragOrRepulseEntities(type, factor, range, range, particles);
 	}
 
-	//core drag or repulse goal status : set by the goal (server side), used by the handler (drag / repulse & particles) on both sides
-	public int getCoreDragOrRepulseGoalStatus() {return this.entityData.get(CORE_DRAG_OR_REPULSE_GOAL_STATUS);} //both sides
-	public void setCoreDragOrRepulseGoalStatus(int status) {this.entityData.set(CORE_DRAG_OR_REPULSE_GOAL_STATUS, status);} //server side
+	//core repulsion goal status : set by the goal (server side), used by the handler (repulsion & particles) on both sides
+	public int getCoreRepulsionGoalStatus() {return this.entityData.get(CORE_REPULSION_GOAL_STATUS);} //both sides
+	public void setCoreRepulsionGoalStatus(int status) {this.entityData.set(CORE_REPULSION_GOAL_STATUS, status);} //server side
 
-	public boolean isCoreAttracting() {return this.getCoreDragOrRepulseGoalStatus() == CORE_ATTRACTING_STATUS;}
-	public boolean isCoreRepulsing() {return this.getCoreDragOrRepulseGoalStatus() == CORE_REPULSING_STATUS;}
+	public boolean isCoreCharging() {return this.getCoreRepulsionGoalStatus() == CORE_CHARGING_STATUS;}
+	public boolean isCoreRepulsing() {return this.getCoreRepulsionGoalStatus() == CORE_REPULSING_STATUS;}
 	/* --------------------------------------------------- */
 	/* --------------------------------------------------- */
 	/* --------------------------------------------------- */
@@ -1193,6 +1198,49 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ------------------------------------------------- */
 	/* ------------------------------------------------- */
 	/* ------------------------------------------------- */
+
+	/* ------------------------------------------ */
+	/* ---------- Free warden movement ---------- */
+	/* ------------------------------------------ */
+	//free warden only : it follows its target, straight to it with the move control (see VoluciteWardenFollowTargetGoal). an anchored warden never moves (see tickRoomAnchor)
+	//cheaper movement, but the boss does not walk straight to the player, and spins on itself while moving (path finding with a light navigation, see VoluciteWardenFollowTargetGoal commented moveToward)
+	//needs imports : GroundPathNavigation & PathNavigation (entity.ai.navigation), PathNavigationRegion (level), PathFinder & WalkNodeEvaluator (level.pathfinder)
+	//@Override protected PathNavigation createNavigation(Level level) {return new VoluciteWardenNavigation(level);}
+	//
+	////vanilla value grows with health when the mob has a target (hundreds of blocks for the warden) : the warden would jump off islands, and each path node above the void would check hundreds of blocks below it
+	//@Override public int getMaxFallDistance() {return 6;}
+	//
+	////vanilla path finding checks every block of the bounding box for each path node : 13 x 39 x 13 blocks for the warden, far too costly
+	//private class VoluciteWardenNavigation extends GroundPathNavigation
+	//{
+	//	private VoluciteWardenNavigation(Level level)
+	//	{
+	//		super(VoluciteWardenEntity.this, level);
+	//		this.setMaxVisitedNodesMultiplier(0.25F); //256 path nodes at most (follow range 64 * 16 * 0.25) : partial path if the target is far, completed by the next path recalculation
+	//	}
+	//
+	//	@Override protected PathFinder createPathFinder(int maxVisitedNodes)
+	//	{
+	//		this.nodeEvaluator = new LowWalkNodeEvaluator();
+	//		return new PathFinder(this.nodeEvaluator, maxVisitedNodes);
+	//	}
+	//}
+	//
+	////only the lowest blocks of the bounding box are checked for each path node (whole width, CHECKED_HEIGHT blocks high)
+	////higher obstacles are ignored by the path : the warden can get stuck on them (tree foliage, for example)
+	//private static class LowWalkNodeEvaluator extends WalkNodeEvaluator
+	//{
+	//	private static final int CHECKED_HEIGHT = 3;
+	//
+	//	@Override public void prepare(PathNavigationRegion level, Mob entity)
+	//	{
+	//		super.prepare(level, entity);
+	//		this.entityHeight = Math.min(this.entityHeight, CHECKED_HEIGHT);
+	//	}
+	//}
+	/* ------------------------------------------ */
+	/* ------------------------------------------ */
+	/* ------------------------------------------ */
 
 	/* ----------------------------------------------------- */
 	/* ---------- Players standing on the warden ---------- */

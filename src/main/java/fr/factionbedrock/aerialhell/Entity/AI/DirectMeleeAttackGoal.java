@@ -17,9 +17,9 @@ public class DirectMeleeAttackGoal extends Goal
     private LivingEntity target;
     private int attackCooldown;
 
-    public DirectMeleeAttackGoal(PathfinderMob boss, double speedModifier, double attackReach)
+    public DirectMeleeAttackGoal(PathfinderMob goalOwner, double speedModifier, double attackReach)
     {
-        this.goalOwner = boss;
+        this.goalOwner = goalOwner;
         this.speedModifier = speedModifier;
         this.attackReach = attackReach;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));

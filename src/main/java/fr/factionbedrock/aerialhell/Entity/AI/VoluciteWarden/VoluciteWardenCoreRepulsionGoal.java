@@ -3,20 +3,20 @@ package fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden;
 import fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden.VoluciteWardenEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 
-//core attracts nearby entities for attractionDuration ticks, then repulses them for repulsionDuration ticks (see CoreRepulsionHandler)
-//drag / repulse is handled by CoreRepulsionHandler, depending on CORE_DRAG_OR_REPULSE_GOAL_STATUS (set here)
+//core charges for chargeDuration ticks (very light repulsion of nearby entities), then strongly repulses them for repulsionDuration ticks (see CoreRepulsionHandler)
+//repulsion is handled by CoreRepulsionHandler, depending on CORE_REPULSION_GOAL_STATUS (set here)
 public class VoluciteWardenCoreRepulsionGoal extends Goal
 {
     public final VoluciteWardenEntity goalOwner;
-    private final int attractionDuration;
+    private final int chargeDuration;
     private final int repulsionDuration;
     private boolean active = false;
     private int ticks = 0;
 
-    public VoluciteWardenCoreRepulsionGoal(VoluciteWardenEntity entity, int attractionDuration, int repulsionDuration)
+    public VoluciteWardenCoreRepulsionGoal(VoluciteWardenEntity entity, int chargeDuration, int repulsionDuration)
     {
         this.goalOwner = entity;
-        this.attractionDuration = attractionDuration;
+        this.chargeDuration = chargeDuration;
         this.repulsionDuration = repulsionDuration;
     }
 
@@ -31,15 +31,15 @@ public class VoluciteWardenCoreRepulsionGoal extends Goal
     @Override public void start()
     {
         this.ticks = 0;
-        this.goalOwner.setCoreDragOrRepulseGoalStatus(VoluciteWardenEntity.CORE_ATTRACTING_STATUS);
+        this.goalOwner.setCoreRepulsionGoalStatus(VoluciteWardenEntity.CORE_CHARGING_STATUS);
     }
 
     @Override public void stop() {this.interrupt();}
 
-    public void interrupt() //drag / repulse stops immediately
+    public void interrupt() //repulsion stops immediately
     {
         this.active = false;
-        this.goalOwner.setCoreDragOrRepulseGoalStatus(VoluciteWardenEntity.CORE_NEUTRAL_STATUS);
+        this.goalOwner.setCoreRepulsionGoalStatus(VoluciteWardenEntity.CORE_NEUTRAL_STATUS);
     }
 
     @Override public boolean requiresUpdateEveryTick() {return true;}
@@ -49,14 +49,14 @@ public class VoluciteWardenCoreRepulsionGoal extends Goal
         if (!this.isActive()) {return;}
 
         this.ticks++;
-        if (this.ticks == this.attractionDuration) //end of attraction, start of repulsion
+        if (this.ticks == this.chargeDuration) //end of the charge, start of the repulsion
         {
-            this.goalOwner.setCoreDragOrRepulseGoalStatus(VoluciteWardenEntity.CORE_REPULSING_STATUS);
+            this.goalOwner.setCoreRepulsionGoalStatus(VoluciteWardenEntity.CORE_REPULSING_STATUS);
             this.goalOwner.coreRepulsionHandler.onRepulsionStart();
         }
-        else if (this.ticks >= this.attractionDuration + this.repulsionDuration) //end of repulsion
+        else if (this.ticks >= this.chargeDuration + this.repulsionDuration) //end of the repulsion
         {
-            this.goalOwner.setCoreDragOrRepulseGoalStatus(VoluciteWardenEntity.CORE_NEUTRAL_STATUS);
+            this.goalOwner.setCoreRepulsionGoalStatus(VoluciteWardenEntity.CORE_NEUTRAL_STATUS);
             this.active = false;
         }
     }

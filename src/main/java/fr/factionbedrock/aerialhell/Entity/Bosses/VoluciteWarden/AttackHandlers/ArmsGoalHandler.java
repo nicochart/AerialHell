@@ -17,6 +17,7 @@ public class ArmsGoalHandler
 
     private final ArmGoalWeights armGoalWeights = new ArmGoalWeights();
     @Nullable private BossPhase armGoalWeightsPhase = null; //phase used to compute current armGoalWeights
+    private boolean armGoalWeightsAnchored; //anchored state used to compute current armGoalWeights (anchored & free wardens have different weights)
 
     public ArmsGoalHandler(VoluciteWardenEntity warden) {this.warden = warden;}
 
@@ -31,7 +32,7 @@ public class ArmsGoalHandler
         this.tickArm(this.leftArmInfo);
     }
 
-    //activation, transition, vulnerable, dying & dead phases : ongoing arm goals skip to their recovery phase (arms go back to their default pos)
+    //activation (anchored warden), transition, vulnerable, dying & dead phases : ongoing arm goals skip to their recovery phase (arms go back to their default pos)
     //checked each tick, not only on phase change : a goal triggered just before the phase change but not started yet would restart from its first phase
     private void interruptArmGoals()
     {
@@ -53,9 +54,11 @@ public class ArmsGoalHandler
     private void tickArmGoalWeights()
     {
         BossPhase phase = this.warden.getPhase();
-        if (phase != this.armGoalWeightsPhase)
+        boolean isAnchored = this.warden.isAnchored();
+        if (phase != this.armGoalWeightsPhase || isAnchored != this.armGoalWeightsAnchored)
         {
             this.armGoalWeightsPhase = phase;
+            this.armGoalWeightsAnchored = isAnchored;
             this.updateArmGoalWeights(phase);
         }
     }
@@ -64,7 +67,11 @@ public class ArmsGoalHandler
     protected void updateArmGoalWeights(BossPhase phase)
     {
         this.armGoalWeights.clear();
-        if (phase == BossPhase.SECOND_PHASE) //shield level 1 - beam and lightning attacks + some summon ally
+        if (this.warden.isInFreePhase()) //free warden (constantly in its first phase) - strike, beam & lightning attacks, summon heal beacons
+        {
+            this.armGoalWeights.set(ArmGoalType.STRIKE, 1).set(ArmGoalType.BEAM, 1).set(ArmGoalType.SUMMON_ALLY, 0).set(ArmGoalType.LIGHTNING, 1).set(ArmGoalType.SWEEP, 0).set(ArmGoalType.SUMMON_HEAL_BEACON, 1);
+        }
+        else if (phase == BossPhase.SECOND_PHASE) //shield level 1 - beam and lightning attacks + some summon ally
         {
             this.armGoalWeights.set(ArmGoalType.STRIKE, 0).set(ArmGoalType.BEAM, 5).set(ArmGoalType.SUMMON_ALLY, 2).set(ArmGoalType.LIGHTNING, 5).set(ArmGoalType.SWEEP, 0).set(ArmGoalType.SUMMON_HEAL_BEACON, 0);
         }
@@ -76,7 +83,7 @@ public class ArmsGoalHandler
         {
             this.armGoalWeights.set(ArmGoalType.STRIKE, 3).set(ArmGoalType.BEAM, 2).set(ArmGoalType.SUMMON_ALLY, 0).set(ArmGoalType.LIGHTNING, 3).set(ArmGoalType.SWEEP, 3).set(ArmGoalType.SUMMON_HEAL_BEACON, 0);
         }
-        //activation, transition, vulnerable, dying & dead phases : no arm goal
+        //activation (anchored warden), transition, vulnerable, dying & dead phases : no arm goal
         //final phase : no arm goal either, arm segments are semi detached
     }
 
