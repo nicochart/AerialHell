@@ -55,6 +55,7 @@ public class AerialHellSetup
         //AerialHellBiomes.BIOMES.register(bus);
         AerialHellMobEffects.load();
         AerialHellStructures.load();
+        AerialHellStructurePieces.load();
         AerialHellStructurePlacement.load();
         AerialHellParticleTypes.load();
         AerialHellMenuTypes.load();

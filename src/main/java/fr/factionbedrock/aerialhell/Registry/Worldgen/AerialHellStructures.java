@@ -32,6 +32,7 @@ public class AerialHellStructures
 	public static final StructureType<?> LAPIS_ROBINIA_HUT_STRUCTURE = register("lapis_robinia_hut", LapisRobiniaHutStructure.CODEC);
 	public static final StructureType<?> UPSIDE_DOWN_PYRAMID = register("upside_down_pyramid", UpsideDownPyramidStructure.CODEC);
 	public static final StructureType<?> FLOATING_BOAT = register("floating_boat", FloatingBoatStructure.CODEC);
+	public static final StructureType<?> ROOT_BRIDGE = register("root_bridge", RootBridgeStructure.CODEC);
 
 	public static class Sets
 	{

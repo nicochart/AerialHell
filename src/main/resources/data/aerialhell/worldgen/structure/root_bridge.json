@@ -1,0 +1,11 @@
+{
+  "type": "aerialhell:root_bridge",
+  "biomes": "#aerialhell:has_structure/root_bridge",
+  "step": "local_modifications",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none",
+  "min_xz_distance": 30,
+  "max_xz_distance": 110,
+  "min_y": 16,
+  "max_y": 248
+}
