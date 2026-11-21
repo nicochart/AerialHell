@@ -152,6 +152,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ----------------------------- */
 
 	/* -- Boss Room Anchor fields -- */
+	public static final EntityDataAccessor<Boolean> IS_ANCHORED = SynchedEntityData.defineId(VoluciteWardenEntity.class, EntityDataSerializers.BOOLEAN); //false by default (free warden), see isAnchored. synced : client side body rotation & parts collision depend on it
 	public static final double MAX_ANCHOR_DISTANCE = 8.0D; //horizontal distance to the anchor beyond which the anchor is searched again (warden teleported)
 	@Nullable private Vec3 roomAnchorPos; //boss room center (or position, outside a volucite castle). only horizontal coordinates are used. server side
 	private float facingYRot; //always a multiple of 90 : rotation the warden turns toward (its rotation while it does not turn). server side
@@ -291,6 +292,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		builder.define(HAS_STRIKE_ACTIVE, false);
 		builder.define(IS_STRIKING, false);
 		builder.define(CORE_DRAG_OR_REPULSE_GOAL_STATUS, CORE_NEUTRAL_STATUS);
+		builder.define(IS_ANCHORED, false);
 	}
 
 	@SafeVarargs private static void defineAll(SynchedEntityData.Builder builder, EntityDataAccessor<Integer>... dataAccessors)
@@ -369,7 +371,28 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 		//additional things (specific to the volucite warden)
 		if (!this.isInDeadOrDyingPhase()) {this.timeDying = 0;}
-		if (!this.level().isClientSide()) {this.tickPhases(); this.tickStill();}
+
+		if (this.isAnchored()) {this.tickAnchored();}
+		else {this.tickFree();}
+	}
+
+	//anchored (in dungeon) warden tick
+	private void tickAnchored()
+	{
+		//anchor search and rotation done in aiStep
+		this.tickPhases();
+		this.tickStill();
+	}
+
+	//free warden tick
+	private void tickFree()
+	{
+		//this.tickPhases(); //no phase tick : a free warden stays in its first phase
+		if (this.level() instanceof ServerLevel serverLevel && !this.alreadyActivatedOnce()) //no awakening animation for free warden (skipping)
+		{
+			this.setAlreadyActivatedOnce();
+			this.changeActiveStatus(serverLevel, true);
+		}
 	}
 
 	@Override public void aiStep()
@@ -396,6 +419,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		valueOutput.putFloat("real_health", this.realHealth);
 		valueOutput.putFloat("vulnerable_health_floor", this.vulnerableHealthFloor);
 		valueOutput.putInt("phase_ticks", this.phaseTicks);
+		valueOutput.putBoolean("is_anchored", this.isAnchored());
 	}
 
 	@Override public void readAdditionalSaveData(ValueInput valueInput)
@@ -407,6 +431,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.realHealth = valueInput.getFloatOr("real_health", this.getMaxHealth());
 		this.vulnerableHealthFloor = valueInput.getFloatOr("vulnerable_health_floor", 0.0F);
 		this.phaseTicks = valueInput.getIntOr("phase_ticks", 0);
+		this.setAnchored(valueInput.getBooleanOr("is_anchored", false));
 	}
 
 	@Override public void push(Entity other)
@@ -607,6 +632,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	//vulnerable phases : health is the real health. after VULNERABLE_PHASE_DURATION, or when VULNERABLE_PHASE_MAX_DAMAGE is reached (since the shield broke), a shield transition starts. if real health reaches 0, the final transition starts
 	//final transition : health goes from 0 to max (real health regenerated)
 	//final phase : no shield. arm segments & head get semi detached, neck, upper chest & core ribs die (see separateUpperBody). when health reaches 0, the warden really dies (dying & dead phases)
+	//
+	//free warden (not anchored, see isAnchored) : constantly in phase 1, which is not invincible (no awakening). when health reaches 0, the warden really dies (dying & dead phases)
 	public boolean isInActivationPhase() {return this.getPhase() == ACTIVATION_PHASE;}
 	public boolean isInShieldPhase() {return SHIELD_PHASES.contains(this.getPhase());}
 	public boolean isInVulnerablePhase() {return VULNERABLE_PHASES.contains(this.getPhase());}
@@ -619,7 +646,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public boolean isInShieldTransition() {return SHIELD_TRANSITIONS.contains(this.getPhase());}
 	//no heal from heal beacons during shield break transitions, vulnerable phases & shield transitions (activation phase can be healed). see VoluciteWardenHealBeaconEntity.isValidHealTarget
 	public boolean canBeHealedByBeacons() {return !this.isRealHealthVulnerable() && !this.isInShieldTransition();}
-	public boolean areSecondaryPartsInvulnerable() {return true;} //secondary parts are parts other than core, head & arm segments
+	public boolean areSecondaryPartsInvulnerable() {return this.isAnchored();} //secondary parts are parts other than core, head & arm segments. vulnerable for a free warden
 
 	//shield & final transitions : invulnerable (health is regenerated). shield break transitions : the warden can be hurt
 	@Override public boolean isInvulnerableTo(ServerLevel level, DamageSource source)
@@ -630,8 +657,9 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	@Override protected void actuallyHurt(ServerLevel level, DamageSource source, float amount)
 	{
 		boolean bypassesInvulnerability = source.is(DamageTypeTags.BYPASSES_INVULNERABILITY); //kill & void damage
-		//activation phase : no damage, but still hurt (a hit is needed to activate the warden)
-		if (this.isInActivationPhase() && !bypassesInvulnerability) {return;}
+		//anchored warden activation phase : no damage, but still hurt (a hit is needed to activate the warden).
+		//free warden : damaged in its first phase
+		if (this.isInActivationPhase() && this.isAnchored() && !bypassesInvulnerability) {return;}
 
 		super.actuallyHurt(level, source, amount);
 		//shield break transitions & vulnerable phases : real health can't go below the floor
@@ -640,6 +668,13 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override public boolean tryDying(DamageSource damageSource)
 	{
+		//free warden, constantly in its first phase : dying phase (default behavior would start the first shield transition)
+		if (!this.isAnchored() && this.isInActivationPhase() && !damageSource.is(DamageTypes.GENERIC_KILL))
+		{
+			this.updateToPhase(BossPhase.DYING);
+			this.applyAfterTriedDyingPhaseUpdateEffect(BossPhase.DYING, NotDeadReason.START_TRANSITION_PHASE);
+			return false;
+		}
 		//real health reaching 0 in any shield break transition or vulnerable phase : final transition (default behavior would only do it from the last vulnerable phase)
 		if (this.isRealHealthVulnerable() && !damageSource.is(DamageTypes.GENERIC_KILL))
 		{
@@ -658,6 +693,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	private void tickPhases() //server side
 	{
+		if (this.level().isClientSide()) {return;}
+
 		this.phaseTicks++;
 		if (this.isInActivationPhase())
 		{
@@ -1054,10 +1091,18 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ------------------------------------------------- */
 	/* ---------- Boss room anchor & rotation ---------- */
 	/* ------------------------------------------------- */
-	//the warden never moves horizontally : it stays at the center of its boss room
+	//anchored warden (dungeon boss : boss room nbt, or /summon with {is_anchored:true}) :
+	//  stays at the center of its boss room with an axis aligned rotation, goes through all boss phases, activated by a hit (awakening), invulnerable secondary parts, players can stand on it
+	//free warden (default : /summon, spawn egg) :
+	//  no anchor & free rotation, activated (already awakened) as soon as it appears, constantly in its first phase, vulnerable secondary parts, players can't stand on it
+	public boolean isAnchored() {return this.entityData.get(IS_ANCHORED);}
+	public void setAnchored(boolean isAnchored) {this.entityData.set(IS_ANCHORED, isAnchored);}
+
+	//anchored warden : it never moves horizontally, it stays at the center of its boss room
 	//its body rotation is aligned with the axes (multiple of 90 degrees, like the hitboxes), except while it smoothly turns toward its target by quarter turns
 	private void tickRoomAnchor() //server side
 	{
+		if (!this.isAnchored()) {this.roomAnchorPos = null; return;} //free warden : no anchor, free rotation (see VoluciteWardenBodyRotationControl)
 		if (this.roomAnchorPos == null || this.horizontalDistanceToSqr(this.roomAnchorPos) > MAX_ANCHOR_DISTANCE * MAX_ANCHOR_DISTANCE) {this.findRoomAnchor();}
 		if (this.roomAnchorPos == null) {return;}
 
@@ -1129,7 +1174,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		}
 	}
 
-	public boolean isTurning() {return Mth.abs(Mth.degreesDifference(this.getYRot(), this.facingYRot)) > 0.001F;} //server side
+	public boolean isTurning() {return this.isAnchored() && Mth.abs(Mth.degreesDifference(this.getYRot(), this.facingYRot)) > 0.001F;} //server side. a free warden has no quarter turn (facingYRot unused)
 
 	//attacking phases only (not dormant, no transition, no vulnerable phase), never while a player stands on the warden (see isStill)
 	//strike & sweep aim at their target with positions relative to the warden rotation : no turn while an arm prepares or does one of them (they can't start while the warden turns, see ArmsGoalHandler)
@@ -1153,11 +1198,14 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ---------- Players standing on the warden ---------- */
 	/* ----------------------------------------------------- */
 	//like the happy ghast : while a player stands on a collidable part, the warden stays still (no quarter turn, head aligned with the body, see VoluciteWardenLookControl)
+	//anchored warden only : the collidable parts of a free warden can't be walked on, it is never still
 	//hitboxes never rotate : no rotation avoids players falling through parts, aligned rotation makes rendered parts match their hitbox. precise position sync avoids client-server hitbox offsets
-	public boolean isStill() {return this.stillTimeout > 0;}
+	public boolean isStill() {return this.isAnchored() && this.stillTimeout > 0;}
 
 	private void tickStill() //server side
 	{
+		if (this.level().isClientSide()) {return;}
+
 		if (this.stillTimeout > 0) {this.stillTimeout--;}
 		if (this.isPlayerStandingOnParts()) {this.stillTimeout = STILL_TIMEOUT;}
 
@@ -1223,8 +1271,9 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 
 	@Override protected BodyRotationControl createBodyControl() {return new VoluciteWardenBodyRotationControl();}
 
-	//the body rotation is the axis aligned facing rotation (set server side in tickRoomAnchor, received by the client) : it never follows the head (vanilla body rotation would)
+	//anchored warden : the body rotation is the axis aligned facing rotation (set server side in tickRoomAnchor, received by the client) : it never follows the head (vanilla body rotation would)
 	//the head looks around within getMaxHeadYRot (75 degrees) of the body front, like vanilla, except animated head (transitions, vulnerable phases)
+	//free warden : vanilla body rotation (the body follows the head), except animated head (the body keeps its rotation)
 	private class VoluciteWardenBodyRotationControl extends BodyRotationControl
 	{
 		private VoluciteWardenBodyRotationControl() {super(VoluciteWardenEntity.this);}
@@ -1232,6 +1281,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		@Override public void clientTick()
 		{
 			VoluciteWardenEntity warden = VoluciteWardenEntity.this;
+			if (!warden.isAnchored())
+			{
+				if (!warden.isHeadAnimated()) {super.clientTick();}
+				return;
+			}
 			warden.yBodyRot = warden.getYRot();
 			if (!warden.isHeadAnimated()) {warden.yHeadRot = Mth.rotateIfNecessary(warden.yHeadRot, warden.yBodyRot, warden.getMaxHeadYRot());}
 		}

@@ -39,6 +39,8 @@ public interface MasterPartEntity extends BaseMobEntityInterface
     default void partEntityTick() //call in tick()
     {
         if (!this.getSelf().isAlive()) {return;}
+        //master created without finalizeSpawn (for example by /summon with nbt) : parts summoned now (a reset would spawn a new master, losing the nbt)
+        if (!this.getLevel().isClientSide() && this.hasNeverHadParts()) {this.summonChildParts();}
         for (PartInfo partInfo : this.getPartInfoMap().values())
         {
             if (partInfo.getStatus() == PartStatus.DEAD || partInfo.getStatus() == PartStatus.FULLY_DETACHED) {continue;} //dead & fully detached parts are no longer expected
@@ -364,6 +366,16 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         {
             this.trySummonAndRegisterPart(partInfo);
         }
+    }
+
+    //no part known (reference, synced id or saved uuid) and no part status change (dead, detached) : the parts were never summoned
+    default boolean hasNeverHadParts()
+    {
+        for (PartInfo partInfo : this.getPartInfoMap().values())
+        {
+            if (this.getPartRaw(partInfo) != null || this.hasPartEntityId(partInfo) || this.getPartStringUUID(partInfo) != null || partInfo.getStatus() != PartStatus.ATTACHED) {return false;}
+        }
+        return true;
     }
 
     default void trySummonAndRegisterPart(PartInfo partInfo)

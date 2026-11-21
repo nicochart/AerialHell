@@ -9,5 +9,10 @@ public class VoluciteWardenCollidablePartEntity extends VoluciteWardenPartEntity
 {
     public VoluciteWardenCollidablePartEntity(EntityType<? extends VoluciteWardenPartEntity> type, Level level) {super(type, level);}
 
-    @Override public boolean canBeCollidedWith(@Nullable Entity entity) {return true;} //block-like collision
+    //block-like collision, only for an anchored warden
+    @Override public boolean canBeCollidedWith(@Nullable Entity entity)
+    {
+        if (this.getMaster() != null && this.getMaster().getSelf() instanceof VoluciteWardenEntity warden) {return warden.isAnchored();}
+        return true;
+    }
 }
