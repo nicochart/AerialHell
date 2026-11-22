@@ -3,11 +3,13 @@
 
 #include <minecraft:fog.glsl>
 #include <minecraft:globals.glsl>
+#include <minecraft:oit.glsl>
 
 //volucite barrier : depth illusion, like looking through a window at particles far behind the face
 //each particle layer is a virtual plane at some depth behind the visible face : the view ray is extended to it, and the particles are read where the ray crosses it
 //the layers are anchored in the world : they move with the camera (parallax, deeper layers move less), and slowly drift
 //output : premultiplied alpha (see AerialHellRenderPipelines.VOLUCITE_BARRIER) : alpha = how much the dark void hides what is behind, the particles are added on top
+//improved transparency (OIT) : the same shader runs in 3 phases (see AerialHellRenderPipelines.VOLUCITE_BARRIER_OIT and minecraft:oit.glsl), the end of main gives each one what it needs
 
 uniform sampler2D Sampler0; //particles (textures/entity/volucite_barrier/particles.png, dots of 3 sizes and faint glyphs, shown by the waves, on black : only their brightness is used, the color comes from LAYER_COLORS)
 uniform sampler2D Sampler1; //nebula, behind the last layer (vanilla end sky)
@@ -22,6 +24,14 @@ const float VOID_OPACITY = 0.35;
 const vec3 VOID_COLOR = vec3(0.01, 0.03, 0.08);
 const float PARTICLES_BRIGHTNESS = 1.0;
 const float MIN_VIEW_COS = 0.15; //limits the ray length at grazing angles (layers would stretch to infinity)
+
+//improved transparency only
+//the opacity is kept above 0 : the accumulation phase divides the color by it
+const float VOID_OPACITY_OIT = max(VOID_OPACITY, 0.01);
+//alpha of the translucent block model (the light blue tint, textures/block/volucite_barrier.png : 96 / 255), to keep equal to it
+//the tint and this effect are in the same plane : OIT can not tell which one is in front (tiny depth differences between the two quads decide), the effect is often too bright and the tint too weak
+//the effect is weighted by what the tint lets through, as if the tint was in front, like in classic mode where the tint (translucent terrain) is drawn after this effect
+const float TINT_ALPHA = 96.0 / 255.0;
 
 //particle layers, from the nearest to the farthest
 //depth : distance behind the face (blocks). period : texture repeat size (blocks, must divide 1024). bigger period : bigger and sparser particles
@@ -54,7 +64,9 @@ const float WAVE_WIDTH = 0.25;
 const float PARTICLES_IDLE = 0.4; //particles brightness outside of the waves
 const float PARTICLES_IN_WAVE = 2.0; //particles brightness at the peak of a wave
 
-layout(location = 0) out vec4 fragColor;
+#ifndef OIT_ALPHA_ONLY
+layout(location = 0) out vec4 fragColor; //the depth bounds and transmittance phases of improved transparency declare their own outputs (minecraft:oit.glsl)
+#endif
 
 //2d coordinates in the plane of the face
 vec2 face_coords(vec3 pos, vec3 normal) {
@@ -100,7 +112,8 @@ float wave_light(vec3 point) {
     return progress < 1.0 ? smoothstep(0.0, 0.2, progress) * (1.0 - smoothstep(0.2, 1.0, progress)) : 0.0;
 }
 
-void main() {
+//premultiplied color : the dark void (already multiplied by its opacity) with the particles added on top
+vec3 barrier_color() {
     vec3 viewDir = normalize(relativePos);
     vec3 normal = normalize(cross(dFdx(relativePos), dFdy(relativePos)));
     if (dot(normal, viewDir) > 0.0) {normal = -normal;} //outward normal, toward the camera
@@ -122,7 +135,17 @@ void main() {
 
     //fog : toward the fog color, with the same opacity as the void
     float fogValue = total_fog_value(sphericalVertexDistance, cylindricalVertexDistance, FogEnvironmentalStart, FogEnvironmentalEnd, FogRenderDistanceStart, FogRenderDistanceEnd);
-    color = mix(color, FogColor.rgb * VOID_OPACITY, fogValue * FogColor.a);
+    return mix(color, FogColor.rgb * VOID_OPACITY, fogValue * FogColor.a);
+}
 
-    fragColor = vec4(color, VOID_OPACITY);
+void main() {
+    #ifdef OIT_ALPHA_ONLY
+    //improved transparency, depth bounds and transmittance phases : only how much the barrier hides what is behind (no particles to compute)
+    executeAlphaOnlyPhase(gl_FragCoord.z, VOID_OPACITY_OIT);
+    #elif defined(OIT_ACCUMULATE)
+    //improved transparency, accumulation phase : vanilla takes a straight color and multiplies it by its alpha (minecraft:oit_sample.glsl). weighted by the tint in front of it (see TINT_ALPHA)
+    fragColor = sampleColorForAccumulation(vec4(barrier_color() / VOID_OPACITY_OIT, VOID_OPACITY_OIT)) * (1.0 - TINT_ALPHA);
+    #else
+    fragColor = vec4(barrier_color(), VOID_OPACITY);
+    #endif
 }

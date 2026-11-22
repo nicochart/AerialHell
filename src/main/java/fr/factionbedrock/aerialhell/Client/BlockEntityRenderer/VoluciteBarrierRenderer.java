@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Client.BlockEntityRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.BlockEntity.VoluciteBarrierBlockEntity;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellRenderPipelines;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.FaceInfo;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -55,7 +56,8 @@ public class VoluciteBarrierRenderer implements BlockEntityRenderer<VoluciteBarr
 
     @Override public void submit(EndPortalRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera)
     {
-        if (state.facesToShow.isEmpty() || !AerialHellRenderPipelines.isVoluciteBarrierAvailable()) {return;}
+        //with improved transparency, the translucent submits are drawn with the OIT pipelines of their render type (same check as the level renderer for this frame)
+        if (state.facesToShow.isEmpty() || !AerialHellRenderPipelines.isVoluciteBarrierAvailable(Minecraft.getInstance().gameRenderer.useImprovedTransparency())) {return;}
         submitNodeCollector.order(RENDER_ORDER).submitCustomGeometry(poseStack, AerialHellRenderPipelines.VOLUCITE_BARRIER_RENDER_TYPE, (pose, buffer) ->
         {
             for (Direction direction : state.facesToShow)
