@@ -1187,12 +1187,12 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	}
 
 	public boolean isTurning() {return this.isAnchored() && Mth.abs(Mth.degreesDifference(this.getYRot(), this.facingYRot)) > 0.001F;} //server side. a free warden has no quarter turn (facingYRot unused)
-	public Direction.Axis getFacingAxis() {return Direction.fromYRot(this.facingYRot).getAxis();} //server side. the arms are on the other axis (see BossRoomStairsHandler)
+	public Direction getFacingDirection() {return Direction.fromYRot(this.facingYRot);} //server side. the arms are on the perpendicular axis (see BossRoomStairsHandler)
 
-	//attacking phases only (not dormant, no transition, no vulnerable phase), never while a player stands on the warden (see isStill)
+	//shield phases only, never while a player stands on the warden
 	//strike & sweep aim at their target with positions relative to the warden rotation : no turn while an arm prepares or does one of them (they can't start while the warden turns, see ArmsGoalHandler)
 	//other arm attacks just follow the rotation
-	private boolean canStartTurn() {return this.isInAttackingPhase() && !this.isStill() && !this.isArmAimingRelatively(true) && !this.isArmAimingRelatively(false);}
+	private boolean canStartTurn() {return this.isInShieldPhase() && !this.isStill() && !this.isArmAimingRelatively(true) && !this.isArmAimingRelatively(false);}
 
 	private boolean isArmAimingRelatively(boolean isRightArm) {return this.isArmPreparingOrActing(ArmGoalType.STRIKE, isRightArm) || this.isArmPreparingOrActing(ArmGoalType.SWEEP, isRightArm);}
 
