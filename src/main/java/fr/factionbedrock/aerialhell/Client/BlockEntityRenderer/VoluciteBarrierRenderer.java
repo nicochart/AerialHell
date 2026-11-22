@@ -3,6 +3,7 @@ package fr.factionbedrock.aerialhell.Client.BlockEntityRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import fr.factionbedrock.aerialhell.BlockEntity.VoluciteBarrierBlockEntity;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellRenderPipelines;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.FaceInfo;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -32,6 +33,11 @@ public class VoluciteBarrierRenderer implements BlockEntityRenderer<VoluciteBarr
         FaceInfo faceInfo = FaceInfo.fromFacing(direction);
         return List.of(faceInfo.getVertexInfo(0).select(FROM, TO), faceInfo.getVertexInfo(1).select(FROM, TO), faceInfo.getVertexInfo(2).select(FROM, TO), faceInfo.getVertexInfo(3).select(FROM, TO));
     });
+    //translucent submits are drawn order after order (and the translucent custom geometry after the translucent models of the same order)
+    //the entities render layers use orders above 0 (vanilla eyes, slime outer layer, warden emissive layers : 1, volucite warden layers : 1 to 3)
+    //with the last order, the depth illusion is drawn after them : it covers the layers of an entity behind the barrier, like its base model (opaque, drawn before every translucent submit)
+    //an entity in front of the barrier keeps its layers : its base model hides the barrier behind it (depth test)
+    private static final int RENDER_ORDER = Integer.MAX_VALUE;
 
     public VoluciteBarrierRenderer(BlockEntityRendererProvider.Context context) {}
 
@@ -50,8 +56,9 @@ public class VoluciteBarrierRenderer implements BlockEntityRenderer<VoluciteBarr
 
     @Override public void submit(EndPortalRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera)
     {
-        if (state.facesToShow.isEmpty() || !AerialHellRenderPipelines.isVoluciteBarrierAvailable()) {return;}
-        submitNodeCollector.submitCustomGeometry(poseStack, AerialHellRenderPipelines.VOLUCITE_BARRIER_RENDER_TYPE, (pose, buffer) ->
+        //with improved transparency, the translucent submits are drawn with the OIT pipelines of their render type (same check as the level renderer for this frame)
+        if (state.facesToShow.isEmpty() || !AerialHellRenderPipelines.isVoluciteBarrierAvailable(Minecraft.getInstance().gameRenderer.useImprovedTransparency())) {return;}
+        submitNodeCollector.order(RENDER_ORDER).submitCustomGeometry(poseStack, AerialHellRenderPipelines.VOLUCITE_BARRIER_RENDER_TYPE, (pose, buffer) ->
         {
             for (Direction direction : state.facesToShow)
             {
