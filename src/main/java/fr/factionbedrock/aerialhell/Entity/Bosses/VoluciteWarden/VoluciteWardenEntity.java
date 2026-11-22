@@ -44,6 +44,7 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import fr.factionbedrock.aerialhell.World.Structure.VoluciteCastleStructure;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -158,6 +159,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	@Nullable private Vec3 roomAnchorPos; //boss room center (or position, outside a volucite castle). only horizontal coordinates are used. server side
 	private float facingYRot; //always a multiple of 90 : rotation the warden turns toward (its rotation while it does not turn). server side
 	private int quarterTurnCooldown; //server side
+	public final BossRoomStairsHandler bossRoomStairsHandler; //boss room stairs, in a volucite castle
 	/* ----------------------------- */
 
 	/* -- Boss phases fields -- */
@@ -279,6 +281,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.armsSummonHealBeaconHandler = new ArmsSummonHealBeaconHandler(this, this.getRightArm(), this.RIGHT_ARM_SUMMON_HEAL_BEACON_GOAL, this.getLeftArm(), this.LEFT_ARM_SUMMON_HEAL_BEACON_GOAL);
 		this.armsGoalHandler = new ArmsGoalHandler(this);
 		this.coreRepulsionHandler = new CoreRepulsionHandler(this, this.CORE_REPULSION_GOAL);
+		this.bossRoomStairsHandler = new BossRoomStairsHandler(this);
 	}
 
 	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
@@ -383,6 +386,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		//anchor search and rotation done in aiStep
 		this.tickPhases();
 		this.tickStill();
+		this.bossRoomStairsHandler.tick();
 	}
 
 	//free warden tick
@@ -1097,7 +1101,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ---------- Boss room anchor & rotation ---------- */
 	/* ------------------------------------------------- */
 	//anchored warden (dungeon boss : boss room nbt, or /summon with {is_anchored:true}) :
-	//  stays at the center of its boss room with an axis aligned rotation, goes through all boss phases, activated by a hit (awakening), invulnerable secondary parts, players can stand on it
+	//  stays at the center of its boss room with an axis aligned rotation, goes through all boss phases, activated by a hit (awakening), invulnerable secondary parts, players can stand on it,
+	//  destroys & rebuilds the boss room stairs (see BossRoomStairsHandler)
 	//free warden (default : /summon, spawn egg) :
 	//  no anchor & free rotation, activated (already awakened) as soon as it appears, constantly in its first phase, vulnerable secondary parts, players can't stand on it
 	public boolean isAnchored() {return this.entityData.get(IS_ANCHORED);}
@@ -1140,6 +1145,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	{
 		this.facingYRot = toAxisAlignedYRot(this.getYRot()); //structure placement rotates the saved rotation (0) by the piece rotation
 		this.roomAnchorPos = this.position();
+		this.bossRoomStairsHandler.setRoom(null); //no stairs outside a volucite castle
 		if (!(this.level() instanceof ServerLevel serverLevel)) {return;}
 
 		BlockPos pos = this.blockPosition();
@@ -1151,6 +1157,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			if (box.isInside(pos))
 			{
 				this.roomAnchorPos = new Vec3((box.minX() + box.maxX() + 1) / 2.0D, this.getY(), (box.minZ() + box.maxZ() + 1) / 2.0D);
+				this.bossRoomStairsHandler.setRoom(box);
 				return;
 			}
 		}
@@ -1180,6 +1187,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	}
 
 	public boolean isTurning() {return this.isAnchored() && Mth.abs(Mth.degreesDifference(this.getYRot(), this.facingYRot)) > 0.001F;} //server side. a free warden has no quarter turn (facingYRot unused)
+	public Direction.Axis getFacingAxis() {return Direction.fromYRot(this.facingYRot).getAxis();} //server side. the arms are on the other axis (see BossRoomStairsHandler)
 
 	//attacking phases only (not dormant, no transition, no vulnerable phase), never while a player stands on the warden (see isStill)
 	//strike & sweep aim at their target with positions relative to the warden rotation : no turn while an arm prepares or does one of them (they can't start while the warden turns, see ArmsGoalHandler)
