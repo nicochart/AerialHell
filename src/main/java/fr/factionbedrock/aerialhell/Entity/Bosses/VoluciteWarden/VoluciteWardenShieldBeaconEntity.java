@@ -22,14 +22,14 @@ import org.jspecify.annotations.Nullable;
 //placed by the warden when a shield transition starts : 2 to 4 beacons depending on the boss difficulty (see BossRoomShieldBeaconsHandler)
 //linked to its warden (saved, see setWarden) :
 //  a fraction of the taken damage is also dealt to VW
-//  same resistance as the warden (boss difficulty) : harder to break with more players
+//  more resistance than the warden (boss difficulty : warden resistance + 2 levels up to difficulty 3, + 1 level above, see getResistanceAmplifier)
 public class VoluciteWardenShieldBeaconEntity extends AbstractVoluciteWardenBeaconEntity
 {
     /* -- Warden link fields -- */
     @Nullable private EntityReference<VoluciteWardenEntity> warden; //linked warden (saved uuid, resolved again once the warden is loaded), also the beacon target (synced for the link particles). server side
     private float wardenDamageMultiplier = 1.0F; //part of the beacons damage dealt by this beacon to the warden : 1/n with n beacons, given by the warden (see BossRoomShieldBeaconsHandler). saved
     private static final float SHIELD_RATIO_PER_HEALTH = 0.01F; //warden shield lost per beacon health point lost (relative to the warden max health), before the damage multiplier : 1%
-    private static final int CLOUD_PARTICLE_CHANCE = 2, GLYPH_PARTICLE_CHANCE = 8; //link particles : 1 chance in n per tick
+    private static final int CHARGE_PARTICLE_CHANCE = 2, GLYPH_PARTICLE_CHANCE = 8; //link particles : 1 chance in n per tick
     /* ------------------------ */
 
     public VoluciteWardenShieldBeaconEntity(EntityType<? extends VoluciteWardenShieldBeaconEntity> type, Level level) {super(type, level);}
@@ -69,14 +69,14 @@ public class VoluciteWardenShieldBeaconEntity extends AbstractVoluciteWardenBeac
     public boolean isLinkedTo(VoluciteWardenEntity warden) {return (this.level().isClientSide() ? this.getSyncedTarget() : this.getWarden()) == warden;}
 
     //warden shield down (shield broken, or warden dead) : the beacon disappears. warden not loaded : the beacon waits for it
-    //otherwise : the warden is the beacon target (synced, set again once the warden is loaded), same resistance as the warden
+    //otherwise : the warden is the beacon target (synced, set again once the warden is loaded), resistance based on the warden one
     private void tickWardenLink()
     {
         @Nullable VoluciteWardenEntity warden = this.getLinkedWarden();
         if (warden != null && (!warden.isAlive() || !isWardenShieldUp(warden))) {this.disappear(); return;}
 
         if (this.getTarget() != warden) {this.setTarget(warden);}
-        this.copyWardenResistance(warden);
+        this.updateResistance(warden);
     }
 
     //shield transitions & shield phases
@@ -95,23 +95,29 @@ public class VoluciteWardenShieldBeaconEntity extends AbstractVoluciteWardenBeac
         this.discard();
     }
 
-    //same resistance effect as the warden (boss difficulty, see AbstractBossEntity.adaptBossDifficulty). no resistance without warden
-    private void copyWardenResistance(@Nullable VoluciteWardenEntity warden)
+    //resistance effect based on the warden one (boss difficulty, see AbstractBossEntity.adaptBossDifficulty & getResistanceAmplifier). no resistance without warden
+    private void updateResistance(@Nullable VoluciteWardenEntity warden)
     {
-        @Nullable MobEffectInstance wardenResistance = warden != null ? warden.getEffect(MobEffects.RESISTANCE) : null;
+        int amplifier = warden != null ? getResistanceAmplifier(warden) : -1;
         @Nullable MobEffectInstance resistance = this.getEffect(MobEffects.RESISTANCE);
-        int wardenAmplifier = wardenResistance != null ? wardenResistance.getAmplifier() : -1;
-        if (wardenAmplifier == (resistance != null ? resistance.getAmplifier() : -1)) {return;}
+        if (amplifier == (resistance != null ? resistance.getAmplifier() : -1)) {return;}
 
         this.removeEffect(MobEffects.RESISTANCE);
-        if (wardenResistance != null) {this.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, MobEffectInstance.INFINITE_DURATION, wardenAmplifier, false, false));}
+        if (amplifier >= 0) {this.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, MobEffectInstance.INFINITE_DURATION, amplifier, false, false));}
+    }
+
+    //warden resistance amplifier (-1 without resistance) + 2 levels up to boss difficulty 3, + 1 level above : the bonus decreases while the warden resistance increases with the difficulty
+    private static int getResistanceAmplifier(VoluciteWardenEntity warden)
+    {
+        @Nullable MobEffectInstance wardenResistance = warden.getEffect(MobEffects.RESISTANCE);
+        return (wardenResistance != null ? wardenResistance.getAmplifier() : -1) + (warden.getDifficulty() <= 3 ? 2 : 1);
     }
 
     /* ------------------------------------------- */
     /* ---------- Link particles (client) -------- */
     /* ------------------------------------------- */
 
-    //while the warden (synced target) shield is up : a few clouds along the link, drifting toward the warden, and glyphs traveling from the beacon top to the warden core
+    //while the warden (synced target) shield is up : a few charge particles along the link (same as the heal beacons, see VoluciteWardenHealBeaconEntity.CHARGE_PARTICLE), and glyphs traveling from the beacon top to the warden core
     private void tickLinkParticles()
     {
         if (!(this.getSyncedTarget() instanceof VoluciteWardenEntity warden) || !isWardenShieldUp(warden)) {return;}
@@ -119,11 +125,10 @@ public class VoluciteWardenShieldBeaconEntity extends AbstractVoluciteWardenBeac
         Vec3 start = this.position().add(0.0D, this.getBbHeight(), 0.0D);
         Vec3 end = warden.getCoreLightningStartPos();
         Vec3 path = end.subtract(start);
-        if (this.random.nextInt(CLOUD_PARTICLE_CHANCE) == 0)
+        if (this.random.nextInt(CHARGE_PARTICLE_CHANCE) == 0)
         {
             Vec3 pos = start.add(path.scale(this.random.nextDouble()));
-            Vec3 speed = path.normalize().scale(0.05D);
-            this.level().addParticle(ParticleTypes.CLOUD, pos.x + this.random.nextGaussian() * 0.15D, pos.y + this.random.nextGaussian() * 0.15D, pos.z + this.random.nextGaussian() * 0.15D, speed.x, speed.y, speed.z);
+            this.level().addParticle(VoluciteWardenHealBeaconEntity.CHARGE_PARTICLE, pos.x + this.random.nextGaussian() * 0.2D, pos.y + this.random.nextGaussian() * 0.2D, pos.z + this.random.nextGaussian() * 0.2D, 0.0D, 0.0D, 0.0D);
         }
         if (this.random.nextInt(GLYPH_PARTICLE_CHANCE) == 0) {VoluciteGlyphParticles.spawn(this.level(), start, end);}
     }

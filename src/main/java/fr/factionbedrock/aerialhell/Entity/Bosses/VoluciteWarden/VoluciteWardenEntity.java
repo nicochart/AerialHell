@@ -617,7 +617,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		if (SHIELD_TRANSITIONS.contains(nextPhase))
 		{
 			this.playShieldActivationSound();
-			this.bossRoomShieldBeaconsHandler.placeShieldBeacons(this.getDifficulty());
+			this.bossRoomShieldBeaconsHandler.placeShieldBeacons(this.getDifficulty(), SHIELD_TRANSITIONS.indexOf(nextPhase) + 1); //shield level (see startShieldTransition)
 		}
 		if (SHIELD_BREAK_TRANSITIONS.contains(nextPhase)) //shield beacons disappear by themselves (see VoluciteWardenShieldBeaconEntity.tickWardenLink)
 		{

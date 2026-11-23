@@ -32,7 +32,6 @@ public class BossRoomShieldBeaconsHandler
 {
     public static final double PEDESTAL_DISTANCE = 15.5D; //pedestal center, from the room center (on x & z)
     private static final int BEACON_Y = 15; //beacon feet (pedestal top), relative to the boss room piece min y
-    private static final int MIN_BEACONS = 2, MAX_BEACONS = 4;
 
     private final VoluciteWardenEntity warden;
     @Nullable private BoundingBox room; //boss room piece (the one the warden stands in), null outside a volucite castle
@@ -41,15 +40,16 @@ public class BossRoomShieldBeaconsHandler
 
     public void setRoom(@Nullable BoundingBox room) {this.room = room;}
 
-    //called when a shield transition starts (server side)
-    public void placeShieldBeacons(int bossDifficulty)
+    //called when a shield transition starts (server side). shieldLevel : 1 to 3, depends on the warden real health (see VoluciteWardenEntity.startShieldTransition)
+    public void placeShieldBeacons(int bossDifficulty, int shieldLevel)
     {
         if (this.room == null || !(this.warden.level() instanceof ServerLevel level)) {return;}
 
-        //0 to 3 players : 2 beacons
+        //0 or 1 player : depends on shield level, 1 -> 1 or 2 (random) -> 2 (this.getSoloBeaconCount(shieldLevel))
+        //2 or 3 players : 2
         //4 or 5 players : 3
         //more : 4
-        int beaconCount = Mth.clamp((int) (bossDifficulty * 0.75F), MIN_BEACONS, MAX_BEACONS);
+        int beaconCount = bossDifficulty <= 1 ? this.getSoloBeaconCount(shieldLevel) : Mth.clamp((int) (bossDifficulty * 0.75F), 2, 4);
         List<Vec3> pedestals = this.getPedestalPositions();
         Util.shuffle(pedestals, this.warden.getRandom()); //random choice between equally close pedestals (or without target)
         @Nullable LivingEntity target = this.warden.getTarget();
@@ -72,6 +72,8 @@ public class BossRoomShieldBeaconsHandler
         standingBeacons.forEach(beacon -> this.restoreShieldBeacon(level, beacon, wardenDamageMultiplier));
         for (int i = 0; i < newBeacons; i++) {this.placeShieldBeacon(level, freePedestals.get(i), wardenDamageMultiplier);}
     }
+
+    private int getSoloBeaconCount(int shieldLevel) {return shieldLevel <= 1 ? 1 : shieldLevel == 2 ? Mth.nextInt(this.warden.getRandom(), 1, 2) : 2;}
 
     //beacon positions (feet, pedestal top center) : the 4 diagonals of the room center
     private List<Vec3> getPedestalPositions()

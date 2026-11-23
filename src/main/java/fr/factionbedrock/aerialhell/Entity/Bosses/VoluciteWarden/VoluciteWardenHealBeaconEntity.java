@@ -53,7 +53,7 @@ public class VoluciteWardenHealBeaconEntity extends AbstractVoluciteWardenBeacon
 
     public static final int ACTIVE_COLOR = new Color(139, 138, 223).getRGB(); //color of the active layer (charge particles)
     public static final int HEALING_COLOR = new Color(88, 199, 156).getRGB(); //color of the healing layer (heal beam)
-    private static final DustParticleOptions CHARGE_PARTICLE = new DustParticleOptions(ACTIVE_COLOR, 1.5F);
+    public static final DustParticleOptions CHARGE_PARTICLE = new DustParticleOptions(ACTIVE_COLOR, 1.5F); //also used by the shield beacons link (see VoluciteWardenShieldBeaconEntity)
 
     /* -- Beacon state fields -- */
     private static final EntityDataAccessor<Integer> BEACON_STATE = SynchedEntityData.defineId(VoluciteWardenHealBeaconEntity.class, EntityDataSerializers.INT);
