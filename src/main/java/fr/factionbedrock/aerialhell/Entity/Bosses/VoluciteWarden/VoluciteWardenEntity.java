@@ -599,7 +599,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		if (SHIELD_TRANSITIONS.contains(nextPhase))
 		{
 			this.playShieldActivationSound();
-			this.bossRoomShieldBeaconsHandler.placeShieldBeacons();
+			this.bossRoomShieldBeaconsHandler.placeShieldBeacons(this.getDifficulty());
 		}
 		if (SHIELD_BREAK_TRANSITIONS.contains(nextPhase))
 		{
@@ -1113,6 +1113,10 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	//  no anchor & free rotation, activated (already awakened) as soon as it appears, constantly in its first phase, vulnerable secondary parts, players can't stand on it
 	public boolean isAnchored() {return this.entityData.get(IS_ANCHORED);}
 	public void setAnchored(boolean isAnchored) {this.entityData.set(IS_ANCHORED, isAnchored);}
+
+	@Override protected int getDifficultyUpdateInterval() {return 200;}
+	@Override protected float getDifficultySearchRelativeY() {return this.isAnchored() ? 13.0F : 5.0F;}
+	@Override protected float getDifficultySearchRange() {return 40.0F;} //40 blocks : size of boss room dome
 
 	//anchored warden : it never moves horizontally, it stays at the center of its boss room
 	//its body rotation is aligned with the axes (multiple of 90 degrees, like the hitboxes), except while it smoothly turns toward its target by quarter turns

@@ -10,7 +10,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -23,15 +22,15 @@ import java.util.Comparator;
 import java.util.List;
 
 //anchored warden boss room shield beacons : 4 pedestals around the room center (on the diagonals, PEDESTAL_DISTANCE from the center on both x & z)
-//when a shield transition starts, shield beacons are placed on the pedestals : as many as the boss difficulty (number of nearby players), between 2 and 4
-//the chosen pedestals are the closest to the players (a lone player gets the 2 pedestals of its side). a pedestal already holding a beacon gets no other one
-//blocks placed by players where a beacon appears are destroyed with their drops (same as the stairs, see BossRoomStairsHandler)
+//when a shield transition starts, shield beacons are placed on the pedestals
+//the chosen pedestals are the closest to the warden target
+//a pedestal already holding a beacon gets no other one
+//blocks placed by players where a beacon appears are destroyed with their drops
 public class BossRoomShieldBeaconsHandler
 {
     private static final double PEDESTAL_DISTANCE = 15.5D; //pedestal center, from the room center (on x & z)
     private static final int BEACON_Y = 15; //beacon feet (pedestal top), relative to the boss room piece min y
     private static final int MIN_BEACONS = 2, MAX_BEACONS = 4;
-    private static final double PLAYERS_SEARCH_RANGE = 32.0D; //players choosing the pedestals, around the pedestals level center
 
     private final VoluciteWardenEntity warden;
     @Nullable private BoundingBox room; //boss room piece (the one the warden stands in), null outside a volucite castle
@@ -41,15 +40,18 @@ public class BossRoomShieldBeaconsHandler
     public void setRoom(@Nullable BoundingBox room) {this.room = room;}
 
     //called when a shield transition starts (server side)
-    public void placeShieldBeacons()
+    public void placeShieldBeacons(int bossDifficulty)
     {
         if (this.room == null || !(this.warden.level() instanceof ServerLevel level)) {return;}
 
-        int beaconCount = Mth.clamp(this.warden.getDifficulty(), MIN_BEACONS, MAX_BEACONS);
+        //0 to 3 players : 2 beacons
+        //4 or 5 players : 3
+        //more : 4
+        int beaconCount = Mth.clamp((int) (bossDifficulty * 0.75F), MIN_BEACONS, MAX_BEACONS);
         List<Vec3> pedestals = this.getPedestalPositions();
-        List<Player> players = this.getPlayersInRoom(level);
-        Util.shuffle(pedestals, this.warden.getRandom()); //random choice between equally close pedestals (or without any player)
-        pedestals.sort(Comparator.comparingDouble(pedestal -> getDistanceToClosestPlayerSqr(pedestal, players)));
+        Util.shuffle(pedestals, this.warden.getRandom()); //random choice between equally close pedestals (or without target)
+        @Nullable LivingEntity target = this.warden.getTarget();
+        if (target != null) {pedestals.sort(Comparator.comparingDouble(pedestal -> target.distanceToSqr(pedestal)));}
 
         for (Vec3 pedestal : pedestals.subList(0, beaconCount))
         {
@@ -69,21 +71,6 @@ public class BossRoomShieldBeaconsHandler
             for (int zSide : new int[] {-1, 1}) {pedestals.add(new Vec3(centerX + xSide * PEDESTAL_DISTANCE, this.room.minY() + BEACON_Y, centerZ + zSide * PEDESTAL_DISTANCE));}
         }
         return pedestals;
-    }
-
-    //creative players are included : they never change the beacon count (not counted in the boss difficulty), but they can check where beacons appear
-    private List<Player> getPlayersInRoom(ServerLevel level)
-    {
-        if (this.room == null) {return List.of();}
-        Vec3 center = new Vec3((this.room.minX() + this.room.maxX() + 1) / 2.0D, this.room.minY() + BEACON_Y, (this.room.minZ() + this.room.maxZ() + 1) / 2.0D);
-        return level.getEntitiesOfClass(Player.class, new AABB(center, center).inflate(PLAYERS_SEARCH_RANGE), player -> player.isAlive() && !player.isSpectator());
-    }
-
-    private static double getDistanceToClosestPlayerSqr(Vec3 pos, List<Player> players)
-    {
-        double minDistanceSqr = Double.MAX_VALUE;
-        for (Player player : players) {minDistanceSqr = Math.min(minDistanceSqr, player.distanceToSqr(pos));}
-        return minDistanceSqr;
     }
 
     private static boolean hasShieldBeacon(ServerLevel level, Vec3 pedestal)
