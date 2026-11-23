@@ -363,6 +363,22 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		return amount / SHIELD_HEALTH_FACTOR;
 	}
 
+	//damage dealt through a shield beacon (see VoluciteWardenShieldBeaconEntity) : the shield loses shieldRatio of its health (relative to max health)
+	//same hurt as a hit on the core (red flash, sound, attacker), but the hurt cooldown is ignored and kept as it was :
+	//beacons hit at the same time all count, and a beacon hit doesn't reduce the next hits on the warden
+	public void hurtShieldFromBeacon(ServerLevel level, DamageSource source, float shieldRatio)
+	{
+		if (!this.isInShieldPhase() || shieldRatio <= 0.0F) {return;}
+
+		int damageCooldownTime = this.damageCooldownTime;
+		float lastHurt = this.lastHurt;
+		this.damageCooldownTime = 0;
+		//TODO : ignore resistance
+		this.hurtServer(level, source, shieldRatio * this.getMaxHealth() * SHIELD_HEALTH_FACTOR); //brought back to shieldRatio * max health by the shield scale
+		this.damageCooldownTime = damageCooldownTime;
+		this.lastHurt = lastHurt;
+	}
+
 	@Override public void tick()
 	{
 		super.tick();
@@ -601,7 +617,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			this.playShieldActivationSound();
 			this.bossRoomShieldBeaconsHandler.placeShieldBeacons(this.getDifficulty());
 		}
-		if (SHIELD_BREAK_TRANSITIONS.contains(nextPhase))
+		if (SHIELD_BREAK_TRANSITIONS.contains(nextPhase)) //shield beacons disappear by themselves (see VoluciteWardenShieldBeaconEntity.tickWardenLink)
 		{
 			this.playShieldBreakSound();
 			this.playShieldShutdownSound();

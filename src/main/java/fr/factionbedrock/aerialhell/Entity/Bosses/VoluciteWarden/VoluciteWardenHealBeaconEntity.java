@@ -2,7 +2,6 @@ package fr.factionbedrock.aerialhell.Entity.Bosses.VoluciteWarden;
 
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenHealBeaconFindWardenGoal;
 import fr.factionbedrock.aerialhell.Entity.AI.VoluciteWarden.VoluciteWardenHealBeaconRepulsionGoal;
-import fr.factionbedrock.aerialhell.Entity.Monster.SyncedTargetEntity;
 import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTags;
 import fr.factionbedrock.aerialhell.Util.EntityHelper;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -15,10 +14,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
@@ -32,7 +29,7 @@ import java.awt.Color;
 //its target is the volucite warden to heal (synced, for particles & heal beam render). it never targets an entity to attack
 //states : inactive (no target) -> active (charging, particles toward the warden) -> healing (heal beam)
 //each time it loses 25% of its max health while active or healing : attacking (repulsion goal), then active again (shorter charge)
-public class VoluciteWardenHealBeaconEntity extends Mob implements SyncedTargetEntity
+public class VoluciteWardenHealBeaconEntity extends AbstractVoluciteWardenBeaconEntity
 {
     public static final float HEAL_RANGE = 32.0F; //max distance between beacon core and warden core
     public static final float HEAL_AMOUNT = 0.5F; //per tick
@@ -57,11 +54,6 @@ public class VoluciteWardenHealBeaconEntity extends Mob implements SyncedTargetE
     private int lostHealthSteps; //number of ATTACK_HEALTH_STEP of max health already lost (server side)
     /* ------------------------- */
 
-    /* -- SyncedTargetEntity fields -- */
-    private static final EntityDataAccessor<Integer> ATTACK_TARGET_ID = SynchedEntityData.defineId(VoluciteWardenHealBeaconEntity.class, EntityDataSerializers.INT);
-    private final SyncedTargetEntityInfo SYNCED_TARGET_ENTITY_INFO = new SyncedTargetEntityInfo(ATTACK_TARGET_ID);
-    /* ------------------------------- */
-
     private VoluciteWardenHealBeaconRepulsionGoal REPULSION_GOAL; //only server side
 
     public VoluciteWardenHealBeaconEntity(EntityType<? extends VoluciteWardenHealBeaconEntity> type, Level level) {super(type, level);}
@@ -70,9 +62,6 @@ public class VoluciteWardenHealBeaconEntity extends Mob implements SyncedTargetE
     {
         super.defineSynchedData(builder);
         builder.define(BEACON_STATE, INACTIVE);
-        /* -- SyncedTargetEntity synched data -- */
-        builder.define(ATTACK_TARGET_ID, 0);
-        /* ------------------------------------- */
     }
 
     @Override protected void registerGoals()
@@ -82,26 +71,11 @@ public class VoluciteWardenHealBeaconEntity extends Mob implements SyncedTargetE
         this.targetSelector.addGoal(1, new VoluciteWardenHealBeaconFindWardenGoal(this));
     }
 
-    public static AttributeSupplier.Builder registerAttributes()
-    {
-        return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 100.0D)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
-                .add(Attributes.EXPLOSION_KNOCKBACK_RESISTANCE, 1.0D);
-    }
-
-    /* ------- SyncedTargetEntity : Interface method implementation ------- */
-    @Override public SyncedTargetEntityInfo getSyncedTargetEntityInfo() {return this.SYNCED_TARGET_ENTITY_INFO;}
-    @Override public Mob getSelf() {return this;}
-    /* -------------------------------------------------------------------- */
+    public static AttributeSupplier.Builder registerAttributes() {return createBeaconAttributes().add(Attributes.MAX_HEALTH, 100.0D);}
 
     @Override public void tick()
     {
-        super.tick();
-        /* SyncedTargetEntity tick */
-        this.syncedTargetEntityTick();
-        /* ----------------------- */
-
+        super.tick(); //synced target (see AbstractVoluciteWardenBeaconEntity)
         if (this.level().isClientSide()) {this.tickChargeParticles();}
         else if (this.isAlive()) {this.tickBeaconState();}
     }
@@ -198,8 +172,7 @@ public class VoluciteWardenHealBeaconEntity extends Mob implements SyncedTargetE
 
     @Override public boolean hurtServer(ServerLevel level, DamageSource source, float amount)
     {
-        if (source.getEntity() != null && source.getEntity().is(AerialHellTags.Entities.VOLUCITE)) {return false;} //not hurt by the warden or its allies
-        boolean hurt = super.hurtServer(level, source, amount);
+        boolean hurt = super.hurtServer(level, source, amount); //not hurt by the warden or its allies (see AbstractVoluciteWardenBeaconEntity)
         if (hurt && this.isAlive()) {this.updateLostHealthSteps();}
         return hurt;
     }
@@ -266,23 +239,4 @@ public class VoluciteWardenHealBeaconEntity extends Mob implements SyncedTargetE
         super.readAdditionalSaveData(valueInput);
         this.lostHealthSteps = this.computeLostHealthSteps(); //health steps lost before saving do not trigger attacks again
     }
-
-    /* ------------------------------------------------ */
-    /* ---------- Block-like (static) entity ---------- */
-    /* ------------------------------------------------ */
-
-    @Override public boolean canBeCollidedWith(@Nullable Entity entity) {return true;} //block-like collision
-    @Override public boolean isNoGravity() {return true;}
-    @Override public boolean isPushable() {return false;}
-    @Override public boolean isPushedByFluid() {return false;}
-    @Override public boolean isInWall() {return false;}
-    @Override public boolean canBreatheUnderwater() {return true;}
-    @Override public boolean canBeLeashed() {return false;}
-    @Override public boolean causeFallDamage(double fallDistance, float damageMultiplier, DamageSource damageSource) {return false;}
-    @Override public boolean removeWhenFarAway(double distanceToClosestPlayer) {return false;}
-    @Override public void knockback(double strength, double x, double z, DamageSource damageSource, float damage) {}
-    @Override public void knockback(double strength, double x, double z, DamageSource damageSource, float damage, boolean comesFromEffect) {}
-
-    @Override protected SoundEvent getHurtSound(DamageSource damageSource) {return SoundEvents.STONE_HIT;}
-    @Override protected SoundEvent getDeathSound() {return SoundEvents.STONE_BREAK;}
 }
