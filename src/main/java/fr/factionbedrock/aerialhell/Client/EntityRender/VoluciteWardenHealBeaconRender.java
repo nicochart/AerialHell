@@ -14,9 +14,11 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.jspecify.annotations.Nullable;
+
+import java.util.List;
 
 public class VoluciteWardenHealBeaconRender extends MobRenderer<VoluciteWardenHealBeaconEntity, VoluciteWardenHealBeaconRenderState, VoluciteWardenHealBeaconModel>
 {
@@ -36,8 +38,8 @@ public class VoluciteWardenHealBeaconRender extends MobRenderer<VoluciteWardenHe
         super.extractRenderState(entity, renderState, partialTick);
         renderState.beaconState = entity.getBeaconState();
 
-        @Nullable Vec3 healBeamTargetPos = getHealBeamTargetPos(entity, partialTick);
-        renderState.healBeamVector = healBeamTargetPos != null ? healBeamTargetPos.subtract(entity.getCoreCenterPos(partialTick)) : null;
+        Vec3 corePos = entity.getCoreCenterPos(partialTick);
+        renderState.healBeamVectors = getHealBeamTargetPositions(entity, partialTick).stream().map(targetPos -> targetPos.subtract(corePos)).toList();
     }
 
     @Override public Identifier getTextureLocation(VoluciteWardenHealBeaconRenderState renderState) {return TEXTURE;}
@@ -48,12 +50,12 @@ public class VoluciteWardenHealBeaconRender extends MobRenderer<VoluciteWardenHe
     {
         super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
 
-        //heal beam, from beacon core to warden core
-        if (renderState.healBeamVector != null)
+        //heal beams, from beacon core to warden core (direct heal) or to its shield beacons (see VoluciteWardenEntity.isHealedThroughShieldBeacons)
+        if (!renderState.healBeamVectors.isEmpty())
         {
             poseStack.pushPose();
             poseStack.translate(0.0F, VoluciteWardenHealBeaconEntity.CORE_RELATIVE_HEIGHT, 0.0F);
-            BeamRenderHelper.renderBeam(poseStack, submitNodeCollector, renderState.healBeamVector, BeamRenderHelper.getBeamTextureLocation(), VoluciteWardenHealBeaconEntity.HEALING_COLOR, VoluciteWardenHealBeaconEntity.HEAL_RANGE, HEAL_BEAM_SCALE, 0.0F);
+            for (Vec3 healBeamVector : renderState.healBeamVectors) {BeamRenderHelper.renderBeam(poseStack, submitNodeCollector, healBeamVector, BeamRenderHelper.getBeamTextureLocation(), VoluciteWardenHealBeaconEntity.HEALING_COLOR, 2.0F * VoluciteWardenHealBeaconEntity.HEAL_RANGE, HEAL_BEAM_SCALE, 0.0F);}
             poseStack.popPose();
         }
     }
@@ -62,15 +64,17 @@ public class VoluciteWardenHealBeaconRender extends MobRenderer<VoluciteWardenHe
     {
         AABB box = super.getBoundingBoxForCulling(entity, partialTicks);
 
-        //-- adapting culling bounding box to heal beam --
-        @Nullable Vec3 healBeamTargetPos = getHealBeamTargetPos(entity, partialTicks);
-        if (healBeamTargetPos != null) {return BeamRenderHelper.calculateBeamCullingBox(box, entity.getCoreCenterPos(partialTicks), healBeamTargetPos, HEAL_BEAM_SCALE);}
-        else {return box;}
+        //-- adapting culling bounding box to heal beams --
+        Vec3 corePos = entity.getCoreCenterPos(partialTicks);
+        for (Vec3 healBeamTargetPos : getHealBeamTargetPositions(entity, partialTicks)) {box = BeamRenderHelper.calculateBeamCullingBox(box, corePos, healBeamTargetPos, HEAL_BEAM_SCALE);}
+        return box;
     }
 
-    //warden core, if the beacon is healing it
-    @Nullable private static Vec3 getHealBeamTargetPos(VoluciteWardenHealBeaconEntity entity, float partialTick)
+    //heal beam targets, if the beacon is healing : warden core (direct heal), or center of the shield beacons of a warden healed through them (see VoluciteWardenHealBeaconEntity.getHealedShieldBeacons)
+    private static List<Vec3> getHealBeamTargetPositions(VoluciteWardenHealBeaconEntity entity, float partialTick)
     {
-        return entity.isBeaconHealing() && entity.getSyncedTarget() instanceof VoluciteWardenEntity warden ? VoluciteWardenHealBeaconEntity.getWardenCoreCenterPos(warden, partialTick) : null;
+        if (!entity.isBeaconHealing() || !(entity.getSyncedTarget() instanceof VoluciteWardenEntity warden)) {return List.of();}
+        if (!warden.isHealedThroughShieldBeacons()) {return List.of(VoluciteWardenHealBeaconEntity.getWardenCoreCenterPos(warden, partialTick));}
+        return entity.getHealedShieldBeacons().stream().filter(LivingEntity::isAlive).map(beacon -> beacon.getPosition(partialTick).add(0.0D, beacon.getBbHeight() / 2.0F, 0.0D)).toList();
     }
 }

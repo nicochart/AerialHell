@@ -677,8 +677,23 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public int getShieldLevel() {return SHIELD_PHASES.indexOf(this.getPhase()) + 1;} //0 if not in shield phase
 	private boolean isHealthTheShield() {return this.isInShieldPhase() || SHIELD_TRANSITIONS.contains(this.getPhase());}
 	public boolean isInShieldTransition() {return SHIELD_TRANSITIONS.contains(this.getPhase());}
-	//no heal from heal beacons during shield break transitions, vulnerable phases & shield transitions (activation phase can be healed). see VoluciteWardenHealBeaconEntity.isValidHealTarget
-	public boolean canBeHealedByBeacons() {return !this.isRealHealthVulnerable() && !this.isInShieldTransition();}
+	//free warden : healed by heal beacons in its first phase (no heal during shield break transitions, vulnerable phases & shield transitions)
+	//anchored warden : in shield phases while at least one of its shield beacons is alive (healed through them, see isHealedThroughShieldBeacons), and directly in the final phase
+	//see VoluciteWardenHealBeaconEntity.isValidHealTarget
+	public boolean canBeHealedByBeacons()
+	{
+		if (!this.isAnchored()) {return !this.isRealHealthVulnerable() && !this.isInShieldTransition();}
+		return this.isInFinalPhase() || (this.isInShieldPhase() && this.hasShieldBeacon());
+	}
+
+	//anchored warden in shield phases : heal beacons heal it through its shield beacons (charge particles & heal beams toward them, shield beacons healed too, see VoluciteWardenHealBeaconEntity)
+	//otherwise (free warden, anchored warden final phase) : direct heal, toward the core. both sides
+	public boolean isHealedThroughShieldBeacons() {return this.isAnchored() && this.isInShieldPhase();}
+
+	//alive shield beacons linked to this warden, standing on the boss room pedestals (see BossRoomShieldBeaconsHandler). both sides : synced link client side (see VoluciteWardenShieldBeaconEntity.isLinkedTo)
+	public List<VoluciteWardenShieldBeaconEntity> getShieldBeacons() {return this.level().getEntitiesOfClass(VoluciteWardenShieldBeaconEntity.class, this.getBoundingBox().inflate(BossRoomShieldBeaconsHandler.PEDESTAL_DISTANCE + 0.5F), beacon -> beacon.isAlive() && beacon.isLinkedTo(this));}
+	public int getShieldBeaconCount() {return this.getShieldBeacons().size();}
+	public boolean hasShieldBeacon() {return this.getShieldBeaconCount() > 0;}
 	public boolean areSecondaryPartsInvulnerable() {return this.isAnchored();} //secondary parts are parts other than core, head & arm segments. vulnerable for a free warden
 
 	//shield & final transitions : invulnerable (health is regenerated). shield break transitions : the warden can be hurt

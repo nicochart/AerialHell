@@ -92,6 +92,7 @@ public class SummonHealBeaconHandler
     {
         @Nullable SummonHealBeaconHandler otherArmHandler = this.globalHandler.getOtherArmHandler(this);
         if (otherArmHandler != null && otherArmHandler.goal.isActive()) {return false;}
+        if (this.warden.isAnchored() && !this.warden.hasShieldBeacon()) {return false;}
 
         return this.warden.getHealth() < this.warden.getMaxHealth() && this.goal.countNearbyHealBeacons() < ArmsSummonHealBeaconHandler.MAX_NEARBY_BEACONS;
     }

@@ -30,7 +30,7 @@ import java.util.List;
 //blocks placed by players where a beacon appears are destroyed with their drops
 public class BossRoomShieldBeaconsHandler
 {
-    private static final double PEDESTAL_DISTANCE = 15.5D; //pedestal center, from the room center (on x & z)
+    public static final double PEDESTAL_DISTANCE = 15.5D; //pedestal center, from the room center (on x & z)
     private static final int BEACON_Y = 15; //beacon feet (pedestal top), relative to the boss room piece min y
     private static final int MIN_BEACONS = 2, MAX_BEACONS = 4;
 

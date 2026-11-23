@@ -65,6 +65,9 @@ public class VoluciteWardenShieldBeaconEntity extends AbstractVoluciteWardenBeac
         return warden != null && warden.isAlive() ? warden : null;
     }
 
+    //linked to this warden : saved link server side, synced target client side
+    public boolean isLinkedTo(VoluciteWardenEntity warden) {return (this.level().isClientSide() ? this.getSyncedTarget() : this.getWarden()) == warden;}
+
     //warden shield down (shield broken, or warden dead) : the beacon disappears. warden not loaded : the beacon waits for it
     //otherwise : the warden is the beacon target (synced, set again once the warden is loaded), same resistance as the warden
     private void tickWardenLink()
