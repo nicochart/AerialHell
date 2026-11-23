@@ -39,9 +39,9 @@ import java.util.List;
 public class VoluciteWardenHealBeaconEntity extends AbstractVoluciteWardenBeaconEntity
 {
     public static final float HEAL_RANGE = 32.0F; //max distance between beacon core and warden core
-    public static final float HEAL_RATIO = 0.01F; //warden max health healed every HEAL_INTERVAL ticks (1%)
-    public static final int HEAL_INTERVAL = 16; //ticks : 1% of 800 health every 16 ticks = 0.5 health per tick, same speed as the previous continuous heal
-    public static final float SHIELD_BEACON_HEAL_PER_PERCENT = 1.0F; //warden healed through its shield beacons : shield beacon health healed for each 1% of the warden health healed
+    public static final float HEAL_AMOUNT = 0.5F; //per tick
+    public static final float SHIELD_BEACON_HEAL_RATIO = 0.01F; //warden healed through its shield beacons : each time this ratio of its max health is healed (1%), its most damaged shield beacon is healed by SHIELD_BEACON_HEAL_AMOUNT
+    public static final float SHIELD_BEACON_HEAL_AMOUNT = 1.0F;
     public static final int FIRST_CHARGE_DURATION = 200; //ticks in active state before healing, when the warden is found
     public static final int CHARGE_DURATION_AFTER_ATTACK = 100; //ticks in active state before healing again, after an attack
     public static final float ATTACK_HEALTH_STEP = 0.25F; //the beacon attacks each time it loses this ratio of its max health
@@ -54,13 +54,12 @@ public class VoluciteWardenHealBeaconEntity extends AbstractVoluciteWardenBeacon
     public static final int ACTIVE_COLOR = new Color(139, 138, 223).getRGB(); //color of the active layer (charge particles)
     public static final int HEALING_COLOR = new Color(88, 199, 156).getRGB(); //color of the healing layer (heal beam)
     private static final DustParticleOptions CHARGE_PARTICLE = new DustParticleOptions(ACTIVE_COLOR, 1.5F);
-    private static final int CHARGE_PARTICLES_PER_TICK = 5;
 
     /* -- Beacon state fields -- */
     private static final EntityDataAccessor<Integer> BEACON_STATE = SynchedEntityData.defineId(VoluciteWardenHealBeaconEntity.class, EntityDataSerializers.INT);
     public static final int INACTIVE = 0, ACTIVE = 1, HEALING = 2, ATTACKING = 3;
     private int chargeTicks, chargeDuration; //active state (server side)
-    private int healTicks; //healing state, ticks since the last heal (server side)
+    private float shieldBeaconHealProgress; //healing state, warden health healed since the last shield beacon heal (server side)
     private int lostHealthSteps; //number of ATTACK_HEALTH_STEP of max health already lost (server side)
     private List<VoluciteWardenShieldBeaconEntity> healedShieldBeacons = List.of(); //client side : shield beacons of the warden target healed through them, while charging or healing (charge particles & heal beams targets)
     /* ------------------------- */
@@ -116,21 +115,32 @@ public class VoluciteWardenHealBeaconEntity extends AbstractVoluciteWardenBeacon
         }
         else if (this.isBeaconActive())
         {
-            if (++this.chargeTicks >= this.chargeDuration) {this.healTicks = 0; this.setBeaconState(HEALING);}
+            if (++this.chargeTicks >= this.chargeDuration) {this.shieldBeaconHealProgress = 0.0F; this.setBeaconState(HEALING);}
         }
-        else if (this.isBeaconHealing() && ++this.healTicks >= HEAL_INTERVAL) {this.healTicks = 0; this.healWarden(warden);}
+        else if (this.isBeaconHealing()) {this.healWarden(warden);}
         //attacking state is handled by the repulsion goal
     }
 
-    //HEAL_RATIO of the warden max health
-    //warden healed through its shield beacons : SHIELD_BEACON_HEAL_PER_PERCENT for each 1% healed, given to its most damaged shield beacon (no shield beacon heal if none is damaged)
+    //HEAL_AMOUNT each tick
+    //warden healed through its shield beacons : the healed amount is counted, and each SHIELD_BEACON_HEAL_RATIO of its max health (1%), its most damaged shield beacon is healed
     private void healWarden(VoluciteWardenEntity warden)
     {
-        warden.heal(HEAL_RATIO * warden.getMaxHealth());
+        warden.heal(HEAL_AMOUNT);
         if (!warden.isHealedThroughShieldBeacons()) {return;}
 
-        warden.getShieldBeacons().stream().filter(beacon -> beacon.getHealth() < beacon.getMaxHealth()).min(Comparator.comparingDouble(LivingEntity::getHealth))
-                .ifPresent(beacon -> beacon.heal(HEAL_RATIO * 100.0F * SHIELD_BEACON_HEAL_PER_PERCENT));
+        float shieldBeaconHealStep = SHIELD_BEACON_HEAL_RATIO * warden.getMaxHealth();
+        this.shieldBeaconHealProgress += HEAL_AMOUNT;
+        while (this.shieldBeaconHealProgress >= shieldBeaconHealStep)
+        {
+            this.shieldBeaconHealProgress -= shieldBeaconHealStep;
+            this.healMostDamagedShieldBeacon(warden);
+        }
+    }
+
+    //SHIELD_BEACON_HEAL_AMOUNT to the most damaged shield beacon of the warden (none if no shield beacon is damaged)
+    private void healMostDamagedShieldBeacon(VoluciteWardenEntity warden)
+    {
+        warden.getShieldBeacons().stream().filter(beacon -> beacon.getHealth() < beacon.getMaxHealth()).min(Comparator.comparingDouble(LivingEntity::getHealth)).ifPresent(beacon -> beacon.heal(SHIELD_BEACON_HEAL_AMOUNT));
     }
 
     private void startCharging(int duration)
@@ -183,15 +193,15 @@ public class VoluciteWardenHealBeaconEntity extends AbstractVoluciteWardenBeacon
     public List<VoluciteWardenShieldBeaconEntity> getHealedShieldBeacons() {return this.healedShieldBeacons;}
 
     //client side : particles from the beacon core while charging, toward the warden core (direct heal) or toward its shield beacons (see VoluciteWardenEntity.isHealedThroughShieldBeacons)
-    //CHARGE_PARTICLES_PER_TICK in total, each one toward a random target
     private void tickChargeParticles()
     {
+        int chargeParticlesNumber = 5;
         if (!this.isBeaconActive() || !(this.getSyncedTarget() instanceof VoluciteWardenEntity warden)) {return;}
 
         Vec3 start = this.getCoreCenterPos(1.0F);
         List<Vec3> targets = warden.isHealedThroughShieldBeacons() ? this.healedShieldBeacons.stream().filter(LivingEntity::isAlive).map(beacon -> beacon.getBoundingBox().getCenter()).toList() : List.of(getWardenCoreCenterPos(warden, 1.0F));
         if (targets.isEmpty()) {return;}
-        for (int i = 0; i < CHARGE_PARTICLES_PER_TICK; i++)
+        for (int i = 0; i < chargeParticlesNumber; i++)
         {
             Vec3 path = targets.get(this.random.nextInt(targets.size())).subtract(start);
             Vec3 pos = start.add(path.scale(this.random.nextDouble()));
