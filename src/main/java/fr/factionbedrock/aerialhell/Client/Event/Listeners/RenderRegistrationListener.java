@@ -72,6 +72,7 @@ public class RenderRegistrationListener
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_HEAD.get(), (context) -> new VoluciteWardenHeadRender(context, VoluciteWardenPartModel.Part.HEAD));
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_LIGHTNING.get(), VoluciteLightningRender::new);
         event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_HEAL_BEACON.get(), VoluciteWardenHealBeaconRender::new);
+        event.registerEntityRenderer(AerialHellEntities.VOLUCITE_WARDEN_SHIELD_BEACON.get(), VoluciteWardenShieldBeaconRender::new);
         event.registerEntityRenderer(AerialHellEntities.FLYING_JELLYFISH.get(), FlyingJellyfishRender::new);
         event.registerEntityRenderer(AerialHellEntities.SHADOW_FLYING_SKULL.get(), ShadowFlyingSkullRender::new);
         event.registerEntityRenderer(AerialHellEntities.SHADOW_TROLL.get(), ShadowTrollRender::new);
@@ -133,6 +134,7 @@ public class RenderRegistrationListener
         event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN_NECK, () -> VoluciteWardenPartModel.createBodyLayer(VoluciteWardenPartModel.Part.NECK));
         event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN_HEAD, () -> VoluciteWardenPartModel.createBodyLayer(VoluciteWardenPartModel.Part.HEAD));
         event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN_HEAL_BEACON, VoluciteWardenHealBeaconModel::createBodyLayer);
+        event.registerLayerDefinition(AerialHellModelLayers.VOLUCITE_WARDEN_SHIELD_BEACON, VoluciteWardenShieldBeaconModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CHEST_MIMIC, ChestMimicModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CRYSTAL_GOLEM, CrystalGolemModel::createBodyLayer);
         event.registerLayerDefinition(AerialHellModelLayers.CRYSTAL_SLIME, CrystalSlimeModel::createBodyLayer);

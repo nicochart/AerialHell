@@ -160,6 +160,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	private float facingYRot; //always a multiple of 90 : rotation the warden turns toward (its rotation while it does not turn). server side
 	private int quarterTurnCooldown; //server side
 	public final BossRoomStairsHandler bossRoomStairsHandler; //boss room stairs, in a volucite castle
+	public final BossRoomShieldBeaconsHandler bossRoomShieldBeaconsHandler; //boss room shield beacons (placed on pedestals), in a volucite castle
 	/* ----------------------------- */
 
 	/* -- Boss phases fields -- */
@@ -282,6 +283,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.armsGoalHandler = new ArmsGoalHandler(this);
 		this.coreRepulsionHandler = new CoreRepulsionHandler(this, this.CORE_REPULSION_GOAL);
 		this.bossRoomStairsHandler = new BossRoomStairsHandler(this);
+		this.bossRoomShieldBeaconsHandler = new BossRoomShieldBeaconsHandler(this);
 	}
 
 	@Override protected void defineSynchedData(SynchedEntityData.Builder builder)
@@ -594,7 +596,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		if (SHIELD_BREAK_TRANSITIONS.contains(nextPhase)) {this.vulnerableHealthFloor = this.realHealth - VULNERABLE_PHASE_MAX_DAMAGE * this.getMaxHealth();} //damage taken during the shield break transition counts for the vulnerable phase max damage
 		if (nextPhase == FINAL_PHASE) {this.separateUpperBody();}
 
-		if (SHIELD_TRANSITIONS.contains(nextPhase)) {this.playShieldActivationSound();}
+		if (SHIELD_TRANSITIONS.contains(nextPhase))
+		{
+			this.playShieldActivationSound();
+			this.bossRoomShieldBeaconsHandler.placeShieldBeacons();
+		}
 		if (SHIELD_BREAK_TRANSITIONS.contains(nextPhase))
 		{
 			this.playShieldBreakSound();
@@ -1102,7 +1108,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	/* ------------------------------------------------- */
 	//anchored warden (dungeon boss : boss room nbt, or /summon with {is_anchored:true}) :
 	//  stays at the center of its boss room with an axis aligned rotation, goes through all boss phases, activated by a hit (awakening), invulnerable secondary parts, players can stand on it,
-	//  destroys & rebuilds the boss room stairs (see BossRoomStairsHandler)
+	//  destroys & rebuilds the boss room stairs (see BossRoomStairsHandler), places shield beacons on the boss room pedestals (see BossRoomShieldBeaconsHandler)
 	//free warden (default : /summon, spawn egg) :
 	//  no anchor & free rotation, activated (already awakened) as soon as it appears, constantly in its first phase, vulnerable secondary parts, players can't stand on it
 	public boolean isAnchored() {return this.entityData.get(IS_ANCHORED);}
@@ -1146,6 +1152,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		this.facingYRot = toAxisAlignedYRot(this.getYRot()); //structure placement rotates the saved rotation (0) by the piece rotation
 		this.roomAnchorPos = this.position();
 		this.bossRoomStairsHandler.setRoom(null); //no stairs outside a volucite castle
+		this.bossRoomShieldBeaconsHandler.setRoom(null); //no shield beacons outside a volucite castle (no pedestals)
 		if (!(this.level() instanceof ServerLevel serverLevel)) {return;}
 
 		BlockPos pos = this.blockPosition();
@@ -1158,6 +1165,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			{
 				this.roomAnchorPos = new Vec3((box.minX() + box.maxX() + 1) / 2.0D, this.getY(), (box.minZ() + box.maxZ() + 1) / 2.0D);
 				this.bossRoomStairsHandler.setRoom(box);
+				this.bossRoomShieldBeaconsHandler.setRoom(box);
 				return;
 			}
 		}

@@ -18,6 +18,7 @@ public class AerialHellModelLayers
     public static final ModelLayerLocation VOLUCITE_WARDEN_NECK = createModelLayerLocation("volucite_warden_neck");
     public static final ModelLayerLocation VOLUCITE_WARDEN_HEAD = createModelLayerLocation("volucite_warden_head");
     public static final ModelLayerLocation VOLUCITE_WARDEN_HEAL_BEACON = createModelLayerLocation("volucite_warden_heal_beacon");
+    public static final ModelLayerLocation VOLUCITE_WARDEN_SHIELD_BEACON = createModelLayerLocation("volucite_warden_shield_beacon");
     public static final ModelLayerLocation CHEST_MIMIC = createModelLayerLocation("chest_mimic");
     public static final ModelLayerLocation CRYSTAL_GOLEM = createModelLayerLocation("crystal_golem");
     public static final ModelLayerLocation CRYSTAL_SLIME = createModelLayerLocation("crystal_slime");
