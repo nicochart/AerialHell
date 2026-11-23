@@ -965,6 +965,8 @@
   "death.attack.aerialhell.volucite_warden_main_beam.player": "%1$s fue desintegrado por un rayo mientras luchaba contra %2$s",
   "death.attack.aerialhell.volucite_lightning": "%1$s fue alcanzado por un rayo de %2$s",
   "death.attack.aerialhell.volucite_lightning.player": "%1$s fue alcanzado por un rayo mientras luchaba contra %2$s",
+  "death.attack.aerialhell.volucite_warden_shield_damage": "%1$s fue golpeado a través de un faro de escudo por %2$s",
+  "death.attack.aerialhell.volucite_warden_shield_damage.player": "%1$s fue golpeado a través de un faro de escudo mientras luchaba contra %2$s",
   "enchantment.aerialhell.solid_ether_walker": "Paso de éter sólido",
   "enchantment.aerialhell.solid_ether_walker.desc": "Permite colisionar con el Éter Sólido y todas las cosas Fantasmales",
   "enchantment.aerialhell.vulnerability_aspect": "Aspecto de vulnerabilidad",

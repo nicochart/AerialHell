@@ -37,6 +37,7 @@ import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
 import fr.factionbedrock.aerialhell.Entity.Util.DisplayParticlesHelper;
 import fr.factionbedrock.aerialhell.Entity.Util.VoluciteGlyphParticles;
 import fr.factionbedrock.aerialhell.Entity.Util.PlaySoundHelper;
+import fr.factionbedrock.aerialhell.Registry.AerialHellDamageTypes;
 import fr.factionbedrock.aerialhell.Registry.AerialHellItems;
 import fr.factionbedrock.aerialhell.Registry.AerialHellSoundEvents;
 import fr.factionbedrock.aerialhell.Registry.Entities.AerialHellEntities;
@@ -356,25 +357,26 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	}
 
 	//shield phases : the shield uses the whole health but is only worth SHIELD_HEALTH_FACTOR * max health (see SHIELD_HEALTH_FACTOR). kill & void damage are not scaled
+	//shield damage (through a shield beacon, see hurtShieldFromBeacon) is not scaled either : it is already a part of the shield health
 	//damage from attached parts is redirected to this method (see PartEntity.partDoHurtServer)
 	private float getShieldScaledDamage(DamageSource source, float amount)
 	{
-		if (!this.isInShieldPhase() || source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return amount;}
+		if (!this.isInShieldPhase() || source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) || source.is(AerialHellDamageTypes.VOLUCITE_WARDEN_SHIELD_DAMAGE)) {return amount;}
 		return amount / SHIELD_HEALTH_FACTOR;
 	}
 
 	//damage dealt through a shield beacon (see VoluciteWardenShieldBeaconEntity) : the shield loses shieldRatio of its health (relative to max health)
+	//shield damage type (see AerialHellDamageTypes.VOLUCITE_WARDEN_SHIELD_DAMAGE) : not scaled by the shield factor, bypasses resistance. the beacon is the direct source, the attacker is kept
 	//same hurt as a hit on the core (red flash, sound, attacker), but the hurt cooldown is ignored and kept as it was :
 	//beacons hit at the same time all count, and a beacon hit doesn't reduce the next hits on the warden
-	public void hurtShieldFromBeacon(ServerLevel level, DamageSource source, float shieldRatio)
+	public void hurtShieldFromBeacon(ServerLevel level, VoluciteWardenShieldBeaconEntity beacon, @Nullable Entity attacker, float shieldRatio)
 	{
 		if (!this.isInShieldPhase() || shieldRatio <= 0.0F) {return;}
 
 		int damageCooldownTime = this.damageCooldownTime;
 		float lastHurt = this.lastHurt;
 		this.damageCooldownTime = 0;
-		//TODO : ignore resistance
-		this.hurtServer(level, source, shieldRatio * this.getMaxHealth() * SHIELD_HEALTH_FACTOR); //brought back to shieldRatio * max health by the shield scale
+		this.hurtServer(level, AerialHellDamageTypes.getDamageSource(level, AerialHellDamageTypes.VOLUCITE_WARDEN_SHIELD_DAMAGE, beacon, attacker), shieldRatio * this.getMaxHealth());
 		this.damageCooldownTime = damageCooldownTime;
 		this.lastHurt = lastHurt;
 	}

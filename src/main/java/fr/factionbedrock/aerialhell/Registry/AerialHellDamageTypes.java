@@ -24,6 +24,7 @@ public class AerialHellDamageTypes
     public static final ResourceKey<DamageType> GOLEM_BEAM = create("golem_beam");
     public static final ResourceKey<DamageType> VOLUCITE_WARDEN_MAIN_BEAM = create("volucite_warden_main_beam");
     public static final ResourceKey<DamageType> VOLUCITE_LIGHTNING = create("volucite_lightning"); //scales with difficulty & knockback away from the lightning start pos (unlike vanilla lightning), see VoluciteLightningHelper
+    public static final ResourceKey<DamageType> VOLUCITE_WARDEN_SHIELD_DAMAGE = create("volucite_warden_shield_damage"); //bypasses resistance
 
     public static final float GOLEM_BEAM_ARMOR_PIERCING = 0.25F;
     public static final float GOLEM_BEAM_ENCHANTMENT_PIERCING = 0.25F;

@@ -139,7 +139,7 @@ public class VoluciteWardenShieldBeaconEntity extends AbstractVoluciteWardenBeac
         @Nullable VoluciteWardenEntity warden = this.getWarden();
         if (hurt && lostHealth > 0.0F && warden != null && warden.isInShieldPhase() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) //kill & void damage not sent to warden
         {
-            warden.hurtShieldFromBeacon(level, source, lostHealth * this.wardenDamageMultiplier * SHIELD_RATIO_PER_HEALTH);
+            warden.hurtShieldFromBeacon(level, this, source.getEntity(), lostHealth * this.wardenDamageMultiplier * SHIELD_RATIO_PER_HEALTH);
         }
         return hurt;
     }
