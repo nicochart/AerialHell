@@ -2,7 +2,9 @@ package fr.factionbedrock.aerialhell.Entity.MultipartEntity;
 
 import fr.factionbedrock.aerialhell.Entity.BaseMobEntityInterface;
 import fr.factionbedrock.aerialhell.Util.DebugHelper;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -10,6 +12,8 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
@@ -342,21 +346,38 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         };
     }
 
+    //this master is replaced by a new one, with new attached parts (fresh entities : no unsync animation)
+    //the new master loads this master saved data, uuid included, like after a world reload : health, phase... are kept, links to this master (by uuid) stay valid
+    //only the attached parts references are dropped from the data, so that the new master summons new ones. semi detached parts are kept : the new master finds them back by uuid
     default void resetSelf()
     {
-        if (this.getLevel() instanceof ServerLevel serverLevel)
-        {
-            Entity self = this.getSelf();
-            Entity entity = self.getType().spawn(serverLevel, this.getSelf().blockPosition(), EntitySpawnReason.NATURAL);
-            if (entity == null) {return;}
-            entity.snapTo(self.getX(), self.getY(), self.getZ(), self.getYRot(), self.getXRot());
+        if (!(this.getLevel() instanceof ServerLevel serverLevel)) {return;}
 
-            for (PartInfo partInfo : this.getPartInfoMap().values())
-            {
-                PartEntity part = partInfo.getPart();
-                if (part != null) {part.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);}
-            }
-            this.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);
+        Entity self = this.getSelf();
+        TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, serverLevel.registryAccess());
+        self.saveWithoutId(output);
+        CompoundTag savedData = output.buildResult();
+        for (PartInfo partInfo : this.getPartInfoMap().values())
+        {
+            if (partInfo.getStatus() == PartStatus.ATTACHED) {savedData.remove(partInfo.getName() + "_uuid");}
+        }
+
+        @Nullable Entity entity = self.getType().create(serverLevel, EntitySpawnReason.LOAD);
+        if (!(entity instanceof MasterPartEntity newMaster)) {return;}
+        entity.load(TagValueInput.create(ProblemReporter.DISCARDING, serverLevel.registryAccess(), savedData));
+
+        //old attached parts & old master removed first : their uuid is free for the new master
+        for (PartInfo partInfo : this.getPartInfoMap().values())
+        {
+            PartEntity part = partInfo.getPart();
+            if (part != null && partInfo.getStatus() == PartStatus.ATTACHED) {part.getSelf().setRemoved(Entity.RemovalReason.DISCARDED);}
+        }
+        self.setRemoved(Entity.RemovalReason.DISCARDED);
+        serverLevel.addFreshEntity(entity);
+
+        for (PartInfo partInfo : newMaster.getPartInfoMap().values())
+        {
+            if (partInfo.getStatus() == PartStatus.ATTACHED) {newMaster.trySummonAndRegisterPart(partInfo);}
         }
     }
 
