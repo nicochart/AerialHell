@@ -431,7 +431,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity impleme
 		int amplifier = this.getDifficulty() - 1; //amplifier = 0 if there is one player, +1 per additional player
 		if (amplifier > 0)
 		{
-			this.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 54000, Math.min(3, (int) Math.ceil(amplifier / 2.0F)), false, false));
+			this.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 54000, Math.min(3, (int) Math.ceil(amplifier / 2.0F)) - 1, false, false));
 			this.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 54000, Math.min(3, amplifier - 1), false, false));
 		}
 	}
