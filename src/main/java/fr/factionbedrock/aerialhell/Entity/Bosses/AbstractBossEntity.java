@@ -45,6 +45,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class AbstractBossEntity extends AbstractActivableEntity implements SyncedTargetEntity
@@ -358,7 +359,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity impleme
 		this.syncedTargetEntityTick();
 		/* ----------------------- */
 
-		if (this.isActive() && this.tickCount % 900 == 0) {this.updateBossDifficulty(); this.adaptBossDifficulty();}
+		if (this.isActive() && this.tickCount % this.getDifficultyUpdateInterval() == 0) {this.updateBossDifficulty(); this.adaptBossDifficulty();}
 		this.bossInfo.setVisible(this.isActive());
 		this.immunizeToEffects();
 		this.tickBossPhases();
@@ -394,16 +395,21 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity impleme
 		this.updateBossDifficulty(); this.adaptBossDifficulty();
 	}
 
+	/* ------- Boss difficulty : nearby players count ------- */
+	//updated when the boss becomes active or inactive, then regularly while active
+	//override below methods to adapt
+	protected int getDifficultyUpdateInterval() {return 900;} //ticks between 2 difficulty updates while the boss is active
+	protected float getDifficultySearchRelativeY() {return 0.0F;} //search sphere center height, relative to the boss position (feet)
+	protected float getDifficultySearchRange() {return 15.0F;} //search sphere radius
+
 	private void updateBossDifficulty()
 	{
-		List<Entity> nearbyEntities = this.level().getEntities(this, this.getBoundingBox().inflate(30), EntitySelector.withinDistance(this.getX(), this.getY(), this.getZ(), 15));
-		int playerCount = 0;
-		for (Entity entity : nearbyEntities)
-		{
-			if (entity instanceof Player && !EntityHelper.isCreaOrSpecPlayer(entity)) {playerCount += 1;}
-		}
-		this.setDifficulty(Math.min(playerCount, 6)); //difficulty will be 0 if there is no player nearby, and will grow by 1 with each nearby player. capped at 6
+		Vec3 center = this.position().add(0.0D, this.getDifficultySearchRelativeY(), 0.0D);
+		float range = this.getDifficultySearchRange();
+		List<Player> nearbyPlayers = this.level().getEntitiesOfClass(Player.class, new AABB(center, center).inflate(range), player -> !(player.isCreative() || player.isSpectator()) && player.distanceToSqr(center) <= range * range);
+		this.setDifficulty(Math.min(nearbyPlayers.size(), 6)); //difficulty will be 0 if there is no player nearby, and will grow by 1 with each nearby player. capped at 6
 	}
+	/* ------------------------------------------------------ */
 
 	protected void adaptBossDifficulty()
 	{
@@ -412,7 +418,7 @@ public abstract class AbstractBossEntity extends AbstractActivableEntity impleme
 		int amplifier = this.getDifficulty() - 1; //amplifier = 0 if there is one player, +1 per additional player
 		if (amplifier > 0)
 		{
-			this.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 54000, Math.min(3, (int) Math.ceil(amplifier / 2.0F)), false, false));
+			this.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 54000, Math.min(3, (int) Math.ceil(amplifier / 2.0F)) - 1, false, false));
 			this.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 54000, Math.min(3, amplifier - 1), false, false));
 		}
 	}

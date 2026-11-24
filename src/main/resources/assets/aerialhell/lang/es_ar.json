@@ -958,6 +958,8 @@
   "death.attack.aerialhell.god_bless.player": "%1$s recibió la bendición divina por parte de %2$s",
   "death.attack.aerialhell.golem_beam": "%1$s murió por el rayo de un golem",
   "death.attack.aerialhell.golem_beam.player": "%1$s murió por el rayo de %2$s",
+  "death.attack.aerialhell.volucite_warden_shield_damage": "%1$s fue golpeado a través de un faro de escudo por %2$s",
+  "death.attack.aerialhell.volucite_warden_shield_damage.player": "%1$s fue golpeado a través de un faro de escudo mientras luchaba contra %2$s",
   "enchantment.aerialhell.solid_ether_walker": "Paso de éter sólido",
   "enchantment.aerialhell.solid_ether_walker.desc": "Permite colisionar con el Éter Sólido y todas las cosas Fantasmales",
   "enchantment.aerialhell.vulnerability_aspect": "Aspecto de vulnerabilidad",

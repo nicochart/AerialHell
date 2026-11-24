@@ -958,6 +958,8 @@
   "death.attack.aerialhell.god_bless.player": "%1$s被%2$s推入魔神液体",
   "death.attack.aerialhell.golem_beam": "%1$s被傀儡光束击杀",
   "death.attack.aerialhell.golem_beam.player": "%1$s被%2$s的光束击杀",
+  "death.attack.aerialhell.volucite_warden_shield_damage": "%1$s被%2$s经由护盾信标击中",
+  "death.attack.aerialhell.volucite_warden_shield_damage.player": "%1$s在与%2$s战斗时经由护盾信标被击中",
   "enchantment.aerialhell.solid_ether_walker": "以太行者",
   "enchantment.aerialhell.solid_ether_walker.desc": "可以行走在以太云和幽灵方块上",
   "enchantment.aerialhell.vulnerability_aspect": "脆弱附加",

@@ -972,6 +972,8 @@
   "death.attack.aerialhell.god_bless.player": "%1$s %2$s által Isten áldását kapta",
   "death.attack.aerialhell.golem_beam": "%1$s meg lett ölve egy Gólem sugara által",
   "death.attack.aerialhell.golem_beam.player": "%1$s meg lett ölve %2$s sugara által",
+  "death.attack.aerialhell.volucite_warden_shield_damage": "%1$s-t lesújtotta %2$s egy pajzsjelzőfényen keresztül",
+  "death.attack.aerialhell.volucite_warden_shield_damage.player": "%1$s-t lesújtották egy pajzsjelzőfényen keresztül, miközben %2$s ellen harcolt",
 
   "enchantment.aerialhell.solid_ether_walker": "Szilárd Éterjáró",
   "enchantment.aerialhell.solid_ether_walker.desc": "Lehetővé teszi számodra, hogy járj a Szilárd Éterfelhőkön és a Szellemszerű Blokkokon",

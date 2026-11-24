@@ -20,6 +20,7 @@ public class AerialHellDamageTypes
     public static final ResourceKey<DamageType> CURSED_TOOL = create("cursed_tool");
     public static final ResourceKey<DamageType> GOLEM_BEAM = create("golem_beam");
     public static final ResourceKey<DamageType> VOLUCITE_WARDEN_MAIN_BEAM = create("volucite_warden_main_beam"); //damage type json not added yet (volucite warden not ported yet)
+    public static final ResourceKey<DamageType> VOLUCITE_WARDEN_SHIELD_DAMAGE = create("volucite_warden_shield_damage"); //bypasses resistance
 
     public static final float GOLEM_BEAM_ARMOR_PIERCING = 0.25F;
     public static final float GOLEM_BEAM_ENCHANTMENT_PIERCING = 0.25F;
