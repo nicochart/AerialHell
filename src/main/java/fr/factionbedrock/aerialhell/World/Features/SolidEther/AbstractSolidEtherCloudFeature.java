@@ -217,8 +217,7 @@ public interface AbstractSolidEtherCloudFeature extends Feature, DungeonSensitiv
 
                 if((x - pos.getX()) * (x - pos.getX()) + (z - pos.getZ()) * (z - pos.getZ()) < sizeX*sizeZ-1+random.nextInt(3))
                 {
-                	Block previousBlock = level.getBlockState(newPos).getBlock();
-                	if (previousBlock == Blocks.AIR && FeatureHelper.isBlockPosInFeatureRegion(FeatureHelper.getFeatureCenter(origin), newPos))
+                	if (FeatureHelper.isBlockPosInFeatureRegion(FeatureHelper.getFeatureCenter(origin), newPos) && level.getBlockState(newPos).getBlock() == Blocks.AIR)
                     {
                         level.setBlock(newPos, this.getEtherBlockState(), 0);
                     }
