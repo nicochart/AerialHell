@@ -29,7 +29,7 @@ import java.util.*;
 //shield break transitions & vulnerable phases (the warden does not turn) : the 2 staircases on the warden facing axis (front & back) are built (from bottom to top),
 //  the 2 others are destroyed. the arms are on the other axis
 //final transition, final phase, dying & dead phases (the warden does not turn anymore) : every staircase is built
-//each tick, the world converges toward the wanted stairs, a few blocks at a time (instant before the first awakening : dungeon just generated)
+//each tick, the world converges toward the wanted stairs, a few blocks at a time (one at a time when every staircase is wanted, instant before the first awakening : dungeon just generated)
 //blocks placed by players at stairs positions are destroyed with their drops (when a staircase is destroyed or built). stairs blocks (core protected) never drop
 public class BossRoomStairsHandler
 {
@@ -78,8 +78,9 @@ public class BossRoomStairsHandler
         if (this.room == null || !(this.warden.level() instanceof ServerLevel level)) {return;}
         if (!this.stairsBlocksComputed) {this.computeStairsBlocks(level);}
 
-        int budget = this.warden.alreadyActivatedOnce() ? 4 : Integer.MAX_VALUE; //blocks per tick (infinite before the first awakening - to make stairs build instant)
-        Set<Direction> wantedSides = this.getTarget().getSides(this.warden.getFacingDirection());
+        StairsTarget target = this.getTarget();
+        int budget = !this.warden.alreadyActivatedOnce() ? Integer.MAX_VALUE : target == StairsTarget.ALL ? 1 : 4; //blocks per tick (infinite before the first awakening - to make stairs build instant, 1 for the slow side staircases build of the final transition)
+        Set<Direction> wantedSides = target.getSides(this.warden.getFacingDirection());
         budget = this.destroy(level, wantedSides, budget);
         this.build(level, wantedSides, budget);
     }
