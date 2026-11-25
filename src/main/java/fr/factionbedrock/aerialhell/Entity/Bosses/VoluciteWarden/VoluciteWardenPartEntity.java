@@ -65,10 +65,11 @@ public class VoluciteWardenPartEntity extends Monster implements PartEntity
     public boolean isSecondaryPart() {return true;}
 
     //kill & void damage are never blocked. a part without master (fully detached) is not concerned
+    //dying warden (death animation) : every part is invulnerable, semi detached ones included
     private boolean isMadeInvulnerableByMaster(DamageSource damageSource)
     {
-        if (!this.isSecondaryPart() || damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {return false;}
-        return this.getMaster() != null && this.getMaster().getSelf() instanceof VoluciteWardenEntity warden && warden.areSecondaryPartsInvulnerable();
+        if (damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY) || this.getMaster() == null || !(this.getMaster().getSelf() instanceof VoluciteWardenEntity warden)) {return false;}
+        return warden.isInDeadOrDyingPhase() || (this.isSecondaryPart() && warden.areSecondaryPartsInvulnerable());
     }
     /* ------------------------------------------------------------------- */
     /* ------------------------------------------------------------------- */

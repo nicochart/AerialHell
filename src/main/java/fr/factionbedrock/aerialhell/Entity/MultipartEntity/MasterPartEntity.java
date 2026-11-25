@@ -295,6 +295,13 @@ public interface MasterPartEntity extends BaseMobEntityInterface
         }
     }
 
+    default void discardChildPart(PartInfo partInfo) //server side. the part is removed (no death animation), without killing the master, and is no longer expected
+    {
+        partInfo.setStatus(PartStatus.DEAD);
+        PartEntity part = partInfo.getPart();
+        if (part != null) {part.getSelf().discard();}
+    }
+
     //server side : master's part status. client side : part's synced status (master's part status is not synced)
     default boolean isPartAttached(PartInfo partInfo)
     {

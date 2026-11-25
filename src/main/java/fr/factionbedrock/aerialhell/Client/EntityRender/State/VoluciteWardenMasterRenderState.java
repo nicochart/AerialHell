@@ -9,4 +9,5 @@ public class VoluciteWardenMasterRenderState extends LivingEntityRenderState
 {
     public final List<Vec3> leftArmPositions = new ArrayList<>(); //nullable Vec3
     public final List<Vec3> rightArmPositions = new ArrayList<>(); //nullable Vec3
+    public final List<Vec3> deathBeamVectors = new ArrayList<>();
 }

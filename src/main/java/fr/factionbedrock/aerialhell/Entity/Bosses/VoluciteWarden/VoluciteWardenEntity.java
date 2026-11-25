@@ -31,6 +31,7 @@ import fr.factionbedrock.aerialhell.Entity.AI.Phase.PhaseType;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.MasterPartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartEntity;
 import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartInfo;
+import fr.factionbedrock.aerialhell.Entity.MultipartEntity.PartStatus;
 import fr.factionbedrock.aerialhell.Entity.StagedActivableEntity;
 import fr.factionbedrock.aerialhell.Entity.StrikeAttackEntity;
 import fr.factionbedrock.aerialhell.Entity.Util.ActivableEntityInfo;
@@ -60,6 +61,8 @@ import net.minecraft.world.BossEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -191,6 +194,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public static final float OUTWARD_PARTICLES_MIN_DISTANCE = 8.0F, OUTWARD_PARTICLES_MAX_DISTANCE = 20.0F; //shield & final transitions : glyph particles from the core (players repulsed from the core)
 	public static final int TRANSITION_PARTICLES_PER_TICK = 3;
 	private float loweredHeadYRot; //chosen when the shield breaks (bottom left or bottom right). server side
+	public static final int DEATH_DURATION = 144, DEATH_SEPARATION_TICK = 70; //used in tickDyingPhase()
+	public static final byte DEATH_EXPLOSION_EVENT = 100; //entity event id
 	/* ------------------------ */
 
 	/* -- MasterPartEntity fields -- */
@@ -525,7 +530,8 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			double z = shoulderPosOffset.y * sin + shoulderPosOffset.z * cos;
 
 			shoulderPosOffset = new Vec3(x, y, z);
-			if (this.getPhase() == FINAL_TRANSITION) {shoulderPosOffset = this.getRaisedArmOffset(shoulderPosOffset, direction);} //server side (phaseTicks)
+			if (this.getPhase() == FINAL_TRANSITION) {shoulderPosOffset = this.getRaisedArmOffset(shoulderPosOffset, direction, this.phaseTicks);} //server side (phaseTicks)
+			else if (this.isInDyingPhase()) {shoulderPosOffset = this.getRaisedArmOffset(shoulderPosOffset, direction, this.timeDying);} //free warden death animation (an anchored warden has no attached arm anymore)
 			return armPartInfo.getPosOffsetFromMaster(shoulderPosOffset);
 		}
 		else {return MasterPartEntity.super.adjustPartOffset(partInfo, partEntity, masterPos, unadjustedPosOffset);}
@@ -627,7 +633,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 		}
 		if (nextPhase == FINAL_TRANSITION) {this.playFinalShutdownSound();}
 		if (nextPhase == FINAL_PHASE) {this.playFinalPhaseSound();}
-		if (nextPhase == BossPhase.DYING) {this.playDeathSound();}
+		if (nextPhase == BossPhase.DYING) {this.playFinalShutdownSound(); this.levitateArmSegments();} //death animation (see tickDyingPhase). a free warden has no semi detached arm segment yet
 	}
 
 	/* --------------------------------- */
@@ -696,10 +702,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public boolean hasShieldBeacon() {return this.getShieldBeaconCount() > 0;}
 	public boolean areSecondaryPartsInvulnerable() {return this.isAnchored();} //secondary parts are parts other than core, head & arm segments. vulnerable for a free warden
 
-	//shield & final transitions : invulnerable (health is regenerated). shield break transitions : the warden can be hurt
+	//shield & final transitions : invulnerable (health is regenerated). shield break transitions : the warden can be hurt. dying : invulnerable until the end of the death animation (its parts too, see VoluciteWardenPartEntity)
 	@Override public boolean isInvulnerableTo(ServerLevel level, DamageSource source)
 	{
-		return super.isInvulnerableTo(level, source) || (this.isInTransitionPhase() && !this.isInShieldBreakTransition() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY));
+		boolean isInvulnerablePhase = (this.isInTransitionPhase() && !this.isInShieldBreakTransition()) || this.isInDeadOrDyingPhase();
+		return super.isInvulnerableTo(level, source) || (isInvulnerablePhase && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY));
 	}
 
 	@Override protected void actuallyHurt(ServerLevel level, DamageSource source, float amount)
@@ -848,19 +855,94 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 	public boolean isHeadLowered() {return SHIELD_BREAK_TRANSITIONS.contains(this.getPhase()) || this.isInVulnerablePhase();}
 	public boolean isHeadAnimated() {return this.isHeadLowered() || SHIELD_TRANSITIONS.contains(this.getPhase());}
 
-	//final transition : arms progressively raised horizontally on the sides (like arm beam preparation), and kept there : detached segments won't fall at the same place
-	private Vec3 getRaisedArmOffset(Vec3 shoulderPosOffset, float direction)
+	//final transition & free warden death animation : arms progressively raised horizontally on the sides (like arm beam preparation), and kept there : detached segments won't fall at the same place
+	private Vec3 getRaisedArmOffset(Vec3 shoulderPosOffset, float direction, int raiseTicks)
 	{
-		float angle = direction * Mth.HALF_PI * Mth.clamp((float) this.phaseTicks / ARMS_RAISE_DURATION, 0.0F, 1.0F); //outward rotation around z axis
+		float angle = direction * Mth.HALF_PI * Mth.clamp((float) raiseTicks / ARMS_RAISE_DURATION, 0.0F, 1.0F); //outward rotation around z axis
 		double cos = Math.cos(angle), sin = Math.sin(angle);
 		return new Vec3(shoulderPosOffset.x * cos - shoulderPosOffset.y * sin, shoulderPosOffset.x * sin + shoulderPosOffset.y * cos, shoulderPosOffset.z);
 	}
 
+	//death animation (both sides), as long as the final shutdown sound played at its start (see DEATH_DURATION). the warden & its parts are invulnerable (see isInvulnerableTo)
+	//light repulsion from the core during the whole animation : 0.02 block per tick (within 9 blocks, fading up to 15 blocks), a fifth of a walking player acceleration (0.1 per tick on the ground)
+	//free warden : final transition animation first (arms raised, glyphs from the core), then its upper body separates (see separateUpperBody) : arm segments scattered & levitating
+	//then (both wardens) : glyphs from the remaining parts toward the core, death beams from the core (see VoluciteWardenMasterRender), and the explosion (see explode)
 	@Override public void tickDyingPhase()
 	{
-		this.dragOrRepulseEntities(NearbyEntitiesInteractionInfo.REPULSE_FAR, 40.0F);
 		this.timeDying++;
-		if (this.timeDying > 140) {this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);}
+		this.dragOrRepulseEntities(NearbyEntitiesInteractionInfo.REPULSE_UNIFORM, 20.0F);
+		boolean isBeforeSeparation = !this.isAnchored() && this.timeDying < DEATH_SEPARATION_TICK;
+
+		if (this.level().isClientSide()) {this.spawnDyingParticles(isBeforeSeparation); return;}
+		if (!this.isAnchored() && this.timeDying == DEATH_SEPARATION_TICK) {this.separateUpperBody(); this.levitateArmSegments();}
+		if (this.timeDying >= DEATH_DURATION) {this.explode(); this.tryDying(this.lastDamageSource == null ? this.damageSources().generic() : this.lastDamageSource);}
+	}
+
+	//dying : the remaining (semi detached) arm segments float up until the explosion. levitation II : about 1.8 blocks per second
+	private void levitateArmSegments()
+	{
+		for (ArmPartInfo armSegment : this.getRightArm()) {this.levitateArmSegment(armSegment);}
+		for (ArmPartInfo armSegment : this.getLeftArm()) {this.levitateArmSegment(armSegment);}
+	}
+
+	private void levitateArmSegment(ArmPartInfo armSegmentInfo)
+	{
+		PartEntity armSegment = armSegmentInfo.getPart();
+		if (armSegment != null && armSegmentInfo.getStatus() == PartStatus.SEMI_DETACHED && armSegment.getSelf().isAlive()) {armSegment.getSelf().addEffect(new MobEffectInstance(MobEffects.LEVITATION, DEATH_DURATION, 1, false, false));}
+	}
+
+	//client side. free warden before its separation : glyphs from the core (final transition)
+	//otherwise : glyphs from the remaining parts toward the core, more and more frequent until the explosion
+	private void spawnDyingParticles(boolean isBeforeSeparation)
+	{
+		Vec3 coreCenter = this.getCoreLightningStartPos();
+		if (isBeforeSeparation) {VoluciteGlyphParticles.spawnOutward(this.level(), coreCenter, OUTWARD_PARTICLES_MIN_DISTANCE, OUTWARD_PARTICLES_MAX_DISTANCE, TRANSITION_PARTICLES_PER_TICK); return;}
+
+		float chance = Mth.lerp((float) this.timeDying / DEATH_DURATION, 0.05F, 0.4F); //per part and per tick
+		for (PartInfo partInfo : this.PARTS_MAP.values())
+		{
+			PartEntity part = partInfo.getPart();
+			if (partInfo == this.CORE || part == null || !part.getSelf().isAlive() || this.random.nextFloat() >= chance) {continue;}
+			Mob partEntity = part.getSelf();
+			VoluciteGlyphParticles.spawn(this.level(), new Vec3(partEntity.getRandomX(0.5D), partEntity.getRandomY(), partEntity.getRandomZ(0.5D)), coreCenter);
+		}
+	}
+
+	//server side - explosion at the core, the remaining parts disappear without death animation
+	private void explode()
+	{
+		Vec3 coreCenter = this.getCoreLightningStartPos();
+		this.level().playSound(null, coreCenter.x, coreCenter.y, coreCenter.z, SoundEvents.GENERIC_EXPLODE.value(), this.getSoundSource(), 8.0F, 0.5F);
+		this.level().broadcastEntityEvent(this, DEATH_EXPLOSION_EVENT); //before the parts removal : the client still knows them
+		for (PartInfo partInfo : this.PARTS_MAP.values())
+		{
+			if (partInfo.getStatus() == PartStatus.ATTACHED || partInfo.getStatus() == PartStatus.SEMI_DETACHED) {this.discardChildPart(partInfo);}
+		}
+	}
+
+	//client side : explosions & glyphs burst at the core. each remaining part bursts too : explosion puff, glyphs & clouds (like the shield beacons, see VoluciteWardenShieldBeaconEntity.disappear)
+	private void spawnDeathExplosionParticles()
+	{
+		Vec3 coreCenter = this.getCoreLightningStartPos();
+		for (int i = 0; i < 4; i++) {this.level().addParticle(ParticleTypes.EXPLOSION_EMITTER, coreCenter.x + this.randomParticleOffset(6.0F), coreCenter.y + this.randomParticleOffset(6.0F), coreCenter.z + this.randomParticleOffset(6.0F), 1.0D, 0.0D, 0.0D);}
+		VoluciteGlyphParticles.spawnOutward(this.level(), coreCenter, OUTWARD_PARTICLES_MIN_DISTANCE, 2.0F * OUTWARD_PARTICLES_MAX_DISTANCE, 80);
+		for (PartInfo partInfo : this.PARTS_MAP.values())
+		{
+			PartEntity part = partInfo.getPart();
+			if (part == null || !part.getSelf().isAlive()) {continue;}
+			Mob partEntity = part.getSelf();
+			Vec3 partCenter = partEntity.getBoundingBox().getCenter();
+			this.level().addParticle(ParticleTypes.EXPLOSION, partCenter.x, partCenter.y, partCenter.z, 0.0D, 0.0D, 0.0D); //x speed : size factor, 0 for the biggest puff
+			VoluciteGlyphParticles.spawnOutward(this.level(), partCenter, 1.5F, 3.5F, 12);
+			for (int i = 0; i < 12; i++) {this.level().addParticle(ParticleTypes.CLOUD, partEntity.getRandomX(0.5D), partEntity.getRandomY(), partEntity.getRandomZ(0.5D), this.randomParticleOffset(0.1F), 0.05D, this.randomParticleOffset(0.1F));}
+		}
+	}
+
+	//death beams from the core (see VoluciteWardenMasterRender) : 0 before DEATH_SEPARATION_TICK, then grows up to 1 at the explosion. both sides
+	public float getDeathBeamsProgress(float partialTick)
+	{
+		if (!this.isInDyingPhase() || this.timeDying >= DEATH_DURATION) {return 0.0F;}
+		return Mth.clamp((this.timeDying + partialTick - DEATH_SEPARATION_TICK) / (DEATH_DURATION - DEATH_SEPARATION_TICK), 0.0F, 1.0F);
 	}
 
 	@Override protected boolean canDragOrRepulseEntity(Entity entity) {return super.canDragOrRepulseEntity(entity) && !entity.is(AerialHellTags.Entities.VOLUCITE);}
@@ -883,12 +965,11 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
     @Override protected SoundEvent getDeathSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_DEATH.get();}
     protected SoundEvent getFastDeathSound() {return AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_DEATH.get();}
 
-	public void playDeathSound() {this.playSound(this.getDeathSound(), 5.0F, 1.0F);}
 	@Override public void playFastDeathSound() {this.playSound(getFastDeathSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);}
 	public void playShieldBreakSound() {this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 5.0F, 0.5F);}
 	public void playShieldActivationSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_SHIELD_ACTIVATION.get(), 5.0F, 1.0F);} //shield transitions start
 	public void playShieldShutdownSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_SHIELD_SHUTDOWN.get(), 5.0F, 1.0F);} //shield break transitions start
-	public void playFinalShutdownSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_FINAL_SHUTDOWN.get(), 5.0F, 1.0F);} //final transition start
+	public void playFinalShutdownSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_FINAL_SHUTDOWN.get(), 5.0F, 1.0F);} //final transition & dying phase start
 	public void playFinalPhaseSound() {this.playSound(AerialHellSoundEvents.ENTITY_VOLUCITE_WARDEN_FINAL_PHASE.get(), 5.0F, 1.0F);} //final phase start
 
 	@Override protected void playHurtSound(DamageSource damageSource, boolean died)
@@ -1402,6 +1483,7 @@ public class VoluciteWardenEntity extends AbstractBossEntity implements MasterPa
 			Vec3 center = this.fromUnrotatedRelativeToLevelPos(this.armsStrikeAttackHandler.getRelativeStrikePos()); //can't use this.getEntityUsedToStrike().position() because client pos is interpolated
 			this.spawnStrikeParticles(center, 0.5F, 1.0F);
 		}
+		else if (id == DEATH_EXPLOSION_EVENT) {this.spawnDeathExplosionParticles();}
 		else {super.handleEntityEvent(id);}
 	}
 

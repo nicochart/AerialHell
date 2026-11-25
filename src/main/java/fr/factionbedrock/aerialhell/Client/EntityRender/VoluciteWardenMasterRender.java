@@ -20,16 +20,21 @@ import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.Color;
 import java.util.List;
 
 public class VoluciteWardenMasterRender extends LivingEntityRenderer<VoluciteWardenEntity, VoluciteWardenMasterRenderState, EmptyModel<VoluciteWardenMasterRenderState>>
 {
     private static final Identifier ARM_SEGMENTS_CONNECTION_TEXTURE = Identifier.fromNamespaceAndPath(AerialHell.MODID, "textures/entity/volucite_warden/arm_segment_connection.png");
     private static final float ARM_SEGMENTS_CONNECTION_THICKNESS = 1.0F;
+    private static final float DEATH_BEAM_LENGTH = 32.0F;
+    private static final int DEATH_BEAM_COLOR = new Color(89, 153, 202).getRGB();
 
     //--- things from EmptyRender ---
     public VoluciteWardenMasterRender(EntityRendererProvider.Context context)
@@ -58,6 +63,35 @@ public class VoluciteWardenMasterRender extends LivingEntityRenderer<VoluciteWar
 
         extractArmPositions(entity.getLeftArm(), state.leftArmPositions, masterPos, partialTick);
         extractArmPositions(entity.getRightArm(), state.rightArmPositions, masterPos, partialTick);
+
+        state.deathBeamVectors.clear();
+        float deathBeamsProgress = entity.getDeathBeamsProgress(partialTick);
+        if (deathBeamsProgress > 0.0F) {extractDeathBeamVectors(entity, state.deathBeamVectors, deathBeamsProgress, partialTick);}
+    }
+
+    //dying warden : beams from the core, appearing one after another (the last one at 75% progress) and slowly turning around the vertical axis
+    //random directions seeded with the warden id : the same beams every frame
+    private static void extractDeathBeamVectors(VoluciteWardenEntity entity, List<Vec3> beamVectors, float progress, float partialTick)
+    {
+        RandomSource random = RandomSource.create(entity.getId());
+        float time = entity.timeDying + partialTick;
+        int count = 16;
+        for (int i = 0; i < count; i++)
+        {
+            Vec3 direction = new Vec3(random.nextGaussian(), random.nextGaussian(), random.nextGaussian()).normalize(); //uniform on a sphere
+            float turnSpeed = Mth.nextFloat(random, -0.02F, 0.02F); //radians per tick
+            float lengthFactor = Mth.clamp((progress - 0.75F * i / count) / 0.1F, 0.0F, 1.0F); //full length after 10% progress
+            if (lengthFactor > 0.0F) {beamVectors.add(direction.yRot(time * turnSpeed).scale(DEATH_BEAM_LENGTH * lengthFactor));}
+        }
+    }
+
+    @Override protected AABB getBoundingBoxForCulling(VoluciteWardenEntity entity, float partialTicks)
+    {
+        AABB box = super.getBoundingBoxForCulling(entity, partialTicks);
+        if (entity.getDeathBeamsProgress(partialTicks) <= 0.0F) {return box;}
+
+        Vec3 coreCenter = entity.getPosition(partialTicks).add(0.0D, VoluciteWardenEntity.CORE_CENTER_RELATIVE_HEIGHT, 0.0D); //death beams
+        return box.minmax(new AABB(coreCenter, coreCenter).inflate(DEATH_BEAM_LENGTH));
     }
 
     private void extractArmPositions(List<VoluciteWardenEntity.ArmPartInfo> arm, List<Vec3> stateList, Vec3 masterPos, float partialTick)
@@ -94,6 +128,15 @@ public class VoluciteWardenMasterRender extends LivingEntityRenderer<VoluciteWar
 
         renderArmConnections(renderState.leftArmPositions, poseStack, submitNodeCollector, light, overlay);
         renderArmConnections(renderState.rightArmPositions, poseStack, submitNodeCollector, light, overlay);
+
+        if (!renderState.deathBeamVectors.isEmpty())
+        {
+            float deathBeamScale = 3.0F;
+            poseStack.pushPose();
+            poseStack.translate(0.0F, VoluciteWardenEntity.CORE_CENTER_RELATIVE_HEIGHT, 0.0F);
+            for (Vec3 beamVector : renderState.deathBeamVectors) {BeamRenderHelper.renderBeam(poseStack, submitNodeCollector, beamVector, BeamRenderHelper.getBeamTextureLocation(), DEATH_BEAM_COLOR, DEATH_BEAM_LENGTH, deathBeamScale, 0.0F);}
+            poseStack.popPose();
+        }
     }
 
     private void renderArmConnections(List<Vec3> positions, PoseStack poseStack, SubmitNodeCollector nodeCollector, int light, int overlay)
