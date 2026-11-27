@@ -17,7 +17,7 @@ public class AerialHellConfigLoader
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Path CONFIG_FOLDER = FabricLoader.getInstance().getConfigDir().resolve(AerialHell.MODID);
     private static final Path CONFIG_PATH = CONFIG_FOLDER.resolve("config.json");
-    public static final String CONFIG_VERSION = "0.7.8";
+    public static final String CONFIG_VERSION = "0.8.0";
 
     public static void loadAndStoreConfigParams()
     {
@@ -43,7 +43,22 @@ public class AerialHellConfigLoader
                 AerialHell.LOGGER.warn("Aerial Hell : Outdated config -> backup created, new config file generated.");
 
                 AerialHellConfig newConfig = new AerialHellDefaultConfig();
-                if (config.configVersion.equals("0.7.3.1")) //"0.7.3.1" -> "0.7.8" introduced new parameter "customMainMenuBackground". No other change.
+
+                //"0.7.8" -> "0.8.0" introduced new parameter "setWorldSpawnInAerialHell".
+                if (config.configVersion.equals("0.7.8"))
+                {
+                    //newConfig.configVersion = CONFIG_VERSION; //new config version
+                    newConfig.shadowSpreadSpeedMultiplier = config.shadowSpreadSpeedMultiplier; //unchanged
+                    newConfig.enableShadowBindReloadTexture = config.enableShadowBindReloadTexture; //unchanged
+                    newConfig.enableShadowBindTextureShift = config.enableShadowBindTextureShift; //unchanged
+                    newConfig.doBossGriefing = config.doBossGriefing; //unchanged
+                    newConfig.useCustomMainMenuBackground = config.useCustomMainMenuBackground; //unchanged
+                    newConfig.overworldAbandonnedPortalSpacingOverride = config.overworldAbandonnedPortalSpacingOverride; //unchanged
+                    //newConfig.setWorldSpawnInAerialHell = false; //missing parameter in 0.7.8
+                }
+
+                //"0.7.3.1" -> "0.7.8" introduced new parameter "useCustomMainMenuBackground".
+                else if (config.configVersion.equals("0.7.3.1"))
                 {
                     //newConfig.configVersion = CONFIG_VERSION; //new config version
                     newConfig.shadowSpreadSpeedMultiplier = config.shadowSpreadSpeedMultiplier; //unchanged
@@ -52,6 +67,7 @@ public class AerialHellConfigLoader
                     newConfig.doBossGriefing = config.doBossGriefing; //unchanged
                     //newConfig.customMainMenuBackground = true; //missing parameter in 0.7.3.1
                     newConfig.overworldAbandonnedPortalSpacingOverride = config.overworldAbandonnedPortalSpacingOverride; //unchanged
+                    //newConfig.setWorldSpawnInAerialHell = false; //missing parameter in 0.7.3.1
                 }
 
                 backupOldConfig();

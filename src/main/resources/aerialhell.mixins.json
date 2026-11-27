@@ -21,7 +21,8 @@
 		"BlockBreakingSpeedMixin",
 		"RarityMixin",
 		"RarityFromItemStackMixin",
-		"PistonIsPushableMixin"
+		"PistonIsPushableMixin",
+		"CreateWorldSpawnMixin"
 	],
 	"client" : [
 		"RenderBlockOverlayMixin",

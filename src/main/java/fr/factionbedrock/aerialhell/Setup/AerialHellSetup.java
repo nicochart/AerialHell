@@ -4,6 +4,7 @@ import fr.factionbedrock.aerialhell.Client.Packet.AerialHellData;
 import fr.factionbedrock.aerialhell.Client.Packet.ServerPayloadHandler;
 import fr.factionbedrock.aerialhell.Client.Registry.AerialHellParticleTypes;
 import fr.factionbedrock.aerialhell.Config.AerialHellConfigLoader;
+import fr.factionbedrock.aerialhell.Event.Listeners.WorldSpawnEventListener;
 import fr.factionbedrock.aerialhell.Registry.*;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.AerialHellCreativeModeTabs;
 import fr.factionbedrock.aerialhell.Registry.CreativeModeTabs.BuildContentsEvent;
@@ -12,6 +13,7 @@ import fr.factionbedrock.aerialhell.Registry.Misc.AerialHellTrimMaterials;
 import fr.factionbedrock.aerialhell.Registry.Worldgen.*;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.recipe.v1.sync.RecipeSynchronization;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -27,6 +29,7 @@ public class AerialHellSetup
         addFeaturesToOverworldBiomes();
         //listen(bus);
         //eventBusListen(NeoForge.EVENT_BUS);
+        ServerLifecycleEvents.SERVER_STARTED.register(WorldSpawnEventListener::onServerStarted);
 
         PayloadTypeRegistry.clientboundPlay().register(AerialHellData.ID, AerialHellData.CODEC);
         ServerPayloadHandler.handleDataOnMain();
