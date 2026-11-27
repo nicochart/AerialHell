@@ -9,6 +9,7 @@ public class AerialHellConfig
     public boolean doBossGriefing;
     public boolean useCustomMainMenuBackground;
     public int overworldAbandonnedPortalSpacingOverride;
+    public boolean setWorldSpawnInAerialHell;
 
     public AerialHellConfig()
     {
@@ -19,5 +20,6 @@ public class AerialHellConfig
         this.doBossGriefing = true;
         this.useCustomMainMenuBackground = true;
         this.overworldAbandonnedPortalSpacingOverride = 60;
+        this.setWorldSpawnInAerialHell = false;
     }
 }
