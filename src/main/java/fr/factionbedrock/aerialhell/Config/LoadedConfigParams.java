@@ -9,6 +9,7 @@ public class LoadedConfigParams
     public static boolean USE_CUSTOM_MAIN_MENU_BACKGROUND;
     public static int OVERWORLD_ABANDONNED_PORTAL_SPACING_OVERRIDE;
     public static boolean SET_WORLD_SPAWN_IN_AERIAL_HELL;
+    public static boolean USE_AERIAL_HELL_SITUATIONAL_MUSIC;
 
     public static void loadConfigParams(AerialHellConfig config)
     {
@@ -19,5 +20,6 @@ public class LoadedConfigParams
         USE_CUSTOM_MAIN_MENU_BACKGROUND = config.useCustomMainMenuBackground;
         OVERWORLD_ABANDONNED_PORTAL_SPACING_OVERRIDE = Math.clamp(config.overworldAbandonnedPortalSpacingOverride, 9, 4096);
         SET_WORLD_SPAWN_IN_AERIAL_HELL = config.setWorldSpawnInAerialHell;
+        USE_AERIAL_HELL_SITUATIONAL_MUSIC = config.useAerialHellSituationalMusic;
     }
 }

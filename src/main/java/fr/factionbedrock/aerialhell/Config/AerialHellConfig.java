@@ -10,6 +10,7 @@ public class AerialHellConfig
     public boolean useCustomMainMenuBackground;
     public int overworldAbandonnedPortalSpacingOverride;
     public boolean setWorldSpawnInAerialHell;
+    public boolean useAerialHellSituationalMusic;
 
     public AerialHellConfig()
     {
@@ -21,5 +22,6 @@ public class AerialHellConfig
         this.useCustomMainMenuBackground = true;
         this.overworldAbandonnedPortalSpacingOverride = 60;
         this.setWorldSpawnInAerialHell = false;
+        this.useAerialHellSituationalMusic = true;
     }
 }

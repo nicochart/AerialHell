@@ -18,7 +18,8 @@
 		"UseItemInHandRendererMixin",
 		"CubeMapTextureMixin",
 		"AdvancementSounds.AdvancementToastSoundMixin",
-		"AdvancementSounds.ToastManagerSlideSoundMixin"
+		"AdvancementSounds.ToastManagerSlideSoundMixin",
+		"SituationalMusicMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
