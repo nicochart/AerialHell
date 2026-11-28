@@ -44,7 +44,7 @@ public class AerialHellConfigLoader
 
                 AerialHellConfig newConfig = new AerialHellDefaultConfig();
 
-                //"0.7.8" -> "0.8.0" introduced new parameter "setWorldSpawnInAerialHell".
+                //"0.7.8" -> "0.8.0" introduced new parameters "setWorldSpawnInAerialHell" and "useAerialHellSituationalMusic".
                 if (config.configVersion.equals("0.7.8"))
                 {
                     //newConfig.configVersion = CONFIG_VERSION; //new config version
@@ -55,6 +55,7 @@ public class AerialHellConfigLoader
                     newConfig.useCustomMainMenuBackground = config.useCustomMainMenuBackground; //unchanged
                     newConfig.overworldAbandonnedPortalSpacingOverride = config.overworldAbandonnedPortalSpacingOverride; //unchanged
                     //newConfig.setWorldSpawnInAerialHell = false; //missing parameter in 0.7.8
+                    //newConfig.useAerialHellSituationalMusic = true; //missing parameter in 0.7.8
                 }
 
                 //"0.7.3.1" -> "0.7.8" introduced new parameter "useCustomMainMenuBackground".
@@ -68,6 +69,7 @@ public class AerialHellConfigLoader
                     //newConfig.customMainMenuBackground = true; //missing parameter in 0.7.3.1
                     newConfig.overworldAbandonnedPortalSpacingOverride = config.overworldAbandonnedPortalSpacingOverride; //unchanged
                     //newConfig.setWorldSpawnInAerialHell = false; //missing parameter in 0.7.3.1
+                    //newConfig.useAerialHellSituationalMusic = true; //missing parameter in 0.7.3.1
                 }
 
                 backupOldConfig();
